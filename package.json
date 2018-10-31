@@ -1,0 +1,27 @@
+{
+  "name": "generator-ts-generator",
+  "version": "0.0.0",
+  "description": "Generator for Yeoman Generators Written in TypeScript.",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuth/GeneratorTSGenerator.git"
+  },
+  "keywords": [
+    "yo",
+    "yoeoman-generator",
+    "Generator",
+    "TypeScript"
+  ],
+  "author": {
+    "name": "Manuel Thalmann",
+    "email": "m@nuth.ch"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manuth/GeneratorTSGenerator/issues"
+  },
+  "homepage": "https://github.com/manuth/GeneratorTSGenerator#readme"
+}
