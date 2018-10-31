@@ -1,0 +1,21 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "rootDir": "./src",
+        "module": "commonjs",
+        "lib": [
+            "es7"
+        ],
+        "outDir": "./lib",
+        "declaration": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "alwaysStrict": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "downlevelIteration": true
+    }
+}

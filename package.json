@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "description": "Generator for Yeoman Generators Written in TypeScript.",
   "scripts": {
+    "watch": "tsc -p . --watch",
+    "compile": "tsc -p .",
     "test": "mocha"
   },
   "repository": {
@@ -23,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/manuth/GeneratorTSGenerator/issues"
   },
-  "homepage": "https://github.com/manuth/GeneratorTSGenerator#readme"
+  "homepage": "https://github.com/manuth/GeneratorTSGenerator#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.1",
+    "typescript": "^3.1.5"
+  }
 }
