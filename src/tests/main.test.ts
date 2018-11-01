@@ -8,6 +8,6 @@ suite(
             "Example...",
             () =>
             {
-                assert.deepEqual(1, 1);
+                assert.strictEqual(1, 1);
             });
     });

@@ -16,6 +16,15 @@
             "presentation": {
                 "reveal": "never"
             }
+        },
+        {
+            "label": "Lint",
+            "type": "npm",
+            "script": "lint",
+            "problemMatcher": "$tslint5",
+            "presentation": {
+                "reveal": "never"
+            }
         }
     ]
 }
