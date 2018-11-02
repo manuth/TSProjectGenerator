@@ -23,7 +23,6 @@ export abstract class Generator extends YeomanGenerator
      * Initializes a new instance of the `Generator` class.
      *
      * @param args
-     *
      * A set of arguments for the generator.
      *
      * @param options
@@ -40,19 +39,19 @@ export abstract class Generator extends YeomanGenerator
     protected abstract get TemplateRoot(): string;
 
     /**
-     * Gets the components provided by the generator.
-     */
-    protected get ProvidedComponents(): IComponentProvider
-    {
-        return null;
-    }
-
-    /**
      * Gets the questions to ask before executing the generator.
      */
     protected get Questions(): YeomanGenerator.Question[]
     {
         return [];
+    }
+
+    /**
+     * Gets the components provided by the generator.
+     */
+    protected get ProvidedComponents(): IComponentProvider
+    {
+        return null;
     }
 
     /**
@@ -114,6 +113,11 @@ export abstract class Generator extends YeomanGenerator
 
                         questions.push(question as YeomanGenerator.Question);
                     }
+
+                    if (!isNullOrUndefined(component.Questions))
+                    {
+                        questions.push(...component.Questions);
+                    }
                 }
             }
 
@@ -128,5 +132,24 @@ export abstract class Generator extends YeomanGenerator
 
         questions.unshift(...this.Questions);
         Object.assign(this.Settings, await this.prompt(questions));
+    }
+
+    public async writing()
+    {
+        for (let category of this.ProvidedComponents.Categories)
+        {
+            for (let component of category.Components)
+            {
+                if (this.Settings[GeneratorSetting.Components].includes(component.ID))
+                {
+                    if (
+                        !isNullOrUndefined(component.Template) &&
+                        !isNullOrUndefined(component.Destination))
+                    {
+                        this.fs.copyTpl(component.Template, this.Settings[GeneratorSetting.ComponentPaths][component.ID], this.Settings);
+                    }
+                }
+            }
+        }
     }
 }
