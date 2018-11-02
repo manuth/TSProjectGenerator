@@ -1,9 +1,10 @@
+import { Answers } from "yeoman-generator";
 import { GeneratorSetting } from "./GeneratorSetting";
 
 /**
  * Represents settings of a generator.
  */
-export interface IGeneratorSettings
+export interface IGeneratorSettings extends Answers
 {
     /**
      * Gets or sets a specific setting.

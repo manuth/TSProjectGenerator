@@ -1,9 +1,10 @@
+import { Answers } from "yeoman-generator";
 import { IComponentCategory } from "./IComponentCategory";
 
 /**
  * Represents provided components.
  */
-export interface IComponentProvider
+export interface IComponentProvider<T extends Answers>
 {
     /**
      * Gets or sets the question to show when asking to choose components.
@@ -13,5 +14,5 @@ export interface IComponentProvider
     /**
      * Gets or sets the provided categories.
      */
-    Categories: IComponentCategory[];
+    Categories: IComponentCategory<T>[];
 }

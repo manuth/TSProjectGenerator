@@ -1,10 +1,10 @@
-import { Question } from "yeoman-generator";
-import { IComponentDestination } from "./IComponentDestination";
+import { Answers, Question } from "yeoman-generator";
+import { IFileMapping } from "./IFileMapping";
 
 /**
  * Represents a component.
  */
-export interface IComponent
+export interface IComponent<T extends Answers>
 {
     /**
      * Gets or sets the id of the component.
@@ -17,14 +17,9 @@ export interface IComponent
     DisplayName: string;
 
     /**
-     * Gets or sets the path to the template of the component.
+     * Gets or sets the file-mappings of the component.
      */
-    Template?: string;
-
-    /**
-     * Gets or sets the destination to save the component to.
-     */
-    Destination?: IComponentDestination | string;
+    FileMappings: IFileMapping<T>[];
 
     /**
      * Gets or sets additional quetions related to the component.

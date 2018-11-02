@@ -49,7 +49,7 @@ export abstract class Generator extends YeomanGenerator
     /**
      * Gets the components provided by the generator.
      */
-    protected get ProvidedComponents(): IComponentProvider
+    protected get ProvidedComponents(): IComponentProvider<IGeneratorSettings>
     {
         return null;
     }
@@ -94,24 +94,31 @@ export abstract class Generator extends YeomanGenerator
                         name: component.DisplayName
                     });
 
-                    if (typeof component.Destination !== "string")
+                    for (let i in component.FileMappings)
                     {
-                        let question: Question<IGeneratorSettings> = {
-                            type: "input",
-                            name: `${GeneratorSetting.ComponentPaths}[${JSON.stringify(component.ID)}]`,
-                            message: component.Destination.Message,
-                            when: answers =>
-                            {
-                                return (answers[GeneratorSetting.Components].includes(component.ID));
-                            }
-                        };
+                        let fileMapping = component.FileMappings[i];
 
-                        if (!isNullOrUndefined(component.Destination.Default))
+                        if (
+                            typeof fileMapping.Destination !== "string" &&
+                            typeof fileMapping.Destination !== "function")
                         {
-                            question.default = component.Destination.Default;
-                        }
+                            let question: Question<IGeneratorSettings> = {
+                                type: "input",
+                                name: `${GeneratorSetting.ComponentPaths}[${JSON.stringify(component.ID)}][${i}]`,
+                                message: fileMapping.Destination.Message,
+                                when: answers =>
+                                {
+                                    return answers[GeneratorSetting.Components].includes(component.ID);
+                                }
+                            };
 
-                        questions.push(question as YeomanGenerator.Question);
+                            if (!isNullOrUndefined(fileMapping.Destination.Default))
+                            {
+                                question.default = fileMapping.Destination.Default;
+                            }
+
+                            questions.push(question as YeomanGenerator.Question);
+                        }
                     }
 
                     if (!isNullOrUndefined(component.Questions))
@@ -142,19 +149,74 @@ export abstract class Generator extends YeomanGenerator
             {
                 if (this.Settings[GeneratorSetting.Components].includes(component.ID))
                 {
-                    if (
-                        !isNullOrUndefined(component.Template) &&
-                        !isNullOrUndefined(component.Destination))
+                    for (let i in component.FileMappings)
                     {
-                        let destinationPath = typeof component.Destination === "string" ? component.Destination : this.Settings[GeneratorSetting.ComponentPaths][component.ID];
+                        let fileMapping = component.FileMappings[i];
 
-                        this.fs.copyTpl(
-                            Path.isAbsolute(component.Template) ? this.templatePath(component.Template) : component.Template,
-                            Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath),
-                            this.Settings);
+                        if (
+                            !isNullOrUndefined(fileMapping.Source) &&
+                            !isNullOrUndefined(fileMapping.Destination))
+                        {
+                            let sourcePath: string = await this.ResolveValue(this.Settings, fileMapping.Source);
+                            let destinationPath: string;
+
+                            if (
+                                typeof fileMapping.Destination === "string" ||
+                                typeof fileMapping.Destination === "function")
+                            {
+                                destinationPath = await this.ResolveValue(this.Settings, fileMapping.Destination);
+                            }
+                            else
+                            {
+                                destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID];
+                            }
+
+                            let context = await this.ResolveValue(this.Settings, fileMapping.Context);
+                            sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
+                            destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
+
+                            if (isNullOrUndefined(context))
+                            {
+                                this.fs.copy(sourcePath, destinationPath);
+                            }
+                            else
+                            {
+                                this.fs.copyTpl(sourcePath, destinationPath, this.Settings);
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Resolves a value no matter whether it is wrapped in a function or not.
+     *
+     * @param settings
+     * The settings to use for resolving the value.
+     *
+     * @param value
+     * The value to resolve.
+     */
+    private async ResolveValue<TSettings, TValue>(settings: TSettings, value: TValue | ((settings?: TSettings) => TValue) | ((settings?: TSettings) => Promise<TValue>))
+    {
+        if (value instanceof Function)
+        {
+            let result = value(settings);
+
+            if (result instanceof Promise)
+            {
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+        else
+        {
+            return value;
         }
     }
 }

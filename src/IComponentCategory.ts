@@ -1,9 +1,10 @@
+import { Answers } from "yeoman-generator";
 import { IComponent } from "./IComponent";
 
 /**
  * Represents a category which contains components.
  */
-export interface IComponentCategory
+export interface IComponentCategory<T extends Answers>
 {
     /**
      * Gets or sets the human-readable name of the category.
@@ -13,5 +14,5 @@ export interface IComponentCategory
     /**
      * Gets or sets the components of the category.
      */
-    Components: IComponent[];
+    Components: IComponent<T>[];
 }
