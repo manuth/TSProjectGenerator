@@ -146,7 +146,12 @@ export abstract class Generator extends YeomanGenerator
                         !isNullOrUndefined(component.Template) &&
                         !isNullOrUndefined(component.Destination))
                     {
-                        this.fs.copyTpl(component.Template, this.Settings[GeneratorSetting.ComponentPaths][component.ID], this.Settings);
+                        let destinationPath = typeof component.Destination === "string" ? component.Destination : this.Settings[GeneratorSetting.ComponentPaths][component.ID];
+
+                        this.fs.copyTpl(
+                            Path.isAbsolute(component.Template) ? this.templatePath(component.Template) : component.Template,
+                            Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath),
+                            this.Settings);
                     }
                 }
             }
