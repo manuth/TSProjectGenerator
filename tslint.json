@@ -79,6 +79,7 @@
         "no-reference-import": true,
         "no-unnecessary-qualifier": true,
         "no-unnecessary-type-assertion": true,
+        "one-line": false,
         "number-literal-format": true,
         "prefer-object-spread": true,
         "return-undefined": true
@@ -148,6 +149,7 @@
         },
         "completed-docs": true,
         "deprecation": true,
+        "one-line": false,
         "number-literal-format": true,
         "prefer-method-signature": true,
         "return-undefined": true
