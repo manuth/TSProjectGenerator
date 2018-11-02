@@ -1,3 +1,4 @@
+import { Question } from "yeoman-generator";
 import { IComponentDestination } from "./IComponentDestination";
 
 /**
@@ -24,4 +25,9 @@ export interface IComponent
      * Gets or sets the destination to save the component to.
      */
     Destination?: IComponentDestination | string;
+
+    /**
+     * Gets or sets additional quetions related to the component.
+     */
+    Questions?: Question[];
 }
