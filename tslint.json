@@ -59,6 +59,7 @@
             "options": "match-declaration-order"
         },
         "prefer-const": false,
+        "trailing-comma": false,
         // Style
         "array-type": false,
         "arrow-parens": {
@@ -82,7 +83,16 @@
         "one-line": false,
         "number-literal-format": true,
         "prefer-object-spread": true,
-        "return-undefined": true
+        "return-undefined": true,
+        "space-before-function-paren": {
+            "options": {
+                "anonymous": "always",
+                "asyncArrow": "always",
+                "constructor": "never",
+                "method": "never",
+                "named": "never"
+            }
+        }
     },
     "jsRules": {
         // General
@@ -137,6 +147,7 @@
             "options": "match-declaration-order"
         },
         "prefer-const": false,
+        "trailing-comma": false,
         // Style
         "arrow-parens": {
             "options": "ban-single-arg-parens"
@@ -152,6 +163,15 @@
         "one-line": false,
         "number-literal-format": true,
         "prefer-method-signature": true,
-        "return-undefined": true
+        "return-undefined": true,
+        "space-before-function-paren": {
+            "options": {
+                "anonymous": "always",
+                "asyncArrow": "always",
+                "constructor": "never",
+                "method": "never",
+                "named": "never"
+            }
+        }
     }
 }
