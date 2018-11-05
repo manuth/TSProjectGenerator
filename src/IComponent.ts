@@ -1,4 +1,5 @@
-import { Answers, Question } from "yeoman-generator";
+import { Question } from "inquirer";
+import { Answers } from "yeoman-generator";
 import { IFileMapping } from "./IFileMapping";
 
 /**
@@ -24,5 +25,5 @@ export interface IComponent<T extends Answers>
     /**
      * Gets or sets additional quetions related to the component.
      */
-    Questions?: Question[];
+    Questions?: Question<T>[];
 }

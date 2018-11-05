@@ -9,15 +9,12 @@ import { IGeneratorSettings } from "./IGeneratorSettings";
 /**
  * Represents a yeoman-generator.
  */
-export abstract class Generator extends YeomanGenerator
+export abstract class Generator<T extends IGeneratorSettings = IGeneratorSettings> extends YeomanGenerator
 {
     /**
      * The settings of the generator.
      */
-    private settings: IGeneratorSettings = {
-        [GeneratorSetting.Components]: [],
-        [GeneratorSetting.ComponentPaths]: {}
-    };
+    private settings: T = {} as T;
 
     /**
      * Initializes a new instance of the `Generator` class.
@@ -49,7 +46,7 @@ export abstract class Generator extends YeomanGenerator
     /**
      * Gets the components provided by the generator.
      */
-    protected get ProvidedComponents(): IComponentProvider<IGeneratorSettings>
+    protected get ProvidedComponents(): IComponentProvider<T>
     {
         return null;
     }
@@ -102,7 +99,7 @@ export abstract class Generator extends YeomanGenerator
                             typeof fileMapping.Destination !== "string" &&
                             typeof fileMapping.Destination !== "function")
                         {
-                            let question: Question<IGeneratorSettings> = {
+                            let question: Question<T> = {
                                 type: "input",
                                 name: `${GeneratorSetting.ComponentPaths}[${JSON.stringify(component.ID)}][${i}]`,
                                 message: fileMapping.Destination.Message,
@@ -123,7 +120,13 @@ export abstract class Generator extends YeomanGenerator
 
                     if (!isNullOrUndefined(component.Questions))
                     {
-                        questions.push(...component.Questions);
+                        for (let question of component.Questions)
+                        {
+                            if (isNullOrUndefined(question.when))
+                            {
+                                question.when = (settings: T) => settings[GeneratorSetting.Components].includes(component.ID);
+                            }
+                        }
                     }
                 }
             }
@@ -199,7 +202,7 @@ export abstract class Generator extends YeomanGenerator
      * @param value
      * The value to resolve.
      */
-    private async ResolveValue<TSettings, TValue>(settings: TSettings, value: TValue | ((settings?: TSettings) => TValue) | ((settings?: TSettings) => Promise<TValue>))
+    private async ResolveValue<TValue>(settings: T, value: TValue | ((settings?: T) => TValue) | ((settings?: T) => Promise<TValue>))
     {
         if (value instanceof Function)
         {
