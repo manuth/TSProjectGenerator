@@ -126,6 +126,8 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             {
                                 question.when = (settings: T) => settings[GeneratorSetting.Components].includes(component.ID);
                             }
+
+                            questions.push(question as Question);
                         }
                     }
                 }

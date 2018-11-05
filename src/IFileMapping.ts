@@ -14,7 +14,7 @@ export interface IFileMapping<T extends Answers>
     /**
      * The context to use for copying the file-entry.
      */
-    Context: ((answers: T) => any) | ((answers: T) => Promise<any>);
+    Context?: ((answers: T) => any) | ((answers: T) => Promise<any>);
 
     /**
      * Gets or sets the destination to save the component to.
