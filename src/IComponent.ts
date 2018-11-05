@@ -25,5 +25,5 @@ export interface IComponent<T extends Answers>
     /**
      * Gets or sets additional quetions related to the component.
      */
-    Questions?: Question<T>[] | ((settings: T) => Question<T>[]) | ((settings: T) => Promise<Question<T>[]>);
+    Questions?: Question<T>[];
 }
