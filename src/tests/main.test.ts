@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 suite(
-    "GeneratorTSGenerator",
+    "TSGeneratorGenerator",
     () =>
     {
         test(
