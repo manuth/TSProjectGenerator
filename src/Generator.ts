@@ -193,7 +193,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             }
                             else
                             {
-                                this.fs.copyTpl(sourcePath, destinationPath, this.Settings);
+                                this.fs.copyTpl(sourcePath, destinationPath, context);
                             }
                         }
                     }
