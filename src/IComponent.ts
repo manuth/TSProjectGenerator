@@ -18,6 +18,11 @@ export interface IComponent<T extends Answers>
     DisplayName: string;
 
     /**
+     * Gets or sets a value indicating whether the component is enabled by default.
+     */
+    Default?: boolean;
+
+    /**
      * Gets or sets the file-mappings of the component.
      */
     FileMappings: IFileMapping<T>[] | ((settings: T) => IFileMapping<T>[]) | ((settings: T) => Promise<IFileMapping<T>[]>);

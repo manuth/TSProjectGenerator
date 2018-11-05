@@ -88,7 +88,8 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                 {
                     components.push({
                         value: component.ID,
-                        name: component.DisplayName
+                        name: component.DisplayName,
+                        checked: !isNullOrUndefined(component.Default) && component.Default
                     });
 
                     if (typeof component.FileMappings !== "function")
