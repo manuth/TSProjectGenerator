@@ -219,6 +219,11 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
     }
 
+    public async install()
+    {
+        this.npmInstall();
+    }
+
     /**
      * Creates file-mappings for a generator.
      *
