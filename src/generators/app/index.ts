@@ -202,6 +202,9 @@ class AppGenerator extends Generator<IAppSettings>
 
     public async install()
     {
+        this.log("Your workspace has been generated!");
+        this.log();
+        this.log(chalk.whiteBright("Installing dependencies..."));
         this.npmInstall();
     }
 
@@ -211,7 +214,7 @@ class AppGenerator extends Generator<IAppSettings>
             Your package "${this.Settings[AppSetting.Name]}" has been created!
             To start editing with Visual Studio Code use following commands:
 
-                code "${Path.relative(process.cwd(), this.Settings[AppSetting.Destination])}"`));
+                code ${this.Settings[AppSetting.Destination]}`));
     }
 
     /**
