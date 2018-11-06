@@ -189,6 +189,7 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, ".npmignore"), ".npmignore");
         this.fs.copy(Path.join(moduleRoot, "tsconfig.json"), "tsconfig.json");
         this.fs.copy(Path.join(moduleRoot, "test", "mocha.opts"), Path.join("test", "mocha.opts"));
+        this.fs.copyTpl(this.templatePath("README.md.ejs"), this.destinationPath("README.md"), this.Settings);
         this.fs.copyTpl(this.templatePath("main.test.ts.ejs"), Path.join(sourceRoot, "tests", "main.test.ts"), this.Settings);
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "Generator.ts"), Path.join(sourceRoot, "Generator.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "GeneratorSetting.ts"), Path.join(sourceRoot, "GeneratorSetting.ts"));
@@ -215,6 +216,7 @@ class AppGenerator extends Generator<IAppSettings>
             To start editing with Visual Studio Code use following commands:
 
                 code ${this.Settings[AppSetting.Destination]}`));
+        this.log();
     }
 
     /**
