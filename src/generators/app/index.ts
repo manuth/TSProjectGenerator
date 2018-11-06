@@ -255,7 +255,7 @@ class AppGenerator extends Generator<IAppSettings>
             },
             {
                 Source: Path.join(source, "index.ts.ejs"),
-                Context: (settings) =>
+                Context: () =>
                 {
                     return {
                         Name: generatorName,
