@@ -5,6 +5,7 @@ import { Question } from "yeoman-generator";
 import yosay = require("yosay");
 import { Generator } from "../../Generator";
 import { IComponentProvider } from "../../IComponentProvider";
+import { IFileMapping } from "../../IFileMapping";
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
 import { LintMode } from "./LintLevel";
@@ -55,20 +56,23 @@ class AppGenerator extends Generator<IAppSettings>
                     let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
                     this.destinationRoot(destination);
                     return destination;
-                }
+                },
+                validate: (input: string) => /.+/.test(input)
             },
             {
                 type: "input",
                 name: AppSetting.Name,
                 message: "What's the name of your project?",
-                default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination])
+                default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination]),
+                validate: (input: string) => /.+/.test(input)
             },
             {
                 type: "input",
                 name: AppSetting.ModuleName,
                 message: "What's the name of the node-module?",
                 default: (answers: IAppSettings) => "generator-" + kebabCase(answers[AppSetting.Name].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
-                filter: input => kebabCase(input)
+                filter: input => kebabCase(input),
+                validate: (input: string) => /[\w-]+/.test(input)
             },
             {
                 type: "input",
@@ -142,61 +146,7 @@ class AppGenerator extends Generator<IAppSettings>
                         {
                             ID: "example",
                             DisplayName: "Example Generator",
-                            FileMappings: () =>
-                            {
-                                let id = "app";
-                                let name = id.charAt(0).toUpperCase() + id.slice(1);
-                                let source = "generator";
-                                let destination = `src/generators/${id}`;
-                                let generatorName = `${name}Generator`;
-                                let settingEnum = `${name}Setting`;
-                                let settingsInterface = `I${name}Settings`;
-
-                                return [
-                                    {
-                                        Source: Path.join(source, "LicenseType.ts.ejs"),
-                                        Destination: Path.join(destination, "LicenseType.ts")
-                                    },
-                                    {
-                                        Source: Path.join(source, "Setting.ts.ejs"),
-                                        Context: () =>
-                                        {
-                                            return { Name: settingEnum };
-                                        },
-                                        Destination: Path.join(destination, `${settingEnum}.ts`)
-                                    },
-                                    {
-                                        Source: Path.join(source, "ISettings.ts.ejs"),
-                                        Context: () =>
-                                        {
-                                            return {
-                                                Name: generatorName,
-                                                SettingsInterface: settingsInterface,
-                                                Identities: settingEnum
-                                            };
-                                        },
-                                        Destination: Path.join(destination, `${settingsInterface}.ts`)
-                                    },
-                                    {
-                                        Source: Path.join(source, "index.ts.ejs"),
-                                        Context: (settings) =>
-                                        {
-                                            return {
-                                                Name: generatorName,
-                                                SettingsInterface: settingsInterface,
-                                                Identities: settingEnum,
-                                                ID: id,
-                                                DisplayName: settings[AppSetting.Name]
-                                            };
-                                        },
-                                        Destination: Path.join(destination, "index.ts")
-                                    },
-                                    {
-                                        Source: Path.join(source, "templates"),
-                                        Destination: Path.join("templates", id)
-                                    }
-                                ];
-                            }
+                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
                         },
                         {
                             ID: "sub-example",
@@ -213,61 +163,7 @@ class AppGenerator extends Generator<IAppSettings>
                                     message: "What's the unique name of the sub-generator?"
                                 }
                             ],
-                            FileMappings: (settings) =>
-                            {
-                                let id = settings[AppSetting.SubGenerator][SubGeneratorSetting.Name];
-                                let name = id.charAt(0).toUpperCase() + id.slice(1);
-                                let source = "generator";
-                                let destination = `src/generators/${id}`;
-                                let generatorName = `${name}Generator`;
-                                let settingEnum = `${name}Setting`;
-                                let settingsInterface = `I${name}Settings`;
-
-                                return [
-                                    {
-                                        Source: Path.join(source, "LicenseType.ts.ejs"),
-                                        Destination: Path.join(destination, "LicenseType.ts")
-                                    },
-                                    {
-                                        Source: Path.join(source, "Setting.ts.ejs"),
-                                        Context: () =>
-                                        {
-                                            return { Name: settingEnum };
-                                        },
-                                        Destination: Path.join(destination, `${settingEnum}.ts`)
-                                    },
-                                    {
-                                        Source: Path.join(source, "ISettings.ts.ejs"),
-                                        Context: () =>
-                                        {
-                                            return {
-                                                Name: generatorName,
-                                                SettingsInterface: settingsInterface,
-                                                Identities: settingEnum
-                                            };
-                                        },
-                                        Destination: Path.join(destination, `${settingsInterface}.ts`)
-                                    },
-                                    {
-                                        Source: Path.join(source, "index.ts.ejs"),
-                                        Context: (settings) =>
-                                        {
-                                            return {
-                                                Name: generatorName,
-                                                SettingsInterface: settingsInterface,
-                                                Identities: settingEnum,
-                                                ID: id,
-                                                DisplayName: settings[AppSetting.Name]
-                                            };
-                                        },
-                                        Destination: Path.join(destination, "index.ts")
-                                    },
-                                    {
-                                        Source: Path.join(source, "templates"),
-                                        Destination: Path.join("templates", id)
-                                    }
-                                ];
-                            }
+                            FileMappings: (settings) => this.GetGeneratorFileMappings(settings[AppSetting.SubGenerator][SubGeneratorSetting.Name], settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName])
                         }
                     ]
                 }
@@ -310,6 +206,72 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentProvider.ts"), Path.join(sourceRoot, "IComponentProvider.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
+    }
+    /**
+     * Creates file-mappings for a generator.
+     *
+     * @param id
+     * The id of the generator.
+     *
+     * @param displayName
+     * The human readable name of the generator.
+     *
+     * @returns
+     * File-mappings for a generator.
+     */
+    protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<IAppSettings>[] =>
+    {
+        let name = (id.charAt(0).toUpperCase() + id.slice(1)).replace(/[^\w]/g, "").replace(/^\d+/, "");
+        let source = "generator";
+        let destination = `src/generators/${id}`;
+        let generatorName = `${name}Generator`;
+        let identities = `${name}Setting`;
+        let settings = `I${name}Settings`;
+
+        return [
+            {
+                Source: Path.join(source, "LicenseType.ts.ejs"),
+                Destination: Path.join(destination, "LicenseType.ts")
+            },
+            {
+                Source: Path.join(source, "Setting.ts.ejs"),
+                Context: () =>
+                {
+                    return { Name: identities };
+                },
+                Destination: Path.join(destination, `${identities}.ts`)
+            },
+            {
+                Source: Path.join(source, "ISettings.ts.ejs"),
+                Context: () =>
+                {
+                    return {
+                        Name: generatorName,
+                        SettingsInterface: settings,
+                        Identities: identities
+                    };
+                },
+                Destination: Path.join(destination, `${settings}.ts`)
+            },
+            {
+                Source: Path.join(source, "index.ts.ejs"),
+                Context: (settings) =>
+                {
+                    return {
+                        Name: generatorName,
+                        SettingsInterface: settings,
+                        Identities: identities,
+                        ID: id,
+                        DisplayName: displayName
+                    };
+                },
+                Destination: Path.join(destination, "index.ts")
+            },
+            {
+                Source: Path.join(source, "templates"),
+                Destination: Path.join("templates", id)
+            }
+        ];
     }
 }
 
