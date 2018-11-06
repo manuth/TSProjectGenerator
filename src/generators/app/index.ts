@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
 import { Question } from "yeoman-generator";
@@ -207,6 +208,7 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
     }
+
     /**
      * Creates file-mappings for a generator.
      *
@@ -221,7 +223,7 @@ class AppGenerator extends Generator<IAppSettings>
      */
     protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<IAppSettings>[] =>
     {
-        let name = (id.charAt(0).toUpperCase() + id.slice(1)).replace(/[^\w]/g, "").replace(/^\d+/, "");
+        let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
         let source = "generator";
         let destination = `src/generators/${id}`;
         let generatorName = `${name}Generator`;

@@ -25,7 +25,6 @@ yo ts-generator
   - Mocha test-environment
   - NPM-Scripts for...
     - Compiling the TypeScript-code
-    - Compiling the TypeScript-code in watched-mode
     - Linting the package
     - Testing the package using
  - Visual Studio Code workspace (optional)
