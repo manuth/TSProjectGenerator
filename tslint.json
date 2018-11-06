@@ -61,9 +61,7 @@
         "trailing-comma": false,
         // Style
         "array-type": false,
-        "arrow-parens": {
-            "options": "ban-single-arg-parens"
-        },
+        "arrow-parens": false,
         "comment-format": {
             "options": [
                 "check-space",
@@ -147,9 +145,7 @@
         "prefer-const": false,
         "trailing-comma": false,
         // Style
-        "arrow-parens": {
-            "options": "ban-single-arg-parens"
-        },
+        "arrow-parens": false,
         "comment-format": {
             "options": [
                 "check-space",

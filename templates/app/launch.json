@@ -7,18 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Yeoman",
-            "program": "${workspaceFolder}/node_modules/yo/lib/cli.js",
-            "preLaunchTask": "Compile",
-            "args": [
-                "ts-generator"
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Launch Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "preLaunchTask": "Compile",
