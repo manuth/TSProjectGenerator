@@ -162,7 +162,8 @@ class AppGenerator extends Generator<IAppSettings>
                                 {
                                     type: "input",
                                     name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
-                                    message: "What's the unique name of the sub-generator?"
+                                    message: "What's the unique name of the sub-generator?",
+                                    validate: (input: string) => /[a-z-]+/.test(input)
                                 }
                             ],
                             FileMappings: (settings) => this.GetGeneratorFileMappings(settings[AppSetting.SubGenerator][SubGeneratorSetting.Name], settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName])
