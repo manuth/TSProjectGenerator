@@ -173,26 +173,6 @@ class AppGenerator extends Generator<IAppSettings>
         };
     }
 
-    /**
-     * Gets the package-manifest for the generator to generate.
-     */
-    protected get PackageJSON(): {}
-    {
-        let result: any = {};
-        let packageJSON = require(Path.join("..", "..", "..", "package.json"));
-        result.name = this.Settings[AppSetting.ModuleName];
-        result.version = "0.0.0";
-        result.description = this.Settings[AppSetting.Description];
-        result.scripts = packageJSON.scripts;
-        result.author = {
-            name: this.user.git.name(),
-            email: this.user.git.email()
-        };
-        result.devDependencies = packageJSON.devDependencies;
-        result.dependencies = packageJSON.dependencies;
-        return result;
-    }
-
     public async prompting()
     {
         this.log(yosay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
@@ -204,7 +184,7 @@ class AppGenerator extends Generator<IAppSettings>
         let moduleRoot = Path.join(__dirname, "..", "..", "..");
         let sourceRoot = "src";
         await super.writing();
-        this.fs.writeJSON("package.json", this.PackageJSON);
+        this.fs.writeJSON("package.json", this.GetPackageJSON());
         this.fs.copy(Path.join(moduleRoot, ".gitignore"), ".gitignore");
         this.fs.copy(Path.join(moduleRoot, ".npmignore"), ".npmignore");
         this.fs.copy(Path.join(moduleRoot, "tsconfig.json"), "tsconfig.json");
@@ -299,6 +279,26 @@ class AppGenerator extends Generator<IAppSettings>
                 Destination: Path.join("templates", id)
             }
         ];
+    }
+
+    /**
+     * Gets the package-manifest for the generator to generate.
+     */
+    protected GetPackageJSON = (): {} =>
+    {
+        let result: any = {};
+        let packageJSON = require(Path.join("..", "..", "..", "package.json"));
+        result.name = this.Settings[AppSetting.ModuleName];
+        result.version = "0.0.0";
+        result.description = this.Settings[AppSetting.Description];
+        result.scripts = packageJSON.scripts;
+        result.author = {
+            name: this.user.git.name(),
+            email: this.user.git.email()
+        };
+        result.devDependencies = packageJSON.devDependencies;
+        result.dependencies = packageJSON.dependencies;
+        return result;
     }
 }
 
