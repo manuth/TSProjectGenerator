@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import dedent = require("dedent");
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
@@ -222,6 +223,15 @@ class AppGenerator extends Generator<IAppSettings>
     public async install()
     {
         this.npmInstall();
+    }
+
+    public async end()
+    {
+        this.log(dedent(`
+            Your package "${this.Settings[AppSetting.Name]}" has been created!
+            To start editing with Visual Studio Code use following commands:
+
+                code "${Path.relative(process.cwd(), this.Settings[AppSetting.Destination])}"`));
     }
 
     /**
