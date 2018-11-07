@@ -1,12 +1,13 @@
 {
   "name": "generator-ts-generator",
-  "version": "0.0.0",
-  "description": "Generator for Yeoman Generators Written in TypeScript.",
+  "version": "1.0.0",
+  "description": "A Generator for Yeoman Generators Written in TypeScript.",
   "scripts": {
     "watch": "tsc -p . --watch",
     "compile": "tsc -p .",
     "lint": "tslint -p ./ -t verbose",
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "npm run compile"
   },
   "repository": {
     "type": "git",
