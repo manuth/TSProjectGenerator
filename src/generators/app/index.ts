@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import dedent = require("dedent");
+import FileSystem = require("fs-extra");
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
@@ -200,6 +201,7 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentProvider.ts"), Path.join(sourceRoot, "IComponentProvider.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
+        FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
     }
 
     public async install()
