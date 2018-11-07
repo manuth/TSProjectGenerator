@@ -96,6 +96,7 @@ class AppGenerator extends Generator<IAppSettings>
                         {
                             ID: "tslint",
                             DisplayName: "TSLint configurations",
+                            Default: true,
                             Questions: [
                                 {
                                     name: AppSetting.LintMode,
@@ -135,6 +136,7 @@ class AppGenerator extends Generator<IAppSettings>
                         {
                             ID: "vscode",
                             DisplayName: "Visual Studio Code-Workspace",
+                            Default: true,
                             FileMappings: [
                                 {
                                     Source: Path.join(__dirname, "..", "..", "..", ".vscode"),
@@ -148,7 +150,7 @@ class AppGenerator extends Generator<IAppSettings>
                         },
                         {
                             ID: "example",
-                            DisplayName: "Example Generator",
+                            DisplayName: "Example Generator (recommended)",
                             FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
                         },
                         {
@@ -164,6 +166,7 @@ class AppGenerator extends Generator<IAppSettings>
                                     type: "input",
                                     name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
                                     message: "What's the unique name of the sub-generator?",
+                                    default: (settings: IAppSettings) => kebabCase(settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
                                     validate: (input: string) => /[a-z-]+/.test(input)
                                 }
                             ],
@@ -202,6 +205,7 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
+        FileSystem.ensureDir(this.destinationPath(sourceRoot, "tempaltes"));
         return super.writing();
     }
 
