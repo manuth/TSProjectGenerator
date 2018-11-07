@@ -6,7 +6,8 @@
     "watch": "tsc -p . --watch",
     "compile": "tsc -p .",
     "lint": "tslint -p ./ -t verbose",
-    "test": "mocha"
+    "test": "mocha",
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",
