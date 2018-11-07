@@ -29,13 +29,18 @@ Use the IntelliSense of your TypeScript-editor for getting more information abou
 
   - The `TemplateRoot`-member allows you to specify a path to the templates relative to the `templates/`-directory
   - The `ProvidedComponents`-member allows you to specify components users can optionally choose to install
-  - The `Questions`-member contains questions users are prompted to answer during the execution of `Generator.prompting()`.
+  - The `Questions`-member contains questions users are prompted to answer during the execution of `Generator.prompting()`
 
 ### Testing the Generator
 In order to test the generator you must link it to the global `node_modules`-directory.  
 Do this by invoking following command:
 ```bash
 npm link
+```
+
+Before you can start your can run your generator you need to compile the TypeScript-code by either hitting <kbd>CTRL</kbd>, <kbd>SHIFT</kbd> + <kbd>B</kbd> in Visual Studio Code or by invoking:
+```bash
+npm run compile
 ```
 
 You can then run your generator by invoking<%
