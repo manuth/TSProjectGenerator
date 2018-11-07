@@ -31,4 +31,7 @@ yo ts-generator
     - Settings
     - Task for building the generator (by pressing <kbd>CTRL</kbd>, <kbd>SHIFT</kbd> + <kbd>B</kbd>)
     - Task for linting the generator
-    - Debug-settings 
+    - Debug-settings
+ - Generator-Examples (optional)  
+   You may want to create some generator-examples.  
+   These will help you to learn more about the capabilities of the object-oriented implementation of the Yeoman-Generator.
