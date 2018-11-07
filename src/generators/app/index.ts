@@ -195,7 +195,9 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, "test", "mocha.opts"), Path.join("test", "mocha.opts"));
         this.fs.copyTpl(this.templatePath("GettingStarted.md.ejs"), this.destinationPath("GettingStarted.md"), this.Settings);
         this.fs.copyTpl(this.templatePath("README.md.ejs"), this.destinationPath("README.md"), this.Settings);
-        this.fs.copyTpl(this.templatePath("main.test.ts.ejs"), Path.join(sourceRoot, "tests", "main.test.ts"), this.Settings);
+        this.fs.copyTpl(this.templatePath("tests", "main.test.ts.ejs"), Path.join(sourceRoot, "tests", "main.test.ts"), this.Settings);
+        this.fs.copyTpl(this.templatePath("tests", "Generators", "index.test.ts.ejs"), Path.join(sourceRoot, "tests", "Generators", "index.test.ts"), this.Settings);
+        this.fs.copyTpl(this.templatePath("tests", "Generators", "app.test.ts.ejs"), Path.join(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.ModuleName]}.test.ts`), this.Settings);
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "Generator.ts"), Path.join(sourceRoot, "Generator.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "GeneratorSetting.ts"), Path.join(sourceRoot, "GeneratorSetting.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponent.ts"), Path.join(sourceRoot, "IComponent.ts"));
