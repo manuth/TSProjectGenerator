@@ -16,6 +16,9 @@ You can create a generator written in TypeScript using this command:
 yo ts-generator
 ```
 
+It is recommended to use an intelligent code-editor which is meant to be used with TypeScript (like, for example VSCode or Atom).  
+Please make sure to tick the `Example Generator`-box to generate a nice example for you to see the best practices for authoring generators.
+
 ## Generator Output
   - A basic folder-structure for keeping `TypeScript`-code and `JavaScript`-builds separate
   - Linting-rules (optional)
