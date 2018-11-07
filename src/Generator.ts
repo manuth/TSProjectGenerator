@@ -203,6 +203,20 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     }
 
     /**
+     * Installs all required dependencies.
+     */
+    public async install()
+    {
+    }
+
+    /**
+     * Finalizes the generation-process.
+     */
+    public async end()
+    {
+    }
+
+    /**
      * Resolves a value no matter whether it is wrapped in a function or not.
      *
      * @param settings
