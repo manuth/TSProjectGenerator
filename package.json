@@ -7,7 +7,7 @@
     "compile": "tsc -p .",
     "lint": "tslint -p ./ -t verbose",
     "test": "mocha",
-    "prepublish": "npm run compile"
+    "prepare": "npm run compile"
   },
   "repository": {
     "type": "git",
