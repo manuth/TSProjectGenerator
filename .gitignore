@@ -1,3 +1,6 @@
+# Build results
+[Ll]ib/
+
 # Logs
 logs
 *.log
