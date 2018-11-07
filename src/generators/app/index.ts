@@ -202,13 +202,13 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
-        await super.writing();
-        this.log("Your workspace has been generated!");
-        this.log();
+        return super.writing();
     }
 
     public async install()
     {
+        this.log("Your workspace has been generated!");
+        this.log();
         this.log(chalk.whiteBright("Installing dependencies..."));
         this.npmInstall();
     }
