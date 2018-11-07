@@ -185,12 +185,12 @@ class AppGenerator extends Generator<IAppSettings>
     {
         let moduleRoot = Path.join(__dirname, "..", "..", "..");
         let sourceRoot = "src";
-        await super.writing();
         this.fs.writeJSON("package.json", this.GetPackageJSON());
         this.fs.copy(Path.join(moduleRoot, ".gitignore"), ".gitignore");
         this.fs.copy(Path.join(moduleRoot, ".npmignore"), ".npmignore");
         this.fs.copy(Path.join(moduleRoot, "tsconfig.json"), "tsconfig.json");
         this.fs.copy(Path.join(moduleRoot, "test", "mocha.opts"), Path.join("test", "mocha.opts"));
+        this.fs.copyTpl(this.templatePath("GettingStarted.md.ejs"), this.destinationPath("GettingStarted.md"), this.Settings);
         this.fs.copyTpl(this.templatePath("README.md.ejs"), this.destinationPath("README.md"), this.Settings);
         this.fs.copyTpl(this.templatePath("main.test.ts.ejs"), Path.join(sourceRoot, "tests", "main.test.ts"), this.Settings);
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "Generator.ts"), Path.join(sourceRoot, "Generator.ts"));
@@ -202,12 +202,13 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
+        await super.writing();
+        this.log("Your workspace has been generated!");
+        this.log();
     }
 
     public async install()
     {
-        this.log("Your workspace has been generated!");
-        this.log();
         this.log(chalk.whiteBright("Installing dependencies..."));
         this.npmInstall();
     }
@@ -218,7 +219,9 @@ class AppGenerator extends Generator<IAppSettings>
             Your package "${this.Settings[AppSetting.Name]}" has been created!
             To start editing with Visual Studio Code use following commands:
 
-                code ${this.Settings[AppSetting.Destination]}`));
+                code "${this.Settings[AppSetting.Destination]}"
+
+            Open "GettingStarted.md" in order to learn more about how to create your very own generator.`));
         this.log();
     }
 
