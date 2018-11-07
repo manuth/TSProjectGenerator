@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import dedent = require("dedent");
 import Path = require("path");
 import { Question } from "yeoman-generator";
 import yosay = require("yosay");
@@ -142,6 +143,14 @@ class <%= Name %> extends Generator<<%= SettingsInterface %>>
     public async writing()
     {
         return super.writing();
+    }
+
+    public async end()
+    {
+        this.log(dedent(`
+            Your project is ready!
+            
+            It lives in "${this.Settings[<%= Identities %>.Destination]}`));
     }
 }
 
