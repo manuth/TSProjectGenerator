@@ -85,7 +85,13 @@ class <%= Name %> extends Generator<<%= SettingsInterface %>>
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
-                                    Context: (settings) => settings,
+                                    Context: (settings) =>
+                                    {
+                                        return {
+                                            Name: settings[<%= Identities %>.Name],
+                                            Description: settings[<%= Identities %>.Description]
+                                        }
+                                    },
                                     Destination: "README.md"
                                 }
                             ]

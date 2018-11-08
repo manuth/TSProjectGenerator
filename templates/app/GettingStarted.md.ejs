@@ -1,8 +1,8 @@
 # Welcome to your TypeScript Generator
 This workspace allows you to easilly create yeoman generators written in TypeScript.
 
-<% if (components.includes("vscode")) { %>
 ## What's in the folder?
+<% if (HasCodeWorkspace) { %>
   - `.vscode`  
     This folder contains settings and build-task configurations for VSCode.
 <% } %>
@@ -44,16 +44,16 @@ npm run compile
 ```
 
 You can then run your generator by invoking<%
-%><% if (components.includes("sub-example")) { %><%
+%><% if (SubGeneratorName !== null) { %><%
 %> either one of these commands:
 ```bash
-yo <%= moduleName.replace(/^generator-/, "") %>
-yo <%= moduleName.replace(/^generator-/, "") %>:<%= subGenerator.name %>
+yo <%= Name.replace(/^generator-/, "") %>
+yo <%= Name.replace(/^generator-/, "") %>:<%= SubGeneratorName %>
 ```<%
 %><% } else { %><%
 %> following command: 
 ```bash
-yo <%= moduleName.replace(/^generator-/, "") %>
+yo <%= Name.replace(/^generator-/, "") %>
 ```<%
 %><% } %>
 
