@@ -119,7 +119,7 @@ class AppGenerator extends Generator<IAppSettings>
                                                 return "tslint.weak.jsonc";
                                             case LintMode.Strong:
                                             default:
-                                                return Path.join(__dirname, "..", "..", "..", "tslint.json");
+                                                return this.modulePath("tslint.json");
                                         }
                                     },
                                     Destination: "tslint.json"
@@ -132,7 +132,7 @@ class AppGenerator extends Generator<IAppSettings>
                             Default: true,
                             FileMappings: [
                                 {
-                                    Source: Path.join(__dirname, "..", "..", "..", ".vscode"),
+                                    Source: this.modulePath(".vscode"),
                                     Destination: ".vscode"
                                 },
                                 {
@@ -179,13 +179,12 @@ class AppGenerator extends Generator<IAppSettings>
 
     public async writing()
     {
-        let moduleRoot = Path.join(__dirname, "..", "..", "..");
         let sourceRoot = "src";
-        this.fs.writeJSON("package.json", this.GetPackageJSON());
-        this.fs.copy(Path.join(moduleRoot, ".gitignore"), ".gitignore");
-        this.fs.copy(Path.join(moduleRoot, ".npmignore"), ".npmignore");
-        this.fs.copy(Path.join(moduleRoot, "tsconfig.json"), "tsconfig.json");
-        this.fs.copy(Path.join(moduleRoot, "test", "mocha.opts"), Path.join("test", "mocha.opts"));
+        this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
+        this.fs.copy(this.modulePath(".gitignore"), this.destinationPath(".gitignore"));
+        this.fs.copy(this.modulePath(".npmignore"), this.destinationPath(".npmignore"));
+        this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
+        this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
         this.fs.copyTpl(
             this.templatePath("GettingStarted.md.ejs"),
             this.destinationPath("GettingStarted.md"),
@@ -220,14 +219,14 @@ class AppGenerator extends Generator<IAppSettings>
             {
                 Name: this.Settings[AppSetting.Name]
             });
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "Generator.ts"), Path.join(sourceRoot, "Generator.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "GeneratorSetting.ts"), Path.join(sourceRoot, "GeneratorSetting.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponent.ts"), Path.join(sourceRoot, "IComponent.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentCategory.ts"), Path.join(sourceRoot, "IComponentCategory.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentDestination.ts"), Path.join(sourceRoot, "IComponentDestination.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentProvider.ts"), Path.join(sourceRoot, "IComponentProvider.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "Generator.ts"), this.destinationPath(sourceRoot, "Generator.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "GeneratorSetting.ts"), this.destinationPath(sourceRoot, "GeneratorSetting.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponent.ts"), this.destinationPath(sourceRoot, "IComponent.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentCategory.ts"), this.destinationPath(sourceRoot, "IComponentCategory.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentDestination.ts"), this.destinationPath(sourceRoot, "IComponentDestination.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentProvider.ts"), this.destinationPath(sourceRoot, "IComponentProvider.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IFileMapping.ts"), this.destinationPath(sourceRoot, "IFileMapping.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IGeneratorSettings.ts"), this.destinationPath(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
         FileSystem.ensureDir(this.destinationPath("templates"));
         return super.writing();

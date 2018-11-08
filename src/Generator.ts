@@ -71,6 +71,17 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     }
 
     /**
+     * Joint the arguments together and returns the resulting path relative to the module-directory.
+     *
+     * @param path
+     * The path that is to be joined.
+     */
+    public modulePath(...path: string[])
+    {
+        return Path.join(__dirname, "..", ...path);
+    }
+
+    /**
      * Gathers all information for executing the generator and saves them to the `Settings`.
      */
     public async prompting()
