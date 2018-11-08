@@ -28,14 +28,6 @@ class <%= Name %> extends Generator<<%= SettingsInterface %>>
         super(args, options);
     }
 
-    /**
-     * Gets the settings of the generator.
-     */
-    protected get Settings(): <%= SettingsInterface %>
-    {
-        return super.Settings as <%= SettingsInterface %>;
-    }
-
     protected get TemplateRoot(): string
     {
         return "<%= ID %>";
