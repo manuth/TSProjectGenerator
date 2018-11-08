@@ -137,7 +137,7 @@ class AppGenerator extends Generator<IAppSettings>
                                 },
                                 {
                                     Source: "launch.json",
-                                    Destination: Path.join(".vscode", "launch.json")
+                                    Destination: () => this.destinationPath(".vscode", "launch.json")
                                 }
                             ]
                         },
