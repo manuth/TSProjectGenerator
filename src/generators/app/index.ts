@@ -7,14 +7,14 @@ import Path = require("path");
 import { Question } from "yeoman-generator";
 import yosay = require("yosay");
 import { Generator } from "../../Generator";
+import { GeneratorSetting } from "../../GeneratorSetting";
 import { IComponentProvider } from "../../IComponentProvider";
 import { IFileMapping } from "../../IFileMapping";
+import { AppComponent } from "./AppComponent";
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
 import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
-import { AppComponent } from "./AppComponent";
-import { GeneratorSetting } from "../../GeneratorSetting";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
@@ -237,7 +237,7 @@ class AppGenerator extends Generator<IAppSettings>
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
         this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
-        FileSystem.ensureDir(this.destinationPath("tempaltes"));
+        FileSystem.ensureDir(this.destinationPath("templates"));
         return super.writing();
     }
 
