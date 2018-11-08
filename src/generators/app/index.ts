@@ -38,9 +38,9 @@ class AppGenerator extends Generator<IAppSettings>
     /**
      * Gets the settings of the generator.
      */
-    protected get Settings(): IAppSettings
+    protected get Settings()
     {
-        return super.Settings as IAppSettings;
+        return super.Settings;
     }
 
     protected get TemplateRoot(): string
