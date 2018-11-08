@@ -11,7 +11,7 @@ import { IComponentProvider } from "../../IComponentProvider";
 import { IFileMapping } from "../../IFileMapping";
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
-import { LintMode } from "./LintLevel";
+import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
 
 /**
