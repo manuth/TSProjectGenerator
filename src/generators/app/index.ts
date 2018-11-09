@@ -7,11 +7,13 @@ import Path = require("path");
 import { Question } from "yeoman-generator";
 import yosay = require("yosay");
 import { Generator } from "../../Generator";
+import { GeneratorSetting } from "../../GeneratorSetting";
 import { IComponentProvider } from "../../IComponentProvider";
 import { IFileMapping } from "../../IFileMapping";
+import { AppComponent } from "./AppComponent";
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
-import { LintMode } from "./LintLevel";
+import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
 
 /**
@@ -31,14 +33,6 @@ class AppGenerator extends Generator<IAppSettings>
     public constructor(args: string | string[], options: {})
     {
         super(args, options);
-    }
-
-    /**
-     * Gets the settings of the generator.
-     */
-    protected get Settings(): IAppSettings
-    {
-        return super.Settings as IAppSettings;
     }
 
     protected get TemplateRoot(): string
@@ -94,7 +88,7 @@ class AppGenerator extends Generator<IAppSettings>
                     DisplayName: "General",
                     Components: [
                         {
-                            ID: "tslint",
+                            ID: AppComponent.TSLint,
                             DisplayName: "TSLint configurations",
                             Default: true,
                             Questions: [
@@ -125,36 +119,35 @@ class AppGenerator extends Generator<IAppSettings>
                                                 return "tslint.weak.jsonc";
                                             case LintMode.Strong:
                                             default:
-                                                return Path.join(__dirname, "..", "..", "..", "tslint.json");
+                                                return this.modulePath("tslint.json");
                                         }
                                     },
-                                    Context: settings => settings,
                                     Destination: "tslint.json"
                                 }
                             ]
                         },
                         {
-                            ID: "vscode",
+                            ID: AppComponent.VSCode,
                             DisplayName: "Visual Studio Code-Workspace",
                             Default: true,
                             FileMappings: [
                                 {
-                                    Source: Path.join(__dirname, "..", "..", "..", ".vscode"),
+                                    Source: this.modulePath(".vscode"),
                                     Destination: ".vscode"
                                 },
                                 {
                                     Source: "launch.json",
-                                    Destination: Path.join(".vscode", "launch.json")
+                                    Destination: () => this.destinationPath(".vscode", "launch.json")
                                 }
                             ]
                         },
                         {
-                            ID: "example",
+                            ID: AppComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
                             FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
                         },
                         {
-                            ID: "sub-example",
+                            ID: AppComponent.GeneratorExample,
                             DisplayName: "Example Sub-Generator",
                             Questions: [
                                 {
@@ -186,28 +179,56 @@ class AppGenerator extends Generator<IAppSettings>
 
     public async writing()
     {
-        let moduleRoot = Path.join(__dirname, "..", "..", "..");
         let sourceRoot = "src";
-        this.fs.writeJSON("package.json", this.GetPackageJSON());
-        this.fs.copy(Path.join(moduleRoot, ".gitignore"), ".gitignore");
-        this.fs.copy(Path.join(moduleRoot, ".npmignore"), ".npmignore");
-        this.fs.copy(Path.join(moduleRoot, "tsconfig.json"), "tsconfig.json");
-        this.fs.copy(Path.join(moduleRoot, "test", "mocha.opts"), Path.join("test", "mocha.opts"));
-        this.fs.copyTpl(this.templatePath("GettingStarted.md.ejs"), this.destinationPath("GettingStarted.md"), this.Settings);
-        this.fs.copyTpl(this.templatePath("README.md.ejs"), this.destinationPath("README.md"), this.Settings);
-        this.fs.copyTpl(this.templatePath("tests", "main.test.ts.ejs"), Path.join(sourceRoot, "tests", "main.test.ts"), this.Settings);
-        this.fs.copyTpl(this.templatePath("tests", "Generators", "index.test.ts.ejs"), Path.join(sourceRoot, "tests", "Generators", "index.test.ts"), this.Settings);
-        this.fs.copyTpl(this.templatePath("tests", "Generators", "app.test.ts.ejs"), Path.join(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.ModuleName]}.test.ts`), this.Settings);
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "Generator.ts"), Path.join(sourceRoot, "Generator.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "GeneratorSetting.ts"), Path.join(sourceRoot, "GeneratorSetting.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponent.ts"), Path.join(sourceRoot, "IComponent.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentCategory.ts"), Path.join(sourceRoot, "IComponentCategory.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentDestination.ts"), Path.join(sourceRoot, "IComponentDestination.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IComponentProvider.ts"), Path.join(sourceRoot, "IComponentProvider.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IFileMapping.ts"), Path.join(sourceRoot, "IFileMapping.ts"));
-        this.fs.copy(Path.join(moduleRoot, sourceRoot, "IGeneratorSettings.ts"), Path.join(sourceRoot, "IGeneratorSettings.ts"));
+        this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
+        this.fs.copy(this.modulePath(".gitignore"), this.destinationPath(".gitignore"));
+        this.fs.copy(this.modulePath(".npmignore"), this.destinationPath(".npmignore"));
+        this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
+        this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
+        this.fs.copyTpl(
+            this.templatePath("GettingStarted.md.ejs"),
+            this.destinationPath("GettingStarted.md"),
+            {
+                Name: this.Settings[AppSetting.ModuleName],
+                HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(AppComponent.VSCode),
+                SubGeneratorName: this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample) ? this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name] : null
+            });
+        this.fs.copyTpl(
+            this.templatePath("README.md.ejs"),
+            this.destinationPath("README.md"),
+            {
+                Name: this.Settings[AppSetting.ModuleName],
+                DisplayName: this.Settings[AppSetting.Name],
+                Description: this.Settings[AppSetting.Description]
+            });
+        this.fs.copyTpl(
+            this.templatePath("tests", "main.test.ts.ejs"),
+            this.destinationPath(sourceRoot, "tests", "main.test.ts"),
+            {
+                Name: this.Settings[AppSetting.Name]
+            });
+        this.fs.copyTpl(
+            this.templatePath("tests", "Generators", "index.test.ts.ejs"),
+            this.destinationPath(sourceRoot, "tests", "Generators", "index.test.ts"),
+            {
+                Name: this.Settings[AppSetting.ModuleName]
+            });
+        this.fs.copyTpl(
+            this.templatePath("tests", "Generators", "app.test.ts.ejs"),
+            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.ModuleName]}.test.ts`),
+            {
+                Name: this.Settings[AppSetting.Name]
+            });
+        this.fs.copy(this.modulePath(sourceRoot, "Generator.ts"), this.destinationPath(sourceRoot, "Generator.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "GeneratorSetting.ts"), this.destinationPath(sourceRoot, "GeneratorSetting.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponent.ts"), this.destinationPath(sourceRoot, "IComponent.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentCategory.ts"), this.destinationPath(sourceRoot, "IComponentCategory.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentDestination.ts"), this.destinationPath(sourceRoot, "IComponentDestination.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IComponentProvider.ts"), this.destinationPath(sourceRoot, "IComponentProvider.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IFileMapping.ts"), this.destinationPath(sourceRoot, "IFileMapping.ts"));
+        this.fs.copy(this.modulePath(sourceRoot, "IGeneratorSettings.ts"), this.destinationPath(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
-        FileSystem.ensureDir(this.destinationPath(sourceRoot, "tempaltes"));
+        FileSystem.ensureDir(this.destinationPath("templates"));
         return super.writing();
     }
 

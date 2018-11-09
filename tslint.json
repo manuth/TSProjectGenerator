@@ -37,7 +37,6 @@
         "no-empty": false,
         "no-floating-promises": false,
         "no-for-in-array": false,
-        "no-inferred-empty-object-type": true,
         "no-return-await": true,
         "no-shadowed-variable": false,
         "no-string-literal": false,
@@ -45,7 +44,6 @@
         "no-unbound-method": true,
         "no-void-expression": true,
         "restrict-plus-operands": true,
-        "strict-boolean-expressions": true,
         "triple-equals": true,
         // Maintainability
         "eofline": false,
@@ -54,9 +52,7 @@
         "no-default-export": true,
         "no-duplicate-imports": true,
         "no-trailing-whitespace": true,
-        "object-literal-sort-keys": {
-            "options": "match-declaration-order"
-        },
+        "object-literal-sort-keys": false,
         "prefer-const": false,
         "trailing-comma": false,
         // Style
@@ -69,7 +65,6 @@
             ]
         },
         "completed-docs": true,
-        "deprecation": true,
         "match-default-export-name": true,
         "no-boolean-literal-compare": true,
         "no-parameter-properties": true,
@@ -139,9 +134,7 @@
         "no-default-export": true,
         "no-duplicate-imports": true,
         "no-trailing-whitespace": true,
-        "object-literal-sort-keys": {
-            "options": "match-declaration-order"
-        },
+        "object-literal-sort-keys": false,
         "prefer-const": false,
         "trailing-comma": false,
         // Style
@@ -153,7 +146,6 @@
             ]
         },
         "completed-docs": true,
-        "deprecation": true,
         "one-line": false,
         "number-literal-format": true,
         "prefer-method-signature": true,

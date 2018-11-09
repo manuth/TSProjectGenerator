@@ -1,7 +1,7 @@
 import { IGeneratorSettings } from "../../IGeneratorSettings";
 import { AppSetting } from "./AppSetting";
 import { ISubGenerator } from "./ISubGenerator";
-import { LintMode } from "./LintLevel";
+import { LintMode } from "./LintMode";
 
 /**
  * Provides settings for the `AppGenerator`.
