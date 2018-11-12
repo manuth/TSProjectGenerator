@@ -1,5 +1,6 @@
-# Source-files
-[Ss]rc/
+# Unneeded Source-files
+[Ss]rc/generators/
 
-# Visual Studio Code Environment
-.vscode/
+# Unit-Tests
+[Ss]rc/tests
+[Ll]ib/tests
