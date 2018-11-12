@@ -181,8 +181,8 @@ class AppGenerator extends Generator<IAppSettings>
     {
         let sourceRoot = "src";
         this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
-        this.fs.copy(this.modulePath(".gitignore"), this.destinationPath(".gitignore"));
-        this.fs.copy(this.modulePath(".npmignore"), this.destinationPath(".npmignore"));
+        this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
+        this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
         this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
         this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
         this.fs.copyTpl(
