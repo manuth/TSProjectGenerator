@@ -147,7 +147,7 @@ class AppGenerator extends Generator<IAppSettings>
                             FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
                         },
                         {
-                            ID: AppComponent.GeneratorExample,
+                            ID: AppComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
                             Questions: [
                                 {
