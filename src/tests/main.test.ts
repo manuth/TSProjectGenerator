@@ -4,10 +4,5 @@ suite(
     "TSGeneratorGenerator",
     () =>
     {
-        test(
-            "Example...",
-            () =>
-            {
-                assert.strictEqual(1, 1);
-            });
+        require("./Generators/index.test");
     });
