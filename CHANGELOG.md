@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSGeneratorGenerator Unreleased
   - Fixed the sub-generator component
+  - Added new unit-tests for ensuring the functionality of the generator
+  - Provided the functionality to set default components even if the generator is executed programmatically
 
 ## TSGeneratorGenerator v1.0.1
   - Improved the stability of the copyTpl-process
