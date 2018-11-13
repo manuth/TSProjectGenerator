@@ -16,8 +16,6 @@
         "no-shadowed-variable": false,
         "no-string-literal": false,
         "no-sparse-arrays": true,
-        "no-unbound-method": true,
-        "no-void-expression": true,
         "triple-equals": true,
         // Maintainability
         "eofline": false,
@@ -54,8 +52,6 @@
         "no-shadowed-variable": false,
         "no-string-literal": false,
         "no-sparse-arrays": true,
-        "no-unbound-method": true,
-        "no-void-expression": true,
         "triple-equals": true,
         // Maintainability
         "eofline": false,
