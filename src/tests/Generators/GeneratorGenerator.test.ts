@@ -55,7 +55,7 @@ suite(
             {
                 this.slow(5 * 1000);
                 this.timeout(5 * 1000);
-                generatorDir = await runContext;
+                generatorDir = await runContext.toPromise();
                 tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });
 
@@ -154,7 +154,7 @@ suite(
             async () =>
             {
                 let testContext = run(Path.join(generatorDir, "lib", "generators", "app"));
-                Assert.doesNotReject(testContext.toPromise());
+                await Assert.doesNotReject(testContext.toPromise());
                 testContext.cleanTestDirectory();
             });
     });
