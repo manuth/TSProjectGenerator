@@ -1,9 +1,10 @@
 import Assert = require("assert");
+import ChildProcess = require("child_process");
 import FileSystem = require("fs-extra");
 import NPM = require("npm");
 import Path = require("path");
 import TS = require("typescript");
-import { isNullOrUndefined } from "util";
+import { promisify } from "util";
 import { run, RunContext } from "yeoman-test";
 import { AppComponent } from "../../generators/app/AppComponent";
 import { AppSetting } from "../../generators/app/AppSetting";
@@ -66,58 +67,10 @@ suite(
                 this.slow(5 * 60 * 1000);
                 this.timeout(5 * 60 * 1000);
 
-                let consoleLog = console.log;
-                console.log = () => { };
-
-                try
+                await promisify(ChildProcess.exec)("npm install",
                 {
-                    await new Promise(
-                        (resolve, reject) =>
-                        {
-                            NPM.load(
-                                {
-                                    loaded: false
-                                } as any,
-                                (error, result) =>
-                                {
-                                    if (!isNullOrUndefined(error))
-                                    {
-                                        reject(error);
-                                    }
-                                    else
-                                    {
-                                        resolve(result);
-                                    }
-                                });
-                        });
-
-                    await new Promise(
-                        (resolve, reject) =>
-                        {
-                            NPM.commands.install(
-                                [],
-                                (error, result) =>
-                                {
-                                    if (!isNullOrUndefined(error))
-                                    {
-                                        reject(error);
-                                    }
-                                    else
-                                    {
-                                        resolve(result);
-                                    }
-                                });
-                        });
-                }
-                catch (error)
-                {
-                    console.log = consoleLog;
-                    throw error;
-                }
-                finally
-                {
-                    console.log = consoleLog;
-                }
+                    cwd: generatorDir
+                });
             });
 
         test(
