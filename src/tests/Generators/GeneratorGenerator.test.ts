@@ -44,8 +44,8 @@ suite(
         suiteTeardown(
             function (): void
             {
-                this.slow(1 * 60 * 1000);
-                this.timeout(1 * 60 * 1000);
+                this.slow(25 * 1000);
+                this.timeout(25 * 1000);
                 process.chdir(currentDir);
                 runContext.cleanTestDirectory();
             });
@@ -54,8 +54,8 @@ suite(
             "Checking whether the generator can be executed…",
             async function ()
             {
-                this.slow(5 * 1000);
-                this.timeout(5 * 1000);
+                this.slow(2.5 * 1000);
+                this.timeout(2.5 * 1000);
                 generatorDir = await runContext.toPromise();
                 tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });
@@ -64,8 +64,8 @@ suite(
             "Checking whether the generated module can be installed…",
             async function ()
             {
-                this.slow(5 * 60 * 1000);
-                this.timeout(5 * 60 * 1000);
+                this.slow(3 * 60 * 1000);
+                this.timeout(3 * 60 * 1000);
 
                 await promisify(ChildProcess.exec)("npm install",
                 {
@@ -81,8 +81,8 @@ suite(
             "Checking whether the generated module can be compiled using typescript…",
             function ()
             {
-                this.slow(20 * 1000);
-                this.timeout(20 * 1000);
+                this.slow(7 * 1000);
+                this.timeout(7 * 1000);
 
                 let host: TS.ParseConfigFileHost = {
                     ...TS.sys,
@@ -104,8 +104,10 @@ suite(
 
         test(
             "Checking whether the generated module can be used as a generator…",
-            async () =>
+            async function ()
             {
+                this.timeout(5 * 1000);
+                this.slow(5 * 1000);
                 let testContext = run(Path.join(generatorDir, "lib", "generators", "app"));
                 await Assert.doesNotReject(testContext.toPromise());
                 testContext.cleanTestDirectory();
