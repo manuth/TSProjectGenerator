@@ -98,11 +98,18 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
 
                 for (let component of category.Components)
                 {
+                    let isDefault = !isNullOrUndefined(component.Default) && component.Default;
+
                     components.push({
                         value: component.ID,
                         name: component.DisplayName,
-                        checked: !isNullOrUndefined(component.Default) && component.Default
+                        checked: isDefault
                     });
+
+                    if (isDefault)
+                    {
+                        defaults.push(component.ID);
+                    }
 
                     if (typeof component.FileMappings !== "function")
                     {
@@ -126,7 +133,6 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
 
                                 if (!isNullOrUndefined(fileMapping.Destination.Default))
                                 {
-                                    defaults.push(component.ID);
                                     question.default = fileMapping.Destination.Default;
                                 }
 
