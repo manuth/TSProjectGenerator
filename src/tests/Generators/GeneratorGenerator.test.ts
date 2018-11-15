@@ -110,6 +110,7 @@ suite(
                 this.slow(10 * 1000);
                 let testContext = run(Path.join(generatorDir, "lib", "generators", "app"));
                 await Assert.doesNotReject(testContext.toPromise());
+                process.chdir(generatorDir);
                 testContext.cleanTestDirectory();
             });
     });
