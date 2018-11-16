@@ -25,6 +25,16 @@
     "test": "mocha",
     "prepare": "npm run compile"
   },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "dedent": "^0.7.0",
+    "fs-extra": "^7.0.0",
+    "inquirer": "^6.2.0",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.kebabcase": "^4.1.1",
+    "yeoman-generator": "^3.1.1",
+    "yosay": "^2.0.2"
+  },
   "devDependencies": {
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^5.0.4",
@@ -43,15 +53,5 @@
     "typescript-tslint-plugin": "0.0.5",
     "yeoman-test": "^1.9.1",
     "yo": "^2.0.5"
-  },
-  "dependencies": {
-    "chalk": "^2.4.1",
-    "dedent": "^0.7.0",
-    "fs-extra": "^7.0.0",
-    "inquirer": "^6.2.0",
-    "lodash.camelcase": "^4.3.0",
-    "lodash.kebabcase": "^4.1.1",
-    "yeoman-generator": "^3.1.1",
-    "yosay": "^2.0.2"
   }
 }
