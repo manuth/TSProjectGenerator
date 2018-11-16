@@ -88,6 +88,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     {
         let questions: YeomanGenerator.Questions = [];
         let components: ChoiceType[] = [];
+        let defaults: string[] = [];
 
         if (this.ProvidedComponents !== null)
         {
@@ -97,11 +98,18 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
 
                 for (let component of category.Components)
                 {
+                    let isDefault = !isNullOrUndefined(component.Default) && component.Default;
+
                     components.push({
                         value: component.ID,
                         name: component.DisplayName,
-                        checked: !isNullOrUndefined(component.Default) && component.Default
+                        checked: isDefault
                     });
+
+                    if (isDefault)
+                    {
+                        defaults.push(component.ID);
+                    }
 
                     if (typeof component.FileMappings !== "function")
                     {
@@ -153,7 +161,8 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                     type: "checkbox",
                     name: GeneratorSetting.Components,
                     message: this.ProvidedComponents.Question,
-                    choices: components
+                    choices: components,
+                    default: defaults
                 });
         }
 

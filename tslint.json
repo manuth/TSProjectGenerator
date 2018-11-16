@@ -41,8 +41,6 @@
         "no-shadowed-variable": false,
         "no-string-literal": false,
         "no-sparse-arrays": true,
-        "no-unbound-method": true,
-        "no-void-expression": true,
         "restrict-plus-operands": true,
         "triple-equals": true,
         // Maintainability
@@ -123,8 +121,6 @@
         "no-shadowed-variable": false,
         "no-string-literal": false,
         "no-sparse-arrays": true,
-        "no-unbound-method": true,
-        "no-void-expression": true,
         "restrict-plus-operands": true,
         "triple-equals": true,
         // Maintainability

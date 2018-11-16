@@ -22,11 +22,7 @@
             "name": "Launch Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "preLaunchTask": "Compile",
-            "cwd": "${workspaceFolder}",
-            "sourceMaps": true,
-            "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
-            ]
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

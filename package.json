@@ -1,6 +1,6 @@
 {
   "name": "generator-ts-generator",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "A Generator for Yeoman Generators Written in TypeScript.",
   "scripts": {
     "watch": "tsc -p . --watch",
@@ -35,11 +35,16 @@
     "@types/lodash.kebabcase": "^4.1.4",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.1",
+    "@types/npm": "^2.0.29",
     "@types/yeoman-generator": "^3.0.0",
+    "@types/yeoman-test": "^1.7.4",
     "@types/yosay": "0.0.29",
     "mocha": "^5.2.0",
+    "npm": "^6.4.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.5",
+    "typescript-tslint-plugin": "0.0.5",
+    "yeoman-test": "^1.9.1",
     "yo": "^2.0.5"
   },
   "dependencies": {

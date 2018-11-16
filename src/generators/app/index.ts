@@ -48,20 +48,14 @@ class AppGenerator extends Generator<IAppSettings>
                 name: AppSetting.Destination,
                 message: "Where do you want to save your generator to?",
                 default: "./",
-                filter: async input =>
-                {
-                    let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
-                    this.destinationRoot(destination);
-                    return destination;
-                },
-                validate: (input: string) => /.+/.test(input)
+                filter: async input => Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input)
             },
             {
                 type: "input",
                 name: AppSetting.Name,
                 message: "What's the name of your project?",
                 default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination]),
-                validate: (input: string) => /.+/.test(input)
+                validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
             },
             {
                 type: "input",
@@ -69,7 +63,17 @@ class AppGenerator extends Generator<IAppSettings>
                 message: "What's the name of the node-module?",
                 default: (answers: IAppSettings) => "generator-" + kebabCase(answers[AppSetting.Name].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
                 filter: input => kebabCase(input),
-                validate: (input: string) => /[\w-]+/.test(input)
+                validate: (input: string) =>
+                {
+                    if (/[\w-]+/.test(input))
+                    {
+                        return input.startsWith("generator-") ? true : 'The name must start with "generator-"';
+                    }
+                    else
+                    {
+                        return "Please provide a name according to the npm naming-conventions.";
+                    }
+                }
             },
             {
                 type: "input",
@@ -147,20 +151,21 @@ class AppGenerator extends Generator<IAppSettings>
                             FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
                         },
                         {
-                            ID: AppComponent.GeneratorExample,
+                            ID: AppComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
                             Questions: [
                                 {
                                     type: "input",
                                     name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.DisplayName}`,
-                                    message: "What's the human-readable name of your sub-generator?"
+                                    message: "What's the human-readable name of your sub-generator?",
+                                    validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
                                 },
                                 {
                                     type: "input",
                                     name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
                                     message: "What's the unique name of the sub-generator?",
                                     default: (settings: IAppSettings) => kebabCase(settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
-                                    validate: (input: string) => /[a-z-]+/.test(input)
+                                    validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
                             ],
                             FileMappings: (settings) => this.GetGeneratorFileMappings(settings[AppSetting.SubGenerator][SubGeneratorSetting.Name], settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName])
@@ -180,9 +185,10 @@ class AppGenerator extends Generator<IAppSettings>
     public async writing()
     {
         let sourceRoot = "src";
+        this.destinationRoot(this.Settings[AppSetting.Destination]);
         this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
-        this.fs.copy(this.modulePath(".gitignore"), this.destinationPath(".gitignore"));
-        this.fs.copy(this.modulePath(".npmignore"), this.destinationPath(".npmignore"));
+        this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
+        this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
         this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
         this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
         this.fs.copyTpl(

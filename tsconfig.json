@@ -6,6 +6,11 @@
         "lib": [
             "es7"
         ],
+        "plugins": [
+            {
+                "name": "typescript-tslint-plugin"
+            }
+        ],
         "target": "es6",
         "outDir": "./lib",
         "declaration": true,
