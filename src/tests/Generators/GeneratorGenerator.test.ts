@@ -1,7 +1,6 @@
 import Assert = require("assert");
 import ChildProcess = require("child_process");
 import FileSystem = require("fs-extra");
-import NPM = require("npm");
 import Path = require("path");
 import TS = require("typescript");
 import { promisify } from "util";
