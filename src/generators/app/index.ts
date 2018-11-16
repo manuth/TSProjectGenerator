@@ -48,11 +48,7 @@ class AppGenerator extends Generator<IAppSettings>
                 name: AppSetting.Destination,
                 message: "Where do you want to save your generator to?",
                 default: "./",
-                filter: async input =>
-                {
-                    let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
-                    return destination;
-                }
+                filter: async input => Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input)
             },
             {
                 type: "input",
