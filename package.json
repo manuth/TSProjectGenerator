@@ -1,6 +1,6 @@
 {
   "name": "generator-ts-generator",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Generator for Yeoman Generators Written in TypeScript.",
   "scripts": {
     "watch": "tsc -p . --watch",
