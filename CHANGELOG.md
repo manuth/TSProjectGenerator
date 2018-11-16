@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## TSGeneratorGenerator Unreleased
+## TSGeneratorGenerator v1.2.0
+  - Added unit-tests for ensuring the functionality of the generator
   - Fixed the sub-generator component
-  - Added new unit-tests for ensuring the functionality of the generator
   - Provided the functionality to set default components even if the generator is executed programmatically
+  - Improved input-validation
+
+[Show differences][v1.2.0]
 
 ## TSGeneratorGenerator v1.0.1
   - Improved the stability of the copyTpl-process
@@ -24,3 +27,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!--- References -->
 [v1.0.0]: https://github.com/manuth/TSGeneratorGenerator/compare/e6fdb5a...v1.0.0
 [v1.0.1]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.0.0...v1.0.1
+[v1.2.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.0.1...v1.2.0
