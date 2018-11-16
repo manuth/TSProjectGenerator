@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed the sub-generator component
   - Provided the functionality to set default components even if the generator is executed programmatically
   - Improved input-validation
+  - Changed the linting-concept to the [plugin-driven linting](https://github.com/microsoft/typescript-tslint-plugin)
 
 [Show differences][v1.2.0]
 
