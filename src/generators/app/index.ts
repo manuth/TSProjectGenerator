@@ -380,6 +380,7 @@ class AppGenerator extends Generator<IAppSettings>
             name: this.user.git.name(),
             email: this.user.git.email()
         };
+        result.keywords = ["yeoman-generator"];
         result.devDependencies = {};
         result.dependencies = {};
 
