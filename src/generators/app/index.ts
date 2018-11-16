@@ -330,18 +330,83 @@ class AppGenerator extends Generator<IAppSettings>
      */
     protected GetPackageJSON = (): {} =>
     {
+
+        let scripts = [
+            "watch",
+            "compile",
+            "lint",
+            "test",
+            "prepare"
+        ];
+
+        let dependencies = [
+            "inquirer",
+            "yeoman-generator"
+        ];
+
+        let devDependencies = [
+            "@types/inquirer",
+            "@types/mocha",
+            "@types/node",
+            "@types/yeoman-generator",
+            "mocha",
+            "tslint",
+            "typescript",
+            "typescript-tslint-plugin",
+            "yo"
+        ];
+
+        if (
+            this.Settings[GeneratorSetting.Components].includes(AppComponent.GeneratorExample) ||
+            this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample))
+        {
+            dependencies.push(
+                "chalk",
+                "dedent",
+                "yosay");
+
+            devDependencies.push(
+                "@types/dedent",
+                "@types/yosay");
+        }
+
         let result: any = {};
         let packageJSON = require(Path.join("..", "..", "..", "package.json"));
         result.name = this.Settings[AppSetting.ModuleName];
         result.version = "0.0.0";
         result.description = this.Settings[AppSetting.Description];
-        result.scripts = packageJSON.scripts;
+        result.scripts = {};
         result.author = {
             name: this.user.git.name(),
             email: this.user.git.email()
         };
-        result.devDependencies = packageJSON.devDependencies;
-        result.dependencies = packageJSON.dependencies;
+        result.devDependencies = {};
+        result.dependencies = {};
+
+        for (let script of scripts)
+        {
+            if (script in packageJSON.scripts)
+            {
+                result.scripts[script] = packageJSON.scripts[script];
+            }
+        }
+
+        for (let devDependency of devDependencies.sort())
+        {
+            if (devDependency in packageJSON.devDependencies)
+            {
+                result.devDependencies[devDependency] = packageJSON.devDependencies[devDependency];
+            }
+        }
+
+        for (let dependency of dependencies.sort())
+        {
+            if (dependency in packageJSON.dependencies)
+            {
+                result.dependencies[dependency] = packageJSON.dependencies[dependency];
+            }
+        }
+
         return result;
     }
 }
