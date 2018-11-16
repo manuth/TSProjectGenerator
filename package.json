@@ -19,10 +19,7 @@
     "Generator",
     "TypeScript"
   ],
-  "author": {
-    "name": "Manuel Thalmann",
-    "email": "m@nuth.ch"
-  },
+  "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
