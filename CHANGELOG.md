@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSGeneratorGenerator v1.2.2
   - Improved the creation of the `package.json`-file
+  - Removed unnecessary dependencies
+
+[Show differences][v1.2.2]
 
 ## TSGeneratorGenerator v1.2.1
   - Rework unit-test templates
@@ -38,3 +41,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.0.1]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.0.0...v1.0.1
 [v1.2.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.0.1...v1.2.0
 [v1.2.1]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.0...v1.2.1
+[v1.2.2]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.1...v1.2.2
