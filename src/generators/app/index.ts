@@ -330,7 +330,6 @@ class AppGenerator extends Generator<IAppSettings>
      */
     protected GetPackageJSON = (): {} =>
     {
-
         let scripts = [
             "watch",
             "compile",
@@ -370,19 +369,21 @@ class AppGenerator extends Generator<IAppSettings>
                 "@types/yosay");
         }
 
-        let result: any = {};
-        let packageJSON = require(Path.join("..", "..", "..", "package.json"));
-        result.name = this.Settings[AppSetting.ModuleName];
-        result.version = "0.0.0";
-        result.description = this.Settings[AppSetting.Description];
-        result.scripts = {};
-        result.author = {
-            name: this.user.git.name(),
-            email: this.user.git.email()
+        let result = {
+            name: this.Settings[AppSetting.ModuleName],
+            version: "0.0.0",
+            description: this.Settings[AppSetting.Description],
+            author: {
+                name: this.user.git.name(),
+                email: this.user.git.email()
+            },
+            keywords: ["yeoman-generator"],
+            scripts: {} as { [key: string]: string },
+            dependencies: {} as { [key: string]: string },
+            devDependencies: {} as { [key: string]: string }
         };
-        result.keywords = ["yeoman-generator"];
-        result.devDependencies = {};
-        result.dependencies = {};
+
+        let packageJSON: typeof result = require(Path.join(__dirname, "..", "..", "..", "package.json"));
 
         for (let script of scripts)
         {
