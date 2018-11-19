@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSGeneratorGenerator v1.2.3
   - Improved the `package.json`-template
+  - Reworked the ignore-files
 
 [Show differences][v1.2.3]
 
