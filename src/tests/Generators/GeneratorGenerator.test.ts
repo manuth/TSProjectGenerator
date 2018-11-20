@@ -29,8 +29,8 @@ suite(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
                         {
                             [AppSetting.Destination]: "./",
+                            [AppSetting.DisplayName]: generatorName,
                             [AppSetting.Name]: generatorName,
-                            [AppSetting.ModuleName]: generatorName,
                             [GeneratorSetting.Components]: [
                                 AppComponent.TSLint,
                                 AppComponent.VSCode,

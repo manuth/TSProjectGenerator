@@ -52,16 +52,16 @@ class AppGenerator extends Generator<IAppSettings>
             },
             {
                 type: "input",
-                name: AppSetting.Name,
+                name: AppSetting.DisplayName,
                 message: "What's the name of your project?",
                 default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination]),
                 validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
             },
             {
                 type: "input",
-                name: AppSetting.ModuleName,
+                name: AppSetting.Name,
                 message: "What's the name of the node-module?",
-                default: (answers: IAppSettings) => "generator-" + kebabCase(answers[AppSetting.Name].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
+                default: (answers: IAppSettings) => "generator-" + kebabCase(answers[AppSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
                 filter: input => kebabCase(input),
                 validate: (input: string) =>
                 {
@@ -148,7 +148,7 @@ class AppGenerator extends Generator<IAppSettings>
                         {
                             ID: AppComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
-                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.Name])
+                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.DisplayName])
                         },
                         {
                             ID: AppComponent.SubGeneratorExample,
@@ -195,7 +195,7 @@ class AppGenerator extends Generator<IAppSettings>
             this.templatePath("GettingStarted.md.ejs"),
             this.destinationPath("GettingStarted.md"),
             {
-                Name: this.Settings[AppSetting.ModuleName],
+                Name: this.Settings[AppSetting.Name],
                 HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(AppComponent.VSCode),
                 SubGeneratorName: this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample) ? this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name] : null
             });
@@ -203,27 +203,27 @@ class AppGenerator extends Generator<IAppSettings>
             this.templatePath("README.md.ejs"),
             this.destinationPath("README.md"),
             {
-                Name: this.Settings[AppSetting.ModuleName],
-                DisplayName: this.Settings[AppSetting.Name],
+                Name: this.Settings[AppSetting.Name],
+                DisplayName: this.Settings[AppSetting.DisplayName],
                 Description: this.Settings[AppSetting.Description]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "main.test.ts.ejs"),
             this.destinationPath(sourceRoot, "tests", "main.test.ts"),
             {
-                Name: this.Settings[AppSetting.Name]
+                Name: this.Settings[AppSetting.DisplayName]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "Generators", "index.test.ts.ejs"),
             this.destinationPath(sourceRoot, "tests", "Generators", "index.test.ts"),
             {
-                Name: this.Settings[AppSetting.ModuleName]
+                Name: this.Settings[AppSetting.Name]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "Generators", "app.test.ts.ejs"),
-            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.ModuleName]}.test.ts`),
+            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.Name]}.test.ts`),
             {
-                Name: this.Settings[AppSetting.Name]
+                Name: this.Settings[AppSetting.DisplayName]
             });
         this.fs.copy(this.modulePath(sourceRoot, "Generator.ts"), this.destinationPath(sourceRoot, "Generator.ts"));
         this.fs.copy(this.modulePath(sourceRoot, "GeneratorSetting.ts"), this.destinationPath(sourceRoot, "GeneratorSetting.ts"));
@@ -249,7 +249,7 @@ class AppGenerator extends Generator<IAppSettings>
     public async end()
     {
         this.log(dedent(`
-            Your package "${this.Settings[AppSetting.Name]}" has been created!
+            Your package "${this.Settings[AppSetting.DisplayName]}" has been created!
             To start editing with Visual Studio Code use following commands:
 
                 code "${this.Settings[AppSetting.Destination]}"
@@ -370,7 +370,7 @@ class AppGenerator extends Generator<IAppSettings>
         }
 
         let result = {
-            name: this.Settings[AppSetting.ModuleName],
+            name: this.Settings[AppSetting.Name],
             version: "0.0.0",
             description: this.Settings[AppSetting.Description],
             author: {

@@ -9,14 +9,14 @@ export enum AppSetting
     Destination = "destination",
 
     /**
+     * Indicates the `DisplayName`-setting.
+     */
+    DisplayName = "displayName",
+
+    /**
      * Indicates the `Name`-setting.
      */
     Name = "name",
-
-    /**
-     * Indicates the `ModuleName`-setting.
-     */
-    ModuleName = "moduleName",
 
     /**
      * Indicates the `Description`-setting.
