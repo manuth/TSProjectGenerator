@@ -1,5 +1,5 @@
 import { Question } from "inquirer";
-import { Answers } from "yeoman-generator";
+import { Answers, Question as YoQuestion } from "yeoman-generator";
 import { IFileMapping } from "./IFileMapping";
 
 /**

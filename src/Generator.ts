@@ -2,6 +2,7 @@ import { ChoiceType, Question, Separator } from "inquirer";
 import Path = require("path");
 import { isNullOrUndefined } from "util";
 import YeomanGenerator = require("yeoman-generator");
+import { Question as YoQuestion, Questions } from "yeoman-generator";
 import { GeneratorSetting } from "./GeneratorSetting";
 import { IComponentProvider } from "./IComponentProvider";
 import { IGeneratorSettings } from "./IGeneratorSettings";
@@ -38,7 +39,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     /**
      * Gets the questions to ask before executing the generator.
      */
-    protected get Questions(): YeomanGenerator.Question[]
+    protected get Questions(): Question<T>[]
     {
         return [];
     }
@@ -86,7 +87,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
      */
     public async prompting()
     {
-        let questions: YeomanGenerator.Questions = [];
+        let questions: Questions = [];
         let components: ChoiceType[] = [];
         let defaults: string[] = [];
 
@@ -136,7 +137,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                                     question.default = fileMapping.Destination.Default;
                                 }
 
-                                questions.push(question as YeomanGenerator.Question);
+                                questions.push(question as YoQuestion);
                             }
                         }
                     }
@@ -166,7 +167,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                 });
         }
 
-        questions.unshift(...this.Questions);
+        questions.unshift(...this.Questions as YoQuestion[]);
         Object.assign(this.Settings, await this.prompt(questions));
     }
 

@@ -1,10 +1,11 @@
 import chalk from "chalk";
 import dedent = require("dedent");
 import FileSystem = require("fs-extra");
+import { Question } from "inquirer";
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
-import { Question } from "yeoman-generator";
+import { Question as YoQuestion } from "yeoman-generator";
 import yosay = require("yosay");
 import { Generator } from "../../Generator";
 import { GeneratorSetting } from "../../GeneratorSetting";
@@ -40,7 +41,7 @@ class AppGenerator extends Generator<IAppSettings>
         return "app";
     }
 
-    protected get Questions(): Question[]
+    protected get Questions(): (Question<IAppSettings> | YoQuestion)[]
     {
         return [
             {

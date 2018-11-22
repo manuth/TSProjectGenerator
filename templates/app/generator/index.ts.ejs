@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import dedent = require("dedent");
+import { Question } from "inquirer";
 import Path = require("path");
-import { Question } from "yeoman-generator";
 import yosay = require("yosay");
 import { Generator } from "../../Generator";
 import { IComponentProvider } from "../../IComponentProvider";
@@ -33,7 +33,7 @@ class <%= Name %> extends Generator<<%= SettingsInterface %>>
         return "<%= ID %>";
     }
 
-    protected get Questions(): Question[]
+    protected get Questions(): Question<<%= SettingsInterface %>>[]
     {
         return [
             {
