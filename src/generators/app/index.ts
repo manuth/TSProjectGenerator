@@ -331,8 +331,8 @@ class AppGenerator extends Generator<IAppSettings>
     protected GetPackageJSON = (): {} =>
     {
         let scripts = [
-            "watch",
             "compile",
+            "watch",
             "lint",
             "test",
             "prepare"
