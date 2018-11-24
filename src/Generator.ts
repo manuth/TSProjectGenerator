@@ -72,7 +72,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     }
 
     /**
-     * Joint the arguments together and returns the resulting path relative to the module-directory.
+     * Joins the arguments together and returns the resulting path relative to the module-directory.
      *
      * @param path
      * The path that is to be joined.
