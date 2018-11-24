@@ -3,7 +3,7 @@ import { Answers } from "yeoman-generator";
 /**
  * Represents a destination of a component.
  */
-export interface IComponentDestination
+export interface IComponentDestination<T extends Answers>
 {
     /**
      * Gets or sets the message to ask for the destination.
@@ -13,5 +13,5 @@ export interface IComponentDestination
     /**
      * Gets or sets the default destination.
      */
-    Default: string | ((answers: Answers) => string) | ((answers: Answers) => Promise<string>);
+    Default: string | ((answers: T) => string) | ((answers: T) => Promise<string>);
 }

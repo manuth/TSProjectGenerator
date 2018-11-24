@@ -41,7 +41,7 @@ class AppGenerator extends Generator<IAppSettings>
         return "app";
     }
 
-    protected get Questions(): (Question<IAppSettings> | YoQuestion)[]
+    protected get Questions(): Question<IAppSettings>[]
     {
         return [
             {

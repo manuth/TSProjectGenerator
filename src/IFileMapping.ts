@@ -19,5 +19,5 @@ export interface IFileMapping<T extends Answers>
     /**
      * Gets or sets the destination to save the component to.
      */
-    Destination: IComponentDestination | string | ((answers: T) => string | Promise<string>);
+    Destination: IComponentDestination<T> | string | ((answers: T) => string | Promise<string>);
 }
