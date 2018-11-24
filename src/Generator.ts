@@ -206,8 +206,8 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID][settingsIndex++];
                         }
 
-                        sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
-                        destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
+                        sourcePath = (isNullOrUndefined(sourcePath) || Path.isAbsolute(sourcePath)) ? sourcePath : this.templatePath(sourcePath);
+                        destinationPath = (isNullOrUndefined(destinationPath) || Path.isAbsolute(destinationPath)) ? destinationPath : this.destinationPath(destinationPath);
 
                         let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
                         let defaultProcessor = (sourcePath: string, destinationPath: string, context: any) =>
