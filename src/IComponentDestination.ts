@@ -1,3 +1,4 @@
+import { Question } from "inquirer";
 import { Answers } from "yeoman-generator";
 
 /**
@@ -14,4 +15,9 @@ export interface IComponentDestination<T extends Answers>
      * Gets or sets the default destination.
      */
     Default: string | ((answers: T) => string) | ((answers: T) => Promise<string>);
+
+    /**
+     * Gets or sets additional inquirer-settings.
+     */
+    Settings: Partial<Question<T>>;
 }

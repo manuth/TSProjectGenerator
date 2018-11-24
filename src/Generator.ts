@@ -132,6 +132,11 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                                     }
                                 };
 
+                                if (!isNullOrUndefined(fileMapping.Destination.Settings))
+                                {
+                                    Object.assign(question, fileMapping.Destination.Settings);
+                                }
+
                                 if (!isNullOrUndefined(fileMapping.Destination.Default))
                                 {
                                     question.default = fileMapping.Destination.Default;
