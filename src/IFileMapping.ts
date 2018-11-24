@@ -9,7 +9,7 @@ export interface IFileMapping<T extends Answers>
     /**
      * Gets or sets the path to the template of the component.
      */
-    Source: string | ((answers: T) => string) | ((answers: T) => Promise<string>);
+    Source: string | ((answers: T) => string | Promise<string>);
 
     /**
      * The context to use for copying the file-entry.
