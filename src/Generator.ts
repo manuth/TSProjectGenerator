@@ -210,7 +210,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                         destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
 
                         let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
-                        let defaultProcessor = (sourcePath: string, context: any, destinationPath: string) =>
+                        let defaultProcessor = (sourcePath: string, destinationPath: string, context: any) =>
                         {
                             if (
                                 !isNullOrUndefined(sourcePath) &&
@@ -233,7 +233,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                         }
                         else
                         {
-                            let result = fileMapping.Processor(sourcePath, context, destinationPath, defaultProcessor, this.Settings);
+                            let result = fileMapping.Processor(sourcePath, destinationPath, context, defaultProcessor, this.Settings);
 
                             if (result instanceof Promise)
                             {
