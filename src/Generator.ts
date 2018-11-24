@@ -252,7 +252,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
      * @param value
      * The value to resolve.
      */
-    private async ResolveValue<TSource extends any[], TValue>(value: (TValue | ((...settings: TSource) => TValue) | ((...settings: TSource) => Promise<TValue>)), ...source: TSource)
+    protected async ResolveValue<TSource extends any[], TValue>(value: (TValue | ((...settings: TSource) => TValue) | ((...settings: TSource) => Promise<TValue>)), ...source: TSource)
     {
         if (value instanceof Function)
         {
