@@ -187,6 +187,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
             {
                 if (this.Settings[GeneratorSetting.Components].includes(component.ID))
                 {
+                    let settingsIndex = 0;
                     let fileMappings = await this.ResolveValue(component.FileMappings, this.Settings);
 
                     for (let fileMapping of fileMappings)
@@ -206,7 +207,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             }
                             else
                             {
-                                destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID];
+                                destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID][settingsIndex++];
                             }
 
                             let context = await this.ResolveValue(this.Settings, fileMapping.Context, sourcePath, destinationPath);
