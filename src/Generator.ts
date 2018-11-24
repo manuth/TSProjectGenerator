@@ -210,9 +210,10 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                                 destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID][settingsIndex++];
                             }
 
-                            let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
                             sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
                             destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
+
+                            let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
 
                             if (isNullOrUndefined(context))
                             {
