@@ -192,36 +192,52 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
 
                     for (let fileMapping of fileMappings)
                     {
+                        let sourcePath: string = await this.ResolveValue(fileMapping.Source, this.Settings);
+                        let destinationPath: string;
+
                         if (
-                            !isNullOrUndefined(fileMapping.Source) &&
-                            !isNullOrUndefined(fileMapping.Destination))
+                            typeof fileMapping.Destination === "string" ||
+                            typeof fileMapping.Destination === "function")
                         {
-                            let sourcePath: string = await this.ResolveValue(fileMapping.Source, this.Settings);
-                            let destinationPath: string;
+                            destinationPath = await this.ResolveValue(fileMapping.Destination, this.Settings);
+                        }
+                        else
+                        {
+                            destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID][settingsIndex++];
+                        }
 
+                        sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
+                        destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
+
+                        let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
+                        let defaultProcessor = (sourcePath: string, context: any, destinationPath: string) =>
+                        {
                             if (
-                                typeof fileMapping.Destination === "string" ||
-                                typeof fileMapping.Destination === "function")
+                                !isNullOrUndefined(sourcePath) &&
+                                !isNullOrUndefined(destinationPath))
                             {
-                                destinationPath = await this.ResolveValue(fileMapping.Destination, this.Settings);
+                                if (isNullOrUndefined(context))
+                                {
+                                    this.fs.copy(sourcePath, destinationPath);
+                                }
+                                else
+                                {
+                                    this.fs.copyTpl(sourcePath, destinationPath, context);
+                                }
                             }
-                            else
-                            {
-                                destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID][settingsIndex++];
-                            }
+                        };
 
-                            sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
-                            destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
+                        if (isNullOrUndefined(fileMapping.Processor))
+                        {
+                            defaultProcessor(sourcePath, destinationPath, context);
+                        }
+                        else
+                        {
+                            let result = fileMapping.Processor(sourcePath, context, destinationPath, defaultProcessor, this.Settings);
 
-                            let context = await this.ResolveValue(fileMapping.Context, this.Settings, sourcePath, destinationPath);
-
-                            if (isNullOrUndefined(context))
+                            if (result instanceof Promise)
                             {
-                                this.fs.copy(sourcePath, destinationPath);
-                            }
-                            else
-                            {
-                                this.fs.copyTpl(sourcePath, destinationPath, context);
+                                await result;
                             }
                         }
                     }
