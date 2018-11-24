@@ -187,7 +187,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
             {
                 if (this.Settings[GeneratorSetting.Components].includes(component.ID))
                 {
-                    let fileMappings = await this.ResolveValue(this.Settings, component.FileMappings);
+                    let fileMappings = await this.ResolveValue(component.FileMappings, this.Settings);
 
                     for (let fileMapping of fileMappings)
                     {
@@ -195,21 +195,21 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             !isNullOrUndefined(fileMapping.Source) &&
                             !isNullOrUndefined(fileMapping.Destination))
                         {
-                            let sourcePath: string = await this.ResolveValue(this.Settings, fileMapping.Source);
+                            let sourcePath: string = await this.ResolveValue(fileMapping.Source, this.Settings);
                             let destinationPath: string;
 
                             if (
                                 typeof fileMapping.Destination === "string" ||
                                 typeof fileMapping.Destination === "function")
                             {
-                                destinationPath = await this.ResolveValue(this.Settings, fileMapping.Destination);
+                                destinationPath = await this.ResolveValue(fileMapping.Destination, this.Settings);
                             }
                             else
                             {
                                 destinationPath = this.Settings[GeneratorSetting.ComponentPaths][component.ID];
                             }
 
-                            let context = await this.ResolveValue(this.Settings, fileMapping.Context);
+                            let context = await this.ResolveValue(this.Settings, fileMapping.Context, sourcePath, destinationPath);
                             sourcePath = Path.isAbsolute(sourcePath) ? sourcePath : this.templatePath(sourcePath);
                             destinationPath = Path.isAbsolute(destinationPath) ? destinationPath : this.destinationPath(destinationPath);
 
@@ -251,11 +251,11 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
      * @param value
      * The value to resolve.
      */
-    private async ResolveValue<TValue>(settings: T, value: TValue | ((settings?: T) => TValue) | ((settings?: T) => Promise<TValue>))
+    private async ResolveValue<TSource extends any[], TValue>(value: (TValue | ((...settings: TSource) => TValue) | ((...settings: TSource) => Promise<TValue>)), ...source: TSource)
     {
         if (value instanceof Function)
         {
-            let result = value(settings);
+            let result = value(...source);
 
             if (result instanceof Promise)
             {
