@@ -227,13 +227,13 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                             }
                         };
 
-                        if (isNullOrUndefined(fileMapping.Processor))
+                        if (isNullOrUndefined(fileMapping.Process))
                         {
                             defaultProcessor(sourcePath, destinationPath, context);
                         }
                         else
                         {
-                            let result = fileMapping.Processor(sourcePath, destinationPath, context, defaultProcessor, this.Settings);
+                            let result = fileMapping.Process(sourcePath, destinationPath, context, defaultProcessor, this.Settings);
 
                             if (result instanceof Promise)
                             {

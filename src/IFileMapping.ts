@@ -17,12 +17,12 @@ export interface IFileMapping<T extends Answers>
     Context?: ((answers: T, source: string, destination: string) => any | Promise<any>);
 
     /**
-     * Gets or sets the method to execute for processing the file-mapping.
-     */
-    Processor?: ((source: string, destination: string, context?: any, defaultProcessor?: (source: string, destination: string, context?: any) => void, settings?: T) => void | Promise<void>);
-
-    /**
      * Gets or sets the destination to save the component to.
      */
     Destination: IComponentDestination<T> | string | ((answers: T) => string | Promise<string>);
+
+    /**
+     * Gets or sets the method to execute for processing the file-mapping.
+     */
+    Process?(source: string, destination: string, context?: any, defaultProcessor?: (source: string, destination: string, context?: any) => void, settings?: T): void | Promise<void>;
 }
