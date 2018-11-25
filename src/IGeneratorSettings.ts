@@ -15,9 +15,4 @@ export interface IGeneratorSettings extends Answers
      * Gets or sets the components to install.
      */
     [GeneratorSetting.Components]: string[];
-
-    /**
-     * Gets or sets the paths to save the components to.
-     */
-    [GeneratorSetting.ComponentPaths]: { [key: string]: { [index: number]: string } };
 }

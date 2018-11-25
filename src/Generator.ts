@@ -113,49 +113,6 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
                         defaults.push(component.ID);
                     }
 
-                    if (typeof component.FileMappings !== "function")
-                    {
-                        for (let i in component.FileMappings)
-                        {
-                            let fileMapping = component.FileMappings[i];
-
-                            if (
-                                typeof fileMapping.Destination !== "string" &&
-                                typeof fileMapping.Destination !== "function")
-                            {
-                                let question: Question<T> = {
-                                    type: "input",
-                                    message: fileMapping.Destination.Message,
-                                    when: answers =>
-                                    {
-                                        return answers[GeneratorSetting.Components].includes(component.ID);
-                                    }
-                                };
-
-                                if (!isNullOrUndefined(fileMapping.Destination.Settings))
-                                {
-                                    Object.assign(question, fileMapping.Destination.Settings);
-                                }
-
-                                if (!isNullOrUndefined(fileMapping.Destination.Default))
-                                {
-                                    question.default = fileMapping.Destination.Default;
-                                }
-
-                                if (isNullOrUndefined(fileMapping.Destination.GetResult))
-                                {
-                                    question.name = `${GeneratorSetting.ComponentPaths}[${JSON.stringify(component.ID)}][${i}]`;
-                                    fileMapping.Destination.GetResult = (answers) =>
-                                    {
-                                        return answers[GeneratorSetting.ComponentPaths][component.ID][i];
-                                    };
-                                }
-
-                                questions.push(question as YoQuestion);
-                            }
-                        }
-                    }
-
                     if (!isNullOrUndefined(component.Questions))
                     {
                         for (let question of component.Questions)
@@ -260,18 +217,7 @@ export abstract class Generator<T extends IGeneratorSettings = IGeneratorSetting
     protected async ProcessFile(fileMapping: IFileMapping<T>)
     {
         let sourcePath: string = await this.ResolveValue(fileMapping.Source, this.Settings);
-        let destinationPath: string;
-
-        if (
-            typeof fileMapping.Destination === "string" ||
-            typeof fileMapping.Destination === "function")
-        {
-            destinationPath = await this.ResolveValue(fileMapping.Destination, this.Settings);
-        }
-        else
-        {
-            destinationPath = fileMapping.Destination.GetResult(this.Settings);
-        }
+        let destinationPath = await this.ResolveValue(fileMapping.Destination, this.Settings);
 
         sourcePath = (isNullOrUndefined(sourcePath) || Path.isAbsolute(sourcePath)) ? sourcePath : this.templatePath(sourcePath);
         destinationPath = (isNullOrUndefined(destinationPath) || Path.isAbsolute(destinationPath)) ? destinationPath : this.destinationPath(destinationPath);

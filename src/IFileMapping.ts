@@ -1,5 +1,4 @@
 import { Answers } from "yeoman-generator";
-import { IComponentDestination } from "./IComponentDestination";
 
 /**
  * Represents a file-mapping.
@@ -19,7 +18,7 @@ export interface IFileMapping<T extends Answers>
     /**
      * Gets or sets the destination to save the component to.
      */
-    Destination: IComponentDestination<T> | string | ((answers: T) => string | Promise<string>);
+    Destination: string | ((answers: T) => string | Promise<string>);
 
     /**
      * Gets or sets the method to execute for processing the file-mapping.
