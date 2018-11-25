@@ -20,4 +20,9 @@ export interface IComponentDestination<T extends Answers>
      * Gets or sets additional inquirer-settings.
      */
     Settings?: Partial<Question<T>>;
+
+    /**
+     * Gets the destination.
+     */
+    GetResult?: (answers: T) => string;
 }
