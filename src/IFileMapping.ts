@@ -7,11 +7,6 @@ import { IComponentDestination } from "./IComponentDestination";
 export interface IFileMapping<T extends Answers>
 {
     /**
-     * Gets or sets a tag for identifying the file-mapping.
-     */
-    Tag?: string;
-
-    /**
      * Gets or sets the path to the template of the component.
      */
     Source: string | ((answers: T) => string | Promise<string>);
