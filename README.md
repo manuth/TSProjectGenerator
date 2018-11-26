@@ -28,6 +28,7 @@ Please make sure to tick the `Example Generator`-box to generate a nice example 
   - Mocha test-environment
   - NPM-Scripts for...
     - Compiling the TypeScript-code
+    - Cleaning compiled TypeScript-code
     - Linting the package
     - Testing the package using
  - Visual Studio Code workspace (optional)
