@@ -1,5 +1,6 @@
 import Assert = require("assert");
 import ChildProcess = require("child_process");
+import { GeneratorSetting } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import Path = require("path");
 import TS = require("typescript");
@@ -8,7 +9,6 @@ import { run, RunContext } from "yeoman-test";
 import { AppComponent } from "../../generators/app/AppComponent";
 import { AppSetting } from "../../generators/app/AppSetting";
 import { LintMode } from "../../generators/app/LintMode";
-import { GeneratorSetting } from "../../GeneratorSetting";
 
 suite(
     "Generator-Generator",
@@ -53,8 +53,8 @@ suite(
             "Checking whether the generator can be executed…",
             async function ()
             {
-                this.timeout(6 * 1000);
-                this.slow(3 * 1000);
+                this.timeout(18 * 1000);
+                this.slow(6 * 1000);
                 generatorDir = await runContext.toPromise();
                 tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });

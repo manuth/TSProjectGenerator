@@ -1,10 +1,8 @@
 import chalk from "chalk";
 import dedent = require("dedent");
-import { Question } from "inquirer";
 import Path = require("path");
 import yosay = require("yosay");
-import { Generator } from "../../Generator";
-import { IComponentProvider } from "../../IComponentProvider";
+import { Generator, IComponentProvider, Question } from "extended-yo-generator";
 import { <%= Identities %> } from "./<%= Identities %>";
 import { <%= SettingsInterface %> } from "./<%= SettingsInterface %>";
 import { LicenseType } from "./LicenseType";

@@ -1,16 +1,11 @@
 import chalk from "chalk";
 import dedent = require("dedent");
+import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
-import { Question } from "inquirer";
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
-import { Question as YoQuestion } from "yeoman-generator";
 import yosay = require("yosay");
-import { Generator } from "../../Generator";
-import { GeneratorSetting } from "../../GeneratorSetting";
-import { IComponentProvider } from "../../IComponentProvider";
-import { IFileMapping } from "../../IFileMapping";
 import { AppComponent } from "./AppComponent";
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
@@ -226,13 +221,6 @@ export class AppGenerator extends Generator<IAppSettings>
             {
                 Name: this.Settings[AppSetting.DisplayName]
             });
-        this.fs.copy(this.modulePath(sourceRoot, "Generator.ts"), this.destinationPath(sourceRoot, "Generator.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "GeneratorSetting.ts"), this.destinationPath(sourceRoot, "GeneratorSetting.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "IComponent.ts"), this.destinationPath(sourceRoot, "IComponent.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "IComponentCategory.ts"), this.destinationPath(sourceRoot, "IComponentCategory.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "IComponentProvider.ts"), this.destinationPath(sourceRoot, "IComponentProvider.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "IFileMapping.ts"), this.destinationPath(sourceRoot, "IFileMapping.ts"));
-        this.fs.copy(this.modulePath(sourceRoot, "IGeneratorSettings.ts"), this.destinationPath(sourceRoot, "IGeneratorSettings.ts"));
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
         FileSystem.ensureDir(this.destinationPath("templates"));
         return super.writing();
@@ -349,12 +337,10 @@ export class AppGenerator extends Generator<IAppSettings>
         ];
 
         let dependencies = [
-            "inquirer",
-            "yeoman-generator"
+            "extended-yo-generator"
         ];
 
         let devDependencies = [
-            "@types/inquirer",
             "@types/mocha",
             "@types/node",
             "@types/yeoman-generator",

@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "../../IGeneratorSettings";
+import { IGeneratorSettings } from "extended-yo-generator";
 import { AppSetting } from "./AppSetting";
 import { ISubGenerator } from "./ISubGenerator";
 import { LintMode } from "./LintMode";
