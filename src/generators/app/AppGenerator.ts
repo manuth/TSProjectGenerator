@@ -242,7 +242,8 @@ export class AppGenerator extends Generator<IAppSettings>
 
                 code "${this.Settings[AppSetting.Destination]}"
 
-            Open "GettingStarted.md" in order to learn more about how to create your very own generator.`));
+            Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+            Thanks for using TSGeneratorGenerator!`));
         this.log();
     }
 
