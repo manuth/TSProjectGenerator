@@ -11,10 +11,7 @@
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "preLaunchTask": "Compile",
             "cwd": "${workspaceFolder}",
-            "sourceMaps": true,
-            "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
-            ]
+            "sourceMaps": true
         }
     ]
 }
