@@ -345,7 +345,6 @@ export class AppGenerator extends Generator<IAppSettings>
         let devDependencies = [
             "@types/mocha",
             "@types/node",
-            "@types/yeoman-generator",
             "mocha",
             "rimraf",
             "tslint",
