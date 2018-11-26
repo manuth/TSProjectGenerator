@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "../../IGeneratorSettings";
+import { IGeneratorSettings } from "extended-yo-generator";
 import { AppSetting } from "./AppSetting";
 import { ISubGenerator } from "./ISubGenerator";
 import { LintMode } from "./LintMode";
@@ -11,12 +11,12 @@ export interface IAppSettings extends IGeneratorSettings
     /**
      * Gets or sets the name.
      */
-    [AppSetting.Name]: string;
+    [AppSetting.DisplayName]: string;
 
     /**
      * Gets or sets the module-name.
      */
-    [AppSetting.ModuleName]: string;
+    [AppSetting.Name]: string;
 
     /**
      * Gets or sets the description.
