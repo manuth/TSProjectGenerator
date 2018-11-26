@@ -329,7 +329,8 @@ export class AppGenerator extends Generator<IAppSettings>
     protected GetPackageJSON = (): {} =>
     {
         let scripts = [
-            "compile",
+            "build",
+            "rebuild",
             "watch",
             "clean",
             "lint",
@@ -346,6 +347,7 @@ export class AppGenerator extends Generator<IAppSettings>
             "@types/node",
             "@types/yeoman-generator",
             "mocha",
+            "rimraf",
             "tslint",
             "typescript",
             "typescript-tslint-plugin",

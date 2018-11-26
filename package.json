@@ -19,12 +19,13 @@
   },
   "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
   "scripts": {
-    "compile": "tsc -p .",
+    "build": "tsc -p .",
+    "rebuild": "npm run clean && npm run build",
     "watch": "tsc -p . --watch",
     "clean": "rimraf ./lib",
     "lint": "tslint -p ./ -t verbose",
     "test": "mocha",
-    "prepare": "npm run clean && npm run compile"
+    "prepare": "npm run rebuild"
   },
   "dependencies": {
     "chalk": "^2.4.1",
