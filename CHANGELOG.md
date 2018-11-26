@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## TSGeneratorGenerator v1.2.4
+## TSGeneratorGenerator v1.3.0
+  - Replaced generated code by modules
   - Improved user-experience
   - Provided the functionality to customize the context based on the source- and destination-file
   - Provided the functionality to set custom processors for file-mappings
