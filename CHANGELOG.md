@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Provided the functionality to customize the context based on the source- and destination-file
   - Provided the functionality to set custom processors for file-mappings
 
-[Show differences][v1.2.4]
+[Show differences][v1.3.0]
 
 ## TSGeneratorGenerator v1.2.3
   - Improved the `package.json`-template
@@ -57,4 +57,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.2.1]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.0...v1.2.1
 [v1.2.2]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.1...v1.2.2
 [v1.2.3]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.2...v1.2.3
-[v1.2.4]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.3...v1.2.4
+[v1.3.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.3...v1.3.0
