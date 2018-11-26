@@ -21,14 +21,15 @@
   "scripts": {
     "compile": "tsc -p .",
     "watch": "tsc -p . --watch",
+    "clean": "rimraf ./lib",
     "lint": "tslint -p ./ -t verbose",
     "test": "mocha",
-    "prepare": "npm run compile"
+    "prepare": "npm run clean && npm run compile"
   },
   "dependencies": {
     "chalk": "^2.4.1",
     "dedent": "^0.7.0",
-    "extended-yo-generator": "^1.0.1",
+    "extended-yo-generator": "^1.0.2",
     "fs-extra": "^7.0.1",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
@@ -41,12 +42,13 @@
     "@types/lodash.camelcase": "^4.3.4",
     "@types/lodash.kebabcase": "^4.1.4",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.9",
+    "@types/node": "^10.12.10",
     "@types/yeoman-generator": "^3.0.1",
     "@types/yeoman-test": "^1.7.4",
     "@types/yosay": "0.0.29",
     "mocha": "^5.2.0",
     "npm": "^6.4.1",
+    "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6",
     "typescript-tslint-plugin": "^0.1.0",

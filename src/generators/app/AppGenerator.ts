@@ -331,6 +331,7 @@ export class AppGenerator extends Generator<IAppSettings>
         let scripts = [
             "compile",
             "watch",
+            "clean",
             "lint",
             "test",
             "prepare"
