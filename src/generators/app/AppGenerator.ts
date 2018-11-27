@@ -138,6 +138,26 @@ export class AppGenerator extends Generator<IAppSettings>
                                 {
                                     Source: "launch.json",
                                     Destination: () => this.destinationPath(".vscode", "launch.json")
+                                },
+                                {
+                                    Source: this.modulePath(".vscode", "settings.json"),
+                                    Destination: () => this.destinationPath(".vscode", "settings.json"),
+                                    Process: async (source, destination) =>
+                                    {
+                                        let result: any = {};
+                                        let settings = require(source);
+
+                                        for (let key in settings)
+                                        {
+                                            if (key !== "file.associations")
+                                            {
+                                                result[key] = settings[key];
+                                            }
+                                        }
+
+                                        this.fs.delete(destination);
+                                        this.fs.writeJSON(destination, result);
+                                    }
                                 }
                             ]
                         },
