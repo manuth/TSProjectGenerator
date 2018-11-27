@@ -149,7 +149,7 @@ export class AppGenerator extends Generator<IAppSettings>
 
                                         for (let key in settings)
                                         {
-                                            if (key !== "file.associations")
+                                            if (key !== "files.associations")
                                             {
                                                 result[key] = settings[key];
                                             }
