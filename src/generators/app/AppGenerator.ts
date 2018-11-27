@@ -116,7 +116,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                         switch (settings[AppSetting.LintMode])
                                         {
                                             case LintMode.Weak:
-                                                return "tslint.weak.jsonc";
+                                                return "tslint.json";
                                             case LintMode.Strong:
                                             default:
                                                 return this.modulePath("tslint.json");
