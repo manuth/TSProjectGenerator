@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import JSON = require("comment-json");
 import dedent = require("dedent");
 import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
@@ -137,7 +138,43 @@ export class AppGenerator extends Generator<IAppSettings>
                                 },
                                 {
                                     Source: "launch.json",
-                                    Destination: () => this.destinationPath(".vscode", "launch.json")
+                                    Destination: () => this.destinationPath(".vscode", "launch.json"),
+                                    Process: async (source, destination) =>
+                                    {
+                                        let configurations: any[] = [];
+                                        let launch = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let generatorName = this.Settings[AppSetting.Name].replace(/^generator-(.*)$/, "$1");
+                                        let generatorNames: string[] = [
+                                            generatorName
+                                        ];
+
+                                        if (this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample))
+                                        {
+                                            generatorNames.push(`${generatorName}:${this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name]}`);
+                                        }
+
+                                        for (let generatorName of generatorNames)
+                                        {
+                                            configurations.push(
+                                                {
+                                                    type: "node",
+                                                    request: "launch",
+                                                    name: "Launch Yeoman",
+                                                    program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
+                                                    args: [
+                                                        generatorName
+                                                    ],
+                                                    console: "integratedTerminal",
+                                                    internalConsoleOptions: "neverOpen",
+                                                    preLaunchTask: "Build",
+                                                    cwd: "${workspaceFolder}/..",
+                                                    sourceMaps: true
+                                                });
+                                        }
+
+                                        (launch.configurations as any[]).unshift(...configurations);
+                                        this.fs.write(destination, JSON.stringify(launch, null, 4));
+                                    }
                                 },
                                 {
                                     Source: this.modulePath(".vscode", "settings.json"),
