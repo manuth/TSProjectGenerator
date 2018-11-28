@@ -155,7 +155,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                             }
                                         }
 
-                                        this.fs.writeJSON(destination, result, null, 4);
+                                        this.fs.write(destination, JSON.stringify(result, null, 4));
                                     }
                                 }
                             ]
