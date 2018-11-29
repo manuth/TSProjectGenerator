@@ -180,7 +180,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                                 {
                                                     type: "node",
                                                     request: "launch",
-                                                    name: "Launch Yeoman",
+                                                    name: generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName}`,
                                                     program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
                                                     args: [
                                                         `\${workspaceFolder}/lib/generators/${generatorName}`
