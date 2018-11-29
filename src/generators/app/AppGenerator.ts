@@ -316,7 +316,7 @@ export class AppGenerator extends Generator<IAppSettings>
         this.log(chalk.whiteBright("Finished"));
         this.log(dedent(`
             Your package "${this.Settings[AppSetting.DisplayName]}" has been created!
-            To start editing with Visual Studio Code use following commands:
+            To start editing with Visual Studio Code use following command:
 
                 code "${this.Settings[AppSetting.Destination]}"
 
