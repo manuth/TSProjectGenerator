@@ -182,7 +182,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                     Process: async (source, destination) =>
                                     {
                                         let result: any = {};
-                                        let settings = require(source);
+                                        let settings = JSON.parse((await FileSystem.readFile(source)).toString());
 
                                         for (let key in settings)
                                         {
