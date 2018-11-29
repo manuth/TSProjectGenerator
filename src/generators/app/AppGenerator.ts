@@ -6,6 +6,7 @@ import FileSystem = require("fs-extra");
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
+import { isNullOrUndefined } from "util";
 import yosay = require("yosay");
 import { AppComponent } from "./AppComponent";
 import { AppSetting } from "./AppSetting";
@@ -137,23 +138,43 @@ export class AppGenerator extends Generator<IAppSettings>
                                     Destination: ".vscode"
                                 },
                                 {
-                                    Source: "launch.json",
+                                    Source: this.modulePath(".vscode", "launch.json"),
                                     Destination: () => this.destinationPath(".vscode", "launch.json"),
                                     Process: async (source, destination) =>
                                     {
                                         let configurations: any[] = [];
-                                        let launch = JSON.parse((await FileSystem.readFile(source)).toString());
-                                        let generatorName = this.Settings[AppSetting.Name].replace(/^generator-(.*)$/, "$1");
-                                        let generatorNames: string[] = [
-                                            generatorName
+                                        let launch: {
+                                            configurations?: any[]
+                                        } = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let generators: string[] = [
+                                            "app"
                                         ];
+
+                                        if (!isNullOrUndefined(launch.configurations))
+                                        {
+                                            let validConfigurations: any[] = [];
+
+                                            for (let configuration of launch.configurations)
+                                            {
+                                                if ((configuration.name as string).toLowerCase().includes("yeoman"))
+                                                {
+                                                    validConfigurations.push(configuration);
+                                                }
+                                            }
+
+                                            launch.configurations = validConfigurations;
+                                        }
+                                        else
+                                        {
+                                            launch.configurations = [];
+                                        }
 
                                         if (this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample))
                                         {
-                                            generatorNames.push(`${generatorName}:${this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name]}`);
+                                            generators.push(this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name]);
                                         }
 
-                                        for (let generatorName of generatorNames)
+                                        for (let generatorName of generators)
                                         {
                                             configurations.push(
                                                 {
@@ -162,7 +183,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                                     name: "Launch Yeoman",
                                                     program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
                                                     args: [
-                                                        generatorName
+                                                        `\${workspaceFolder}/lib/generators/${generatorName}`
                                                     ],
                                                     console: "integratedTerminal",
                                                     internalConsoleOptions: "neverOpen",
@@ -172,7 +193,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                                 });
                                         }
 
-                                        (launch.configurations as any[]).unshift(...configurations);
+                                        launch.configurations.unshift(...configurations);
                                         this.fs.write(destination, JSON.stringify(launch, null, 4));
                                     }
                                 },
