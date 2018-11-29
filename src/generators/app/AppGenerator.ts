@@ -6,6 +6,7 @@ import FileSystem = require("fs-extra");
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
+import { Linter } from "tslint";
 import { isNullOrUndefined } from "util";
 import yosay = require("yosay");
 import { AppComponent } from "./AppComponent";
@@ -313,6 +314,26 @@ export class AppGenerator extends Generator<IAppSettings>
 
     public async end()
     {
+        this.log();
+        this.log(chalk.whiteBright("Cleaning up the TypeScript-files..."));
+        let tsConfigFile = this.destinationPath("tsconfig.json");
+        let program = Linter.createProgram(tsConfigFile);
+        let config = Linter.loadConfigurationFromPath(this.destinationPath("tslint.json"));
+        config.defaultSeverity = "off";
+
+        let linter = new Linter(
+            {
+                fix: true
+            },
+            program);
+
+        for (let fileName of program.getRootFileNames())
+        {
+            this.log(chalk.gray(`Cleaning up "${Path.relative(this.destinationPath(), fileName)}"...`));
+            linter.lint(fileName, (await FileSystem.readFile(fileName)).toString(), config);
+        }
+
+        this.log();
         this.log(chalk.whiteBright("Finished"));
         this.log(dedent(`
             Your package "${this.Settings[AppSetting.DisplayName]}" has been created!
