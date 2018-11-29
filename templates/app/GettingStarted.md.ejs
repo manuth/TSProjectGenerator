@@ -32,15 +32,29 @@ Use the IntelliSense of your TypeScript-editor for getting more information abou
   - The `Questions`-member contains questions users are prompted to answer during the execution of `Generator.prompting()`
 
 ### Testing the Generator
-In order to test the generator you must link it to the global `node_modules`-directory.  
-Do this by invoking following command:
+#### Using Visual Studio Code
+You can test the generator in Visual Studio Code by running the `Launch Yeoman`-Debug configuration.  
+This project also supports Unit-Tests using `mocha`. You can run them using the `Launch Tests`-configuration.
+
+#### Using the Command Prompt
+First you need to create a symbolic link of your project in the global `node_modules`-directory.  
+You can do this by invoking following command:
 ```bash
 npm link
 ```
-
-Before you can start your can run your generator you need to compile the TypeScript-code by either hitting <kbd>CTRL</kbd>, <kbd>SHIFT</kbd> + <kbd>B</kbd> in Visual Studio Code or by invoking:
+This can be undone using its counterpart:
 ```bash
-npm run compile
+npm unlink
+```
+
+Before you can use your generator you must transpile the TypeScript-code to JavaScript.  
+Doing this is as simple as:
+```bash
+npm run build
+```
+Or - if you want to clean the output-directory before transpiling the code:
+```bash
+npm run rebuild
 ```
 
 You can then run your generator by invoking<%
