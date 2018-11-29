@@ -94,6 +94,22 @@ export class AppGenerator extends Generator<IAppSettings>
                             ID: AppComponent.TSLint,
                             DisplayName: "TSLint configurations",
                             Default: true,
+                            FileMappings: [
+                                {
+                                    Source: settings =>
+                                    {
+                                        switch (settings[AppSetting.LintMode])
+                                        {
+                                            case LintMode.Weak:
+                                                return "tslint.json";
+                                            case LintMode.Strong:
+                                            default:
+                                                return this.modulePath("tslint.json");
+                                        }
+                                    },
+                                    Destination: "tslint.json"
+                                }
+                            ],
                             Questions: [
                                 {
                                     name: AppSetting.LintMode,
@@ -110,22 +126,6 @@ export class AppGenerator extends Generator<IAppSettings>
                                         }
                                     ],
                                     default: LintMode.Strong
-                                }
-                            ],
-                            FileMappings: [
-                                {
-                                    Source: settings =>
-                                    {
-                                        switch (settings[AppSetting.LintMode])
-                                        {
-                                            case LintMode.Weak:
-                                                return "tslint.json";
-                                            case LintMode.Strong:
-                                            default:
-                                                return this.modulePath("tslint.json");
-                                        }
-                                    },
-                                    Destination: "tslint.json"
                                 }
                             ]
                         },
@@ -227,6 +227,9 @@ export class AppGenerator extends Generator<IAppSettings>
                         {
                             ID: AppComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
+                            FileMappings: (settings) => this.GetGeneratorFileMappings(
+                                settings[AppSetting.SubGenerator][SubGeneratorSetting.Name],
+                                settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName]),
                             Questions: [
                                 {
                                     type: "input",
@@ -241,8 +244,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                     default: (settings: IAppSettings) => kebabCase(settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
                                     validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
-                            ],
-                            FileMappings: (settings) => this.GetGeneratorFileMappings(settings[AppSetting.SubGenerator][SubGeneratorSetting.Name], settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName])
+                            ]
                         }
                     ]
                 }
