@@ -156,7 +156,7 @@ export class AppGenerator extends Generator<IAppSettings>
 
                                             for (let configuration of launch.configurations)
                                             {
-                                                if (!(configuration.name as string).toLowerCase().includes("yeoman"))
+                                                if ((configuration.name as string).toLowerCase().includes("launch tests"))
                                                 {
                                                     validConfigurations.push(configuration);
                                                 }
