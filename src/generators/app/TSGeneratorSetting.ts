@@ -1,7 +1,7 @@
 /**
  * Specifies an app-setting.
  */
-export enum AppSetting
+export enum TSGeneratorSetting
 {
     /**
      * Indicates the `Destination`-setting.
