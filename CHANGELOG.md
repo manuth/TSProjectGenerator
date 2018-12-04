@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved user-experience
   - Provided the functionality to customize the context based on the source- and destination-file
   - Provided the functionality to set custom processors for file-mappings
+  - Added a task for cleaning and/or rebuilding the code
+  - Improved the stability of the VSCode Workspace creation
+  - Provided the functionality to automatically beautify the TypeScript-code after creating the workspace
 
 [Show differences][v1.3.0]
 
