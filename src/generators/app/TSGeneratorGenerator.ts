@@ -261,6 +261,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     public async writing()
     {
         let sourceRoot = "src";
+        this.log();
+        this.log(chalk.whiteBright("Generating the Workspace"));
+
         this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
         this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
         this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
@@ -310,14 +313,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     {
         this.log("Your workspace has been generated!");
         this.log();
-        this.log(chalk.whiteBright("Installing dependencies..."));
+        this.log(chalk.whiteBright("Installing Dependencies..."));
         this.npmInstall();
     }
 
     public async end()
     {
         this.log();
-        this.log(chalk.whiteBright("Cleaning up the TypeScript-files..."));
+        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files..."));
         let tsConfigFile = this.destinationPath("tsconfig.json");
         let program = Linter.createProgram(tsConfigFile);
         let config = Linter.loadConfigurationFromPath(this.destinationPath("tslint.json"));
