@@ -261,7 +261,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     public async writing()
     {
         let sourceRoot = "src";
-        this.log();
         this.log(chalk.whiteBright("Generating the Workspace"));
 
         this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
@@ -348,7 +347,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
             Open "GettingStarted.md" in order to learn more about how to create your very own generator.
             Thanks for using TSGeneratorGenerator!`));
-        this.log();
     }
 
     /**
