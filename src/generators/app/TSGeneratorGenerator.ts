@@ -311,9 +311,11 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
     public async install()
     {
-        this.log("Your workspace has been generated!");
-        this.log();
-        this.log(chalk.whiteBright("Installing Dependencies..."));
+        this.log(
+            dedent(
+                `Your workspace has been generated!
+
+                ${chalk.whiteBright("Installing Dependencies...")}`));
         this.npmInstall();
     }
 
@@ -339,8 +341,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         }
 
         this.log();
-        this.log(chalk.whiteBright("Finished"));
         this.log(dedent(`
+            ${chalk.whiteBright("Finished")}
             Your package "${this.Settings[TSGeneratorSetting.DisplayName]}" has been created!
             To start editing with Visual Studio Code use following command:
 
