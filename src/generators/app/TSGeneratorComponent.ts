@@ -1,7 +1,7 @@
 /**
  * Represents a component of the `AppGenerator`.
  */
-export enum AppComponent
+export enum TSGeneratorComponent
 {
     /**
      * Indicates the tslint-component.

@@ -1,21 +1,24 @@
 import chalk from "chalk";
+import JSON = require("comment-json");
 import dedent = require("dedent");
 import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import camelCase = require("lodash.camelcase");
 import kebabCase = require("lodash.kebabcase");
 import Path = require("path");
+import { Linter } from "tslint";
+import { isNullOrUndefined } from "util";
 import yosay = require("yosay");
-import { AppComponent } from "./AppComponent";
-import { AppSetting } from "./AppSetting";
-import { IAppSettings } from "./IAppSettings";
+import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
+import { TSGeneratorComponent } from "./TSGeneratorComponent";
+import { TSGeneratorSetting } from "./TSGeneratorSetting";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class AppGenerator extends Generator<IAppSettings>
+export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 {
     /**
      * Initializes a new instance of the `AppGenerator` class.
@@ -36,28 +39,28 @@ export class AppGenerator extends Generator<IAppSettings>
         return "app";
     }
 
-    protected get Questions(): Question<IAppSettings>[]
+    protected get Questions(): Question<ITSGeneratorSettings>[]
     {
         return [
             {
                 type: "input",
-                name: AppSetting.Destination,
+                name: TSGeneratorSetting.Destination,
                 message: "Where do you want to save your generator to?",
                 default: "./",
                 filter: async input => Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input)
             },
             {
                 type: "input",
-                name: AppSetting.DisplayName,
+                name: TSGeneratorSetting.DisplayName,
                 message: "What's the name of your project?",
-                default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination]),
+                default: (answers: ITSGeneratorSettings) => Path.basename(answers[TSGeneratorSetting.Destination]),
                 validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
             },
             {
                 type: "input",
-                name: AppSetting.Name,
+                name: TSGeneratorSetting.Name,
                 message: "What's the name of the node-module?",
-                default: (answers: IAppSettings) => "generator-" + kebabCase(answers[AppSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
+                default: (answers: ITSGeneratorSettings) => "generator-" + kebabCase(answers[TSGeneratorSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
                 filter: input => kebabCase(input),
                 validate: (input: string) =>
                 {
@@ -73,13 +76,13 @@ export class AppGenerator extends Generator<IAppSettings>
             },
             {
                 type: "input",
-                name: AppSetting.Description,
+                name: TSGeneratorSetting.Description,
                 message: "Please enter a description for your generator."
             }
         ];
     }
 
-    protected get ProvidedComponents(): IComponentProvider<IAppSettings>
+    protected get ProvidedComponents(): IComponentProvider<ITSGeneratorSettings>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -88,12 +91,28 @@ export class AppGenerator extends Generator<IAppSettings>
                     DisplayName: "General",
                     Components: [
                         {
-                            ID: AppComponent.TSLint,
+                            ID: TSGeneratorComponent.TSLint,
                             DisplayName: "TSLint configurations",
                             Default: true,
+                            FileMappings: [
+                                {
+                                    Source: settings =>
+                                    {
+                                        switch (settings[TSGeneratorSetting.LintMode])
+                                        {
+                                            case LintMode.Weak:
+                                                return "tslint.json";
+                                            case LintMode.Strong:
+                                            default:
+                                                return this.modulePath("tslint.json");
+                                        }
+                                    },
+                                    Destination: "tslint.json"
+                                }
+                            ],
                             Questions: [
                                 {
-                                    name: AppSetting.LintMode,
+                                    name: TSGeneratorSetting.LintMode,
                                     type: "list",
                                     message: "What ruleset do you want to use for linting?",
                                     choices: [
@@ -108,26 +127,10 @@ export class AppGenerator extends Generator<IAppSettings>
                                     ],
                                     default: LintMode.Strong
                                 }
-                            ],
-                            FileMappings: [
-                                {
-                                    Source: settings =>
-                                    {
-                                        switch (settings[AppSetting.LintMode])
-                                        {
-                                            case LintMode.Weak:
-                                                return "tslint.weak.jsonc";
-                                            case LintMode.Strong:
-                                            default:
-                                                return this.modulePath("tslint.json");
-                                        }
-                                    },
-                                    Destination: "tslint.json"
-                                }
                             ]
                         },
                         {
-                            ID: AppComponent.VSCode,
+                            ID: TSGeneratorComponent.VSCode,
                             DisplayName: "Visual Studio Code-Workspace",
                             Default: true,
                             FileMappings: [
@@ -136,35 +139,112 @@ export class AppGenerator extends Generator<IAppSettings>
                                     Destination: ".vscode"
                                 },
                                 {
-                                    Source: "launch.json",
-                                    Destination: () => this.destinationPath(".vscode", "launch.json")
+                                    Source: this.modulePath(".vscode", "launch.json"),
+                                    Destination: () => this.destinationPath(".vscode", "launch.json"),
+                                    Process: async (source, destination) =>
+                                    {
+                                        let configurations: any[] = [];
+                                        let launch: {
+                                            configurations?: any[]
+                                        } = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let generators: string[] = [
+                                            "app"
+                                        ];
+
+                                        if (!isNullOrUndefined(launch.configurations))
+                                        {
+                                            let validConfigurations: any[] = [];
+
+                                            for (let configuration of launch.configurations)
+                                            {
+                                                if ((configuration.name as string).toLowerCase().includes("launch tests"))
+                                                {
+                                                    validConfigurations.push(configuration);
+                                                }
+                                            }
+
+                                            launch.configurations = validConfigurations;
+                                        }
+                                        else
+                                        {
+                                            launch.configurations = [];
+                                        }
+
+                                        if (this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+                                        {
+                                            generators.push(this.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name]);
+                                        }
+
+                                        for (let generatorName of generators)
+                                        {
+                                            configurations.push(
+                                                {
+                                                    type: "node",
+                                                    request: "launch",
+                                                    name: generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName}`,
+                                                    program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
+                                                    args: [
+                                                        `\${workspaceFolder}/lib/generators/${generatorName}`
+                                                    ],
+                                                    console: "integratedTerminal",
+                                                    internalConsoleOptions: "neverOpen",
+                                                    preLaunchTask: "Build",
+                                                    cwd: "${workspaceFolder}/..",
+                                                    sourceMaps: true
+                                                });
+                                        }
+
+                                        launch.configurations.unshift(...configurations);
+                                        this.fs.write(destination, JSON.stringify(launch, null, 4));
+                                    }
+                                },
+                                {
+                                    Source: this.modulePath(".vscode", "settings.json"),
+                                    Destination: () => this.destinationPath(".vscode", "settings.json"),
+                                    Process: async (source, destination) =>
+                                    {
+                                        let result: any = {};
+                                        let settings = JSON.parse((await FileSystem.readFile(source)).toString());
+
+                                        for (let key in settings)
+                                        {
+                                            if (key !== "files.associations")
+                                            {
+                                                result[key] = settings[key];
+                                            }
+                                        }
+
+                                        this.fs.write(destination, JSON.stringify(result, null, 4));
+                                    }
                                 }
                             ]
                         },
                         {
-                            ID: AppComponent.GeneratorExample,
+                            ID: TSGeneratorComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
-                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[AppSetting.DisplayName])
+                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[TSGeneratorSetting.DisplayName])
                         },
                         {
-                            ID: AppComponent.SubGeneratorExample,
+                            ID: TSGeneratorComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
+                            FileMappings: (settings) => this.GetGeneratorFileMappings(
+                                settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name],
+                                settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName]),
                             Questions: [
                                 {
                                     type: "input",
-                                    name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.DisplayName}`,
+                                    name: `${TSGeneratorSetting.SubGenerator}.${SubGeneratorSetting.DisplayName}`,
                                     message: "What's the human-readable name of your sub-generator?",
                                     validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
                                 },
                                 {
                                     type: "input",
-                                    name: `${AppSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
+                                    name: `${TSGeneratorSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
                                     message: "What's the unique name of the sub-generator?",
-                                    default: (settings: IAppSettings) => kebabCase(settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
+                                    default: (settings: ITSGeneratorSettings) => kebabCase(settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
                                     validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
-                            ],
-                            FileMappings: (settings) => this.GetGeneratorFileMappings(settings[AppSetting.SubGenerator][SubGeneratorSetting.Name], settings[AppSetting.SubGenerator][SubGeneratorSetting.DisplayName])
+                            ]
                         }
                     ]
                 }
@@ -181,7 +261,10 @@ export class AppGenerator extends Generator<IAppSettings>
     public async writing()
     {
         let sourceRoot = "src";
-        this.destinationRoot(this.Settings[AppSetting.Destination]);
+        this.log();
+        this.log(chalk.whiteBright("Generating the Workspace"));
+
+        this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
         this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
         this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
         this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
@@ -191,35 +274,35 @@ export class AppGenerator extends Generator<IAppSettings>
             this.templatePath("GettingStarted.md.ejs"),
             this.destinationPath("GettingStarted.md"),
             {
-                Name: this.Settings[AppSetting.Name],
-                HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(AppComponent.VSCode),
-                SubGeneratorName: this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample) ? this.Settings[AppSetting.SubGenerator][SubGeneratorSetting.Name] : null
+                Name: this.Settings[TSGeneratorSetting.Name],
+                HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.VSCode),
+                SubGeneratorName: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample) ? this.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name] : null
             });
         this.fs.copyTpl(
             this.templatePath("README.md.ejs"),
             this.destinationPath("README.md"),
             {
-                Name: this.Settings[AppSetting.Name],
-                DisplayName: this.Settings[AppSetting.DisplayName],
-                Description: this.Settings[AppSetting.Description]
+                Name: this.Settings[TSGeneratorSetting.Name],
+                DisplayName: this.Settings[TSGeneratorSetting.DisplayName],
+                Description: this.Settings[TSGeneratorSetting.Description]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "main.test.ts.ejs"),
             this.destinationPath(sourceRoot, "tests", "main.test.ts"),
             {
-                Name: this.Settings[AppSetting.DisplayName]
+                Name: this.Settings[TSGeneratorSetting.DisplayName]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "Generators", "index.test.ts.ejs"),
             this.destinationPath(sourceRoot, "tests", "Generators", "index.test.ts"),
             {
-                Name: this.Settings[AppSetting.Name]
+                Name: this.Settings[TSGeneratorSetting.Name]
             });
         this.fs.copyTpl(
             this.templatePath("tests", "Generators", "app.test.ts.ejs"),
-            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[AppSetting.Name]}.test.ts`),
+            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[TSGeneratorSetting.Name]}.test.ts`),
             {
-                Name: this.Settings[AppSetting.DisplayName]
+                Name: this.Settings[TSGeneratorSetting.DisplayName]
             });
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
         FileSystem.ensureDir(this.destinationPath("templates"));
@@ -230,19 +313,41 @@ export class AppGenerator extends Generator<IAppSettings>
     {
         this.log("Your workspace has been generated!");
         this.log();
-        this.log(chalk.whiteBright("Installing dependencies..."));
+        this.log(chalk.whiteBright("Installing Dependencies..."));
         this.npmInstall();
     }
 
     public async end()
     {
+        this.log();
+        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files..."));
+        let tsConfigFile = this.destinationPath("tsconfig.json");
+        let program = Linter.createProgram(tsConfigFile);
+        let config = Linter.loadConfigurationFromPath(this.destinationPath("tslint.json"));
+        config.defaultSeverity = "off";
+
+        let linter = new Linter(
+            {
+                fix: true
+            },
+            program);
+
+        for (let fileName of program.getRootFileNames())
+        {
+            this.log(chalk.gray(`Cleaning up "${Path.relative(this.destinationPath(), fileName)}"...`));
+            linter.lint(fileName, (await FileSystem.readFile(fileName)).toString(), config);
+        }
+
+        this.log();
+        this.log(chalk.whiteBright("Finished"));
         this.log(dedent(`
-            Your package "${this.Settings[AppSetting.DisplayName]}" has been created!
-            To start editing with Visual Studio Code use following commands:
+            Your package "${this.Settings[TSGeneratorSetting.DisplayName]}" has been created!
+            To start editing with Visual Studio Code use following command:
 
-                code "${this.Settings[AppSetting.Destination]}"
+                code "${this.Settings[TSGeneratorSetting.Destination]}"
 
-            Open "GettingStarted.md" in order to learn more about how to create your very own generator.`));
+            Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+            Thanks for using TSGeneratorGenerator!`));
         this.log();
     }
 
@@ -258,7 +363,7 @@ export class AppGenerator extends Generator<IAppSettings>
      * @returns
      * File-mappings for a generator.
      */
-    protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<IAppSettings>[] =>
+    protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<ITSGeneratorSettings>[] =>
     {
         let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
         let source = "generator";
@@ -329,7 +434,8 @@ export class AppGenerator extends Generator<IAppSettings>
     protected GetPackageJSON = (): {} =>
     {
         let scripts = [
-            "compile",
+            "build",
+            "rebuild",
             "watch",
             "clean",
             "lint",
@@ -344,8 +450,8 @@ export class AppGenerator extends Generator<IAppSettings>
         let devDependencies = [
             "@types/mocha",
             "@types/node",
-            "@types/yeoman-generator",
             "mocha",
+            "rimraf",
             "tslint",
             "typescript",
             "typescript-tslint-plugin",
@@ -353,8 +459,8 @@ export class AppGenerator extends Generator<IAppSettings>
         ];
 
         if (
-            this.Settings[GeneratorSetting.Components].includes(AppComponent.GeneratorExample) ||
-            this.Settings[GeneratorSetting.Components].includes(AppComponent.SubGeneratorExample))
+            this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
+            this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
         {
             dependencies.push(
                 "chalk",
@@ -367,9 +473,9 @@ export class AppGenerator extends Generator<IAppSettings>
         }
 
         let result = {
-            name: this.Settings[AppSetting.Name],
+            name: this.Settings[TSGeneratorSetting.Name],
             version: "0.0.0",
-            description: this.Settings[AppSetting.Description],
+            description: this.Settings[TSGeneratorSetting.Description],
             author: {
                 name: this.user.git.name(),
                 email: this.user.git.email()

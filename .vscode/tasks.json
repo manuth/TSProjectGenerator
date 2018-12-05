@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile",
+            "label": "Build",
             "type": "npm",
             "script": "watch",
             "group": {
@@ -13,6 +13,15 @@
             },
             "problemMatcher": "$tsc-watch",
             "isBackground": true,
+            "presentation": {
+                "reveal": "never"
+            }
+        },
+        {
+            "label": "Rebuild",
+            "type": "npm",
+            "script": "rebuild",
+            "problemMatcher": "$tsc",
             "presentation": {
                 "reveal": "never"
             }

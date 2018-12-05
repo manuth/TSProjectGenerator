@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## TSGeneratorGenerator v1.4.0
+  - Added a task for cleaning and/or rebuilding the code
+  - Improved the stability of the VSCode Workspace creation
+  - Provided the functionality to automatically beautify the TypeScript-code after creating the workspace
+
+[Show differences][v1.4.0]
+
 ## TSGeneratorGenerator v1.3.0
   - Replaced generated code by modules
   - Improved user-experience
@@ -58,3 +65,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.2.2]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.1...v1.2.2
 [v1.2.3]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.2...v1.2.3
 [v1.3.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.3...v1.3.0
+[v1.3.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.3.0...v1.4.0

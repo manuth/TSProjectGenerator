@@ -6,12 +6,12 @@ import Path = require("path");
 import TS = require("typescript");
 import { promisify } from "util";
 import { run, RunContext } from "yeoman-test";
-import { AppComponent } from "../../generators/app/AppComponent";
-import { AppSetting } from "../../generators/app/AppSetting";
 import { LintMode } from "../../generators/app/LintMode";
+import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
+import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
 
 suite(
-    "Generator-Generator",
+    "TSGenerator-Generator",
     () =>
     {
         let currentDir: string;
@@ -28,15 +28,15 @@ suite(
                 runContext = run(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
                         {
-                            [AppSetting.Destination]: "./",
-                            [AppSetting.DisplayName]: generatorName,
-                            [AppSetting.Name]: generatorName,
+                            [TSGeneratorSetting.Destination]: "./",
+                            [TSGeneratorSetting.DisplayName]: generatorName,
+                            [TSGeneratorSetting.Name]: generatorName,
                             [GeneratorSetting.Components]: [
-                                AppComponent.TSLint,
-                                AppComponent.VSCode,
-                                AppComponent.GeneratorExample
+                                TSGeneratorComponent.TSLint,
+                                TSGeneratorComponent.VSCode,
+                                TSGeneratorComponent.GeneratorExample
                             ],
-                            [AppSetting.LintMode]: LintMode.Weak
+                            [TSGeneratorSetting.LintMode]: LintMode.Weak
                         });
             });
 
