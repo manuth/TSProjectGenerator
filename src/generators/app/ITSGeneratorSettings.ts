@@ -1,40 +1,40 @@
 import { IGeneratorSettings } from "extended-yo-generator";
-import { AppSetting } from "./AppSetting";
 import { ISubGenerator } from "./ISubGenerator";
 import { LintMode } from "./LintMode";
+import { TSGeneratorSetting } from "./TSGeneratorSetting";
 
 /**
  * Provides settings for the `AppGenerator`.
  */
-export interface IAppSettings extends IGeneratorSettings
+export interface ITSGeneratorSettings extends IGeneratorSettings
 {
     /**
      * Gets or sets the name.
      */
-    [AppSetting.DisplayName]: string;
+    [TSGeneratorSetting.DisplayName]: string;
 
     /**
      * Gets or sets the module-name.
      */
-    [AppSetting.Name]: string;
+    [TSGeneratorSetting.Name]: string;
 
     /**
      * Gets or sets the description.
      */
-    [AppSetting.Description]: string;
+    [TSGeneratorSetting.Description]: string;
 
     /**
      * Gets or sets the destination.
      */
-    [AppSetting.Destination]: string;
+    [TSGeneratorSetting.Destination]: string;
 
     /**
      * Gets or sets the lint-mode.
      */
-    [AppSetting.LintMode]: LintMode;
+    [TSGeneratorSetting.LintMode]: LintMode;
 
     /**
      * Gets or sets the sub-generator.
      */
-    [AppSetting.SubGenerator]: ISubGenerator;
+    [TSGeneratorSetting.SubGenerator]: ISubGenerator;
 }

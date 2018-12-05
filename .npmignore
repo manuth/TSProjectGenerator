@@ -64,5 +64,5 @@ typings/
 [Ss]rc/generators/
 
 # Unit-Tests
-[Ss]rc/tests
-[Ll]ib/tests
+[Ss]rc/tests/
+[Ll]ib/tests/

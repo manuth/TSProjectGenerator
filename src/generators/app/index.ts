@@ -1,2 +1,2 @@
-import { AppGenerator } from "./AppGenerator";
-export = AppGenerator;
+import { TSGeneratorGenerator } from "./TSGeneratorGenerator";
+export = TSGeneratorGenerator;
