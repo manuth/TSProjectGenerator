@@ -66,10 +66,11 @@ suite(
                 this.timeout(6.5 * 60 * 1000);
                 this.slow(3.25 * 60 * 1000);
 
-                await promisify(ChildProcess.exec)("npm install",
-                {
-                    cwd: generatorDir
-                });
+                await promisify(ChildProcess.exec)(
+                    "npm install",
+                    {
+                        cwd: generatorDir
+                    });
             });
 
         test(
