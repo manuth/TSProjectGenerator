@@ -9,6 +9,7 @@ import Path = require("path");
 import { Linter } from "tslint";
 import { isNullOrUndefined } from "util";
 import yosay = require("yosay");
+import { ILaunchFile } from "./ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
@@ -144,9 +145,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     Process: async (source, destination) =>
                                     {
                                         let configurations: any[] = [];
-                                        let launch: {
-                                            configurations?: any[]
-                                        } = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let launch: ILaunchFile = JSON.parse((await FileSystem.readFile(source)).toString());
                                         let generators: string[] = [
                                             "app"
                                         ];
