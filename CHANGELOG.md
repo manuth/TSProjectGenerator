@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## TSGeneratorGenerator v1.4.2
+  - Reworked the Mocha-integration
+  - Reworked the readme
+
+[Show differences][v1.4.2]
+
 ## TSGeneratorGenerator v1.4.1
   - Adjusted the `.npmignore`-template to ignore `.js.map`-files by default
 
@@ -72,3 +78,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.3.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.2.3...v1.3.0
 [v1.4.0]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.3.0...v1.4.0
 [v1.4.1]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.4.0...v1.4.1
+[v1.4.2]: https://github.com/manuth/TSGeneratorGenerator/compare/v1.4.1...v1.4.2

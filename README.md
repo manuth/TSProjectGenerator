@@ -30,7 +30,7 @@ Please make sure to tick the `Example Generator`-box to generate a nice example 
     - Compiling the TypeScript-code
     - Cleaning compiled TypeScript-code
     - Linting the package
-    - Testing the package using
+    - Testing the package using Mocha
  - Visual Studio Code workspace (optional)
     - Settings
     - Task for building the generator (by pressing <kbd>CTRL</kbd>, <kbd>SHIFT</kbd> + <kbd>B</kbd>)
