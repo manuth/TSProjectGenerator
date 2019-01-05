@@ -3,7 +3,7 @@ import ChildProcess = require("child_process");
 import { GeneratorSetting } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import Path = require("path");
-import TS = require("typescript");
+import TypeScript = require("typescript");
 import { promisify } from "util";
 import { run, RunContext } from "yeoman-test";
 import { LintMode } from "../../generators/app/LintMode";
@@ -84,16 +84,16 @@ suite(
                 this.timeout(15.5 * 1000);
                 this.slow(7.75 * 1000);
 
-                let host: TS.ParseConfigFileHost = {
-                    ...TS.sys,
+                let host: TypeScript.ParseConfigFileHost = {
+                    ...TypeScript.sys,
                     onUnRecoverableConfigFileDiagnostic: (diagnostic) =>
                     {
                         throw diagnostic;
                     }
                 };
 
-                let config: TS.ParsedCommandLine = TS.getParsedCommandLineOfConfigFile(tsConfigFile, {}, host);
-                let compilerResult = TS.createProgram(
+                let config: TypeScript.ParsedCommandLine = TypeScript.getParsedCommandLineOfConfigFile(tsConfigFile, {}, host);
+                let compilerResult = TypeScript.createProgram(
                     {
                         rootNames: config.fileNames,
                         options: config.options

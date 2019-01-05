@@ -1,14 +1,14 @@
 import chalk from "chalk";
 import JSON = require("comment-json");
-import dedent = require("dedent");
+import Dedent = require("dedent");
 import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
-import camelCase = require("lodash.camelcase");
-import kebabCase = require("lodash.kebabcase");
+import CamelCase = require("lodash.camelcase");
+import KebabCase = require("lodash.kebabcase");
 import Path = require("path");
 import { Linter } from "tslint";
 import { isNullOrUndefined } from "util";
-import yosay = require("yosay");
+import YoSay = require("yosay");
 import { ILaunchFile } from "./ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { LintMode } from "./LintMode";
@@ -61,8 +61,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 type: "input",
                 name: TSGeneratorSetting.Name,
                 message: "What's the name of the node-module?",
-                default: (answers: ITSGeneratorSettings) => "generator-" + kebabCase(answers[TSGeneratorSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
-                filter: input => kebabCase(input),
+                default: (answers: ITSGeneratorSettings) => "generator-" + KebabCase(answers[TSGeneratorSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
+                filter: input => KebabCase(input),
                 validate: (input: string) =>
                 {
                     if (/[\w-]+/.test(input))
@@ -240,7 +240,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     type: "input",
                                     name: `${TSGeneratorSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
                                     message: "What's the unique name of the sub-generator?",
-                                    default: (settings: ITSGeneratorSettings) => kebabCase(settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
+                                    default: (settings: ITSGeneratorSettings) => KebabCase(settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
                                     validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
                             ]
@@ -253,7 +253,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
     public async prompting()
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
+        this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 
@@ -311,7 +311,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     public async install()
     {
         this.log(
-            dedent(
+            Dedent(
                 `Your workspace has been generated!
 
                 ${chalk.whiteBright("Installing Dependencies...")}`));
@@ -340,7 +340,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         }
 
         this.log();
-        this.log(dedent(`
+        this.log(Dedent(`
             ${chalk.whiteBright("Finished")}
             Your package "${this.Settings[TSGeneratorSetting.DisplayName]}" has been created!
             To start editing with Visual Studio Code use following command:
@@ -366,7 +366,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      */
     protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<ITSGeneratorSettings>[] =>
     {
-        let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
+        let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
         let source = "generator";
         let destination = `src/generators/${id}`;
         let generatorName = `${name}Generator`;
