@@ -1,7 +1,7 @@
 {
   "name": "generator-ts-generator",
-  "version": "1.4.2",
-  "description": "A Generator for Yeoman Generators Written in TypeScript.",
+  "version": "1.4.3",
+  "description": "A Generator for Yeoman Generators Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
   "keywords": [
@@ -28,32 +28,35 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "comment-json": "^1.1.3",
     "dedent": "^0.7.0",
-    "extended-yo-generator": "^1.0.7",
-    "fs-extra": "^7.0.1",
+    "extended-yo-generator": "^1.0.8",
+    "fs-extra": "^8.0.1",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
-    "tslint": "^5.12.0",
+    "tslint": "^5.17.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
+    "@manuth/tsconfig": "^1.2.1",
+    "@manuth/tslint-presets": "^1.0.2",
     "@types/comment-json": "^1.1.1",
     "@types/dedent": "^0.7.0",
-    "@types/fs-extra": "^5.0.4",
-    "@types/lodash.camelcase": "^4.3.4",
-    "@types/lodash.kebabcase": "^4.1.4",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18",
-    "@types/yeoman-test": "^2.0.0",
+    "@types/fs-extra": "^7.0.0",
+    "@types/lodash.camelcase": "^4.3.6",
+    "@types/lodash.kebabcase": "^4.1.6",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
+    "@types/npm-which": "^3.0.0",
+    "@types/yeoman-test": "^2.0.3",
     "@types/yosay": "0.0.29",
-    "mocha": "^5.2.0",
-    "npm": "^6.5.0",
+    "mocha": "^6.1.4",
+    "npm-which": "^3.0.1",
     "rimraf": "^2.6.3",
-    "typescript": "^3.2.2",
-    "typescript-tslint-plugin": "^0.2.1",
-    "yeoman-test": "^1.9.1",
-    "yo": "^2.0.5"
+    "typescript": "^3.5.2",
+    "typescript-tslint-plugin": "^0.5.0",
+    "yeoman-test": "^2.0.0",
+    "yo": "^2.0.6"
   }
 }

@@ -1,13 +1,13 @@
 import Assert = require("assert");
-import ChildProcess = require("child_process");
+import { spawnSync } from "child_process";
 import { GeneratorSetting } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
+import npmWhich = require("npm-which");
 import Path = require("path");
-import TS = require("typescript");
-import { promisify } from "util";
 import { run, RunContext } from "yeoman-test";
 import { LintMode } from "../../generators/app/LintMode";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
+import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
 import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
 
 suite(
@@ -25,6 +25,20 @@ suite(
             {
                 currentDir = process.cwd();
                 generatorName = "generator-test";
+
+                TSGeneratorGenerator.prototype.npmInstall = () =>
+                {
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generatorDir
+                        });
+                };
+
                 runContext = run(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
                         {
@@ -37,11 +51,14 @@ suite(
                                 TSGeneratorComponent.GeneratorExample
                             ],
                             [TSGeneratorSetting.LintMode]: LintMode.Weak
-                        });
+                        }).withOptions(
+                            {
+                                "skip-install": false
+                            });
             });
 
         suiteTeardown(
-            function (): void
+            function(): void
             {
                 this.timeout(60 * 1000);
                 this.slow(30 * 1000);
@@ -51,26 +68,32 @@ suite(
 
         test(
             "Checking whether the generator can be executed…",
-            async function ()
+            async function()
             {
-                this.timeout(18 * 1000);
-                this.slow(6 * 1000);
+                this.timeout(7 * 60 * 1000);
+                this.slow(6.5 * 60 * 1000);
                 generatorDir = await runContext.toPromise();
                 tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });
 
         test(
             "Checking whether the generated module can be installed…",
-            async function ()
+            function()
             {
                 this.timeout(6.5 * 60 * 1000);
                 this.slow(3.25 * 60 * 1000);
 
-                await promisify(ChildProcess.exec)(
-                    "npm install",
+                let result = spawnSync(
+                    npmWhich(__dirname).sync("npm"),
+                    [
+                        "install",
+                        "--silent"
+                    ],
                     {
                         cwd: generatorDir
                     });
+
+                Assert.strictEqual(result.status === 0, true);
             });
 
         test(
@@ -79,32 +102,24 @@ suite(
 
         test(
             "Checking whether the generated module can be compiled using typescript…",
-            function ()
+            async function()
             {
                 this.timeout(15.5 * 1000);
                 this.slow(7.75 * 1000);
 
-                let host: TS.ParseConfigFileHost = {
-                    ...TS.sys,
-                    onUnRecoverableConfigFileDiagnostic: (diagnostic) =>
-                    {
-                        throw diagnostic;
-                    }
-                };
+                let result = spawnSync(
+                    npmWhich(__dirname).sync("tsc"),
+                    [
+                        "-p",
+                        generatorDir
+                    ]);
 
-                let config: TS.ParsedCommandLine = TS.getParsedCommandLineOfConfigFile(tsConfigFile, {}, host);
-                let compilerResult = TS.createProgram(
-                    {
-                        rootNames: config.fileNames,
-                        options: config.options
-                    }).emit();
-
-                Assert.strictEqual(compilerResult.emitSkipped, false);
+                Assert.strictEqual(result.status === 0, true);
             });
 
         test(
             "Checking whether the generated module can be used as a generator…",
-            async function ()
+            async function()
             {
                 this.timeout(20 * 1000);
                 this.slow(10 * 1000);

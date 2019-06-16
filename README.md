@@ -1,5 +1,5 @@
 # TSGeneratorGenerator
-A Generator for Yeoman Generators Written in TypeScript.
+A Generator for Yeoman Generators Written in TypeScript
 
 ## Usage
 ### Install TSGeneratorGenerator

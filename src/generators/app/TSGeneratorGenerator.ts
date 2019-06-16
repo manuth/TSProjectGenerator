@@ -1,14 +1,15 @@
 import chalk from "chalk";
 import JSON = require("comment-json");
-import dedent = require("dedent");
+import Dedent = require("dedent");
 import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
-import camelCase = require("lodash.camelcase");
-import kebabCase = require("lodash.kebabcase");
+import CamelCase = require("lodash.camelcase");
+import KebabCase = require("lodash.kebabcase");
 import Path = require("path");
 import { Linter } from "tslint";
 import { isNullOrUndefined } from "util";
-import yosay = require("yosay");
+import YoSay = require("yosay");
+import { ILaunchFile } from "./ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { LintMode } from "./LintMode";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
@@ -34,12 +35,18 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         super(args, options);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get TemplateRoot(): string
     {
         return "app";
     }
 
-    protected get Questions(): Question<ITSGeneratorSettings>[]
+    /**
+     * @inheritdoc
+     */
+    protected get Questions(): Array<Question<ITSGeneratorSettings>>
     {
         return [
             {
@@ -60,8 +67,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 type: "input",
                 name: TSGeneratorSetting.Name,
                 message: "What's the name of the node-module?",
-                default: (answers: ITSGeneratorSettings) => "generator-" + kebabCase(answers[TSGeneratorSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
-                filter: input => kebabCase(input),
+                default: (answers: ITSGeneratorSettings) => "generator-" + KebabCase(answers[TSGeneratorSetting.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
+                filter: input => KebabCase(input),
                 validate: (input: string) =>
                 {
                     if (/[\w-]+/.test(input))
@@ -82,6 +89,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get ProvidedComponents(): IComponentProvider<ITSGeneratorSettings>
     {
         return {
@@ -94,22 +104,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             ID: TSGeneratorComponent.TSLint,
                             DisplayName: "TSLint configurations",
                             Default: true,
-                            FileMappings: [
-                                {
-                                    Source: settings =>
-                                    {
-                                        switch (settings[TSGeneratorSetting.LintMode])
-                                        {
-                                            case LintMode.Weak:
-                                                return "tslint.json";
-                                            case LintMode.Strong:
-                                            default:
-                                                return this.modulePath("tslint.json");
-                                        }
-                                    },
-                                    Destination: "tslint.json"
-                                }
-                            ],
                             Questions: [
                                 {
                                     name: TSGeneratorSetting.LintMode,
@@ -126,6 +120,29 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                         }
                                     ],
                                     default: LintMode.Strong
+                                }
+                            ],
+                            FileMappings: [
+                                {
+                                    Source: null,
+                                    Destination: "tslint.json",
+                                    Process: async (source, destination, context, defaultProcess, settings) =>
+                                    {
+                                        let preset: string;
+
+                                        switch (settings[TSGeneratorSetting.LintMode])
+                                        {
+                                            case LintMode.Weak:
+                                                preset = "@manuth/tslint-presets/weak";
+                                                break;
+                                            case LintMode.Strong:
+                                            default:
+                                                preset = "@manuth/tslint-presets/recommended";
+                                                break;
+                                        }
+
+                                        this.fs.writeJSON(destination, { extends: preset }, null, 4);
+                                    }
                                 }
                             ]
                         },
@@ -144,9 +161,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     Process: async (source, destination) =>
                                     {
                                         let configurations: any[] = [];
-                                        let launch: {
-                                            configurations?: any[]
-                                        } = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let launch: ILaunchFile = JSON.parse((await FileSystem.readFile(source)).toString());
                                         let generators: string[] = [
                                             "app"
                                         ];
@@ -241,7 +256,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     type: "input",
                                     name: `${TSGeneratorSetting.SubGenerator}.${SubGeneratorSetting.Name}`,
                                     message: "What's the unique name of the sub-generator?",
-                                    default: (settings: ITSGeneratorSettings) => kebabCase(settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
+                                    default: (settings: ITSGeneratorSettings) => KebabCase(settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
                                     validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
                             ]
@@ -252,12 +267,18 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         };
     }
 
+    /**
+     * @inheritdoc
+     */
     public async prompting()
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
+        this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async writing()
     {
         let sourceRoot = "src";
@@ -308,16 +329,22 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         return super.writing();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async install()
     {
         this.log(
-            dedent(
+            Dedent(
                 `Your workspace has been generated!
 
                 ${chalk.whiteBright("Installing Dependencies...")}`));
         this.npmInstall();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async end()
     {
         this.log();
@@ -340,7 +367,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         }
 
         this.log();
-        this.log(dedent(`
+        this.log(Dedent(`
             ${chalk.whiteBright("Finished")}
             Your package "${this.Settings[TSGeneratorSetting.DisplayName]}" has been created!
             To start editing with Visual Studio Code use following command:
@@ -363,9 +390,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * @returns
      * File-mappings for a generator.
      */
-    protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<ITSGeneratorSettings>[] =>
+    protected GetGeneratorFileMappings = (id: string, displayName: string): Array<IFileMapping<ITSGeneratorSettings>> =>
     {
-        let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
+        let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
         let source = "generator";
         let destination = `src/generators/${id}`;
         let generatorName = `${name}Generator`;
@@ -448,6 +475,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         ];
 
         let devDependencies = [
+            "@manuth/tsconfig",
+            "@manuth/tslint-presets",
             "@types/mocha",
             "@types/node",
             "mocha",
