@@ -35,12 +35,18 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         super(args, options);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get TemplateRoot(): string
     {
         return "app";
     }
 
-    protected get Questions(): Question<ITSGeneratorSettings>[]
+    /**
+     * @inheritdoc
+     */
+    protected get Questions(): Array<Question<ITSGeneratorSettings>>
     {
         return [
             {
@@ -83,6 +89,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get ProvidedComponents(): IComponentProvider<ITSGeneratorSettings>
     {
         return {
@@ -258,12 +267,18 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         };
     }
 
+    /**
+     * @inheritdoc
+     */
     public async prompting()
     {
         this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async writing()
     {
         let sourceRoot = "src";
@@ -315,6 +330,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         return super.writing();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async install()
     {
         this.log(
@@ -325,6 +343,9 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.npmInstall();
     }
 
+    /**
+     * @inheritdoc
+     */
     public async end()
     {
         this.log();
@@ -371,7 +392,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * @returns
      * File-mappings for a generator.
      */
-    protected GetGeneratorFileMappings = (id: string, displayName: string): IFileMapping<ITSGeneratorSettings>[] =>
+    protected GetGeneratorFileMappings = (id: string, displayName: string): Array<IFileMapping<ITSGeneratorSettings>> =>
     {
         let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
         let source = "generator";
