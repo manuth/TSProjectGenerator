@@ -39,6 +39,8 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
+    "@manuth/tsconfig": "^1.2.1",
+    "@manuth/tslint-presets": "^1.0.2",
     "@types/comment-json": "^1.1.1",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^7.0.0",

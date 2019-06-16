@@ -95,22 +95,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             ID: TSGeneratorComponent.TSLint,
                             DisplayName: "TSLint configurations",
                             Default: true,
-                            FileMappings: [
-                                {
-                                    Source: settings =>
-                                    {
-                                        switch (settings[TSGeneratorSetting.LintMode])
-                                        {
-                                            case LintMode.Weak:
-                                                return "tslint.json";
-                                            case LintMode.Strong:
-                                            default:
-                                                return this.modulePath("tslint.json");
-                                        }
-                                    },
-                                    Destination: "tslint.json"
-                                }
-                            ],
                             Questions: [
                                 {
                                     name: TSGeneratorSetting.LintMode,
@@ -127,6 +111,29 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                         }
                                     ],
                                     default: LintMode.Strong
+                                }
+                            ],
+                            FileMappings: [
+                                {
+                                    Source: null,
+                                    Destination: "tslint.json",
+                                    Process: async (source, destination, context, defaultProcess, settings) =>
+                                    {
+                                        let preset: string;
+
+                                        switch (settings[TSGeneratorSetting.LintMode])
+                                        {
+                                            case LintMode.Weak:
+                                                preset = "@manuth/tslint-presets/weak";
+                                                break;
+                                            case LintMode.Strong:
+                                            default:
+                                                preset = "@manuth/tslint-presets/recommended";
+                                                break;
+                                        }
+
+                                        this.fs.writeJSON(destination, { extends: preset }, null, 4);
+                                    }
                                 }
                             ]
                         },
@@ -449,6 +456,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         ];
 
         let devDependencies = [
+            "@manuth/tsconfig",
+            "@manuth/tslint-presets",
             "@types/mocha",
             "@types/node",
             "mocha",

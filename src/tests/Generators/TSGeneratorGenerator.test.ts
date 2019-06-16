@@ -36,11 +36,14 @@ suite(
                                 TSGeneratorComponent.GeneratorExample
                             ],
                             [TSGeneratorSetting.LintMode]: LintMode.Weak
-                        });
+                        }).withOptions(
+                            {
+                                "skip-install": false
+                            });
             });
 
         suiteTeardown(
-            function (): void
+            function(): void
             {
                 this.timeout(60 * 1000);
                 this.slow(30 * 1000);
@@ -50,17 +53,17 @@ suite(
 
         test(
             "Checking whether the generator can be executed…",
-            async function ()
+            async function()
             {
-                this.timeout(18 * 1000);
-                this.slow(6 * 1000);
+                this.timeout(7 * 60 * 1000);
+                this.slow(6.5 * 60 * 1000);
                 generatorDir = await runContext.toPromise();
                 tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });
 
         test(
             "Checking whether the generated module can be installed…",
-            function ()
+            function()
             {
                 this.timeout(6.5 * 60 * 1000);
                 this.slow(3.25 * 60 * 1000);
@@ -83,7 +86,7 @@ suite(
 
         test(
             "Checking whether the generated module can be compiled using typescript…",
-            async function ()
+            async function()
             {
                 this.timeout(15.5 * 1000);
                 this.slow(7.75 * 1000);
@@ -100,7 +103,7 @@ suite(
 
         test(
             "Checking whether the generated module can be used as a generator…",
-            async function ()
+            async function()
             {
                 this.timeout(20 * 1000);
                 this.slow(10 * 1000);
