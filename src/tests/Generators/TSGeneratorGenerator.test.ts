@@ -7,6 +7,7 @@ import Path = require("path");
 import { run, RunContext } from "yeoman-test";
 import { LintMode } from "../../generators/app/LintMode";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
+import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
 import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
 
 suite(
@@ -24,6 +25,20 @@ suite(
             {
                 currentDir = process.cwd();
                 generatorName = "generator-test";
+
+                TSGeneratorGenerator.prototype.npmInstall = () =>
+                {
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generatorDir
+                        });
+                };
+
                 runContext = run(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
                         {
@@ -71,7 +86,8 @@ suite(
                 let result = spawnSync(
                     npmWhich(__dirname).sync("npm"),
                     [
-                        "install"
+                        "install",
+                        "--silent"
                     ],
                     {
                         cwd: generatorDir
