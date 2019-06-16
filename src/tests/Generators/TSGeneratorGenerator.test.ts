@@ -1,10 +1,9 @@
 import Assert = require("assert");
-import ChildProcess = require("child_process");
+import { spawnSync } from "child_process";
 import { GeneratorSetting } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
+import npmWhich = require("npm-which");
 import Path = require("path");
-import TypeScript = require("typescript");
-import { promisify } from "util";
 import { run, RunContext } from "yeoman-test";
 import { LintMode } from "../../generators/app/LintMode";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
@@ -61,16 +60,21 @@ suite(
 
         test(
             "Checking whether the generated module can be installed…",
-            async function ()
+            function ()
             {
                 this.timeout(6.5 * 60 * 1000);
                 this.slow(3.25 * 60 * 1000);
 
-                await promisify(ChildProcess.exec)(
-                    "npm install",
+                let result = spawnSync(
+                    npmWhich(__dirname).sync("npm"),
+                    [
+                        "install"
+                    ],
                     {
                         cwd: generatorDir
                     });
+
+                Assert.strictEqual(result.status === 0, true);
             });
 
         test(
@@ -79,27 +83,19 @@ suite(
 
         test(
             "Checking whether the generated module can be compiled using typescript…",
-            function ()
+            async function ()
             {
                 this.timeout(15.5 * 1000);
                 this.slow(7.75 * 1000);
 
-                let host: TypeScript.ParseConfigFileHost = {
-                    ...TypeScript.sys,
-                    onUnRecoverableConfigFileDiagnostic: (diagnostic) =>
-                    {
-                        throw diagnostic;
-                    }
-                };
+                let result = spawnSync(
+                    npmWhich(__dirname).sync("tsc"),
+                    [
+                        "-p",
+                        generatorDir
+                    ]);
 
-                let config: TypeScript.ParsedCommandLine = TypeScript.getParsedCommandLineOfConfigFile(tsConfigFile, {}, host);
-                let compilerResult = TypeScript.createProgram(
-                    {
-                        rootNames: config.fileNames,
-                        options: config.options
-                    }).emit();
-
-                Assert.strictEqual(compilerResult.emitSkipped, false);
+                Assert.strictEqual(result.status === 0, true);
             });
 
         test(
