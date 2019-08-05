@@ -8,5 +8,8 @@
     "files.associations": {
         ".gitignore.ejs": "ignore",
         ".npmignore.ejs": "ignore"
-    }
+    },
+    "markdownlint.ignore": [
+        "!templates/**"
+    ]
 }
