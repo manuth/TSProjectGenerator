@@ -1,6 +1,6 @@
 {
   "name": "generator-ts-generator",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "A Generator for Yeoman Generators Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "chalk": "^2.4.2",
     "comment-json": "^2.1.0",
     "dedent": "^0.7.0",
-    "extended-yo-generator": "^1.0.11",
+    "extended-yo-generator": "^1.0.13",
     "fs-extra": "^8.1.0",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
