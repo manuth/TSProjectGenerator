@@ -23,7 +23,7 @@
     "rebuild": "npm run clean && npm run build",
     "watch": "tsc -p . --watch",
     "clean": "rimraf ./lib",
-    "lint": "tslint -p ./ -t verbose",
+    "lint": "tslint -p ./ -t verbose && markdownlint ./templates/**/*.md ./templates/**/*.md.ejs || exit 0",
     "test": "mocha",
     "prepare": "npm run rebuild"
   },
@@ -51,6 +51,8 @@
     "@types/npm-which": "^3.0.0",
     "@types/yeoman-test": "^2.0.3",
     "@types/yosay": "0.0.29",
+    "markdownlint": "^0.16.0",
+    "markdownlint-cli": "^0.17.0",
     "mocha": "^6.2.0",
     "npm-which": "^3.0.1",
     "rimraf": "^2.6.3",
