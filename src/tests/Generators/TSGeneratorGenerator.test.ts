@@ -16,7 +16,6 @@ suite(
     {
         let currentDir: string;
         let generatorDir: string;
-        let tsConfigFile: string;
         let runContext: RunContext;
         let generatorName: string;
 
@@ -73,7 +72,6 @@ suite(
                 this.timeout(7 * 60 * 1000);
                 this.slow(6.5 * 60 * 1000);
                 generatorDir = await runContext.toPromise();
-                tsConfigFile = Path.join(generatorDir, "tsconfig.json");
             });
 
         test(
@@ -95,10 +93,6 @@ suite(
 
                 Assert.strictEqual(result.status === 0, true);
             });
-
-        test(
-            "Checking whether the generated module contains a typescript-configuration…",
-            async () => Assert.strictEqual(await FileSystem.pathExists(tsConfigFile), true));
 
         test(
             "Checking whether the generated module can be compiled using typescript…",
