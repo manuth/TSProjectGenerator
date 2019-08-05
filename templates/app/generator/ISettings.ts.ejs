@@ -8,6 +8,11 @@ import { LicenseType } from "./LicenseType";
 export interface <%= SettingsInterface %> extends IGeneratorSettings
 {
     /**
+     * Gets or sets the destination.
+     */
+    [<%= Identities %>.Destination]: string;
+
+    /**
      * Gets or sets the name.
      */
     [<%= Identities %>.Name]: string;
