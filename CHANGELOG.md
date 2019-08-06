@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSGeneratorGenerator v1.4.6
+  - Add markdownlint to generated generators
   - Fix incorrect code
 
 [Show differences](https://github.com/manuth/TSGeneratorGenerator/compare/v1.4.5...v1.4.6)

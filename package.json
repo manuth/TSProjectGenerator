@@ -51,7 +51,6 @@
     "@types/npm-which": "^3.0.0",
     "@types/yeoman-test": "^2.0.3",
     "@types/yosay": "0.0.29",
-    "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
     "mocha": "^6.2.0",
     "npm-which": "^3.0.1",
