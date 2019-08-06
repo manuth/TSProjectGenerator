@@ -287,6 +287,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
         this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
         this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
+        this.fs.copy(this.templatePath(".markdownlint.json"), this.destinationPath(".markdownlint.json"));
         this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
         this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
         this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
@@ -479,6 +480,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             "@manuth/tslint-presets",
             "@types/mocha",
             "@types/node",
+            "markdownlint-cli",
             "mocha",
             "rimraf",
             "tslint",
