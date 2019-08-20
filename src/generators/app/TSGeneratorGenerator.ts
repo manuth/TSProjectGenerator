@@ -518,6 +518,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         };
 
         let packageJSON: typeof result = require(Path.join(__dirname, "..", "..", "..", "package.json"));
+        let sourceDependencies = { ...packageJSON.dependencies, ...packageJSON.devDependencies };
 
         for (let script of scripts)
         {
@@ -527,19 +528,19 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             }
         }
 
-        for (let devDependency of devDependencies.sort())
+        for (let devDependency of dependencies.concat(devDependencies).sort())
         {
-            if (devDependency in packageJSON.devDependencies)
+            if (devDependency in sourceDependencies)
             {
-                result.devDependencies[devDependency] = packageJSON.devDependencies[devDependency];
+                result.devDependencies[devDependency] = sourceDependencies[devDependency];
             }
         }
 
         for (let dependency of dependencies.sort())
         {
-            if (dependency in packageJSON.dependencies)
+            if (dependency in sourceDependencies)
             {
-                result.dependencies[dependency] = packageJSON.dependencies[dependency];
+                result.dependencies[dependency] = sourceDependencies[dependency];
             }
         }
 
