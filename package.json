@@ -1,6 +1,6 @@
 {
   "name": "generator-ts-generator",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A Generator for Yeoman Generators Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
