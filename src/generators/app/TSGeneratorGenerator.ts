@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
 import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
