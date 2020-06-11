@@ -31,7 +31,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
         return "<%= ID %>";
     }
 
-    protected get Questions(): Question<<%= SettingsInterface %>>[]
+    protected get Questions(): Array<Question<<%= SettingsInterface %>>>
     {
         return [
             {
@@ -143,9 +143,10 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
 
     public async end()
     {
-        this.log(Dedent(`
-            Your project is ready!
+        this.log(
+            Dedent(`
+                Your project is ready!
 
-            It lives in "${this.Settings[<%= Identities %>.Destination]}"`));
+                It lives in "${this.Settings[<%= Identities %>.Destination]}"`));
     }
 }
