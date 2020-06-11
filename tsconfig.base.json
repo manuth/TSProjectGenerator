@@ -1,0 +1,15 @@
+{
+    "extends": "@manuth/tsconfig/recommended",
+    "compilerOptions": {
+        "module": "CommonJS",
+        "lib": [
+            "ES7"
+        ],
+        "plugins": [
+            {
+                "name": "typescript-tslint-plugin"
+            }
+        ],
+        "target": "ES6"
+    }
+}

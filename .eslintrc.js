@@ -9,7 +9,8 @@ module.exports = {
     },
     parserOptions: {
         project: [
-            Path.join(__dirname, "tsconfig.json")
+            Path.join(__dirname, "tsconfig.json"),
+            Path.join(__dirname, "tsconfig.eslint.json")
         ]
     }
 }
