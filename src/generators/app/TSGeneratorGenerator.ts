@@ -1,3 +1,5 @@
+import Path = require("path");
+import { isNullOrUndefined } from "util";
 import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
@@ -5,9 +7,7 @@ import { Generator, GeneratorSetting, IComponentCollection, IFileMapping, Questi
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
-import Path = require("path");
 import { Linter } from "tslint";
-import { isNullOrUndefined } from "util";
 import YoSay = require("yosay");
 import { ILaunchFile } from "./ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
@@ -30,7 +30,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: {})
+    public constructor(args: string | string[], options: Record<string, unknown>)
     {
         super(args, options);
     }
@@ -271,7 +271,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    public async prompting()
+    public async prompting(): Promise<void>
     {
         this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
         return super.prompting();
@@ -280,7 +280,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    public async writing()
+    public async writing(): Promise<void>
     {
         let sourceRoot = "src";
         this.log(chalk.whiteBright("Generating the Workspace"));
@@ -334,7 +334,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    public async install()
+    public async install(): Promise<void>
     {
         this.log(
             Dedent(
@@ -347,7 +347,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    public async end()
+    public async end(): Promise<void>
     {
         this.log();
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files..."));
@@ -392,159 +392,164 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * @returns
      * File-mappings for a generator.
      */
-    protected GetGeneratorFileMappings = (id: string, displayName: string): Array<IFileMapping<ITSGeneratorSettings>> =>
-    {
-        let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
-        let source = "generator";
-        let destination = `src/generators/${id}`;
-        let generatorName = `${name}Generator`;
-        let identities = `${name}Setting`;
-        let settings = `I${name}Settings`;
+    protected GetGeneratorFileMappings =
+        (id: string, displayName: string): Array<IFileMapping<ITSGeneratorSettings>> =>
+        {
+            let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
+            let source = "generator";
+            let destination = `src/generators/${id}`;
+            let generatorName = `${name}Generator`;
+            let identities = `${name}Setting`;
+            let settings = `I${name}Settings`;
 
-        return [
-            {
-                Source: Path.join(source, "LicenseType.ts.ejs"),
-                Destination: Path.join(destination, "LicenseType.ts")
-            },
-            {
-                Source: Path.join(source, "Setting.ts.ejs"),
-                Context: () =>
+            return [
                 {
-                    return { Name: identities };
+                    Source: Path.join(source, "LicenseType.ts.ejs"),
+                    Destination: Path.join(destination, "LicenseType.ts")
                 },
-                Destination: Path.join(destination, `${identities}.ts`)
-            },
-            {
-                Source: Path.join(source, "ISettings.ts.ejs"),
-                Context: () =>
                 {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities
-                    };
+                    Source: Path.join(source, "Setting.ts.ejs"),
+                    Context: () =>
+                    {
+                        return { Name: identities };
+                    },
+                    Destination: Path.join(destination, `${identities}.ts`)
                 },
-                Destination: Path.join(destination, `${settings}.ts`)
-            },
-            {
-                Source: Path.join(source, "Generator.ts.ejs"),
-                Context: () =>
                 {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities,
-                        ID: id,
-                        DisplayName: displayName
-                    };
+                    Source: Path.join(source, "ISettings.ts.ejs"),
+                    Context: () =>
+                    {
+                        return {
+                            Name: generatorName,
+                            SettingsInterface: settings,
+                            Identities: identities
+                        };
+                    },
+                    Destination: Path.join(destination, `${settings}.ts`)
                 },
-                Destination: Path.join(destination, `${generatorName}.ts`)
-            },
-            {
-                Source: Path.join(source, "index.ts.ejs"),
-                Context: () =>
                 {
-                    return {
-                        Name: generatorName
-                    };
+                    Source: Path.join(source, "Generator.ts.ejs"),
+                    Context: () =>
+                    {
+                        return {
+                            Name: generatorName,
+                            SettingsInterface: settings,
+                            Identities: identities,
+                            ID: id,
+                            DisplayName: displayName
+                        };
+                    },
+                    Destination: Path.join(destination, `${generatorName}.ts`)
                 },
-                Destination: Path.join(destination, "index.ts")
-            },
-            {
-                Source: Path.join(source, "templates"),
-                Destination: Path.join("templates", id)
-            }
-        ];
-    }
+                {
+                    Source: Path.join(source, "index.ts.ejs"),
+                    Context: () =>
+                    {
+                        return {
+                            Name: generatorName
+                        };
+                    },
+                    Destination: Path.join(destination, "index.ts")
+                },
+                {
+                    Source: Path.join(source, "templates"),
+                    Destination: Path.join("templates", id)
+                }
+            ];
+        };
 
     /**
      * Gets the package-manifest for the generator to generate.
+     *
+     * @returns
+     * The `package.json`-metadata.
      */
-    protected GetPackageJSON = (): {} =>
-    {
-        let scripts = [
-            "build",
-            "rebuild",
-            "watch",
-            "clean",
-            "lint",
-            "test",
-            "prepare"
-        ];
-
-        let dependencies = [
-            "extended-yo-generator"
-        ];
-
-        let devDependencies = [
-            "@manuth/tsconfig",
-            "@manuth/tslint-presets",
-            "@types/mocha",
-            "@types/node",
-            "markdownlint-cli",
-            "mocha",
-            "rimraf",
-            "tslint",
-            "typescript",
-            "typescript-tslint-plugin",
-            "yo"
-        ];
-
-        if (
-            this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
-            this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+    protected GetPackageJSON =
+        async (): Promise<Record<string, unknown>> =>
         {
-            dependencies.push(
-                "chalk",
-                "dedent",
-                "yosay");
+            let scripts = [
+                "build",
+                "rebuild",
+                "watch",
+                "clean",
+                "lint",
+                "test",
+                "prepare"
+            ];
 
-            devDependencies.push(
-                "@types/dedent",
-                "@types/yosay");
-        }
+            let dependencies = [
+                "extended-yo-generator"
+            ];
 
-        let result = {
-            name: this.Settings[TSGeneratorSetting.Name],
-            version: "0.0.0",
-            description: this.Settings[TSGeneratorSetting.Description],
-            author: {
-                name: this.user.git.name(),
-                email: this.user.git.email()
-            },
-            keywords: ["yeoman-generator"],
-            scripts: {} as { [key: string]: string },
-            dependencies: {} as { [key: string]: string },
-            devDependencies: {} as { [key: string]: string }
+            let devDependencies = [
+                "@manuth/tsconfig",
+                "@manuth/tslint-presets",
+                "@types/mocha",
+                "@types/node",
+                "markdownlint-cli",
+                "mocha",
+                "rimraf",
+                "tslint",
+                "typescript",
+                "typescript-tslint-plugin",
+                "yo"
+            ];
+
+            if (
+                this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
+                this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+            {
+                dependencies.push(
+                    "chalk",
+                    "dedent",
+                    "yosay");
+
+                devDependencies.push(
+                    "@types/dedent",
+                    "@types/yosay");
+            }
+
+            let result = {
+                name: this.Settings[TSGeneratorSetting.Name],
+                version: "0.0.0",
+                description: this.Settings[TSGeneratorSetting.Description],
+                author: {
+                    name: this.user.git.name(),
+                    email: this.user.git.email()
+                },
+                keywords: ["yeoman-generator"],
+                scripts: {} as { [key: string]: string },
+                dependencies: {} as { [key: string]: string },
+                devDependencies: {} as { [key: string]: string }
+            };
+
+            let packageJSON: typeof result = await import(Path.join(__dirname, "..", "..", "..", "package.json"));
+            let sourceDependencies = { ...packageJSON.dependencies, ...packageJSON.devDependencies };
+
+            for (let script of scripts)
+            {
+                if (script in packageJSON.scripts)
+                {
+                    result.scripts[script] = packageJSON.scripts[script];
+                }
+            }
+
+            for (let devDependency of dependencies.concat(devDependencies).sort())
+            {
+                if (devDependency in sourceDependencies)
+                {
+                    result.devDependencies[devDependency] = sourceDependencies[devDependency];
+                }
+            }
+
+            for (let dependency of dependencies.sort())
+            {
+                if (dependency in sourceDependencies)
+                {
+                    result.dependencies[dependency] = sourceDependencies[dependency];
+                }
+            }
+
+            return result;
         };
-
-        let packageJSON: typeof result = require(Path.join(__dirname, "..", "..", "..", "package.json"));
-        let sourceDependencies = { ...packageJSON.dependencies, ...packageJSON.devDependencies };
-
-        for (let script of scripts)
-        {
-            if (script in packageJSON.scripts)
-            {
-                result.scripts[script] = packageJSON.scripts[script];
-            }
-        }
-
-        for (let devDependency of dependencies.concat(devDependencies).sort())
-        {
-            if (devDependency in sourceDependencies)
-            {
-                result.devDependencies[devDependency] = sourceDependencies[devDependency];
-            }
-        }
-
-        for (let dependency of dependencies.sort())
-        {
-            if (dependency in sourceDependencies)
-            {
-                result.dependencies[dependency] = sourceDependencies[dependency];
-            }
-        }
-
-        return result;
-    }
 }

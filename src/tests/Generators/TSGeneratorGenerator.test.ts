@@ -1,9 +1,8 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { GeneratorSetting } from "extended-yo-generator";
-import FileSystem = require("fs-extra");
-import npmWhich = require("npm-which");
 import Path = require("path");
+import { GeneratorSetting } from "extended-yo-generator";
+import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintMode } from "../../generators/app/LintMode";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
