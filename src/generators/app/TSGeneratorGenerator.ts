@@ -291,7 +291,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.fs.copy(this.templatePath(".markdownlint.json"), this.destinationPath(".markdownlint.json"));
         this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
         this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
-        this.fs.copy(this.modulePath("test", "mocha.opts"), this.destinationPath("test", "mocha.opts"));
+        this.fs.copy(this.modulePath(".mocharc.jsonc"), this.destinationPath(".mocharc.jsonc"));
         this.fs.copyTpl(
             this.templatePath("GettingStarted.md.ejs"),
             this.destinationPath("GettingStarted.md"),
