@@ -1,6 +1,6 @@
 import chalk = require("chalk");
 import Dedent = require("dedent");
-import { Generator, IComponentProvider, Question } from "extended-yo-generator";
+import { Generator, IComponentCollection, Question } from "extended-yo-generator";
 import Path = require("path");
 import YoSay = require("yosay");
 import { <%= Identities %> } from "./<%= Identities %>";
@@ -60,7 +60,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
         ];
     }
 
-    protected get ProvidedComponents(): IComponentProvider<<%= SettingsInterface %>>
+    protected get Components(): IComponentCollection<<%= SettingsInterface %>>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -71,15 +71,15 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
                         {
                             ID: "readme",
                             DisplayName: "README.md-File",
-                            Default: true,
+                            DefaultEnabled: true,
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
-                                    Context: (settings) =>
+                                    Context: (fileMapping, generator) =>
                                     {
                                         return {
-                                            Name: settings[<%= Identities %>.Name],
-                                            Description: settings[<%= Identities %>.Description]
+                                            Name: generator.Settings[<%= Identities %>.Name],
+                                            Description: generator.Settings[<%= Identities %>.Description]
                                         };
                                     },
                                     Destination: "README.md"
@@ -109,9 +109,9 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
                             ],
                             FileMappings: [
                                 {
-                                    Source: (settings) =>
+                                    Source: (fileMapping, generator) =>
                                     {
-                                        switch (settings[<%= Identities %>.LicenseType])
+                                        switch (generator.Settings[<%= Identities %>.LicenseType])
                                         {
                                             case LicenseType.Apache:
                                                 return "Apache.txt";

@@ -1,7 +1,7 @@
 import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
-import { Generator, GeneratorSetting, IComponentProvider, IFileMapping, Question } from "extended-yo-generator";
+import { Generator, GeneratorSetting, IComponentCollection, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
@@ -92,7 +92,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    protected get ProvidedComponents(): IComponentProvider<ITSGeneratorSettings>
+    protected get Components(): IComponentCollection<ITSGeneratorSettings>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -103,7 +103,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                         {
                             ID: TSGeneratorComponent.TSLint,
                             DisplayName: "TSLint configurations",
-                            Default: true,
+                            DefaultEnabled: true,
                             Questions: [
                                 {
                                     name: TSGeneratorSetting.LintMode,
@@ -126,11 +126,11 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                 {
                                     Source: null,
                                     Destination: "tslint.json",
-                                    Process: async (source, destination, context, defaultProcess, settings) =>
+                                    Processor: async (fileMapping, generator) =>
                                     {
                                         let preset: string;
 
-                                        switch (settings[TSGeneratorSetting.LintMode])
+                                        switch (generator.Settings[TSGeneratorSetting.LintMode])
                                         {
                                             case LintMode.Weak:
                                                 preset = "@manuth/tslint-presets/weak";
@@ -141,7 +141,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                                 break;
                                         }
 
-                                        this.fs.writeJSON(destination, { extends: preset }, null, 4);
+                                        this.fs.writeJSON(await fileMapping.Destination, { extends: preset }, null, 4);
                                     }
                                 }
                             ]
@@ -149,7 +149,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                         {
                             ID: TSGeneratorComponent.VSCode,
                             DisplayName: "Visual Studio Code-Workspace",
-                            Default: true,
+                            DefaultEnabled: true,
                             FileMappings: [
                                 {
                                     Source: this.modulePath(".vscode"),
@@ -158,10 +158,11 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                 {
                                     Source: this.modulePath(".vscode", "launch.json"),
                                     Destination: () => this.destinationPath(".vscode", "launch.json"),
-                                    Process: async (source, destination) =>
+                                    Processor: async (fileMapping) =>
                                     {
                                         let configurations: any[] = [];
-                                        let launch: ILaunchFile = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let launch: ILaunchFile = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
+
                                         let generators: string[] = [
                                             "app"
                                         ];
@@ -210,16 +211,16 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                         }
 
                                         launch.configurations.unshift(...configurations);
-                                        this.fs.write(destination, JSON.stringify(launch, null, 4));
+                                        this.fs.write(await fileMapping.Destination, JSON.stringify(launch, null, 4));
                                     }
                                 },
                                 {
                                     Source: this.modulePath(".vscode", "settings.json"),
                                     Destination: () => this.destinationPath(".vscode", "settings.json"),
-                                    Process: async (source, destination) =>
+                                    Processor: async (fileMapping) =>
                                     {
                                         let result: any = {};
-                                        let settings = JSON.parse((await FileSystem.readFile(source)).toString());
+                                        let settings = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
 
                                         for (let key in settings)
                                         {
@@ -229,7 +230,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                             }
                                         }
 
-                                        this.fs.write(destination, JSON.stringify(result, null, 4));
+                                        this.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
                                     }
                                 }
                             ]
@@ -237,14 +238,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                         {
                             ID: TSGeneratorComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
-                            FileMappings: (settings) => this.GetGeneratorFileMappings("app", settings[TSGeneratorSetting.DisplayName])
+                            FileMappings: (fileMapping, generator) => this.GetGeneratorFileMappings("app", generator.Settings[TSGeneratorSetting.DisplayName])
                         },
                         {
                             ID: TSGeneratorComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
-                            FileMappings: (settings) => this.GetGeneratorFileMappings(
-                                settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name],
-                                settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName]),
+                            FileMappings: (fileMapping, generator) => this.GetGeneratorFileMappings(
+                                generator.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name],
+                                generator.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.DisplayName]),
                             Questions: [
                                 {
                                     type: "input",

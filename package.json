@@ -31,7 +31,7 @@
     "chalk": "^4.1.0",
     "comment-json": "^3.0.2",
     "dedent": "^0.7.0",
-    "extended-yo-generator": "^1.0.13",
+    "extended-yo-generator": "^2.0.0",
     "fs-extra": "^9.0.1",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
