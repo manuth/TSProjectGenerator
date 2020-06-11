@@ -1,7 +1,7 @@
 {
     "recommendations": [
         "davidanson.vscode-markdownlint",
-        "ms-vscode.vscode-typescript-tslint-plugin",
+        "manuth.eslint-language-service",
         "qassimfarid.ejs-language-support"
     ]
 }

@@ -29,9 +29,9 @@
         {
             "label": "Lint",
             "type": "npm",
-            "script": "lint",
+            "script": "lint-compact",
             "problemMatcher": [
-                "$tslint5",
+                "$eslint-compact",
                 {
                     "fileLocation": "relative",
                     "owner": "markdownlint",
