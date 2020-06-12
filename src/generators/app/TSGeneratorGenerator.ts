@@ -11,7 +11,7 @@ import { Linter } from "tslint";
 import YoSay = require("yosay");
 import { ILaunchFile } from "./ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
-import { LintMode } from "./LintMode";
+import { LintRuleset } from "./LintRuleset";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
 import { TSGeneratorSetting } from "./TSGeneratorSetting";
@@ -106,20 +106,20 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             DefaultEnabled: true,
                             Questions: [
                                 {
-                                    name: TSGeneratorSetting.LintMode,
+                                    name: TSGeneratorSetting.LintRuleset,
                                     type: "list",
                                     message: "What ruleset do you want to use for linting?",
                                     choices: [
                                         {
-                                            value: LintMode.Weak,
+                                            value: LintRuleset.Weak,
                                             name: "manuth's weak ruleset"
                                         },
                                         {
-                                            value: LintMode.Strong,
-                                            name: "manuth's strong ruleset (recommended)"
+                                            value: LintRuleset.Recommended,
+                                            name: "manuth's recommended ruleset"
                                         }
                                     ],
-                                    default: LintMode.Strong
+                                    default: LintRuleset.Recommended
                                 }
                             ],
                             FileMappings: [
@@ -130,12 +130,12 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     {
                                         let preset: string;
 
-                                        switch (generator.Settings[TSGeneratorSetting.LintMode])
+                                        switch (generator.Settings[TSGeneratorSetting.LintRuleset])
                                         {
-                                            case LintMode.Weak:
+                                            case LintRuleset.Weak:
                                                 preset = "@manuth/tslint-presets/weak";
                                                 break;
-                                            case LintMode.Strong:
+                                            case LintRuleset.Recommended:
                                             default:
                                                 preset = "@manuth/tslint-presets/recommended";
                                                 break;

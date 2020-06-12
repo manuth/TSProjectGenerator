@@ -24,9 +24,9 @@ export enum TSGeneratorSetting
     Description = "description",
 
     /**
-     * Indicates the `LintMode`-setting.
+     * Indicates the `LintRuleset`-setting.
      */
-    LintMode = "lintMode",
+    LintRuleset = "lintRuleset",
 
     /**
      * Indicates the `SubGenerators`-setting.

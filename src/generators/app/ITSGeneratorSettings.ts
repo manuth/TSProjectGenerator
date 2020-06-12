@@ -1,6 +1,6 @@
 import { IGeneratorSettings } from "extended-yo-generator";
 import { ISubGenerator } from "./ISubGenerator";
-import { LintMode } from "./LintMode";
+import { LintRuleset } from "./LintRuleset";
 import { TSGeneratorSetting } from "./TSGeneratorSetting";
 
 /**
@@ -29,9 +29,9 @@ export interface ITSGeneratorSettings extends IGeneratorSettings
     [TSGeneratorSetting.Destination]: string;
 
     /**
-     * Gets or sets the lint-mode.
+     * Gets or sets the lint-ruleset.
      */
-    [TSGeneratorSetting.LintMode]: LintMode;
+    [TSGeneratorSetting.LintRuleset]: LintRuleset;
 
     /**
      * Gets or sets the sub-generator.

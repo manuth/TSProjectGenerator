@@ -4,7 +4,7 @@ import Path = require("path");
 import { GeneratorSetting } from "extended-yo-generator";
 import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
-import { LintMode } from "../../generators/app/LintMode";
+import { LintRuleset } from "../../generators/app/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
 import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
@@ -48,7 +48,7 @@ suite(
                                 TSGeneratorComponent.VSCode,
                                 TSGeneratorComponent.GeneratorExample
                             ],
-                            [TSGeneratorSetting.LintMode]: LintMode.Weak
+                            [TSGeneratorSetting.LintRuleset]: LintRuleset.Weak
                         }).withOptions(
                             {
                                 "skip-install": false
