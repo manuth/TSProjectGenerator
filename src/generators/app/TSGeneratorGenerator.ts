@@ -534,7 +534,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 }
             }
 
-            for (let devDependency of dependencies.concat(devDependencies).sort())
+            for (let devDependency of devDependencies.sort())
             {
                 if (devDependency in sourceDependencies)
                 {
