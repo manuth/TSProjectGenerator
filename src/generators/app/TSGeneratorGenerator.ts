@@ -148,7 +148,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                     }
                                 },
                                 {
-                                    Source: () => this.modulePath("tsconfig.eslint.json"),
+                                    Source: this.modulePath("tsconfig.eslint.json"),
                                     Destination: "tsconfig.eslint.json"
                                 }
                             ]
@@ -164,7 +164,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                 },
                                 {
                                     Source: this.modulePath(".vscode", "launch.json"),
-                                    Destination: () => this.destinationPath(".vscode", "launch.json"),
+                                    Destination: this.destinationPath(".vscode", "launch.json"),
                                     Processor: async (fileMapping) =>
                                     {
                                         let configurations: any[] = [];
@@ -223,7 +223,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                 },
                                 {
                                     Source: this.modulePath(".vscode", "settings.json"),
-                                    Destination: () => this.destinationPath(".vscode", "settings.json"),
+                                    Destination: this.destinationPath(".vscode", "settings.json"),
                                     Processor: async (fileMapping) =>
                                     {
                                         let result: any = {};
