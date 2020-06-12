@@ -245,6 +245,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                         {
                             ID: TSGeneratorComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
+                            DefaultEnabled: true,
                             FileMappings: (fileMapping, generator) => this.GetGeneratorFileMappings("app", generator.Settings[TSGeneratorSetting.DisplayName])
                         },
                         {
