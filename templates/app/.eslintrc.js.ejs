@@ -1,0 +1,17 @@
+const Path = require("path");
+
+module.exports = {
+    extends: [
+        "plugin:@manuth/typescript/<%- preset %>"
+    ],
+    env: {
+        node: true,
+        es6: true
+    },
+    parserOptions: {
+        project: [
+            Path.join(__dirname, "tsconfig.json"),
+            Path.join(__dirname, "tsconfig.eslint.json")
+        ]
+    }
+};

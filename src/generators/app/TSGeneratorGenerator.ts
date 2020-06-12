@@ -3,6 +3,7 @@ import { isNullOrUndefined } from "util";
 import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
+import { ESLint } from "eslint";
 import { Generator, GeneratorSetting, IComponentCollection, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
@@ -101,8 +102,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                     DisplayName: "General",
                     Components: [
                         {
-                            ID: TSGeneratorComponent.TSLint,
-                            DisplayName: "TSLint configurations",
+                            ID: TSGeneratorComponent.ESLint,
+                            DisplayName: "ESLint configurations",
                             DefaultEnabled: true,
                             Questions: [
                                 {
@@ -124,25 +125,31 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             ],
                             FileMappings: [
                                 {
-                                    Source: null,
-                                    Destination: "tslint.json",
-                                    Processor: async (fileMapping, generator) =>
+                                    Source: ".eslintrc.js.ejs",
+                                    Destination: ".eslintrc.js",
+                                    Context: (fileMapping, generator) =>
                                     {
                                         let preset: string;
 
                                         switch (generator.Settings[TSGeneratorSetting.LintRuleset])
                                         {
                                             case LintRuleset.Weak:
-                                                preset = "@manuth/tslint-presets/weak";
+                                                preset = "weak-requiring-type-checking";
                                                 break;
                                             case LintRuleset.Recommended:
                                             default:
-                                                preset = "@manuth/tslint-presets/recommended";
+                                                preset = "recommended-requiring-type-checking";
                                                 break;
                                         }
 
-                                        this.fs.writeJSON(await fileMapping.Destination, { extends: preset }, null, 4);
+                                        return {
+                                            preset
+                                        };
                                     }
+                                },
+                                {
+                                    Source: () => this.modulePath("tsconfig.eslint.json"),
+                                    Destination: "tsconfig.eslint.json"
                                 }
                             ]
                         },
@@ -286,11 +293,10 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.log(chalk.whiteBright("Generating the Workspace"));
 
         this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
-        this.fs.writeJSON(this.destinationPath("package.json"), this.GetPackageJSON());
+        this.fs.writeJSON(this.destinationPath("package.json"), await this.GetPackageJSON());
         this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
         this.fs.copy(this.templatePath(".markdownlint.json"), this.destinationPath(".markdownlint.json"));
         this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
-        this.fs.copy(this.modulePath("tsconfig.json"), this.destinationPath("tsconfig.json"));
         this.fs.copy(this.modulePath(".mocharc.jsonc"), this.destinationPath(".mocharc.jsonc"));
         this.fs.copyTpl(
             this.templatePath("GettingStarted.md.ejs"),
@@ -328,6 +334,16 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             });
         FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
         FileSystem.ensureDir(this.destinationPath("templates"));
+
+        let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
+
+        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.ESLint))
+        {
+            delete tsConfig.references;
+        }
+
+        this.fs.copy(this.modulePath("tsconfig.base.json"), this.destinationPath("tsconfig.base.json"));
+        this.fs.writeJSON(this.destinationPath("tsconfig.json"), tsConfig, null, 4);
         return super.writing();
     }
 
@@ -351,21 +367,19 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     {
         this.log();
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files..."));
+
         let tsConfigFile = this.destinationPath("tsconfig.json");
         let program = Linter.createProgram(tsConfigFile);
-        let config = Linter.loadConfigurationFromPath(this.destinationPath("tslint.json"));
-        config.defaultSeverity = "off";
-
-        let linter = new Linter(
+        let linter = new ESLint(
             {
+                cwd: this.destinationPath(),
                 fix: true
-            },
-            program);
+            });
 
         for (let fileName of program.getRootFileNames())
         {
             this.log(chalk.gray(`Cleaning up "${Path.relative(this.destinationPath(), fileName)}"...`));
-            linter.lint(fileName, (await FileSystem.readFile(fileName)).toString(), config);
+            await ESLint.outputFixes(await linter.lintFiles(fileName));
         }
 
         this.log();
@@ -483,15 +497,21 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
             let devDependencies = [
                 "@manuth/tsconfig",
-                "@manuth/tslint-presets",
+                "@manuth/eslint-plugin-typescript",
                 "@types/mocha",
                 "@types/node",
+                "@typescript-eslint/eslint-plugin",
+                "@typescript-eslint/parser",
+                "@typescript-eslint/eslint-plugin-tslint",
+                "eslint",
+                "eslint-plugin-import",
+                "eslint-plugin-jsdoc",
                 "markdownlint-cli",
                 "mocha",
                 "rimraf",
                 "tslint",
                 "typescript",
-                "typescript-tslint-plugin",
+                "typescript-eslint-plugin",
                 "yo"
             ];
 
