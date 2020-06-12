@@ -6,7 +6,6 @@ import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintRuleset } from "../../generators/app/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
-import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
 import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
 
 suite(
@@ -23,19 +22,6 @@ suite(
             {
                 currentDir = process.cwd();
                 generatorName = "generator-test";
-
-                TSGeneratorGenerator.prototype.npmInstall = () =>
-                {
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "install",
-                            "--silent"
-                        ],
-                        {
-                            cwd: generatorDir
-                        });
-                };
 
                 runContext = run(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
