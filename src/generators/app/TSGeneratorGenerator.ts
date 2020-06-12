@@ -514,23 +514,28 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
             let devDependencies = [
                 "@manuth/tsconfig",
-                "@manuth/eslint-plugin-typescript",
                 "@types/mocha",
                 "@types/node",
-                "@typescript-eslint/eslint-plugin",
-                "@typescript-eslint/parser",
-                "@typescript-eslint/eslint-plugin-tslint",
-                "eslint",
-                "eslint-plugin-import",
-                "eslint-plugin-jsdoc",
-                "markdownlint-cli",
                 "mocha",
                 "rimraf",
-                "tslint",
                 "typescript",
-                "typescript-eslint-plugin",
                 "yo"
             ];
+
+            if (this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
+            {
+                devDependencies.push(
+                    "@manuth/eslint-plugin-typescript",
+                    "@typescript-eslint/eslint-plugin",
+                    "@typescript-eslint/parser",
+                    "@typescript-eslint/eslint-plugin-tslint",
+                    "eslint",
+                    "eslint-plugin-import",
+                    "eslint-plugin-jsdoc",
+                    "tslint",
+                    "typescript-eslint-plugin"
+                );
+            }
 
             if (
                 this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
