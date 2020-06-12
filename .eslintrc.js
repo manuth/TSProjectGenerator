@@ -5,7 +5,8 @@ module.exports = {
         "plugin:@manuth/typescript/recommended-requiring-type-checking"
     ],
     env: {
-        node: true
+        node: true,
+        es6: true
     },
     parserOptions: {
         project: [
@@ -13,4 +14,4 @@ module.exports = {
             Path.join(__dirname, "tsconfig.eslint.json")
         ]
     }
-}
+};
