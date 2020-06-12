@@ -204,7 +204,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                                 {
                                                     type: "node",
                                                     request: "launch",
-                                                    name: generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName}`,
+                                                    name: generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`,
                                                     program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
                                                     args: [
                                                         `\${workspaceFolder}/lib/generators/${generatorName}`
