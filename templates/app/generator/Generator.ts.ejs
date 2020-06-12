@@ -21,16 +21,22 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: {})
+    public constructor(args: string | string[], options: Record<string, unknown>)
     {
         super(args, options);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get TemplateRoot(): string
     {
         return "<%= ID %>";
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get Questions(): Array<Question<<%= SettingsInterface %>>>
     {
         return [
@@ -60,6 +66,9 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     protected get Components(): IComponentCollection<<%= SettingsInterface %>>
     {
         return {
@@ -130,18 +139,27 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>>
         };
     }
 
-    public async prompting()
+    /**
+     * @inheritdoc
+     */
+    public async prompting(): Promise<void>
     {
         this.log(YoSay(`Welcome to the ${chalk.whiteBright("<%= DisplayName %>")} generator!`));
         return super.prompting();
     }
 
-    public async writing()
+    /**
+     * @inheritdoc
+     */
+    public async writing(): Promise<void>
     {
         return super.writing();
     }
 
-    public async end()
+    /**
+     * @inheritdoc
+     */
+    public async end(): Promise<void>
     {
         this.log(
             Dedent(`
