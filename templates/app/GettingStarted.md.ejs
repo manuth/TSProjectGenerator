@@ -1,10 +1,9 @@
-
 # Welcome to your TypeScript Generator
 
 This workspace allows you to easilly create yeoman generators written in TypeScript.
 
-## What's in the folder?<% if (HasCodeWorkspace) { %>
-
+## What's in the folder?
+<% if (HasCodeWorkspace) { %>
 - `.vscode`  
   This folder contains settings and build-task configurations for VSCode.<%
 %><% } %>
@@ -17,40 +16,75 @@ This workspace allows you to easilly create yeoman generators written in TypeScr
   The `lib`-folder is the one where your compiled `.js`-files are written to.
 - `tsconfig.json`  
   This is the file where the compiler-options are configured.  
-  [Learn more...][TypeScriptConfig]
-- `tslint.json`
+  [Learn more...][TypeScriptConfig]<% if (HasLinting) { %>
+- `.eslintrc.js`
   This file mostly holds rules for your coding-style.  
-  [Learn more...][TSLintConfig]
+  [Learn more...][LintConfig]<% } %>
 
 ## Working with the Library
 
 ### Creating a Generator
 
-You can create the main generator by creating a directory called `app`
-or a sub-generator by creating a directory called `{ sub-generator-name }`
-inside the `src/generators`-directory.  
-Create a generator by creating an `index.ts`-file inside said directory
-and let it derive from the `Generator` class located in the `src/Generator.ts` file.
+Generators are made by creating a directory,
+for example `test`, inside `src/generators`.  
+Inside this newly created directory, place a new `index.ts`-file
+and let it export a class which inherits the `Generator` class
+which you can import from the `extended-yo-generator` module.
+
+***Example:***
+```ts
+import { Generator } from "extended-yo-generator";
+
+export = class MyGenerator extends Generator
+{
+    // [...]
+}
+```
+
+You can invoke your newly created generator by specifying its name as a sub-command:
+
+```
+yo <%= ID %>:test
+```
+<% if (HasSubGenerator) { %>
+There is an example sub-generator located ad `<%= SubGeneratorPath %>`, btw.
+<% } %><%
+%><% if (HasGenerator) { %>
+### Checking out the Example Generator
+
+In your `src/generators/app` directory you can find an example generator.
+Check it out in order to learn how to make use of the `extended-yo-generator` module.
+<% } else { %>
+### Creating a Main Generator
+
+The main generator always is located at `src/generators/app`.  
+It is invoked when no subcommand is specified.
+(e.g. when running `yo <%= ID %>` instead of `yo <%= ID %>:test`)
+
+The generator is created as explained in the
+[Creating a Generator](#creating-a-generator) section.
+<% } %>
+### Editing Generators
 
 Use the IntelliSense of your TypeScript-editor for getting
-more information about the different useful class members.
+more information about the different useful class members such as following:
 
 - The `TemplateRoot`-member allows you to specify
   a path to the templates relative to the `templates/`-directory
-- The `ProvidedComponents`-member allows you to specify
+- The `Components`-member allows you to specify
   components users can optionally choose to install
 - The `Questions`-member contains questions users
   are prompted to answer during the execution of `Generator.prompting()`
 
 ### Testing the Generator
-
+<% if (HasCodeWorkspace) { %>
 #### Using Visual Studio Code
 
 You can test the generator in Visual Studio Code
 by running the `Launch Yeoman`-Debug configuration.  
 This project also supports Unit-Tests using `mocha`.
 You can run them using the `Launch Tests`-configuration.
-
+<% } %>
 #### Using the Command Prompt
 
 First you need to create a symbolic link of
@@ -82,21 +116,21 @@ npm run rebuild
 ```
 
 You can then run your generator by invoking<%
-%><% if (SubGeneratorName !== null) { %><%
+%><% if (HasSubGenerator) { %><%
 %> either one of these commands:
 
 ```bash
-yo <%= Name.replace(/^generator-/, "") %>
-yo <%= Name.replace(/^generator-/, "") %>:<%= SubGeneratorName %>
+yo <%= ID %>
+yo <%= ID %>:<%= SubGeneratorName %>
 ```<%
 %><% } else { %><%
 %> following command:
 
 ```bash
-yo <%= Name.replace(/^generator-/, "") %>
+yo <%= ID %>
 ```<%
 %><% } %>
 
 <!--- References -->
-[TypeScriptConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
-[TSLintConfig]: https://palantir.github.io/tslint/usage/configuration/
+[TypeScriptConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html<% if (HasLinting) { %>
+[LintConfig]: https://eslint.org/docs/user-guide/configuring<% } %>

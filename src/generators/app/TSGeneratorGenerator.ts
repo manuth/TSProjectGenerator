@@ -303,9 +303,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             this.templatePath("GettingStarted.md.ejs"),
             this.destinationPath("GettingStarted.md"),
             {
+                ID: this.Settings[TSGeneratorSetting.Name].replace(/^generator-/, ""),
                 Name: this.Settings[TSGeneratorSetting.Name],
                 HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.VSCode),
-                SubGeneratorName: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample) ? this.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name] : null
+                HasLinting: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting),
+                HasGenerator: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample),
+                HasSubGenerator: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample),
+                SubGeneratorName: this.Settings[TSGeneratorSetting.SubGenerator]?.[SubGeneratorSetting.Name] ?? null,
+                SubGeneratorPath: Path.join(sourceRoot, "generators", this.Settings[TSGeneratorSetting.SubGenerator]?.[SubGeneratorSetting.Name] ?? "")
             });
         this.fs.copyTpl(
             this.templatePath("README.md.ejs"),
