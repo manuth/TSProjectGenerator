@@ -378,8 +378,10 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         let program = Linter.createProgram(tsConfigFile);
         let linter = new ESLint(
             {
-                cwd: this.destinationPath(),
-                fix: true
+                cwd: __dirname,
+                fix: true,
+                useEslintrc: false,
+                overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js")
             });
 
         for (let fileName of program.getRootFileNames())
