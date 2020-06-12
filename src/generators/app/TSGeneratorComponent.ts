@@ -4,9 +4,9 @@
 export enum TSGeneratorComponent
 {
     /**
-     * Indicates the eslint-component.
+     * Indicates linting.
      */
-    ESLint = "eslint",
+    Linting = "linting",
 
     /**
      * Indicates the Visual Studio Code workspace.

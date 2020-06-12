@@ -44,7 +44,7 @@ suite(
                             [TSGeneratorSetting.DisplayName]: generatorName,
                             [TSGeneratorSetting.Name]: generatorName,
                             [GeneratorSetting.Components]: [
-                                TSGeneratorComponent.ESLint,
+                                TSGeneratorComponent.Linting,
                                 TSGeneratorComponent.VSCode,
                                 TSGeneratorComponent.GeneratorExample
                             ],

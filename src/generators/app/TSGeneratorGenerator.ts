@@ -102,7 +102,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                     DisplayName: "General",
                     Components: [
                         {
-                            ID: TSGeneratorComponent.ESLint,
+                            ID: TSGeneratorComponent.Linting,
                             DisplayName: "ESLint configurations",
                             DefaultEnabled: true,
                             Questions: [
@@ -338,7 +338,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
         let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
 
-        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.ESLint))
+        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
         {
             delete tsConfig.references;
         }
