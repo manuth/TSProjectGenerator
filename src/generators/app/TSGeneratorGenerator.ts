@@ -11,6 +11,7 @@ import KebabCase = require("lodash.kebabcase");
 import { Linter } from "tslint";
 import YoSay = require("yosay");
 import { ILaunchFile } from "./ILaunchFile";
+import { IScriptMapping } from "./IScriptMapping";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { LintRuleset } from "./LintRuleset";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
@@ -489,12 +490,20 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     protected GetPackageJSON =
         async (): Promise<Record<string, unknown>> =>
         {
-            let scripts = [
+            let scripts: Array<IScriptMapping | string> = [
                 "build",
                 "rebuild",
                 "watch",
                 "clean",
-                "lint",
+                {
+                    Source: "lint-code",
+                    Destination: "lint"
+                },
+                {
+                    Source: "lint-code-compact",
+                    Destination: "lint-compact",
+                    Processor: (script) => script.replace("lint-code", "lint")
+                },
                 "test",
                 "prepare"
             ];
@@ -556,9 +565,18 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
             for (let script of scripts)
             {
-                if (script in packageJSON.scripts)
+                if (typeof script === "string")
                 {
-                    result.scripts[script] = packageJSON.scripts[script];
+                    script = {
+                        Source: script,
+                        Destination: script
+                    };
+                }
+
+                if (script.Source in packageJSON.scripts)
+                {
+                    let processor = script.Processor ?? ((script) => script);
+                    result.scripts[script.Destination] = processor(packageJSON.scripts[script.Source]);
                 }
             }
 
