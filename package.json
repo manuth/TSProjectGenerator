@@ -25,7 +25,7 @@
     "clean": "rimraf ./lib",
     "lint-code": "eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx ./src",
     "lint-code-compact": "npm run lint-code -- -f compact || exit 0",
-    "lint-docs": "markdownlint ./templates/**/*.md ./templates/**/*.md.ejs",
+    "lint-docs": "markdownlint ./templates/**/*.md",
     "lint": "npm run lint-code && npm run lint-docs",
     "lint-compact": "npm run lint-code-compact && npm run lint-docs || exit 0",
     "test": "mocha",
