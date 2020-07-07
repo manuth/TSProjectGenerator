@@ -96,7 +96,13 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             {
                 type: "input",
                 name: TSGeneratorSetting.Description,
-                message: "Please enter a description for your generator."
+                message: "Please enter a description for your generator.",
+                default: async (settings: ITSGeneratorSettings) =>
+                {
+                    let npmPackage = new Package(Path.join(settings[TSGeneratorSetting.Destination], ".json"), {});
+                    await npmPackage.Normalize();
+                    return npmPackage.Description;
+                }
             }
         ];
     }
@@ -429,7 +435,12 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 cwd: workspaceRoot,
                 fix: true,
                 useEslintrc: false,
-                overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js")
+                overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js"),
+                overrideConfig: {
+                    parserOptions: {
+                        project: tsConfigFile
+                    }
+                }
             });
 
         for (let fileName of program.getRootFileNames())
