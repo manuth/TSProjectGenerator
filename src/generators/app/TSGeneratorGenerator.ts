@@ -1,5 +1,6 @@
 import Path = require("path");
 import { isNullOrUndefined } from "util";
+import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
@@ -10,8 +11,12 @@ import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
 import { Linter } from "tslint";
 import YoSay = require("yosay");
+import { Constants } from "../../Core/Constants";
 import { LintRuleset } from "../../Linting/LintRuleset";
+import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
+import { GeneratorDependencies } from "../../NPMPackaging/GeneratorDependencies";
 import { IScriptMapping } from "../../NPMPackaging/IScriptMapping";
+import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
@@ -291,11 +296,12 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      */
     public async writing(): Promise<void>
     {
-        let sourceRoot = "src";
         this.log(chalk.whiteBright("Generating the Workspace"));
-
         this.destinationRoot(this.Settings[TSGeneratorSetting.Destination]);
-        this.fs.writeJSON(this.destinationPath("package.json"), await this.GetPackageJSON());
+
+        let sourceRoot = "src";
+        let npmPackage = await this.GetPackageJSON();
+        this.fs.writeJSON(npmPackage.FileName, npmPackage.ToJSON());
         this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
         this.fs.copy(this.templatePath(".markdownlint.json"), this.destinationPath(".markdownlint.json"));
         this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
@@ -488,8 +494,33 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * The `package.json`-metadata.
      */
     protected GetPackageJSON =
-        async (): Promise<Record<string, unknown>> =>
+        async (): Promise<Package> =>
         {
+            let result: Package;
+            let fileName = this.destinationPath("package.json");
+
+            if (await FileSystem.pathExists(fileName))
+            {
+                result = new Package(fileName);
+            }
+            else
+            {
+                result = new Package(
+                    fileName,
+                    {
+                        name: this.Settings[TSGeneratorSetting.Name],
+                        version: "0.0.0",
+                        description: this.Settings[TSGeneratorSetting.Description],
+                        author: {
+                            name: this.user.git.name(),
+                            email: this.user.git.email()
+                        },
+                        keywords: [
+                            "yeoman-generator"
+                        ]
+                    });
+            }
+
             let scripts: Array<IScriptMapping | string> = [
                 "build",
                 "rebuild",
@@ -508,65 +539,19 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 "prepare"
             ];
 
-            let dependencies = [
-                "extended-yo-generator"
-            ];
-
-            let devDependencies = [
-                "@manuth/tsconfig",
-                "@types/mocha",
-                "@types/node",
-                "mocha",
-                "rimraf",
-                "typescript",
-                "yo"
-            ];
+            result.Register(new CommonDependencies(), true);
 
             if (this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
             {
-                devDependencies.push(
-                    "@manuth/eslint-plugin-typescript",
-                    "@typescript-eslint/eslint-plugin",
-                    "@typescript-eslint/parser",
-                    "@typescript-eslint/eslint-plugin-tslint",
-                    "eslint",
-                    "eslint-plugin-import",
-                    "eslint-plugin-jsdoc",
-                    "tslint",
-                    "typescript-eslint-plugin"
-                );
+                result.Register(new LintDependencies(), true);
             }
 
             if (
                 this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
                 this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
             {
-                dependencies.push(
-                    "chalk",
-                    "dedent",
-                    "yosay");
-
-                devDependencies.push(
-                    "@types/dedent",
-                    "@types/yosay");
+                result.Register(new GeneratorDependencies(), true);
             }
-
-            let result = {
-                name: this.Settings[TSGeneratorSetting.Name],
-                version: "0.0.0",
-                description: this.Settings[TSGeneratorSetting.Description],
-                author: {
-                    name: this.user.git.name(),
-                    email: this.user.git.email()
-                },
-                keywords: ["yeoman-generator"],
-                scripts: {} as { [key: string]: string },
-                dependencies: {} as { [key: string]: string },
-                devDependencies: {} as { [key: string]: string }
-            };
-
-            let packageJSON: typeof result = await import(Path.join(__dirname, "..", "..", "..", "package.json"));
-            let sourceDependencies = { ...packageJSON.dependencies, ...packageJSON.devDependencies };
 
             for (let script of scripts)
             {
@@ -578,29 +563,20 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                     };
                 }
 
-                if (script.Source in packageJSON.scripts)
+                if (Constants.Package.Scripts.Has(script.Source))
                 {
                     let processor = script.Processor ?? ((script) => script);
-                    result.scripts[script.Destination] = processor(packageJSON.scripts[script.Source]);
+
+                    if (result.Scripts.Has(script.Destination))
+                    {
+                        result.Scripts.Remove(script.Destination);
+                    }
+
+                    result.Scripts.Add(script.Destination, processor(Constants.Package.Scripts.Get(script.Source)));
                 }
             }
 
-            for (let devDependency of devDependencies.sort())
-            {
-                if (devDependency in sourceDependencies)
-                {
-                    result.devDependencies[devDependency] = sourceDependencies[devDependency];
-                }
-            }
-
-            for (let dependency of dependencies.sort())
-            {
-                if (dependency in sourceDependencies)
-                {
-                    result.dependencies[dependency] = sourceDependencies[dependency];
-                }
-            }
-
+            await result.Normalize();
             return result;
         };
 }
