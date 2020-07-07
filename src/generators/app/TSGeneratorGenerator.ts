@@ -1,3 +1,5 @@
+import { spawnSync } from "child_process";
+import { createRequire } from "module";
 import Path = require("path");
 import { isNullOrUndefined } from "util";
 import { Package } from "@manuth/package-json-editor";
@@ -9,7 +11,10 @@ import { Generator, GeneratorSetting, IComponentCollection, IFileMapping, Questi
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
+import npmWhich = require("npm-which");
+import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
+import { Program } from "typescript";
 import YoSay = require("yosay");
 import { Constants } from "../../Core/Constants";
 import { LintRuleset } from "../../Linting/LintRuleset";
@@ -378,14 +383,50 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      */
     public async end(): Promise<void>
     {
-        this.log();
-        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files..."));
-
+        let tempDir: TempDirectory;
+        let workspaceRoot: string;
+        let workspaceRequire: NodeRequire;
+        let linterConstructor: typeof Linter;
+        let eslintConstructor: typeof ESLint;
+        let program: Program;
+        let linter: ESLint;
         let tsConfigFile = this.destinationPath("tsconfig.json");
-        let program = Linter.createProgram(tsConfigFile);
-        let linter = new ESLint(
+
+        this.log();
+        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
+
+        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
+        {
+            this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
+            tempDir = new TempDirectory();
+            let npmPackage = new Package(tempDir.MakePath("package.json"), {});
+            npmPackage.Register(new LintDependencies());
+
+            spawnSync(
+                npmWhich(__dirname).sync("npm"),
+                [
+                    "install",
+                    "--slient"
+                ],
+                {
+                    cwd: tempDir.FullName
+                });
+
+            workspaceRoot = tempDir.FullName;
+        }
+        else
+        {
+            workspaceRoot = this.destinationPath();
+        }
+
+        workspaceRequire = createRequire(Path.join(workspaceRoot, ".js"));
+        linterConstructor = workspaceRequire("tslint").Linter;
+        eslintConstructor = workspaceRequire("eslint").ESLint;
+        program = linterConstructor.createProgram(tsConfigFile);
+
+        linter = new eslintConstructor(
             {
-                cwd: __dirname,
+                cwd: workspaceRoot,
                 fix: true,
                 useEslintrc: false,
                 overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js")
