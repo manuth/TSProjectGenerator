@@ -4,7 +4,7 @@ import Path = require("path");
 import { GeneratorSetting } from "extended-yo-generator";
 import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
-import { LintRuleset } from "../../generators/app/LintRuleset";
+import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
 import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
 

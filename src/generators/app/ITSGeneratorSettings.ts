@@ -1,6 +1,6 @@
 import { IGeneratorSettings } from "extended-yo-generator";
+import { LintRuleset } from "../../Linting/LintRuleset";
 import { ISubGenerator } from "./ISubGenerator";
-import { LintRuleset } from "./LintRuleset";
 import { TSGeneratorSetting } from "./TSGeneratorSetting";
 
 /**
