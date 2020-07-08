@@ -13,7 +13,7 @@ export class CommonDependencies extends PackageDependencyCollection
         super(
             {
                 dependencies: [
-                    "extended-yo-generator"
+                    "@manuth/extended-yo-generator"
                 ],
                 devDependencies: [
                     "@manuth/tsconfig",

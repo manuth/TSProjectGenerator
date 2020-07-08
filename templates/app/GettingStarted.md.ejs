@@ -29,11 +29,11 @@ Generators are made by creating a directory,
 for example `test`, inside `src/generators`.  
 Inside this newly created directory, place a new `index.ts`-file
 and let it export a class which inherits the `Generator` class
-which you can import from the `extended-yo-generator` module.
+which you can import from the `@manuth/extended-yo-generator` module.
 
 ***Example:***
 ```ts
-import { Generator } from "extended-yo-generator";
+import { Generator } from "@manuth/extended-yo-generator";
 
 export = class MyGenerator extends Generator
 {
@@ -53,7 +53,7 @@ There is an example sub-generator located ad `<%= SubGeneratorPath %>`, btw.
 ### Checking out the Example Generator
 
 In your `src/generators/app` directory you can find an example generator.
-Check it out in order to learn how to make use of the `extended-yo-generator` module.
+Check it out in order to learn how to make use of the `@manuth/extended-yo-generator` module.
 <% } else { %>
 ### Creating a Main Generator
 
