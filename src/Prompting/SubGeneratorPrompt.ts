@@ -33,6 +33,11 @@ interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends inqu
      * @inheritdoc
      */
     default?: null;
+
+    /**
+     * Gets or sets a value indicating whether the prompt to repeat the questions should be answered with `yes` by default.
+     */
+    defaultRepeat?: boolean;
 }
 
 /**
@@ -165,7 +170,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
                             {
                                 type: "confirm",
                                 name: "repeat",
-                                default: false,
+                                default: this.opt.defaultRepeat,
                                 message: "Do you want to create another sub-generator?"
                             }
                         ]);
