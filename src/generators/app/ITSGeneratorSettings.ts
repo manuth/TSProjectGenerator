@@ -36,5 +36,5 @@ export interface ITSGeneratorSettings extends IGeneratorSettings
     /**
      * Gets or sets the sub-generator.
      */
-    [TSGeneratorSettingKey.SubGenerator]: ISubGenerator;
+    [TSGeneratorSettingKey.SubGenerator]: ISubGenerator[];
 }
