@@ -16,14 +16,11 @@ import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
-import { Constants } from "../../Core/Constants";
 import { LintRuleset } from "../../Linting/LintRuleset";
-import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
-import { GeneratorDependencies } from "../../NPMPackaging/GeneratorDependencies";
-import { IScriptMapping } from "../../NPMPackaging/IScriptMapping";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
+import { PackageFileMapping } from "./PackageFileMapping";
 import { SubGeneratorSetting } from "./SubGeneratorSetting";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "./TSGeneratorSetting";
@@ -307,6 +304,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     protected get FileMappings(): Array<IFileMapping<ITSGeneratorSettings>>
     {
         return [
+            new PackageFileMapping(this),
             {
                 Source: ".gitignore.ejs",
                 Destination: ".gitignore"
@@ -433,9 +431,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     {
         this.log(chalk.whiteBright("Generating the Workspace"));
         this.destinationRoot(this.Settings[TSGeneratorSettingKey.Destination]);
-
-        let npmPackage = await this.GetPackageJSON();
-        this.fs.writeJSON(npmPackage.FileName, npmPackage.ToJSON());
         return super.writing();
     }
 
@@ -605,98 +600,5 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                     Destination: Path.join("templates", id)
                 }
             ];
-        };
-
-    /**
-     * Gets the package-manifest for the generator to generate.
-     *
-     * @returns
-     * The `package.json`-metadata.
-     */
-    protected GetPackageJSON =
-        async (): Promise<Package> =>
-        {
-            let result: Package;
-            let fileName = this.destinationPath("package.json");
-
-            if (await FileSystem.pathExists(fileName))
-            {
-                result = new Package(fileName);
-            }
-            else
-            {
-                result = new Package(
-                    fileName,
-                    {
-                        name: this.Settings[TSGeneratorSettingKey.Name],
-                        version: "0.0.0",
-                        description: this.Settings[TSGeneratorSettingKey.Description],
-                        author: {
-                            name: this.user.git.name(),
-                            email: this.user.git.email()
-                        },
-                        keywords: [
-                            "yeoman-generator"
-                        ]
-                    });
-            }
-
-            let scripts: Array<IScriptMapping | string> = [
-                "build",
-                "rebuild",
-                "watch",
-                "clean",
-                {
-                    Source: "lint-code",
-                    Destination: "lint"
-                },
-                {
-                    Source: "lint-code-compact",
-                    Destination: "lint-compact",
-                    Processor: (script) => script.replace("lint-code", "lint")
-                },
-                "test",
-                "prepare"
-            ];
-
-            result.Register(new CommonDependencies(), true);
-
-            if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
-            {
-                result.Register(new LintDependencies(), true);
-            }
-
-            if (
-                this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample) ||
-                this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
-            {
-                result.Register(new GeneratorDependencies(), true);
-            }
-
-            for (let script of scripts)
-            {
-                if (typeof script === "string")
-                {
-                    script = {
-                        Source: script,
-                        Destination: script
-                    };
-                }
-
-                if (Constants.Package.Scripts.Has(script.Source))
-                {
-                    let processor = script.Processor ?? ((script) => script);
-
-                    if (result.Scripts.Has(script.Destination))
-                    {
-                        result.Scripts.Remove(script.Destination);
-                    }
-
-                    result.Scripts.Add(script.Destination, processor(Constants.Package.Scripts.Get(script.Source)));
-                }
-            }
-
-            await result.Normalize();
-            return result;
         };
 }
