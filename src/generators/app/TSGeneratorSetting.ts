@@ -1,7 +1,7 @@
 /**
- * Specifies an app-setting.
+ * Specifies the key of an app-setting.
  */
-export enum TSGeneratorSetting
+export enum TSGeneratorSettingKey
 {
     /**
      * Indicates the `Destination`-setting.

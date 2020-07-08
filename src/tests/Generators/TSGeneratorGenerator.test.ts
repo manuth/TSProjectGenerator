@@ -6,7 +6,7 @@ import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
-import { TSGeneratorSetting } from "../../generators/app/TSGeneratorSetting";
+import { TSGeneratorSettingKey } from "../../generators/app/TSGeneratorSetting";
 
 suite(
     "TSGenerator-Generator",
@@ -26,15 +26,15 @@ suite(
                 runContext = run(
                     Path.join(__dirname, "..", "..", "generators", "app")).withPrompts(
                         {
-                            [TSGeneratorSetting.Destination]: "./",
-                            [TSGeneratorSetting.DisplayName]: generatorName,
-                            [TSGeneratorSetting.Name]: generatorName,
+                            [TSGeneratorSettingKey.Destination]: "./",
+                            [TSGeneratorSettingKey.DisplayName]: generatorName,
+                            [TSGeneratorSettingKey.Name]: generatorName,
                             [GeneratorSettingKey.Components]: [
                                 TSGeneratorComponent.Linting,
                                 TSGeneratorComponent.VSCode,
                                 TSGeneratorComponent.GeneratorExample
                             ],
-                            [TSGeneratorSetting.LintRuleset]: LintRuleset.Weak
+                            [TSGeneratorSettingKey.LintRuleset]: LintRuleset.Weak
                         }).withOptions(
                             {
                                 "skip-install": false
