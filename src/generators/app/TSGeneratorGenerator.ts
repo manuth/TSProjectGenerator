@@ -48,6 +48,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     }
 
     /**
+     * Gets the path to the directory for the source-files.
+     */
+    protected get SourceRoot(): string
+    {
+        return "src";
+    }
+
+    /**
      * @inheritdoc
      */
     protected get TemplateRoot(): string
@@ -296,6 +304,122 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
+    protected get FileMappings(): Array<IFileMapping<ITSGeneratorSettings>>
+    {
+        return [
+            {
+                Source: ".gitignore.ejs",
+                Destination: ".gitignore"
+            },
+            {
+                Source: ".markdownlint.json",
+                Destination: ".markdownlint.json"
+            },
+            {
+                Source: ".npmignore.ejs",
+                Destination: ".npmignore"
+            },
+            {
+                Source: ".mocharc.jsonc",
+                Destination: ".mocharc.jsonc"
+            },
+            {
+                Source: "GettingStarted.md.ejs",
+                Destination: "GettingStarted.md",
+                Context: () =>
+                {
+                    return {
+                        ID: this.Settings[TSGeneratorSettingKey.Name].replace(/^generator-/, ""),
+                        Name: this.Settings[TSGeneratorSettingKey.Name],
+                        HasCodeWorkspace: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.VSCode),
+                        HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting),
+                        HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),
+                        HasSubGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample),
+                        SubGeneratorName: this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? null,
+                        SubGeneratorPath: Path.join(this.SourceRoot, "generators", this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? "")
+                    };
+                }
+            },
+            {
+                Source: "README.md.ejs",
+                Destination: "README.md",
+                Context: () =>
+                {
+                    return {
+                        Name: this.Settings[TSGeneratorSettingKey.Name],
+                        DisplayName: this.Settings[TSGeneratorSettingKey.DisplayName],
+                        Description: this.Settings[TSGeneratorSettingKey.Description]
+                    };
+                }
+            },
+            {
+                Source: Path.join("tests", "main.test.ts.ejs"),
+                Destination: Path.join(this.SourceRoot, "tests", "main.test.ts"),
+                Context: () =>
+                {
+                    return {
+                        Name: this.Settings[TSGeneratorSettingKey.DisplayName]
+                    };
+                }
+            },
+            {
+                Source: Path.join("tests", "Generators", "index.test.ts.ejs"),
+                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.test.ts"),
+                Context: () =>
+                {
+                    return {
+                        Name: this.Settings[TSGeneratorSettingKey.Name]
+                    };
+                }
+            },
+            {
+                Source: Path.join("tests", "Generators", "app.test.ts.ejs"),
+                Destination: Path.join(this.SourceRoot, "tests", "Generators", `${this.Settings[TSGeneratorSettingKey.Name]}.test.ts`),
+                Context: () =>
+                {
+                    return {
+                        Name: this.Settings[TSGeneratorSettingKey.DisplayName]
+                    };
+                }
+            },
+            {
+                Destination: Path.join(this.SourceRoot, "generators"),
+                Processor: async (target) =>
+                {
+                    return FileSystem.ensureDir(await target.Destination);
+                }
+            },
+            {
+                Destination: "templates",
+                Processor: async (target) =>
+                {
+                    return FileSystem.ensureDir(await target.Destination);
+                }
+            },
+            {
+                Source: "tsconfig.base.json",
+                Destination: "tsconfig.base.json"
+            },
+            {
+                Destination: "tsconfig.json",
+                Processor: async (target) =>
+                {
+                    let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
+
+                    if (!this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
+                    {
+                        delete tsConfig.references;
+                    }
+
+                    this.fs.writeJSON(await target.Destination, tsConfig, null, 4);
+                }
+            }
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public async prompting(): Promise<void>
     {
         this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
@@ -310,64 +434,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.log(chalk.whiteBright("Generating the Workspace"));
         this.destinationRoot(this.Settings[TSGeneratorSettingKey.Destination]);
 
-        let sourceRoot = "src";
         let npmPackage = await this.GetPackageJSON();
         this.fs.writeJSON(npmPackage.FileName, npmPackage.ToJSON());
-        this.fs.copy(this.templatePath(".gitignore.ejs"), this.destinationPath(".gitignore"));
-        this.fs.copy(this.templatePath(".markdownlint.json"), this.destinationPath(".markdownlint.json"));
-        this.fs.copy(this.templatePath(".npmignore.ejs"), this.destinationPath(".npmignore"));
-        this.fs.copy(this.modulePath(".mocharc.jsonc"), this.destinationPath(".mocharc.jsonc"));
-        this.fs.copyTpl(
-            this.templatePath("GettingStarted.md.ejs"),
-            this.destinationPath("GettingStarted.md"),
-            {
-                ID: this.Settings[TSGeneratorSettingKey.Name].replace(/^generator-/, ""),
-                Name: this.Settings[TSGeneratorSettingKey.Name],
-                HasCodeWorkspace: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.VSCode),
-                HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting),
-                HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),
-                HasSubGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample),
-                SubGeneratorName: this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? null,
-                SubGeneratorPath: Path.join(sourceRoot, "generators", this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? "")
-            });
-        this.fs.copyTpl(
-            this.templatePath("README.md.ejs"),
-            this.destinationPath("README.md"),
-            {
-                Name: this.Settings[TSGeneratorSettingKey.Name],
-                DisplayName: this.Settings[TSGeneratorSettingKey.DisplayName],
-                Description: this.Settings[TSGeneratorSettingKey.Description]
-            });
-        this.fs.copyTpl(
-            this.templatePath("tests", "main.test.ts.ejs"),
-            this.destinationPath(sourceRoot, "tests", "main.test.ts"),
-            {
-                Name: this.Settings[TSGeneratorSettingKey.DisplayName]
-            });
-        this.fs.copyTpl(
-            this.templatePath("tests", "Generators", "index.test.ts.ejs"),
-            this.destinationPath(sourceRoot, "tests", "Generators", "index.test.ts"),
-            {
-                Name: this.Settings[TSGeneratorSettingKey.Name]
-            });
-        this.fs.copyTpl(
-            this.templatePath("tests", "Generators", "app.test.ts.ejs"),
-            this.destinationPath(sourceRoot, "tests", "Generators", `${this.Settings[TSGeneratorSettingKey.Name]}.test.ts`),
-            {
-                Name: this.Settings[TSGeneratorSettingKey.DisplayName]
-            });
-        FileSystem.ensureDir(this.destinationPath(sourceRoot, "generators"));
-        FileSystem.ensureDir(this.destinationPath("templates"));
-
-        let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
-
-        if (!this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
-        {
-            delete tsConfig.references;
-        }
-
-        this.fs.copy(this.modulePath("tsconfig.base.json"), this.destinationPath("tsconfig.base.json"));
-        this.fs.writeJSON(this.destinationPath("tsconfig.json"), tsConfig, null, 4);
         return super.writing();
     }
 
