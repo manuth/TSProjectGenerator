@@ -43,6 +43,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     public constructor(args: string | string[], options: Record<string, unknown>)
     {
         super(args, options);
+        this.env.adapter.promptModule.registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
     }
 
     /**
@@ -445,7 +446,6 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      */
     public async prompting(): Promise<void>
     {
-        this.env.adapter.promptModule.registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
         this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
         return super.prompting();
     }
