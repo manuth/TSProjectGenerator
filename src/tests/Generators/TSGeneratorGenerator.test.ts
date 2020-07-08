@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import Path = require("path");
-import { GeneratorSetting } from "extended-yo-generator";
+import { GeneratorSettingKey } from "extended-yo-generator";
 import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintRuleset } from "../../Linting/LintRuleset";
@@ -29,7 +29,7 @@ suite(
                             [TSGeneratorSetting.Destination]: "./",
                             [TSGeneratorSetting.DisplayName]: generatorName,
                             [TSGeneratorSetting.Name]: generatorName,
-                            [GeneratorSetting.Components]: [
+                            [GeneratorSettingKey.Components]: [
                                 TSGeneratorComponent.Linting,
                                 TSGeneratorComponent.VSCode,
                                 TSGeneratorComponent.GeneratorExample

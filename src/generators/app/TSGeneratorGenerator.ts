@@ -7,7 +7,7 @@ import chalk = require("chalk");
 import JSON = require("comment-json");
 import Dedent = require("dedent");
 import { ESLint } from "eslint";
-import { Generator, GeneratorSetting, IComponentCollection, IFileMapping, Question } from "extended-yo-generator";
+import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "extended-yo-generator";
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
@@ -210,7 +210,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                             launch.configurations = [];
                                         }
 
-                                        if (this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+                                        if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
                                         {
                                             generators.push(this.Settings[TSGeneratorSetting.SubGenerator][SubGeneratorSetting.Name]);
                                         }
@@ -323,10 +323,10 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             {
                 ID: this.Settings[TSGeneratorSetting.Name].replace(/^generator-/, ""),
                 Name: this.Settings[TSGeneratorSetting.Name],
-                HasCodeWorkspace: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.VSCode),
-                HasLinting: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting),
-                HasGenerator: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample),
-                HasSubGenerator: this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample),
+                HasCodeWorkspace: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.VSCode),
+                HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting),
+                HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),
+                HasSubGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample),
                 SubGeneratorName: this.Settings[TSGeneratorSetting.SubGenerator]?.[SubGeneratorSetting.Name] ?? null,
                 SubGeneratorPath: Path.join(sourceRoot, "generators", this.Settings[TSGeneratorSetting.SubGenerator]?.[SubGeneratorSetting.Name] ?? "")
             });
@@ -361,7 +361,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
         let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
 
-        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
+        if (!this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
         {
             delete tsConfig.references;
         }
@@ -401,7 +401,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         this.log();
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
 
-        if (!this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
+        if (!this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
         {
             this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
             tempDir = new TempDirectory();
@@ -593,14 +593,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
             result.Register(new CommonDependencies(), true);
 
-            if (this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.Linting))
+            if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
             {
                 result.Register(new LintDependencies(), true);
             }
 
             if (
-                this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.GeneratorExample) ||
-                this.Settings[GeneratorSetting.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+                this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample) ||
+                this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
             {
                 result.Register(new GeneratorDependencies(), true);
             }
