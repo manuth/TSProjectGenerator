@@ -261,6 +261,24 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
                                         this.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
                                     }
+                                },
+                                {
+                                    Source: this.modulePath(".vscode", "tasks.json"),
+                                    Destination: this.destinationPath(".vscode", "tasks.json"),
+                                    Processor: async (fileMapping) =>
+                                    {
+                                        let tasks = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
+
+                                        for (let task of tasks.tasks)
+                                        {
+                                            if (task.label === "Lint")
+                                            {
+                                                task.problemMatcher = task.problemMatcher[0];
+                                            }
+                                        }
+
+                                        this.fs.write(await fileMapping.Destination, JSON.stringify(tasks, null, 4));
+                                    }
                                 }
                             ]
                         },
