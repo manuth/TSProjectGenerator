@@ -292,12 +292,12 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             ID: TSGeneratorComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
                             DefaultEnabled: true,
-                            FileMappings: (fileMapping, generator) => this.GetGeneratorFileMappings("app", generator.Settings[TSGeneratorSettingKey.DisplayName])
+                            FileMappings: (component, generator) => this.GetGeneratorFileMappings("app", generator.Settings[TSGeneratorSettingKey.DisplayName])
                         },
                         {
                             ID: TSGeneratorComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
-                            FileMappings: (fileMapping, generator) => generator.Settings[TSGeneratorSettingKey.SubGenerator].flatMap(
+                            FileMappings: (component, generator) => generator.Settings[TSGeneratorSettingKey.SubGenerator].flatMap(
                                 (subGeneratorOptions) =>
                                 {
                                     return this.GetGeneratorFileMappings(
