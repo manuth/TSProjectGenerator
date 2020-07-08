@@ -6,18 +6,55 @@ import { ISubGenerator } from "../generators/app/ISubGenerator";
 import { ITSGeneratorSettings } from "../generators/app/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../generators/app/SubGeneratorSettingKey";
 import { PromptCallback } from "./PromptCallback";
-import Question = inquirer.Question;
+import Answers = inquirer.Answers;
 import DistinctQuestion = inquirer.DistinctQuestion;
+
+declare module "inquirer"
+{
+    /**
+     * @inheritdoc
+     */
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    interface QuestionMap<T>
+    {
+        /**
+         * Represents the sub-generators prompt.
+         */
+        [SubGeneratorPrompt.TypeName]: ISubGeneratorQuestion<T>;
+    }
+}
+
+/**
+ * Provides options for the `SubGeneratorPrompt`.
+ */
+interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends inquirer.ConfirmQuestionOptions<T>
+{
+    /**
+     * @inheritdoc
+     */
+    default?: null;
+}
+
+/**
+ * Provides options for the `SubGeneratorPrompt`.
+ */
+interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGeneratorQuestionOptions<T>
+{
+    /**
+     * @inheritdoc
+     */
+    type: typeof SubGeneratorPrompt.TypeName;
+}
 
 /**
  * Provides a prompt for asking for sub-generators.
  */
-export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<Question<T>>
+export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISubGeneratorQuestion<T>>
 {
     /**
      * The name of the prompt-type.
      */
-    public static TypeName = "sub-generators";
+    public static readonly TypeName = "sub-generators";
 
     /**
      * The settings for the sub-generators.
@@ -36,7 +73,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<Que
      * @param answers
      * The answer-object.
      */
-    public constructor(question: Question<T>, readLine: ReadLine, answers: T)
+    public constructor(question: ISubGeneratorQuestion<T>, readLine: ReadLine, answers: T)
     {
         super(
             {

@@ -9,7 +9,6 @@ import JSON = require("comment-json");
 import Dedent = require("dedent");
 import { ESLint } from "eslint";
 import FileSystem = require("fs-extra");
-import inquirer = require("inquirer");
 import CamelCase = require("lodash.camelcase");
 import KebabCase = require("lodash.kebabcase");
 import npmWhich = require("npm-which");
@@ -26,7 +25,6 @@ import { PackageFileMapping } from "./PackageFileMapping";
 import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
-import InquirerQuestion = inquirer.Question;
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
@@ -305,11 +303,11 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                                         subGeneratorOptions[SubGeneratorSettingKey.DisplayName]);
                                 }),
                             Questions: [
-                                ({
+                                {
                                     type: SubGeneratorPrompt.TypeName,
                                     name: TSGeneratorSettingKey.SubGenerator,
                                     message: "Please specify the details of the sub-generators to create"
-                                } as InquirerQuestion<ITSGeneratorSettings>) as any
+                                }
                             ]
                         }
                     ]
