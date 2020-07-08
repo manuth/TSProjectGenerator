@@ -320,7 +320,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 Destination: ".npmignore"
             },
             {
-                Source: ".mocharc.jsonc",
+                Source: this.modulePath(".mocharc.jsonc"),
                 Destination: ".mocharc.jsonc"
             },
             {
@@ -397,7 +397,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 }
             },
             {
-                Source: "tsconfig.base.json",
+                Source: this.modulePath("tsconfig.base.json"),
                 Destination: "tsconfig.base.json"
             },
             {
