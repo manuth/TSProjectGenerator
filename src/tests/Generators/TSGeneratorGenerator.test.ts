@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import Path = require("path");
-import { GeneratorSettingKey } from "extended-yo-generator";
+import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintRuleset } from "../../Linting/LintRuleset";
