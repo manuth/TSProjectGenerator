@@ -8,7 +8,7 @@ import { IScriptMapping } from "../../NPMPackaging/IScriptMapping";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "./TSGeneratorSetting";
+import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 
 /**
  * Represents a file-mapping for the `package.json` file.

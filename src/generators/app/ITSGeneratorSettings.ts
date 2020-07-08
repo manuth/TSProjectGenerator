@@ -1,7 +1,7 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { ISubGenerator } from "./ISubGenerator";
-import { TSGeneratorSettingKey } from "./TSGeneratorSetting";
+import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 
 /**
  * Provides settings for the `AppGenerator`.

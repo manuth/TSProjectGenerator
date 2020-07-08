@@ -1,7 +1,7 @@
 /**
  * Represents a sub-generator setting.
  */
-export enum SubGeneratorSetting
+export enum SubGeneratorSettingKey
 {
     /**
      * Indicates the `Name`-setting.

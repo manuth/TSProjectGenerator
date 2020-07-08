@@ -6,7 +6,7 @@ import npmWhich = require("npm-which");
 import { run, RunContext } from "yeoman-test";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../../generators/app/TSGeneratorSetting";
+import { TSGeneratorSettingKey } from "../../generators/app/TSGeneratorSettingKey";
 
 suite(
     "TSGenerator-Generator",

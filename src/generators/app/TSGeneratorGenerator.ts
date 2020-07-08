@@ -21,9 +21,9 @@ import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { PackageFileMapping } from "./PackageFileMapping";
-import { SubGeneratorSetting } from "./SubGeneratorSetting";
+import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "./TSGeneratorSetting";
+import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
@@ -217,7 +217,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
 
                                         if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
                                         {
-                                            generators.push(this.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSetting.Name]);
+                                            generators.push(this.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSettingKey.Name]);
                                         }
 
                                         for (let generatorName of generators)
@@ -274,20 +274,20 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                             ID: TSGeneratorComponent.SubGeneratorExample,
                             DisplayName: "Example Sub-Generator",
                             FileMappings: (fileMapping, generator) => this.GetGeneratorFileMappings(
-                                generator.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSetting.Name],
-                                generator.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSetting.DisplayName]),
+                                generator.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSettingKey.Name],
+                                generator.Settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSettingKey.DisplayName]),
                             Questions: [
                                 {
                                     type: "input",
-                                    name: `${TSGeneratorSettingKey.SubGenerator}.${SubGeneratorSetting.DisplayName}`,
+                                    name: `${TSGeneratorSettingKey.SubGenerator}.${SubGeneratorSettingKey.DisplayName}`,
                                     message: "What's the human-readable name of your sub-generator?",
                                     validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
                                 },
                                 {
                                     type: "input",
-                                    name: `${TSGeneratorSettingKey.SubGenerator}.${SubGeneratorSetting.Name}`,
+                                    name: `${TSGeneratorSettingKey.SubGenerator}.${SubGeneratorSettingKey.Name}`,
                                     message: "What's the unique name of the sub-generator?",
-                                    default: (settings: ITSGeneratorSettings) => KebabCase(settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSetting.DisplayName] || ""),
+                                    default: (settings: ITSGeneratorSettings) => KebabCase(settings[TSGeneratorSettingKey.SubGenerator][SubGeneratorSettingKey.DisplayName] || ""),
                                     validate: (input: string) => /[\w-]+/.test(input) ? true : "Please provide a name according to the npm naming-conventions."
                                 }
                             ]
@@ -333,8 +333,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                         HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting),
                         HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),
                         HasSubGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample),
-                        SubGeneratorName: this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? null,
-                        SubGeneratorPath: Path.join(this.SourceRoot, "generators", this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSetting.Name] ?? "")
+                        SubGeneratorName: this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSettingKey.Name] ?? null,
+                        SubGeneratorPath: Path.join(this.SourceRoot, "generators", this.Settings[TSGeneratorSettingKey.SubGenerator]?.[SubGeneratorSettingKey.Name] ?? "")
                     };
                 }
             },
