@@ -138,7 +138,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
 
         result.Register(new CommonDependencies(), true);
 
-        if (this.Generator.Settings[GeneratorSettingKey.Components].indexOf(TSGeneratorComponent.Linting))
+        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
         {
             result.Register(new LintDependencies(), true);
         }
