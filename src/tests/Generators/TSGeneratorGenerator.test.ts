@@ -5,7 +5,6 @@ import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
-import { run } from "yeoman-test";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
@@ -112,7 +111,7 @@ suite(
                     {
                         this.timeout(20 * 1000);
                         this.slow(10 * 1000);
-                        let testContext = run(Path.join(generatorDir.FullName, "lib", "generators", "app"));
+                        let testContext = new TestContext(Path.join(generatorDir.FullName, "lib", "generators", "app")).ExecuteGenerator();
                         await Assert.doesNotReject(testContext.toPromise());
                         process.chdir(currentDir);
                         testContext.cleanTestDirectory();
