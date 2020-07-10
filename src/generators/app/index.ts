@@ -1,2 +1,3 @@
-import { TSGeneratorGenerator } from "./TSGeneratorGenerator";
+import { TSGeneratorGenerator } from "../generator/TSGeneratorGenerator";
+
 export = TSGeneratorGenerator;

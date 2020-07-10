@@ -1,10 +1,10 @@
-export { ISubGenerator } from "./generators/app/ISubGenerator";
-export { ITSGeneratorSettings } from "./generators/app/ITSGeneratorSettings";
-export { PackageFileMapping } from "./generators/app/PackageFileMapping";
-export { SubGeneratorSettingKey } from "./generators/app/SubGeneratorSettingKey";
-export { TSGeneratorComponent } from "./generators/app/TSGeneratorComponent";
-export { TSGeneratorGenerator } from "./generators/app/TSGeneratorGenerator";
-export { TSGeneratorSettingKey } from "./generators/app/TSGeneratorSettingKey";
+export { ISubGenerator } from "./generators/generator/ISubGenerator";
+export { ITSGeneratorSettings } from "./generators/generator/ITSGeneratorSettings";
+export { PackageFileMapping } from "./generators/generator/PackageFileMapping";
+export { SubGeneratorSettingKey } from "./generators/generator/SubGeneratorSettingKey";
+export { TSGeneratorComponent } from "./generators/generator/TSGeneratorComponent";
+export { TSGeneratorGenerator } from "./generators/generator/TSGeneratorGenerator";
+export { TSGeneratorSettingKey } from "./generators/generator/TSGeneratorSettingKey";
 export { LintRuleset } from "./Linting/LintRuleset";
 export { CommonDependencies } from "./NPMPackaging/CommonDependencies";
 export { GeneratorDependencies } from "./NPMPackaging/GeneratorDependencies";

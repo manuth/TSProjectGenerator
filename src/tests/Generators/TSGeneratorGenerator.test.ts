@@ -10,9 +10,9 @@ import npmWhich = require("npm-which");
 import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { LintRuleset } from "../../Linting/LintRuleset";
-import { TSGeneratorComponent } from "../../generators/app/TSGeneratorComponent";
-import { TSGeneratorGenerator } from "../../generators/app/TSGeneratorGenerator";
-import { TSGeneratorSettingKey } from "../../generators/app/TSGeneratorSettingKey";
+import { TSGeneratorComponent } from "../../generators/generator/TSGeneratorComponent";
+import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator";
+import { TSGeneratorSettingKey } from "../../generators/generator/TSGeneratorSettingKey";
 
 suite(
     "TSGenerator-Generator",
