@@ -16,11 +16,7 @@
             "internalConsoleOptions": "neverOpen",
             "preLaunchTask": "Build",
             "cwd": "${workspaceFolder}/..",
-            "sourceMaps": true,
-            "resolveSourceMapLocations": [
-                "${workspaceFolder}/**",
-                "!**/node_modules/**"
-            ]
+            "sourceMaps": true
         },
         {
             "type": "pwa-node",
@@ -30,11 +26,7 @@
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": "Build",
             "sourceMaps": true,
-            "autoAttachChildProcesses": false,
-            "resolveSourceMapLocations": [
-                "${workspaceFolder}/**",
-                "!**/node_modules/**"
-            ]
+            "autoAttachChildProcesses": false
         }
     ]
 }
