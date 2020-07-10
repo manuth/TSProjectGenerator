@@ -1,6 +1,6 @@
 {
     "recommendations": [
         "manuth.eslint-language-service",
-        "qassimfarid.ejs-language-support"
+        "qdigitalbrainstem.javascript-ejs-support"
     ]
 }
