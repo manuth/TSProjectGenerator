@@ -17,6 +17,7 @@ import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
 import { LintRuleset } from "../../Linting/LintRuleset";
+import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { SubGeneratorPrompt } from "../../Prompting/SubGeneratorPrompt";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
@@ -486,10 +487,21 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         let program: Program;
         let linter: ESLint;
         let tsConfigFile = this.destinationPath("tsconfig.json");
+        let newTSConfigFile = this.destinationPath("tsconfig.temp.json");
+        let tsConfig = JSON.parse((await FileSystem.readFile(tsConfigFile)).toString());
         this.log();
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
+        lintPackage.Register(new CommonDependencies());
         lintPackage.Register(new LintDependencies());
+        await FileSystem.writeJSON(lintPackage.FileName, lintPackage.ToJSON());
+
+        await FileSystem.writeJSON(
+            newTSConfigFile,
+            {
+                ...tsConfig,
+                extends: undefined
+            });
 
         spawnSync(
             npmWhich(__dirname).sync("npm"),
@@ -504,7 +516,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
         workspaceRequire = createRequire(Path.join(tempDir.FullName, ".js"));
         linterConstructor = workspaceRequire("tslint").Linter;
         eslintConstructor = workspaceRequire("eslint").ESLint;
-        program = linterConstructor.createProgram(tsConfigFile);
+        program = linterConstructor.createProgram(newTSConfigFile);
 
         linter = new eslintConstructor(
             {
@@ -514,7 +526,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js"),
                 overrideConfig: {
                     parserOptions: {
-                        project: tsConfigFile
+                        project: newTSConfigFile
                     }
                 }
             });
@@ -524,6 +536,8 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
             this.log(chalk.gray(`Cleaning up "${Path.relative(this.destinationPath(), fileName)}"...`));
             await ESLint.outputFixes(await linter.lintFiles(fileName));
         }
+
+        await FileSystem.remove(newTSConfigFile);
 
         this.log();
         this.log(Dedent(`
