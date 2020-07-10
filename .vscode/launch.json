@@ -20,9 +20,6 @@
             "resolveSourceMapLocations": [
                 "${workspaceFolder}/**",
                 "!**/node_modules/**"
-            ],
-            "skipFiles": [
-                "<node_internals>/**"
             ]
         },
         {
@@ -37,9 +34,6 @@
             "resolveSourceMapLocations": [
                 "${workspaceFolder}/**",
                 "!**/node_modules/**"
-            ],
-            "skipFiles": [
-                "<node_internals>/**"
             ]
         }
     ]
