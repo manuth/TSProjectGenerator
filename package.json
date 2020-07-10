@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.1.2",
+    "@manuth/extended-yo-generator-test": "^4.0.1",
     "@manuth/tsconfig": "^1.2.2",
     "@types/comment-json": "^1.1.1",
     "@types/dedent": "^0.7.0",
