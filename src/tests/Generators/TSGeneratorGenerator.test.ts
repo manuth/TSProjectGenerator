@@ -15,7 +15,6 @@ suite(
     () =>
     {
         let generatorDir: TempDirectory;
-        let currentDir: string;
         let testContext: TestContext<TSGeneratorGenerator>;
         let runContext: IRunContext<TSGeneratorGenerator>;
         let generatorName: string;
@@ -24,7 +23,6 @@ suite(
             () =>
             {
                 generatorDir = new TempDirectory();
-                currentDir = process.cwd();
                 generatorName = "generator-test";
                 testContext = new TestContext(Path.join(__dirname, "..", "..", "generators", "app"));
 
@@ -51,8 +49,7 @@ suite(
             function(): void
             {
                 this.timeout(0);
-                this.slow(30 * 1000);
-                process.chdir(currentDir);
+                generatorDir.Dispose();
             });
 
         suite(
@@ -113,7 +110,6 @@ suite(
                         this.slow(10 * 1000);
                         let testContext = new TestContext(Path.join(generatorDir.FullName, "lib", "generators", "app")).ExecuteGenerator();
                         await Assert.doesNotReject(testContext.toPromise());
-                        process.chdir(currentDir);
                         testContext.cleanTestDirectory();
                     });
             });
