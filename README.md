@@ -13,7 +13,7 @@ npm install -g yo @manuth/generator-ts-project
 You can create a generator written in TypeScript using this command:
 
 ```bash
-yo ts-project
+yo @manuth/ts-project
 ```
 
 It is recommended to use an intelligent code-editor which is meant to be used with TypeScript (like, for example VSCode or Atom).  
