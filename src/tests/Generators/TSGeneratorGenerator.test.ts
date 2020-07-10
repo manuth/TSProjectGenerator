@@ -37,12 +37,9 @@ suite(
                             TSGeneratorComponent.GeneratorExample
                         ],
                         [TSGeneratorSettingKey.LintRuleset]: LintRuleset.Weak
-                    }).withOptions(
-                        {
-                            "skip-install": false
-                        }).inDir(
-                            generatorDir.FullName
-                        );
+                    }).inDir(
+                        generatorDir.FullName
+                    );
             });
 
         suiteTeardown(
