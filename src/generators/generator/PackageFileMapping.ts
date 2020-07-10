@@ -6,9 +6,10 @@ import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { GeneratorDependencies } from "../../NPMPackaging/GeneratorDependencies";
 import { IScriptMapping } from "../../NPMPackaging/IScriptMapping";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
+import { TSProjectComponent } from "../../Project/TSProjectComponent";
+import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 
 /**
  * Represents a file-mapping for the `package.json` file.
@@ -105,9 +106,9 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             result = new Package(
                 fileName,
                 {
-                    name: this.Generator.Settings[TSGeneratorSettingKey.Name],
+                    name: this.Generator.Settings[TSProjectSettingKey.Name],
                     version: "0.0.0",
-                    description: this.Generator.Settings[TSGeneratorSettingKey.Description],
+                    description: this.Generator.Settings[TSProjectSettingKey.Description],
                     author: {
                         name: this.Generator.user.git.name(),
                         email: this.Generator.user.git.email()
@@ -138,7 +139,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
 
         result.Register(new CommonDependencies(), true);
 
-        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.Linting))
+        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {
             result.Register(new LintDependencies(), true);
         }

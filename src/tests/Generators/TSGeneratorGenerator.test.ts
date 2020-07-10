@@ -10,9 +10,10 @@ import npmWhich = require("npm-which");
 import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { LintRuleset } from "../../Linting/LintRuleset";
+import { TSProjectComponent } from "../../Project/TSProjectComponent";
+import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { TSGeneratorComponent } from "../../generators/generator/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator";
-import { TSGeneratorSettingKey } from "../../generators/generator/TSGeneratorSettingKey";
 
 suite(
     "TSGenerator-Generator",
@@ -34,15 +35,15 @@ suite(
 
                 runContext = testContext.ExecuteGenerator().withPrompts(
                     {
-                        [TSGeneratorSettingKey.Destination]: "./",
-                        [TSGeneratorSettingKey.DisplayName]: generatorName,
-                        [TSGeneratorSettingKey.Name]: generatorName,
+                        [TSProjectSettingKey.Destination]: "./",
+                        [TSProjectSettingKey.DisplayName]: generatorName,
+                        [TSProjectSettingKey.Name]: generatorName,
                         [GeneratorSettingKey.Components]: [
-                            TSGeneratorComponent.Linting,
-                            TSGeneratorComponent.VSCode,
+                            TSProjectComponent.Linting,
+                            TSProjectComponent.VSCode,
                             TSGeneratorComponent.GeneratorExample
                         ],
-                        [TSGeneratorSettingKey.LintRuleset]: LintRuleset.Weak
+                        [TSProjectSettingKey.LintRuleset]: LintRuleset.Weak
                     }).inDir(
                         generatorDir.FullName
                     );
@@ -155,7 +156,7 @@ suite(
                                             ${description}`));
 
                                 await runContext.toPromise();
-                                Assert.strictEqual(runContext.generator.Settings[TSGeneratorSettingKey.Description], description);
+                                Assert.strictEqual(runContext.generator.Settings[TSProjectSettingKey.Description], description);
                             });
 
                         test(

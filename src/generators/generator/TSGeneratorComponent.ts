@@ -4,16 +4,6 @@
 export enum TSGeneratorComponent
 {
     /**
-     * Indicates linting.
-     */
-    Linting = "linting",
-
-    /**
-     * Indicates the Visual Studio Code workspace.
-     */
-    VSCode = "vscode",
-
-    /**
      * Indicates the generator example.
      */
     GeneratorExample = "example",
