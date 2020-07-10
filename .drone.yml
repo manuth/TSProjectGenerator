@@ -1,4 +1,4 @@
-name: TSGeneratorGenerator
+name: TSProjectGenerator
 kind: pipeline
 type: docker
 

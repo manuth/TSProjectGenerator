@@ -1,19 +1,19 @@
-# TSGeneratorGenerator
-A Generator for Yeoman Generators Written in TypeScript
+# TSProjectGenerator
+A Set of Generators for Creating Projects Written in TypeScript
 
 ## Usage
-### Install TSGeneratorGenerator
-You can install `TSGeneratorGenerator` using the following command:
+### Install TSProjectGenerator
+You can install `TSProjectGenerator` using the following command:
 
 ```bash
-npm install -g yo generator-ts-generator
+npm install -g yo @manuth/generator-ts-project
 ```
 
 ### Generate a Generator Written in TypeScript
 You can create a generator written in TypeScript using this command:
 
 ```bash
-yo ts-generator
+yo ts-project
 ```
 
 It is recommended to use an intelligent code-editor which is meant to be used with TypeScript (like, for example VSCode or Atom).  
