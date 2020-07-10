@@ -50,7 +50,7 @@ suite(
         suiteTeardown(
             function(): void
             {
-                this.timeout(60 * 1000);
+                this.timeout(0);
                 this.slow(30 * 1000);
                 process.chdir(currentDir);
             });
@@ -63,7 +63,7 @@ suite(
                     "Checking whether the generator can be executed…",
                     async function()
                     {
-                        this.timeout(7 * 60 * 1000);
+                        this.timeout(0);
                         this.slow(6.5 * 60 * 1000);
                         return Assert.doesNotReject(async () => runContext.toPromise());
                     });
@@ -72,7 +72,7 @@ suite(
                     "Checking whether the generated module can be installed…",
                     function()
                     {
-                        this.timeout(6.5 * 60 * 1000);
+                        this.timeout(0);
                         this.slow(3.25 * 60 * 1000);
 
                         let result = spawnSync(
@@ -92,7 +92,7 @@ suite(
                     "Checking whether the generated module can be compiled using typescript…",
                     async function()
                     {
-                        this.timeout(15.5 * 1000);
+                        this.timeout(0);
                         this.slow(7.75 * 1000);
 
                         let result = spawnSync(
@@ -109,7 +109,7 @@ suite(
                     "Checking whether the generated module can be used as a generator…",
                     async function()
                     {
-                        this.timeout(20 * 1000);
+                        this.timeout(0);
                         this.slow(10 * 1000);
                         let testContext = new TestContext(Path.join(generatorDir.FullName, "lib", "generators", "app")).ExecuteGenerator();
                         await Assert.doesNotReject(testContext.toPromise());
