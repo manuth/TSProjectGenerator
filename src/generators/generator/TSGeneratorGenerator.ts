@@ -32,7 +32,7 @@ import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
+export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorSettings> extends Generator<T>
 {
     /**
      * Initializes a new instance of the `AppGenerator` class.
@@ -68,7 +68,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    protected get Questions(): Array<Question<ITSGeneratorSettings>>
+    protected get Questions(): Array<Question<T>>
     {
         return [
             {
@@ -82,14 +82,14 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 type: "input",
                 name: TSProjectSettingKey.DisplayName,
                 message: "What's the name of your project?",
-                default: (answers: ITSGeneratorSettings) => Path.basename(answers[TSProjectSettingKey.Destination]),
+                default: (answers: T) => Path.basename(answers[TSProjectSettingKey.Destination]),
                 validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
             },
             {
                 type: "input",
                 name: TSProjectSettingKey.Name,
                 message: "What's the name of the node-module?",
-                default: (answers: ITSGeneratorSettings) => "generator-" + KebabCase(answers[TSProjectSettingKey.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
+                default: (answers: T) => "generator-" + KebabCase(answers[TSProjectSettingKey.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
                 filter: input => KebabCase(input),
                 validate: (input: string) =>
                 {
@@ -107,7 +107,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
                 type: "input",
                 name: TSProjectSettingKey.Description,
                 message: "Please enter a description for your generator.",
-                default: async (settings: ITSGeneratorSettings) =>
+                default: async (settings: T) =>
                 {
                     let npmPackage = new Package(Path.join(settings[TSProjectSettingKey.Destination], ".json"), {});
                     await npmPackage.Normalize();
@@ -120,7 +120,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<ITSGeneratorSettings>
+    protected get Components(): IComponentCollection<T>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -323,7 +323,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
     /**
      * @inheritdoc
      */
-    protected get FileMappings(): Array<IFileMapping<ITSGeneratorSettings>>
+    protected get FileMappings(): Array<IFileMapping<T>>
     {
         return [
             new PackageFileMapping(this),
@@ -566,7 +566,7 @@ export class TSGeneratorGenerator extends Generator<ITSGeneratorSettings>
      * File-mappings for a generator.
      */
     protected GetGeneratorFileMappings =
-        (id: string, displayName: string): Array<IFileMapping<ITSGeneratorSettings>> =>
+        (id: string, displayName: string): Array<IFileMapping<T>> =>
         {
             let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
             let source = "generator";
