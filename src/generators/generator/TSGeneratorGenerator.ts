@@ -10,8 +10,8 @@ import Dedent = require("dedent");
 import { ESLint } from "eslint";
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
-import KebabCase = require("lodash.kebabcase");
 import npmWhich = require("npm-which");
+import parsePackageName = require("parse-pkg-name");
 import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
@@ -19,6 +19,7 @@ import YoSay = require("yosay");
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
+import { ProjectQuestionCollection } from "../../Project/ProjectQuestionCollection";
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { SubGeneratorPrompt } from "../../Prompting/SubGeneratorPrompt";
@@ -70,51 +71,44 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Questions(): Array<Question<T>>
     {
-        return [
+        let questionCollection = new ProjectQuestionCollection<T>();
+        let packageNameValidator = questionCollection.ModuleNameQuestion.validate;
+        let defaultPackageName = questionCollection.ModuleNameQuestion.default;
+
+        questionCollection.ModuleNameQuestion.default = (answers: T) =>
+        {
+            let defaultName: string;
+
+            if (typeof defaultPackageName === "function")
             {
-                type: "input",
-                name: TSProjectSettingKey.Destination,
-                message: "Where do you want to save your generator to?",
-                default: "./",
-                filter: async input => Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input)
-            },
-            {
-                type: "input",
-                name: TSProjectSettingKey.DisplayName,
-                message: "What's the name of your project?",
-                default: (answers: T) => Path.basename(answers[TSProjectSettingKey.Destination]),
-                validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
-            },
-            {
-                type: "input",
-                name: TSProjectSettingKey.Name,
-                message: "What's the name of the node-module?",
-                default: (answers: T) => "generator-" + KebabCase(answers[TSProjectSettingKey.DisplayName].replace(/(generator-)?(.*?)(generator)?$/i, "$2")),
-                filter: input => KebabCase(input),
-                validate: (input: string) =>
-                {
-                    if (/[\w-]+/.test(input))
-                    {
-                        return input.startsWith("generator-") ? true : 'The name must start with "generator-"';
-                    }
-                    else
-                    {
-                        return "Please provide a name according to the npm naming-conventions.";
-                    }
-                }
-            },
-            {
-                type: "input",
-                name: TSProjectSettingKey.Description,
-                message: "Please enter a description for your generator.",
-                default: async (settings: T) =>
-                {
-                    let npmPackage = new Package(Path.join(settings[TSProjectSettingKey.Destination], ".json"), {});
-                    await npmPackage.Normalize();
-                    return npmPackage.Description;
-                }
+                defaultName = defaultPackageName(answers);
             }
-        ];
+            else
+            {
+                defaultName = defaultPackageName;
+            }
+
+            return `generator-${defaultName.replace(/(generator-)?(.*?)(generator)?$/i, "$2")}`;
+        };
+
+        questionCollection.ModuleNameQuestion.validate = (input: string) =>
+        {
+            let result = packageNameValidator(input);
+
+            if ((typeof result === "boolean") && result)
+            {
+                let packageName = parsePackageName(input).name;
+                return /^generator-.+/.test(packageName) ? true : `The package-name \`${packageName}\` must start with \`generator-\`.`;
+            }
+            else
+            {
+                return result;
+            }
+        };
+
+        questionCollection.DescriptionQuestion.message = "Please enter a description for your generator.";
+
+        return questionCollection.Questions;
     }
 
     /**
