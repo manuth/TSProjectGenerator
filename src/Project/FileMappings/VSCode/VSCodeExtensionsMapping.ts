@@ -84,10 +84,6 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
      */
     protected async FilterRecommendations(recommendations: string[]): Promise<string[]>
     {
-        return recommendations.filter(
-            (extension) =>
-            {
-                return extension !== "qdigitalbrainstem.javascript-ejs-support";
-            });
+        return recommendations;
     }
 }
