@@ -50,6 +50,17 @@ export abstract class ProjectFileMapping<T extends ITSProjectSettings> implement
      * @inheritdoc
      *
      * @param fileMapping
+     * The file-mapping to process.
+     *
+     * @param generator
+     * The generator of the file-mapping.
+     */
+    public async Processor?(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>;
+
+    /**
+     * @inheritdoc
+     *
+     * @param fileMapping
      * The target of the resolve.
      *
      * @param generator
