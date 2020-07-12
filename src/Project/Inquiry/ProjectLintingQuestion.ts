@@ -1,5 +1,5 @@
 import { ListQuestionOptions, ChoiceCollection } from "inquirer";
-import { QuestionBase } from "../../Inquiry/Question";
+import { QuestionBase } from "../../Inquiry/QuestionBase";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 import { TSProjectSettingKey } from "../TSProjectSettingKey";

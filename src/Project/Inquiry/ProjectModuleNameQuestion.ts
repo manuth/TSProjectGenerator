@@ -1,7 +1,7 @@
 import { InputQuestionOptions } from "inquirer";
 import kebabCase = require("lodash.kebabcase");
 import validate = require("validate-npm-package-name");
-import { QuestionBase } from "../../Inquiry/Question";
+import { QuestionBase } from "../../Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 import { TSProjectSettingKey } from "../TSProjectSettingKey";
 

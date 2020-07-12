@@ -1,7 +1,7 @@
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
-import { QuestionBase } from "../../Inquiry/Question";
+import { QuestionBase } from "../../Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 import { TSProjectSettingKey } from "../TSProjectSettingKey";
 
