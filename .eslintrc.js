@@ -21,6 +21,7 @@ module.exports = {
                 allowArgumentsExplicitlyTypedAsAny: true
             }
         ],
+        "@typescript-eslint/no-dynamic-delete": "off",
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
