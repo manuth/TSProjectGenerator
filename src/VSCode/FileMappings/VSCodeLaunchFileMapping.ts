@@ -97,7 +97,7 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
      */
     protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
-        return !debugConfig.name.toLowerCase().includes("yeoman");
+        return true;
     }
 
     /**
