@@ -84,16 +84,10 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
      */
     protected async FilterRecommendations(recommendations: string[]): Promise<string[]>
     {
-        let result: string[] = [];
-
-        for (let extension of recommendations)
-        {
-            if (extension !== "qdigitalbrainstem.javascript-ejs-support")
+        return recommendations.filter(
+            (extension) =>
             {
-                result.push(extension);
-            }
-        }
-
-        return result;
+                return extension !== "qdigitalbrainstem.javascript-ejs-support";
+            });
     }
 }
