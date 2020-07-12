@@ -9,10 +9,10 @@ import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 /**
  * Provides a file-mapping for copying the `launch.json` file.
  */
-export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
+export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `VSCodeLaunchFileMapping` class.
+     * Initializes a new instance of the `VSCodeSettingsFileMapping` class.
      *
      * @param codeWorkspaceComponent
      * The workspace-component of this file-mapping.
