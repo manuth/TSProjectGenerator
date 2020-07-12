@@ -1,7 +1,6 @@
 import { spawnSync } from "child_process";
 import { createRequire } from "module";
 import Path = require("path");
-import { isNullOrUndefined } from "util";
 import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
@@ -24,7 +23,7 @@ import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestina
 import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
-import { ILaunchFile } from "../../VSCode/ILaunchFile";
+import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
 import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
 import { GeneratorModuleNameQuestion } from "./Inquiry/GeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
@@ -93,116 +92,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
                     DisplayName: "General",
                     Components: [
                         new LintingComponent(),
-                        {
-                            ID: TSProjectComponent.VSCode,
-                            DisplayName: "Visual Studio Code-Workspace",
-                            DefaultEnabled: true,
-                            FileMappings: [
-                                {
-                                    Source: this.modulePath(".vscode"),
-                                    Destination: ".vscode"
-                                },
-                                {
-                                    Source: this.modulePath(".vscode", "launch.json"),
-                                    Destination: this.destinationPath(".vscode", "launch.json"),
-                                    Processor: async (fileMapping) =>
-                                    {
-                                        let configurations: any[] = [];
-                                        let launch: ILaunchFile = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
-
-                                        let generators: string[] = [
-                                            "app"
-                                        ];
-
-                                        if (!isNullOrUndefined(launch.configurations))
-                                        {
-                                            let validConfigurations: any[] = [];
-
-                                            for (let configuration of launch.configurations)
-                                            {
-                                                if ((configuration.name as string).toLowerCase().includes("launch tests"))
-                                                {
-                                                    validConfigurations.push(configuration);
-                                                }
-                                            }
-
-                                            launch.configurations = validConfigurations;
-                                        }
-                                        else
-                                        {
-                                            launch.configurations = [];
-                                        }
-
-                                        if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
-                                        {
-                                            for (let subGeneratorOptions of this.Settings[TSGeneratorSettingKey.SubGenerator] ?? [])
-                                            {
-                                                generators.push(subGeneratorOptions[SubGeneratorSettingKey.Name]);
-                                            }
-                                        }
-
-                                        for (let generatorName of generators)
-                                        {
-                                            configurations.push(
-                                                {
-                                                    type: "node",
-                                                    request: "launch",
-                                                    name: generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`,
-                                                    program: "${workspaceFolder}/node_modules/yo/lib/cli.js",
-                                                    args: [
-                                                        `\${workspaceFolder}/lib/generators/${generatorName}`
-                                                    ],
-                                                    console: "integratedTerminal",
-                                                    internalConsoleOptions: "neverOpen",
-                                                    preLaunchTask: "Build",
-                                                    cwd: "${workspaceFolder}/..",
-                                                    sourceMaps: true
-                                                });
-                                        }
-
-                                        launch.configurations.unshift(...configurations);
-                                        this.fs.write(await fileMapping.Destination, JSON.stringify(launch, null, 4));
-                                    }
-                                },
-                                {
-                                    Source: this.modulePath(".vscode", "settings.json"),
-                                    Destination: this.destinationPath(".vscode", "settings.json"),
-                                    Processor: async (fileMapping) =>
-                                    {
-                                        let result: any = {};
-                                        let settings = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
-
-                                        for (let key in settings)
-                                        {
-                                            if (key !== "files.associations")
-                                            {
-                                                result[key] = settings[key];
-                                            }
-                                        }
-
-                                        this.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
-                                    }
-                                },
-                                {
-                                    Source: this.modulePath(".vscode", "tasks.json"),
-                                    Destination: this.destinationPath(".vscode", "tasks.json"),
-                                    Processor: async (fileMapping) =>
-                                    {
-                                        let tasks = JSON.parse((await FileSystem.readFile(await fileMapping.Source)).toString());
-
-                                        for (let task of tasks.tasks)
-                                        {
-                                            if (task.label === "Lint")
-                                            {
-                                                task.problemMatcher = task.problemMatcher[0];
-                                            }
-                                        }
-
-                                        this.fs.write(await fileMapping.Destination, JSON.stringify(tasks, null, 4));
-                                    }
-                                }
-                            ]
-                        },
+                        new TSGeneratorCodeWorkspace(),
                         {
                             ID: TSGeneratorComponent.GeneratorExample,
                             DisplayName: "Example Generator (recommended)",
