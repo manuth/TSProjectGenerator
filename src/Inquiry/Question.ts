@@ -6,6 +6,16 @@ import { Question, Answers, KeyUnion } from "inquirer";
 export abstract class QuestionBase<T extends Answers = Answers> implements Question<T>
 {
     /**
+     * @inheritdoc
+     */
+    public prefix?: string;
+
+    /**
+     * @inheritdoc
+     */
+    public suffix?: string;
+
+    /**
      * Initializes a new instance of the `QuestionBase` class.
      */
     public constructor()
@@ -23,22 +33,6 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
 
     /**
      * @inheritdoc
-     */
-    public get prefix(): string
-    {
-        return undefined;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get suffix(): string
-    {
-        return undefined;
-    }
-
-    /**
-     * @inheritdoc
      *
      * @param answers
      * The answers provided by the user.
@@ -48,7 +42,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      */
     public async default(answers: T): Promise<any>
     {
-        return undefined;
+        return null;
     }
 
     /**
