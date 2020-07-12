@@ -14,7 +14,7 @@ export class ProjectTasksFileMapping<T extends ITSProjectSettings> extends VSCod
      * @param codeWorkspaceComponent
      * The workspace-component of this file-mapping.
      */
-    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
+    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
     {
         super(codeWorkspaceComponent);
     }

@@ -19,7 +19,7 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
      * @param codeWorkspaceComponent
      * The workspace-component of this file-mapping.
      */
-    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
+    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
     {
         super(codeWorkspaceComponent);
     }
