@@ -1,6 +1,6 @@
+import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../ITSProjectSettings";
 import { VSCodeExtensionsMapping } from "./VSCodeExtensionsMapping";
-import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 
 /**
  * Provides a file-mapping for copying the `extensions.json` file.
