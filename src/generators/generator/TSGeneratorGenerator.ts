@@ -15,7 +15,7 @@ import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
-import { SubGeneratorPrompt } from "../../Inquiry/Prompts/SubGeneratorPrompt";
+import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { LintingComponent } from "../../Project/Components/LintingComponent";

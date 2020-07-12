@@ -1,13 +1,13 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { LintRuleset } from "../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../ITSProjectSettings";
-import { TSProjectSettingKey } from "../TSProjectSettingKey";
-import { ProjectFileMapping } from "./ProjectFileMapping";
+import { FileMappingBase } from "../../Components/FileMappingBase";
+import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
+import { LintRuleset } from "../LintRuleset";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
  */
-export class ESLintRCFileMapping<T extends ITSProjectSettings> extends ProjectFileMapping<T>
+export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
 {
     /**
      * Initializes a new instance of the `ESLintRCFileMapping` class.

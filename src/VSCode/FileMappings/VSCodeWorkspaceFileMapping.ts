@@ -1,10 +1,10 @@
-import { ITSProjectSettings } from "../../ITSProjectSettings";
-import { ProjectFileMapping } from "../ProjectFileMapping";
+import { FileMappingBase } from "../../Components/FileMappingBase";
+import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for a vscode workspace file.
  */
-export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> extends ProjectFileMapping<T>
+export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
 {
     /**
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

@@ -3,8 +3,8 @@ import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { TaskDefinition } from "vscode";
-import { ITaskFile } from "../../../VSCode/ITaskFile";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { ITaskFile } from "../../VSCode/ITaskFile";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
 /**

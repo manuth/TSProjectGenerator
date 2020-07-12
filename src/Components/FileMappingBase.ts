@@ -1,10 +1,10 @@
 import { IFileMapping, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../ITSProjectSettings";
+import { ITSProjectSettings } from "../Project/ITSProjectSettings";
 
 /**
- * Provides a file-mapping for a `TSProject`.
+ * Provides a basic implementation of the `IFileMapping<T>` interface.
  */
-export abstract class ProjectFileMapping<T extends ITSProjectSettings> implements IFileMapping<T>
+export abstract class FileMappingBase<T extends ITSProjectSettings> implements IFileMapping<T>
 {
     /**
      * Initializes a new instance of the `ESLintRCFileMapping` class.

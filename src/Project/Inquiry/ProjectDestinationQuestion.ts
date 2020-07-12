@@ -1,7 +1,7 @@
 import { resolve } from "path";
 import { InputQuestionOptions } from "inquirer";
 import { isAbsolute } from "upath";
-import { QuestionBase } from "../../Inquiry/QuestionBase";
+import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 import { TSProjectSettingKey } from "../TSProjectSettingKey";
 

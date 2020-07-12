@@ -2,8 +2,8 @@ import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
-import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { IExtensionFile } from "../IExtensionFile";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
 /**

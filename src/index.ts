@@ -5,8 +5,8 @@ export { SubGeneratorSettingKey } from "./generators/generator/SubGeneratorSetti
 export { TSGeneratorComponent } from "./generators/generator/TSGeneratorComponent";
 export { TSGeneratorGenerator } from "./generators/generator/TSGeneratorGenerator";
 export { TSGeneratorSettingKey } from "./generators/generator/TSGeneratorSettingKey";
-export { PromptCallback } from "./Inquiry/Prompts/PromptCallback";
-export { SubGeneratorPrompt } from "./Inquiry/Prompts/SubGeneratorPrompt";
+export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
+export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { LintRuleset } from "./Linting/LintRuleset";
 export { CommonDependencies } from "./NPMPackaging/CommonDependencies";
 export { GeneratorDependencies } from "./NPMPackaging/GeneratorDependencies";

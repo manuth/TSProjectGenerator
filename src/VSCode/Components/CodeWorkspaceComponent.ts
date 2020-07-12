@@ -1,16 +1,16 @@
 import { IFileMapping, Component, IGenerator } from "@manuth/extended-yo-generator";
-import { VSCodeExtensionsMapping } from "../FileMappings/VSCode/VSCodeExtensionsMapping";
-import { VSCodeLaunchFileMapping } from "../FileMappings/VSCode/VSCodeLaunchFileMapping";
-import { VSCodeSettingsFileMapping } from "../FileMappings/VSCode/VSCodeSettingsFileMapping";
-import { VSCodeTasksFileMapping } from "../FileMappings/VSCode/VSCodeTasksFileMapping";
-import { ITSProjectSettings } from "../ITSProjectSettings";
-import { TSProjectComponent } from "../TSProjectComponent";
-import { ProjectComponent } from "./ProjectComponent";
+import { ComponentBase } from "../../Components/ComponentBase";
+import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { TSProjectComponent } from "../../Project/TSProjectComponent";
+import { VSCodeExtensionsMapping } from "../FileMappings/VSCodeExtensionsMapping";
+import { VSCodeLaunchFileMapping } from "../FileMappings/VSCodeLaunchFileMapping";
+import { VSCodeSettingsFileMapping } from "../FileMappings/VSCodeSettingsFileMapping";
+import { VSCodeTasksFileMapping } from "../FileMappings/VSCodeTasksFileMapping";
 
 /**
  * Provides a component for creating a vscode-workspace.
  */
-export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends ProjectComponent<T>
+export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends ComponentBase<T>
 {
     /**
      * @inheritdoc
