@@ -70,32 +70,35 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
     public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
     {
         let result: ILaunchFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
-        result.configurations = (await this.FilterSettings(result.configurations ?? []));
+        result.configurations = result.configurations ?? [];
 
         for (let i = 0; i < result.configurations.length; i++)
         {
-            result.configurations[i] = await this.ProcessDebugConfig(result.configurations[i]);
+            if (await this.FilterDebugConfig(result.configurations[i]))
+            {
+                await this.ProcessDebugConfig(result.configurations[i]);
+            }
+            else
+            {
+                delete result.configurations[i];
+            }
         }
 
         generator.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
     }
 
     /**
-     * Filters the debug-settings.
+     * Determines whether a debug-configuration should be included.
      *
-     * @param debugSettings
-     * The debug-settings to filter.
+     * @param debugConfig
+     * The debug-configuration to filter.
      *
      * @returns
-     * All necessary debug-settings.
+     * A value indicating whether the debug-configuration should be included.
      */
-    protected async FilterSettings(debugSettings: DebugConfiguration[]): Promise<DebugConfiguration[]>
+    protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
-        return debugSettings.filter(
-            (debugConfiguration) =>
-            {
-                return !debugConfiguration.name.toLowerCase().includes("yeoman");
-            });
+        return !debugConfig.name.toLowerCase().includes("yeoman");
     }
 
     /**
