@@ -65,8 +65,11 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
      *
      * @param generator
      * The generator of the target.
+     *
+     * @returns
+     * The metadata to write into the file.
      */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
     {
         let result: ITaskFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.tasks = result.tasks ?? [];
@@ -83,7 +86,7 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
             }
         }
 
-        generator.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
+        return result;
     }
 
     /**

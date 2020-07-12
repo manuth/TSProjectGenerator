@@ -5,12 +5,12 @@ import { join } from "upath";
 import { DebugConfiguration } from "vscode";
 import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
-import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
+import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
  * Provides a file-mapping for copying the `launch.json` file.
  */
-export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
+export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
      * Initializes a new instance of the `VSCodeLaunchFileMapping` class.
@@ -65,8 +65,11 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
      *
      * @param generator
      * The generator of the target.
+     *
+     * @returns
+     * The metadata to write into the file.
      */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
     {
         let result: ILaunchFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.configurations = result.configurations ?? [];
@@ -83,7 +86,7 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
             }
         }
 
-        generator.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
+        return result;
     }
 
     /**

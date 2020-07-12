@@ -57,19 +57,22 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
     }
 
     /**
-     * Processes the file.
+     * @inheritdoc
      *
      * @param fileMapping
-     * The file-mapping to process.
+     * The target of the resolve.
      *
      * @param generator
-     * The generator of the file-mapping.
+     * The generator of the target.
+     *
+     * @returns
+     * The metadata to write into the file.
      */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
     {
         let result: IExtensionFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.recommendations = await this.FilterRecommendations(result.recommendations ?? []);
-        generator.fs.write(await fileMapping.Destination, JSON.stringify(result, null, 4));
+        return result;
     }
 
     /**

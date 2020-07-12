@@ -63,8 +63,11 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
      *
      * @param generator
      * The generator of the target.
+     *
+     * @returns
+     * The metadata to write into the file.
      */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
     {
         let settings: Record<string, any> = JSON.parse((await readFile(await fileMapping.Source)).toString());
 
@@ -80,7 +83,7 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
             }
         }
 
-        generator.fs.write(await fileMapping.Destination, JSON.stringify(settings, null, 4));
+        return settings;
     }
 
     /**
