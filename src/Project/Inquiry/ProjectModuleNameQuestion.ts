@@ -1,3 +1,4 @@
+import { InputQuestionOptions } from "inquirer";
 import kebabCase = require("lodash.kebabcase");
 import validate = require("validate-npm-package-name");
 import { QuestionBase } from "../../Inquiry/Question";
@@ -7,7 +8,7 @@ import { TSProjectSettingKey } from "../TSProjectSettingKey";
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T>
+export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc

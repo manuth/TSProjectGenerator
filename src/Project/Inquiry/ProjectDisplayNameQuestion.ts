@@ -1,3 +1,4 @@
+import { InputQuestionOptions } from "inquirer";
 import { basename } from "upath";
 import { QuestionBase } from "../../Inquiry/Question";
 import { ITSProjectSettings } from "../ITSProjectSettings";
@@ -6,7 +7,7 @@ import { TSProjectSettingKey } from "../TSProjectSettingKey";
 /**
  * Provides a question for asking for a human-readable name of a project.
  */
-export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T>
+export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc

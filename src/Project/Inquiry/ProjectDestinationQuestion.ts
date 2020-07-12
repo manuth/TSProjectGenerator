@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import { InputQuestionOptions } from "inquirer";
 import { isAbsolute } from "upath";
 import { QuestionBase } from "../../Inquiry/Question";
 import { ITSProjectSettings } from "../ITSProjectSettings";
@@ -7,7 +8,7 @@ import { TSProjectSettingKey } from "../TSProjectSettingKey";
 /**
  * Provides a question for asking for the destination-path of a project.
  */
-export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends QuestionBase<T>
+export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc

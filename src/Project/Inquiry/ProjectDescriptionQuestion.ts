@@ -1,4 +1,5 @@
 import { Package } from "@manuth/package-json-editor";
+import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
 import { QuestionBase } from "../../Inquiry/Question";
 import { ITSProjectSettings } from "../ITSProjectSettings";
@@ -7,7 +8,7 @@ import { TSProjectSettingKey } from "../TSProjectSettingKey";
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends QuestionBase<T>
+export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc
