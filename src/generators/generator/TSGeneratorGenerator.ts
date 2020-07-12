@@ -11,7 +11,6 @@ import { ESLint } from "eslint";
 import FileSystem = require("fs-extra");
 import CamelCase = require("lodash.camelcase");
 import npmWhich = require("npm-which");
-import parsePackageName = require("parse-pkg-name");
 import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
@@ -20,11 +19,14 @@ import { SubGeneratorPrompt } from "../../Inquiry/Prompts/SubGeneratorPrompt";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
-import { ProjectQuestionCollection } from "../../Project/ProjectQuestionCollection";
+import { ProjectDescriptionQuestion } from "../../Project/Inquiry/ProjectDescriptionQuestion";
+import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
+import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
+import { GeneratorModuleNameQuestion } from "./Inquiry/GeneratorModuleNameQuestion";
 import { PackageFileMapping } from "./PackageFileMapping";
 import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "./TSGeneratorComponent";
@@ -71,44 +73,12 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Questions(): Array<Question<T>>
     {
-        let questionCollection = new ProjectQuestionCollection<T>();
-        let packageNameValidator = questionCollection.ModuleNameQuestion.validate;
-        let defaultPackageName = questionCollection.ModuleNameQuestion.default;
-
-        questionCollection.ModuleNameQuestion.default = (answers: T) =>
-        {
-            let defaultName: string;
-
-            if (typeof defaultPackageName === "function")
-            {
-                defaultName = defaultPackageName(answers);
-            }
-            else
-            {
-                defaultName = defaultPackageName;
-            }
-
-            return `generator-${defaultName.replace(/(generator-)?(.*?)(generator)?$/i, "$2")}`;
-        };
-
-        questionCollection.ModuleNameQuestion.validate = (input: string) =>
-        {
-            let result = packageNameValidator(input);
-
-            if ((typeof result === "boolean") && result)
-            {
-                let packageName = parsePackageName(input).name;
-                return /^generator-.+/.test(packageName) ? true : `The package-name \`${packageName}\` must start with \`generator-\`.`;
-            }
-            else
-            {
-                return result;
-            }
-        };
-
-        questionCollection.DescriptionQuestion.message = "Please enter a description for your generator.";
-
-        return questionCollection.Questions;
+        return [
+            new ProjectDestinationQuestion<T>(),
+            new ProjectDisplayNameQuestion<T>(),
+            new GeneratorModuleNameQuestion<T>(),
+            new ProjectDescriptionQuestion<T>()
+        ];
     }
 
     /**
