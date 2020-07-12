@@ -13,6 +13,14 @@ import { VSCodeTasksFileMapping } from "../FileMappings/VSCodeTasksFileMapping";
 export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends ComponentBase<T>
 {
     /**
+     * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
+     */
+    public constructor()
+    {
+        super();
+    }
+
+    /**
      * @inheritdoc
      */
     public get ID(): string

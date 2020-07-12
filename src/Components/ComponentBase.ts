@@ -7,6 +7,12 @@ import { ITSProjectSettings } from "../Project/ITSProjectSettings";
 export abstract class ComponentBase<T extends ITSProjectSettings> implements IComponent<T>
 {
     /**
+     * Initializes a new instance of the `ComponentBase<T>` class.
+     */
+    public constructor()
+    { }
+
+    /**
      * @inheritdoc
      */
     public abstract get ID(): string;

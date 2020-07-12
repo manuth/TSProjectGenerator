@@ -11,6 +11,14 @@ import { TSProjectComponent } from "../TSProjectComponent";
 export class LintingComponent<T extends ITSProjectSettings> extends ComponentBase<T>
 {
     /**
+     * Initializes a new instance of the `LintingComponent<T>` class.
+     */
+    public constructor()
+    {
+        super();
+    }
+
+    /**
      * @inheritdoc
      */
     public get ID(): string
