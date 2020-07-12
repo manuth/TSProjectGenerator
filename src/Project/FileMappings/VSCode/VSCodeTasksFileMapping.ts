@@ -4,7 +4,6 @@ import { readFile } from "fs-extra";
 import { join } from "upath";
 import { TaskDefinition } from "vscode";
 import { ITaskFile } from "../../../VSCode/ITaskFile";
-import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../ITSProjectSettings";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
@@ -16,12 +15,12 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
     /**
      * Initializes a new instance of the `VSCodeTasksFileMapping` class.
      *
-     * @param codeWorkspaceComponent
-     * The workspace-component of this file-mapping.
+     * @param settingsFolderName
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
+    public constructor(settingsFolderName: string)
     {
-        super(codeWorkspaceComponent);
+        super(settingsFolderName);
     }
 
     /**

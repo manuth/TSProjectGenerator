@@ -34,8 +34,17 @@ export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends Projec
 
     /**
      * Gets the name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     *
+     * @param component
+     * The resolved representation of this component.
+     *
+     * @param generator
+     * The generator of this component
+     *
+     * @returns
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public get SettingsFolderName(): string
+    protected async GetSettingsFolderName(component: Component<T>, generator: IGenerator<T>): Promise<string>
     {
         return ".vscode";
     }

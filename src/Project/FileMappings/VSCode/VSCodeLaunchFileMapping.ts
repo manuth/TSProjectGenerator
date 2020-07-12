@@ -4,7 +4,6 @@ import { readFile } from "fs-extra";
 import { join } from "upath";
 import { DebugConfiguration } from "vscode";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../ITSProjectSettings";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
@@ -16,12 +15,12 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
     /**
      * Initializes a new instance of the `VSCodeLaunchFileMapping` class.
      *
-     * @param codeWorkspaceComponent
-     * The workspace-component of this file-mapping.
+     * @param settingsFolderName
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
+    public constructor(settingsFolderName: string)
     {
-        super(codeWorkspaceComponent);
+        super(settingsFolderName);
     }
 
     /**

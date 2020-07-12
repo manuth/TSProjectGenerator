@@ -1,4 +1,3 @@
-import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../ITSProjectSettings";
 import { ProjectFileMapping } from "../ProjectFileMapping";
 
@@ -8,28 +7,20 @@ import { ProjectFileMapping } from "../ProjectFileMapping";
 export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> extends ProjectFileMapping<T>
 {
     /**
-     * The workspace-component of this file-mapping.
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    private codeWorkspaceComponent: CodeWorkspaceComponent<T>;
+    private settingsFolderName: string;
 
     /**
      * Initializes a new instance of the `VSCodeWorkspaceFileMapping` class.
      *
-     * @param codeWorkspaceComponent
-     * The workspace-component of this file-mapping.
+     * @param settingsFolderName
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
+    public constructor(settingsFolderName: string)
     {
         super();
-        this.codeWorkspaceComponent = codeWorkspaceComponent ?? null;
-    }
-
-    /**
-     * Gets the workspace-component of this file-mapping.
-     */
-    protected get CodeWorkspaceComponent(): CodeWorkspaceComponent<T>
-    {
-        return this.codeWorkspaceComponent;
+        this.settingsFolderName = settingsFolderName;
     }
 
     /**
@@ -37,6 +28,6 @@ export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> e
      */
     protected get SettingsFolderName(): string
     {
-        return (this.CodeWorkspaceComponent ?? new CodeWorkspaceComponent()).SettingsFolderName;
+        return this.settingsFolderName;
     }
 }

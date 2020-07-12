@@ -10,12 +10,12 @@ export class ProjectExtensionsMapping<T extends ITSProjectSettings> extends VSCo
     /**
      * Initializes a new instance of the `ProjectExtensionsMapping` class.
      *
-     * @param codeWorkspaceComponent
-     * The workspace-component of this file-mapping.
+     * @param settingsFolderName
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
+    public constructor(settingsFolderName: string)
     {
-        super(codeWorkspaceComponent);
+        super(settingsFolderName);
     }
 
     /**

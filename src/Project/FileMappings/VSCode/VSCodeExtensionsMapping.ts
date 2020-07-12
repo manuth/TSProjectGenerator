@@ -3,7 +3,6 @@ import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { CodeWorkspaceComponent } from "../../Components/CodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../ITSProjectSettings";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
@@ -15,12 +14,12 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
     /**
      * Initializes a new instance of the `VSCodeExtensionsMapping` class.
      *
-     * @param codeWorkspaceComponent
-     * The workspace-component of this file-mapping.
+     * @param settingsFolderName
+     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public constructor(codeWorkspaceComponent?: CodeWorkspaceComponent<T>)
+    public constructor(settingsFolderName: string)
     {
-        super(codeWorkspaceComponent);
+        super(settingsFolderName);
     }
 
     /**
