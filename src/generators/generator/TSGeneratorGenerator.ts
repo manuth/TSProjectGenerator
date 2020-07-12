@@ -16,9 +16,9 @@ import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
 import { SubGeneratorPrompt } from "../../Inquiry/Prompts/SubGeneratorPrompt";
-import { LintRuleset } from "../../Linting/LintRuleset";
 import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
+import { LintingComponent } from "../../Project/Components/LintingComponent";
 import { ProjectDescriptionQuestion } from "../../Project/Inquiry/ProjectDescriptionQuestion";
 import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
 import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
@@ -92,58 +92,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
                 {
                     DisplayName: "General",
                     Components: [
-                        {
-                            ID: TSProjectComponent.Linting,
-                            DisplayName: "ESLint configurations",
-                            DefaultEnabled: true,
-                            Questions: [
-                                {
-                                    name: TSProjectSettingKey.LintRuleset,
-                                    type: "list",
-                                    message: "What ruleset do you want to use for linting?",
-                                    choices: [
-                                        {
-                                            value: LintRuleset.Weak,
-                                            name: "manuth's weak ruleset"
-                                        },
-                                        {
-                                            value: LintRuleset.Recommended,
-                                            name: "manuth's recommended ruleset"
-                                        }
-                                    ],
-                                    default: LintRuleset.Recommended
-                                }
-                            ],
-                            FileMappings: [
-                                {
-                                    Source: ".eslintrc.js.ejs",
-                                    Destination: ".eslintrc.js",
-                                    Context: (fileMapping, generator) =>
-                                    {
-                                        let preset: string;
-
-                                        switch (generator.Settings[TSProjectSettingKey.LintRuleset])
-                                        {
-                                            case LintRuleset.Weak:
-                                                preset = "weak-requiring-type-checking";
-                                                break;
-                                            case LintRuleset.Recommended:
-                                            default:
-                                                preset = "recommended-requiring-type-checking";
-                                                break;
-                                        }
-
-                                        return {
-                                            preset
-                                        };
-                                    }
-                                },
-                                {
-                                    Source: this.modulePath("tsconfig.eslint.json"),
-                                    Destination: "tsconfig.eslint.json"
-                                }
-                            ]
-                        },
+                        new LintingComponent(),
                         {
                             ID: TSProjectComponent.VSCode,
                             DisplayName: "Visual Studio Code-Workspace",
