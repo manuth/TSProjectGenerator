@@ -69,7 +69,7 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
      * @returns
      * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ILaunchFile>
     {
         let result: ILaunchFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.configurations = result.configurations ?? [];

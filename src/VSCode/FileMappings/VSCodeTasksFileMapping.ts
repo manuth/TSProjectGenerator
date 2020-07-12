@@ -69,7 +69,7 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
      * @returns
      * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ITaskFile>
     {
         let result: ITaskFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.tasks = result.tasks ?? [];

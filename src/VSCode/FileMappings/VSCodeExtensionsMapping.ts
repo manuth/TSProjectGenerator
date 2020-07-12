@@ -68,7 +68,7 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
      * @returns
      * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<IExtensionFile>
     {
         let result: IExtensionFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
         result.recommendations = await this.FilterRecommendations(result.recommendations ?? []);

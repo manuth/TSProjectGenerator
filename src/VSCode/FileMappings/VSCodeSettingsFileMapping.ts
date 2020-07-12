@@ -67,7 +67,7 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
      * @returns
      * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>
+    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<Record<string, any>>
     {
         let settings: Record<string, any> = JSON.parse((await readFile(await fileMapping.Source)).toString());
 
