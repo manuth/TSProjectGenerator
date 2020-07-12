@@ -1,18 +1,21 @@
-import { IFileMapping, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 import { TSProjectSettingKey } from "../TSProjectSettingKey";
+import { ProjectFileMapping } from "./ProjectFileMapping";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
  */
-export class ESLintRCFileMapping<T extends ITSProjectSettings> implements IFileMapping<T>
+export class ESLintRCFileMapping<T extends ITSProjectSettings> extends ProjectFileMapping<T>
 {
     /**
      * Initializes a new instance of the `ESLintRCFileMapping` class.
      */
     public constructor()
-    { }
+    {
+        super();
+    }
 
     /**
      * @inheritdoc
