@@ -25,12 +25,12 @@ import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplay
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
-import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
+import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
 import { GeneratorModuleNameQuestion } from "./Inquiry/GeneratorModuleNameQuestion";
-import { PackageFileMapping } from "./PackageFileMapping";
-import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "./TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
+import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
+import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
+import { TSGeneratorComponent } from "./Settings/TSGeneratorComponent";
+import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.

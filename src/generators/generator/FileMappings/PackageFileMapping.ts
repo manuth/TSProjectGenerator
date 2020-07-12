@@ -1,15 +1,15 @@
 import { IFileMapping, Generator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
-import { Constants } from "../../Core/Constants";
-import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
-import { GeneratorDependencies } from "../../NPMPackaging/GeneratorDependencies";
-import { IScriptMapping } from "../../NPMPackaging/IScriptMapping";
-import { LintDependencies } from "../../NPMPackaging/LintDependencies";
-import { TSProjectComponent } from "../../Project/TSProjectComponent";
-import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
-import { ITSGeneratorSettings } from "./ITSGeneratorSettings";
-import { TSGeneratorComponent } from "./TSGeneratorComponent";
+import { Constants } from "../../../Core/Constants";
+import { CommonDependencies } from "../../../NPMPackaging/CommonDependencies";
+import { GeneratorDependencies } from "../../../NPMPackaging/GeneratorDependencies";
+import { IScriptMapping } from "../../../NPMPackaging/IScriptMapping";
+import { LintDependencies } from "../../../NPMPackaging/LintDependencies";
+import { TSProjectComponent } from "../../../Project/TSProjectComponent";
+import { TSProjectSettingKey } from "../../../Project/TSProjectSettingKey";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 
 /**
  * Represents a file-mapping for the `package.json` file.

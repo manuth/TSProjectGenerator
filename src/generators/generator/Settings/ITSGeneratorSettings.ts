@@ -1,4 +1,4 @@
-import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { ITSProjectSettings } from "../../../Project/ITSProjectSettings";
 import { ISubGenerator } from "./ISubGenerator";
 import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 

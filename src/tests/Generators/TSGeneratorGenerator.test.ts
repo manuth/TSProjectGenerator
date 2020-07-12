@@ -12,7 +12,7 @@ import { TempDirectory } from "temp-filesystem";
 import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
-import { TSGeneratorComponent } from "../../generators/generator/TSGeneratorComponent";
+import { TSGeneratorComponent } from "../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator";
 
 suite(
