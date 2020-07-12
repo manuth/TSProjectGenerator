@@ -1,7 +1,7 @@
 import { IFileMapping, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { LintRuleset } from "../../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
-import { TSProjectSettingKey } from "../../TSProjectSettingKey";
+import { LintRuleset } from "../../Linting/LintRuleset";
+import { ITSProjectSettings } from "../ITSProjectSettings";
+import { TSProjectSettingKey } from "../TSProjectSettingKey";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
