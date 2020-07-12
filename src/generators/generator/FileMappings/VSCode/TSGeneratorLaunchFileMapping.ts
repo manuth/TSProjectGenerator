@@ -12,7 +12,7 @@ import { TSGeneratorSettingKey } from "../../Settings/TSGeneratorSettingKey";
 /**
  * Provides a file-mapping for copying the `launch.json` file for a `TSGenerator`.
  */
-export class GeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extends ProjectLaunchFileMapping<T>
+export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extends ProjectLaunchFileMapping<T>
 {
     /**
      * Initializes a new instance of the `GeneratorLaunchFileMapping<T>` class.
