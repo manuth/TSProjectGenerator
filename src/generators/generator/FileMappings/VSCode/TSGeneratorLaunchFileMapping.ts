@@ -63,7 +63,7 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
     protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ILaunchFile>
     {
         let result = await super.GetMetadata(fileMapping, generator);
-        let configurations: DebugConfiguration[];
+        let configurations: DebugConfiguration[] = [];
 
         let generatorNames = [
             "app"
