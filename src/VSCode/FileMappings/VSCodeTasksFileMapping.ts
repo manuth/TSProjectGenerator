@@ -5,12 +5,12 @@ import { join } from "upath";
 import { TaskDefinition } from "vscode";
 import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
 import { ITaskFile } from "../../VSCode/ITaskFile";
-import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
+import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
  * Provides a file-mapping for copying the `launch.json` file.
  */
-export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
+export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
      * Initializes a new instance of the `VSCodeTasksFileMapping` class.

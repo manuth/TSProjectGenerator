@@ -4,12 +4,12 @@ import { readFile } from "fs-extra";
 import { join } from "upath";
 import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
 import { IExtensionFile } from "../IExtensionFile";
-import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
+import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
  * Provides a file-mapping for copying an `extensions.json` file.
  */
-export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
+export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
      * Initializes a new instance of the `VSCodeExtensionsMapping` class.

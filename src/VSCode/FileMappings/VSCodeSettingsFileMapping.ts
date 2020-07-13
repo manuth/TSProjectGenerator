@@ -3,12 +3,12 @@ import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
-import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
+import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
  * Provides a file-mapping for copying the `launch.json` file.
  */
-export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSCodeWorkspaceFileMapping<T>
+export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
      * Initializes a new instance of the `VSCodeSettingsFileMapping` class.
