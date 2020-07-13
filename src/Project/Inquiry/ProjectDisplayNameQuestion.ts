@@ -20,7 +20,7 @@ export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends Qu
     public name = TSProjectSettingKey.DisplayName;
 
     /**
-     * Initializes a new instance of the `ProjectDisplayNameQuestion` class.
+     * Initializes a new instance of the `ProjectDisplayNameQuestion<T>` class.
      */
     public constructor()
     {

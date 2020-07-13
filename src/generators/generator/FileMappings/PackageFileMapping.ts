@@ -27,7 +27,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
     private package: Package = null;
 
     /**
-     * Initializes a new instance of the `PackageFileMapping` class.
+     * Initializes a new instance of the `PackageFileMapping<T>` class.
      *
      * @param generator
      * The generator of the file-mapping.

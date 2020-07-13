@@ -10,7 +10,7 @@ import { LintRuleset } from "../LintRuleset";
 export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
 {
     /**
-     * Initializes a new instance of the `ESLintRCFileMapping` class.
+     * Initializes a new instance of the `ESLintRCFileMapping<T>` class.
      */
     public constructor()
     {

@@ -16,7 +16,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
     public suffix?: string;
 
     /**
-     * Initializes a new instance of the `QuestionBase` class.
+     * Initializes a new instance of the `QuestionBase<T>` class.
      */
     public constructor()
     { }

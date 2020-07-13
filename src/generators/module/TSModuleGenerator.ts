@@ -21,7 +21,7 @@ import { ILaunchFile } from "../../VSCode/ILaunchFile";
 export class ModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings> extends Generator<ITSProjectSettings>
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the `ModuleGenerator<T>` class.
      *
      * @param args
      * A set of arguments for the generator.

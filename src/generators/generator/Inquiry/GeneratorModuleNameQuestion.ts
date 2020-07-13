@@ -8,7 +8,7 @@ import { ProjectModuleNameQuestion } from "../../../Project/Inquiry/ProjectModul
 export class GeneratorModuleNameQuestion<T extends ITSProjectSettings> extends ProjectModuleNameQuestion<T>
 {
     /**
-     * Initializes a new instance of the `GeneratorModuleNameQuestion` class.
+     * Initializes a new instance of the `GeneratorModuleNameQuestion<T>` class.
      */
     public constructor()
     {

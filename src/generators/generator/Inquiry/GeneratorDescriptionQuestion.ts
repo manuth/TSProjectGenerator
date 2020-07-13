@@ -7,7 +7,7 @@ import { ProjectDescriptionQuestion } from "../../../Project/Inquiry/ProjectDesc
 export class GeneratorDescriptionQuestion<T extends ITSProjectSettings> extends ProjectDescriptionQuestion<T>
 {
     /**
-     * Initializes a new instance of the `GeneratorDescriptionQuestion` class.
+     * Initializes a new instance of the `GeneratorDescriptionQuestion<T>` class.
      */
     public constructor()
     {

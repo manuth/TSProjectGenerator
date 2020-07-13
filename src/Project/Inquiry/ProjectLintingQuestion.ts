@@ -20,7 +20,7 @@ export class ProjectLintingQuestion<T extends ITSProjectSettings> extends Questi
     public name = TSProjectSettingKey.LintRuleset;
 
     /**
-     * Initializes a new instance of the `ProjectLintingQuestion` class.
+     * Initializes a new instance of the `ProjectLintingQuestion<T>` class.
      */
     public constructor()
     {

@@ -21,7 +21,7 @@ export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends Que
     public name = TSProjectSettingKey.Name;
 
     /**
-     * Initializes a new instance of the `ProjectModuleNameQuestion` class.
+     * Initializes a new instance of the `ProjectModuleNameQuestion<T>` class.
      */
     public constructor()
     {

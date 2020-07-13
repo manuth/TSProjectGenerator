@@ -12,7 +12,7 @@ export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> e
     private settingsFolderName: string;
 
     /**
-     * Initializes a new instance of the `VSCodeWorkspaceFileMapping` class.
+     * Initializes a new instance of the `VSCodeWorkspaceFileMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

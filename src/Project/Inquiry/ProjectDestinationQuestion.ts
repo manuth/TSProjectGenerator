@@ -21,7 +21,7 @@ export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends Qu
     public name = TSProjectSettingKey.Destination;
 
     /**
-     * Initializes a new instance of the `ProjectDestinationQuestion` class.
+     * Initializes a new instance of the `ProjectDestinationQuestion<T>` class.
      */
     public constructor()
     {

@@ -15,7 +15,7 @@ import { TSGeneratorSettingKey } from "../../Settings/TSGeneratorSettingKey";
 export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extends ProjectLaunchFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `GeneratorLaunchFileMapping<T>` class.
+     * Initializes a new instance of the `TSGeneratorLaunchFileMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

@@ -12,7 +12,7 @@ import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `VSCodeExtensionsMapping` class.
+     * Initializes a new instance of the `VSCodeExtensionsMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

@@ -8,7 +8,7 @@ import { ITSProjectSettings } from "../../ITSProjectSettings";
 export class ProjectTasksFileMapping<T extends ITSProjectSettings> extends VSCodeTasksFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `ProjectTasksFileMapping` class.
+     * Initializes a new instance of the `ProjectTasksFileMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

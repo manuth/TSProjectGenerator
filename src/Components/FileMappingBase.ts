@@ -7,7 +7,7 @@ import { ITSProjectSettings } from "../Project/ITSProjectSettings";
 export abstract class FileMappingBase<T extends ITSProjectSettings> implements IFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `ESLintRCFileMapping` class.
+     * Initializes a new instance of the `FileMappingBase<T>` class.
      */
     public constructor()
     { }

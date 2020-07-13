@@ -36,7 +36,7 @@ import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorSettings> extends Generator<T>
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the `TSGeneratorGenerator<T>` class.
      *
      * @param args
      * A set of arguments for the generator.

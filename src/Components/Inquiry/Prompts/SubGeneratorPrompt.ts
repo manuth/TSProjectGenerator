@@ -67,7 +67,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
     private readonly subGeneratorSettings: ISubGenerator[] = [];
 
     /**
-     * Initializes a new instance of the `SubGeneratorPrompt` class.
+     * Initializes a new instance of the `SubGeneratorPrompt<T>` class.
      *
      * @param question
      * The options for the prompt.
