@@ -44,7 +44,7 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
         return launchConfig.configurations.find(
             (debugConfig) =>
             {
-                debugConfig.name.toLowerCase().includes("yeoman");
+                return debugConfig.name.toLowerCase().includes("yeoman");
             });
     }
 
