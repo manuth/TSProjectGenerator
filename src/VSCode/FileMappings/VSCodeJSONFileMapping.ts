@@ -1,4 +1,5 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import JSON = require("comment-json");
 import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
