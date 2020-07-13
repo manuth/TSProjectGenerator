@@ -81,6 +81,11 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
         {
             let template = await this.GetTemplateMetadata(fileMapping, generator);
             template.name = generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`;
+
+            template.args = [
+                `\${workspaceFolder}/lib/generators/${generatorName}`
+            ];
+
             configurations.push(template);
         }
 
