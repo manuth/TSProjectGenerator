@@ -1,6 +1,6 @@
-import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
-import { join } from "upath";
+import kebabCase = require("lodash.kebabcase");
+import validate = require("validate-npm-package-name");
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
@@ -8,7 +8,7 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -18,10 +18,10 @@ export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends Qu
     /**
      * @inheritdoc
      */
-    public name = TSProjectSettingKey.Description;
+    public name = TSProjectSettingKey.Name;
 
     /**
-     * Initializes a new instance of the `ProjectDescriptionQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectModuleNameQuestion<T>` class.
      */
     public constructor()
     {
@@ -39,7 +39,7 @@ export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends Qu
      */
     public async message(answers: T): Promise<string>
     {
-        return "Please enter a description for your project.";
+        return "What's the name of the npm package?";
     }
 
     /**
@@ -53,9 +53,7 @@ export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends Qu
      */
     public async default(answers: T): Promise<string>
     {
-        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
-        await npmPackage.Normalize();
-        return npmPackage.Description;
+        return kebabCase(answers[TSProjectSettingKey.DisplayName]);
     }
 
     /**
@@ -70,8 +68,18 @@ export class ProjectDescriptionQuestion<T extends ITSProjectSettings> extends Qu
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async validate(input: string, answers: T): Promise<string | boolean>
+    public async validate(input: string, answers?: T): Promise<string | boolean>
     {
-        return true;
+        let result = validate(input);
+        let errors = (result.errors ?? []).concat(result.warnings ?? []);
+
+        if (result.validForNewPackages)
+        {
+            return true;
+        }
+        else
+        {
+            return errors[0] ?? "Please provide a name according to the npm naming-conventions.";
+        }
     }
 }

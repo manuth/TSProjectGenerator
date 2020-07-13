@@ -1,14 +1,13 @@
 import { InputQuestionOptions } from "inquirer";
-import kebabCase = require("lodash.kebabcase");
-import validate = require("validate-npm-package-name");
+import { basename } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
- * Provides a question for asking for the module-name of a project.
+ * Provides a question for asking for a human-readable name of a project.
  */
-export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -18,10 +17,10 @@ export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends Que
     /**
      * @inheritdoc
      */
-    public name = TSProjectSettingKey.Name;
+    public name = TSProjectSettingKey.DisplayName;
 
     /**
-     * Initializes a new instance of the `ProjectModuleNameQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectDisplayNameQuestion<T>` class.
      */
     public constructor()
     {
@@ -35,11 +34,11 @@ export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends Que
      * The answers provided by the user.
      *
      * @returns
-     * The message which is shown to the user.
+     * The message to show to the user.
      */
     public async message(answers: T): Promise<string>
     {
-        return "What's the name of the npm package?";
+        return "What's the name of your project?";
     }
 
     /**
@@ -53,7 +52,7 @@ export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends Que
      */
     public async default(answers: T): Promise<string>
     {
-        return kebabCase(answers[TSProjectSettingKey.DisplayName]);
+        return basename(answers[TSProjectSettingKey.Destination]);
     }
 
     /**
@@ -70,16 +69,6 @@ export class ProjectModuleNameQuestion<T extends ITSProjectSettings> extends Que
      */
     public async validate(input: string, answers?: T): Promise<string | boolean>
     {
-        let result = validate(input);
-        let errors = (result.errors ?? []).concat(result.warnings ?? []);
-
-        if (result.validForNewPackages)
-        {
-            return true;
-        }
-        else
-        {
-            return errors[0] ?? "Please provide a name according to the npm naming-conventions.";
-        }
+        return (input.trim().length > 0) ? true : "The name must not be empty!";
     }
 }

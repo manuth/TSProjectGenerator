@@ -17,8 +17,8 @@ import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGenerato
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { PackageDependencyCollection } from "../../NPMPackaging/PackageDependencyCollection";
-import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
-import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
+import { TSProjectDestinationQuestion } from "../../Project/Inquiry/TSProjectDestinationQuestion";
+import { TSProjectDisplayNameQuestion } from "../../Project/Inquiry/TSProjectDisplayNameQuestion";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
@@ -72,8 +72,8 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     protected get Questions(): Array<Question<T>>
     {
         return [
-            new ProjectDestinationQuestion<T>(),
-            new ProjectDisplayNameQuestion<T>(),
+            new TSProjectDestinationQuestion<T>(),
+            new TSProjectDisplayNameQuestion<T>(),
             new TSGeneratorModuleNameQuestion<T>(),
             new TSGeneratorDescriptionQuestion<T>()
         ];

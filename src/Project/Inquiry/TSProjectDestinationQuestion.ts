@@ -1,13 +1,14 @@
+import { resolve } from "path";
 import { InputQuestionOptions } from "inquirer";
-import { basename } from "upath";
+import { isAbsolute } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
- * Provides a question for asking for a human-readable name of a project.
+ * Provides a question for asking for the destination-path of a project.
  */
-export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -17,10 +18,10 @@ export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends Qu
     /**
      * @inheritdoc
      */
-    public name = TSProjectSettingKey.DisplayName;
+    public name = TSProjectSettingKey.Destination;
 
     /**
-     * Initializes a new instance of the `ProjectDisplayNameQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectDestinationQuestion<T>` class.
      */
     public constructor()
     {
@@ -38,7 +39,7 @@ export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends Qu
      */
     public async message(answers: T): Promise<string>
     {
-        return "What's the name of your project?";
+        return "Where do you want to save your project to?";
     }
 
     /**
@@ -48,11 +49,11 @@ export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends Qu
      * The answers provided by the user.
      *
      * @returns
-     * The default value for this question.
+     * The default value.
      */
     public async default(answers: T): Promise<string>
     {
-        return basename(answers[TSProjectSettingKey.Destination]);
+        return "./";
     }
 
     /**
@@ -65,10 +66,10 @@ export class ProjectDisplayNameQuestion<T extends ITSProjectSettings> extends Qu
      * The answers provided by the user.
      *
      * @returns
-     * Either a value indicating whether the input is valid or a string which contains an error-message.
+     * The filtered value.
      */
-    public async validate(input: string, answers?: T): Promise<string | boolean>
+    public async filter(input: any, answers?: T): Promise<string>
     {
-        return (input.trim().length > 0) ? true : "The name must not be empty!";
+        return isAbsolute(input) ? input : resolve(process.cwd(), input);
     }
 }

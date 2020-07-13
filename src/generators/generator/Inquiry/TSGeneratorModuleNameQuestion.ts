@@ -1,11 +1,11 @@
 import parsePackageName = require("parse-pkg-name");
-import { ProjectModuleNameQuestion } from "../../../Project/Inquiry/ProjectModuleNameQuestion";
+import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends ProjectModuleNameQuestion<T>
+export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends TSProjectModuleNameQuestion<T>
 {
     /**
      * Initializes a new instance of the `TSGeneratorModuleNameQuestion<T>` class.

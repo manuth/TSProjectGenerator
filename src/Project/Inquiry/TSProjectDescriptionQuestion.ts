@@ -1,14 +1,14 @@
-import { resolve } from "path";
+import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
-import { isAbsolute } from "upath";
+import { join } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
- * Provides a question for asking for the destination-path of a project.
+ * Provides a question for asking for the module-name of a project.
  */
-export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -18,10 +18,10 @@ export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends Qu
     /**
      * @inheritdoc
      */
-    public name = TSProjectSettingKey.Destination;
+    public name = TSProjectSettingKey.Description;
 
     /**
-     * Initializes a new instance of the `ProjectDestinationQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectDescriptionQuestion<T>` class.
      */
     public constructor()
     {
@@ -35,11 +35,11 @@ export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends Qu
      * The answers provided by the user.
      *
      * @returns
-     * The message to show to the user.
+     * The message which is shown to the user.
      */
     public async message(answers: T): Promise<string>
     {
-        return "Where do you want to save your project to?";
+        return "Please enter a description for your project.";
     }
 
     /**
@@ -49,11 +49,13 @@ export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends Qu
      * The answers provided by the user.
      *
      * @returns
-     * The default value.
+     * The default value for this question.
      */
     public async default(answers: T): Promise<string>
     {
-        return "./";
+        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
+        await npmPackage.Normalize();
+        return npmPackage.Description;
     }
 
     /**
@@ -66,10 +68,10 @@ export class ProjectDestinationQuestion<T extends ITSProjectSettings> extends Qu
      * The answers provided by the user.
      *
      * @returns
-     * The filtered value.
+     * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async filter(input: any, answers?: T): Promise<string>
+    public async validate(input: string, answers: T): Promise<string | boolean>
     {
-        return isAbsolute(input) ? input : resolve(process.cwd(), input);
+        return true;
     }
 }

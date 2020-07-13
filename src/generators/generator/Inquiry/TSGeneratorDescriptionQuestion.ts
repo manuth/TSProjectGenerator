@@ -1,10 +1,10 @@
-import { ProjectDescriptionQuestion } from "../../../Project/Inquiry/ProjectDescriptionQuestion";
+import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a question for asking for description of a generator.
  */
-export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extends ProjectDescriptionQuestion<T>
+export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extends TSProjectDescriptionQuestion<T>
 {
     /**
      * Initializes a new instance of the `TSGeneratorDescriptionQuestion<T>` class.
