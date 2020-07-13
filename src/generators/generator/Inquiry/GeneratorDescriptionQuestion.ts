@@ -1,5 +1,5 @@
-import { ITSProjectSettings } from "../../../Project/ITSProjectSettings";
 import { ProjectDescriptionQuestion } from "../../../Project/Inquiry/ProjectDescriptionQuestion";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a question for asking for description of a generator.

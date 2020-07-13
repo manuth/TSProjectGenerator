@@ -1,5 +1,5 @@
 import { FileMappingBase } from "../../Components/FileMappingBase";
-import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for a vscode workspace file.

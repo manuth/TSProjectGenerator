@@ -1,5 +1,5 @@
 import { VSCodeExtensionsMapping } from "../../../VSCode/FileMappings/VSCodeExtensionsMapping";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the `extensions.json` file.

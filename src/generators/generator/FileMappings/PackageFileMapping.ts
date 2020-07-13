@@ -6,8 +6,8 @@ import { CommonDependencies } from "../../../NPMPackaging/CommonDependencies";
 import { GeneratorDependencies } from "../../../NPMPackaging/GeneratorDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/IScriptMapping";
 import { LintDependencies } from "../../../NPMPackaging/LintDependencies";
-import { TSProjectComponent } from "../../../Project/TSProjectComponent";
-import { TSProjectSettingKey } from "../../../Project/TSProjectSettingKey";
+import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 

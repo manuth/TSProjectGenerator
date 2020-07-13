@@ -9,9 +9,9 @@ import FileSystem = require("fs-extra");
 import KebabCase = require("lodash.kebabcase");
 import YoSay = require("yosay");
 import { LintRuleset } from "../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
-import { TSProjectComponent } from "../../Project/TSProjectComponent";
-import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { IExtensionFile } from "../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 

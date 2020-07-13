@@ -1,6 +1,6 @@
 import { TaskDefinition } from "vscode";
 import { VSCodeTasksFileMapping } from "../../../VSCode/FileMappings/VSCodeTasksFileMapping";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the `tasks.json` file.

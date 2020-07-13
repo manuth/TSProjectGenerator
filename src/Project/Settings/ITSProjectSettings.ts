@@ -1,5 +1,5 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { LintRuleset } from "../Linting/LintRuleset";
+import { LintRuleset } from "../../Linting/LintRuleset";
 import { TSProjectSettingKey } from "./TSProjectSettingKey";
 
 /**

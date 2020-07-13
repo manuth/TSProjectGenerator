@@ -1,8 +1,8 @@
 import { ListQuestionOptions, ChoiceCollection } from "inquirer";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { LintRuleset } from "../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../ITSProjectSettings";
-import { TSProjectSettingKey } from "../TSProjectSettingKey";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for the linting-ruleset.

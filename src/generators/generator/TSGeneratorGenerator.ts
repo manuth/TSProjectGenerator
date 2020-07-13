@@ -19,8 +19,8 @@ import { PackageDependencyCollection } from "../../NPMPackaging/PackageDependenc
 import { LintingComponent } from "../../Project/Components/LintingComponent";
 import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
 import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
-import { TSProjectComponent } from "../../Project/TSProjectComponent";
-import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
 import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
 import { GeneratorDescriptionQuestion } from "./Inquiry/GeneratorDescriptionQuestion";

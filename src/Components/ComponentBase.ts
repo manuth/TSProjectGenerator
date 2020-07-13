@@ -1,5 +1,5 @@
 import { Component, IComponent, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Project/ITSProjectSettings";
+import { ITSProjectSettings } from "../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a basic implementation of the `IComponent<T>` interface.

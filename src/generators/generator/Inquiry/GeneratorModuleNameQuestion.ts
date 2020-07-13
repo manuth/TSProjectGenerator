@@ -1,6 +1,6 @@
 import parsePackageName = require("parse-pkg-name");
-import { ITSProjectSettings } from "../../../Project/ITSProjectSettings";
 import { ProjectModuleNameQuestion } from "../../../Project/Inquiry/ProjectModuleNameQuestion";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a question for asking for the module-name of a project.

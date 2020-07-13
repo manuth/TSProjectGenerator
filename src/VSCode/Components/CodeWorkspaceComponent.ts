@@ -1,7 +1,7 @@
 import { IFileMapping, Component, IGenerator } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
-import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
-import { TSProjectComponent } from "../../Project/TSProjectComponent";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { VSCodeExtensionsMapping } from "../FileMappings/VSCodeExtensionsMapping";
 import { VSCodeLaunchFileMapping } from "../FileMappings/VSCodeLaunchFileMapping";
 import { VSCodeSettingsFileMapping } from "../FileMappings/VSCodeSettingsFileMapping";

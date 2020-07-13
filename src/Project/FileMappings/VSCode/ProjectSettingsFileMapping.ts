@@ -1,5 +1,5 @@
 import { VSCodeSettingsFileMapping } from "../../../VSCode/FileMappings/VSCodeSettingsFileMapping";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the launch.json file for `TSProject`s.

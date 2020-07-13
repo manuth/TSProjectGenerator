@@ -4,7 +4,7 @@ import { ProjectExtensionsMapping } from "../FileMappings/VSCode/ProjectExtensio
 import { ProjectLaunchFileMapping } from "../FileMappings/VSCode/ProjectLaunchFileMapping";
 import { ProjectSettingsFileMapping } from "../FileMappings/VSCode/ProjectSettingsFileMapping";
 import { ProjectTasksFileMapping } from "../FileMappings/VSCode/ProjectTasksFileMapping";
-import { ITSProjectSettings } from "../ITSProjectSettings";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
  * Provides a component for creating a vscode-workspace for `TSProject`s.

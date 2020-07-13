@@ -1,5 +1,5 @@
 import { ProjectExtensionsMapping } from "../../../../Project/FileMappings/VSCode/ProjectExtensionsMapping";
-import { ITSProjectSettings } from "../../../../Project/ITSProjectSettings";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the `extensions.json` file for `TSGenerator`s.

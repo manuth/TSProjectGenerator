@@ -1,6 +1,6 @@
 import { DebugConfiguration } from "vscode";
 import { VSCodeLaunchFileMapping } from "../../../VSCode/FileMappings/VSCodeLaunchFileMapping";
-import { ITSProjectSettings } from "../../ITSProjectSettings";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the `launch.json` file for a `TSProject`.

@@ -1,9 +1,9 @@
 import { Question, Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { ESLintRCFileMapping } from "../../Linting/FileMappings/ESLintRCFileMapping";
-import { ITSProjectSettings } from "../ITSProjectSettings";
 import { ProjectLintingQuestion } from "../Inquiry/ProjectLintingQuestion";
-import { TSProjectComponent } from "../TSProjectComponent";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../Settings/TSProjectComponent";
 
 /**
  * Provides a component which allows creating files for linting the workspace.

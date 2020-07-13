@@ -1,8 +1,8 @@
 import { InputQuestionOptions } from "inquirer";
 import { basename } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
-import { ITSProjectSettings } from "../ITSProjectSettings";
-import { TSProjectSettingKey } from "../TSProjectSettingKey";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for a human-readable name of a project.

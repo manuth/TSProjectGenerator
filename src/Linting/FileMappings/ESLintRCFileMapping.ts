@@ -1,7 +1,7 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { FileMappingBase } from "../../Components/FileMappingBase";
-import { ITSProjectSettings } from "../../Project/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { LintRuleset } from "../LintRuleset";
 
 /**
