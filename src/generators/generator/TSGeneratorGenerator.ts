@@ -1,4 +1,3 @@
-import { spawnSync } from "child_process";
 import { createRequire } from "module";
 import Path = require("path");
 import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
@@ -308,7 +307,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
                 extends: undefined
             });
 
-        spawnSync(
+        this.spawnCommandSync(
             npmWhich(__dirname).sync("npm"),
             [
                 "install",
