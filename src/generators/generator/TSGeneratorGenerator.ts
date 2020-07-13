@@ -14,8 +14,8 @@ import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
+import { PackageDependencyCollection } from "../../NPMPackaging/PackageDependencyCollection";
 import { LintingComponent } from "../../Project/Components/LintingComponent";
 import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
 import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
@@ -296,8 +296,16 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
         this.log();
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
-        lintPackage.Register(new CommonDependencies());
         lintPackage.Register(new LintDependencies());
+
+        lintPackage.Register(
+            new PackageDependencyCollection(
+                {
+                    devDependencies: [
+                        "typescript"
+                    ]
+                }));
+
         await FileSystem.writeJSON(lintPackage.FileName, lintPackage.ToJSON());
 
         await FileSystem.writeJSON(
