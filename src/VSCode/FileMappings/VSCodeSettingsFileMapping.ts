@@ -97,7 +97,7 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
      */
     protected async FilterSettingKey(key: string): Promise<boolean>
     {
-        return key !== "files.associations";
+        return true;
     }
 
     /**

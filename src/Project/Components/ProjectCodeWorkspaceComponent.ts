@@ -2,6 +2,7 @@ import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generat
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ProjectExtensionsMapping } from "../FileMappings/VSCode/ProjectExtensionsMapping";
 import { ProjectLaunchFileMapping } from "../FileMappings/VSCode/ProjectLaunchFileMapping";
+import { ProjectSettingsFileMapping } from "../FileMappings/VSCode/ProjectSettingsFileMapping";
 import { ProjectTasksFileMapping } from "../FileMappings/VSCode/ProjectTasksFileMapping";
 import { ITSProjectSettings } from "../ITSProjectSettings";
 
@@ -56,6 +57,26 @@ export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends
     protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
     {
         return new ProjectLaunchFileMapping(settingsFolderName);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param settingsFolderName
+     * The name of the directory which contains vscode-settings.
+     *
+     * @param component
+     * A resolved representation of this component.
+     *
+     * @param generator
+     * The generator of this component.
+     *
+     * @returns
+     * A file-mapping for creating the `settings.json` file.
+     */
+    protected async GetSettingsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    {
+        return new ProjectSettingsFileMapping(settingsFolderName);
     }
 
     /**
