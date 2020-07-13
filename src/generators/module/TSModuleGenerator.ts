@@ -178,7 +178,7 @@ export class ModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings> 
 
                                             for (let configuration of launch.configurations)
                                             {
-                                                if ((configuration.name as string).toLowerCase().includes("launch tests"))
+                                                if (configuration.name.toLowerCase().includes("launch tests"))
                                                 {
                                                     validConfigurations.push(configuration);
                                                 }
