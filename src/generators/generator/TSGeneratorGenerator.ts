@@ -18,13 +18,13 @@ import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGenerato
 import { CommonDependencies } from "../../NPMPackaging/CommonDependencies";
 import { LintDependencies } from "../../NPMPackaging/LintDependencies";
 import { LintingComponent } from "../../Project/Components/LintingComponent";
-import { ProjectDescriptionQuestion } from "../../Project/Inquiry/ProjectDescriptionQuestion";
 import { ProjectDestinationQuestion } from "../../Project/Inquiry/ProjectDestinationQuestion";
 import { ProjectDisplayNameQuestion } from "../../Project/Inquiry/ProjectDisplayNameQuestion";
 import { TSProjectComponent } from "../../Project/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/TSProjectSettingKey";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
 import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
+import { GeneratorDescriptionQuestion } from "./Inquiry/GeneratorDescriptionQuestion";
 import { GeneratorModuleNameQuestion } from "./Inquiry/GeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
@@ -76,7 +76,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
             new ProjectDestinationQuestion<T>(),
             new ProjectDisplayNameQuestion<T>(),
             new GeneratorModuleNameQuestion<T>(),
-            new ProjectDescriptionQuestion<T>()
+            new GeneratorDescriptionQuestion<T>()
         ];
     }
 
