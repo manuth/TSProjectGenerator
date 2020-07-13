@@ -4,10 +4,10 @@ import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings
 /**
  * Provides a question for asking for description of a generator.
  */
-export class GeneratorDescriptionQuestion<T extends ITSProjectSettings> extends ProjectDescriptionQuestion<T>
+export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extends ProjectDescriptionQuestion<T>
 {
     /**
-     * Initializes a new instance of the `GeneratorDescriptionQuestion<T>` class.
+     * Initializes a new instance of the `TSGeneratorDescriptionQuestion<T>` class.
      */
     public constructor()
     {

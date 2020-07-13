@@ -5,10 +5,10 @@ import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 /**
  * Provides a file-mapping for copying the `tasks.json` file.
  */
-export class ProjectTasksFileMapping<T extends ITSProjectSettings> extends VSCodeTasksFileMapping<T>
+export class TSProjectTasksFileMapping<T extends ITSProjectSettings> extends VSCodeTasksFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `ProjectTasksFileMapping<T>` class.
+     * Initializes a new instance of the `TSProjectTasksFileMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

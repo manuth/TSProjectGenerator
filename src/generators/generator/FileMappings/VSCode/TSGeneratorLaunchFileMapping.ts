@@ -2,7 +2,7 @@ import { FileMapping, IGenerator, GeneratorSettingKey } from "@manuth/extended-y
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { DebugConfiguration } from "vscode";
-import { ProjectLaunchFileMapping } from "../../../../Project/FileMappings/VSCode/ProjectLaunchFileMapping";
+import { TSProjectLaunchFileMapping } from "../../../../Project/FileMappings/VSCode/TSProjectLaunchFileMapping";
 import { ILaunchFile } from "../../../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../Settings/SubGeneratorSettingKey";
@@ -12,7 +12,7 @@ import { TSGeneratorSettingKey } from "../../Settings/TSGeneratorSettingKey";
 /**
  * Provides a file-mapping for copying the `launch.json` file for a `TSGenerator`.
  */
-export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extends ProjectLaunchFileMapping<T>
+export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extends TSProjectLaunchFileMapping<T>
 {
     /**
      * Initializes a new instance of the `TSGeneratorLaunchFileMapping<T>` class.

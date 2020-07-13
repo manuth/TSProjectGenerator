@@ -1,10 +1,10 @@
-import { ProjectExtensionsMapping } from "../../../../Project/FileMappings/VSCode/ProjectExtensionsMapping";
+import { TSProjectExtensionsMapping } from "../../../../Project/FileMappings/VSCode/TSProjectExtensionsMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a file-mapping for copying the `extensions.json` file for `TSGenerator`s.
  */
-export class TSGeneratorExtensionsMapping<T extends ITSProjectSettings> extends ProjectExtensionsMapping<T>
+export class TSGeneratorExtensionsMapping<T extends ITSProjectSettings> extends TSProjectExtensionsMapping<T>
 {
     /**
      * Initializes a new instance of the `TSGeneratorExtensionsMapping<T>` class.

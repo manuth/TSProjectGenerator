@@ -4,10 +4,10 @@ import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 /**
  * Provides a file-mapping for copying the launch.json file for `TSProject`s.
  */
-export class ProjectSettingsFileMapping<T extends ITSProjectSettings> extends VSCodeSettingsFileMapping<T>
+export class TSProjectSettingsFileMapping<T extends ITSProjectSettings> extends VSCodeSettingsFileMapping<T>
 {
     /**
-     * Initializes a new instance of the `ProjectSettingsFileMapping<T>` class.
+     * Initializes a new instance of the `TSProjectSettingsFileMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

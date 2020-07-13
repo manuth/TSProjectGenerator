@@ -1,5 +1,5 @@
 import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
-import { ProjectCodeWorkspaceComponent } from "../../../Project/Components/ProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceComponent } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { TSGeneratorExtensionsMapping } from "../FileMappings/VSCode/TSGeneratorExtensionsMapping";
 import { TSGeneratorLaunchFileMapping } from "../FileMappings/VSCode/TSGeneratorLaunchFileMapping";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
@@ -7,7 +7,7 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 /**
  * Provides a component for creating a vscode-workspace for `TSGenerator`s.
  */
-export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends ProjectCodeWorkspaceComponent<T>
+export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends TSProjectCodeWorkspaceComponent<T>
 {
     /**
      * Initializes a new isntance of the `TSGeneratorCodeWorkspace<T>` class.

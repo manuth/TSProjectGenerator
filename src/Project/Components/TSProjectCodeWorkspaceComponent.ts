@@ -1,18 +1,18 @@
 import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { ProjectExtensionsMapping } from "../FileMappings/VSCode/ProjectExtensionsMapping";
-import { ProjectLaunchFileMapping } from "../FileMappings/VSCode/ProjectLaunchFileMapping";
-import { ProjectSettingsFileMapping } from "../FileMappings/VSCode/ProjectSettingsFileMapping";
-import { ProjectTasksFileMapping } from "../FileMappings/VSCode/ProjectTasksFileMapping";
+import { TSProjectExtensionsMapping } from "../FileMappings/VSCode/TSProjectExtensionsMapping";
+import { TSProjectLaunchFileMapping } from "../FileMappings/VSCode/TSProjectLaunchFileMapping";
+import { TSProjectSettingsFileMapping } from "../FileMappings/VSCode/TSProjectSettingsFileMapping";
+import { TSProjectTasksFileMapping } from "../FileMappings/VSCode/TSProjectTasksFileMapping";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
  * Provides a component for creating a vscode-workspace for `TSProject`s.
  */
-export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends CodeWorkspaceComponent<T>
+export class TSProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends CodeWorkspaceComponent<T>
 {
     /**
-     * Initializes a new isntance of the `ProjectCodeWorkspaceComponent<T>` class.
+     * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent<T>` class.
      */
     public constructor()
     {
@@ -36,7 +36,7 @@ export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends
      */
     protected async GetExtensionsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
     {
-        return new ProjectExtensionsMapping(settingsFolderName);
+        return new TSProjectExtensionsMapping(settingsFolderName);
     }
 
     /**
@@ -56,7 +56,7 @@ export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends
      */
     protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
     {
-        return new ProjectLaunchFileMapping(settingsFolderName);
+        return new TSProjectLaunchFileMapping(settingsFolderName);
     }
 
     /**
@@ -76,7 +76,7 @@ export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends
      */
     protected async GetSettingsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
     {
-        return new ProjectSettingsFileMapping(settingsFolderName);
+        return new TSProjectSettingsFileMapping(settingsFolderName);
     }
 
     /**
@@ -96,6 +96,6 @@ export class ProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends
      */
     protected async GetTaskFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
     {
-        return new ProjectTasksFileMapping(settingsFolderName);
+        return new TSProjectTasksFileMapping(settingsFolderName);
     }
 }

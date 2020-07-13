@@ -23,8 +23,8 @@ import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
 import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
-import { GeneratorDescriptionQuestion } from "./Inquiry/GeneratorDescriptionQuestion";
-import { GeneratorModuleNameQuestion } from "./Inquiry/GeneratorModuleNameQuestion";
+import { TSGeneratorDescriptionQuestion } from "./Inquiry/TSGeneratorDescriptionQuestion";
+import { TSGeneratorModuleNameQuestion } from "./Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "./Settings/TSGeneratorComponent";
@@ -74,8 +74,8 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
         return [
             new ProjectDestinationQuestion<T>(),
             new ProjectDisplayNameQuestion<T>(),
-            new GeneratorModuleNameQuestion<T>(),
-            new GeneratorDescriptionQuestion<T>()
+            new TSGeneratorModuleNameQuestion<T>(),
+            new TSGeneratorDescriptionQuestion<T>()
         ];
     }
 

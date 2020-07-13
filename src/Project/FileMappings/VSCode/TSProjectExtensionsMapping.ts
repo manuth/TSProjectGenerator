@@ -4,10 +4,10 @@ import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 /**
  * Provides a file-mapping for copying the `extensions.json` file.
  */
-export class ProjectExtensionsMapping<T extends ITSProjectSettings> extends VSCodeExtensionsMapping<T>
+export class TSProjectExtensionsMapping<T extends ITSProjectSettings> extends VSCodeExtensionsMapping<T>
 {
     /**
-     * Initializes a new instance of the `ProjectExtensionsMapping<T>` class.
+     * Initializes a new instance of the `TSProjectExtensionsMapping<T>` class.
      *
      * @param settingsFolderName
      * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).

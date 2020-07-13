@@ -5,10 +5,10 @@ import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class GeneratorModuleNameQuestion<T extends ITSProjectSettings> extends ProjectModuleNameQuestion<T>
+export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends ProjectModuleNameQuestion<T>
 {
     /**
-     * Initializes a new instance of the `GeneratorModuleNameQuestion<T>` class.
+     * Initializes a new instance of the `TSGeneratorModuleNameQuestion<T>` class.
      */
     public constructor()
     {
