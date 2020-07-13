@@ -22,20 +22,6 @@ export class GeneratorModuleNameQuestion<T extends ITSProjectSettings> extends P
      * The answers provided by the user.
      *
      * @returns
-     * The message which is shown to the user.
-     */
-    public async message(answers: T): Promise<string>
-    {
-        return "Please enter a description for your generator.";
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param answers
-     * The answers provided by the user.
-     *
-     * @returns
      * The default value for this question.
      */
     public async default(answers: T): Promise<string>
