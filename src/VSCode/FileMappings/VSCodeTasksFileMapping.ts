@@ -82,7 +82,7 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
             }
             else
             {
-                delete result.tasks[i];
+                result.tasks.splice(i, 1);
             }
         }
 

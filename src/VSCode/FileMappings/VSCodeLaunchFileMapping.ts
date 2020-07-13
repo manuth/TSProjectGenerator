@@ -82,7 +82,7 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
             }
             else
             {
-                delete result.configurations[i];
+                result.configurations.splice(i, 1);
             }
         }
 
