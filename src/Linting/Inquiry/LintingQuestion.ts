@@ -1,13 +1,13 @@
 import { ListQuestionOptions, ChoiceCollection } from "inquirer";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
-import { LintRuleset } from "../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
+import { LintRuleset } from "../LintRuleset";
 
 /**
  * Provides a question for asking for the linting-ruleset.
  */
-export class ProjectLintingQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements ListQuestionOptions<T>
+export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements ListQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -20,7 +20,7 @@ export class ProjectLintingQuestion<T extends ITSProjectSettings> extends Questi
     public name = TSProjectSettingKey.LintRuleset;
 
     /**
-     * Initializes a new instance of the `ProjectLintingQuestion<T>` class.
+     * Initializes a new instance of the `LintingQuestion<T>` class.
      */
     public constructor()
     {

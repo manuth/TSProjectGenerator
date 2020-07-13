@@ -1,9 +1,9 @@
 import { Question, Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
-import { ESLintRCFileMapping } from "../../Linting/FileMappings/ESLintRCFileMapping";
-import { ProjectLintingQuestion } from "../Inquiry/ProjectLintingQuestion";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../Settings/TSProjectComponent";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
+import { ESLintRCFileMapping } from "../FileMappings/ESLintRCFileMapping";
+import { LintingQuestion } from "../Inquiry/LintingQuestion";
 
 /**
  * Provides a component which allows creating files for linting the workspace.
@@ -48,7 +48,7 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
     public get Questions(): Array<Question<T>>
     {
         return [
-            new ProjectLintingQuestion()
+            new LintingQuestion()
         ];
     }
 
