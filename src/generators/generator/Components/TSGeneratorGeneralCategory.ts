@@ -1,6 +1,6 @@
+import { join } from "path";
 import { IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
-import { join } from "upath";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
@@ -110,7 +110,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
                 Destination: join(destination, "LicenseType.ts")
             },
             {
-                Source: join(source, "Settings.ts.ejs"),
+                Source: join(source, "Setting.ts.ejs"),
                 Context: () =>
                 {
                     return { Name: identities };

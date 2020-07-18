@@ -1,21 +1,11 @@
-import { createRequire } from "module";
 import Path = require("path");
 import { GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
-import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
-import JSON = require("comment-json");
-import Dedent = require("dedent");
-import { ESLint } from "eslint";
+import dedent = require("dedent");
 import FileSystem = require("fs-extra");
-import CamelCase = require("lodash.camelcase");
-import npmWhich = require("npm-which");
-import { TempDirectory } from "temp-filesystem";
-import { Linter } from "tslint";
-import { Program } from "typescript";
 import YoSay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { BuildDependencies } from "../../NPMPackaging/Dependencies/BuildDependencies";
-import { LintDependencies } from "../../NPMPackaging/Dependencies/LintDependencies";
+import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
@@ -84,23 +74,25 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get FileMappings(): Array<IFileMapping<T>>
     {
-        return [
-            new TSGeneratorPackageFileMapping(this),
+        let result: Array<IFileMapping<T>> = [];
+
+        for (let fileMapping of super.FileMappings)
+        {
+            if (fileMapping instanceof TSProjectPackageFileMapping)
             {
-                Source: ".gitignore.ejs",
-                Destination: ".gitignore"
-            },
+                result.push(new TSGeneratorPackageFileMapping(this));
+            }
+            else
+            {
+                result.push(fileMapping);
+            }
+        }
+
+        return [
+            ...result,
             {
                 Source: ".markdownlint.json",
                 Destination: ".markdownlint.json"
-            },
-            {
-                Source: ".npmignore.ejs",
-                Destination: ".npmignore"
-            },
-            {
-                Source: this.modulePath(".mocharc.jsonc"),
-                Destination: ".mocharc.jsonc"
             },
             {
                 Source: "GettingStarted.md.ejs",
@@ -181,24 +173,6 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
                 {
                     return FileSystem.ensureDir(await target.Destination);
                 }
-            },
-            {
-                Source: this.modulePath("tsconfig.base.json"),
-                Destination: "tsconfig.base.json"
-            },
-            {
-                Destination: "tsconfig.json",
-                Processor: async (target) =>
-                {
-                    let tsConfig = await FileSystem.readJSON(this.modulePath("tsconfig.json"));
-
-                    if (!this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
-                    {
-                        delete tsConfig.references;
-                    }
-
-                    this.fs.writeJSON(await target.Destination, tsConfig, null, 4);
-                }
             }
         ];
     }
@@ -217,8 +191,6 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     public async writing(): Promise<void>
     {
-        this.log(chalk.whiteBright("Generating the Workspace"));
-        this.destinationRoot(this.Settings[TSProjectSettingKey.Destination]);
         return super.writing();
     }
 
@@ -227,12 +199,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     public async install(): Promise<void>
     {
-        this.log(
-            Dedent(
-                `Your workspace has been generated!
-
-                ${chalk.whiteBright("Installing Dependencies...")}`));
-        this.npmInstall();
+        return super.install();
     }
 
     /**
@@ -240,154 +207,11 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     public async end(): Promise<void>
     {
-        let tempDir = new TempDirectory();
-        let lintPackage = new Package(tempDir.MakePath("package.json"), {});
-        let workspaceRequire: NodeRequire;
-        let linterConstructor: typeof Linter;
-        let eslintConstructor: typeof ESLint;
-        let program: Program;
-        let linter: ESLint;
-        let tsConfigFile = this.destinationPath("tsconfig.json");
-        let newTSConfigFile = this.destinationPath("tsconfig.temp.json");
-        let tsConfig = JSON.parse((await FileSystem.readFile(tsConfigFile)).toString());
-        this.log();
-        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
-        this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
-        lintPackage.Register(new BuildDependencies());
-        lintPackage.Register(new LintDependencies());
+        await super.end();
 
-        await FileSystem.writeJSON(lintPackage.FileName, lintPackage.ToJSON());
-
-        await FileSystem.writeJSON(
-            newTSConfigFile,
-            {
-                ...tsConfig,
-                extends: undefined
-            });
-
-        this.spawnCommandSync(
-            npmWhich(__dirname).sync("npm"),
-            [
-                "install",
-                "--silent"
-            ],
-            {
-                cwd: tempDir.FullName
-            });
-
-        workspaceRequire = createRequire(Path.join(tempDir.FullName, ".js"));
-        linterConstructor = workspaceRequire("tslint").Linter;
-        eslintConstructor = workspaceRequire("eslint").ESLint;
-        program = linterConstructor.createProgram(newTSConfigFile);
-
-        linter = new eslintConstructor(
-            {
-                cwd: tempDir.FullName,
-                fix: true,
-                useEslintrc: false,
-                overrideConfigFile: Path.join(__dirname, "..", "..", "..", ".eslintrc.js"),
-                overrideConfig: {
-                    parserOptions: {
-                        project: newTSConfigFile
-                    }
-                }
-            });
-
-        for (let fileName of program.getRootFileNames())
-        {
-            this.log(chalk.gray(`Cleaning up "${Path.relative(this.destinationPath(), fileName)}"...`));
-            await ESLint.outputFixes(await linter.lintFiles(fileName));
-        }
-
-        await FileSystem.remove(newTSConfigFile);
-
-        this.log();
-        this.log(Dedent(`
-            ${chalk.whiteBright("Finished")}
-            Your package "${this.Settings[TSProjectSettingKey.DisplayName]}" has been created!
-            To start editing with Visual Studio Code use following command:
-
-                code "${this.Settings[TSProjectSettingKey.Destination]}"
-
-            Open "GettingStarted.md" in order to learn more about how to create your very own generator.
-            Thanks for using TSGeneratorGenerator!`));
+        this.log(
+            dedent(`
+                Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+                Thanks for using TSProjectGenerator!`));
     }
-
-    /**
-     * Creates file-mappings for a generator.
-     *
-     * @param id
-     * The id of the generator.
-     *
-     * @param displayName
-     * The human readable name of the generator.
-     *
-     * @returns
-     * File-mappings for a generator.
-     */
-    protected GetGeneratorFileMappings =
-        (id: string, displayName: string): Array<IFileMapping<T>> =>
-        {
-            let name = (id.charAt(0).toUpperCase() + CamelCase(id).slice(1));
-            let source = "generator";
-            let destination = `src/generators/${id}`;
-            let generatorName = `${name}Generator`;
-            let identities = `${name}Setting`;
-            let settings = `I${name}Settings`;
-
-            return [
-                {
-                    Source: Path.join(source, "LicenseType.ts.ejs"),
-                    Destination: Path.join(destination, "LicenseType.ts")
-                },
-                {
-                    Source: Path.join(source, "Setting.ts.ejs"),
-                    Context: () =>
-                    {
-                        return { Name: identities };
-                    },
-                    Destination: Path.join(destination, `${identities}.ts`)
-                },
-                {
-                    Source: Path.join(source, "ISettings.ts.ejs"),
-                    Context: () =>
-                    {
-                        return {
-                            Name: generatorName,
-                            SettingsInterface: settings,
-                            Identities: identities
-                        };
-                    },
-                    Destination: Path.join(destination, `${settings}.ts`)
-                },
-                {
-                    Source: Path.join(source, "Generator.ts.ejs"),
-                    Context: () =>
-                    {
-                        return {
-                            Name: generatorName,
-                            SettingsInterface: settings,
-                            Identities: identities,
-                            ID: id,
-                            DisplayName: displayName
-                        };
-                    },
-                    Destination: Path.join(destination, `${generatorName}.ts`)
-                },
-                {
-                    Source: Path.join(source, "index.ts.ejs"),
-                    Context: () =>
-                    {
-                        return {
-                            Name: generatorName
-                        };
-                    },
-                    Destination: Path.join(destination, "index.ts")
-                },
-                {
-                    Source: Path.join(source, "templates"),
-                    Destination: Path.join("templates", id)
-                }
-            ];
-        };
 }
