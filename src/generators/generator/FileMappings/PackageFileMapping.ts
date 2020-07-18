@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "util";
 import { IFileMapping, Generator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
@@ -6,6 +7,7 @@ import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDep
 import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
 import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
+import { ScriptProcessor } from "../../../NPMPackaging/Scripts/ScriptProcessor";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
@@ -163,7 +165,19 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
 
             if (Constants.Package.Scripts.Has(script.Source))
             {
-                let processor = script.Processor ?? ((script) => script);
+                let processor: ScriptProcessor = (scriptCommand) =>
+                {
+                    if (
+                        (typeof script !== "string") &&
+                        !isNullOrUndefined(script.Processor))
+                    {
+                        return script.Processor(scriptCommand);
+                    }
+                    else
+                    {
+                        return scriptCommand;
+                    }
+                };
 
                 if (result.Scripts.Has(script.Destination))
                 {
