@@ -68,7 +68,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
             ...result,
             {
                 Source: "index.ts.ejs",
-                Destination: "index.ts"
+                Destination: join(this.SourceRoot, "index.ts")
             },
             {
                 Source: "main.test.ts.ejs",
