@@ -22,7 +22,7 @@ import { TSProjectDisplayNameQuestion } from "../../Project/Inquiry/TSProjectDis
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
-import { PackageFileMapping } from "./FileMappings/PackageFileMapping";
+import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
 import { TSGeneratorDescriptionQuestion } from "./Inquiry/TSGeneratorDescriptionQuestion";
 import { TSGeneratorModuleNameQuestion } from "./Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
@@ -128,7 +128,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     protected get FileMappings(): Array<IFileMapping<T>>
     {
         return [
-            new PackageFileMapping(this),
+            new TSGeneratorPackageFileMapping(this),
             {
                 Source: ".gitignore.ejs",
                 Destination: ".gitignore"
