@@ -31,7 +31,7 @@ export class TSProjectExtensionsMapping<T extends ITSProjectSettings> extends VS
         return recommendations.filter(
             (extension) =>
             {
-                return extension !== "qdigitalbrainstem.javascript-ejs-support";
+                return extension !== "digitalbrainstem.javascript-ejs-support";
             });
     }
 }
