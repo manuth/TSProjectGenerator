@@ -1,12 +1,12 @@
 import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
 
 /**
- * Provides all common dependencies.
+ * Provides all common dependencies for `TSGenerator`s.
  */
 export class TSGeneratorDependencies extends PackageDependencyCollection
 {
     /**
-     * Initializes a new instance of the `CommonDependencies` class.
+     * Initializes a new instance of the `TSGeneratorDependencies` class.
      */
     public constructor()
     {
