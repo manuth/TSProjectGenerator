@@ -8,7 +8,7 @@ export { TSGeneratorSettingKey } from "./generators/generator/Settings/TSGenerat
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { LintRuleset } from "./Linting/LintRuleset";
-export { CommonDependencies } from "./NPMPackaging/CommonDependencies";
-export { GeneratorDependencies } from "./NPMPackaging/GeneratorDependencies";
+export { CommonDependencies } from "./NPMPackaging/Dependencies/CommonDependencies";
+export { GeneratorDependencies } from "./NPMPackaging/Dependencies/GeneratorDependencies";
 export { IScriptMapping } from "./NPMPackaging/IScriptMapping";
-export { LintDependencies } from "./NPMPackaging/LintDependencies";
+export { LintDependencies } from "./NPMPackaging/Dependencies/LintDependencies";

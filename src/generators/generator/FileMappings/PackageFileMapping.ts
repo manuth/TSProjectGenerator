@@ -2,10 +2,10 @@ import { IFileMapping, Generator, GeneratorSettingKey } from "@manuth/extended-y
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { Constants } from "../../../Core/Constants";
-import { CommonDependencies } from "../../../NPMPackaging/CommonDependencies";
-import { GeneratorDependencies } from "../../../NPMPackaging/GeneratorDependencies";
+import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
+import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
+import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/IScriptMapping";
-import { LintDependencies } from "../../../NPMPackaging/LintDependencies";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
