@@ -2,13 +2,13 @@ import { IFileMapping, GeneratorSettingKey, IGenerator } from "@manuth/extended-
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { Constants } from "../../../Core/Constants";
-import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
 import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorDependencies } from "../Dependencies/TSGeneratorDependencies";
+import { TSGeneratorExampleDependencies } from "../Dependencies/TSGeneratorExampleDependencies";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 
@@ -149,7 +149,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample) ||
             this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
         {
-            result.Register(new GeneratorDependencies(), true);
+            result.Register(new TSGeneratorExampleDependencies(), true);
         }
 
         for (let script of scripts.map((script) => new ScriptMapping(this.Generator, script)))

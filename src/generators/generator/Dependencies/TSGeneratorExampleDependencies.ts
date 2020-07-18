@@ -1,12 +1,12 @@
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
+import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
 
 /**
- * Provides all dependencies required for creating a generator.
+ * Provides all dependencies for example-generators.
  */
-export class GeneratorDependencies extends PackageDependencyCollection
+export class TSGeneratorExampleDependencies extends PackageDependencyCollection
 {
     /**
-     * Initializes a new instance of the `GeneratorDependencies` class.
+     * Initializes a new instance of the `TSGeneratorExampleDependencies` class.
      */
     public constructor()
     {
