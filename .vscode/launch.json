@@ -16,7 +16,8 @@
             "internalConsoleOptions": "neverOpen",
             "preLaunchTask": "Build",
             "cwd": "${workspaceFolder}/..",
-            "sourceMaps": true
+            "sourceMaps": true,
+            "autoAttachChildProcesses": false
         },
         {
             "type": "pwa-node",
