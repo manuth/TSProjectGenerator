@@ -13,15 +13,11 @@ export class CommonDependencies extends PackageDependencyCollection
     {
         super(
             {
-                dependencies: [
-                    "@manuth/extended-yo-generator"
-                ],
                 devDependencies: [
                     "@types/mocha",
                     "@types/node",
                     "mocha",
-                    "rimraf",
-                    "yo"
+                    "rimraf"
                 ]
             });
 

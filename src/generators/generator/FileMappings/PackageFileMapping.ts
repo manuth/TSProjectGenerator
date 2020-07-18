@@ -2,13 +2,13 @@ import { IFileMapping, GeneratorSettingKey, IGenerator } from "@manuth/extended-
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { Constants } from "../../../Core/Constants";
-import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
 import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
 import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
+import { TSGeneratorCommonDependencies } from "../Dependencies/TSGeneratorCommonDependencies";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 
@@ -138,7 +138,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             "prepare"
         ];
 
-        result.Register(new CommonDependencies(), true);
+        result.Register(new TSGeneratorCommonDependencies(), true);
 
         if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {
