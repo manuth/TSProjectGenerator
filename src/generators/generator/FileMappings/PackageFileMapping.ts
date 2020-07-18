@@ -8,7 +8,7 @@ import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSGeneratorCommonDependencies } from "../Dependencies/TSGeneratorCommonDependencies";
+import { TSGeneratorDependencies } from "../Dependencies/TSGeneratorDependencies";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 
@@ -138,7 +138,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             "prepare"
         ];
 
-        result.Register(new TSGeneratorCommonDependencies(), true);
+        result.Register(new TSGeneratorDependencies(), true);
 
         if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {

@@ -3,7 +3,7 @@ import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/
 /**
  * Provides all common dependencies.
  */
-export class TSGeneratorCommonDependencies extends PackageDependencyCollection
+export class TSGeneratorDependencies extends PackageDependencyCollection
 {
     /**
      * Initializes a new instance of the `CommonDependencies` class.
