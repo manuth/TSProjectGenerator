@@ -1,12 +1,13 @@
-import { IFileMapping, IGenerator, FileProcessor } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator, FileProcessor, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
-import { ITSGeneratorSettings } from "../../generators/generator/Settings/ITSGeneratorSettings";
+import { IScriptMapping } from "../Scripts/IScriptMapping";
+import { ScriptMapping } from "../Scripts/ScriptMapping";
 
 /**
  * Represents a file-mapping for a `package.json` file.
  */
-export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFileMapping<T>
+export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMapping<T>
 {
     /**
      * The generator of the file-mapping.
@@ -78,6 +79,38 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
     }
 
     /**
+     * Gets the scripts to copy from the template-package.
+     */
+    protected get ScriptMappings(): Array<IScriptMapping<T> | string>
+    {
+        return [];
+    }
+
+    /**
+     * Gets the resolved representations of the scripts to copy from the template-package.
+     */
+    protected get ScriptMappingCollection(): Array<ScriptMapping<T>>
+    {
+        return this.ScriptMappings.map(
+            (scriptMapping) =>
+            {
+                return new ScriptMapping(this.Generator, scriptMapping);
+            });
+    }
+
+    /**
+     * Gets the template package.
+     */
+    protected get Template(): Promise<Package>
+    {
+        return (
+            async () =>
+            {
+                return new Package();
+            })();
+    }
+
+    /**
      * Loads the package.
      *
      * @returns
@@ -106,6 +139,16 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
                         "yeoman-generator"
                     ]
                 });
+        }
+
+        for (let scriptMapping of this.ScriptMappingCollection)
+        {
+            if (result.Scripts.Has(await scriptMapping.Destination))
+            {
+                result.Scripts.Remove(await scriptMapping.Destination);
+            }
+
+            result.Scripts.Add(await scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(await scriptMapping.Source)));
         }
 
         await result.Normalize();
