@@ -31,7 +31,12 @@ export class TSGeneratorPackageFileMapping<T extends ITSGeneratorSettings> exten
     protected async LoadPackage(): Promise<Package>
     {
         let result = await super.LoadPackage();
-        result.Keywords.push("yeoman-generator");
+
+        if (!result.Keywords.includes("yeoman-generator"))
+        {
+            result.Keywords.push("yeoman-generator");
+        }
+
         result.Register(new TSGeneratorDependencies(), true);
 
         if (
