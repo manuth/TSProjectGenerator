@@ -1,22 +1,24 @@
+import { IGeneratorSettings, Resolvable } from "@manuth/extended-yo-generator";
+import { ScriptMapping } from "./ScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
 
 /**
  * Represents a script-mapping.
  */
-export interface IScriptMapping
+export interface IScriptMapping<T extends IGeneratorSettings>
 {
     /**
      * The source-script.
      */
-    Source: string;
+    Source: Resolvable<ScriptMapping<T>, T, string>;
 
     /**
      * The name of the destination-script.
      */
-    Destination: string;
+    Destination: Resolvable<ScriptMapping<T>, T, string>;
 
     /**
      * A component for manipulating the script.
      */
-    Processor?: ScriptProcessor;
+    Processor?: ScriptProcessor<T>;
 }

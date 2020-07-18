@@ -1,4 +1,3 @@
-import { isNullOrUndefined } from "util";
 import { IFileMapping, Generator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
@@ -7,7 +6,7 @@ import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDep
 import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
 import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
-import { ScriptProcessor } from "../../../NPMPackaging/Scripts/ScriptProcessor";
+import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
@@ -121,7 +120,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
                 });
         }
 
-        let scripts: Array<IScriptMapping | string> = [
+        let scripts: Array<IScriptMapping<T> | string> = [
             "build",
             "rebuild",
             "watch",
@@ -133,7 +132,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             {
                 Source: "lint-code-compact",
                 Destination: "lint-compact",
-                Processor: (script) => script.replace("lint-code", "lint")
+                Processor: async (script) => script.replace("lint-code", "lint")
             },
             "test",
             "prepare"
@@ -153,38 +152,16 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
             result.Register(new GeneratorDependencies(), true);
         }
 
-        for (let script of scripts)
+        for (let script of scripts.map((script) => new ScriptMapping(this.Generator, script)))
         {
-            if (typeof script === "string")
+            if (Constants.Package.Scripts.Has(await script.Source))
             {
-                script = {
-                    Source: script,
-                    Destination: script
-                };
-            }
-
-            if (Constants.Package.Scripts.Has(script.Source))
-            {
-                let processor: ScriptProcessor = (scriptCommand) =>
+                if (result.Scripts.Has(await script.Destination))
                 {
-                    if (
-                        (typeof script !== "string") &&
-                        !isNullOrUndefined(script.Processor))
-                    {
-                        return script.Processor(scriptCommand);
-                    }
-                    else
-                    {
-                        return scriptCommand;
-                    }
-                };
-
-                if (result.Scripts.Has(script.Destination))
-                {
-                    result.Scripts.Remove(script.Destination);
+                    result.Scripts.Remove(await script.Destination);
                 }
 
-                result.Scripts.Add(script.Destination, processor(Constants.Package.Scripts.Get(script.Source)));
+                result.Scripts.Add(await script.Destination, await script.Process(Constants.Package.Scripts.Get(await script.Source)));
             }
         }
 
