@@ -13,7 +13,7 @@ import { Linter } from "tslint";
 import { Program } from "typescript";
 import { join } from "upath";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
-import { LintDependencies } from "../NPMPackaging/Dependencies/LintDependencies";
+import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
 import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
@@ -154,7 +154,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
         lintPackage.Register(new BuildDependencies());
-        lintPackage.Register(new LintDependencies());
+        lintPackage.Register(new LintEssentials());
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
 
         this.spawnCommandSync(
