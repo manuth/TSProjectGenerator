@@ -1,3 +1,4 @@
+import { BuildDependencies } from "./BuildDependencies";
 import { PackageDependencyCollection } from "./PackageDependencyCollection";
 
 /**
@@ -16,14 +17,14 @@ export class CommonDependencies extends PackageDependencyCollection
                     "@manuth/extended-yo-generator"
                 ],
                 devDependencies: [
-                    "@manuth/tsconfig",
                     "@types/mocha",
                     "@types/node",
                     "mocha",
                     "rimraf",
-                    "typescript",
                     "yo"
                 ]
             });
+
+        this.Register(new BuildDependencies());
     }
 }
