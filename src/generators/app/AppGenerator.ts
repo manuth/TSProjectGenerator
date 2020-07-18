@@ -31,7 +31,7 @@ export class AppGenerator<T extends IGeneratorSettings> extends Generator<T>
     public async initializing(): Promise<void>
     {
         let settings: IAppGeneratorSettings;
-        this.log(yosay(`Welcome to ${chalk.whiteBright("TSProjectGenerator")}!`));
+        this.log(yosay(`Welcome to ${chalk.whiteBright.bold("TSProjectGenerator")}!`));
 
         settings = await this.prompt(
             [

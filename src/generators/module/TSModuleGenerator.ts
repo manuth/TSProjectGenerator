@@ -98,7 +98,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
      */
     public async prompting(): Promise<void>
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright("TypeScript Module")} generator!`));
+        this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Module")} generator!`));
         return super.prompting();
     }
 

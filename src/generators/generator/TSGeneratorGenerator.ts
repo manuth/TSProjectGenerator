@@ -182,7 +182,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     public async prompting(): Promise<void>
     {
-        this.log(YoSay(`Welcome to the ${chalk.whiteBright("TypeScript Generator")} generator!`));
+        this.log(YoSay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 
