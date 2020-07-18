@@ -14,13 +14,12 @@ import { Linter } from "tslint";
 import { Program } from "typescript";
 import YoSay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { BuildDependencies } from "../../NPMPackaging/Dependencies/BuildDependencies";
 import { LintDependencies } from "../../NPMPackaging/Dependencies/LintDependencies";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
+import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection";
 import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
 import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
@@ -77,42 +76,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Components(): IComponentCollection<T>
     {
-        return {
-            Question: "What do you want to include in your workspace?",
-            Categories: [
-                {
-                    DisplayName: "General",
-                    Components: [
-                        new LintingComponent(),
-                        new TSGeneratorCodeWorkspace(),
-                        {
-                            ID: TSGeneratorComponent.GeneratorExample,
-                            DisplayName: "Example Generator (recommended)",
-                            DefaultEnabled: true,
-                            FileMappings: (component, generator) => this.GetGeneratorFileMappings("app", generator.Settings[TSProjectSettingKey.DisplayName])
-                        },
-                        {
-                            ID: TSGeneratorComponent.SubGeneratorExample,
-                            DisplayName: "Example Sub-Generator",
-                            FileMappings: (component, generator) => generator.Settings[TSGeneratorSettingKey.SubGenerator].flatMap(
-                                (subGeneratorOptions) =>
-                                {
-                                    return this.GetGeneratorFileMappings(
-                                        subGeneratorOptions[SubGeneratorSettingKey.Name],
-                                        subGeneratorOptions[SubGeneratorSettingKey.DisplayName]);
-                                }),
-                            Questions: [
-                                {
-                                    type: SubGeneratorPrompt.TypeName,
-                                    name: TSGeneratorSettingKey.SubGenerator,
-                                    message: "Please specify the details of the sub-generators to create"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
+        return new TSGeneratorComponentCollection();
     }
 
     /**
