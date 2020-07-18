@@ -1,10 +1,12 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
+import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
 
 /**
@@ -34,7 +36,13 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
         let result = await super.LoadPackage();
         result.Name = this.Generator.Settings[TSProjectSettingKey.Name];
         result.Description = this.Generator.Settings[TSProjectSettingKey.Description];
-        result.Register(new CommonDependencies());
+        result.Register(new CommonDependencies(), true);
+
+        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
+        {
+            result.Register(new LintDependencies(), true);
+        }
+
         return result;
     }
 
