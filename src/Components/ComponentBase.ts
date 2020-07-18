@@ -1,10 +1,9 @@
-import { Component, IComponent, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Project/Settings/ITSProjectSettings";
+import { Component, IComponent, IFileMapping, IGenerator, Question, IGeneratorSettings } from "@manuth/extended-yo-generator";
 
 /**
  * Provides a basic implementation of the `IComponent<T>` interface.
  */
-export abstract class ComponentBase<T extends ITSProjectSettings> implements IComponent<T>
+export abstract class ComponentBase<T extends IGeneratorSettings> implements IComponent<T>
 {
     /**
      * Initializes a new instance of the `ComponentBase<T>` class.
