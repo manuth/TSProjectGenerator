@@ -1,6 +1,7 @@
 import { IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
+import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
@@ -33,6 +34,7 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
         let result = await super.LoadPackage();
         result.Name = this.Generator.Settings[TSProjectSettingKey.Name];
         result.Description = this.Generator.Settings[TSProjectSettingKey.Description];
+        result.Register(new CommonDependencies());
         return result;
     }
 
