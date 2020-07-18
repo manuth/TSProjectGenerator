@@ -1,4 +1,4 @@
-import { IFileMapping, Generator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { IFileMapping, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { Constants } from "../../../Core/Constants";
@@ -20,7 +20,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
     /**
      * The generator of the file-mapping.
      */
-    private generator: Generator<T>;
+    private generator: IGenerator<T>;
 
     /**
      * The package to write.
@@ -33,7 +33,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: Generator<T>)
+    public constructor(generator: IGenerator<T>)
     {
         this.generator = generator;
     }
@@ -58,7 +58,7 @@ export class PackageFileMapping<T extends ITSGeneratorSettings> implements IFile
     /**
      * Gets the generator of the file-mapping.
      */
-    public get Generator(): Generator<T>
+    public get Generator(): IGenerator<T>
     {
         return this.generator;
     }
