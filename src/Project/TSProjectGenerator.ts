@@ -132,7 +132,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
             dedent(
                 `Your workspace has been generated!
 
-                ${chalk.whiteBright("Installing Dependencies...")}`));
+                ${chalk.whiteBright("Installing Dependencies…")}`));
 
         this.npmInstall();
     }

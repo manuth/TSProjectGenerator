@@ -22,11 +22,11 @@ Please make sure to tick the `Example Generator`-box to generate a nice example 
 ## Generator Output
   - A basic folder-structure for keeping `TypeScript`-code and `JavaScript`-builds separate
   - Linting-rules (optional)
-    - Either weak rules...
-    - ...or strong rules
+    - Either weak rules…
+    - …or strong rules
   - A node-package with required dependencies
   - Mocha test-environment
-  - NPM-Scripts for...
+  - NPM-Scripts for…
     - Compiling the TypeScript-code
     - Cleaning compiled TypeScript-code
     - Linting the package
