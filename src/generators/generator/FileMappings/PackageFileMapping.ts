@@ -5,7 +5,7 @@ import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
 import { GeneratorDependencies } from "../../../NPMPackaging/Dependencies/GeneratorDependencies";
 import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
-import { IScriptMapping } from "../../../NPMPackaging/IScriptMapping";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";

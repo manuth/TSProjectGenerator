@@ -10,5 +10,5 @@ export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPro
 export { LintRuleset } from "./Linting/LintRuleset";
 export { CommonDependencies } from "./NPMPackaging/Dependencies/CommonDependencies";
 export { GeneratorDependencies } from "./NPMPackaging/Dependencies/GeneratorDependencies";
-export { IScriptMapping } from "./NPMPackaging/IScriptMapping";
+export { IScriptMapping } from "./NPMPackaging/Scripts/IScriptMapping";
 export { LintDependencies } from "./NPMPackaging/Dependencies/LintDependencies";
