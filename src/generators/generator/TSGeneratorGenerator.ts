@@ -210,9 +210,11 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
         await super.end();
 
         this.log();
+
         this.log(
-            dedent(`
-                Open "GettingStarted.md" in order to learn more about how to create your very own generator.
-                Thanks for using TSProjectGenerator!`));
+            dedent(
+                `
+                    Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+                    Thanks for using TSGeneratorGenerator!`));
     }
 }

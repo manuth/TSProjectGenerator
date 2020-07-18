@@ -1,6 +1,7 @@
 import { join } from "path";
 import { IComponentCollection, IFileMapping } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
+import dedent = require("dedent");
 import yosay = require("yosay");
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
@@ -123,6 +124,13 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
      */
     public async end(): Promise<void>
     {
-        return super.end();
+        await super.end();
+
+        this.log();
+
+        this.log(
+            dedent(
+                `
+                    Thanks for using TSModuleGenerator!`));
     }
 }
