@@ -31,7 +31,7 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
      */
     public async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
     {
-        return ".eslintrc.js.ejs";
+        return generator.commonTemplatePath(".eslintrc.js.ejs");
     }
 
     /**
