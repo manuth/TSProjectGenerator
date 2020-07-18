@@ -134,10 +134,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
                     author: {
                         name: this.Generator.user.git.name(),
                         email: this.Generator.user.git.email()
-                    },
-                    keywords: [
-                        "yeoman-generator"
-                    ]
+                    }
                 });
         }
 
