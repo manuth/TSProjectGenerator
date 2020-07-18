@@ -1,6 +1,6 @@
 import { createRequire } from "module";
 import Path = require("path");
-import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
+import { GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
 import JSON = require("comment-json");
@@ -17,14 +17,12 @@ import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGenerato
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { BuildDependencies } from "../../NPMPackaging/Dependencies/BuildDependencies";
 import { LintDependencies } from "../../NPMPackaging/Dependencies/LintDependencies";
-import { TSProjectDestinationQuestion } from "../../Project/Inquiry/TSProjectDestinationQuestion";
-import { TSProjectDisplayNameQuestion } from "../../Project/Inquiry/TSProjectDisplayNameQuestion";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TSGeneratorCodeWorkspace } from "./Components/TSGeneratorCodeWorkspace";
 import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
-import { TSGeneratorDescriptionQuestion } from "./Inquiry/TSGeneratorDescriptionQuestion";
-import { TSGeneratorModuleNameQuestion } from "./Inquiry/TSGeneratorModuleNameQuestion";
+import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "./Settings/TSGeneratorComponent";
@@ -33,7 +31,7 @@ import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorSettings> extends Generator<T>
+export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorSettings> extends TSProjectGenerator<T>
 {
     /**
      * Initializes a new instance of the `TSGeneratorGenerator<T>` class.
@@ -71,12 +69,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Questions(): Array<Question<T>>
     {
-        return [
-            new TSProjectDestinationQuestion<T>(),
-            new TSProjectDisplayNameQuestion<T>(),
-            new TSGeneratorModuleNameQuestion<T>(),
-            new TSGeneratorDescriptionQuestion<T>()
-        ];
+        return new TSGeneratorQuestionCollection().Questions;
     }
 
     /**
