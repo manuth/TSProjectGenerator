@@ -1,11 +1,12 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import detectNewline = require("detect-newline");
+import { diffLines, applyPatch, createPatch, structuredPatch, parsePatch } from "diff";
 import { readFile } from "fs-extra";
-import { ScriptTarget, createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, transpileModule, ModuleKind, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral } from "typescript";
+import { transform, ScriptTarget, createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, transpileModule, ModuleKind, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile, createSourceFile, ScriptKind, createPrinter } from "typescript";
 import { FileMappingBase } from "../../Components/FileMappingBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { LintRuleset } from "../LintRuleset";
+import { Transpiler } from "./Transpiler";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
@@ -73,22 +74,36 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
      */
     public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
     {
-        let content = transpileModule(
-            (await readFile(await fileMapping.Source)).toString(),
-            {
-                compilerOptions: {
-                    module: ModuleKind.CommonJS,
-                    target: ScriptTarget.Latest
-                },
-                transformers: {
-                    before: [
-                        this.GetTransformer(fileMapping, generator)
-                    ]
-                }
-            }).outputText;
+        let transformCode: Transpiler<SourceFile> = (code, transformers) =>
+        {
+            let fileName = ".ts";
 
-        content = content.replace(/((.*[\W]require[\W].*?;?[\r\n]+)*)/, "$1" + detectNewline(content));
-        generator.fs.write(await fileMapping.Destination, content);
+            let transformResult = transform(
+                createSourceFile(fileName, code, ScriptTarget.Latest, true, ScriptKind.TS),
+                transformers);
+
+            return createPrinter().printFile(
+                transformResult.transformed.find((transformedFile) => transformedFile.fileName === fileName));
+        };
+
+        let originalContent = (await readFile(await fileMapping.Source)).toString();
+        let contentWithoutNewLines = transformCode(originalContent, []);
+        let newContent = transformCode(originalContent, [this.GetTransformer(fileMapping, generator)]);
+
+        let patch = parsePatch(
+            createPatch(
+                await fileMapping.Source,
+                contentWithoutNewLines,
+                originalContent,
+                undefined,
+                undefined,
+                {
+                    context: 1
+                }
+            ))[0];
+
+        newContent = applyPatch(newContent, patch);
+        generator.fs.write(await fileMapping.Destination, newContent);
     }
 
     /**
