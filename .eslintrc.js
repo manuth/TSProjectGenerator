@@ -1,4 +1,4 @@
-const Path = require("path");
+const path = require("path");
 
 module.exports = {
     extends: [
@@ -10,8 +10,8 @@ module.exports = {
     },
     parserOptions: {
         project: [
-            Path.join(__dirname, "tsconfig.json"),
-            Path.join(__dirname, "tsconfig.eslint.json")
+            path.join(__dirname, "tsconfig.json"),
+            path.join(__dirname, "tsconfig.eslint.json")
         ]
     },
     rules: {
