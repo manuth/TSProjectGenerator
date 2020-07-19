@@ -31,7 +31,7 @@ suite(
                 random = new Random();
                 generatorDir = new TempDirectory();
                 generatorName = "generator-test";
-                testContext = new TestContext(Path.join(__dirname, "..", "..", "generators", "app"));
+                testContext = new TestContext(Path.join(__dirname, "..", "..", "generators", "generator"));
 
                 runContext = testContext.ExecuteGenerator().withPrompts(
                     {
