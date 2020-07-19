@@ -50,7 +50,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get TemplateRoot(): string
     {
-        return "app";
+        return "generator";
     }
 
     /**
