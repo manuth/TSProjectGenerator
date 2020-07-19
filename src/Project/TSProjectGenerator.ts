@@ -72,7 +72,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         return [
             new TSProjectPackageFileMapping(this),
             {
-                Source: this.commonTemplatePath(".gitignore.ejs"),
+                Source: this.modulePath(".gitignore"),
                 Destination: ".gitignore"
             },
             {
