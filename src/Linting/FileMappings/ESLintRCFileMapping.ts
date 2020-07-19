@@ -1,5 +1,5 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import detectEOL = require("detect-eol");
+import detectNewline = require("detect-newline");
 import { readFile } from "fs-extra";
 import { ScriptTarget, createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, transpileModule, ModuleKind, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral } from "typescript";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -87,7 +87,7 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
                 }
             }).outputText;
 
-        content = content.replace(/((.*[\W]require[\W].*?;?[\r\n]+)*)/, "$1" + detectEOL(content));
+        content = content.replace(/((.*[\W]require[\W].*?;?[\r\n]+)*)/, "$1" + detectNewline(content));
         generator.fs.write(await fileMapping.Destination, content);
     }
 
