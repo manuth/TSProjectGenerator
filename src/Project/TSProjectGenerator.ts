@@ -153,7 +153,6 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
         delete tsConfig.extends;
-        tsConfig.compilerOptions.rootDir = this.destinationPath(tsConfig.compilerOptions.rootDir);
         await writeJSON(tsConfigFile, tsConfig);
         lintPackage.Register(new BuildDependencies());
         lintPackage.Register(new LintEssentials());
@@ -172,7 +171,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         workspaceRequire = createRequire(join(tempDir.FullName, ".js"));
         linterConstructor = workspaceRequire("tslint").Linter;
         eslintConstructor = workspaceRequire("eslint").ESLint;
-        program = linterConstructor.createProgram(tsConfigFile);
+        program = linterConstructor.createProgram(tsConfigFile, this.destinationPath());
 
         linter = new eslintConstructor(
             {
