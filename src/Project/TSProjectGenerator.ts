@@ -15,6 +15,7 @@ import { join } from "upath";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
+import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping";
 import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
 import { ITSProjectSettings } from "./Settings/ITSProjectSettings";
@@ -75,10 +76,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
                 Source: this.modulePath(".gitignore"),
                 Destination: ".gitignore"
             },
-            {
-                Source: this.commonTemplatePath(".npmignore.ejs"),
-                Destination: ".npmignore"
-            },
+            new NPMIgnoreFileMapping(),
             {
                 Source: this.modulePath(".mocharc.jsonc"),
                 Destination: ".mocharc.jsonc"
