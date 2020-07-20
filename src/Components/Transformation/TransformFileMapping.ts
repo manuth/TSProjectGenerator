@@ -32,6 +32,23 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
      */
     public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
     {
+        generator.fs.write(await fileMapping.Destination, await this.ProcessContent(fileMapping, generator));
+    }
+
+    /**
+     * Processes the content of the file.
+     *
+     * @param fileMapping
+     * The resolved representation of the file-mapping.
+     *
+     * @param generator
+     * The generator of the file-mapping.
+     *
+     * @returns
+     * The new content of the file.
+     */
+    protected async ProcessContent(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
+    {
         let originalContent = this.Content(fileMapping, generator);
         let emptyTransformationContent = this.EmptyTransformationContent(fileMapping, generator);
         let transformedContent = this.TransformedContent(fileMapping, generator);
@@ -51,7 +68,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
 
         if (typeof patchResult === "string")
         {
-            generator.fs.write(await fileMapping.Destination, patchResult);
+            return patchResult;
         }
         else
         {
