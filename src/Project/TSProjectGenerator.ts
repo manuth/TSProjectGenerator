@@ -192,6 +192,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
             await ESLint.outputFixes(await linter.lintFiles(fileName));
         }
 
+        tempDir.Dispose();
         this.log();
 
         this.log(
