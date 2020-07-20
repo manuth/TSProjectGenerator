@@ -23,10 +23,10 @@ export abstract class VSCodeJSONFileMapping<T extends ITSProjectSettings> extend
      * @inheritdoc
      *
      * @param fileMapping
-     * The target of the resolve.
+     * The resolved representation of the file-mapping.
      *
      * @param generator
-     * The generator of the target.
+     * The generator of the file-mapping.
      */
     public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
     {
@@ -37,10 +37,10 @@ export abstract class VSCodeJSONFileMapping<T extends ITSProjectSettings> extend
      * Gets the metadata to write into the file.
      *
      * @param fileMapping
-     * The target of the resolve.
+     * The resolved representation of the file-mapping.
      *
      * @param generator
-     * The generator of the target.
+     * The generator of the file-mapping.
      *
      * @returns
      * The metadata to write into the file.

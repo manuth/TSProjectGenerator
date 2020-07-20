@@ -23,10 +23,10 @@ export class TSModuleLaunchFileMapping<T extends ITSProjectSettings> extends TSP
      * @inheritdoc
      *
      * @param fileMapping
-     * The target of the resolve.
+     * The resolved representation of the file-mapping.
      *
      * @param generator
-     * The generator of the target.
+     * The generator of the file-mapping.
      *
      * @returns
      * The metadata to write into the file.
