@@ -1,5 +1,6 @@
+import { isNullOrUndefined } from "util";
 import { IGeneratorSettings, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { parsePatch, createPatch, applyPatch } from "diff";
+import { parsePatch, createPatch, applyPatch, diffLines, Change } from "diff";
 import { readFile } from "fs-extra";
 import { FileMappingBase } from "../FileMappingBase";
 
@@ -64,7 +65,74 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
                     context: 1
                 }))[0];
 
-        let patchResult = applyPatch(await transformedContent, patch);
+        let changes: Map<number, Change[]> = new Map();
+
+        let diff = diffLines(
+            await emptyTransformationContent,
+            await transformedContent);
+
+        diff.reduce(
+            (previousValue, change) =>
+            {
+                change.value = change.value.replace(/[\r\n]+$/, "");
+                let lines = change.value.split(/[\r\n]+/);
+                let startIndex = previousValue;
+
+                for (let i = 0; i < lines.length; i++)
+                {
+                    if (!changes.has(startIndex + i))
+                    {
+                        changes.set(startIndex + i, []);
+                    }
+
+                    changes.get(startIndex + i).push(
+                        {
+                            ...change,
+                            count: 1,
+                            value: lines[i]
+                        });
+                }
+
+                if (!change.removed)
+                {
+                    previousValue = startIndex + lines.length;
+                }
+
+                return previousValue;
+            },
+            1);
+
+        let patchResult = applyPatch(
+            await transformedContent,
+            patch,
+            {
+                compareLine: (lineNumber, line, operation, patchContent) =>
+                {
+                    if (line === patchContent)
+                    {
+                        return true;
+                    }
+                    else if (changes.has(lineNumber))
+                    {
+                        return changes.get(lineNumber).some(
+                            (change) =>
+                            {
+                                return change.removed && (change.value === patchContent);
+                            }) &&
+                            (
+                                isNullOrUndefined(line) ||
+                                changes.get(lineNumber).some(
+                                    (change) =>
+                                    {
+                                        return !change.removed && (change.value === line);
+                                    }));
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            });
 
         if (typeof patchResult === "string")
         {
