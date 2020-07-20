@@ -114,18 +114,4 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
     {
         return this.Content(fileMapping, generator);
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The source of the file-mapping.
-     */
-    public abstract async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>;
 }
