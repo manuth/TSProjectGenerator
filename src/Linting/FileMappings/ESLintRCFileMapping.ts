@@ -1,17 +1,14 @@
 import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { diffLines, applyPatch, createPatch, structuredPatch, parsePatch } from "diff";
-import { readFile } from "fs-extra";
-import { transform, ScriptTarget, createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, transpileModule, ModuleKind, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile, createSourceFile, ScriptKind, createPrinter } from "typescript";
-import { FileMappingBase } from "../../Components/FileMappingBase";
+import { createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile } from "typescript";
+import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { LintRuleset } from "../LintRuleset";
-import { Transpiler } from "./Transpiler";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
  */
-export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
+export class ESLintRCFileMapping<T extends ITSProjectSettings> extends TypeScriptTransformMapping<T>
 {
     /**
      * Initializes a new instance of the `ESLintRCFileMapping<T>` class.
@@ -64,49 +61,6 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
     }
 
     /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
-    {
-        let transformCode: Transpiler<SourceFile> = (code, transformers) =>
-        {
-            let fileName = ".ts";
-
-            let transformResult = transform(
-                createSourceFile(fileName, code, ScriptTarget.Latest, true, ScriptKind.TS),
-                transformers);
-
-            return createPrinter().printFile(
-                transformResult.transformed.find((transformedFile) => transformedFile.fileName === fileName));
-        };
-
-        let originalContent = (await readFile(await fileMapping.Source)).toString();
-        let contentWithoutNewLines = transformCode(originalContent, []);
-        let newContent = transformCode(originalContent, [this.GetTransformer(fileMapping, generator)]);
-
-        let patch = parsePatch(
-            createPatch(
-                await fileMapping.Source,
-                contentWithoutNewLines,
-                originalContent,
-                undefined,
-                undefined,
-                {
-                    context: 1
-                }
-            ))[0];
-
-        newContent = applyPatch(newContent, patch);
-        generator.fs.write(await fileMapping.Destination, newContent);
-    }
-
-    /**
      * Gets a component for transforming the `.eslintrc.js` file.
      *
      * @param fileMapping
@@ -118,7 +72,7 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
      * @returns
      * A component for transforming the `.eslintrc.js` file.
      */
-    protected GetTransformer<TNode extends Node>(fileMapping: FileMapping<T>, generator: IGenerator<T>): TransformerFactory<TNode>
+    protected async GetTransformers(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<Array<TransformerFactory<SourceFile>>>
     {
         let preset: string;
 
@@ -133,75 +87,77 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends FileMappi
                 break;
         }
 
-        return (context) =>
-        {
-            let mainVisitor: Visitor;
-            let sourceFileVisitor: Visitor;
-            let exportObjectVisitor: Visitor;
-            let configBaseVisitor: Visitor;
-
-            mainVisitor = (node: TNode) =>
+        return [
+            (context) =>
             {
-                let result: Node;
+                let mainVisitor: Visitor;
+                let sourceFileVisitor: Visitor;
+                let exportObjectVisitor: Visitor;
+                let configBaseVisitor: Visitor;
 
-                if (node.kind === SyntaxKind.SourceFile)
+                mainVisitor = (node: SourceFile) =>
                 {
-                    result = visitEachChild(node, sourceFileVisitor, context);
-                }
-                else
+                    let result: Node;
+
+                    if (node.kind === SyntaxKind.SourceFile)
+                    {
+                        result = visitEachChild(node, sourceFileVisitor, context);
+                    }
+                    else
+                    {
+                        result = node;
+                    }
+
+                    return result;
+                };
+
+                sourceFileVisitor = <TNode extends Node>(node: TNode) =>
                 {
-                    result = node;
-                }
+                    if (
+                        isExpressionStatement(node) &&
+                        isBinaryExpression(node.expression) &&
+                        isPropertyAccessExpression(node.expression.left) &&
+                        (node.expression.left.getText() === "module.exports"))
+                    {
+                        node.expression.right = visitEachChild(node.expression.right, exportObjectVisitor, context);
+                    }
 
-                return result;
-            };
-
-            sourceFileVisitor = (node: TNode) =>
-            {
-                if (
-                    isExpressionStatement(node) &&
-                    isBinaryExpression(node.expression) &&
-                    isPropertyAccessExpression(node.expression.left) &&
-                    (node.expression.left.getText() === "module.exports"))
-                {
-                    node.expression.right = visitEachChild(node.expression.right, exportObjectVisitor, context);
-                }
-
-                return node;
-            };
-
-            exportObjectVisitor = (node: TNode) =>
-            {
-                if (
-                    isPropertyAssignment(node) &&
-                    isIdentifier(node.name) &&
-                    (node.name.text === "extends") &&
-                    isArrayLiteralExpression(node.initializer))
-                {
-                    node.initializer = visitEachChild(node.initializer, configBaseVisitor, context);
-                }
-
-                return node;
-            };
-
-            configBaseVisitor = (node: TNode) =>
-            {
-                if (
-                    isStringLiteral(node) &&
-                    node.text.startsWith(this.RulesetPrefix))
-                {
-                    return createStringLiteral(`${this.RulesetPrefix}${preset}`);
-                }
-                else
-                {
                     return node;
-                }
-            };
+                };
 
-            return (node) =>
-            {
-                return visitNode(node, mainVisitor);
-            };
-        };
+                exportObjectVisitor = <TNode extends Node>(node: TNode) =>
+                {
+                    if (
+                        isPropertyAssignment(node) &&
+                        isIdentifier(node.name) &&
+                        (node.name.text === "extends") &&
+                        isArrayLiteralExpression(node.initializer))
+                    {
+                        node.initializer = visitEachChild(node.initializer, configBaseVisitor, context);
+                    }
+
+                    return node;
+                };
+
+                configBaseVisitor = <TNode extends Node>(node: TNode) =>
+                {
+                    if (
+                        isStringLiteral(node) &&
+                        node.text.startsWith(this.RulesetPrefix))
+                    {
+                        return createStringLiteral(`${this.RulesetPrefix}${preset}`);
+                    }
+                    else
+                    {
+                        return node;
+                    }
+                };
+
+                return (node) =>
+                {
+                    return visitNode(node, mainVisitor);
+                };
+            }
+        ];
     }
 }

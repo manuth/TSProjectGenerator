@@ -1,10 +1,9 @@
-import { IFileMapping, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Project/Settings/ITSProjectSettings";
+import { IFileMapping, FileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 
 /**
  * Provides a basic implementation of the `IFileMapping<T>` interface.
  */
-export abstract class FileMappingBase<T extends ITSProjectSettings> implements IFileMapping<T>
+export abstract class FileMappingBase<T extends IGeneratorSettings> implements IFileMapping<T>
 {
     /**
      * Initializes a new instance of the `FileMappingBase<T>` class.
