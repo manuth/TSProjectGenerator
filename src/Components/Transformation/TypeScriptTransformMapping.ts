@@ -74,7 +74,7 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
     }
 
     /**
-     * @inheritdoc
+     * Gets a set of components for transforming the file.
      *
      * @param fileMapping
      * The resolved representation of the file-mapping.
@@ -83,7 +83,7 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
      * The generator of the file-mapping.
      *
      * @returns
-     * A set of components for transforming the `file.
+     * A set of components for transforming the file.
      */
     protected abstract async GetTransformers(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<Array<TransformerFactory<SourceFile>>>;
 }
