@@ -3,24 +3,19 @@ import { spawnSync } from "child_process";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
-import { join } from "upath";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { ProjectType } from "../../../generators/app/ProjectType";
 import { AppGeneratorSettingKey } from "../../../generators/app/Settings/AppGeneratorSettingKey";
 
 /**
  * Registers tests for the generators.
+ *
+ * @param context
+ * The test-context.
  */
-export function AppGeneratorTests(): void
+export function AppGeneratorTests(context: TestContext<AppGenerator>): void
 {
-    let context: TestContext<AppGenerator>;
     let tempDir: TempDirectory;
-
-    suiteSetup(
-        () =>
-        {
-            context = new TestContext(join(__dirname, "..", "..", "..", "generators", "app"));
-        });
 
     setup(
         () =>
@@ -86,7 +81,7 @@ export function AppGeneratorTests(): void
                 async function()
                 {
                     this.timeout(0);
-                    this.slow(3 * 60 * 1000);
+                    this.slow(5 * 60 * 1000);
 
                     await Assert.doesNotReject(
                         async () =>

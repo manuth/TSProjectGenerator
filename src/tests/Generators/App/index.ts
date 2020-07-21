@@ -1,4 +1,5 @@
-import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "@manuth/extended-yo-generator-test";
+import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { AppGeneratorTests } from "./AppGenerator.test";
 
 /**
@@ -7,12 +8,12 @@ import { AppGeneratorTests } from "./AppGenerator.test";
  * @param context
  * The test-context.
  */
-export function AppTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function AppTests(context: TestContext<AppGenerator>): void
 {
     suite(
         "App",
         () =>
         {
-            AppGeneratorTests();
+            AppGeneratorTests(context);
         });
 }
