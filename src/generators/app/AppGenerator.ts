@@ -56,7 +56,7 @@ export class AppGenerator<T extends IAppGeneratorSettings = IAppGeneratorSetting
     public async initializing(): Promise<void>
     {
         this.log(yosay(`Welcome to ${chalk.whiteBright.bold("TSProjectGenerator")}!`));
-        this.prompting();
+        await this.prompting();
 
         switch (this.Settings[AppGeneratorSettingKey.ProjectType])
         {
