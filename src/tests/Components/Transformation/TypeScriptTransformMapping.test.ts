@@ -40,8 +40,10 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
 
             test(
                 "Checking whether transformations are applied correctly…",
-                async () =>
+                async function()
                 {
+                    this.slow(0.5 * 1000);
+
                     await AssertTransformation(
                         dedent(
                             `

@@ -74,7 +74,7 @@ suite(
                     function()
                     {
                         this.timeout(0);
-                        this.slow(3.25 * 60 * 1000);
+                        this.slow(5 * 60 * 1000);
 
                         let result = spawnSync(
                             npmWhich(__dirname).sync("npm"),

@@ -41,8 +41,10 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
 
             test(
                 "Checking whether newline characters are preserved…",
-                async () =>
+                async function()
                 {
+                    this.slow(1 * 1000);
+
                     await AssertTransformation(
                         dedent(
                             `
