@@ -1,5 +1,6 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ComponentTests } from "./Components";
+import { GeneratorTests } from "./Generators";
 
 suite(
     "TSGeneratorGenerator",
@@ -7,5 +8,5 @@ suite(
     {
         let context = TestContext.Default;
         ComponentTests(context);
-        require("./Generators");
+        GeneratorTests(context);
     });
