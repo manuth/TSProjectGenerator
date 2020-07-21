@@ -1,6 +1,8 @@
 import { isNullOrUndefined } from "util";
 import { IGeneratorSettings, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import detectNewline = require("detect-newline");
 import { parsePatch, createPatch, applyPatch, diffLines, Change } from "diff";
+import { split, lf } from "eol";
 import { readFile } from "fs-extra";
 import { FileMappingBase } from "../FileMappingBase";
 
@@ -50,32 +52,21 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
      */
     protected async ProcessContent(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
     {
-        let originalContent = this.Content(fileMapping, generator);
-        let emptyTransformationContent = this.EmptyTransformationContent(fileMapping, generator);
-        let transformedContent = this.TransformedContent(fileMapping, generator);
+        let transformedContent = await this.TransformedContent(fileMapping, generator);
+        let originalContent = this.NormalizeText(await this.Content(fileMapping, generator));
+        let emptyTransformationContent = this.NormalizeText(await this.EmptyTransformationContent(fileMapping, generator));
+        let newLineCharacter = detectNewline(transformedContent);
+        let hasTrailingNewline = this.HasTrailingNewline(transformedContent);
+        transformedContent = this.NormalizeText(transformedContent);
 
-        let patch = parsePatch(
-            createPatch(
-                await fileMapping.Source,
-                await emptyTransformationContent,
-                await originalContent,
-                undefined,
-                undefined,
-                {
-                    context: 1
-                }))[0];
-
+        let patch = parsePatch(createPatch(await fileMapping.Source, emptyTransformationContent, originalContent))[0];
         let changes: Map<number, Change[]> = new Map();
-
-        let diff = diffLines(
-            await emptyTransformationContent,
-            await transformedContent);
+        let diff = diffLines(emptyTransformationContent, transformedContent);
 
         diff.reduce(
             (previousValue, change) =>
             {
-                change.value = change.value.replace(/[\r\n]+$/, "");
-                let lines = change.value.split(/[\r\n]+/);
+                let lines = change.value.split(/\r?\n/);
                 let startIndex = previousValue;
 
                 for (let i = 0; i < lines.length; i++)
@@ -95,7 +86,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
 
                 if (!change.removed)
                 {
-                    previousValue = startIndex + lines.length;
+                    previousValue = startIndex + lines.length - 1;
                 }
 
                 return previousValue;
@@ -103,7 +94,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
             1);
 
         let patchResult = applyPatch(
-            await transformedContent,
+            transformedContent,
             patch,
             {
                 compareLine: (lineNumber, line, operation, patchContent) =>
@@ -136,12 +127,53 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
 
         if (typeof patchResult === "string")
         {
-            return patchResult;
+            if (hasTrailingNewline)
+            {
+                patchResult += "\n";
+            }
+
+            return split(patchResult).join(newLineCharacter);
         }
         else
         {
             throw new Error("The patch couldn't be applied!");
         }
+    }
+
+    /**
+     * Normalizes the text.
+     *
+     * @param text
+     * The text to normalize.
+     *
+     * @returns
+     * The normalized text.
+     */
+    protected NormalizeText(text: string): string
+    {
+        if (this.HasTrailingNewline(text))
+        {
+            let lines = split(text);
+            lines = lines.slice(0, lines.length - 1);
+            text = lines.join("\n");
+        }
+
+        return lf(text);
+    }
+
+    /**
+     * Checks whether the specified `text` has a trailing newline.
+     *
+     * @param text
+     * The text to check.
+     *
+     * @returns
+     * A value indicating whether the specified `text` has a trailing newline.
+     */
+    protected HasTrailingNewline(text: string): boolean
+    {
+        let lines = split(text);
+        return (lines.length > 0) && (lines[lines.length - 1].length === 0);
     }
 
     /**
