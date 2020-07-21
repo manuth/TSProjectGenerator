@@ -16,7 +16,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
  */
 export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGeneratorGenerator>): void
 {
-    suite.only(
+    suite(
         "TSGeneratorExtensionsMapping",
         () =>
         {
