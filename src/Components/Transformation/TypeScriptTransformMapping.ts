@@ -1,4 +1,4 @@
-import { IGeneratorSettings, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { TransformerFactory, transform, createSourceFile, ScriptTarget, ScriptKind, SourceFile, createPrinter } from "typescript";
 import { TransformFileMapping } from "./TransformFileMapping";
 
@@ -9,11 +9,43 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
 {
     /**
      * Initializes a new instance of the `TypeScriptTransformMapping<T>` class.
+     *
+     * @param generator
+     * The generator of the file-mapping.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected get EmptyTransformationContent(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return this.TransformCode(await this.Content, []);
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get TransformedContent(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return this.TransformCode(await this.Content, await this.Transformers);
+            })();
+    }
+
+    /**
+     * Gets a set of components for transforming the file.
+     */
+    protected abstract get Transformers(): Promise<Array<TransformerFactory<SourceFile>>>;
 
     /**
      * Transforms the code.
@@ -38,52 +70,4 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
         return createPrinter().printFile(
             transformResult.transformed.find((transformedFile) => transformedFile.fileName === fileName));
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The original content without any transformation being applied.
-     */
-    protected async EmptyTransformationContent(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return this.TransformCode(await this.Content(fileMapping, generator), []);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The transformed version of the original content.
-     */
-    protected async TransformedContent(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return this.TransformCode(await this.Content(fileMapping, generator), await this.GetTransformers(fileMapping, generator));
-    }
-
-    /**
-     * Gets a set of components for transforming the file.
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * A set of components for transforming the file.
-     */
-    protected abstract async GetTransformers(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<Array<TransformerFactory<SourceFile>>>;
 }

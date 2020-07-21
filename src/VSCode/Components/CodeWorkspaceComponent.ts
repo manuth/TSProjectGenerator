@@ -1,4 +1,4 @@
-import { IFileMapping, Component, IGenerator } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
@@ -14,10 +14,13 @@ export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends Compon
 {
     /**
      * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
+     *
+     * @param generator
+     * The generator of the component.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -46,126 +49,84 @@ export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends Compon
 
     /**
      * @inheritdoc
-     *
-     * @param component
-     * The resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component
-     *
-     * @returns
-     * The file-mappings of this component.
      */
-    public async FileMappings(component: Component<T>, generator: IGenerator<T>): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<T>>>
     {
-        let settingsFolderName = await this.GetSettingsFolderName(component, generator);
-
-        return [
+        return (
+            async () =>
             {
-                Source: generator.modulePath(settingsFolderName),
-                Destination: settingsFolderName
-            },
-            await this.GetExtensionsFileMapping(settingsFolderName, component, generator),
-            await this.GetLaunchFileMapping(settingsFolderName, component, generator),
-            await this.GetSettingsFileMapping(settingsFolderName, component, generator),
-            await this.GetTaskFileMapping(settingsFolderName, component, generator)
-        ];
+                let settingsFolderName = await this.SettingsFolderName;
+
+                return [
+                    {
+                        Source: this.Generator.modulePath(settingsFolderName),
+                        Destination: settingsFolderName
+                    },
+                    await this.ExtensionsFileMapping,
+                    await this.LaunchFileMapping,
+                    await this.SettingsFileMapping,
+                    await this.TaskFileMapping
+                ];
+            })();
     }
 
     /**
      * Gets the name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
-     *
-     * @param component
-     * The resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component
-     *
-     * @returns
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    protected async GetSettingsFolderName(component: Component<T>, generator: IGenerator<T>): Promise<string>
+    public get SettingsFolderName(): Promise<string>
     {
-        return ".vscode";
+        return (
+            async () =>
+            {
+                return ".vscode";
+            })();
     }
 
     /**
      * Gets a file-mapping for creating the `extensions.js` file.
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `extensions.js` file.
      */
-    protected async GetExtensionsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get ExtensionsFileMapping(): Promise<IFileMapping<T>>
     {
-        return new VSCodeExtensionsMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new VSCodeExtensionsMapping(this);
+            })();
     }
 
     /**
      * Gets a file-mapping for creating the `launch.json` file.
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `launch.json` file.
      */
-    protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
     {
-        return new VSCodeLaunchFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new VSCodeLaunchFileMapping(this);
+            })();
     }
 
     /**
      * Gets a file-mapping for creating the `settings.json` file.
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `settings.json` file.
      */
-    protected async GetSettingsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get SettingsFileMapping(): Promise<IFileMapping<T>>
     {
-        return new VSCodeSettingsFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new VSCodeSettingsFileMapping(this);
+            })();
     }
 
     /**
      * Gets a file-mapping for creating the `tasks.json` file.
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `tasks.json` file.
      */
-    protected async GetTaskFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get TaskFileMapping(): Promise<IFileMapping<T>>
     {
-        return new VSCodeTasksFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new VSCodeTasksFileMapping(this);
+            })();
     }
 }

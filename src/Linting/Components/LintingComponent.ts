@@ -1,4 +1,4 @@
-import { Question, Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { Question, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
@@ -12,10 +12,13 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
 {
     /**
      * Initializes a new instance of the `LintingComponent<T>` class.
+     *
+     * @param generator
+     * The generator of the file-mapping.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -54,24 +57,19 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
 
     /**
      * @inheritdoc
-     *
-     * @param component
-     * The resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component
-     *
-     * @returns
-     * The file-mappings of this component.
      */
-    public async FileMappings(component: Component<T>, generator: IGenerator<T>): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<T>>>
     {
-        return [
-            new ESLintRCFileMapping(),
+        return (
+            async () =>
             {
-                Source: generator.modulePath("tsconfig.eslint.json"),
-                Destination: "tsconfig.eslint.json"
-            }
-        ];
+                return [
+                    new ESLintRCFileMapping(this.Generator),
+                    {
+                        Source: this.Generator.modulePath("tsconfig.eslint.json"),
+                        Destination: "tsconfig.eslint.json"
+                    }
+                ];
+            })();
     }
 }

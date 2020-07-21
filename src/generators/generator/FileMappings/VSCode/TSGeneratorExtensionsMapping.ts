@@ -1,5 +1,6 @@
 import { TSProjectExtensionsMapping } from "../../../../Project/FileMappings/VSCode/TSProjectExtensionsMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 
 /**
  * Provides a file-mapping for copying the `extensions.json` file for `TSGenerator`s.
@@ -9,12 +10,12 @@ export class TSGeneratorExtensionsMapping<T extends ITSProjectSettings> extends 
     /**
      * Initializes a new instance of the `TSGeneratorExtensionsMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**

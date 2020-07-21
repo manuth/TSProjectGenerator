@@ -1,10 +1,10 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { DebugConfiguration } from "vscode";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
@@ -15,78 +15,63 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
     /**
      * Initializes a new instance of the `VSCodeLaunchFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The source of the file-mapping.
      */
-    public async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
+    public get Source(): Promise<string>
     {
-        return generator.modulePath(this.SettingsFolderName, "launch.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
-     */
-    public async Destination(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return join(this.SettingsFolderName, "launch.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
-     */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ILaunchFile>
-    {
-        let result: ILaunchFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
-        result.configurations = result.configurations ?? [];
-
-        for (let i = 0; i < result.configurations.length; i++)
-        {
-            if (await this.FilterDebugConfig(result.configurations[i]))
+        return (
+            async () =>
             {
-                await this.ProcessDebugConfig(result.configurations[i]);
-            }
-            else
-            {
-                result.configurations.splice(i, 1);
-            }
-        }
+                return this.Generator.modulePath(await this.SettingsFolderName, "launch.json");
+            })();
+    }
 
-        return result;
+    /**
+     * @inheritdoc
+     */
+    public get Destination(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return join(await this.SettingsFolderName, "launch.json");
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get Metadata(): Promise<ILaunchFile>
+    {
+        return (
+            async () =>
+            {
+                let result: ILaunchFile = JSON.parse((await readFile(await this.Source)).toString());
+                result.configurations = result.configurations ?? [];
+
+                for (let i = 0; i < result.configurations.length; i++)
+                {
+                    if (await this.FilterDebugConfig(result.configurations[i]))
+                    {
+                        await this.ProcessDebugConfig(result.configurations[i]);
+                    }
+                    else
+                    {
+                        result.configurations.splice(i, 1);
+                    }
+                }
+
+                return result;
+            })();
     }
 
     /**

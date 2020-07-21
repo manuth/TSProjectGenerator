@@ -1,4 +1,4 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
 import { readFile } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -11,63 +11,50 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
 {
     /**
      * Initializes a new instance of the `NPMIgnoreFileMapping` class.
-     */
-    public constructor()
-    {
-        super();
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The source of the file-mapping.
-     */
-    public async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return generator.modulePath(".npmignore");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
-     */
-    public async Destination(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return ".npmignore";
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The file-mapping to process.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
+    public constructor(generator: IGenerator<T>)
     {
-        generator.fs.write(
-            await fileMapping.Destination,
+        super(generator);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Source(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return this.Generator.modulePath(".npmignore");
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Destination(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return ".npmignore";
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public async Processor(): Promise<void>
+    {
+        this.Generator.fs.write(
+            await this.Destination,
             applyPatch(
-                (await readFile(await fileMapping.Source)).toString(),
+                (await readFile(await this.Source)).toString(),
                 parsePatch(
-                    (await readFile(generator.commonTemplatePath("npmignore.diff"))).toString()
+                    (await readFile(this.Generator.commonTemplatePath("npmignore.diff"))).toString()
                 )[0]));
     }
 }

@@ -1,5 +1,5 @@
 import { join } from "path";
-import { IComponent, IFileMapping } from "@manuth/extended-yo-generator";
+import { IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
@@ -17,10 +17,13 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
 {
     /**
      * Initializes a new instance of the `TSGeneratorGeneralCategory<T>` class.
+     *
+     * @param generator
+     * The generator of the category.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -40,7 +43,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
      */
     protected get WorkspaceComponent(): IComponent<T>
     {
-        return new TSGeneratorCodeWorkspace();
+        return new TSGeneratorCodeWorkspace(this.Generator);
     }
 
     /**
@@ -64,14 +67,16 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
         return {
             ID: TSGeneratorComponent.SubGeneratorExample,
             DisplayName: "Example Sub-Generator",
-            FileMappings: (component, generator) =>
-                generator.Settings[TSGeneratorSettingKey.SubGenerator].flatMap(
-                    (subGeneratorOptions) =>
-                    {
-                        return this.GetGeneratorFileMappings(
-                            subGeneratorOptions[SubGeneratorSettingKey.Name],
-                            subGeneratorOptions[SubGeneratorSettingKey.DisplayName]);
-                    }),
+            FileMappings: async () =>
+                (await Promise.all(
+                    this.Generator.Settings[TSGeneratorSettingKey.SubGenerator].map(
+                        (subGeneratorOptions) =>
+                        {
+                            return this.GetGeneratorFileMappings(
+                                subGeneratorOptions[SubGeneratorSettingKey.Name],
+                                subGeneratorOptions[SubGeneratorSettingKey.DisplayName]);
+                        }))).flatMap(
+                            (fileMappings) => fileMappings),
             Questions: [
                 {
                     type: SubGeneratorPrompt.TypeName,
@@ -95,68 +100,72 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
      * @returns
      * File-mappings for a generator.
      */
-    protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<T>>
+    protected async GetGeneratorFileMappings(id: string, displayName: string): Promise<Array<IFileMapping<T>>>
     {
-        let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
-        let source = "generator";
-        let destination = `src/generators/${id}`;
-        let generatorName = `${name}Generator`;
-        let identities = `${name}Setting`;
-        let settings = `I${name}Settings`;
+        return (
+            async () =>
+            {
+                let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
+                let source = "generator";
+                let destination = `src/generators/${id}`;
+                let generatorName = `${name}Generator`;
+                let identities = `${name}Setting`;
+                let settings = `I${name}Settings`;
 
-        return [
-            {
-                Source: join(source, "LicenseType.ts.ejs"),
-                Destination: join(destination, "LicenseType.ts")
-            },
-            {
-                Source: join(source, "Setting.ts.ejs"),
-                Context: () =>
-                {
-                    return { Name: identities };
-                },
-                Destination: join(destination, `${identities}.ts`)
-            },
-            {
-                Source: join(source, "ISettings.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities
-                    };
-                },
-                Destination: join(destination, `${settings}.ts`)
-            },
-            {
-                Source: join(source, "Generator.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities,
-                        ID: id,
-                        DisplayName: displayName
-                    };
-                },
-                Destination: join(destination, `${generatorName}.ts`)
-            },
-            {
-                Source: join(source, "index.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName
-                    };
-                },
-                Destination: join(destination, "index.ts")
-            },
-            {
-                Source: join(source, "templates"),
-                Destination: join("templates", id)
-            }
-        ];
+                return [
+                    {
+                        Source: join(source, "LicenseType.ts.ejs"),
+                        Destination: join(destination, "LicenseType.ts")
+                    },
+                    {
+                        Source: join(source, "Setting.ts.ejs"),
+                        Context: () =>
+                        {
+                            return { Name: identities };
+                        },
+                        Destination: join(destination, `${identities}.ts`)
+                    },
+                    {
+                        Source: join(source, "ISettings.ts.ejs"),
+                        Context: () =>
+                        {
+                            return {
+                                Name: generatorName,
+                                SettingsInterface: settings,
+                                Identities: identities
+                            };
+                        },
+                        Destination: join(destination, `${settings}.ts`)
+                    },
+                    {
+                        Source: join(source, "Generator.ts.ejs"),
+                        Context: () =>
+                        {
+                            return {
+                                Name: generatorName,
+                                SettingsInterface: settings,
+                                Identities: identities,
+                                ID: id,
+                                DisplayName: displayName
+                            };
+                        },
+                        Destination: join(destination, `${generatorName}.ts`)
+                    },
+                    {
+                        Source: join(source, "index.ts.ejs"),
+                        Context: () =>
+                        {
+                            return {
+                                Name: generatorName
+                            };
+                        },
+                        Destination: join(destination, "index.ts")
+                    },
+                    {
+                        Source: join(source, "templates"),
+                        Destination: join("templates", id)
+                    }
+                ];
+            })();
     }
 }

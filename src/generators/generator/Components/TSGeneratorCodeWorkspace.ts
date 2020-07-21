@@ -1,4 +1,4 @@
-import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectCodeWorkspaceComponent } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { TSGeneratorExtensionsMapping } from "../FileMappings/VSCode/TSGeneratorExtensionsMapping";
 import { TSGeneratorLaunchFileMapping } from "../FileMappings/VSCode/TSGeneratorLaunchFileMapping";
@@ -11,49 +11,36 @@ export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends TS
 {
     /**
      * Initializes a new isntance of the `TSGeneratorCodeWorkspace<T>` class.
+     *
+     * @param generator
+     * The generator of the component.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `extensions.js` file.
      */
-    protected async GetExtensionsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get ExtensionsFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSGeneratorExtensionsMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSGeneratorExtensionsMapping(this);
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `launch.json` file.
      */
-    protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSGeneratorLaunchFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSGeneratorLaunchFileMapping(this);
+            })();
     }
 }

@@ -42,7 +42,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
      */
     protected get Components(): IComponentCollection<T>
     {
-        return new TSModuleComponentCollection();
+        return new TSModuleComponentCollection(this);
     }
 
     /**

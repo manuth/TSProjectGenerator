@@ -1,6 +1,6 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { VSCodeWorkspaceFileMapping } from "./VSCodeWorkspaceFileMapping";
 
 /**
@@ -11,39 +11,24 @@ export abstract class VSCodeJSONFileMapping<T extends ITSProjectSettings> extend
     /**
      * Initializes a new instance of the `VSCodeJSONFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     */
-    public async Processor(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<void>
-    {
-        generator.fs.write(await fileMapping.Destination, JSON.stringify(await this.GetMetadata(fileMapping, generator), null, 4));
+        super(codeWorkspaceComponent);
     }
 
     /**
      * Gets the metadata to write into the file.
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
      */
-    protected abstract async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<any>;
+    protected abstract get Metadata(): Promise<any>;
+
+    /**
+     * @inheritdoc
+     */
+    public async Processor(): Promise<void>
+    {
+        this.Generator.fs.write(await this.Destination, JSON.stringify(await this.Metadata, null, 4));
+    }
 }

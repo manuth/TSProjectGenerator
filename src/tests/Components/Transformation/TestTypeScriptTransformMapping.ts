@@ -1,4 +1,4 @@
-import { IGeneratorSettings, FileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { TransformerFactory, SourceFile } from "typescript";
 import { TypeScriptTransformMapping } from "../../../Components/Transformation/TypeScriptTransformMapping";
 
@@ -25,17 +25,20 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
     /**
      * Initializes a new instance of the `TestTypeScriptTransformMapping` class.
      *
+     * @param generator
+     * The generator of the file-mapping.
+     *
      * @param content
      * The content to transform.
      *
      * @param transformers
      * The transformers to apply.
      */
-    public constructor(content: string, transformers: Array<TransformerFactory<SourceFile>>)
+    public constructor(generator: IGenerator<IGeneratorSettings>, content: string, transformers: Array<TransformerFactory<SourceFile>>)
     {
-        super();
+        super(generator);
         this.originalContent = content;
-        this.Transformers = transformers;
+        this.transformers = transformers;
     }
 
     /**
@@ -49,81 +52,40 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
     /**
      * Gets the transformers to apply.
      */
-    public get Transformers(): Array<TransformerFactory<SourceFile>>
+    public get Transformers(): Promise<Array<TransformerFactory<SourceFile>>>
     {
-        return this.transformers;
+        return (
+            async () =>
+            {
+                return this.transformers;
+            })();
     }
 
     /**
      * @inheritdoc
      */
-    public set Transformers(value: Array<TransformerFactory<SourceFile>>)
-    {
-        this.transformers = value;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     */
-    public async Processor(fileMapping: FileMapping<IGeneratorSettings>, generator: IGenerator<IGeneratorSettings>): Promise<void>
-    {
-        this.result = await this.ProcessContent(fileMapping, generator);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
-     */
-    public async Destination(fileMapping: FileMapping<IGeneratorSettings>, generator: IGenerator<IGeneratorSettings>): Promise<string>
+    public get Destination(): Promise<string>
     {
         return null;
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The original content of the file.
      */
-    protected async Content(fileMapping: FileMapping<IGeneratorSettings>, generator: IGenerator<IGeneratorSettings>): Promise<string>
+    protected get Content(): Promise<string>
     {
-        return this.originalContent;
+        return (
+            async () =>
+            {
+                return this.originalContent;
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * A set of components for transforming the file.
      */
-    protected async GetTransformers(fileMapping: FileMapping<IGeneratorSettings>, generator: IGenerator<IGeneratorSettings>): Promise<Array<TransformerFactory<SourceFile>>>
+    public async Processor(): Promise<void>
     {
-        return this.Transformers;
+        this.result = await this.ProcessedContent;
     }
 }

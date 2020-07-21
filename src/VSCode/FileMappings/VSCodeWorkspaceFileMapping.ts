@@ -1,5 +1,7 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { FileMappingBase } from "../../Components/FileMappingBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
  * Provides a file-mapping for a vscode workspace file.
@@ -7,27 +9,43 @@ import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
 {
     /**
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * The component of this file-mapping.
      */
-    private settingsFolderName: string;
+    private component: CodeWorkspaceComponent<T>;
 
     /**
      * Initializes a new instance of the `VSCodeWorkspaceFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super();
-        this.settingsFolderName = settingsFolderName;
+        super(codeWorkspaceComponent.Generator);
+        this.component = codeWorkspaceComponent;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Generator(): IGenerator<T>
+    {
+        return this.Component.Generator;
+    }
+
+    /**
+     * Gets the component of this file-mapping.
+     */
+    protected get Component(): CodeWorkspaceComponent<T>
+    {
+        return this.component;
     }
 
     /**
      * Gets the name of the folder which contains the settings (such as .vscode, .vscode-insiders or .vscodium).
      */
-    protected get SettingsFolderName(): string
+    protected get SettingsFolderName(): Promise<string>
     {
-        return this.settingsFolderName;
+        return this.component.SettingsFolderName;
     }
 }

@@ -1,19 +1,15 @@
-import { IFileMapping, IGenerator, FileProcessor, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
+import { FileMappingBase } from "../../Components/FileMappingBase";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
 import { ScriptMapping } from "../Scripts/ScriptMapping";
 
 /**
  * Represents a file-mapping for a `package.json` file.
  */
-export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMapping<T>
+export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappingBase<T>
 {
-    /**
-     * The generator of the file-mapping.
-     */
-    private generator: IGenerator<T>;
-
     /**
      * The package to write.
      */
@@ -27,7 +23,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
      */
     public constructor(generator: IGenerator<T>)
     {
-        this.generator = generator;
+        super(generator);
     }
 
     /**
@@ -48,14 +44,6 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
     }
 
     /**
-     * Gets the generator of the file-mapping.
-     */
-    public get Generator(): IGenerator<T>
-    {
-        return this.generator;
-    }
-
-    /**
      * @inheritdoc
      */
     public get Destination(): Promise<string>
@@ -68,34 +56,31 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
     }
 
     /**
-     * @inheritdoc
-     */
-    public get Processor(): FileProcessor<T>
-    {
-        return async (target, generator) =>
-        {
-            return generator.fs.writeJSON(await target.Destination, (await this.Package).ToJSON());
-        };
-    }
-
-    /**
      * Gets the scripts to copy from the template-package.
      */
-    protected get ScriptMappings(): Array<IScriptMapping<T> | string>
+    protected get ScriptMappings(): Promise<Array<IScriptMapping<T> | string>>
     {
-        return [];
+        return (
+            async (): Promise<Array<IScriptMapping<T> | string>> =>
+            {
+                return [];
+            })();
     }
 
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): Array<ScriptMapping<T>>
+    protected get ScriptMappingCollection(): Promise<Array<ScriptMapping<T>>>
     {
-        return this.ScriptMappings.map(
-            (scriptMapping) =>
+        return (
+            async () =>
             {
-                return new ScriptMapping(this.Generator, scriptMapping);
-            });
+                return (await this.ScriptMappings).map(
+                    (scriptMapping) =>
+                    {
+                        return new ScriptMapping(this.Generator, scriptMapping);
+                    });
+            })();
     }
 
     /**
@@ -108,6 +93,17 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
             {
                 return new Package();
             })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public Processor(): Promise<void>
+    {
+        return (async () =>
+        {
+            this.Generator.fs.writeJSON(await this.Destination, (await this.Package).ToJSON());
+        })();
     }
 
     /**
@@ -138,7 +134,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> implements IFileMa
                 });
         }
 
-        for (let scriptMapping of this.ScriptMappingCollection)
+        for (let scriptMapping of await this.ScriptMappingCollection)
         {
             if (result.Scripts.Has(await scriptMapping.Destination))
             {

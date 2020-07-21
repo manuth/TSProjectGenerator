@@ -1,8 +1,8 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
@@ -13,77 +13,62 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
     /**
      * Initializes a new instance of the `VSCodeSettingsFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The source of the file-mapping.
      */
-    public async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
+    public get Source(): Promise<string>
     {
-        return generator.modulePath(this.SettingsFolderName, "settings.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
-     */
-    public async Destination(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return join(this.SettingsFolderName, "settings.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
-     */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<Record<string, any>>
-    {
-        let settings: Record<string, any> = JSON.parse((await readFile(await fileMapping.Source)).toString());
-
-        for (let key in settings)
-        {
-            if (await this.FilterSettingKey(key))
+        return (
+            async () =>
             {
-                settings[key] = await this.ProcessSetting(key, settings[key]);
-            }
-            else
-            {
-                delete settings[key];
-            }
-        }
+                return this.Generator.modulePath(await this.SettingsFolderName, "settings.json");
+            })();
+    }
 
-        return settings;
+    /**
+     * @inheritdoc
+     */
+    public get Destination(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return join(await this.SettingsFolderName, "settings.json");
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get Metadata(): Promise<Record<string, any>>
+    {
+        return (
+            async () =>
+            {
+                let settings: Record<string, any> = JSON.parse((await readFile(await this.Source)).toString());
+
+                for (let key in settings)
+                {
+                    if (await this.FilterSettingKey(key))
+                    {
+                        settings[key] = await this.ProcessSetting(key, settings[key]);
+                    }
+                    else
+                    {
+                        delete settings[key];
+                    }
+                }
+
+                return settings;
+            })();
     }
 
     /**

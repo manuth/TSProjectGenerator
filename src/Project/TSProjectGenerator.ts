@@ -62,7 +62,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
      */
     protected get Components(): IComponentCollection<T>
     {
-        return new TSProjectComponentCollection();
+        return new TSProjectComponentCollection(this);
     }
 
     /**
@@ -76,7 +76,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
                 Source: this.modulePath(".gitignore"),
                 Destination: ".gitignore"
             },
-            new NPMIgnoreFileMapping(),
+            new NPMIgnoreFileMapping(this),
             {
                 Source: this.modulePath(".mocharc.jsonc"),
                 Destination: ".mocharc.jsonc"

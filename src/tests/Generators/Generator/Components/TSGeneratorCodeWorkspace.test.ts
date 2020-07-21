@@ -25,7 +25,7 @@ export function TSGeneratorCodeWorkspaceTests(context: TestContext<TSGeneratorGe
                 async function()
                 {
                     this.timeout(0);
-                    componentOptions = new TSGeneratorCodeWorkspace();
+                    componentOptions = new TSGeneratorCodeWorkspace(await context.Generator);
                     component = new Component(await context.Generator, componentOptions);
                 });
 

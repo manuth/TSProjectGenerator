@@ -1,4 +1,4 @@
-import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { TSProjectExtensionsMapping } from "../FileMappings/VSCode/TSProjectExtensionsMapping";
 import { TSProjectLaunchFileMapping } from "../FileMappings/VSCode/TSProjectLaunchFileMapping";
@@ -13,89 +13,60 @@ export class TSProjectCodeWorkspaceComponent<T extends ITSProjectSettings> exten
 {
     /**
      * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent<T>` class.
+     *
+     * @param generator
+     * The generator of the component.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `extensions.js` file.
      */
-    protected async GetExtensionsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get ExtensionsFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSProjectExtensionsMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSProjectExtensionsMapping(this);
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `launch.json` file.
      */
-    protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSProjectLaunchFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSProjectLaunchFileMapping(this);
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `settings.json` file.
      */
-    protected async GetSettingsFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get SettingsFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSProjectSettingsFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSProjectSettingsFileMapping(this);
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `tasks.json` file.
      */
-    protected async GetTaskFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get TaskFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSProjectTasksFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSProjectTasksFileMapping(this);
+            })();
     }
 }

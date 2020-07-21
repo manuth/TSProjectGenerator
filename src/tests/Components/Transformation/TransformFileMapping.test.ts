@@ -33,7 +33,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
              */
             async function AssertTransformation(originalContent: string, emptyTransformationContent: string, transformedContent: string, expected: string): Promise<void>
             {
-                let fileMappingOptions = new TestTransformFileMapping(originalContent, emptyTransformationContent, transformedContent);
+                let fileMappingOptions = new TestTransformFileMapping(await context.Generator, originalContent, emptyTransformationContent, transformedContent);
                 let fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
                 await fileMapping.Processor(fileMapping, await context.Generator);
                 Assert.strictEqual(fileMappingOptions.Result, expected);

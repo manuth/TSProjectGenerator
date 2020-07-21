@@ -1,4 +1,5 @@
 import { DebugConfiguration } from "vscode";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { VSCodeLaunchFileMapping } from "../../../VSCode/FileMappings/VSCodeLaunchFileMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
@@ -10,12 +11,12 @@ export class TSProjectLaunchFileMapping<T extends ITSProjectSettings> extends VS
     /**
      * Initializes a new instance of the `TSProjectLaunchFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**

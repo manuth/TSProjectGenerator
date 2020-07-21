@@ -1,8 +1,9 @@
-import { FileMapping, IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { DebugConfiguration } from "vscode";
 import { TSProjectLaunchFileMapping } from "../../../../Project/FileMappings/VSCode/TSProjectLaunchFileMapping";
+import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchFile } from "../../../../VSCode/ILaunchFile";
 import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../Settings/SubGeneratorSettingKey";
@@ -17,79 +18,71 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
     /**
      * Initializes a new instance of the `TSGeneratorLaunchFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**
      * Gets a template-configuration for yeoman-tasks.
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * A template-configuration for yeoman-tasks.
      */
-    protected async GetTemplateMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<DebugConfiguration>
+    protected get TemplateMetadata(): Promise<DebugConfiguration>
     {
-        let launchConfig: ILaunchFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
-
-        return launchConfig.configurations.find(
-            (debugConfig) =>
+        return (
+            async () =>
             {
-                return debugConfig.name.toLowerCase().includes("yeoman");
-            });
+                let launchConfig: ILaunchFile = JSON.parse((await readFile(await this.Source)).toString());
+
+                return launchConfig.configurations.find(
+                    (debugConfig) =>
+                    {
+                        return debugConfig.name.toLowerCase().includes("yeoman");
+                    });
+            })();
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ILaunchFile>
+    protected get Metadata(): Promise<ILaunchFile>
     {
-        let result = await super.GetMetadata(fileMapping, generator);
-        let configurations: DebugConfiguration[] = [];
+        let metadata = super.Metadata;
 
-        let generatorNames = [
-            "app"
-        ];
-
-        if (generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
-        {
-            for (let subGeneratorOptions of generator.Settings[TSGeneratorSettingKey.SubGenerator] ?? [])
+        return (
+            async () =>
             {
-                generatorNames.push(subGeneratorOptions[SubGeneratorSettingKey.Name]);
-            }
-        }
+                let result = await metadata;
+                let configurations: DebugConfiguration[] = [];
 
-        for (let generatorName of generatorNames)
-        {
-            let template = await this.GetTemplateMetadata(fileMapping, generator);
-            template.name = generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`;
+                let generatorNames = [
+                    "app"
+                ];
 
-            template.args = [
-                `\${workspaceFolder}/lib/generators/${generatorName}`
-            ];
+                if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+                {
+                    for (let subGeneratorOptions of this.Generator.Settings[TSGeneratorSettingKey.SubGenerator] ?? [])
+                    {
+                        generatorNames.push(subGeneratorOptions[SubGeneratorSettingKey.Name]);
+                    }
+                }
 
-            configurations.push(template);
-        }
+                for (let generatorName of generatorNames)
+                {
+                    let template = await this.TemplateMetadata;
+                    template.name = generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`;
 
-        result.configurations.unshift(...configurations);
-        return result;
+                    template.args = [
+                        `\${workspaceFolder}/lib/generators/${generatorName}`
+                    ];
+
+                    configurations.push(template);
+                }
+
+                result.configurations.unshift(...configurations);
+                return result;
+            })();
     }
 }

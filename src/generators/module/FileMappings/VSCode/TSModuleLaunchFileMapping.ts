@@ -1,6 +1,6 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectLaunchFileMapping } from "../../../../Project/FileMappings/VSCode/TSProjectLaunchFileMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchFile } from "../../../../VSCode/ILaunchFile";
 
 /**
@@ -11,40 +11,37 @@ export class TSModuleLaunchFileMapping<T extends ITSProjectSettings> extends TSP
     /**
      * Initializes a new instance of the `TSModuleLaunchFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
      */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ILaunchFile>
+    protected get Metadata(): Promise<ILaunchFile>
     {
-        let result = await super.GetMetadata(fileMapping, generator);
+        let metadata = super.Metadata;
 
-        result.configurations.unshift(
+        return (
+            async () =>
             {
-                type: "pwa-node",
-                request: "launch",
-                name: "Launch Program",
-                program: "${workspaceFolder}/lib/index.js",
-                preLaunchTask: "Build",
-                sourceMaps: true
-            });
+                let result = await metadata;
 
-        return result;
+                result.configurations.unshift(
+                    {
+                        type: "pwa-node",
+                        request: "launch",
+                        name: "Launch Program",
+                        program: "${workspaceFolder}/lib/index.js",
+                        preLaunchTask: "Build",
+                        sourceMaps: true
+                    });
+
+                return result;
+            })();
     }
 }

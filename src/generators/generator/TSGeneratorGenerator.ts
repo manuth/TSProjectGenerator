@@ -66,7 +66,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Components(): IComponentCollection<T>
     {
-        return new TSGeneratorComponentCollection();
+        return new TSGeneratorComponentCollection(this);
     }
 
     /**

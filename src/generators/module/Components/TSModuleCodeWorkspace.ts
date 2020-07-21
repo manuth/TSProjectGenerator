@@ -1,4 +1,4 @@
-import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectCodeWorkspaceComponent } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSModuleLaunchFileMapping } from "../FileMappings/VSCode/TSModuleLaunchFileMapping";
@@ -10,29 +10,24 @@ export class TSModuleCodeWorkspace<T extends ITSProjectSettings> extends TSProje
 {
     /**
      * Initializes a new isntance of the `TSModuleCodeWorkspace<T>` class.
+     *
+     * @param generator
+     * The generator of the component.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param settingsFolderName
-     * The name of the directory which contains vscode-settings.
-     *
-     * @param component
-     * A resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component.
-     *
-     * @returns
-     * A file-mapping for creating the `launch.json` file.
      */
-    protected async GetLaunchFileMapping(settingsFolderName: string, component: Component<T>, generator: IGenerator<T>): Promise<IFileMapping<T>>
+    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
     {
-        return new TSModuleLaunchFileMapping(settingsFolderName);
+        return (
+            async () =>
+            {
+                return new TSModuleLaunchFileMapping(this);
+            })();
     }
 }

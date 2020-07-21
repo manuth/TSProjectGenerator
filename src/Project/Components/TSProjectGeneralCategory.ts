@@ -1,4 +1,4 @@
-import { IComponent } from "@manuth/extended-yo-generator";
+import { IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { ComponentCategoryBase } from "../../Components/ComponentCategoryBase";
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
@@ -11,10 +11,13 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
 {
     /**
      * Initializes a new instance of the `TSProjectGeneralCategory<T>` class.
+     *
+     * @param generator
+     * The generator of the category.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -41,7 +44,7 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
      */
     protected get LintingComponent(): IComponent<T>
     {
-        return new LintingComponent();
+        return new LintingComponent(this.Generator);
     }
 
     /**
@@ -49,6 +52,6 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
      */
     protected get WorkspaceComponent(): IComponent<T>
     {
-        return new TSProjectCodeWorkspaceComponent();
+        return new TSProjectCodeWorkspaceComponent(this.Generator);
     }
 }

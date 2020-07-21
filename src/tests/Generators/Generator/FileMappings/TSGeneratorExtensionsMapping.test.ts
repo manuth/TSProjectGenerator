@@ -7,7 +7,6 @@ import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Compo
 import { TSGeneratorExtensionsMapping } from "../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { GetComponentFileMapping } from "../../../Components";
 
 /**
  * Registers tests for the `TSGeneratorExtensionsMapping` class.
@@ -28,11 +27,7 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
                 async function()
                 {
                     this.timeout(0);
-                    fileMappingOptions = await GetComponentFileMapping(
-                        await context.Generator,
-                        new TSGeneratorCodeWorkspace(),
-                        TSGeneratorExtensionsMapping);
-
+                    fileMappingOptions = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
                     fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
                 });
 

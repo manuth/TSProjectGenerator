@@ -26,6 +26,88 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     }
 
     /**
+     * Gets all `npm`-scripts which are related to `TypeScript`.
+     */
+    protected get TypeScriptScripts(): Promise<Array<IScriptMapping<T> | string>>
+    {
+        return (
+            async () =>
+            {
+                return [
+                    "build",
+                    "rebuild",
+                    "watch",
+                    "clean"
+                ];
+            })();
+    }
+
+    /**
+     * Gets all `npm`-scripts which are related to linting.
+     */
+    protected get LintScripts(): Promise<Array<IScriptMapping<T> | string>>
+    {
+        return (
+            async (): Promise<Array<IScriptMapping<T> | string>> =>
+            {
+                return [
+                    {
+                        Source: "lint-code",
+                        Destination: "lint"
+                    },
+                    {
+                        Source: "lint-code-compact",
+                        Destination: "lint-compact",
+                        Processor: async (script) => script.replace("lint-code", "lint")
+                    }
+                ];
+            })();
+    }
+
+    /**
+     * Gets additional `npm`-scripts.
+     */
+    protected get MiscScripts(): Promise<Array<IScriptMapping<T> | string>>
+    {
+        return (
+            async () =>
+            {
+                return [
+                    "test",
+                    "prepare"
+                ];
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get ScriptMappings(): Promise<Array<IScriptMapping<T> | string>>
+    {
+        return (
+            async () =>
+            {
+                return [
+                    ...await this.TypeScriptScripts,
+                    ...await this.LintScripts,
+                    ...await this.MiscScripts
+                ];
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get Template(): Promise<Package>
+    {
+        return (
+            async () =>
+            {
+                return Constants.Package;
+            })();
+    }
+
+    /**
      * @inheritdoc
      *
      * @returns
@@ -44,71 +126,5 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
         }
 
         return result;
-    }
-
-    /**
-     * Gets all `npm`-scripts which are related to `TypeScript`.
-     */
-    protected get TypeScriptScripts(): Array<IScriptMapping<T> | string>
-    {
-        return [
-            "build",
-            "rebuild",
-            "watch",
-            "clean"
-        ];
-    }
-
-    /**
-     * Gets all `npm`-scripts which are related to linting.
-     */
-    protected get LintScripts(): Array<IScriptMapping<T> | string>
-    {
-        return [
-            {
-                Source: "lint-code",
-                Destination: "lint"
-            },
-            {
-                Source: "lint-code-compact",
-                Destination: "lint-compact",
-                Processor: async (script) => script.replace("lint-code", "lint")
-            }
-        ];
-    }
-
-    /**
-     * Gets additional `npm`-scripts.
-     */
-    protected get MiscScripts(): Array<IScriptMapping<T> | string>
-    {
-        return [
-            "test",
-            "prepare"
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected get ScriptMappings(): Array<IScriptMapping<T> | string>
-    {
-        return [
-            ...this.TypeScriptScripts,
-            ...this.LintScripts,
-            ...this.MiscScripts
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected get Template(): Promise<Package>
-    {
-        return (
-            async () =>
-            {
-                return Constants.Package;
-            })();
     }
 }

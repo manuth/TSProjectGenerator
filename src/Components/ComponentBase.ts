@@ -1,15 +1,21 @@
 import { Component, IComponent, IFileMapping, IGenerator, Question, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratrorComponent } from "./GeneratorComponent";
 
 /**
  * Provides a basic implementation of the `IComponent<T>` interface.
  */
-export abstract class ComponentBase<T extends IGeneratorSettings> implements IComponent<T>
+export abstract class ComponentBase<T extends IGeneratorSettings> extends GeneratrorComponent<T, Component<T>> implements IComponent<T>
 {
     /**
      * Initializes a new instance of the `ComponentBase<T>` class.
+     *
+     * @param generator
+     * The generator of the component.
      */
-    public constructor()
-    { }
+    public constructor(generator: IGenerator<T>)
+    {
+        super(generator);
+    }
 
     /**
      * @inheritdoc
@@ -39,18 +45,21 @@ export abstract class ComponentBase<T extends IGeneratorSettings> implements ICo
 
     /**
      * @inheritdoc
-     *
-     * @param component
-     * The resolved representation of this component.
-     *
-     * @param generator
-     * The generator of this component
-     *
-     * @returns
-     * The file-mappings of this component.
      */
-    public async FileMappings(component: Component<T>, generator: IGenerator<T>): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<T>>>
     {
-        return [];
+        return (
+            async (): Promise<Array<IFileMapping<T>>> =>
+            {
+                return [];
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Resolved(): Component<T>
+    {
+        return new Component(this.Generator, this);
     }
 }

@@ -1,3 +1,4 @@
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { VSCodeExtensionsMapping } from "../../../VSCode/FileMappings/VSCodeExtensionsMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 
@@ -9,12 +10,12 @@ export class TSProjectExtensionsMapping<T extends ITSProjectSettings> extends VS
     /**
      * Initializes a new instance of the `TSProjectExtensionsMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**

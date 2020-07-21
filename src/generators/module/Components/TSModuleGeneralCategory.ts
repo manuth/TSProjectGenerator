@@ -1,4 +1,4 @@
-import { IComponent } from "@manuth/extended-yo-generator";
+import { IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSModuleCodeWorkspace } from "./TSModuleCodeWorkspace";
@@ -10,10 +10,13 @@ export class TSModuleGeneralCategory<T extends ITSProjectSettings> extends TSPro
 {
     /**
      * Initializes a new instance of the `TSModuleGeneralCategory<T>` class.
+     *
+     * @param generator
+     * The generator of the category.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -21,6 +24,6 @@ export class TSModuleGeneralCategory<T extends ITSProjectSettings> extends TSPro
      */
     protected get WorkspaceComponent(): IComponent<T>
     {
-        return new TSModuleCodeWorkspace();
+        return new TSModuleCodeWorkspace(this.Generator);
     }
 }

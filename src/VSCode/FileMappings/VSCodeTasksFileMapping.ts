@@ -1,10 +1,10 @@
-import { FileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { TaskDefinition } from "vscode";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { ITaskFile } from "../../VSCode/ITaskFile";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 
 /**
@@ -15,78 +15,63 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
     /**
      * Initializes a new instance of the `VSCodeTasksFileMapping<T>` class.
      *
-     * @param settingsFolderName
-     * The name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * @param codeWorkspaceComponent
+     * The component of this file-mapping.
      */
-    public constructor(settingsFolderName: string)
+    public constructor(codeWorkspaceComponent: CodeWorkspaceComponent<T>)
     {
-        super(settingsFolderName);
+        super(codeWorkspaceComponent);
     }
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The source of the file-mapping.
      */
-    public async Source(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
+    public get Source(): Promise<string>
     {
-        return generator.modulePath(this.SettingsFolderName, "tasks.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
-     */
-    public async Destination(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<string>
-    {
-        return join(this.SettingsFolderName, "tasks.json");
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The metadata to write into the file.
-     */
-    protected async GetMetadata(fileMapping: FileMapping<T>, generator: IGenerator<T>): Promise<ITaskFile>
-    {
-        let result: ITaskFile = JSON.parse((await readFile(await fileMapping.Source)).toString());
-        result.tasks = result.tasks ?? [];
-
-        for (let i = 0; i < result.tasks.length; i++)
-        {
-            if (await this.FilterTask(result.tasks[i]))
+        return (
+            async () =>
             {
-                await this.ProcessTask(result.tasks[i]);
-            }
-            else
-            {
-                result.tasks.splice(i, 1);
-            }
-        }
+                return this.Generator.modulePath(await this.SettingsFolderName, "tasks.json");
+            })();
+    }
 
-        return result;
+    /**
+     * @inheritdoc
+     */
+    public get Destination(): Promise<string>
+    {
+        return (
+            async () =>
+            {
+                return join(await this.SettingsFolderName, "tasks.json");
+            })();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get Metadata(): Promise<ITaskFile>
+    {
+        return (
+            async () =>
+            {
+                let result: ITaskFile = JSON.parse((await readFile(await this.Source)).toString());
+                result.tasks = result.tasks ?? [];
+
+                for (let i = 0; i < result.tasks.length; i++)
+                {
+                    if (await this.FilterTask(result.tasks[i]))
+                    {
+                        await this.ProcessTask(result.tasks[i]);
+                    }
+                    else
+                    {
+                        result.tasks.splice(i, 1);
+                    }
+                }
+
+                return result;
+            })();
     }
 
     /**

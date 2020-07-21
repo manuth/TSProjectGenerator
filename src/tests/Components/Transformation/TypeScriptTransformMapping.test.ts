@@ -32,7 +32,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
              */
             async function AssertTransformation(content: string, transformers: Array<TransformerFactory<SourceFile>>, expected: string): Promise<void>
             {
-                let fileMappingOptions = new TestTypeScriptTransformMapping(content, transformers);
+                let fileMappingOptions = new TestTypeScriptTransformMapping(await context.Generator, content, transformers);
                 let fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
                 await fileMapping.Processor(fileMapping, await context.Generator);
                 Assert.deepStrictEqual(split(fileMappingOptions.Result), split(expected));
