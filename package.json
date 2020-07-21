@@ -19,9 +19,9 @@
     "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -b .",
     "rebuild": "npm run clean && npm run build",
-    "watch": "tsc -p . --watch",
+    "watch": "tsc -b . --watch",
     "clean": "rimraf ./lib",
     "lint-code": "eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx ./src",
     "lint-code-compact": "npm run lint-code -- -f compact || exit 0",
