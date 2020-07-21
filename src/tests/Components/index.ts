@@ -1,4 +1,7 @@
+import { Component, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestOptions, ITestGeneratorOptions } from "@manuth/extended-yo-generator-test";
+import { ComponentBase } from "../../Components/ComponentBase";
+import { FileMappingConstructor } from "./FileMappingContrsuctor";
 import { TransformationTests } from "./Transformation";
 
 /**
@@ -15,4 +18,32 @@ export function ComponentTests(context: TestContext<TestGenerator, ITestGenerato
         {
             TransformationTests(context);
         });
+}
+
+/**
+ * Searches the specified `component` for a file-mapping with the specified type.
+ *
+ * @param generator
+ * The generator of the component.
+ *
+ * @param component
+ * The component to search.
+ *
+ * @param fileMappingType
+ * The type of file-mapping to find.
+ *
+ * @returns
+ * The file-mapping with the specified type.
+ */
+export async function GetComponentFileMapping<TFileMapping extends IFileMapping<any>>(generator: IGenerator<any>, component: ComponentBase<any>, fileMappingType: FileMappingConstructor<any>): Promise<TFileMapping>
+{
+    let componentInstance = new Component(generator, component);
+
+    let fileMapping = (await component.FileMappings(componentInstance, generator)).find(
+        (fileMapping) =>
+        {
+            return fileMapping instanceof fileMappingType;
+        });
+
+    return fileMapping as any;
 }

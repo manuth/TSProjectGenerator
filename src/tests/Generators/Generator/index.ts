@@ -16,5 +16,6 @@ export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
         () =>
         {
             ComponentTests(context);
+            FileMappingTests(context);
         });
 }
