@@ -1,9 +1,9 @@
 import Assert = require("assert");
-import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { split } from "eol";
 import { TransformerFactory, SourceFile, Visitor, visitNode, NodeFlags, visitEachChild, isVariableDeclarationList } from "typescript";
+import { FileMappingTester } from "../FileMappingTester";
 import { TestTypeScriptTransformMapping } from "./TestTypeScriptTransformMapping";
 
 /**
@@ -33,9 +33,9 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
             async function AssertTransformation(content: string, transformers: Array<TransformerFactory<SourceFile>>, expected: string): Promise<void>
             {
                 let fileMappingOptions = new TestTypeScriptTransformMapping(await context.Generator, content, transformers);
-                let fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
-                await fileMapping.Processor(fileMapping, await context.Generator);
-                Assert.deepStrictEqual(split(fileMappingOptions.Result), split(expected));
+                let tester = new FileMappingTester(await context.Generator, fileMappingOptions);
+                await tester.Run();
+                Assert.deepStrictEqual(split(await tester.Content), split(expected));
             }
 
             test(

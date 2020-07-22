@@ -1,7 +1,7 @@
 import Assert = require("assert");
-import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
+import { FileMappingTester } from "../FileMappingTester";
 import { TestTransformFileMapping } from "./TestTransformFileMapping";
 
 /**
@@ -34,9 +34,9 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
             async function AssertTransformation(originalContent: string, emptyTransformationContent: string, transformedContent: string, expected: string): Promise<void>
             {
                 let fileMappingOptions = new TestTransformFileMapping(await context.Generator, originalContent, emptyTransformationContent, transformedContent);
-                let fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
-                await fileMapping.Processor(fileMapping, await context.Generator);
-                Assert.strictEqual(fileMappingOptions.Result, expected);
+                let tester = new FileMappingTester(await context.Generator, fileMappingOptions);
+                await tester.Run();
+                Assert.strictEqual(await tester.Content, expected);
             }
 
             test(

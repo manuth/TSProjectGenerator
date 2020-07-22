@@ -22,11 +22,6 @@ export class TestTransformFileMapping extends TransformFileMapping<IGeneratorSet
     public transformedContent: string;
 
     /**
-     * The result of the file-mapping.
-     */
-    private result: string;
-
-    /**
      * Initializes a new instance of the `TestTransformFileMapping` class.
      *
      * @param generator
@@ -50,19 +45,15 @@ export class TestTransformFileMapping extends TransformFileMapping<IGeneratorSet
     }
 
     /**
-     * Gets the result of the last execution.
-     */
-    public get Result(): string
-    {
-        return this.result;
-    }
-
-    /**
      * @inheritdoc
      */
     public get Destination(): Promise<string>
     {
-        return null;
+        return (
+            async () =>
+            {
+                return "test.txt";
+            })();
     }
 
     /**
@@ -99,13 +90,5 @@ export class TestTransformFileMapping extends TransformFileMapping<IGeneratorSet
             {
                 return this.transformedContent;
             })();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public async Processor(): Promise<void>
-    {
-        this.result = await this.ProcessedContent;
     }
 }

@@ -13,11 +13,6 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
     public originalContent: string;
 
     /**
-     * The result of the file-mapping.
-     */
-    private result: string;
-
-    /**
      * The transformers to apply.
      */
     private transformers: Array<TransformerFactory<SourceFile>>;
@@ -42,14 +37,6 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
     }
 
     /**
-     * Gets the result of the last execution.
-     */
-    public get Result(): string
-    {
-        return this.result;
-    }
-
-    /**
      * Gets the transformers to apply.
      */
     public get Transformers(): Promise<Array<TransformerFactory<SourceFile>>>
@@ -66,7 +53,11 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
      */
     public get Destination(): Promise<string>
     {
-        return null;
+        return (
+            async () =>
+            {
+                return "test.ts";
+            })();
     }
 
     /**
@@ -79,13 +70,5 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
             {
                 return this.originalContent;
             })();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public async Processor(): Promise<void>
-    {
-        this.result = await this.ProcessedContent;
     }
 }
