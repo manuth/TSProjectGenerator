@@ -2,10 +2,10 @@ import Assert = require("assert");
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
-import { TSGeneratorExtensionsMapping } from "../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
-import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TSGeneratorCodeWorkspace } from "../../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
+import { TSGeneratorExtensionsMapping } from "../../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 
 /**
  * Registers tests for the `TSGeneratorExtensionsMapping` class.

@@ -4,15 +4,15 @@ import { TestContext } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import { pathExists, readFile } from "fs-extra";
 import { DebugConfiguration } from "vscode";
-import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
-import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchFile } from "../../../../VSCode/ILaunchFile";
-import { TSGeneratorLaunchFileMapping } from "../../../../generators/generator/FileMappings/VSCode/TSGeneratorLaunchFileMapping";
-import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectComponent } from "../../../../../Project/Settings/TSProjectComponent";
+import { CodeWorkspaceComponent } from "../../../../../VSCode/Components/CodeWorkspaceComponent";
+import { ILaunchFile } from "../../../../../VSCode/ILaunchFile";
+import { TSGeneratorLaunchFileMapping } from "../../../../../generators/generator/FileMappings/VSCode/TSGeneratorLaunchFileMapping";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
+import { SubGeneratorSettingKey } from "../../../../../generators/generator/Settings/SubGeneratorSettingKey";
+import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
+import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 
 /**
  * Registers tests for the `TSGeneratorLaunchFileMapping` class.
