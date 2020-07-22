@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
@@ -19,14 +20,16 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
         "TSGeneratorExtensionsMapping",
         () =>
         {
-            let fileMapping: TSGeneratorExtensionsMapping<ITSGeneratorSettings>;
+            let fileMappingOptions: TSGeneratorExtensionsMapping<ITSGeneratorSettings>;
+            let fileMapping: FileMapping<ITSGeneratorSettings>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    fileMapping = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
-                    await fileMapping.Processor();
+                    fileMappingOptions = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
+                    fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
+                    await fileMappingOptions.Processor();
                 });
 
             test(
