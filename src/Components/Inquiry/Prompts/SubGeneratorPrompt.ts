@@ -111,7 +111,22 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
                 type: "input",
                 name: SubGeneratorSettingKey.DisplayName,
                 message: "What's the human-readable name of the sub-generator?",
-                validate: (input: string) => /.+/.test(input.trim()) ? true : "The name must not be empty!"
+                validate:(input: string) =>
+                {
+                    if (
+                        this.SubGeneratorSettings.some(
+                            (generatorOptions) =>
+                            {
+                                return generatorOptions[SubGeneratorSettingKey.DisplayName] === input;
+                            }))
+                    {
+                        return `A generator with the specified display-name "${input}" already exists.`;
+                    }
+                    else
+                    {
+                        return /.+/.test(input.trim()) ? true : "The name must not be empty!";
+                    }
+                }
             },
             {
                 type: "input",
@@ -128,7 +143,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
                                 return generatorOptions[SubGeneratorSettingKey.Name] === input;
                             }))
                     {
-                        return `A generator with the specified name "${input}" exists already.`;
+                        return `A generator with the specified name "${input}" already exists.`;
                     }
                     else
                     {
