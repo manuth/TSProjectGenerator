@@ -107,6 +107,14 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
     }
 
     /**
+     * Clears the cached package.
+     */
+    public async Clear(): Promise<void>
+    {
+        this.package = null;
+    }
+
+    /**
      * Loads the package.
      *
      * @returns
