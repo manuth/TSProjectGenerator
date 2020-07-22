@@ -105,7 +105,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
                         HasCodeWorkspace: this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.VSCode),
                         HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting),
                         HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),
-                        SubGenerators: (this.Settings[TSGeneratorSettingKey.SubGenerator] ?? []).map(
+                        SubGenerators: (this.Settings[TSGeneratorSettingKey.SubGenerators] ?? []).map(
                             (subGeneratorOptions) =>
                             {
                                 let name = subGeneratorOptions[SubGeneratorSettingKey.Name];

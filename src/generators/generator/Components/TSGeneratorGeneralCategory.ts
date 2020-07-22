@@ -69,7 +69,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
             DisplayName: "Example Sub-Generator",
             FileMappings: async () =>
                 (await Promise.all(
-                    this.Generator.Settings[TSGeneratorSettingKey.SubGenerator].map(
+                    this.Generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
                         (subGeneratorOptions) =>
                         {
                             return this.GetGeneratorFileMappings(
@@ -80,7 +80,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
             Questions: [
                 {
                     type: SubGeneratorPrompt.TypeName,
-                    name: TSGeneratorSettingKey.SubGenerator,
+                    name: TSGeneratorSettingKey.SubGenerators,
                     message: "Please specify the details of the sub-generators to create",
                     defaultRepeat: false
                 }

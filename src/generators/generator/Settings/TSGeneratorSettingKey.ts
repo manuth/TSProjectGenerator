@@ -6,5 +6,5 @@ export enum TSGeneratorSettingKey
     /**
      * Indicates the `SubGenerators`-setting.
      */
-    SubGenerator = "subGenerator"
+    SubGenerators = "subGenerators"
 }

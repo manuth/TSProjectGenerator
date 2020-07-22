@@ -8,7 +8,7 @@ import { TSGeneratorSettingKey } from "./TSGeneratorSettingKey";
 export interface ITSGeneratorSettings extends ITSProjectSettings
 {
     /**
-     * Gets or sets the sub-generator.
+     * Gets or sets the sub-generator-settings.
      */
-    [TSGeneratorSettingKey.SubGenerator]: ISubGenerator[];
+    [TSGeneratorSettingKey.SubGenerators]: ISubGenerator[];
 }
