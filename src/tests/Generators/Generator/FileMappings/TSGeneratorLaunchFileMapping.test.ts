@@ -22,7 +22,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
  */
 export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGeneratorGenerator>): void
 {
-    suite.only(
+    suite(
         "TSGeneratorLaunchFileMapping",
         () =>
         {
