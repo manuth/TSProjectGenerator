@@ -1,5 +1,4 @@
 import Assert = require("assert");
-import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
@@ -7,6 +6,7 @@ import { TSGeneratorCodeWorkspace } from "../../../../../generators/generator/Co
 import { TSGeneratorExtensionsMapping } from "../../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
+import { VSCodeJSONFileMappingTester } from "../../../../VSCode/FileMappings/VSCodeJSONFileMappingTester";
 
 /**
  * Registers tests for the `TSGeneratorExtensionsMapping` class.
@@ -20,16 +20,15 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
         "TSGeneratorExtensionsMapping",
         () =>
         {
-            let fileMappingOptions: TSGeneratorExtensionsMapping<ITSGeneratorSettings>;
-            let fileMapping: FileMapping<ITSGeneratorSettings>;
+            let fileMapping: TSGeneratorExtensionsMapping<ITSGeneratorSettings>;
+            let tester: VSCodeJSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorExtensionsMapping<ITSGeneratorSettings>>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    fileMappingOptions = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
-                    fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
-                    await fileMapping.Processor(fileMapping, await context.Generator);
+                    fileMapping = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
+                    tester = new VSCodeJSONFileMappingTester(await context.Generator, fileMapping);
                 });
 
             test(
@@ -37,8 +36,8 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
                 async () =>
                 {
                     Assert.deepStrictEqual(
-                        JSON.parse((await readFile(await fileMapping.Destination)).toString()),
-                        JSON.parse((await readFile(await fileMapping.Source)).toString()));
+                        JSON.parse((await readFile(await tester.FileMapping.Destination)).toString()),
+                        JSON.parse((await readFile(await tester.FileMapping.Source)).toString()));
                 });
         });
 }
