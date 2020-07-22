@@ -3,8 +3,10 @@ import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { DebugConfiguration } from "vscode";
 import { TSProjectLaunchFileMapping } from "../../../../Project/FileMappings/VSCode/TSProjectLaunchFileMapping";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchFile } from "../../../../VSCode/ILaunchFile";
+import { ISubGenerator } from "../../Settings/ISubGenerator";
 import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../Settings/TSGeneratorComponent";
@@ -57,25 +59,30 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
                 let result = await metadata;
                 let configurations: DebugConfiguration[] = [];
 
-                let generatorNames = [
-                    "app"
+                let generators: ISubGenerator[] = [
+                    {
+                        [SubGeneratorSettingKey.DisplayName]: this.Generator.Settings[TSProjectSettingKey.DisplayName],
+                        [SubGeneratorSettingKey.Name]: "app"
+                    }
                 ];
 
                 if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
                 {
                     for (let subGeneratorOptions of this.Generator.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
                     {
-                        generatorNames.push(subGeneratorOptions[SubGeneratorSettingKey.Name]);
+                        generators.push(subGeneratorOptions);
                     }
                 }
 
-                for (let generatorName of generatorNames)
+                for (let generator of generators)
                 {
                     let template = await this.TemplateMetadata;
-                    template.name = generatorName === "app" ? "Launch Yeoman" : `Launch ${generatorName} generator`;
+                    let displayName = generator[SubGeneratorSettingKey.DisplayName];
+                    let name = generator[SubGeneratorSettingKey.Name];
+                    template.name = name === "app" ? "Launch Yeoman" : `Launch ${displayName} generator`;
 
                     template.args = [
-                        `\${workspaceFolder}/lib/generators/${generatorName}`
+                        `\${workspaceFolder}/lib/generators/${name}`
                     ];
 
                     configurations.push(template);
