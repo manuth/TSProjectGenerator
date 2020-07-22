@@ -1,3 +1,4 @@
+import { EOL } from "os";
 import { ReadLine } from "readline";
 import inquirer = require("inquirer");
 import Base = require("inquirer/lib/prompts/base");
@@ -159,7 +160,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
             {
                 let answerHash: IInternalAnswerHash;
                 this.rl.write(this.getQuestion());
-                this.rl.write("\n");
+                this.rl.write(EOL);
 
                 do
                 {
