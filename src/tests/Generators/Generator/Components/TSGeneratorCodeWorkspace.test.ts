@@ -1,4 +1,4 @@
-import { Component } from "@manuth/extended-yo-generator";
+import Assert = require("assert");
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
 import { TSGeneratorExtensionsMapping } from "../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
@@ -18,15 +18,13 @@ export function TSGeneratorCodeWorkspaceTests(context: TestContext<TSGeneratorGe
         "TSGeneratorCodeWorkspace",
         () =>
         {
-            let componentOptions: TSGeneratorCodeWorkspace<ITSGeneratorSettings>;
-            let component: Component<ITSGeneratorSettings>;
+            let component: TSGeneratorCodeWorkspace<ITSGeneratorSettings>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    componentOptions = new TSGeneratorCodeWorkspace(await context.Generator);
-                    component = new Component(await context.Generator, componentOptions);
+                    component = new TSGeneratorCodeWorkspace(await context.Generator);
                 });
 
             test(
@@ -35,7 +33,7 @@ export function TSGeneratorCodeWorkspaceTests(context: TestContext<TSGeneratorGe
                 {
                     for (let fileMappingType of [TSGeneratorExtensionsMapping, TSGeneratorLaunchFileMapping])
                     {
-                        (await component.FileMappings).some((fileMapping) => fileMapping instanceof fileMappingType);
+                        Assert.ok((await component.FileMappings).some((fileMapping) => fileMapping instanceof fileMappingType));
                     }
                 });
         });
