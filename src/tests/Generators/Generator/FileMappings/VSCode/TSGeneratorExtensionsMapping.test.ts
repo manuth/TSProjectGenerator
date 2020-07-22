@@ -29,7 +29,7 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
                     this.timeout(0);
                     fileMappingOptions = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
                     fileMapping = new FileMapping(await context.Generator, fileMappingOptions);
-                    await fileMappingOptions.Processor();
+                    await fileMapping.Processor(fileMapping, await context.Generator);
                 });
 
             test(
