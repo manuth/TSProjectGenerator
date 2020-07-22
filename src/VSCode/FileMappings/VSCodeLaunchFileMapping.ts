@@ -55,7 +55,7 @@ export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCod
         return (
             async () =>
             {
-                let result: ILaunchFile = JSON.parse((await readFile(await this.Source)).toString());
+                let result: ILaunchFile = JSON.parse((await readFile(await this.Resolved.Source)).toString());
                 result.configurations = result.configurations ?? [];
 
                 for (let i = 0; i < result.configurations.length; i++)

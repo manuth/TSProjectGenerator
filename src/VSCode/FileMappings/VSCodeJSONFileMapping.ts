@@ -29,6 +29,6 @@ export abstract class VSCodeJSONFileMapping<T extends ITSProjectSettings> extend
      */
     public async Processor(): Promise<void>
     {
-        this.Generator.fs.write(await this.Destination, JSON.stringify(await this.Metadata, null, 4));
+        this.Generator.fs.write(await this.Resolved.Destination, JSON.stringify(await this.Metadata, null, 4));
     }
 }

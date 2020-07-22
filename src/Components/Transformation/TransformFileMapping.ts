@@ -42,7 +42,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
                 let hasTrailingNewline = this.HasTrailingNewline(transformedContent);
                 transformedContent = this.NormalizeText(transformedContent);
 
-                let patch = parsePatch(createPatch(await this.Source, emptyTransformationContent, originalContent))[0];
+                let patch = parsePatch(createPatch(await this.Resolved.Source, emptyTransformationContent, originalContent))[0];
                 let changes: Map<number, Change[]> = new Map();
                 let diff = diffLines(emptyTransformationContent, transformedContent);
 
@@ -134,7 +134,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
             {
                 if (this.content === null)
                 {
-                    this.content = (await readFile(await this.Source)).toString();
+                    this.content = (await readFile(await this.Resolved.Source)).toString();
                 }
 
                 return this.content;
@@ -162,7 +162,7 @@ export abstract class TransformFileMapping<T extends IGeneratorSettings> extends
      */
     public async Processor(): Promise<void>
     {
-        this.Generator.fs.write(await this.Destination, await this.ProcessedContent);
+        this.Generator.fs.write(await this.Resolved.Destination, await this.ProcessedContent);
     }
 
     /**

@@ -50,9 +50,9 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
     public async Processor(): Promise<void>
     {
         this.Generator.fs.write(
-            await this.Destination,
+            await this.Resolved.Destination,
             applyPatch(
-                (await readFile(await this.Source)).toString(),
+                (await readFile(await this.Resolved.Source)).toString(),
                 parsePatch(
                     (await readFile(this.Generator.commonTemplatePath("npmignore.diff"))).toString()
                 )[0]));

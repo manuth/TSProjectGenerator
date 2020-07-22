@@ -102,7 +102,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
     {
         return (async () =>
         {
-            this.Generator.fs.writeJSON(await this.Destination, (await this.Package).ToJSON());
+            this.Generator.fs.writeJSON(await this.Resolved.Destination, (await this.Package).ToJSON());
         })();
     }
 

@@ -53,7 +53,7 @@ export class VSCodeSettingsFileMapping<T extends ITSProjectSettings> extends VSC
         return (
             async () =>
             {
-                let settings: Record<string, any> = JSON.parse((await readFile(await this.Source)).toString());
+                let settings: Record<string, any> = JSON.parse((await readFile(await this.Resolved.Source)).toString());
 
                 for (let key in settings)
                 {

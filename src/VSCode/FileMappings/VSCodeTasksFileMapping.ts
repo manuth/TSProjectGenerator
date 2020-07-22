@@ -55,7 +55,7 @@ export class VSCodeTasksFileMapping<T extends ITSProjectSettings> extends VSCode
         return (
             async () =>
             {
-                let result: ITaskFile = JSON.parse((await readFile(await this.Source)).toString());
+                let result: ITaskFile = JSON.parse((await readFile(await this.Resolved.Source)).toString());
                 result.tasks = result.tasks ?? [];
 
                 for (let i = 0; i < result.tasks.length; i++)

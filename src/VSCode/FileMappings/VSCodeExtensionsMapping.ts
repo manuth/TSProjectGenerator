@@ -54,7 +54,7 @@ export class VSCodeExtensionsMapping<T extends ITSProjectSettings> extends VSCod
         return (
             async () =>
             {
-                let result: IExtensionFile = JSON.parse((await readFile(await this.Source)).toString());
+                let result: IExtensionFile = JSON.parse((await readFile(await this.Resolved.Source)).toString());
                 result.recommendations = await this.FilterRecommendations(result.recommendations ?? []);
                 return result;
             })();

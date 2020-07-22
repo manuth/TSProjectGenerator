@@ -63,7 +63,7 @@ export class TSGeneratorLaunchFileMapping<T extends ITSGeneratorSettings> extend
 
                 if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
                 {
-                    for (let subGeneratorOptions of this.Generator.Settings[TSGeneratorSettingKey.SubGenerator] ?? [])
+                    for (let subGeneratorOptions of this.Generator.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
                     {
                         generatorNames.push(subGeneratorOptions[SubGeneratorSettingKey.Name]);
                     }
