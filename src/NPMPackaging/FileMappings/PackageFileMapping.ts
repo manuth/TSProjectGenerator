@@ -34,12 +34,19 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
         return (
             async () =>
             {
-                if (this.package === null)
+                let result = await this.LoadPackage();
+
+                for (let scriptMapping of await this.ScriptMappingCollection)
                 {
-                    this.package = await this.LoadPackage();
+                    if (result.Scripts.Has(await scriptMapping.Destination))
+                    {
+                        result.Scripts.Remove(await scriptMapping.Destination);
+                    }
+
+                    result.Scripts.Add(await scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(await scriptMapping.Source)));
                 }
 
-                return this.package;
+                return result;
             })();
     }
 
@@ -122,37 +129,30 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
      */
     protected async LoadPackage(): Promise<Package>
     {
-        let result: Package;
         let fileName = await this.Resolved.Destination;
 
-        if (await pathExists(fileName))
+        if (this.package === null)
         {
-            result = new Package(fileName);
-        }
-        else
-        {
-            result = new Package(
-                fileName,
-                {
-                    version: "0.0.0",
-                    author: {
-                        name: this.Generator.user.git.name(),
-                        email: this.Generator.user.git.email()
-                    }
-                });
-        }
-
-        for (let scriptMapping of await this.ScriptMappingCollection)
-        {
-            if (result.Scripts.Has(await scriptMapping.Destination))
+            if (await pathExists(fileName))
             {
-                result.Scripts.Remove(await scriptMapping.Destination);
+                this.package = new Package(fileName);
+            }
+            else
+            {
+                this.package = new Package(
+                    fileName,
+                    {
+                        version: "0.0.0",
+                        author: {
+                            name: this.Generator.user.git.name(),
+                            email: this.Generator.user.git.email()
+                        }
+                    });
             }
 
-            result.Scripts.Add(await scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(await scriptMapping.Source)));
+            await this.package.Normalize();
         }
 
-        await result.Normalize();
-        return result;
+        return this.package;
     }
 }
