@@ -2,6 +2,7 @@ import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
 import { ComponentTests } from "./Components";
 import { FileMappingTests } from "./FileMappings";
+import { TSModuleGeneratorTests } from "./TSModuleGenerator.test";
 
 /**
  * Registers tests for the `TSModuleGenerator`.
@@ -17,5 +18,6 @@ export function ModuleTests(context: TestContext<TSModuleGenerator>): void
         {
             FileMappingTests(context);
             ComponentTests(context);
+            TSModuleGeneratorTests(context);
         });
 }
