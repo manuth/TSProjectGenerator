@@ -58,7 +58,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 function()
                 {
                     this.timeout(0);
-                    this.slow(1 * 60 * 1000);
+                    this.slow(2 * 60 * 1000);
 
                     let result = spawnSync(
                         npmWhich(__dirname).sync("npm"),
@@ -96,7 +96,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether mocha can be executed…",
                 function()
                 {
-                    this.slow(2 * 1000);
+                    this.slow(4 * 1000);
                     let result = spawnSync(npmWhich(generator.destinationPath()).sync("mocha"));
                     Assert.strictEqual(result.status, 0);
                 });
