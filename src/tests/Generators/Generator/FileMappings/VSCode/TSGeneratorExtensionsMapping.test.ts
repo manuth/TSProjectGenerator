@@ -6,7 +6,7 @@ import { TSGeneratorCodeWorkspace } from "../../../../../generators/generator/Co
 import { TSGeneratorExtensionsMapping } from "../../../../../generators/generator/FileMappings/VSCode/TSGeneratorExtensionsMapping";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { VSCodeJSONFileMappingTester } from "../../../../VSCode/FileMappings/VSCodeJSONFileMappingTester";
+import { JSONFileMappingTester } from "../../../../Components/JSONFileMappingTester";
 
 /**
  * Registers tests for the `TSGeneratorExtensionsMapping` class.
@@ -21,14 +21,14 @@ export function TSGeneratorExtensionsMappingTests(context: TestContext<TSGenerat
         () =>
         {
             let fileMapping: TSGeneratorExtensionsMapping<ITSGeneratorSettings>;
-            let tester: VSCodeJSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorExtensionsMapping<ITSGeneratorSettings>>;
+            let tester: JSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorExtensionsMapping<ITSGeneratorSettings>>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
                     fileMapping = new TSGeneratorExtensionsMapping(new TSGeneratorCodeWorkspace(await context.Generator));
-                    tester = new VSCodeJSONFileMappingTester(await context.Generator, fileMapping);
+                    tester = new JSONFileMappingTester(await context.Generator, fileMapping);
                 });
 
             test(

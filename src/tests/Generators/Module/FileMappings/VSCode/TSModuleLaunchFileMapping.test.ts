@@ -5,7 +5,7 @@ import { ILaunchFile } from "../../../../../VSCode/ILaunchFile";
 import TSModuleGenerator = require("../../../../../generators/module");
 import { TSModuleCodeWorkspace } from "../../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleLaunchFileMapping } from "../../../../../generators/module/FileMappings/VSCode/TSModuleLaunchFileMapping";
-import { VSCodeJSONFileMappingTester } from "../../../../VSCode/FileMappings/VSCodeJSONFileMappingTester";
+import { JSONFileMappingTester } from "../../../../Components/JSONFileMappingTester";
 
 /**
  * Registers tests for the `TSModuleLaunchFileMapping` class.
@@ -20,14 +20,14 @@ export function TSModuleLaunchFileMappingTests(context: TestContext<TSModuleGene
         () =>
         {
             let fileMapping: TSModuleLaunchFileMapping<ITSProjectSettings>;
-            let tester: VSCodeJSONFileMappingTester<TSModuleGenerator, ITSProjectSettings, TSModuleLaunchFileMapping<ITSProjectSettings>>;
+            let tester: JSONFileMappingTester<TSModuleGenerator, ITSProjectSettings, TSModuleLaunchFileMapping<ITSProjectSettings>>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
                     fileMapping = new TSModuleLaunchFileMapping(new TSModuleCodeWorkspace(await context.Generator));
-                    tester = new VSCodeJSONFileMappingTester(await context.Generator, fileMapping);
+                    tester = new JSONFileMappingTester(await context.Generator, fileMapping);
                 });
 
             test(

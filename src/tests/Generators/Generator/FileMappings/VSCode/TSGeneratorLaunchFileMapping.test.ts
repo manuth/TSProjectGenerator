@@ -12,7 +12,7 @@ import { SubGeneratorSettingKey } from "../../../../../generators/generator/Sett
 import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { VSCodeJSONFileMappingTester } from "../../../../VSCode/FileMappings/VSCodeJSONFileMappingTester";
+import { JSONFileMappingTester } from "../../../../Components/JSONFileMappingTester";
 
 /**
  * Registers tests for the `TSGeneratorLaunchFileMapping` class.
@@ -29,7 +29,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
             let fileMappingOptions: TSGeneratorLaunchFileMapping<ITSGeneratorSettings>;
-            let tester: VSCodeJSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorLaunchFileMapping<ITSGeneratorSettings>>;
+            let tester: JSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorLaunchFileMapping<ITSGeneratorSettings>>;
 
             suiteSetup(
                 async function()
@@ -60,7 +60,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                     runContext.withPrompts(settings).inDir(tempDir.FullName);
                     await runContext.toPromise();
                     fileMappingOptions = new TSGeneratorLaunchFileMapping(new CodeWorkspaceComponent(runContext.generator));
-                    tester = new VSCodeJSONFileMappingTester(runContext.generator, fileMappingOptions);
+                    tester = new JSONFileMappingTester(runContext.generator, fileMappingOptions);
                 });
 
             suiteTeardown(
