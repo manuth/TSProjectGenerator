@@ -26,7 +26,7 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      */
     public async default(answers: T): Promise<string>
     {
-        return `generator-${(await super.default(answers)).replace(/(generator-)?(.*?)(generator)?$/i, "$2")}`;
+        return `generator-${(await super.default(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
     }
 
     /**
