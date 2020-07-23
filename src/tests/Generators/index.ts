@@ -24,8 +24,8 @@ export function GeneratorTests(context: TestContext<TestGenerator, ITestGenerato
         "Generators",
         () =>
         {
-            AppTests(appGeneratorContext);
-            TSGeneratorTests(generatorGeneratorContext);
             ModuleTests(moduleGeneratorContext);
+            TSGeneratorTests(generatorGeneratorContext);
+            AppTests(appGeneratorContext);
         });
 }
