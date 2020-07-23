@@ -38,14 +38,6 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     }
 
     /**
-     * Gets the path to the directory for the source-files.
-     */
-    protected get SourceRoot(): string
-    {
-        return "src";
-    }
-
-    /**
      * @inheritdoc
      */
     protected get TemplateRoot(): string
@@ -90,10 +82,6 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
 
         return [
             ...result,
-            {
-                Source: ".markdownlint.json",
-                Destination: ".markdownlint.json"
-            },
             {
                 Source: "GettingStarted.md.ejs",
                 Destination: "GettingStarted.md",
