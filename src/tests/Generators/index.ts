@@ -23,6 +23,5 @@ export function GeneratorTests(context: TestContext<TestGenerator, ITestGenerato
         {
             AppTests(appGeneratorContext);
             TSGeneratorTests(generatorGeneratorContext);
-            require("./TSGeneratorGenerator.test");
         });
 }
