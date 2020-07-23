@@ -88,7 +88,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 async function()
                 {
                     this.timeout(0);
-                    this.slow(7.5 * 1000);
+                    this.slow(10 * 1000);
                     let testContext = new TestContext(GeneratorPath(generator, "app"));
                     await Assert.doesNotReject(async () => testContext.ExecuteGenerator());
                 });
