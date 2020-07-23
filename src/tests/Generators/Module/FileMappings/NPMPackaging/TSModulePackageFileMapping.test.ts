@@ -1,6 +1,9 @@
 import Assert = require("assert");
+import { spawnSync } from "child_process";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
+import npmWhich = require("npm-which");
+import { TempDirectory } from "temp-filesystem";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
@@ -18,6 +21,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
         "TSModulePackageFileMapping",
         () =>
         {
+            let tempDir: TempDirectory;
             let fileMapping: TSModulePackageFileMapping<ITSProjectSettings>;
             let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, TSModulePackageFileMapping<ITSProjectSettings>>;
 
@@ -25,8 +29,23 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 async function()
                 {
                     this.timeout(0);
-                    fileMapping = new TSModulePackageFileMapping(await context.Generator);
-                    tester = new PackageFileMappingTester(await context.Generator, fileMapping);
+                    tempDir = new TempDirectory();
+                    let runContext = context.ExecuteGenerator();
+                    runContext.inDir(tempDir.FullName);
+                    await runContext.toPromise();
+                    let generator = runContext.generator;
+                    fileMapping = new TSModulePackageFileMapping(generator);
+                    tester = new PackageFileMappingTester(generator, fileMapping);
+
+                    spawnSync(
+                        npmWhich(generator.destinationPath()).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
                 });
 
             test(
