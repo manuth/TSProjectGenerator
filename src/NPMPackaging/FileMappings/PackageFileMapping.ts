@@ -51,7 +51,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
         return (
             async () =>
             {
-                return (await this.Package).FileName;
+                return "package.json";
             })();
     }
 
@@ -123,7 +123,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
     protected async LoadPackage(): Promise<Package>
     {
         let result: Package;
-        let fileName = this.Generator.destinationPath("package.json");
+        let fileName = await this.Resolved.Destination;
 
         if (await pathExists(fileName))
         {
