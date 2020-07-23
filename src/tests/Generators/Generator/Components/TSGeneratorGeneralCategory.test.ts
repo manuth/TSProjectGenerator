@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { GeneratorSettingKey, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
@@ -10,6 +10,7 @@ import { SubGeneratorSettingKey } from "../../../../generators/generator/Setting
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { GeneratorPath } from "../TSGeneratorGenerator.test";
 
 /**
  * Registers tests for the `TSGeneratorGeneralCategory` class.
@@ -24,7 +25,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
         () =>
         {
             let settings: ITSGeneratorSettings;
-            let generator: IGenerator<IGeneratorSettings>;
+            let generator: TSGeneratorGenerator;
             let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings>;
 
             suiteSetup(
@@ -67,20 +68,6 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                         });
                 });
 
-            /**
-             * Creates a path relative to the generator-directory.
-             *
-             * @param path
-             * The path to join.
-             *
-             * @returns
-             * The joined path relative to the generator-directory.
-             */
-            function GeneratorPath(...path: string[]): string
-            {
-                return generator.destinationPath("lib", "generators", ...path);
-            }
-
             test(
                 "Checking whether all categories for `TSGenerator`s are present…",
                 async () =>
@@ -102,7 +89,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 {
                     this.timeout(0);
                     this.slow(5 * 1000);
-                    let testContext = new TestContext(GeneratorPath("app"));
+                    let testContext = new TestContext(GeneratorPath(generator, "app"));
                     await Assert.doesNotReject(async () => testContext.ExecuteGenerator());
                 });
 
@@ -115,7 +102,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
                         let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
-                        let testContext = new TestContext(GeneratorPath(name));
+                        let testContext = new TestContext(GeneratorPath(generator, name));
                         await Assert.doesNotReject(async () => testContext.ExecuteGenerator());
                     }
                 });
