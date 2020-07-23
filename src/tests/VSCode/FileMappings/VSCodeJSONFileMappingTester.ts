@@ -24,7 +24,7 @@ export class VSCodeJSONFileMappingTester<TGenerator extends IGenerator<TSettings
     /**
      * Gets the metadata of inside the file-mapping output.
      */
-    public get MetaData(): Promise<any>
+    public get Metadata(): Promise<any>
     {
         return (
             async () =>

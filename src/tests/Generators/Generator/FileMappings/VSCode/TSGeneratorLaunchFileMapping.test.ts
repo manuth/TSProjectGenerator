@@ -71,7 +71,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                 "Checking whether a launch-configuration for each generator is present…",
                 async () =>
                 {
-                    let launchFile: ILaunchFile = await tester.MetaData;
+                    let launchFile: ILaunchFile = await tester.Metadata;
                     let debugConfigs: DebugConfiguration[] = launchFile.configurations ?? [];
 
                     Assert.ok(
