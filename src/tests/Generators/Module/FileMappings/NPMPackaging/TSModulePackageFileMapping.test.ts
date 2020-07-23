@@ -33,14 +33,14 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 "Checking whether the `main`-file exists…",
                 async () =>
                 {
-                    Assert.ok(await pathExists((await tester.Package).Main));
+                    Assert.ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
                 });
 
             test(
                 "Checking whether the `types`-file exists…",
                 async () =>
                 {
-                    Assert.ok(await pathExists((await tester.Package).Types));
+                    Assert.ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
                 });
         });
 }
