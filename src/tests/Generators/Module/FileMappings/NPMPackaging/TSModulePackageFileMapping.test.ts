@@ -24,6 +24,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
             suiteSetup(
                 async function()
                 {
+                    this.timeout(0);
                     fileMapping = new TSModulePackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
