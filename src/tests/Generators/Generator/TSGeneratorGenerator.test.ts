@@ -97,7 +97,13 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 function()
                 {
                     this.slow(4 * 1000);
-                    let result = spawnSync(npmWhich(generator.destinationPath()).sync("mocha"));
+
+                    let result = spawnSync(
+                        npmWhich(generator.destinationPath()).sync("mocha"),
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
                     Assert.strictEqual(result.status, 0);
                 });
         });
