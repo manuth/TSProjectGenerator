@@ -1,0 +1,89 @@
+import Assert = require("assert");
+import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TempDirectory } from "temp-filesystem";
+import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
+import { LintRuleset } from "../../../Linting/LintRuleset";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { JavaScriptFileMappingTester } from "../../Components/JavaScriptFileMappingTester";
+
+/**
+ * Registers tests for the  `ESLintRCFileMapping` class.
+ *
+ * @param context
+ * The test-context.
+ */
+export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator>): void
+{
+    suite(
+        "ESLintRCFileMapping",
+        () =>
+        {
+            let tempDir: TempDirectory;
+            let fileMapping: ESLintRCFileMapping<ITSProjectSettings>;
+            let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, ESLintRCFileMapping<ITSProjectSettings>>;
+
+            suiteSetup(
+                async function()
+                {
+                    this.timeout(0);
+                    tempDir = new TempDirectory();
+                    let runContext = context.ExecuteGenerator();
+
+                    runContext.withPrompts(
+                        {
+                            [GeneratorSettingKey.Components]: [
+                                TSProjectComponent.Linting
+                            ]
+                        }).inDir(tempDir.FullName);
+
+                    await runContext.toPromise();
+                    fileMapping = new ESLintRCFileMapping(runContext.generator);
+                    tester = new JavaScriptFileMappingTester(runContext.generator, fileMapping);
+                });
+
+            suiteTeardown(
+                function()
+                {
+                    this.timeout(0);
+                    tempDir.Dispose();
+                });
+
+            test(
+                "Checking whether the eslint config base is applied correctly…",
+                async () =>
+                {
+                    for (let ruleset of [LintRuleset.Weak, LintRuleset.Recommended])
+                    {
+                        let eslintConfig: any;
+                        let configName: string;
+                        let baseConfigs: string[];
+                        tester.Generator.Settings[TSProjectSettingKey.LintRuleset] = ruleset;
+                        await tester.Run();
+                        await Assert.doesNotReject(async () => eslintConfig = await tester.Require());
+                        baseConfigs = eslintConfig.extends;
+
+                        switch (ruleset)
+                        {
+                            case LintRuleset.Weak:
+                                configName = "weak";
+                                break;
+                            case LintRuleset.Recommended:
+                            default:
+                                configName = "recommended";
+                                break;
+                        }
+
+                        Assert.ok(
+                            baseConfigs.some(
+                                (baseConfig) =>
+                                {
+                                    return baseConfig.includes(configName);
+                                }));
+                    }
+                });
+        });
+}
