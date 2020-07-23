@@ -1,6 +1,7 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TempDirectory } from "temp-filesystem";
 import { DebugConfiguration } from "vscode";
 import { TSProjectComponent } from "../../../../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../../../../VSCode/Components/CodeWorkspaceComponent";
@@ -25,6 +26,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
         "TSGeneratorLaunchFileMapping",
         () =>
         {
+            let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
             let fileMappingOptions: TSGeneratorLaunchFileMapping<ITSGeneratorSettings>;
             let tester: VSCodeJSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorLaunchFileMapping<ITSGeneratorSettings>>;
@@ -33,6 +35,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                 async function()
                 {
                     this.timeout(0);
+                    tempDir = new TempDirectory();
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -54,10 +57,16 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                     };
 
                     let runContext = context.ExecuteGenerator();
-                    runContext.withPrompts(settings);
+                    runContext.withPrompts(settings).inDir(tempDir.FullName);
                     await runContext.toPromise();
                     fileMappingOptions = new TSGeneratorLaunchFileMapping(new CodeWorkspaceComponent(runContext.generator));
                     tester = new VSCodeJSONFileMappingTester(runContext.generator, fileMappingOptions);
+                });
+
+            suiteTeardown(
+                () =>
+                {
+                    tempDir.Dispose();
                 });
 
             test(

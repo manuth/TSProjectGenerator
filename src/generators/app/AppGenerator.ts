@@ -1,7 +1,5 @@
 import { Generator, Question } from "@manuth/extended-yo-generator";
-import chalk = require("chalk");
 import { join } from "upath";
-import yosay = require("yosay");
 import { ProjectType } from "./ProjectType";
 import { AppGeneratorSettingKey } from "./Settings/AppGeneratorSettingKey";
 import { IAppGeneratorSettings } from "./Settings/IAppGeneratorSettings";

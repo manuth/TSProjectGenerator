@@ -40,7 +40,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 {
                     this.timeout(0);
                     this.slow(1.5 * 60 * 1000);
-                    await Assert.doesNotReject(async () => context.ExecuteGenerator().toPromise());
+                    await Assert.doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
             test(
@@ -82,6 +82,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 {
                     this.timeout(0);
                     this.slow(5 * 60 * 1000);
+                    let subGeneratorDir = new TempDirectory();
 
                     await Assert.doesNotReject(
                         async () =>
@@ -105,7 +106,9 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     await Assert.doesNotReject(
                         async () =>
                         {
-                            return new TestContext(tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().toPromise();
+                            return new TestContext(
+                                tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
+                                    subGeneratorDir.FullName).toPromise();
                         });
                 });
         });

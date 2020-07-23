@@ -1,6 +1,7 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TempDirectory } from "temp-filesystem";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
@@ -23,6 +24,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
         "TSGeneratorPackageFileMapping",
         () =>
         {
+            let tempDir: TempDirectory;
             let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings>;
             let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorPackageFileMapping<ITSGeneratorSettings>>;
 
@@ -30,10 +32,18 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                 async function()
                 {
                     this.timeout(0);
+                    tempDir = new TempDirectory();
                     let runContext = context.ExecuteGenerator();
+                    runContext.inDir(tempDir.FullName);
                     await runContext.toPromise();
                     fileMappingOptions = new TSGeneratorPackageFileMapping(runContext.generator);
                     tester = new PackageFileMappingTester(runContext.generator, fileMappingOptions);
+                });
+
+            suiteTeardown(
+                () =>
+                {
+                    tempDir.Dispose();
                 });
 
             teardown(

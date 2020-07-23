@@ -2,6 +2,7 @@ import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
+import { TempDirectory } from "temp-filesystem";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
 
 /**
@@ -16,15 +17,25 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         "TSModuleGenerator",
         () =>
         {
+            let tempDir: TempDirectory;
             let generator: TSModuleGenerator;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
+                    tempDir = new TempDirectory();
                     let runContext = context.ExecuteGenerator();
+                    runContext.inDir(tempDir.FullName);
                     await runContext.toPromise();
                     generator = runContext.generator;
+                });
+
+            suiteTeardown(
+                function()
+                {
+                    this.timeout(0);
+                    tempDir.Dispose();
                 });
 
             test(
