@@ -17,23 +17,23 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
 {
     let tempDir: TempDirectory;
 
-    setup(
-        () =>
-        {
-            tempDir = new TempDirectory();
-        });
-
-    teardown(
-        function()
-        {
-            this.timeout(0);
-            tempDir.Dispose();
-        });
-
     suite(
         "AppGenerator",
         () =>
         {
+            setup(
+                () =>
+                {
+                    tempDir = new TempDirectory();
+                });
+
+            teardown(
+                function()
+                {
+                    this.timeout(0);
+                    tempDir.Dispose();
+                });
+
             test(
                 "Checking whether the generator can be executed…",
                 async function()
