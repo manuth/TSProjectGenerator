@@ -12,7 +12,7 @@ suite(
     "TSGeneratorGenerator",
     () =>
     {
-        let generatorRoot = join(__dirname, "..", "..", "generators");
+        let generatorRoot = join(__dirname, "..", "generators");
         let context = TestContext.Default;
         let appGeneratorContext: TestContext<AppGenerator> = new TestContext(join(generatorRoot, "app"));
         let generatorGeneratorContext: TestContext<TSGeneratorGenerator> = new TestContext(join(generatorRoot, "generator"));
