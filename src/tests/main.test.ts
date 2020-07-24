@@ -1,6 +1,8 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { join } from "upath";
-import { TSProjectGenerator } from "../Project/TSProjectGenerator";
+import { AppGenerator } from "../generators/app/AppGenerator";
+import { TSGeneratorGenerator } from "../generators/generator/TSGeneratorGenerator";
+import { TSModuleGenerator } from "../generators/module/TSModuleGenerator";
 import { ComponentTests } from "./Components";
 import { GeneratorTests } from "./Generators";
 import { LintingTests } from "./Linting";
@@ -10,10 +12,14 @@ suite(
     "TSGeneratorGenerator",
     () =>
     {
+        let generatorRoot = join(__dirname, "..", "..", "generators");
         let context = TestContext.Default;
-        let projectGeneratorContext = new TestContext<TSProjectGenerator>(join(__dirname, "..", "generators", "module"));
+        let appGeneratorContext: TestContext<AppGenerator> = new TestContext(join(generatorRoot, "app"));
+        let generatorGeneratorContext: TestContext<TSGeneratorGenerator> = new TestContext(join(generatorRoot, "generator"));
+        let moduleGeneratorContext: TestContext<TSModuleGenerator> = new TestContext(join(generatorRoot, "module"));
+
         ComponentTests(context);
         NPMPackagingTests(context);
-        LintingTests(projectGeneratorContext);
-        GeneratorTests(context);
+        LintingTests(moduleGeneratorContext);
+        GeneratorTests(moduleGeneratorContext, generatorGeneratorContext, appGeneratorContext);
     });
