@@ -126,7 +126,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
     {
         await super.end();
 
-        this.log();
+        this.log("");
 
         this.log(
             dedent(

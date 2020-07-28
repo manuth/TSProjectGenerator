@@ -149,7 +149,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         let linter: ESLint;
         let tsConfigFile = tempDir.MakePath("tsconfig.json");
         let tsConfig = await readJSON(this.destinationPath("tsconfig.json"));
-        this.log();
+        this.log("");
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
         delete tsConfig.extends;
@@ -193,7 +193,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         }
 
         tempDir.Dispose();
-        this.log();
+        this.log("");
 
         this.log(
             dedent(

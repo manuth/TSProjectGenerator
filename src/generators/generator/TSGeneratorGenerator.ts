@@ -197,7 +197,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     {
         await super.end();
 
-        this.log();
+        this.log("");
 
         this.log(
             dedent(
