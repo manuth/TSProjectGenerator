@@ -1,9 +1,8 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
-import { TempDirectory } from "temp-filesystem";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
@@ -21,7 +20,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
         "TSModulePackageFileMapping",
         () =>
         {
-            let tempDir: TempDirectory;
+            let runContext: IRunContext<TSModuleGenerator>;
             let fileMapping: TSModulePackageFileMapping<ITSProjectSettings>;
             let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, TSModulePackageFileMapping<ITSProjectSettings>>;
 
@@ -29,22 +28,19 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 async function()
                 {
                     this.timeout(0);
-                    tempDir = new TempDirectory();
-                    let runContext = context.ExecuteGenerator();
-                    runContext.inDir(tempDir.FullName);
+                    runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
-                    let generator = runContext.generator;
-                    fileMapping = new TSModulePackageFileMapping(generator);
-                    tester = new PackageFileMappingTester(generator, fileMapping);
+                    fileMapping = new TSModulePackageFileMapping(runContext.generator);
+                    tester = new PackageFileMappingTester(runContext.generator, fileMapping);
 
                     spawnSync(
-                        npmWhich(generator.destinationPath()).sync("npm"),
+                        npmWhich(__dirname).sync("npm"),
                         [
                             "install",
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
 
                     spawnSync(
@@ -54,8 +50,14 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
+                });
+
+            suiteTeardown(
+                () =>
+                {
+                    runContext.cleanTestDirectory();
                 });
 
             test(

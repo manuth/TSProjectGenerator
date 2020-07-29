@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -22,16 +22,14 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         "TSGeneratorGenerator",
         () =>
         {
-            let mainDir: TempDirectory;
             let tempDir: TempDirectory;
+            let mainContext: IRunContext<TSGeneratorGenerator>;
             let settings: ITSGeneratorSettings;
-            let generator: TSGeneratorGenerator;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    mainDir = new TempDirectory();
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -51,17 +49,16 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         ]
                     };
 
-                    let runContext = context.ExecuteGenerator();
-                    runContext.withPrompts(settings).inDir(mainDir.FullName);
-                    await runContext.toPromise();
-                    generator = runContext.generator;
+                    mainContext = context.ExecuteGenerator();
+                    mainContext.withPrompts(settings);
+                    await mainContext.toPromise();
                 });
 
             suiteTeardown(
                 function()
                 {
                     this.timeout(0);
-                    mainDir.Dispose();
+                    mainContext.cleanTestDirectory();
                 });
 
             setup(
@@ -71,9 +68,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 });
 
             teardown(
-                function()
+                () =>
                 {
-                    this.timeout(0);
                     tempDir.Dispose();
                 });
 
@@ -91,7 +87,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: mainContext.generator.destinationPath()
                         });
 
                     let buildResult = spawnSync(
@@ -101,7 +97,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: mainContext.generator.destinationPath()
                         });
 
                     Assert.strictEqual(installationResult.status, 0);
@@ -134,9 +130,9 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     this.slow(4 * 1000);
 
                     let result = spawnSync(
-                        npmWhich(generator.destinationPath()).sync("mocha"),
+                        npmWhich(mainContext.generator.destinationPath()).sync("mocha"),
                         {
-                            cwd: generator.destinationPath()
+                            cwd: mainContext.generator.destinationPath()
                         });
 
                     Assert.strictEqual(result.status, 0);

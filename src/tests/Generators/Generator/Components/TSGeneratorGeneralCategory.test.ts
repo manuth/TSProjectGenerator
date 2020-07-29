@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
@@ -25,17 +25,15 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
         "TSGeneratorGeneralCategory",
         () =>
         {
-            let mainDir: TempDirectory;
+            let runContext: IRunContext<TSGeneratorGenerator>;
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
-            let generator: TSGeneratorGenerator;
             let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    mainDir = new TempDirectory();
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -55,10 +53,9 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                         ]
                     };
 
-                    let runContext = context.ExecuteGenerator();
-                    runContext.withPrompts(settings).inDir(mainDir.FullName);
+                    runContext = context.ExecuteGenerator();
+                    runContext.withPrompts(settings);
                     await runContext.toPromise();
-                    generator = runContext.generator;
                     collection = new TSGeneratorGeneralCategory(await context.Generator);
 
                     spawnSync(
@@ -68,7 +65,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
 
                     spawnSync(
@@ -78,7 +75,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
                 });
 
@@ -116,7 +113,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 {
                     this.timeout(0);
                     this.slow(10 * 1000);
-                    let testContext = new TestContext(GeneratorPath(generator, "app"));
+                    let testContext = new TestContext(GeneratorPath(runContext.generator, "app"));
                     await Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
@@ -130,7 +127,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
                         let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
-                        let testContext = new TestContext(GeneratorPath(generator, name));
+                        let testContext = new TestContext(GeneratorPath(runContext.generator, name));
                         await Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                     }
                 });

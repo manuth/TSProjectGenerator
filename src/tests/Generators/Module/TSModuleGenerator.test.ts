@@ -1,8 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
-import { TempDirectory } from "temp-filesystem";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
 
 /**
@@ -17,25 +16,21 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         "TSModuleGenerator",
         () =>
         {
-            let tempDir: TempDirectory;
-            let generator: TSModuleGenerator;
+            let runContext: IRunContext<TSModuleGenerator>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    tempDir = new TempDirectory();
-                    let runContext = context.ExecuteGenerator();
-                    runContext.inDir(tempDir.FullName);
+                    runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
-                    generator = runContext.generator;
                 });
 
             suiteTeardown(
                 function()
                 {
                     this.timeout(0);
-                    tempDir.Dispose();
+                    runContext.cleanTestDirectory();
                 });
 
             test(
@@ -52,7 +47,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
 
                     let buildResult = spawnSync(
@@ -62,7 +57,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
 
                     Assert.strictEqual(installationResult.status, 0);
@@ -76,7 +71,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     Assert.doesNotThrow(
                         () =>
                         {
-                            require(generator.destinationPath());
+                            require(runContext.generator.destinationPath());
                         });
                 });
 
@@ -87,9 +82,9 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.slow(4 * 1000);
 
                     let result = spawnSync(
-                        npmWhich(generator.destinationPath()).sync("mocha"),
+                        npmWhich(runContext.generator.destinationPath()).sync("mocha"),
                         {
-                            cwd: generator.destinationPath()
+                            cwd: runContext.generator.destinationPath()
                         });
 
                     Assert.strictEqual(result.status, 0);

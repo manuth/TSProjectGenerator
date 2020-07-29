@@ -1,7 +1,6 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
-import { TempDirectory } from "temp-filesystem";
+import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -22,7 +21,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
         "ESLintRCFileMapping",
         () =>
         {
-            let tempDir: TempDirectory;
+            let runContext: IRunContext<TSProjectGenerator>;
             let fileMapping: ESLintRCFileMapping<ITSProjectSettings>;
             let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, ESLintRCFileMapping<ITSProjectSettings>>;
 
@@ -30,15 +29,14 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 async function()
                 {
                     this.timeout(0);
-                    tempDir = new TempDirectory();
-                    let runContext = context.ExecuteGenerator();
+                    runContext = context.ExecuteGenerator();
 
                     runContext.withPrompts(
                         {
                             [GeneratorSettingKey.Components]: [
                                 TSProjectComponent.Linting
                             ]
-                        }).inDir(tempDir.FullName);
+                        });
 
                     await runContext.toPromise();
                     fileMapping = new ESLintRCFileMapping(runContext.generator);
@@ -49,7 +47,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 function()
                 {
                     this.timeout(0);
-                    tempDir.Dispose();
+                    runContext.cleanTestDirectory();
                 });
 
             test(
