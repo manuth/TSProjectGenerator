@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";

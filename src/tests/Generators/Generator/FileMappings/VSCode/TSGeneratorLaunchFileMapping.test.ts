@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { TSProjectComponent } from "../../../../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../../../../VSCode/Components/CodeWorkspaceComponent";
