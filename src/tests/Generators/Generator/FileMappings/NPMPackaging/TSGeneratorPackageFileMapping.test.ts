@@ -23,7 +23,6 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
         "TSGeneratorPackageFileMapping",
         () =>
         {
-            let runContext: IRunContext<TSGeneratorGenerator>;
             let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings>;
             let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorPackageFileMapping<ITSGeneratorSettings>>;
 
@@ -31,16 +30,8 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                 async function()
                 {
                     this.timeout(0);
-                    runContext = context.ExecuteGenerator();
-                    await runContext.toPromise();
-                    fileMappingOptions = new TSGeneratorPackageFileMapping(runContext.generator);
-                    tester = new PackageFileMappingTester(runContext.generator, fileMappingOptions);
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    runContext.cleanTestDirectory();
+                    fileMappingOptions = new TSGeneratorPackageFileMapping(await context.Generator);
+                    tester = new PackageFileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
             teardown(

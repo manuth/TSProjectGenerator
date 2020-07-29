@@ -1,4 +1,5 @@
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { join } from "upath";
 import { AppGenerator } from "../generators/app/AppGenerator";
 import { TSGeneratorGenerator } from "../generators/generator/TSGeneratorGenerator";
@@ -13,13 +14,61 @@ suite(
     () =>
     {
         let generatorRoot = join(__dirname, "..", "generators");
-        let context = TestContext.Default;
-        let appGeneratorContext: TestContext<AppGenerator> = new TestContext(join(generatorRoot, "app"));
-        let generatorGeneratorContext: TestContext<TSGeneratorGenerator> = new TestContext(join(generatorRoot, "generator"));
-        let moduleGeneratorContext: TestContext<TSModuleGenerator> = new TestContext(join(generatorRoot, "module"));
+        let contextMap: Map<string, [TestContext, IGeneratorSettings]> = new Map();
+        contextMap.set("default", [TestContext.Default, null]);
 
-        ComponentTests(context);
-        NPMPackagingTests(context);
-        LintingTests(moduleGeneratorContext);
-        GeneratorTests(moduleGeneratorContext, generatorGeneratorContext, appGeneratorContext);
+        for (let namespace of ["app", "generator", "module"])
+        {
+            contextMap.set(namespace, [new TestContext(join(generatorRoot, namespace)), null]);
+        }
+
+        suiteSetup(
+            async function()
+            {
+                this.timeout(0);
+
+                for (let namespace of contextMap.keys())
+                {
+                    let entry = contextMap.get(namespace);
+                    let generator = await entry[0].Generator;
+                    entry[1] = { ...generator.Settings };
+                }
+            });
+
+        suiteTeardown(
+            () =>
+            {
+                for (let namespace of contextMap.keys())
+                {
+                    let context = contextMap.get(namespace)[0];
+                    context.Dispose();
+                }
+            });
+
+        setup(
+            async () =>
+            {
+                for (let namespace of contextMap.keys())
+                {
+                    let entry = contextMap.get(namespace);
+                    let generator = await entry[0].Generator;
+                    let settings = generator.Settings as any;
+
+                    for (let key in settings)
+                    {
+                        delete settings[key];
+                    }
+
+                    Object.assign(settings, entry[1]);
+                }
+            });
+
+        ComponentTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
+        NPMPackagingTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
+        LintingTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
+
+        GeneratorTests(
+            contextMap.get("module")[0] as TestContext<TSModuleGenerator>,
+            contextMap.get("generator")[0] as TestContext<TSGeneratorGenerator>,
+            contextMap.get("app")[0] as TestContext<AppGenerator>);
     });

@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -21,7 +21,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
         "ESLintRCFileMapping",
         () =>
         {
-            let runContext: IRunContext<TSProjectGenerator>;
+            let settings: Partial<ITSProjectSettings>;
             let fileMapping: ESLintRCFileMapping<ITSProjectSettings>;
             let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, ESLintRCFileMapping<ITSProjectSettings>>;
 
@@ -29,25 +29,20 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 async function()
                 {
                     this.timeout(0);
-                    runContext = context.ExecuteGenerator();
+                    settings = {
+                        [GeneratorSettingKey.Components]: [
+                            TSProjectComponent.Linting
+                        ]
+                    };
 
-                    runContext.withPrompts(
-                        {
-                            [GeneratorSettingKey.Components]: [
-                                TSProjectComponent.Linting
-                            ]
-                        });
-
-                    await runContext.toPromise();
-                    fileMapping = new ESLintRCFileMapping(runContext.generator);
-                    tester = new JavaScriptFileMappingTester(runContext.generator, fileMapping);
+                    fileMapping = new ESLintRCFileMapping(await context.Generator);
+                    tester = new JavaScriptFileMappingTester(await context.Generator, fileMapping);
                 });
 
-            suiteTeardown(
-                function()
+            setup(
+                () =>
                 {
-                    this.timeout(0);
-                    runContext.cleanTestDirectory();
+                    Object.assign(tester.Generator.Settings, settings);
                 });
 
             test(

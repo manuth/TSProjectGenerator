@@ -25,8 +25,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
         "TSGeneratorLaunchFileMapping",
         () =>
         {
-            let runContext: IRunContext<TSGeneratorGenerator>;
-            let settings: ITSGeneratorSettings;
+            let settings: Partial<ITSGeneratorSettings>;
             let fileMappingOptions: TSGeneratorLaunchFileMapping<ITSGeneratorSettings>;
             let tester: JSONFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorLaunchFileMapping<ITSGeneratorSettings>>;
 
@@ -36,7 +35,6 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                     this.timeout(0);
 
                     settings = {
-                        ...(await context.Generator).Settings,
                         [GeneratorSettingKey.Components]: [
                             TSProjectComponent.VSCode,
                             TSGeneratorComponent.GeneratorExample,
@@ -54,23 +52,21 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                         ]
                     };
 
-                    runContext = context.ExecuteGenerator();
-                    runContext.withPrompts(settings);
-                    await runContext.toPromise();
-                    fileMappingOptions = new TSGeneratorLaunchFileMapping(new CodeWorkspaceComponent(runContext.generator));
-                    tester = new JSONFileMappingTester(runContext.generator, fileMappingOptions);
+                    fileMappingOptions = new TSGeneratorLaunchFileMapping(new CodeWorkspaceComponent(await context.Generator));
+                    tester = new JSONFileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
+            setup(
                 () =>
                 {
-                    runContext.cleanTestDirectory();
+                    Object.assign(tester.Generator.Settings, settings);
                 });
 
             test(
                 "Checking whether the generated file is present…",
                 async () =>
                 {
+                    await tester.Run();
                     Assert.ok(await tester.Exists);
                 });
 
@@ -80,6 +76,7 @@ export function TSGeneratorLaunchFileMappingTests(context: TestContext<TSGenerat
                 {
                     let launchFile: ILaunchFile = await tester.Metadata;
                     let debugConfigs: DebugConfiguration[] = launchFile.configurations ?? [];
+                    await tester.Run();
 
                     Assert.ok(
                         debugConfigs.some(
