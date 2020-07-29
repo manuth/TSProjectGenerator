@@ -70,13 +70,16 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                         {
                             cwd: generator.destinationPath()
                         });
-                });
 
-            suiteTeardown(
-                function()
-                {
-                    this.timeout(0);
-                    mainDir.Dispose();
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
                 });
 
             setup(

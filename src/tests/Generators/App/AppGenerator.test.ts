@@ -15,12 +15,12 @@ import { AppGeneratorSettingKey } from "../../../generators/app/Settings/AppGene
  */
 export function AppGeneratorTests(context: TestContext<AppGenerator>): void
 {
-    let tempDir: TempDirectory;
-
     suite(
         "AppGenerator",
         () =>
         {
+            let tempDir: TempDirectory;
+
             setup(
                 () =>
                 {
@@ -69,6 +69,16 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             cwd: tempDir.FullName
                         });
 
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: tempDir.FullName
+                        });
+
                     Assert.doesNotThrow(
                         () =>
                         {
@@ -103,6 +113,16 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             cwd: tempDir.FullName
                         });
 
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: tempDir.FullName
+                        });
+
                     await Assert.doesNotReject(
                         async () =>
                         {
@@ -110,6 +130,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
                                     subGeneratorDir.FullName).toPromise();
                         });
+
+                    subGeneratorDir.Dispose();
                 });
         });
 }

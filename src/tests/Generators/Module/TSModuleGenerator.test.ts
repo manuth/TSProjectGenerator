@@ -45,7 +45,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.timeout(0);
                     this.slow(2 * 60 * 1000);
 
-                    let result = spawnSync(
+                    let installationResult = spawnSync(
                         npmWhich(__dirname).sync("npm"),
                         [
                             "install",
@@ -55,7 +55,18 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             cwd: generator.destinationPath()
                         });
 
-                    Assert.strictEqual(result.status, 0);
+                    let buildResult = spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
+                    Assert.strictEqual(installationResult.status, 0);
+                    Assert.strictEqual(buildResult.status, 0);
                 });
 
             test(

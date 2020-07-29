@@ -46,6 +46,16 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         {
                             cwd: generator.destinationPath()
                         });
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
                 });
 
             test(
