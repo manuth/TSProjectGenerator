@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { Generator } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { Random } from "random-js";
@@ -21,6 +22,8 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
         {
             let random: Random;
             let randomValue: string;
+            let originalName: Generator["user"]["git"]["name"];
+            let originalMail: Generator["user"]["git"]["email"];
             let options: ITestPackageOptions<ITestGeneratorSettings>;
             let fileMapping: TestPackageFileMapping<ITestGeneratorSettings>;
             let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, TestPackageFileMapping<ITestGeneratorSettings>>;
@@ -29,14 +32,30 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                 async () =>
                 {
                     random = new Random();
+                    let generator = await context.Generator;
+                    let randomName = random.string(20);
+                    let randomMail = random.string(20);
+
+                    originalName = generator.user.git.name;
+                    originalMail = generator.user.git.email;
+                    generator.user.git.name = () => randomName;
+                    generator.user.git.email = () => randomMail;
 
                     options = {
                         ScriptMappings: null,
                         Template: null
                     };
 
-                    fileMapping = new TestPackageFileMapping(await context.Generator, options);
-                    tester = new PackageFileMappingTester(await context.Generator, fileMapping);
+                    fileMapping = new TestPackageFileMapping(generator, options);
+                    tester = new PackageFileMappingTester(generator, fileMapping);
+                });
+
+            suiteTeardown(
+                async () =>
+                {
+                    let generator = await context.Generator;
+                    generator.user.git.name = originalName;
+                    generator.user.git.email = originalMail;
                 });
 
             setup(
