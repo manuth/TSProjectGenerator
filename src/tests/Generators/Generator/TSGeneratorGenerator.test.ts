@@ -106,16 +106,21 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
 
             test(
                 "Checking whether the main generator can be executed…",
-                async () =>
+                async function()
                 {
+                    this.timeout(0);
+                    this.slow(10 * 1000);
                     let testContext = new TestContext(GeneratorPath(mainContext.generator, "app"));
                     return Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
             test(
                 "Checking whether the sub-generators can be executed…",
-                async () =>
+                async function()
                 {
+                    this.timeout(0);
+                    this.slow(10 * 1000);
+
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
                         let testContext = new TestContext(GeneratorPath(mainContext.generator, subGeneratorOptions[SubGeneratorSettingKey.Name]));
