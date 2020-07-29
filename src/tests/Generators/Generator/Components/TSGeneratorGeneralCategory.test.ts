@@ -124,7 +124,8 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 "Checking whether sub-generators are created correctly…",
                 async function()
                 {
-                    this.slow(5 * 1000);
+                    this.timeout(0);
+                    this.slow(10 * 1000);
 
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
