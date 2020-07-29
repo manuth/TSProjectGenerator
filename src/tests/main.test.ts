@@ -27,9 +27,8 @@ suite(
             {
                 this.timeout(0);
 
-                for (let namespace of contextMap.keys())
+                for (let entry of contextMap.values())
                 {
-                    let entry = contextMap.get(namespace);
                     let generator = await entry[0].Generator;
                     entry[1] = { ...generator.Settings };
                 }
@@ -38,9 +37,9 @@ suite(
         suiteTeardown(
             () =>
             {
-                for (let namespace of contextMap.keys())
+                for (let entry of contextMap.values())
                 {
-                    let context = contextMap.get(namespace)[0];
+                    let context = entry[0];
                     context.Dispose();
                 }
             });
