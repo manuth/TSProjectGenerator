@@ -32,7 +32,7 @@ export function TSGeneratorComponentCollectionTests(context: TestContext<TSGener
                 {
                     for (let categoryType of [TSGeneratorGeneralCategory])
                     {
-                        Assert.ok((collection.Categories).some((category) => category instanceof categoryType));
+                        Assert.ok(collection.Categories.some((category) => category instanceof categoryType));
                     }
                 });
         });
