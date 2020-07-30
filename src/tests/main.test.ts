@@ -13,6 +13,7 @@ suite(
     "TSGeneratorGenerator",
     () =>
     {
+        let workingDirectory: string;
         let generatorRoot = join(__dirname, "..", "generators");
         let contextMap: Map<string, [TestContext, IGeneratorSettings]> = new Map();
         contextMap.set("default", [TestContext.Default, null]);
@@ -26,6 +27,7 @@ suite(
             async function()
             {
                 this.timeout(0);
+                workingDirectory = process.cwd();
 
                 for (let entry of contextMap.values())
                 {
@@ -60,6 +62,8 @@ suite(
 
                     Object.assign(settings, entry[1]);
                 }
+
+                process.chdir(workingDirectory);
             });
 
         ComponentTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
