@@ -74,6 +74,6 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      */
     public async filter(input: any, answers?: T): Promise<string>
     {
-        return isAbsolute(input) ? input : resolve(process.cwd(), input);
+        return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
     }
 }
