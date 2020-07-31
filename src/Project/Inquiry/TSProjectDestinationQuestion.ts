@@ -41,10 +41,10 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The message to show to the user.
      */
-    public message = async (answers: T): Promise<string> =>
+    public async Message(answers: T): Promise<string>
     {
         return "Where do you want to save your project to?";
-    };
+    }
 
     /**
      * @inheritdoc
@@ -55,10 +55,10 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value.
      */
-    public default = async (answers: T): Promise<string> =>
+    public async Default(answers: T): Promise<string>
     {
         return "./";
-    };
+    }
 
     /**
      * @inheritdoc
@@ -72,8 +72,8 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The filtered value.
      */
-    public filter = async (input: any, answers?: T): Promise<string> =>
+    public async Filter(input: any, answers?: T): Promise<string>
     {
         return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
-    };
+    }
 }

@@ -28,10 +28,10 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      * @returns
      * The default value for this question.
      */
-    public default = async (answers: T): Promise<string> =>
+    public async Default(answers: T): Promise<string>
     {
-        return `generator-${(await super.default(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
-    };
+        return `generator-${(await super.Default(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
+    }
 
     /**
      * @inheritdoc
@@ -45,9 +45,9 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public validate = async (input: string, answers?: T): Promise<boolean | string> =>
+    public async Validate(input: string, answers?: T): Promise<boolean | string>
     {
-        let result = await super.validate(input, answers);
+        let result = await super.Validate(input, answers);
 
         if ((typeof result === "boolean") && result)
         {
@@ -58,5 +58,5 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
         {
             return result;
         }
-    };
+    }
 }

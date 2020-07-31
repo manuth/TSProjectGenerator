@@ -41,7 +41,7 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The message which is shown to the user.
      */
-    public async message(answers: T): Promise<string>
+    public async Message(answers: T): Promise<string>
     {
         return "Please enter a description for your project.";
     }
@@ -55,12 +55,12 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value for this question.
      */
-    public default = async (answers: T): Promise<string> =>
+    public async Default(answers: T): Promise<string>
     {
         let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
         await npmPackage.Normalize();
         return npmPackage.Description;
-    };
+    }
 
     /**
      * @inheritdoc
@@ -74,8 +74,8 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public validate = async (input: string, answers: T): Promise<string | boolean> =>
+    public async Validate(input: string, answers: T): Promise<string | boolean>
     {
         return true;
-    };
+    }
 }

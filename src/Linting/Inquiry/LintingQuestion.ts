@@ -40,7 +40,7 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The message to show to the user.
      */
-    public async message(answers: T): Promise<string>
+    public async Message(answers: T): Promise<string>
     {
         return "What ruleset do you want to use for linting?";
     }
@@ -54,10 +54,10 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The default value for this question.
      */
-    public default = async (answers: T): Promise<LintRuleset> =>
+    public async Default(answers: T): Promise<LintRuleset>
     {
         return LintRuleset.Recommended;
-    };
+    }
 
     /**
      * @inheritdoc
@@ -68,7 +68,7 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The choices the user can choose from.
      */
-    public async choices(answers: T): Promise<ChoiceCollection<T>>
+    public async Choices(answers: T): Promise<ChoiceCollection<T>>
     {
         return [
             {

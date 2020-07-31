@@ -53,16 +53,16 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("lol"), true);
-                            Assert.strictEqual(await question.validate("generator-lol"), true);
+                            Assert.notStrictEqual(await question.validate("lol", settings), true);
+                            Assert.strictEqual(await question.validate("generator-lol", settings), true);
                         });
 
                     test(
                         "Checking whether scoped module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("@me/lol"), true);
-                            Assert.strictEqual(await question.validate("@me/generator-lol"), true);
+                            Assert.notStrictEqual(await question.validate("@me/lol", settings), true);
+                            Assert.strictEqual(await question.validate("@me/generator-lol", settings), true);
                         });
                 });
         });

@@ -40,10 +40,10 @@ export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The message to show to the user.
      */
-    public message = async (answers: T): Promise<string> =>
+    public async Message(answers: T): Promise<string>
     {
         return "What's the name of your project?";
-    };
+    }
 
     /**
      * @inheritdoc
@@ -54,10 +54,10 @@ export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value for this question.
      */
-    public default = async (answers: T): Promise<string> =>
+    public async Default(answers: T): Promise<string>
     {
         return basename(answers[TSProjectSettingKey.Destination]);
-    };
+    }
 
     /**
      * @inheritdoc
@@ -71,8 +71,8 @@ export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public validate = async (input: string, answers?: T): Promise<string | boolean> =>
+    public async Validate(input: string, answers?: T): Promise<string | boolean>
     {
         return (input.trim().length > 0) ? true : "The name must not be empty!";
-    };
+    }
 }
