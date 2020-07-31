@@ -67,6 +67,7 @@
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.27",
+    "@types/npm-packlist": "^1.1.1",
     "@types/npm-which": "^3.0.0",
     "@types/validate-npm-package-name": "^3.0.0",
     "@types/yosay": "0.0.29",
@@ -77,13 +78,15 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsdoc": "^30.0.3",
     "markdownlint-cli": "^0.23.2",
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.0",
+    "npm-packlist": "^2.1.2",
     "npm-which": "^3.0.1",
     "random-js": "^2.1.0",
     "rimraf": "^3.0.2",
     "tslint": "^6.1.2",
     "typescript-eslint-plugin": "^1.2.1",
     "upath": "^1.2.0",
+    "util.chdir": "0.0.43",
     "yo": "^3.1.1"
   }
 }

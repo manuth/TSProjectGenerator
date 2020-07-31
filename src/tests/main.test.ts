@@ -8,6 +8,7 @@ import { ComponentTests } from "./Components";
 import { GeneratorTests } from "./Generators";
 import { LintingTests } from "./Linting";
 import { NPMPackagingTests } from "./NPMPackaging";
+import { ProjectTests } from "./Project";
 
 suite(
     "TSGeneratorGenerator",
@@ -69,6 +70,7 @@ suite(
         ComponentTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
         NPMPackagingTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
         LintingTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
+        ProjectTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
 
         GeneratorTests(
             contextMap.get("module")[0] as TestContext<TSModuleGenerator>,
