@@ -12,6 +12,7 @@ import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
 import { join, resolve } from "upath";
+import { GeneratorOptions } from "yeoman-generator";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
@@ -38,7 +39,18 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
      */
     public constructor(args: string | string[], options: Record<string, unknown>)
     {
-        super(args, options);
+        super(
+            args,
+            {
+                ...options,
+                customPriorities: [
+                    ...(options.customPriorities as any[] ?? []),
+                    {
+                        before: "end",
+                        priorityName: "cleanup"
+                    }
+                ]
+            } as GeneratorOptions);
     }
 
     /**
@@ -136,9 +148,9 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
     }
 
     /**
-     * @inheritdoc
+     * Cleans the workspace.
      */
-    public async end(): Promise<void>
+    public async cleanup(): Promise<void>
     {
         let tempDir = new TempDirectory();
         let lintPackage = new Package(tempDir.MakePath("package.json"), {});
@@ -195,6 +207,13 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         }
 
         tempDir.Dispose();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public async end(): Promise<void>
+    {
         this.log("");
 
         this.log(
