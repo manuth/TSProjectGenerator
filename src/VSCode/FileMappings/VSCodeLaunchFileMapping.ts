@@ -1,8 +1,8 @@
+import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { join } from "upath";
 import { DebugConfiguration } from "vscode";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
@@ -10,7 +10,7 @@ import { VSCodeJSONFileMapping } from "./VSCodeJSONFileMapping";
 /**
  * Provides a file-mapping for copying the `launch.json` file.
  */
-export class VSCodeLaunchFileMapping<T extends ITSProjectSettings> extends VSCodeJSONFileMapping<T>
+export class VSCodeLaunchFileMapping<T extends IGeneratorSettings> extends VSCodeJSONFileMapping<T>
 {
     /**
      * Initializes a new instance of the `VSCodeLaunchFileMapping<T>` class.

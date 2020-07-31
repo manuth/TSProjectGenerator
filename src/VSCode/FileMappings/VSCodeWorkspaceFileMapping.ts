@@ -1,12 +1,11 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingBase } from "../../Components/FileMappingBase";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
  * Provides a file-mapping for a vscode workspace file.
  */
-export abstract class VSCodeWorkspaceFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
+export abstract class VSCodeWorkspaceFileMapping<T extends IGeneratorSettings> extends FileMappingBase<T>
 {
     /**
      * The component of this file-mapping.

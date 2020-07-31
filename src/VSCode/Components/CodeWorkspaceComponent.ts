@@ -1,6 +1,5 @@
-import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { VSCodeExtensionsMapping } from "../FileMappings/VSCodeExtensionsMapping";
 import { VSCodeLaunchFileMapping } from "../FileMappings/VSCodeLaunchFileMapping";
@@ -10,7 +9,7 @@ import { VSCodeTasksFileMapping } from "../FileMappings/VSCodeTasksFileMapping";
 /**
  * Provides a component for creating a vscode-workspace.
  */
-export class CodeWorkspaceComponent<T extends ITSProjectSettings> extends ComponentBase<T>
+export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
 {
     /**
      * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
