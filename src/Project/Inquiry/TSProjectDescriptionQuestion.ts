@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
@@ -22,10 +23,13 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
 
     /**
      * Initializes a new instance of the `TSProjectDescriptionQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

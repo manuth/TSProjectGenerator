@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { InputQuestionOptions } from "inquirer";
 import { basename } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
@@ -21,10 +22,13 @@ export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends 
 
     /**
      * Initializes a new instance of the `TSProjectDisplayNameQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

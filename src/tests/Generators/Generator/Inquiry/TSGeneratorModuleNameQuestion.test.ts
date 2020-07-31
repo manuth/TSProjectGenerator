@@ -30,7 +30,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         [TSProjectSettingKey.DisplayName]: "ThisIsATestGenerator"
                     };
 
-                    question = new TSGeneratorModuleNameQuestion();
+                    question = new TSGeneratorModuleNameQuestion(await context.Generator);
                 });
 
             suite(

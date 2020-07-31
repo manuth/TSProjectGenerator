@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { Question, Answers, KeyUnion } from "inquirer";
 
 /**
@@ -16,10 +17,28 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
     public suffix?: string;
 
     /**
-     * Initializes a new instance of the `QuestionBase<T>` class.
+     * The generator of the question.
      */
-    public constructor()
-    { }
+    private generator: IGenerator<T>;
+
+    /**
+     * Initializes a new instance of the `QuestionBase<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
+     */
+    public constructor(generator: IGenerator<T>)
+    {
+        this.generator = generator;
+    }
+
+    /**
+     * Gets the generator of the question.
+     */
+    protected get Generator(): IGenerator<T>
+    {
+        return this.generator;
+    }
 
     /**
      * @inheritdoc

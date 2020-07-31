@@ -54,7 +54,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
      */
     protected get Questions(): Array<Question<T>>
     {
-        return new TSProjectQuestionCollection().Questions;
+        return new TSProjectQuestionCollection(this).Questions;
     }
 
     /**

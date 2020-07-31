@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
@@ -8,10 +9,13 @@ export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extend
 {
     /**
      * Initializes a new instance of the `TSGeneratorDescriptionQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

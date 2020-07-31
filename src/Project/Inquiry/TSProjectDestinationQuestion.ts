@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { InputQuestionOptions } from "inquirer";
 import { isAbsolute } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
@@ -22,10 +23,13 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
 
     /**
      * Initializes a new instance of the `TSProjectDestinationQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

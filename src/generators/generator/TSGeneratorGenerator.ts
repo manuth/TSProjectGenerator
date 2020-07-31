@@ -50,7 +50,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      */
     protected get Questions(): Array<Question<T>>
     {
-        return new TSGeneratorQuestionCollection().Questions;
+        return new TSGeneratorQuestionCollection(this).Questions;
     }
 
     /**

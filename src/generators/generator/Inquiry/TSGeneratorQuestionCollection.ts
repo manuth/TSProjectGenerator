@@ -1,4 +1,4 @@
-import { Question } from "@manuth/extended-yo-generator";
+import { Question, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorDescriptionQuestion } from "./TSGeneratorDescriptionQuestion";
@@ -11,10 +11,13 @@ export class TSGeneratorQuestionCollection<T extends ITSGeneratorSettings> exten
 {
     /**
      * Initializes a new instance of the `TSGeneratorQuestionCollection<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**
@@ -22,7 +25,7 @@ export class TSGeneratorQuestionCollection<T extends ITSGeneratorSettings> exten
      */
     protected get ModuleNameQuestion(): Question<T>
     {
-        return new TSGeneratorModuleNameQuestion();
+        return new TSGeneratorModuleNameQuestion(this.Generator);
     }
 
     /**
@@ -30,6 +33,6 @@ export class TSGeneratorQuestionCollection<T extends ITSGeneratorSettings> exten
      */
     protected get DescriptionQuestion(): Question<T>
     {
-        return new TSGeneratorDescriptionQuestion();
+        return new TSGeneratorDescriptionQuestion(this.Generator);
     }
 }

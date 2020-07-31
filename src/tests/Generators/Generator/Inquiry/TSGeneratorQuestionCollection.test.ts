@@ -20,9 +20,10 @@ export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGenera
             let collection: TSGeneratorQuestionCollection<ITSGeneratorSettings>;
 
             suiteSetup(
-                () =>
+                async function()
                 {
-                    collection = new TSGeneratorQuestionCollection();
+                    this.timeout(0);
+                    collection = new TSGeneratorQuestionCollection(await context.Generator);
                 });
 
             test(

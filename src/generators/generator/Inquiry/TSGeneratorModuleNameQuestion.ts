@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import parsePackageName = require("parse-pkg-name");
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -9,10 +10,13 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
 {
     /**
      * Initializes a new instance of the `TSGeneratorModuleNameQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

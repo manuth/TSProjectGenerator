@@ -1,4 +1,4 @@
-import { Question } from "@manuth/extended-yo-generator";
+import { Question, IGenerator } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion";
 import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion";
@@ -11,17 +11,35 @@ import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion";
 export class TSProjectQuestionCollection<T extends ITSProjectSettings>
 {
     /**
-     * Initializes a new instance of the `TSProjectQuestionCollection<T>` class.
+     * The generator of the question-collection.
      */
-    public constructor()
-    { }
+    private generator: IGenerator<T>;
+
+    /**
+     * Initializes a new instance of the `TSProjectQuestionCollection<T>` class.
+     *
+     * @param generator
+     * The generator of the question-collection.
+     */
+    public constructor(generator: IGenerator<T>)
+    {
+        this.generator = generator;
+    }
+
+    /**
+     * Gets the generator of the question-collection.
+     */
+    protected get Generator(): IGenerator<T>
+    {
+        return this.generator;
+    }
 
     /**
      * Gets a question to ask for the destination to write the project to.
      */
     protected get DestinationQuestion(): Question<T>
     {
-        return new TSProjectDestinationQuestion();
+        return new TSProjectDestinationQuestion(this.Generator);
     }
 
     /**
@@ -29,7 +47,7 @@ export class TSProjectQuestionCollection<T extends ITSProjectSettings>
      */
     protected get DisplayNameQuestion(): Question<T>
     {
-        return new TSProjectDisplayNameQuestion();
+        return new TSProjectDisplayNameQuestion(this.Generator);
     }
 
     /**
@@ -37,7 +55,7 @@ export class TSProjectQuestionCollection<T extends ITSProjectSettings>
      */
     protected get ModuleNameQuestion(): Question<T>
     {
-        return new TSProjectModuleNameQuestion();
+        return new TSProjectModuleNameQuestion(this.Generator);
     }
 
     /**
@@ -45,7 +63,7 @@ export class TSProjectQuestionCollection<T extends ITSProjectSettings>
      */
     protected get DescriptionQuestion(): Question<T>
     {
-        return new TSProjectDescriptionQuestion();
+        return new TSProjectDescriptionQuestion(this.Generator);
     }
 
     /**

@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { InputQuestionOptions } from "inquirer";
 import kebabCase = require("lodash.kebabcase");
 import validate = require("validate-npm-package-name");
@@ -22,10 +23,13 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
 
     /**
      * Initializes a new instance of the `TSProjectModuleNameQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

@@ -1,3 +1,4 @@
+import { IGenerator } from "@manuth/extended-yo-generator";
 import { ListQuestionOptions, ChoiceCollection } from "inquirer";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
@@ -21,10 +22,13 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
 
     /**
      * Initializes a new instance of the `LintingQuestion<T>` class.
+     *
+     * @param generator
+     * The generator of the question.
      */
-    public constructor()
+    public constructor(generator: IGenerator<T>)
     {
-        super();
+        super(generator);
     }
 
     /**

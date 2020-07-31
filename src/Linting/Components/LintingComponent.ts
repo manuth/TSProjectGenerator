@@ -51,7 +51,7 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
     public get Questions(): Array<Question<T>>
     {
         return [
-            new LintingQuestion()
+            new LintingQuestion(this.Generator)
         ];
     }
 
