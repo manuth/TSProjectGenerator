@@ -132,6 +132,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether mocha can be executed…",
                 function()
                 {
+                    this.timeout(0);
                     this.slow(4 * 1000);
 
                     let result = spawnSync(
