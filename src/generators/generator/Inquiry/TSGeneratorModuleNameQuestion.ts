@@ -45,7 +45,7 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers?: T): Promise<boolean | string>
+    public async Validate(input: string, answers: T): Promise<boolean | string>
     {
         let result = await super.Validate(input, answers);
 

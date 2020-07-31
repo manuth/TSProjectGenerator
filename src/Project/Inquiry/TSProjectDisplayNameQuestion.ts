@@ -71,7 +71,7 @@ export class TSProjectDisplayNameQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers?: T): Promise<string | boolean>
+    public async Validate(input: string, answers: T): Promise<string | boolean>
     {
         return (input.trim().length > 0) ? true : "The name must not be empty!";
     }

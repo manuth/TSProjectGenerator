@@ -72,7 +72,7 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers?: T): Promise<string | boolean>
+    public async Validate(input: string, answers: T): Promise<string | boolean>
     {
         let result = validate(input);
         let errors = (result.errors ?? []).concat(result.warnings ?? []);
