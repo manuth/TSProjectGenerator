@@ -55,8 +55,9 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 });
 
             suiteTeardown(
-                () =>
+                function()
                 {
+                    this.timeout(0);
                     runContext.cleanTestDirectory();
                 });
 
