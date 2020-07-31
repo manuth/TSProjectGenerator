@@ -41,10 +41,10 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
      * @returns
      * The message which is shown to the user.
      */
-    public async message(answers: T): Promise<string>
+    public message = async (answers: T): Promise<string> =>
     {
         return "What's the name of the npm package?";
-    }
+    };
 
     /**
      * @inheritdoc
@@ -55,10 +55,10 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
      * @returns
      * The default value for this question.
      */
-    public async default(answers: T): Promise<string>
+    public default = async (answers: T): Promise<string> =>
     {
         return kebabCase(answers[TSProjectSettingKey.DisplayName]);
-    }
+    };
 
     /**
      * @inheritdoc
@@ -72,7 +72,7 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async validate(input: string, answers?: T): Promise<string | boolean>
+    public validate = async (input: string, answers?: T): Promise<string | boolean> =>
     {
         let result = validate(input);
         let errors = (result.errors ?? []).concat(result.warnings ?? []);
@@ -85,5 +85,5 @@ export class TSProjectModuleNameQuestion<T extends ITSProjectSettings> extends Q
         {
             return errors[0] ?? "Please provide a name according to the npm naming-conventions.";
         }
-    }
+    };
 }

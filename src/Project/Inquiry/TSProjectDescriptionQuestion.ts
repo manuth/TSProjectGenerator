@@ -55,12 +55,12 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value for this question.
      */
-    public async default(answers: T): Promise<string>
+    public default = async (answers: T): Promise<string> =>
     {
         let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
         await npmPackage.Normalize();
         return npmPackage.Description;
-    }
+    };
 
     /**
      * @inheritdoc
@@ -74,8 +74,8 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async validate(input: string, answers: T): Promise<string | boolean>
+    public validate = async (input: string, answers: T): Promise<string | boolean> =>
     {
         return true;
-    }
+    };
 }

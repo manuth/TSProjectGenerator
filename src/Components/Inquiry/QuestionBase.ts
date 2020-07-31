@@ -59,10 +59,10 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The default value.
      */
-    public async default(answers: T): Promise<any>
+    public default = async (answers: T): Promise<any> =>
     {
         return null;
-    }
+    };
 
     /**
      * @inheritdoc
@@ -76,10 +76,10 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The filtered value.
      */
-    public async filter(input: any, answers?: T): Promise<any>
+    public filter = async (input: any, answers?: T): Promise<any> =>
     {
         return input;
-    }
+    };
 
     /**
      * @inheritdoc
@@ -90,10 +90,10 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * A value indicating whether the question should be asked.
      */
-    public async when(answers: T): Promise<boolean>
+    public when = async (answers: T): Promise<boolean> =>
     {
         return true;
-    }
+    };
 
     /**
      * @inheritdoc
@@ -107,10 +107,10 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * Either a value indicating whether the answer is valid or a `string` which describes the error.
      */
-    public async validate(input: any, answers: T): Promise<string | boolean>
+    public validate = async (input: any, answers: T): Promise<string | boolean> =>
     {
         return true;
-    }
+    };
 
     /**
      * @inheritdoc

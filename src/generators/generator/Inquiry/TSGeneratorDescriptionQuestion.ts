@@ -27,8 +27,8 @@ export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extend
      * @returns
      * The message which is shown to the user.
      */
-    public async message(answers: T): Promise<string>
+    public message = async (answers: T): Promise<string> =>
     {
         return "Please enter a description for your generator.";
-    }
+    };
 }

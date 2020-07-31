@@ -54,10 +54,10 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The default value for this question.
      */
-    public async default(answers: T): Promise<LintRuleset>
+    public default = async (answers: T): Promise<LintRuleset> =>
     {
         return LintRuleset.Recommended;
-    }
+    };
 
     /**
      * @inheritdoc
