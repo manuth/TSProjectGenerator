@@ -11,7 +11,7 @@ import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
-import { join } from "upath";
+import { join, resolve } from "upath";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
@@ -153,6 +153,8 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
         delete tsConfig.extends;
+        tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
+        tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
         await writeJSON(tsConfigFile, tsConfig);
         lintPackage.Register(new BuildDependencies());
         lintPackage.Register(new LintEssentials());
@@ -171,7 +173,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
         workspaceRequire = createRequire(join(tempDir.FullName, ".js"));
         linterConstructor = workspaceRequire("tslint").Linter;
         eslintConstructor = workspaceRequire("eslint").ESLint;
-        program = linterConstructor.createProgram(tsConfigFile, this.destinationPath());
+        program = linterConstructor.createProgram(tsConfigFile);
 
         linter = new eslintConstructor(
             {
