@@ -9,6 +9,7 @@ import { GeneratorTests } from "./Generators";
 import { LintingTests } from "./Linting";
 import { NPMPackagingTests } from "./NPMPackaging";
 import { ProjectTests } from "./Project";
+import { VSCodeTests } from "./VSCode";
 
 suite(
     "TSGeneratorGenerator",
@@ -69,6 +70,7 @@ suite(
 
         ComponentTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
         NPMPackagingTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
+        VSCodeTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
         LintingTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
         ProjectTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
 
