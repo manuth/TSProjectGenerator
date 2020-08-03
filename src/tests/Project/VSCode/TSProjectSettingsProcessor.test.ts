@@ -13,7 +13,7 @@ import { TSProjectSettingsProcessor } from "../../../Project/VSCode/TSProjectSet
  */
 export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
-    suite.only(
+    suite(
         "TSProjectSettingsProcessor",
         () =>
         {
@@ -33,7 +33,7 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
                 `Checking whether the \`${excludedSetting}\` setting is excluded…`,
                 async () =>
                 {
-                    let settings = processor.Process(await component.SourceSettings);
+                    let settings = processor.Process(await component.Source.LaunchMetadata);
                     Assert.ok(!(excludedSetting in settings));
                 });
         });

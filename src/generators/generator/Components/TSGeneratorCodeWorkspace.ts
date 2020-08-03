@@ -10,7 +10,7 @@ import { TSGeneratorLaunchFileProcessor } from "../VSCode/TSGeneratorLaunchFileP
 /**
  * Provides a component for creating a vscode-workspace folder for `TSGenerator`s.
  */
-export class TSGeneratorWorkspaceFolder<T extends ITSGeneratorSettings> extends TSProjectWorkspaceFolder<T>
+export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends TSProjectWorkspaceFolder<T>
 {
     /**
      * Initializes a new isntance of the `TSGeneratorWorkspaceFolder<T>` class.

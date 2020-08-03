@@ -8,7 +8,7 @@ import { TSModuleLaunchFileProcessor } from "../VSCode/TSModuleLaunchFileProcess
 /**
  * Provides a component for creating a vscode-workspace folder for `TSModule`s.
  */
-export class TSModuleWorkspaceFolder<T extends ITSProjectSettings> extends TSProjectWorkspaceFolder<T>
+export class TSModuleCodeWorkspace<T extends ITSProjectSettings> extends TSProjectWorkspaceFolder<T>
 {
     /**
      * Initializes a new isntance of the `TSModuleWorkspaceFolder<T>` class.

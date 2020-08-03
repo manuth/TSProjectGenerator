@@ -1,11 +1,12 @@
 import { IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import JSON = require("comment-json");
 import { ComponentBase } from "../../Components/ComponentBase";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { ExtensionsProcessor } from "../ExtensionsProcessor";
 import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
+import { CodeWorkspaceProvider } from "../FileMappings/CodeWorkspaceProvider";
 import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator";
+import { WorkspaceFolderLoader } from "../FileMappings/WorkspaceFolderLoader";
 import { IExtensionFile } from "../IExtensionFile";
 import { ILaunchFile } from "../ILaunchFile";
 import { ITaskFile } from "../ITaskFile";
@@ -16,7 +17,7 @@ import { TasksProcessor } from "../TasksProcessor";
 /**
  * Provides a component for creating a vscode-workspace.
  */
-export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
+export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
 {
     /**
      * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
@@ -66,9 +67,12 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     }
 
     /**
-     * Gets the meta-data of the source extensions.
+     * Gets a component for loading vscode-workspaces.
      */
-    public abstract get SourceExtensions(): Promise<IExtensionFile>;
+    public get Source(): CodeWorkspaceProvider<T>
+    {
+        return new WorkspaceFolderLoader(this);
+    }
 
     /**
      * Gets the meta-data of the extensions to write.
@@ -78,14 +82,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
         return (
             async () =>
             {
-                return this.ExtensionsProcessor.Process(await this.SourceExtensions);
+                return this.ExtensionsProcessor.Process(await this.Source.ExtensionsMetadata);
             })();
     }
-
-    /**
-     * Gets the meta-data of the source debug settings.
-     */
-    public abstract get SourceDebugSettings(): Promise<ILaunchFile>;
 
     /**
      * Gets the meta-data of the debug-settings to write.
@@ -95,14 +94,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
         return (
             async () =>
             {
-                return this.LaunchFileProcessor.Process(await this.SourceDebugSettings);
+                return this.LaunchFileProcessor.Process(await this.Source.LaunchMetadata);
             })();
     }
-
-    /**
-     * Gets the meta-data of the source settings.
-     */
-    public abstract get SourceSettings(): Promise<Record<string, any>>;
 
     /**
      * Gets the metadata of the settings to write.
@@ -112,14 +106,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
         return (
             async () =>
             {
-                return this.SettingsProcessor.Process(await this.SourceSettings);
+                return this.SettingsProcessor.Process(await this.Source.SettingsMetadata);
             })();
     }
-
-    /**
-     * Gets the meta-data of the source tasks.
-     */
-    public abstract get SourceTasks(): Promise<ITaskFile>;
 
     /**
      * Gets the metadata of the tasks to write.
@@ -129,7 +118,7 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
         return (
             async () =>
             {
-                return this.TasksProcessor.Process(await this.SourceTasks);
+                return this.TasksProcessor.Process(await this.Source.TasksMetadata);
             })();
     }
 
@@ -171,19 +160,5 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     protected get FileMappingCreator(): CodeFileMappingCreator<T>
     {
         return new WorkspaceFolderCreator(this);
-    }
-
-    /**
-     * Reads json from the specified `path`.
-     *
-     * @param path
-     * The path to the JSON file to read.
-     *
-     * @returns
-     * The JSON read from the `path`.
-     */
-    protected async ReadJSON(path: string): Promise<any>
-    {
-        return JSON.parse(this.Generator.fs.read(path));
     }
 }

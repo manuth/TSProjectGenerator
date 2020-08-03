@@ -13,7 +13,7 @@ import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectL
  */
 export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
-    suite.only(
+    suite(
         "TSProjectLaunchFileProcessor",
         () =>
         {
@@ -32,7 +32,7 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                 "Checking whether `yeoman` debug-configurations are not present…",
                 async () =>
                 {
-                    let launchFile = await processor.Process(await component.SourceDebugSettings);
+                    let launchFile = await processor.Process(await component.Source.LaunchMetadata);
 
                     Assert.ok(
                         launchFile.configurations.every(

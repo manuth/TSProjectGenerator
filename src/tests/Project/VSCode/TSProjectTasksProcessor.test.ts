@@ -13,7 +13,7 @@ import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksP
  */
 export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
-    suite.only(
+    suite(
         "TSProjectTasksProcessor",
         () =>
         {
@@ -32,7 +32,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether the problem-matcher of the `lint` task is correct…",
                 async () =>
                 {
-                    let tasks = await processor.Process(await component.SourceTasks);
+                    let tasks = await processor.Process(await component.Source.TasksMetadata);
 
                     let lintTask = tasks.tasks.find(
                         (task) =>

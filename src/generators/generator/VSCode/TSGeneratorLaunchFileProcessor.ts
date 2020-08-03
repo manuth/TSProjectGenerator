@@ -34,7 +34,7 @@ export class TSGeneratorLaunchFileProcessor<T extends ITSGeneratorSettings> exte
         return (
             async () =>
             {
-                return (await this.Component.SourceDebugSettings).configurations.find(
+                return (await this.Component.Source.LaunchMetadata).configurations.find(
                     (debugConfig) =>
                     {
                         return debugConfig.name.toLowerCase().includes("yeoman");

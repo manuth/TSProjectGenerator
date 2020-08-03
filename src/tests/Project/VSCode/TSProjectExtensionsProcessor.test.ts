@@ -13,7 +13,7 @@ import { TSProjectExtensionsProcessor } from "../../../Project/VSCode/TSProjectE
  */
 export function TSProjectExtensionsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
-    suite.only(
+    suite(
         "TSProjectExtensionsProcessor",
         () =>
         {

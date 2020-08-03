@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
-import { TSModuleWorkspaceFolder } from "../../../../generators/module/Components/TSModuleWorkspaceFolder";
+import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
 import { TSModuleLaunchFileProcessor } from "../../../../generators/module/VSCode/TSModuleLaunchFileProcessor";
 
@@ -13,18 +13,18 @@ import { TSModuleLaunchFileProcessor } from "../../../../generators/module/VSCod
  */
 export function TSModuleLaunchFileProcessorTests(context: TestContext<TSModuleGenerator>): void
 {
-    suite.only(
+    suite(
         "TSModuleLaunchFileProcessor",
         () =>
         {
-            let component: TSModuleWorkspaceFolder<ITSProjectSettings>;
+            let component: TSModuleCodeWorkspace<ITSProjectSettings>;
             let processor: TSModuleLaunchFileProcessor<ITSProjectSettings>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    component = new TSModuleWorkspaceFolder(await context.Generator);
+                    component = new TSModuleCodeWorkspace(await context.Generator);
                     processor = new TSModuleLaunchFileProcessor(component);
                 });
 
@@ -32,7 +32,7 @@ export function TSModuleLaunchFileProcessorTests(context: TestContext<TSModuleGe
                 "Checking whether a configuration for launching the program is present…",
                 async () =>
                 {
-                    let launchConfig = await processor.Process(await component.SourceDebugSettings);
+                    let launchConfig = await processor.Process(await component.Source.LaunchMetadata);
                     let debugConfigs = launchConfig.configurations ?? [];
 
                     Assert.ok(

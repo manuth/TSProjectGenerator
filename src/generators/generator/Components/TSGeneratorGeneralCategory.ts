@@ -8,7 +8,7 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
-import { TSGeneratorWorkspaceFolder } from "./TSGeneratorWorkspaceFolder";
+import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";
 
 /**
  * Provides general components for `TSGenerator`s.
@@ -43,7 +43,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
      */
     protected get WorkspaceComponent(): IComponent<T>
     {
-        return new TSGeneratorWorkspaceFolder(this.Generator);
+        return new TSGeneratorCodeWorkspace(this.Generator);
     }
 
     /**

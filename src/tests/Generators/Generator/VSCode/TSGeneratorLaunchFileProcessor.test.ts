@@ -3,7 +3,7 @@ import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
-import { WorkspaceFolderComponent } from "../../../../VSCode/Components/WorkspaceFolderComponent";
+import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -19,7 +19,7 @@ import { TSGeneratorLaunchFileProcessor } from "../../../../generators/generator
  */
 export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGeneratorGenerator>): void
 {
-    suite.only(
+    suite(
         "TSGeneratorLaunchFileProcessor",
         () =>
         {
@@ -50,7 +50,7 @@ export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGener
                         ]
                     };
 
-                    component = new WorkspaceFolderComponent(await context.Generator);
+                    component = new TSGeneratorCodeWorkspace(await context.Generator);
                     processor = new TSGeneratorLaunchFileProcessor(component);
                 });
 
@@ -64,7 +64,7 @@ export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGener
                 "Checking whether a launch-configuration for each generator is present…",
                 async () =>
                 {
-                    let launchFile = await processor.Process(await component.SourceDebugSettings);
+                    let launchFile = await processor.Process(await component.Source.LaunchMetadata);
                     let debugConfigs = launchFile.configurations ?? [];
 
                     Assert.ok(

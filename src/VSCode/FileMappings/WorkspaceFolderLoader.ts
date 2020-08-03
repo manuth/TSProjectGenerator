@@ -1,35 +1,46 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionFile } from "../IExtensionFile";
 import { ILaunchFile } from "../ILaunchFile";
 import { ITaskFile } from "../ITaskFile";
-import { CodeWorkspaceComponent } from "./CodeWorkspaceComponent";
+import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 
 /**
- * Provides a component for creating a code workspace folder.
+ * Provides the functionality to load workspace-settings from a folder.
  */
-export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends CodeWorkspaceComponent<T>
+export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWorkspaceProvider<T>
 {
     /**
-     * Initializes a new instance of the `WorkspaceFolderComponent<T>` class.
+     * Initializes a new instance of the `WorkspaceFolderLoader` class.
      *
-     * @param generator
-     * The generator of the component.
+     * @param component
+     * The component of the file-mapping creator.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(component: CodeWorkspaceComponent<T>)
     {
-        super(generator);
+        super(component);
     }
 
     /**
      * Gets the name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public get SettingsFolderName(): Promise<string>
+    public get SettingsFolderName(): string
     {
-        return (
-            async () =>
-            {
-                return ".vscode";
-            })();
+        return ".vscode";
+    }
+
+    /**
+     * Creates a path relative to the settings folder.
+     *
+     * @param path
+     * The path to join.
+     *
+     * @returns
+     * The path relative to the settings folder.
+     */
+    protected async SettingsPath(...path: string[]): Promise<string>
+    {
+        return this.Generator.modulePath(this.SettingsFolderName, ...path);
     }
 
     /**
@@ -43,7 +54,7 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
-    public get SourceExtensions(): Promise<IExtensionFile>
+    public get ExtensionsMetadata(): Promise<IExtensionFile>
     {
         return (
             async () =>
@@ -63,7 +74,7 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
-    public get SourceDebugSettings(): Promise<ILaunchFile>
+    public get LaunchMetadata(): Promise<ILaunchFile>
     {
         return (
             async () =>
@@ -83,7 +94,7 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
-    public get SourceSettings(): Promise<Record<string, any>>
+    public get SettingsMetadata(): Promise<Record<string, any>>
     {
         return (
             async () =>
@@ -103,26 +114,12 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
-    public get SourceTasks(): Promise<ITaskFile>
+    public get TasksMetadata(): Promise<ITaskFile>
     {
         return (
             async () =>
             {
                 return this.ReadJSON(await this.TasksFileName);
             })();
-    }
-
-    /**
-     * Creates a path relative to the settings folder.
-     *
-     * @param path
-     * The path to join.
-     *
-     * @returns
-     * The path relative to the settings folder.
-     */
-    protected async SettingsPath(...path: string[]): Promise<string>
-    {
-        return this.Generator.modulePath(await this.SettingsFolderName, ...path);
     }
 }

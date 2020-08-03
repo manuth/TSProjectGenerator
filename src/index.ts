@@ -9,7 +9,7 @@ export { AppGenerator } from "./generators/app/AppGenerator";
 export { ProjectType } from "./generators/app/ProjectType";
 export { AppGeneratorSettingKey } from "./generators/app/Settings/AppGeneratorSettingKey";
 export { IAppGeneratorSettings } from "./generators/app/Settings/IAppGeneratorSettings";
-export { TSGeneratorWorkspaceFolder as TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorWorkspaceFolder";
+export { TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorCodeWorkspace";
 export { TSGeneratorComponentCollection } from "./generators/generator/Components/TSGeneratorComponentCollection";
 export { TSGeneratorGeneralCategory } from "./generators/generator/Components/TSGeneratorGeneralCategory";
 export { TSGeneratorDependencies } from "./generators/generator/Dependencies/TSGeneratorDependencies";
@@ -24,7 +24,7 @@ export { SubGeneratorSettingKey } from "./generators/generator/Settings/SubGener
 export { TSGeneratorComponent } from "./generators/generator/Settings/TSGeneratorComponent";
 export { TSGeneratorSettingKey } from "./generators/generator/Settings/TSGeneratorSettingKey";
 export { TSGeneratorGenerator } from "./generators/generator/TSGeneratorGenerator";
-export { TSModuleWorkspaceFolder as TSModuleCodeWorkspace } from "./generators/module/Components/TSModuleWorkspaceFolder";
+export { TSModuleCodeWorkspace } from "./generators/module/Components/TSModuleCodeWorkspace";
 export { TSModuleComponentCollection } from "./generators/module/Components/TSModuleComponentCollection";
 export { TSModuleGeneralCategory } from "./generators/module/Components/TSModuleGeneralCategory";
 export { TSModulePackageFileMapping } from "./generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
