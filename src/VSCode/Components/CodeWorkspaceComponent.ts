@@ -66,21 +66,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     }
 
     /**
-     * Gets the name of the file containing extensions.
-     */
-    public abstract get ExtensionsFileName(): Promise<string>;
-
-    /**
      * Gets the meta-data of the source extensions.
      */
-    public get SourceExtensions(): Promise<IExtensionFile>
-    {
-        return (
-            async () =>
-            {
-                return JSON.parse(this.Generator.fs.read(await this.ExtensionsFileName));
-            })();
-    }
+    public abstract get SourceExtensions(): Promise<IExtensionFile>;
 
     /**
      * Gets the meta-data of the extensions to write.
@@ -95,21 +83,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     }
 
     /**
-     * Gets the name of the file containing the launch-settings.
-     */
-    public abstract get LaunchFileName(): Promise<string>;
-
-    /**
      * Gets the meta-data of the source debug settings.
      */
-    public get SourceDebugSettings(): Promise<ILaunchFile>
-    {
-        return (
-            async () =>
-            {
-                return JSON.parse(this.Generator.fs.read(await this.LaunchFileName));
-            })();
-    }
+    public abstract get SourceDebugSettings(): Promise<ILaunchFile>;
 
     /**
      * Gets the meta-data of the debug-settings to write.
@@ -124,21 +100,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     }
 
     /**
-     * Gets the name of the file containing settings.
-     */
-    public abstract get SettingsFileName(): Promise<string>;
-
-    /**
      * Gets the meta-data of the source settings.
      */
-    public get SourceSettings(): Promise<Record<string, any>>
-    {
-        return (
-            async () =>
-            {
-                return JSON.parse(this.Generator.fs.read(await this.SettingsFileName));
-            })();
-    }
+    public abstract get SourceSettings(): Promise<Record<string, any>>;
 
     /**
      * Gets the metadata of the settings to write.
@@ -153,21 +117,9 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     }
 
     /**
-     * Gets the name of the file containing the tasks.
-     */
-    public abstract get TasksFileName(): Promise<string>;
-
-    /**
      * Gets the meta-data of the source tasks.
      */
-    public get SourceTasks(): Promise<ITaskFile>
-    {
-        return (
-            async () =>
-            {
-                return JSON.parse(this.Generator.fs.read(await this.TasksFileName));
-            })();
-    }
+    public abstract get SourceTasks(): Promise<ITaskFile>;
 
     /**
      * Gets the metadata of the tasks to write.
@@ -219,5 +171,19 @@ export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> exten
     protected get FileMappingCreator(): CodeFileMappingCreator<T>
     {
         return new WorkspaceFolderCreator(this);
+    }
+
+    /**
+     * Reads json from the specified `path`.
+     *
+     * @param path
+     * The path to the JSON file to read.
+     *
+     * @returns
+     * The JSON read from the `path`.
+     */
+    protected async ReadJSON(path: string): Promise<any>
+    {
+        return JSON.parse(this.Generator.fs.read(path));
     }
 }

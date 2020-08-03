@@ -1,4 +1,7 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { IExtensionFile } from "../IExtensionFile";
+import { ILaunchFile } from "../ILaunchFile";
+import { ITaskFile } from "../ITaskFile";
 import { CodeWorkspaceComponent } from "./CodeWorkspaceComponent";
 
 /**
@@ -30,7 +33,7 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     }
 
     /**
-     * @inheritdoc
+     * Gets the name of the file containing extensions.
      */
     public get ExtensionsFileName(): Promise<string>
     {
@@ -40,6 +43,18 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
+    public get SourceExtensions(): Promise<IExtensionFile>
+    {
+        return (
+            async () =>
+            {
+                return this.ReadJSON(await this.ExtensionsFileName);
+            })();
+    }
+
+    /**
+     * Gets the name of the file containing the launch-settings.
+     */
     public get LaunchFileName(): Promise<string>
     {
         return this.SettingsPath("launch.json");
@@ -47,6 +62,18 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
 
     /**
      * @inheritdoc
+     */
+    public get SourceDebugSettings(): Promise<ILaunchFile>
+    {
+        return (
+            async () =>
+            {
+                return this.ReadJSON(await this.LaunchFileName);
+            })();
+    }
+
+    /**
+     * Gets the name of the file containing settings.
      */
     public get SettingsFileName(): Promise<string>
     {
@@ -56,9 +83,33 @@ export class WorkspaceFolderComponent<T extends IGeneratorSettings> extends Code
     /**
      * @inheritdoc
      */
+    public get SourceSettings(): Promise<Record<string, any>>
+    {
+        return (
+            async () =>
+            {
+                return this.ReadJSON(await this.SettingsFileName);
+            })();
+    }
+
+    /**
+     * Gets the name of the file containing the tasks.
+     */
     public get TasksFileName(): Promise<string>
     {
         return this.SettingsPath("tasks.json");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get SourceTasks(): Promise<ITaskFile>
+    {
+        return (
+            async () =>
+            {
+                return this.ReadJSON(await this.TasksFileName);
+            })();
     }
 
     /**
