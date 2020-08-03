@@ -1,4 +1,4 @@
-import { IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
+import { IGeneratorSettings, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
@@ -28,6 +28,14 @@ export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
     public get Component(): CodeWorkspaceComponent<T>
     {
         return this.component;
+    }
+
+    /**
+     * Gets the generator of this file-mapping creator.
+     */
+    public get Generator(): IGenerator<T>
+    {
+        return this.Component.Generator;
     }
 
     /**

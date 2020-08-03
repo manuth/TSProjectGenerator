@@ -1,4 +1,4 @@
-import { IGeneratorSettings, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
@@ -99,13 +99,5 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
 
                 return result;
             })();
-    }
-
-    /**
-     * Gets the generator of the file-mapping creator.
-     */
-    protected get Generator(): IGenerator<T>
-    {
-        return this.Component.Generator;
     }
 }
