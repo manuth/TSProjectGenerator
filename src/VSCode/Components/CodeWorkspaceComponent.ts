@@ -1,15 +1,22 @@
 import { IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import JSON = require("comment-json");
 import { ComponentBase } from "../../Components/ComponentBase";
+import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { VSCodeExtensionsMapping } from "../FileMappings/VSCodeExtensionsMapping";
-import { VSCodeLaunchFileMapping } from "../FileMappings/VSCodeLaunchFileMapping";
-import { VSCodeSettingsFileMapping } from "../FileMappings/VSCodeSettingsFileMapping";
-import { VSCodeTasksFileMapping } from "../FileMappings/VSCodeTasksFileMapping";
+import { ExtensionsProcessor } from "../ExtensionsProcessor";
+import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
+import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator";
+import { IExtensionFile } from "../IExtensionFile";
+import { ILaunchFile } from "../ILaunchFile";
+import { ITaskFile } from "../ITaskFile";
+import { LaunchFileProcessor } from "../LaunchFileProcessor";
+import { SettingsProcessor } from "../SettingsProcessor";
+import { TasksProcessor } from "../TasksProcessor";
 
 /**
  * Provides a component for creating a vscode-workspace.
  */
-export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
+export abstract class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
 {
     /**
      * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
@@ -52,80 +59,165 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     public get FileMappings(): Promise<Array<IFileMapping<T>>>
     {
         return (
-            async () =>
+            async (): Promise<Array<IFileMapping<T>>> =>
             {
-                let settingsFolderName = await this.SettingsFolderName;
-
-                return [
-                    {
-                        Source: this.Generator.modulePath(settingsFolderName),
-                        Destination: settingsFolderName
-                    },
-                    await this.ExtensionsFileMapping,
-                    await this.LaunchFileMapping,
-                    await this.SettingsFileMapping,
-                    await this.TaskFileMapping
-                ];
+                return this.FileMappingCreator.FileMappings;
             })();
     }
 
     /**
-     * Gets the name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
+     * Gets the name of the file containing extensions.
      */
-    public get SettingsFolderName(): Promise<string>
+    public abstract get ExtensionsFileName(): Promise<string>;
+
+    /**
+     * Gets the meta-data of the source extensions.
+     */
+    public get SourceExtensions(): Promise<IExtensionFile>
     {
         return (
             async () =>
             {
-                return ".vscode";
+                return JSON.parse(this.Generator.fs.read(await this.ExtensionsFileName));
             })();
     }
 
     /**
-     * Gets a file-mapping for creating the `extensions.js` file.
+     * Gets the meta-data of the extensions to write.
      */
-    protected get ExtensionsFileMapping(): Promise<IFileMapping<T>>
+    public get ExtensionsMetadata(): Promise<IExtensionFile>
     {
         return (
             async () =>
             {
-                return new VSCodeExtensionsMapping(this);
+                return this.ExtensionsProcessor.Process(await this.SourceExtensions);
             })();
     }
 
     /**
-     * Gets a file-mapping for creating the `launch.json` file.
+     * Gets the name of the file containing the launch-settings.
      */
-    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
+    public abstract get LaunchFileName(): Promise<string>;
+
+    /**
+     * Gets the meta-data of the source debug settings.
+     */
+    public get SourceDebugSettings(): Promise<ILaunchFile>
     {
         return (
             async () =>
             {
-                return new VSCodeLaunchFileMapping(this);
+                return JSON.parse(this.Generator.fs.read(await this.LaunchFileName));
             })();
     }
 
     /**
-     * Gets a file-mapping for creating the `settings.json` file.
+     * Gets the meta-data of the debug-settings to write.
      */
-    protected get SettingsFileMapping(): Promise<IFileMapping<T>>
+    public get LaunchMetadata(): Promise<ILaunchFile>
     {
         return (
             async () =>
             {
-                return new VSCodeSettingsFileMapping(this);
+                return this.LaunchFileProcessor.Process(await this.SourceDebugSettings);
             })();
     }
 
     /**
-     * Gets a file-mapping for creating the `tasks.json` file.
+     * Gets the name of the file containing settings.
      */
-    protected get TaskFileMapping(): Promise<IFileMapping<T>>
+    public abstract get SettingsFileName(): Promise<string>;
+
+    /**
+     * Gets the meta-data of the source settings.
+     */
+    public get SourceSettings(): Promise<Record<string, any>>
     {
         return (
             async () =>
             {
-                return new VSCodeTasksFileMapping(this);
+                return JSON.parse(this.Generator.fs.read(await this.SettingsFileName));
             })();
+    }
+
+    /**
+     * Gets the metadata of the settings to write.
+     */
+    public get SettingsMetadata(): Promise<Record<string, any>>
+    {
+        return (
+            async () =>
+            {
+                return this.SettingsProcessor.Process(await this.SourceSettings);
+            })();
+    }
+
+    /**
+     * Gets the name of the file containing the tasks.
+     */
+    public abstract get TasksFileName(): Promise<string>;
+
+    /**
+     * Gets the meta-data of the source tasks.
+     */
+    public get SourceTasks(): Promise<ITaskFile>
+    {
+        return (
+            async () =>
+            {
+                return JSON.parse(this.Generator.fs.read(await this.TasksFileName));
+            })();
+    }
+
+    /**
+     * Gets the metadata of the tasks to write.
+     */
+    public get TasksMetadata(): Promise<ITaskFile>
+    {
+        return (
+            async () =>
+            {
+                return this.TasksProcessor.Process(await this.SourceTasks);
+            })();
+    }
+
+    /**
+     * Gets a component for processing the extensions.
+     */
+    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
+    {
+        return new ExtensionsProcessor(this);
+    }
+
+    /**
+     * Gets a component for processing the debug-settings.
+     */
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    {
+        return new LaunchFileProcessor(this);
+    }
+
+    /**
+     * Gets a component for processing the settings.
+     */
+    protected get SettingsProcessor(): JSONProcessor<T, Record<string, any>>
+    {
+        return new SettingsProcessor(this);
+    }
+
+    /**
+     * Gets a component for processing tasks.
+     */
+    protected get TasksProcessor(): JSONProcessor<T, ITaskFile>
+    {
+        return new TasksProcessor(this);
+    }
+
+    /**
+     * Gets a component for creating file-mappings.
+     */
+    protected get FileMappingCreator(): CodeFileMappingCreator<T>
+    {
+        return new WorkspaceFolderCreator(this);
     }
 }

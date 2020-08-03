@@ -4,8 +4,8 @@ import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
 import { TSGeneratorGeneralCategory } from "../../../../generators/generator/Components/TSGeneratorGeneralCategory";
+import { TSGeneratorWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorWorkspaceFolder";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -96,7 +96,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 "Checking whether all components for `TSGenerator`s are present…",
                 async () =>
                 {
-                    for (let componentType of [TSGeneratorCodeWorkspace])
+                    for (let componentType of [TSGeneratorWorkspaceFolder])
                     {
                         Assert.ok((collection.Components).some((component) => component instanceof componentType));
                     }

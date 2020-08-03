@@ -12,6 +12,5 @@ export function FileMappingTests(context: TestContext<TestGenerator>): void
         "FileMappings",
         () =>
         {
-
         });
 }

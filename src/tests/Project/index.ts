@@ -4,6 +4,7 @@ import { ComponentTests } from "./Components";
 import { FileMappingTests } from "./FileMappings";
 import { InquiryTests } from "./Inquiry";
 import { TSProjectGeneratorTests } from "./TSProjectGenerator.test";
+import { VSCodeTests } from "./VSCode";
 
 /**
  * Registers tests for project-components.
@@ -18,8 +19,9 @@ export function ProjectTests(context: TestContext<TSProjectGenerator>): void
         () =>
         {
             InquiryTests(context);
-            ComponentTests(context);
             FileMappingTests(context);
+            VSCodeTests(context);
+            ComponentTests(context);
             TSProjectGeneratorTests(context);
         });
 }

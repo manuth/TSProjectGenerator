@@ -1,8 +1,8 @@
 import Assert = require("assert");
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
-import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGeneralCategory } from "../../../../generators/module/Components/TSModuleGeneralCategory";
+import { TSModuleWorkspaceFolder } from "../../../../generators/module/Components/TSModuleWorkspaceFolder";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
 
 /**
@@ -30,7 +30,7 @@ export function TSModuleGeneralCategoryTests(context: TestContext<TSModuleGenera
                 "Checking whether all necessary components are present…",
                 () =>
                 {
-                    for (let componentType of [TSModuleCodeWorkspace])
+                    for (let componentType of [TSModuleWorkspaceFolder])
                     {
                         Assert.ok(
                             category.Components.some(

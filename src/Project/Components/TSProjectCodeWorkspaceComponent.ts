@@ -1,15 +1,19 @@
-import { IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { TSProjectExtensionsMapping } from "../FileMappings/VSCode/TSProjectExtensionsMapping";
-import { TSProjectLaunchFileMapping } from "../FileMappings/VSCode/TSProjectLaunchFileMapping";
-import { TSProjectSettingsFileMapping } from "../FileMappings/VSCode/TSProjectSettingsFileMapping";
-import { TSProjectTasksFileMapping } from "../FileMappings/VSCode/TSProjectTasksFileMapping";
+import { IGenerator } from "@manuth/extended-yo-generator";
+import { JSONProcessor } from "../../Components/JSONProcessor";
+import { WorkspaceFolderComponent } from "../../VSCode/Components/WorkspaceFolderComponent";
+import { IExtensionFile } from "../../VSCode/IExtensionFile";
+import { ILaunchFile } from "../../VSCode/ILaunchFile";
+import { ITaskFile } from "../../VSCode/ITaskFile";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { TSProjectExtensionsProcessor } from "../VSCode/TSProjectExtensionsProcessor";
+import { TSProjectLaunchFileProcessor } from "../VSCode/TSProjectLaunchFileProcessor";
+import { TSProjectSettingsProcessor } from "../VSCode/TSProjectSettingsProcessor";
+import { TSProjectTasksProcessor } from "../VSCode/TSProjectTasksProcessor";
 
 /**
- * Provides a component for creating a vscode-workspace for `TSProject`s.
+ * Provides a component for creating a vscode-workspace folder for `TSProject`s.
  */
-export class TSProjectCodeWorkspaceComponent<T extends ITSProjectSettings> extends CodeWorkspaceComponent<T>
+export class TSProjectWorkspaceFolder<T extends ITSProjectSettings> extends WorkspaceFolderComponent<T>
 {
     /**
      * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent<T>` class.
@@ -25,48 +29,32 @@ export class TSProjectCodeWorkspaceComponent<T extends ITSProjectSettings> exten
     /**
      * @inheritdoc
      */
-    protected get ExtensionsFileMapping(): Promise<IFileMapping<T>>
+    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
     {
-        return (
-            async () =>
-            {
-                return new TSProjectExtensionsMapping(this);
-            })();
+        return new TSProjectExtensionsProcessor(this);
     }
 
     /**
      * @inheritdoc
      */
-    protected get LaunchFileMapping(): Promise<IFileMapping<T>>
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
     {
-        return (
-            async () =>
-            {
-                return new TSProjectLaunchFileMapping(this);
-            })();
+        return new TSProjectLaunchFileProcessor(this);
     }
 
     /**
      * @inheritdoc
      */
-    protected get SettingsFileMapping(): Promise<IFileMapping<T>>
+    protected get SettingsProcessor(): JSONProcessor<T, Record<string, any>>
     {
-        return (
-            async () =>
-            {
-                return new TSProjectSettingsFileMapping(this);
-            })();
+        return new TSProjectSettingsProcessor(this);
     }
 
     /**
      * @inheritdoc
      */
-    protected get TaskFileMapping(): Promise<IFileMapping<T>>
+    protected get TasksProcessor(): JSONProcessor<T, ITaskFile>
     {
-        return (
-            async () =>
-            {
-                return new TSProjectTasksFileMapping(this);
-            })();
+        return new TSProjectTasksProcessor(this);
     }
 }

@@ -4,6 +4,7 @@ import { ComponentTests } from "./Components";
 import { FileMappingTests } from "./FileMappings";
 import { InquiryTests } from "./Inquiry";
 import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test";
+import { VSCodeTests } from "./VSCode";
 
 /**
  * Registers tests for the `Generator`-generator.
@@ -19,6 +20,7 @@ export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
         {
             FileMappingTests(context);
             InquiryTests(context);
+            VSCodeTests(context);
             ComponentTests(context);
             TSGeneratorGeneratorTests(context);
         });

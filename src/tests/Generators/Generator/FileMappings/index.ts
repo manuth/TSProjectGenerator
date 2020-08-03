@@ -1,7 +1,6 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { NPMPackagingFileMappingTests } from "./NPMPackaging";
-import { VSCodeFileMappingTests } from "./VSCode";
 
 /**
  * Registers tests for the file-mappings.
@@ -16,6 +15,5 @@ export function FileMappingTests(context: TestContext<TSGeneratorGenerator>): vo
         () =>
         {
             NPMPackagingFileMappingTests(context);
-            VSCodeFileMappingTests(context);
         });
 }

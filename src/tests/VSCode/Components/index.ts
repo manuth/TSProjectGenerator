@@ -1,5 +1,4 @@
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test";
 
 /**
  * Registers tests for vscode-components.
@@ -13,6 +12,5 @@ export function ComponentTests(context: TestContext<TestGenerator>): void
         "Components",
         () =>
         {
-            CodeWorkspaceComponentTests(context);
         });
 }
