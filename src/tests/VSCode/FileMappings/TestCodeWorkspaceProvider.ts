@@ -104,4 +104,18 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     {
         this.tasks = value;
     }
+
+    /**
+     * @inheritdoc
+     *
+     * @param path
+     * The path to the JSON file to read.
+     *
+     * @returns
+     * The JSON read from the `path`.
+     */
+    public async ReadJSON(path: string): Promise<any>
+    {
+        return super.ReadJSON(path);
+    }
 }

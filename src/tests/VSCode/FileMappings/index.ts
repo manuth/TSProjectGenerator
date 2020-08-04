@@ -1,4 +1,5 @@
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { CodeWorkspaceProviderTests } from "./CodeWorkspaceProvider.test";
 
 /**
  * Registers tests for vscode-filemappings.
@@ -12,5 +13,6 @@ export function FileMappingTests(context: TestContext<TestGenerator>): void
         "FileMappings",
         () =>
         {
+            CodeWorkspaceProviderTests(context);
         });
 }
