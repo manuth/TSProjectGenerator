@@ -17,7 +17,7 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
  */
 export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator>): void
 {
-    suite.only(
+    suite(
         "CodeWorkspaceProvider",
         () =>
         {
