@@ -68,7 +68,7 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     /**
      * @inheritdoc
      */
-    public set SourceDebugSettings(value: Promise<ILaunchFile>)
+    public set LaunchMetadata(value: Promise<ILaunchFile>)
     {
         this.launchMetadata = value;
     }
