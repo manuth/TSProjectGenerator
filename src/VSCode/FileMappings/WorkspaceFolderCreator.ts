@@ -78,12 +78,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
                     [this.TasksFileName, this.Component.TasksMetadata]
                 ];
 
-                let result: Array<IFileMapping<T>> = [
-                    {
-                        Source: this.Generator.modulePath(await this.SettingsFolderName),
-                        Destination: this.Generator.destinationPath(await this.SettingsFolderName)
-                    }
-                ];
+                let result: Array<IFileMapping<T>> = [];
 
                 for (let fileEntry of files)
                 {
