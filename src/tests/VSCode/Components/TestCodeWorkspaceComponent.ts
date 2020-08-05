@@ -26,22 +26,22 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * A component for processing the extensions.
      */
-    private extensionsProcessor: JSONProcessor<T, IExtensionFile> = null;
+    private extensionsProcessor: JSONProcessor<T, IExtensionFile> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing debug-settings.
      */
-    private launchFileProcessor: JSONProcessor<T, ILaunchFile> = null;
+    private launchFileProcessor: JSONProcessor<T, ILaunchFile> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing settings.
      */
-    private settingsProcessor: JSONProcessor<T, Record<string, any>> = null;
+    private settingsProcessor: JSONProcessor<T, Record<string, any>> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing tasks.
      */
-    private tasksProcessor: JSONProcessor<T, ITaskFile> = null;
+    private tasksProcessor: JSONProcessor<T, ITaskFile> = new JSONProcessor(this.Generator);
 
     /**
      * Initializes a new instance of the `TestCodeWorkspaceComponent` class.
