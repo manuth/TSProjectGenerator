@@ -1,5 +1,6 @@
 import { IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
+import { join } from "upath";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
@@ -71,7 +72,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
         return (
             async (): Promise<Array<IFileMapping<T>>> =>
             {
-                let files: Array<[string, any]> = [
+                let files: Array<[string, Promise<any>]> = [
                     [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
                     [this.LaunchFileName, this.Component.LaunchMetadata],
                     [this.SettingsFileName, this.Component.SettingsMetadata],
@@ -84,7 +85,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
                 {
                     result.push(
                         {
-                            Destination: this.Generator.destinationPath(await this.SettingsFolderName, fileEntry[0]),
+                            Destination: join(await this.SettingsFolderName, fileEntry[0]),
                             Processor: async (fileMapping, generator) =>
                             {
                                 generator.fs.write(await fileMapping.Destination, JSON.stringify(await fileEntry[1]));
