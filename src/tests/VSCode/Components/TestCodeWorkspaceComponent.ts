@@ -1,7 +1,8 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
+import { CodeFileMappingCreator } from "../../../VSCode/FileMappings/CodeFileMappingCreator";
+import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
 import { IExtensionFile } from "../../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
 import { ITaskFile } from "../../../VSCode/ITaskFile";
@@ -12,6 +13,16 @@ import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProv
  */
 export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends CodeWorkspaceComponent<T>
 {
+    /**
+     * A component for loading vscode-workspaces.
+     */
+    private source: TestCodeWorkspaceProvider<T> = new TestCodeWorkspaceProvider(this);
+
+    /**
+     * A component for creating file-mappings.
+     */
+    private fileMappingCreator: CodeFileMappingCreator<T> = new WorkspaceFolderCreator(this);
+
     /**
      * A component for processing the extensions.
      */
@@ -44,11 +55,35 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     }
 
     /**
+     * Gets or sets a component for loading vscode-workspaces.
+     */
+    public get Source(): TestCodeWorkspaceProvider<T>
+    {
+        return this.source;
+    }
+
+    /**
      * @inheritdoc
      */
-    public get Source(): CodeWorkspaceProvider<T>
+    public set Source(value: TestCodeWorkspaceProvider<T>)
     {
-        return new TestCodeWorkspaceProvider(this);
+        this.source = value;
+    }
+
+    /**
+     * Gets or sets a component for creating file-mappings.
+     */
+    public get FileMappingCreator(): CodeFileMappingCreator<T>
+    {
+        return this.fileMappingCreator;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public set FileMappingCreator(value: CodeFileMappingCreator<T>)
+    {
+        this.fileMappingCreator = value;
     }
 
     /**
