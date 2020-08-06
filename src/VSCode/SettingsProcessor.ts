@@ -33,7 +33,7 @@ export class SettingsProcessor<T extends IGeneratorSettings> extends VSCodeJSONP
 
         for (let key in result)
         {
-            if (await this.FilterSettingKey(key))
+            if (await this.FilterSetting(key, result[key]))
             {
                 result[key] = await this.ProcessSetting(key, result[key]);
             }
@@ -50,12 +50,15 @@ export class SettingsProcessor<T extends IGeneratorSettings> extends VSCodeJSONP
      * Filters a setting by its key.
      *
      * @param key
-     * The key of the setting
+     * The key of the setting.
+     *
+     * @param value
+     * The value of the setting to filter.
      *
      * @returns
      * A value indicating whether the setting with the specified key should be included.
      */
-    protected async FilterSettingKey(key: string): Promise<boolean>
+    protected async FilterSetting(key: string, value: any): Promise<boolean>
     {
         return true;
     }

@@ -22,12 +22,15 @@ export class TSProjectSettingsProcessor<T extends ITSProjectSettings> extends Se
      * @inheritdoc
      *
      * @param key
-     * The key of the setting
+     * The key of the setting.
+     *
+     * @param value
+     * The value of the setting to filter.
      *
      * @returns
      * A value indicating whether the setting with the specified key should be included.
      */
-    protected async FilterSettingKey(key: string): Promise<boolean>
+    protected async FilterSetting(key: string, value: any): Promise<boolean>
     {
         return key !== "files.associations";
     }
