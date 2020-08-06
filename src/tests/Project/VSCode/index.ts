@@ -3,6 +3,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectExtensionsProcessorTests } from "./TSProjectExtensionsProcessor.test";
 import { TSProjectLaunchFileProcessorTests } from "./TSProjectLaunchFileProcessor.test";
 import { TSProjectSettingsProcessorTests } from "./TSProjectSettingsProcessor.test";
+import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test";
 
 /**
  * Registers tests for `VSCode` components for `TSProject`s.
@@ -19,5 +20,6 @@ export function VSCodeTests(context: TestContext<TSProjectGenerator>): void
             TSProjectExtensionsProcessorTests(context);
             TSProjectLaunchFileProcessorTests(context);
             TSProjectSettingsProcessorTests(context);
+            TSProjectTasksProcessorTests(context);
         });
 }
