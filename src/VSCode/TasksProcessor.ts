@@ -34,11 +34,11 @@ export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProc
         let result = await super.Process(data);
         result.tasks = result.tasks ?? [];
 
-        for (let i = 0; i < result.tasks.length; i++)
+        for (let i = result.tasks.length - 1; i >= 0; i--)
         {
             if (await this.FilterTask(result.tasks[i]))
             {
-                await this.ProcessTask(result.tasks[i]);
+                result.tasks[i] = await this.ProcessTask(result.tasks[i]);
             }
             else
             {

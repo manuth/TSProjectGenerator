@@ -34,11 +34,11 @@ export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSO
         let result = await super.Process(data);
         result.configurations = result.configurations ?? [];
 
-        for (let i = 0; i < data.configurations.length; i++)
+        for (let i = result.configurations.length - 1; i >= 0; i--)
         {
             if (await this.FilterDebugConfig(result.configurations[i]))
             {
-                await this.ProcessDebugConfig(data.configurations[i]);
+                result.configurations[i] = await this.ProcessDebugConfig(result.configurations[i]);
             }
             else
             {
