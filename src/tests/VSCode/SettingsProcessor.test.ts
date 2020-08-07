@@ -12,7 +12,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
  */
 export function SettingsProcessorTest(context: TestContext<TestGenerator>): void
 {
-    suite.only(
+    suite(
         "SettingsProcessor",
         () =>
         {

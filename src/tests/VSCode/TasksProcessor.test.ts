@@ -14,7 +14,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
  */
 export function TasksProcessorTests(context: TestContext<TestGenerator>): void
 {
-    suite.only(
+    suite(
         "TasksProcessor",
         () =>
         {
