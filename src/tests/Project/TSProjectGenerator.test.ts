@@ -36,7 +36,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                 async function()
                 {
                     this.timeout(0);
-                    this.slow(20 * 1000);
+                    this.slow(45 * 1000);
                     await writeFile(generator.destinationPath(fileName), testCode);
                     await generator.cleanup();
                     Assert.strictEqual((await readFile(generator.destinationPath(fileName))).toString(), testCode.replace(/'/g, '"'));
