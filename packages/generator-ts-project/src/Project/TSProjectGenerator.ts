@@ -95,7 +95,17 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
             },
             {
                 Source: this.modulePath("tsconfig.base.json"),
-                Destination: "tsconfig.base.json"
+                Destination: "tsconfig.base.json",
+                Processor: async (fileMapping, generator) =>
+                {
+                    let tsConfig = JSON.parse((await readFile(await fileMapping.Source)).toString());
+                    delete tsConfig.compilerOptions.declarationMap;
+                    delete tsConfig.compilerOptions.baseUrl;
+                    delete tsConfig.compilerOptions.paths;
+                    delete tsConfig.compilerOptions.typeRoots;
+
+                    generator.fs.write(await fileMapping.Destination, JSON.stringify(tsConfig, null, 4));
+                }
             },
             {
                 Source: this.modulePath("tsconfig.json"),
