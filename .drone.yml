@@ -19,7 +19,7 @@ steps:
     image: node
     commands:
       - npm run test
-  - name: publish node-module
+  - name: publish module to npm
     image: node
     environment:
       NPM_TOKEN:
@@ -27,7 +27,7 @@ steps:
     commands:
       - echo "always_auth=true" > ~/.npmrc
       - echo "//registry.npmjs.org/:_authToken=$${NPM_TOKEN}" >> ~/.npmrc
-      - npm publish --access=public
+      - npx lerna publish from-package -y
     when:
       event:
         - tag
@@ -36,7 +36,7 @@ steps:
   - name: prepare release
     image: node
     commands:
-      - npm pack
+      - npx lerna exec --no-private npm pack
       - npm install escape-string-regexp
       - node -e "console.log(require('escape-string-regexp')('${DRONE_TAG}'))" > TagName.txt
     when:
@@ -62,7 +62,7 @@ steps:
       api_key:
         from_secret: github_token
       files:
-        - "*.tgz"
+        - "./packages/*/*.tgz"
       title: ReleaseTitle.md
       note: ReleaseNotes.md
     when:
