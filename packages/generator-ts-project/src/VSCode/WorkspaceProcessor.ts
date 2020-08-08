@@ -1,5 +1,5 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "src/Components/JSONProcessor";
+import { JSONProcessor } from "../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "./ExtensionsProcessor";
 import { IExtensionFile } from "./IExtensionFile";
