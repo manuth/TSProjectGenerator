@@ -4,6 +4,7 @@ import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspac
 import { IExtensionFile } from "../../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
 import { ITaskFile } from "../../../VSCode/ITaskFile";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 
 /**
  * Provides an implementation of the `CodeWorkspaceProvider` class for testing.
@@ -11,24 +12,9 @@ import { ITaskFile } from "../../../VSCode/ITaskFile";
 export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends CodeWorkspaceProvider<T>
 {
     /**
-     * The meta-data of the source extensions.
+     * The workspace-metadata.
      */
-    private extensions: Promise<IExtensionFile> = null;
-
-    /**
-     * The meta-data of the source debug-settings.
-     */
-    private launchMetadata: Promise<ILaunchFile> = null;
-
-    /**
-     * The metadata of the source settings.
-     */
-    private settings: Promise<Record<string, any>> = null;
-
-    /**
-     * The meta-data of the source tasks.
-     */
-    private tasks: Promise<ITaskFile> = null;
+    private workspace: Promise<IWorkspaceMetadata>;
 
     /**
      * Initializes a new instance of the `TestCodeWorkspaceProvider` class.
@@ -42,67 +28,51 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     }
 
     /**
-     * Gets or sets the meta-data of the extensions.
+     * @inheritdoc
      */
     public get ExtensionsMetadata(): Promise<IExtensionFile>
     {
-        return this.extensions;
+        return (async () => (await this.WorkspaceMetadata).extensions)();
     }
 
     /**
      * @inheritdoc
-     */
-    public set ExtensionsMetadata(value: Promise<IExtensionFile>)
-    {
-        this.extensions = value;
-    }
-
-    /**
-     * Gets or sets the meta-data of the debug-settings.
      */
     public get LaunchMetadata(): Promise<ILaunchFile>
     {
-        return this.launchMetadata;
+        return (async () => (await this.WorkspaceMetadata).launch)();
     }
 
     /**
      * @inheritdoc
-     */
-    public set LaunchMetadata(value: Promise<ILaunchFile>)
-    {
-        this.launchMetadata = value;
-    }
-
-    /**
-     * Gets or sets the metadata of the settings.
      */
     public get SettingsMetadata(): Promise<Record<string, any>>
     {
-        return this.settings;
+        return (async () => (await this.WorkspaceMetadata).settings)();
     }
 
     /**
      * @inheritdoc
-     */
-    public set SettingsMetadata(value: Promise<Record<string, any>>)
-    {
-        this.settings = value;
-    }
-
-    /**
-     * Gets or sets the meta-data of the source tasks.
      */
     public get TasksMetadata(): Promise<ITaskFile>
     {
-        return this.tasks;
+        return (async () => (await this.WorkspaceMetadata).tasks)();
+    }
+
+    /**
+     * Gets or sets the workspace-metadata.
+     */
+    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    {
+        return this.workspace;
     }
 
     /**
      * @inheritdoc
      */
-    public set TasksMetadata(value: Promise<ITaskFile>)
+    public set WorkspaceMetadata(value: Promise<IWorkspaceMetadata>)
     {
-        this.tasks = value;
+        this.workspace = value;
     }
 
     /**

@@ -74,10 +74,11 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                 async function()
                 {
                     this.timeout(0);
-                    component.Source.ExtensionsMetadata = RandomData();
-                    component.Source.LaunchMetadata = RandomData();
-                    component.Source.SettingsMetadata = RandomData();
-                    component.Source.TasksMetadata = RandomData();
+                    let workspace = await component.Source.WorkspaceMetadata;
+                    workspace.extensions = RandomData();
+                    workspace.launch = RandomData();
+                    workspace.settings = RandomData();
+                    workspace.tasks = RandomData();
 
                     for (let fileMappingOptions of await component.FileMappings)
                     {

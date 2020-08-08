@@ -2,7 +2,6 @@ import { IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-y
 import { ComponentBase } from "../../Components/ComponentBase";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { ExtensionsProcessor } from "../ExtensionsProcessor";
 import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
 import { CodeWorkspaceProvider } from "../FileMappings/CodeWorkspaceProvider";
 import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator";
@@ -10,9 +9,8 @@ import { WorkspaceFolderLoader } from "../FileMappings/WorkspaceFolderLoader";
 import { IExtensionFile } from "../IExtensionFile";
 import { ILaunchFile } from "../ILaunchFile";
 import { ITaskFile } from "../ITaskFile";
-import { LaunchFileProcessor } from "../LaunchFileProcessor";
-import { SettingsProcessor } from "../SettingsProcessor";
-import { TasksProcessor } from "../TasksProcessor";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
+import { WorkspaceProcessor } from "../WorkspaceProcessor";
 
 /**
  * Provides a component for creating a vscode-workspace.
@@ -75,6 +73,18 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     }
 
     /**
+     * @inheritdoc
+     */
+    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    {
+        return (
+            async () =>
+            {
+                return this.WorkspaceProcessor.Process(await this.Source.WorkspaceMetadata);
+            })();
+    }
+
+    /**
      * Gets the meta-data of the extensions to write.
      */
     public get ExtensionsMetadata(): Promise<IExtensionFile>
@@ -82,7 +92,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
         return (
             async () =>
             {
-                return this.ExtensionsProcessor.Process(await this.Source.ExtensionsMetadata);
+                return (await this.WorkspaceMetadata).extensions;
             })();
     }
 
@@ -94,7 +104,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
         return (
             async () =>
             {
-                return this.LaunchFileProcessor.Process(await this.Source.LaunchMetadata);
+                return (await this.WorkspaceMetadata).launch;
             })();
     }
 
@@ -106,7 +116,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
         return (
             async () =>
             {
-                return this.SettingsProcessor.Process(await this.Source.SettingsMetadata);
+                return (await this.WorkspaceMetadata).settings;
             })();
     }
 
@@ -118,40 +128,16 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
         return (
             async () =>
             {
-                return this.TasksProcessor.Process(await this.Source.TasksMetadata);
+                return (await this.WorkspaceMetadata).tasks;
             })();
     }
 
     /**
-     * Gets a component for processing the extensions.
+     * Gets a component for processing the workspace.
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
+    protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
     {
-        return new ExtensionsProcessor(this);
-    }
-
-    /**
-     * Gets a component for processing the debug-settings.
-     */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
-    {
-        return new LaunchFileProcessor(this);
-    }
-
-    /**
-     * Gets a component for processing the settings.
-     */
-    protected get SettingsProcessor(): JSONProcessor<T, Record<string, any>>
-    {
-        return new SettingsProcessor(this);
-    }
-
-    /**
-     * Gets a component for processing tasks.
-     */
-    protected get TasksProcessor(): JSONProcessor<T, ITaskFile>
-    {
-        return new TasksProcessor(this);
+        return new WorkspaceProcessor(this);
     }
 
     /**

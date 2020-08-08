@@ -74,10 +74,11 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator>):
                     randomTasks = RandomData();
 
                     let component = new TestCodeWorkspaceComponent(generator);
-                    component.Source.ExtensionsMetadata = context.CreatePromise(randomExtensions);
-                    component.Source.LaunchMetadata = context.CreatePromise(randomLaunchFile);
-                    component.Source.SettingsMetadata = context.CreatePromise(randomSettings);
-                    component.Source.TasksMetadata = context.CreatePromise(randomTasks);
+                    let workspace = await component.Source.WorkspaceMetadata;
+                    workspace.extensions = randomExtensions;
+                    workspace.launch = randomLaunchFile;
+                    workspace.settings = randomSettings;
+                    workspace.tasks = randomTasks;
 
                     for (let fileMappingOptions of await component.FileMappings)
                     {
