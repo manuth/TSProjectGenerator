@@ -88,7 +88,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
                             Destination: join(await this.SettingsFolderName, fileEntry[0]),
                             Processor: async (fileMapping, generator) =>
                             {
-                                generator.fs.write(await fileMapping.Destination, JSON.stringify(await fileEntry[1]));
+                                generator.fs.write(await fileMapping.Destination, JSON.stringify(await fileEntry[1], null, 4));
                             }
                         });
                 }
