@@ -4,6 +4,7 @@ import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionFile } from "../IExtensionFile";
 import { ILaunchFile } from "../ILaunchFile";
 import { ITaskFile } from "../ITaskFile";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 
 /**
  * Provides the functionality to load a vscode-workspace.
@@ -43,24 +44,57 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
     }
 
     /**
+     * Gets the meta-data of the workspace.
+     */
+    public abstract get WorkspaceMetadata(): Promise<IWorkspaceMetadata>;
+
+    /**
      * Gets the meta-data of the extensions.
      */
-    public abstract get ExtensionsMetadata(): Promise<IExtensionFile>;
+    public get ExtensionsMetadata(): Promise<IExtensionFile>
+    {
+        return (
+            async () =>
+            {
+                return (await this.WorkspaceMetadata).extensions;
+            })();
+    }
 
     /**
      * Gets the meta-data of the debug-settings.
      */
-    public abstract get LaunchMetadata(): Promise<ILaunchFile>;
+    public get LaunchMetadata(): Promise<ILaunchFile>
+    {
+        return (
+            async () =>
+            {
+                return (await this.WorkspaceMetadata).launch;
+            })();
+    }
 
     /**
      * Gets the meta-data of the settings.
      */
-    public abstract get SettingsMetadata(): Promise<Record<string, any>>;
+    public get SettingsMetadata(): Promise<Record<string, any>>
+    {
+        return (
+            async () =>
+            {
+                return (await this.WorkspaceMetadata).settings;
+            })();
+    }
 
     /**
      * Gets the meta-data of the tasks.
      */
-    public abstract get TasksMetadata(): Promise<ITaskFile>;
+    public get TasksMetadata(): Promise<ITaskFile>
+    {
+        return (
+            async () =>
+            {
+                return (await this.WorkspaceMetadata).tasks;
+            })();
+    }
 
     /**
      * Reads json from the specified `path`.

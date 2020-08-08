@@ -1,8 +1,6 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
-import { IExtensionFile } from "../IExtensionFile";
-import { ILaunchFile } from "../ILaunchFile";
-import { ITaskFile } from "../ITaskFile";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 
 /**
@@ -54,12 +52,18 @@ export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWor
     /**
      * @inheritdoc
      */
-    public get ExtensionsMetadata(): Promise<IExtensionFile>
+    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
     {
         return (
-            async () =>
+            async (): Promise<IWorkspaceMetadata> =>
             {
-                return this.ReadJSON(await this.ExtensionsFileName);
+                return {
+                    folders: [],
+                    extensions: await this.ReadJSON(await this.ExtensionsFileName),
+                    launch: await this.ReadJSON(await this.LaunchFileName),
+                    settings: await this.ReadJSON(await this.SettingsFileName),
+                    tasks: await this.ReadJSON(await this.TasksFileName)
+                };
             })();
     }
 
@@ -72,18 +76,6 @@ export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWor
     }
 
     /**
-     * @inheritdoc
-     */
-    public get LaunchMetadata(): Promise<ILaunchFile>
-    {
-        return (
-            async () =>
-            {
-                return this.ReadJSON(await this.LaunchFileName);
-            })();
-    }
-
-    /**
      * Gets the name of the file containing settings.
      */
     public get SettingsFileName(): Promise<string>
@@ -92,34 +84,10 @@ export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWor
     }
 
     /**
-     * @inheritdoc
-     */
-    public get SettingsMetadata(): Promise<Record<string, any>>
-    {
-        return (
-            async () =>
-            {
-                return this.ReadJSON(await this.SettingsFileName);
-            })();
-    }
-
-    /**
      * Gets the name of the file containing the tasks.
      */
     public get TasksFileName(): Promise<string>
     {
         return this.SettingsPath("tasks.json");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get TasksMetadata(): Promise<ITaskFile>
-    {
-        return (
-            async () =>
-            {
-                return this.ReadJSON(await this.TasksFileName);
-            })();
     }
 }
