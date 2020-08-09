@@ -1,5 +1,6 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
+import { readFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionFile } from "../IExtensionFile";
 import { ILaunchFile } from "../ILaunchFile";
@@ -107,6 +108,6 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
      */
     protected async ReadJSON(path: string): Promise<any>
     {
-        return JSON.parse(this.Generator.fs.read(path));
+        return JSON.parse(this.Generator.fs.exists(path) ? this.Generator.fs.read(path) : (await readFile(path)).toString());
     }
 }
