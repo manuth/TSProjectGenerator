@@ -101,7 +101,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                     for (let fileAssertion of fileAssertions)
                     {
                         let path = join(await fileMappingCreator.SettingsFolderName, fileAssertion[0]);
-                        AssertContent(path, await fileAssertion[1]);
+                        await AssertContent(path, await fileAssertion[1]);
                     }
                 });
         });
