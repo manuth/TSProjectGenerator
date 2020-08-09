@@ -1,6 +1,8 @@
 import { IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
+import { CodeWorkspaceProvider } from "../../VSCode/FileMappings/CodeWorkspaceProvider";
+import { WorkspaceFileLoader } from "../../VSCode/FileMappings/WorkspaceFileLoader";
 import { IWorkspaceMetadata } from "../../VSCode/IWorkspaceMetadata";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcessor";
@@ -27,5 +29,13 @@ export class TSProjectWorkspaceFolder<T extends ITSProjectSettings> extends Code
     protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
     {
         return new TSProjectWorkspaceProcessor(this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Source(): CodeWorkspaceProvider<T>
+    {
+        return new WorkspaceFileLoader(this, this.Generator.modulePath("TSProjectGenerator.code-workspace"));
     }
 }
