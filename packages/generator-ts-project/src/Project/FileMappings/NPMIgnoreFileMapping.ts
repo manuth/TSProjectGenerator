@@ -45,6 +45,14 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
     }
 
     /**
+     * Gets the name of the patch file.
+     */
+    protected get PatchFileName(): string
+    {
+        return this.Generator.commonTemplatePath("npmignore.diff");
+    }
+
+    /**
      * @inheritdoc
      */
     public async Processor(): Promise<void>
@@ -54,7 +62,7 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
             applyPatch(
                 (await readFile(await this.Resolved.Source)).toString(),
                 parsePatch(
-                    (await readFile(this.Generator.commonTemplatePath("npmignore.diff"))).toString()
+                    (await readFile(this.PatchFileName)).toString()
                 )[0]));
     }
 }
