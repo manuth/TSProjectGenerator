@@ -54,7 +54,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                         Destination: path
                     });
 
-                Assert.deepStrictEqual(
+                Assert.deepEqual(
                     await expected,
                     await component.Source.ReadJSON(await fileMapping.Destination));
             }
