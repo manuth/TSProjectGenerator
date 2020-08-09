@@ -121,6 +121,14 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
 
                     generator.fs.write(await target.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
                 }
+            },
+            {
+                Source: this.modulePath("tsconfig.build.json"),
+                Destination: "tsconfig.build.json"
+            },
+            {
+                Source: this.modulePath("src", "tests", "tsconfig.json"),
+                Destination: this.destinationPath(this.SourceRoot, "tests", "tsconfig.json")
             }
         ];
     }

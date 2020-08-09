@@ -26,7 +26,7 @@
   "scripts": {
     "build": "npm run copy-files && npm run compile",
     "copy-files": "cd ../.. && npm run copy-files",
-    "compile": "tsc -b .",
+    "compile": "tsc -b tsconfig.build.json",
     "watch-compile": "npm run compile -- --watch",
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- -- --watch\" \"npm run watch-compile\"",
