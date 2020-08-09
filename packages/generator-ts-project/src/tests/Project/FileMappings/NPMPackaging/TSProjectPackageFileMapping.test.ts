@@ -99,11 +99,19 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         async () =>
                         {
                             await tester.Run();
-                            await AssertScriptCopy("build");
+                            await AssertScriptCopy("compile", "build");
                             await AssertScriptCopy("rebuild");
-                            await AssertScriptCopy("watch");
+
+                            await AssertScript(
+                                "watch",
+                                Constants.Package.Scripts.Get("watch-compile").replace("compile", "build"));
+
                             await AssertScriptCopy("clean");
-                            await AssertScriptCopy("lint-code", "lint");
+                            await AssertScriptCopy("lint-code-base", "lint-base");
+
+                            await AssertScript(
+                                "lint",
+                                Constants.Package.Scripts.Get("lint-code").replace("lint-code-base", "lint-base"));
 
                             await AssertScript(
                                 "lint-compact",
