@@ -39,4 +39,18 @@ export class VSCodeJSONProcessor<T extends IGeneratorSettings, TData> extends JS
     {
         return this.component;
     }
+
+    /**
+     * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the given `value`.
+     *
+     * @param value
+     * The value containing the workspace-folder references to strip.
+     *
+     * @returns
+     * A value containing `${workspaceFolder}` directives in place of named workspace-folders.
+     */
+    public StripWorkspaceFolder(value: string): string
+    {
+        return value.replace(/(\$\{workspaceFolder):.*?(\})/g, "$1$2");
+    }
 }
