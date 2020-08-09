@@ -2,8 +2,12 @@
   "name": "ts-project-generator",
   "private": true,
   "scripts": {
-    "build": "lerna run build",
-    "rebuild": "lerna run rebuild",
+    "build": "npm run copy-files && npm run compile",
+    "copy-files": "glob-exec --foreach \"./packages/*\" --parallel -- copy-and-watch .{npmignore,gitignore} \"{{file}}\"",
+    "compile": "tsc -b tsconfig.build.json",
+    "rebuild": "npm run clean && npm run build",
+    "watch": "concurrently --raw \"npm run copy-files -- --watch | dev-null\" \"npm run compile -- --watch\"",
+    "clean": "lerna run clean",
     "lint": "lerna run lint",
     "test": "lerna run test",
     "prepare": "lerna bootstrap && npm run rebuild"
@@ -13,9 +17,13 @@
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/eslint-plugin-tslint": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
+    "concurrently": "^5.3.0",
+    "copy-and-watch": "^0.1.5",
+    "dev-null-cli": "^1.0.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsdoc": "^30.2.1",
+    "glob-exec": "^0.1.1",
     "lerna": "^3.22.1",
     "tslint": "^6.1.3",
     "typescript": "^3.9.7"
