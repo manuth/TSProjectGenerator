@@ -8,7 +8,11 @@
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- --watch | dev-null\" \"npm run compile -- --watch\"",
     "clean": "lerna run clean",
-    "lint": "lerna run lint",
+    "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
+    "lint-local": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx .eslintrc.js",
+    "lint-local-compact": "npm run lint-local -- -f compact || exit 0",
+    "lint": "npm run lint-local && lerna run lint",
+    "lint-compact": "npm run lint-local-compact && lerna run lint-compact",
     "test": "lerna run test",
     "version": "ts-node ./scripts/bumpVersion.ts",
     "prepare": "lerna bootstrap && npm run rebuild"
