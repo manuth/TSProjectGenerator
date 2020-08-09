@@ -10,6 +10,7 @@
     "clean": "lerna run clean",
     "lint": "lerna run lint",
     "test": "lerna run test",
+    "version": "ts-node ./scripts/bumpVersion.ts",
     "prepare": "lerna bootstrap && npm run rebuild"
   },
   "devDependencies": {
