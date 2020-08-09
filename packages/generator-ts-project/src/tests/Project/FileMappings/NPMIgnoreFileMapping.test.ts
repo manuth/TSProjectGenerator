@@ -2,7 +2,7 @@ import Assert = require("assert");
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { readdir, lstat } from "fs-extra";
 import packlist = require("npm-packlist");
-import { resolve, join } from "upath";
+import { resolve } from "upath";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 
 /**
@@ -69,7 +69,7 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
 
                 for (let fileEntry of fileEntries)
                 {
-                    fileEntry = join(path, fileEntry);
+                    fileEntry = await DestinationPath(path, fileEntry);
 
                     if ((await lstat(fileEntry)).isDirectory())
                     {
@@ -112,7 +112,7 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 });
 
             test(
-                "Checking whether vscode-files are ignored",
+                "Checking whether vscode-files are ignored…",
                 async () =>
                 {
                     await AssertDirectoryIgnored(".vscode");
