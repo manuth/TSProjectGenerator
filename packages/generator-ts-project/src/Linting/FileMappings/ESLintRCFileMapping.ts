@@ -1,5 +1,5 @@
 import { IGenerator } from "@manuth/extended-yo-generator";
-import { createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile } from "typescript";
+import { createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile, isObjectLiteralExpression, createObjectLiteral } from "typescript";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -104,8 +104,14 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends TypeScrip
                                 isExpressionStatement(node) &&
                                 isBinaryExpression(node.expression) &&
                                 isPropertyAccessExpression(node.expression.left) &&
-                                (node.expression.left.getText() === "module.exports"))
+                                (node.expression.left.getText() === "module.exports") &&
+                                isObjectLiteralExpression(node.expression.right))
                             {
+                                node.expression.right = createObjectLiteral(
+                                    node.expression.right.properties.filter(
+                                        (property) => property.name?.getText() !== "root"),
+                                    true);
+
                                 node.expression.right = visitEachChild(node.expression.right, exportObjectVisitor, context);
                             }
 
