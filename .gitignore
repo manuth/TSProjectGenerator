@@ -68,6 +68,10 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+# Redundant ignore files
+packages/*/.npmignore
+packages/*/.gitignore
+
 # Yarn Integrity file
 .yarn-integrity
 
