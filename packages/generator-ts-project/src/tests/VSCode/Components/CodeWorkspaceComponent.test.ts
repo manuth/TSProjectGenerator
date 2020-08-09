@@ -52,10 +52,10 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator>)
                     let debugSettingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(debugSettings);
                     let settingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(settings);
                     let tasksProcessor = new TestJSONProcessor<ITestGeneratorSettings>(tasks);
-                    component.ExtensionsProcessor = extensionsProcessor;
-                    component.LaunchFileProcessor = debugSettingsProcessor;
-                    component.SettingsProcessor = settingsProcessor;
-                    component.TasksProcessor = tasksProcessor;
+                    component.WorkspaceProcessor.ExtensionsProcessor = extensionsProcessor;
+                    component.WorkspaceProcessor.LaunchFileProcessor = debugSettingsProcessor;
+                    component.WorkspaceProcessor.SettingsProcessor = settingsProcessor;
+                    component.WorkspaceProcessor.TasksProcessor = tasksProcessor;
                     Assert.strictEqual(await component.ExtensionsMetadata, extensions);
                     Assert.strictEqual(await component.LaunchMetadata, debugSettings);
                     Assert.strictEqual(await component.SettingsMetadata, settings);
