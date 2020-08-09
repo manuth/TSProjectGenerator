@@ -40,23 +40,11 @@ export class WorkspaceProcessor<T extends IGeneratorSettings> extends VSCodeJSON
     {
         let result = await super.Process(data);
 
-        if (result?.extensions)
+        if (result)
         {
             result.extensions = await this.ExtensionsProcessor.Process(result.extensions);
-        }
-
-        if (result?.launch)
-        {
             result.launch = await this.LaunchFileProcessor.Process(result.launch);
-        }
-
-        if (result?.settings)
-        {
             result.settings = await this.SettingsProcessor.Process(result.settings);
-        }
-
-        if (result?.tasks)
-        {
             result.tasks = await this.TasksProcessor.Process(result.tasks);
         }
 
