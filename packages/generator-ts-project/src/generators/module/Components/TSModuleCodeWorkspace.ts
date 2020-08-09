@@ -2,8 +2,8 @@ import { IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { TSModuleLaunchFileProcessor } from "../VSCode/TSModuleLaunchFileProcessor";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
+import { TSModuleWorkspaceProcessor } from "../VSCode/TSModuleWorkspaceProcessor";
 
 /**
  * Provides a component for creating a vscode-workspace folder for `TSModule`s.
@@ -24,8 +24,8 @@ export class TSModuleCodeWorkspace<T extends ITSProjectSettings> extends TSProje
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
     {
-        return new TSModuleLaunchFileProcessor(this);
+        return new TSModuleWorkspaceProcessor(this);
     }
 }

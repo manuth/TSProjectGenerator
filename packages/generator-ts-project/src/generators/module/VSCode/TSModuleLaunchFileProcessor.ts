@@ -1,12 +1,12 @@
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
+import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { LaunchFileProcessor } from "../../../VSCode/LaunchFileProcessor";
 
 /**
  * Provides the functionality to process debug-configurations for `TSModule`s.
  */
-export class TSModuleLaunchFileProcessor<T extends ITSProjectSettings> extends LaunchFileProcessor<T>
+export class TSModuleLaunchFileProcessor<T extends ITSProjectSettings> extends TSProjectLaunchFileProcessor<T>
 {
     /**
      * Initializes a new instance of the `TSModuleLaunchFileProcessor` class.
