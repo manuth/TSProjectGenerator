@@ -110,7 +110,7 @@ dist
 [Ss]rc/
 
 # Source-maps
-[Ll]ib/**/*.js.map
+[Ll]ib/**/*.map
 
 # Unit-Tests
 [Ll]ib/tests/
