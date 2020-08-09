@@ -31,12 +31,19 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     protected get TypeScriptScripts(): Promise<Array<IScriptMapping<T> | string>>
     {
         return (
-            async () =>
+            async (): Promise<Array<IScriptMapping<T> | string>> =>
             {
                 return [
-                    "build",
+                    {
+                        Source: "compile",
+                        Destination: "build"
+                    },
                     "rebuild",
-                    "watch",
+                    {
+                        Source: "watch-compile",
+                        Destination: "watch",
+                        Processor: async (script) => script.replace("compile", "build")
+                    },
                     "clean"
                 ];
             })();
@@ -52,8 +59,13 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
             {
                 return [
                     {
+                        Source: "lint-code-base",
+                        Destination: "lint-base"
+                    },
+                    {
                         Source: "lint-code",
-                        Destination: "lint"
+                        Destination: "lint",
+                        Processor: async (script) => script.replace("lint-code-base", "lint-base")
                     },
                     {
                         Source: "lint-code-compact",
