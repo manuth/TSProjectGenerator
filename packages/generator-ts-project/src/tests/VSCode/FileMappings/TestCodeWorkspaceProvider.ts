@@ -14,7 +14,13 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     /**
      * The workspace-metadata.
      */
-    private workspace: Promise<IWorkspaceMetadata>;
+    private workspace: Promise<IWorkspaceMetadata> = (
+        async (): Promise<IWorkspaceMetadata> =>
+        {
+            return {
+                folders: []
+            };
+        })();
 
     /**
      * Initializes a new instance of the `TestCodeWorkspaceProvider` class.
