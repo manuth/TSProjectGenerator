@@ -1,6 +1,7 @@
 import { IExtensionFile } from "./IExtensionFile";
 import { ILaunchFile } from "./ILaunchFile";
 import { ITaskFile } from "./ITaskFile";
+import { WorkspaceFolder } from "./WorkspaceFolder";
 
 /**
  * Provides metadata for a workspace.

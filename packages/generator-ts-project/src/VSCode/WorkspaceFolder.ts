@@ -1,7 +1,7 @@
 /**
  * Represents a workspace folder.
  */
-type WorkspaceFolder = {
+export type WorkspaceFolder = {
     /**
      * The name of the workspace folder.
      */
