@@ -1,5 +1,7 @@
+import { EOL } from "os";
 import { IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
+import { split } from "eol";
 import { join } from "upath";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
@@ -88,7 +90,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
                             Destination: join(await this.SettingsFolderName, fileEntry[0]),
                             Processor: async (fileMapping, generator) =>
                             {
-                                generator.fs.write(await fileMapping.Destination, JSON.stringify(await fileEntry[1], null, 4));
+                                generator.fs.write(await fileMapping.Destination, split(JSON.stringify(await fileEntry[1], null, 4)).join(EOL));
                             }
                         });
                 }
