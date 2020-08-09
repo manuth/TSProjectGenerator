@@ -6,6 +6,9 @@ import { writeFile, remove, pathExists } from "fs-extra";
 import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
+import { IExtensionFile } from "../../../VSCode/IExtensionFile";
+import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { ITaskFile } from "../../../VSCode/ITaskFile";
 import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
@@ -28,6 +31,19 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator>):
             let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, IFileMapping<ITestGeneratorSettings>>;
             let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
 
+            /**
+             * Generates random data.
+             *
+             * @returns
+             * Random data.
+             */
+            function RandomData(): any
+            {
+                return {
+                    random: random.string(10)
+                };
+            }
+
             suiteSetup(
                 async function()
                 {
@@ -46,19 +62,53 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator>):
                     tempDir.Dispose();
                 });
 
-            setup(
+            teardown(
                 async () =>
                 {
+                    await fileMappingTester.Clean();
+
                     if (await pathExists(fileName))
                     {
                         return remove(fileName);
                     }
                 });
 
-            teardown(
-                async () =>
+            suite(
+                "General",
+                () =>
                 {
-                    return fileMappingTester.Clean();
+                    let randomExtensions: IExtensionFile;
+                    let randomLaunchData: ILaunchFile;
+                    let randomSettings: Record<string, any>;
+                    let randomTasks: ITaskFile;
+
+                    setup(
+                        () =>
+                        {
+                            randomExtensions = RandomData();
+                            randomLaunchData = RandomData();
+                            randomSettings = RandomData();
+                            randomTasks = RandomData();
+                        });
+
+                    test(
+                        "Checking whether the metadata of all components are loaded from `WorkspaceMetadata…",
+                        async () =>
+                        {
+                            workspaceProvider.WorkspaceMetadata = context.CreatePromise(
+                                {
+                                    folders: [],
+                                    extensions: randomExtensions,
+                                    launch: randomLaunchData,
+                                    settings: randomSettings,
+                                    tasks: randomTasks
+                                });
+
+                            Assert.strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
+                            Assert.strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
+                            Assert.strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
+                            Assert.strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
+                        });
                 });
 
             suite(
@@ -80,6 +130,8 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator>):
                         async () =>
                         {
                             await writeFile(fileName, JSON.stringify(randomData));
+                            await fileMappingTester.Commit();
+                            generator.fs.exists(fileName);
                             Assert.deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 
