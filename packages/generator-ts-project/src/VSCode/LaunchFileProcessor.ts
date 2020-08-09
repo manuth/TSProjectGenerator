@@ -32,17 +32,19 @@ export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSO
     public async Process(data: ILaunchFile): Promise<ILaunchFile>
     {
         let result = await super.Process(data);
-        result.configurations = result.configurations ?? [];
 
-        for (let i = result.configurations.length - 1; i >= 0; i--)
+        if (result?.configurations)
         {
-            if (await this.FilterDebugConfig(result.configurations[i]))
+            for (let i = result.configurations.length - 1; i >= 0; i--)
             {
-                result.configurations[i] = await this.ProcessDebugConfig(result.configurations[i]);
-            }
-            else
-            {
-                data.configurations.splice(i, 1);
+                if (await this.FilterDebugConfig(result.configurations[i]))
+                {
+                    result.configurations[i] = await this.ProcessDebugConfig(result.configurations[i]);
+                }
+                else
+                {
+                    result.configurations.splice(i, 1);
+                }
             }
         }
 

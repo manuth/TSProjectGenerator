@@ -32,17 +32,19 @@ export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProc
     public async Process(data: ITaskFile): Promise<ITaskFile>
     {
         let result = await super.Process(data);
-        result.tasks = result.tasks ?? [];
 
-        for (let i = result.tasks.length - 1; i >= 0; i--)
+        if (result?.tasks)
         {
-            if (await this.FilterTask(result.tasks[i]))
+            for (let i = result.tasks.length - 1; i >= 0; i--)
             {
-                result.tasks[i] = await this.ProcessTask(result.tasks[i]);
-            }
-            else
-            {
-                result.tasks.splice(i, 1);
+                if (await this.FilterTask(result.tasks[i]))
+                {
+                    result.tasks[i] = await this.ProcessTask(result.tasks[i]);
+                }
+                else
+                {
+                    result.tasks.splice(i, 1);
+                }
             }
         }
 

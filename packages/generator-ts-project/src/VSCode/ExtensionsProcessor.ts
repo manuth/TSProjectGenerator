@@ -31,7 +31,12 @@ export class ExtensionsProcessor<T extends IGeneratorSettings> extends VSCodeJSO
     public async Process(data: IExtensionFile): Promise<IExtensionFile>
     {
         let result = await super.Process(data);
-        result.recommendations = await this.FilterRecommendations(result.recommendations ?? []);
+
+        if (result?.recommendations)
+        {
+            result.recommendations = await this.FilterRecommendations(result.recommendations);
+        }
+
         return result;
     }
 
