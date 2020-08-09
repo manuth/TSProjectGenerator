@@ -5,5 +5,11 @@
         "composite": true,
         "rootDir": "./src",
         "outDir": "./lib"
-    }
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "./src/tests/**/*"
+    ]
 }
