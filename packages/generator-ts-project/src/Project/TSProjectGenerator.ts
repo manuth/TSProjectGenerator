@@ -1,10 +1,12 @@
 import { createRequire } from "module";
+import { EOL } from "os";
 import { relative } from "path";
 import { Generator, Question, IComponentCollection, IFileMapping, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
 import JSON = require("comment-json");
 import dedent = require("dedent");
+import { split } from "eol";
 import { ESLint } from "eslint";
 import { readFile, writeJSON, readJSON } from "fs-extra";
 import npmWhich = require("npm-which");
@@ -104,7 +106,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
                     delete tsConfig.compilerOptions.paths;
                     delete tsConfig.compilerOptions.typeRoots;
 
-                    generator.fs.write(await fileMapping.Destination, JSON.stringify(tsConfig, null, 4));
+                    generator.fs.write(await fileMapping.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
                 }
             },
             {
@@ -119,7 +121,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
                         delete tsConfig.references;
                     }
 
-                    generator.fs.write(await target.Destination, JSON.stringify(tsConfig, null, 4));
+                    generator.fs.write(await target.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
                 }
             }
         ];
