@@ -1,11 +1,14 @@
 import Assert = require("assert");
 import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import JSON = require("comment-json");
+import dedent = require("dedent");
 import { Random } from "random-js";
 import { join } from "upath";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
 import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
+import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
  * Registers tests for the `WorkspaceFolderCreator` class.
@@ -21,7 +24,9 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
         {
             let random: Random;
             let generator: TestGenerator;
+            let randomComment: string;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
+            let source: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
             let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings>;
 
             /**
@@ -55,7 +60,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                     });
 
                 Assert.deepStrictEqual(
-                    await component.Source.ReadJSON(await fileMapping.Destination),
+                    await source.ReadJSON(await fileMapping.Destination),
                     await expected);
             }
 
@@ -66,6 +71,8 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                     random = new Random();
                     generator = await context.Generator;
                     component = new TestCodeWorkspaceComponent(generator);
+                    source = new TestCodeWorkspaceProvider(component);
+                    component.Source = source;
                     fileMappingCreator = new WorkspaceFolderCreator(component);
                     component.FileMappingCreator = fileMappingCreator;
                 });
@@ -74,11 +81,17 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                 async function()
                 {
                     this.timeout(0);
-                    let workspace = await component.Source.WorkspaceMetadata;
+                    let workspace = await source.WorkspaceMetadata;
+                    randomComment = random.string(10);
                     workspace.extensions = RandomData();
                     workspace.launch = RandomData();
                     workspace.settings = RandomData();
-                    workspace.tasks = RandomData();
+
+                    workspace.tasks = JSON.parse(
+                        dedent(
+                            `
+                                /* ${randomComment} */
+                                ${JSON.stringify(RandomData())}`));
 
                     for (let fileMappingOptions of await component.FileMappings)
                     {
@@ -103,6 +116,24 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>):
                         let path = join(await fileMappingCreator.SettingsFolderName, fileAssertion[0]);
                         await AssertContent(path, await fileAssertion[1]);
                     }
+                });
+
+            test(
+                "Checking whether comments presist in the workspace-files…",
+                async () =>
+                {
+                    Assert.ok(
+                        JSON.stringify(
+                            await source.ReadJSON(
+                                await new FileMapping(
+                                    generator,
+                                    {
+                                        Destination: join(
+                                            await fileMappingCreator.SettingsFolderName,
+                                            fileMappingCreator.TasksFileName)
+                                    }).Destination),
+                            null,
+                            4).includes(randomComment));
                 });
         });
 }
