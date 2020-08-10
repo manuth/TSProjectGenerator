@@ -1,7 +1,9 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "../../../VSCode/FileMappings/CodeFileMappingCreator";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProvider";
 import { TestWorkspaceProcessor } from "./TestWorkspaceProcessor";
 
@@ -23,7 +25,7 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * A component for processing workspaces.
      */
-    private workspaceProcessor: TestWorkspaceProcessor<T> = new TestWorkspaceProcessor(this);
+    private workspaceProcessor: JSONProcessor<T, IWorkspaceMetadata> = new TestWorkspaceProcessor(this);
 
     /**
      * Initializes a new instance of the `TestCodeWorkspaceComponent` class.
@@ -71,8 +73,16 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * Gets or sets a component for processing workspaces.
      */
-    public get WorkspaceProcessor(): TestWorkspaceProcessor<T>
+    public get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
     {
         return this.workspaceProcessor;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public set WorkspaceProcessor(value: JSONProcessor<T, IWorkspaceMetadata>)
+    {
+        this.workspaceProcessor = value;
     }
 }
