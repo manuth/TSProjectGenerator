@@ -2,6 +2,7 @@ import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "../../../VSCode/FileMappings/CodeFileMappingCreator";
+import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProvider";
@@ -15,7 +16,7 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * A component for loading vscode-workspaces.
      */
-    private source: TestCodeWorkspaceProvider<T> = new TestCodeWorkspaceProvider(this);
+    private source: CodeWorkspaceProvider<T> = new TestCodeWorkspaceProvider(this);
 
     /**
      * A component for creating file-mappings.
@@ -41,7 +42,7 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * Gets or sets a component for loading vscode-workspaces.
      */
-    public get Source(): TestCodeWorkspaceProvider<T>
+    public get Source(): CodeWorkspaceProvider<T>
     {
         return this.source;
     }
@@ -49,7 +50,7 @@ export class TestCodeWorkspaceComponent<T extends IGeneratorSettings> extends Co
     /**
      * @inheritdoc
      */
-    public set Source(value: TestCodeWorkspaceProvider<T>)
+    public set Source(value: CodeWorkspaceProvider<T>)
     {
         this.source = value;
     }
