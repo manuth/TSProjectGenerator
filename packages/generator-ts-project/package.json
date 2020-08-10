@@ -29,7 +29,7 @@
     "compile": "tsc -b tsconfig.build.json",
     "watch-compile": "npm run compile -- --watch",
     "rebuild": "npm run clean && npm run build",
-    "watch": "concurrently --raw \"npm run copy-files -- -- --watch\" \"npm run watch-compile\"",
+    "watch": "concurrently --raw \"npm run copy-files -- -- --watch | dev-null\" \"npm run watch-compile\"",
     "clean": "rimraf ./lib",
     "lint-code-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint-code": "npm run lint-code-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
