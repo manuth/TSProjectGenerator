@@ -1,6 +1,7 @@
 import Assert = require("assert");
 import { TestContext, TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
 import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
 
@@ -17,6 +18,7 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator>)
         () =>
         {
             let random: Random;
+            let randomWorkspace: IWorkspaceMetadata;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
 
             suiteSetup(
@@ -25,6 +27,20 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator>)
                     this.timeout(0);
                     random = new Random();
                     component = new TestCodeWorkspaceComponent(await context.Generator);
+                });
+
+            setup(
+                () =>
+                {
+                    randomWorkspace = {
+                        folders: [],
+                        extensions: RandomData(),
+                        launch: RandomData(),
+                        settings: RandomData(),
+                        tasks: RandomData()
+                    };
+
+                    component.WorkspaceProcessor = new TestJSONProcessor(randomWorkspace);
                 });
 
             /**
@@ -41,25 +57,20 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator>)
             }
 
             test(
-                "Checking whether custom processors can be injected…",
+                "Checking whether a custom workspace-processor can be injected…",
                 async () =>
                 {
-                    let extensions = RandomData();
-                    let debugSettings = RandomData();
-                    let settings = RandomData();
-                    let tasks = RandomData();
-                    let extensionsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(extensions);
-                    let debugSettingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(debugSettings);
-                    let settingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(settings);
-                    let tasksProcessor = new TestJSONProcessor<ITestGeneratorSettings>(tasks);
-                    component.WorkspaceProcessor.ExtensionsProcessor = extensionsProcessor;
-                    component.WorkspaceProcessor.LaunchFileProcessor = debugSettingsProcessor;
-                    component.WorkspaceProcessor.SettingsProcessor = settingsProcessor;
-                    component.WorkspaceProcessor.TasksProcessor = tasksProcessor;
-                    Assert.strictEqual(await component.ExtensionsMetadata, extensions);
-                    Assert.strictEqual(await component.LaunchMetadata, debugSettings);
-                    Assert.strictEqual(await component.SettingsMetadata, settings);
-                    Assert.strictEqual(await component.TasksMetadata, tasks);
+                    Assert.strictEqual(await component.WorkspaceMetadata, randomWorkspace);
+                });
+
+            test(
+                "Checking whether the workspace-object is read correctly…",
+                async () =>
+                {
+                    Assert.strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
+                    Assert.strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
+                    Assert.strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
+                    Assert.strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
                 });
         });
 }
