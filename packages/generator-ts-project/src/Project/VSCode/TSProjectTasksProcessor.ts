@@ -60,6 +60,11 @@ export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends Tasks
             };
         }
 
+        if (Array.isArray(task.args))
+        {
+            task.args = task.args.map((arg) => this.StripWorkspaceFolder(arg));
+        }
+
         if (
             typeof task.options === "object" &&
             typeof task.options.cwd === "string")
