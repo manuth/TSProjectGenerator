@@ -5,6 +5,7 @@ import { FileMappingTests } from "./FileMappings";
 import { LaunchFileProcessorTests } from "./LaunchFileProcessor.test";
 import { SettingsProcessorTest } from "./SettingsProcessor.test";
 import { TasksProcessorTests } from "./TasksProcessor.test";
+import { VSCodeJSONProcessorTests } from "./VSCodeJSONProcessor.test";
 
 /**
  * Registers tests for `VSCode` components.
@@ -18,6 +19,7 @@ export function VSCodeTests(context: TestContext<TestGenerator>): void
         "VSCode",
         () =>
         {
+            VSCodeJSONProcessorTests(context);
             ExtensionsProcessorTests(context);
             LaunchFileProcessorTests(context);
             SettingsProcessorTest(context);
