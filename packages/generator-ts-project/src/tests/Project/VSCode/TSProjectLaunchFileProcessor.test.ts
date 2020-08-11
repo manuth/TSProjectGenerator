@@ -4,6 +4,7 @@ import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectC
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
+import { ILaunchFile } from "../../../VSCode/ILaunchFile";
 
 /**
  * Registers tests for the `TSProjectLaunchFileProcessor` class.
@@ -37,6 +38,66 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                     Assert.ok(
                         launchFile.configurations.every(
                             (debugConfig) => !debugConfig.name.toLowerCase().includes("yeoman")));
+                });
+
+            test(
+                "Checking whether named workspace-directives are stripped properly…",
+                async () =>
+                {
+                    let namedWorkspaceDirective = "${workspaceFolder:Test}";
+                    let workspaceDirective = "${workspaceFolder}";
+                    let programName = "program";
+                    let argsName = "args";
+                    let cwdName = "cwd";
+
+                    let testData: ILaunchFile = {
+                        version: "",
+                        configurations: [
+                            {
+                                type: "",
+                                name: programName,
+                                request: "",
+                                program: namedWorkspaceDirective
+                            },
+                            {
+                                type: "",
+                                name: argsName,
+                                request: "",
+                                args: [
+                                    namedWorkspaceDirective
+                                ]
+                            },
+                            {
+                                type: "",
+                                name: cwdName,
+                                request: "",
+                                cwd: namedWorkspaceDirective
+                            }
+                        ]
+                    };
+
+                    let processedData = await processor.Process(testData);
+
+                    for (let name of [programName, argsName, cwdName])
+                    {
+                        let debugConfig = processedData.configurations.find((config) => config.name === name);
+                        let actual: string;
+
+                        switch (debugConfig.name)
+                        {
+                            case programName:
+                                actual = debugConfig.program;
+                                break;
+                            case argsName:
+                                actual = debugConfig.args[0];
+                                break;
+                            case cwdName:
+                                actual = debugConfig.cwd;
+                                break;
+                        }
+
+                        Assert.strictEqual(actual, workspaceDirective);
+                    }
                 });
         });
 }
