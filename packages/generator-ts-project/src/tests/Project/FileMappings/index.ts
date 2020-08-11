@@ -1,5 +1,6 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { GitIgnoreFileMappingTests } from "./GitIgnoreFileMapping.test";
 import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test";
 import { NPMPackagingTests } from "./NPMPackaging";
 
@@ -15,6 +16,7 @@ export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
         "FileMappings",
         () =>
         {
+            GitIgnoreFileMappingTests(context);
             NPMIgnoreFileMappingTests(context);
             NPMPackagingTests(context);
         });
