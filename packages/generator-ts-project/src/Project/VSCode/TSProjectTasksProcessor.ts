@@ -65,15 +65,16 @@ export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends Tasks
             task.args = task.args.map((arg) => this.StripWorkspaceFolder(arg));
         }
 
-        if (
-            typeof task.options === "object" &&
-            typeof task.options.cwd === "string")
+        if (typeof task.options === "object")
         {
-            task.options.cwd = this.StripWorkspaceFolder(task.options.cwd);
-
-            if (task.options.cwd === "${workspaceFolder}")
+            if (typeof task.options.cwd === "string")
             {
-                delete task.options.cwd;
+                task.options.cwd = this.StripWorkspaceFolder(task.options.cwd);
+
+                if (task.options.cwd === "${workspaceFolder}")
+                {
+                    delete task.options.cwd;
+                }
             }
 
             if (Object.keys(task.options).length === 0)
