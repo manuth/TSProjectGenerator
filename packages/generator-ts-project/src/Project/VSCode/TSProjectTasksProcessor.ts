@@ -54,8 +54,8 @@ export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends Tasks
 
             task = {
                 ...("label" in task ? { label: task.label } : {}),
-                ...("type" in task ? { type: task.type } : {}),
-                ...("script" in task ? { script: task.script } : {}),
+                type: task.type,
+                script: task.script,
                 ...task
             };
         }
