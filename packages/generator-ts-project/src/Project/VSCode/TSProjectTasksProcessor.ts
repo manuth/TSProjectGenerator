@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "util";
 import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -88,22 +89,23 @@ export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends Tasks
             task.problemMatcher = (Array.isArray(task.problemMatcher) ? task.problemMatcher : [task.problemMatcher]).map(
                 (problemMatcher) =>
                 {
-                    if (
-                        Array.isArray(problemMatcher.fileLocation) &&
-                        problemMatcher.fileLocation[0] === "relative" &&
-                        this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === "${workspaceFolder}")
+                    if (!isNullOrUndefined(problemMatcher))
                     {
-                        delete problemMatcher.fileLocation;
+                        if (
+                            Array.isArray(problemMatcher.fileLocation) &&
+                            problemMatcher.fileLocation[0] === "relative" &&
+                            this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === "${workspaceFolder}")
+                        {
+                            delete problemMatcher.fileLocation;
+                        }
+
+                        if (Object.keys(problemMatcher).every((key) => key === "base"))
+                        {
+                            return problemMatcher.base;
+                        }
                     }
 
-                    if (Object.keys(problemMatcher).every((key) => key === "base"))
-                    {
-                        return problemMatcher.base;
-                    }
-                    else
-                    {
-                        return problemMatcher;
-                    }
+                    return problemMatcher;
                 });
 
             if (task.problemMatcher.length === 1)
