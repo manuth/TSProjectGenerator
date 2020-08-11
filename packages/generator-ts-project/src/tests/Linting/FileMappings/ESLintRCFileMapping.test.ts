@@ -46,6 +46,14 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 });
 
             test(
+                "Checking whether the `root` property is not present…",
+                async () =>
+                {
+                    await tester.Run();
+                    Assert.ok(!("root" in await tester.Require()));
+                });
+
+            test(
                 "Checking whether the eslint config base is applied correctly…",
                 async () =>
                 {
