@@ -31,14 +31,13 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                 "StripWorkspaceFolder",
                 () =>
                 {
-                    let workspaceFolderDirective = "${workspaceFolder}";
-                    let namedWorkspaceFolderDirective = "${workspaceFolder:Test}";
-
                     test(
                         "Checking whether a single named workspace is stripped…",
                         () =>
                         {
-                            Assert.strictEqual(processor.StripWorkspaceFolder(namedWorkspaceFolderDirective), workspaceFolderDirective);
+                            Assert.strictEqual(
+                                processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
+                                context.WorkspaceFolderDirective);
                         });
 
                     test(
@@ -60,15 +59,17 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                             }
 
                             Assert.strictEqual(
-                                processor.StripWorkspaceFolder(StringProcessor(namedWorkspaceFolderDirective)),
-                                StringProcessor(workspaceFolderDirective));
+                                processor.StripWorkspaceFolder(StringProcessor(context.NamedWorkspaceFolderDirective)),
+                                StringProcessor(context.WorkspaceFolderDirective));
                         });
 
                     test(
                         "Checking whether normal workspace-directives are left ountouched…",
                         () =>
                         {
-                            Assert.strictEqual(processor.StripWorkspaceFolder(workspaceFolderDirective), workspaceFolderDirective);
+                            Assert.strictEqual(
+                                processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
+                                context.WorkspaceFolderDirective);
                         });
                 });
         });

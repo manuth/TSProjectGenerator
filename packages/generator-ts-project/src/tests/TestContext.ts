@@ -69,4 +69,34 @@ export class TestContext<TGenerator extends Generator, TOptions extends Record<s
     {
         return this.GeneratorContext.Generator;
     }
+
+    /**
+     * Gets a workspace-folder directive.
+     */
+    public get WorkspaceFolderDirective(): string
+    {
+        return this.GetWorkspaceFolderDirective();
+    }
+
+    /**
+     * Gets a named workspace-folder directive.
+     */
+    public get NamedWorkspaceFolderDirective(): string
+    {
+        return this.GetWorkspaceFolderDirective("Test");
+    }
+
+    /**
+     * Creates a workspace-folder directive.
+     *
+     * @param name
+     * The name of the workspace-folder.
+     *
+     * @returns
+     * A normal workspace-folder directive or a named workspace-folder directive if `name` is passed.
+     */
+    public GetWorkspaceFolderDirective(name?: string): string
+    {
+        return `\${workspaceFolder${name ? `:${name}` : ""}}`;
+    }
 }

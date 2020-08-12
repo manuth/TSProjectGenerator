@@ -20,8 +20,6 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
         {
             let component: TSProjectWorkspaceFolder<ITSProjectSettings>;
             let processor: TSProjectTasksProcessor<ITSProjectSettings>;
-            let workspaceDirective: string;
-            let namedWorkspaceDirective: string;
 
             suiteSetup(
                 async function()
@@ -29,8 +27,6 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                     this.timeout(0);
                     component = new TSProjectWorkspaceFolder(await context.Generator);
                     processor = new TSProjectTasksProcessor(component);
-                    workspaceDirective = "${workspaceFolder}";
-                    namedWorkspaceDirective = "${workspaceFolder:Test}";
                 });
 
             /**
@@ -167,10 +163,10 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             {
                                 type: "",
                                 options: {
-                                    cwd: cwdCreator(namedWorkspaceDirective)
+                                    cwd: cwdCreator(context.NamedWorkspaceFolderDirective)
                                 }
                             })).options.cwd,
-                        cwdCreator(workspaceDirective));
+                        cwdCreator(context.WorkspaceFolderDirective));
                 });
 
             test(
@@ -182,7 +178,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             {
                                 type: "",
                                 options: {
-                                    cwd: namedWorkspaceDirective,
+                                    cwd: context.NamedWorkspaceFolderDirective,
                                     test: {}
                                 }
                             })).options));
@@ -204,7 +200,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             {
                                 type: "",
                                 options: {
-                                    cwd: namedWorkspaceDirective
+                                    cwd: context.NamedWorkspaceFolderDirective
                                 }
                             }))));
                 });
@@ -221,7 +217,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                                     test: "",
                                     fileLocation: [
                                         "relative",
-                                        namedWorkspaceDirective
+                                        context.NamedWorkspaceFolderDirective
                                     ]
                                 }
                             })).problemMatcher));
@@ -250,7 +246,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                                 problemMatcher: {
                                     fileLocation: [
                                         "relative",
-                                        namedWorkspaceDirective
+                                        context.NamedWorkspaceFolderDirective
                                     ],
                                     base
                                 }

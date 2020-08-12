@@ -44,8 +44,6 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                 "Checking whether named workspace-directives are stripped properly…",
                 async () =>
                 {
-                    let namedWorkspaceDirective = "${workspaceFolder:Test}";
-                    let workspaceDirective = "${workspaceFolder}";
                     let programName = "program";
                     let argsName = "args";
                     let cwdName = "cwd";
@@ -57,21 +55,21 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                                 type: "",
                                 name: programName,
                                 request: "",
-                                program: namedWorkspaceDirective
+                                program: context.NamedWorkspaceFolderDirective
                             },
                             {
                                 type: "",
                                 name: argsName,
                                 request: "",
                                 args: [
-                                    namedWorkspaceDirective
+                                    context.NamedWorkspaceFolderDirective
                                 ]
                             },
                             {
                                 type: "",
                                 name: cwdName,
                                 request: "",
-                                cwd: namedWorkspaceDirective
+                                cwd: context.NamedWorkspaceFolderDirective
                             }
                         ]
                     };
@@ -96,7 +94,7 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                                 break;
                         }
 
-                        Assert.strictEqual(actual, workspaceDirective);
+                        Assert.strictEqual(actual, context.WorkspaceFolderDirective);
                     }
                 });
         });
