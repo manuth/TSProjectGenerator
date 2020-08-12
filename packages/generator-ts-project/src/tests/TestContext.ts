@@ -10,7 +10,7 @@ export class TestContext<TGenerator extends Generator, TOptions extends Record<s
     /**
      * A component for creating random literals.
      */
-    private random: Random;
+    private random: Random = new Random();
 
     /**
      * A context for testing generators.
