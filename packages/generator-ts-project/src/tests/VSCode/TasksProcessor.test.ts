@@ -105,6 +105,20 @@ export function TasksProcessorTests(context: TestContext<TestGenerator>): void
                 });
 
             suite(
+                "Process",
+                () =>
+                {
+                    test(
+                        "Checking whether tasks are only processed if existent…",
+                        async () =>
+                        {
+                            Assert.strictEqual(
+                                (await processor.Process({ version: "", tasks: null })).tasks,
+                                null);
+                        });
+                });
+
+            suite(
                 "FilterTask",
                 () =>
                 {

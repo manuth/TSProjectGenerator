@@ -107,6 +107,20 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator>): v
                 });
 
             suite(
+                "Process",
+                () =>
+                {
+                    test(
+                        "Checking whether debug-configurations are only processed if existent…",
+                        async () =>
+                        {
+                            Assert.strictEqual(
+                                (await processor.Process({ version: "", configurations: null })).configurations,
+                                null);
+                        });
+                });
+
+            suite(
                 "FilterDebugConfig",
                 () =>
                 {

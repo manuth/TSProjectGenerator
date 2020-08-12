@@ -69,5 +69,12 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator>): v
                                 ]
                             })).recommendations.includes(excludedExtension));
                 });
+
+            test(
+                "Checking whether recommendations are only processed if existent…",
+                async () =>
+                {
+                    Assert.ok(!("recommendations" in await processor.Process({})));
+                });
         });
 }
