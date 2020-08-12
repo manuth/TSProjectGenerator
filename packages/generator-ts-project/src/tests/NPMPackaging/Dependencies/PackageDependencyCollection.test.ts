@@ -1,30 +1,26 @@
 import Assert = require("assert");
-import { Random } from "random-js";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { Constants } from "../../../Core/Constants";
 import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `PackageDependencyCollection` class.
+ *
+ * @param context
+ * The test-context.
  */
-export function PackageDependencyCollectionTests(): void
+export function PackageDependencyCollectionTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "PackageDependencyCollection",
         () =>
         {
-            let random: Random;
-
-            suiteSetup(
-                () =>
-                {
-                    random = new Random();
-                });
-
             test(
                 "Checking whether dependencies can be loaded from the `package.json` file…",
                 () =>
                 {
-                    let dependency = random.pick(Constants.Dependencies.Keys);
+                    let dependency = context.Random.pick(Constants.Dependencies.Keys);
 
                     Assert.strictEqual(
                         new PackageDependencyCollection(

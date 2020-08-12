@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { Random } from "random-js";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintDependencies } from "../../../../NPMPackaging/Dependencies/LintDependencies";
@@ -24,7 +23,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
         "TSProjectPackageFileMapping",
         () =>
         {
-            let random: Random;
             let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings>;
             let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, TSProjectPackageFileMapping<ITSProjectSettings>>;
 
@@ -61,7 +59,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     fileMapping = new TSProjectPackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
@@ -80,8 +77,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether the name and the description are loaded from the prompts…",
                         async () =>
                         {
-                            let randomName = random.string(10);
-                            let randomDescription = random.string(30);
+                            let randomName = context.RandomString;
+                            let randomDescription = context.RandomString;
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
                             tester.Generator.Settings[TSProjectSettingKey.Description] = randomDescription;
                             await tester.Run();

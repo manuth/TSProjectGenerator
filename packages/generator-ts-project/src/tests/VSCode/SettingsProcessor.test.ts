@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -17,26 +16,12 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
         "SettingsProcessor",
         () =>
         {
-            let random: Random;
             let includedSetting: string;
             let excludedSetting: string;
             let mutatedSetting: string;
             let newSetting: any;
             let settings: Record<string, any>;
             let processor: SettingsProcessor<ITestGeneratorSettings>;
-
-            /**
-             * Generates random data.
-             *
-             * @returns
-             * The generated random data.
-             */
-            function RandomData(): any
-            {
-                return {
-                    random: random.string(10)
-                };
-            }
 
             /**
              * Provides an implementation of the `SettingsProcessor` class for testing.
@@ -89,25 +74,24 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     processor = new TestSettingsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
             setup(
                 () =>
                 {
-                    includedSetting = random.string(10);
-                    excludedSetting = random.string(10);
-                    mutatedSetting = random.string(10);
+                    includedSetting = context.RandomString;
+                    excludedSetting = context.RandomString;
+                    mutatedSetting = context.RandomString;
                     newSetting = {
-                        ...RandomData(),
+                        ...context.RandomObject,
                         mutated: true
                     };
 
                     settings = {
-                        [includedSetting]: RandomData(),
-                        [excludedSetting]: RandomData(),
-                        [mutatedSetting]: RandomData()
+                        [includedSetting]: context.RandomObject,
+                        [excludedSetting]: context.RandomObject,
+                        [mutatedSetting]: context.RandomObject
                     };
                 });
 

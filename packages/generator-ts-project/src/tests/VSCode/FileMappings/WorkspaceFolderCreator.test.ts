@@ -3,7 +3,6 @@ import { FileMapping } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import dedent = require("dedent");
-import { Random } from "random-js";
 import { join } from "upath";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
 import { FileMappingTester } from "../../Components/FileMappingTester";
@@ -23,25 +22,11 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
         "WorkspaceFolderCreator",
         () =>
         {
-            let random: Random;
             let generator: TestGenerator;
             let randomComment: string;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
             let source: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
             let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings>;
-
-            /**
-             * Generates a random object.
-             *
-             * @returns
-             * A random object.
-             */
-            function RandomData(): any
-            {
-                return {
-                    random: random.string(10)
-                };
-            }
 
             /**
              * Asserts the content of the file located at the `path`.
@@ -69,7 +54,6 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     generator = await context.Generator;
                     component = new TestCodeWorkspaceComponent(generator);
                     source = new TestCodeWorkspaceProvider(component);
@@ -83,16 +67,16 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 {
                     this.timeout(0);
                     let workspace = await source.WorkspaceMetadata;
-                    randomComment = random.string(10);
-                    workspace.extensions = RandomData();
-                    workspace.launch = RandomData();
-                    workspace.settings = RandomData();
+                    randomComment = context.RandomString;
+                    workspace.extensions = context.RandomObject;
+                    workspace.launch = context.RandomObject;
+                    workspace.settings = context.RandomObject;
 
                     workspace.tasks = JSON.parse(
                         dedent(
                             `
                                 /* ${randomComment} */
-                                ${JSON.stringify(RandomData())}`));
+                                ${JSON.stringify(context.RandomObject)}`));
 
                     for (let fileMappingOptions of await component.FileMappings)
                     {

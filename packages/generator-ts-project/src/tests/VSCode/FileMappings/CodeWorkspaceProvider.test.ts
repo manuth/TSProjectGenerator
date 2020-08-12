@@ -3,7 +3,6 @@ import { IFileMapping } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
-import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IExtensionFile } from "../../../VSCode/IExtensionFile";
@@ -25,31 +24,16 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
         "CodeWorkspaceProvider",
         () =>
         {
-            let random: Random;
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
             let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, IFileMapping<ITestGeneratorSettings>>;
             let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
 
-            /**
-             * Generates random data.
-             *
-             * @returns
-             * Random data.
-             */
-            function RandomData(): any
-            {
-                return {
-                    random: random.string(10)
-                };
-            }
-
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     tempDir = new TempDirectory();
                     fileName = tempDir.MakePath("temp.txt");
                     generator = await context.Generator;
@@ -86,10 +70,10 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     setup(
                         () =>
                         {
-                            randomExtensions = RandomData();
-                            randomLaunchData = RandomData();
-                            randomSettings = RandomData();
-                            randomTasks = RandomData();
+                            randomExtensions = context.RandomObject;
+                            randomLaunchData = context.RandomObject;
+                            randomSettings = context.RandomObject;
+                            randomTasks = context.RandomObject;
                         });
 
                     test(
@@ -121,9 +105,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     setup(
                         () =>
                         {
-                            randomData = {
-                                random: random.string(20)
-                            };
+                            randomData = context.RandomObject;
                         });
 
                     test(

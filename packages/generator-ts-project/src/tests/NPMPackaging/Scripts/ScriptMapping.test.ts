@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "./TestScriptTransformer";
@@ -18,24 +17,17 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
         () =>
         {
             let scriptMapping: ScriptMapping<ITestGeneratorSettings>;
-            let random: Random;
             let randomSource: string;
             let randomDestination: string;
             let randomScript: string;
-
-            suiteSetup(
-                () =>
-                {
-                    random = new Random();
-                });
 
             setup(
                 async function()
                 {
                     this.timeout(0);
-                    randomSource = random.string(10);
-                    randomDestination = random.string(10);
-                    randomScript = random.string(10);
+                    randomSource = context.RandomString;
+                    randomDestination = context.RandomString;
+                    randomScript = context.RandomString;
 
                     scriptMapping = new ScriptMapping(
                         await context.Generator,
@@ -73,7 +65,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 "Checking whether custom transformers can be passed…",
                 async () =>
                 {
-                    let index = random.integer(1, randomScript.length - 1);
+                    let index = context.Random.integer(1, randomScript.length - 1);
                     let transformer: TestScriptTransformer = (script: string): string => script.substring(index);
 
                     scriptMapping = new ScriptMapping(

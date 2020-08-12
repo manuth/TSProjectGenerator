@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
 import { IExtensionFile } from "../../../VSCode/IExtensionFile";
@@ -22,7 +21,6 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
         "WorkspaceFolderLoader",
         () =>
         {
-            let random: Random;
             let generator: TestGenerator;
             let moduleRoot: string;
             let destinationRoot: string;
@@ -32,24 +30,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             let randomSettings: Record<string, any>;
             let randomTasks: ITaskFile;
 
-            /**
-             * Generates a random object.
-             *
-             * @returns
-             * A random object.
-             */
-            function RandomData(): any
-            {
-                return {
-                    random: random.string(20)
-                };
-            }
-
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     generator = await context.Generator;
                     moduleRoot = generator["moduleRoot"];
                     destinationRoot = generator.destinationRoot();
@@ -69,10 +53,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             setup(
                 async () =>
                 {
-                    randomExtensions = RandomData();
-                    randomLaunchFile = RandomData();
-                    randomSettings = RandomData();
-                    randomTasks = RandomData();
+                    randomExtensions = context.RandomObject;
+                    randomLaunchFile = context.RandomObject;
+                    randomSettings = context.RandomObject;
+                    randomTasks = context.RandomObject;
 
                     let component = new TestCodeWorkspaceComponent(generator);
                     let workspace = await component.Source.WorkspaceMetadata;

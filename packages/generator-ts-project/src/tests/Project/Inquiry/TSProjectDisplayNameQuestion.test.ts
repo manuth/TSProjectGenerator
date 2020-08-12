@@ -1,5 +1,4 @@
 import Assert = require("assert");
-import { Random } from "random-js";
 import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
@@ -18,7 +17,6 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
         "TSProjectDisplayNameQuestion",
         () =>
         {
-            let random: Random;
             let randomName: string;
             let generator: TSProjectGenerator;
             let question: TSProjectDisplayNameQuestion<ITSProjectSettings>;
@@ -27,7 +25,6 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     generator = await context.Generator;
                     question = new TSProjectDisplayNameQuestion(generator);
                 });
@@ -35,7 +32,7 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
             setup(
                 () =>
                 {
-                    randomName = random.string(10);
+                    randomName = context.RandomString;
                 });
 
             test(

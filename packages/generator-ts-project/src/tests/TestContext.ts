@@ -8,6 +8,11 @@ import { Random } from "random-js";
 export class TestContext<TGenerator extends Generator, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
 {
     /**
+     * A component for creating random literals.
+     */
+    private random: Random;
+
+    /**
      * A context for testing generators.
      */
     private generatorContext: GeneratorContext<TGenerator, TOptions>;
@@ -21,6 +26,32 @@ export class TestContext<TGenerator extends Generator, TOptions extends Record<s
     public constructor(generatorContext: GeneratorContext<TGenerator, TOptions>)
     {
         super(generatorContext.GeneratorDirectory);
+    }
+
+    /**
+     * Gets a component for creating random literals.
+     */
+    public get Random(): Random
+    {
+        return this.random;
+    }
+
+    /**
+     * Gets a random value.
+     */
+    public get RandomString(): string
+    {
+        return this.Random.string(10);
+    }
+
+    /**
+     * Gets a random object.
+     */
+    public get RandomObject(): any
+    {
+        return {
+            randomValue: this.RandomString
+        };
     }
 
     /**

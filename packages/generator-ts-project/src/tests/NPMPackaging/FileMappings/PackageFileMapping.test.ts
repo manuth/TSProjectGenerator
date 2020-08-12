@@ -2,7 +2,6 @@ import Assert = require("assert");
 import { Generator } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
-import { Random } from "random-js";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
 import { ITestPackageOptions } from "./ITestPackageOptions";
@@ -21,8 +20,6 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
         "PackageFileMapping",
         () =>
         {
-            let random: Random;
-            let randomValue: string;
             let originalName: Generator["user"]["git"]["name"];
             let originalMail: Generator["user"]["git"]["email"];
             let options: ITestPackageOptions<ITestGeneratorSettings>;
@@ -32,10 +29,9 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
             suiteSetup(
                 async () =>
                 {
-                    random = new Random();
                     let generator = await context.Generator;
-                    let randomName = random.string(20);
-                    let randomMail = random.string(20);
+                    let randomName = context.RandomString;
+                    let randomMail = context.RandomString;
 
                     originalName = generator.user.git.name;
                     originalMail = generator.user.git.email;
@@ -64,7 +60,6 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                 {
                     options.ScriptMappings = [];
                     options.Template = new Package();
-                    randomValue = random.string(15);
                 });
 
             teardown(
@@ -84,9 +79,9 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                     setup(
                         async () =>
                         {
-                            randomSource = random.string(10);
-                            randomDestination = random.string(10);
-                            randomScript = random.string(10);
+                            randomSource = context.RandomString;
+                            randomDestination = context.RandomString;
+                            randomScript = context.RandomString;
                             options.Template.Scripts.Add(randomSource, randomScript);
                         });
 
@@ -124,7 +119,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         {
                             this.timeout(0);
                             this.slow(4 * 1000);
-                            let index = random.integer(1, randomScript.length - 1);
+                            let index = context.Random.integer(1, randomScript.length - 1);
 
                             let transformer: TestScriptTransformer = (script: string): string => script.substring(index);
 
@@ -150,14 +145,15 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         {
                             this.timeout(0);
                             this.slow(2 * 1000);
+                            let randomLicense = context.RandomString;
 
                             await tester.WritePackage(
                                 {
-                                    license: randomValue
+                                    license: randomLicense
                                 });
 
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).License, randomValue);
+                            Assert.strictEqual((await tester.Package).License, randomLicense);
                         });
 
                     test(

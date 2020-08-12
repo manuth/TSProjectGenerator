@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -17,7 +16,6 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
         "ExtensionsProcessor",
         () =>
         {
-            let random: Random;
             let includedExtension: string;
             let excludedExtension: string;
             let processor: ExtensionsProcessor<ITestGeneratorSettings>;
@@ -46,15 +44,14 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     processor = new TestExtensionsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
             setup(
                 () =>
                 {
-                    includedExtension = random.string(10);
-                    excludedExtension = random.string(11);
+                    includedExtension = context.RandomString;
+                    excludedExtension = context.RandomString;
                 });
 
             test(

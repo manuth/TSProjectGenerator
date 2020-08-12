@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { DebugConfiguration } from "vscode";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
@@ -19,7 +18,6 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
         "LaunchFileProcessor",
         () =>
         {
-            let random: Random;
             let launchMetadata: ILaunchFile;
             let includedDebugConfig: DebugConfiguration;
             let excludedDebugConfig: DebugConfiguration;
@@ -70,7 +68,6 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     processor = new TestLaunchFileProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
@@ -78,21 +75,21 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                 () =>
                 {
                     includedDebugConfig = {
-                        name: random.string(9),
-                        type: random.string(9),
-                        request: random.string(9)
+                        name: context.Random.string(9),
+                        type: context.Random.string(9),
+                        request: context.Random.string(9)
                     };
 
                     excludedDebugConfig = {
-                        name: random.string(10),
-                        type: random.string(10),
-                        request: random.string(10)
+                        name: context.Random.string(10),
+                        type: context.Random.string(10),
+                        request: context.Random.string(10)
                     };
 
                     mutatedDebugConfig = {
-                        name: random.string(11),
-                        type: random.string(11),
-                        request: random.string(11)
+                        name: context.Random.string(11),
+                        type: context.Random.string(11),
+                        request: context.Random.string(11)
                     };
 
                     launchMetadata = {
@@ -104,7 +101,7 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                         ]
                     };
 
-                    newName = random.string(12);
+                    newName = context.Random.string(12);
                 });
 
             suite(

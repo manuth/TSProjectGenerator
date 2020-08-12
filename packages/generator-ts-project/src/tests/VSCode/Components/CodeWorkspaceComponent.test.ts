@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
 import { TestContext } from "../../TestContext";
@@ -18,7 +17,6 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
         "CodeWorkspaceComponent",
         () =>
         {
-            let random: Random;
             let randomWorkspace: IWorkspaceMetadata;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
 
@@ -26,7 +24,6 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     component = new TestCodeWorkspaceComponent(await context.Generator);
                 });
 
@@ -35,27 +32,14 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                 {
                     randomWorkspace = {
                         folders: [],
-                        extensions: RandomData(),
-                        launch: RandomData(),
-                        settings: RandomData(),
-                        tasks: RandomData()
+                        extensions: context.RandomObject,
+                        launch: context.RandomObject,
+                        settings: context.RandomObject,
+                        tasks: context.RandomObject
                     };
 
                     component.WorkspaceProcessor = new TestJSONProcessor(randomWorkspace);
                 });
-
-            /**
-             * Generates a random object.
-             *
-             * @returns
-             * A random object.
-             */
-            function RandomData(): any
-            {
-                return {
-                    random: random.string(10)
-                };
-            }
 
             test(
                 "Checking whether a custom workspace-processor can be injected…",

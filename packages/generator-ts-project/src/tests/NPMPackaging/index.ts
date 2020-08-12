@@ -16,7 +16,7 @@ export function NPMPackagingTests(context: TestContext<TestGenerator, ITestGener
         "NPMPackaging",
         () =>
         {
-            DependencyTests();
+            DependencyTests(context);
             ScriptMappingTests(context);
             FileMappingTests(context);
         });

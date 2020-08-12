@@ -1,7 +1,6 @@
 import Assert = require("assert");
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
-import { Random } from "random-js";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
@@ -20,7 +19,6 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
         "TSProjectDescriptionQuestion",
         () =>
         {
-            let random: Random;
             let generator: TSProjectGenerator;
             let question: TSProjectDescriptionQuestion<ITSProjectSettings>;
 
@@ -28,7 +26,6 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     generator = await context.Generator;
                     question = new TSProjectDescriptionQuestion(generator);
                 });
@@ -37,7 +34,7 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                 "Checking whether the description defaults to the contents of the `README` file…",
                 async () =>
                 {
-                    let randomDescription = random.string(30);
+                    let randomDescription = context.RandomString;
 
                     await writeFile(
                         generator.destinationPath("README.md"),

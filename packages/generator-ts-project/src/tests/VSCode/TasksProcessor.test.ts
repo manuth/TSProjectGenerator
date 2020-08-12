@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 import { TaskDefinition } from "vscode";
 import { ITaskFile } from "../../VSCode/ITaskFile";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -19,7 +18,6 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
         "TasksProcessor",
         () =>
         {
-            let random: Random;
             let includedTask: TaskDefinition;
             let excludedTask: TaskDefinition;
             let mutatedTask: TaskDefinition;
@@ -74,7 +72,6 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 async function()
                 {
                     this.timeout(0);
-                    random = new Random();
                     processor = new TestTasksProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
@@ -82,18 +79,18 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 () =>
                 {
                     includedTask = {
-                        type: random.string(8)
+                        type: context.Random.string(8)
                     };
 
                     excludedTask = {
-                        type: random.string(9)
+                        type: context.Random.string(9)
                     };
 
                     mutatedTask = {
-                        type: random.string(10)
+                        type: context.Random.string(10)
                     };
 
-                    newType = random.string(11);
+                    newType = context.Random.string(11);
 
                     taskMeta = {
                         version: "",
