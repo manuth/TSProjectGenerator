@@ -26,6 +26,7 @@ export class TestContext<TGenerator extends Generator, TOptions extends Record<s
     public constructor(generatorContext: GeneratorContext<TGenerator, TOptions>)
     {
         super(generatorContext.GeneratorDirectory);
+        this.generatorContext = generatorContext;
     }
 
     /**
