@@ -1,8 +1,9 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSModuleGenerator`.

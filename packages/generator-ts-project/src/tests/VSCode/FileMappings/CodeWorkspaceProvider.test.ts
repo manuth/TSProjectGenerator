@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { IFileMapping } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
 import { Random } from "random-js";
@@ -10,6 +10,7 @@ import { IExtensionFile } from "../../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
 import { ITaskFile } from "../../../VSCode/ITaskFile";
 import { FileMappingTester } from "../../Components/FileMappingTester";
+import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**

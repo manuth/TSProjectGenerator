@@ -1,5 +1,5 @@
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
+import { TestContext } from "../../TestContext";
 import { AppGeneratorTests } from "./AppGenerator.test";
 
 /**

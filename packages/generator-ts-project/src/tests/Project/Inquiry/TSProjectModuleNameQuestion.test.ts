@@ -1,10 +1,10 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import kebabCase = require("lodash.kebabcase");
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSProjectModuleNameQuestion` class.

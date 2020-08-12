@@ -1,11 +1,12 @@
 import Assert = require("assert");
 import { isNullOrUndefined } from "util";
-import { TestGenerator, TestContext, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { IExtensionFile } from "../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../VSCode/ILaunchFile";
 import { ITaskFile } from "../../VSCode/ITaskFile";
 import { TestJSONProcessor } from "../Components/TestJSONProcessor";
+import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 import { TestWorkspaceProcessor } from "./Components/TestWorkspaceProcessor";
 import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvider";
@@ -16,7 +17,7 @@ import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvi
  * @param context
  * The test-context.
  */
-export function WorkspaceProcessorTests(context: TestContext<TestGenerator>): void
+export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "WorkspaceProcessor",

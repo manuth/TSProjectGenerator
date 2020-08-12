@@ -1,8 +1,9 @@
 import Assert = require("assert");
 import { Generator } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { Random } from "random-js";
+import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
 import { ITestPackageOptions } from "./ITestPackageOptions";
 import { PackageFileMappingTester } from "./PackageFileMappingTester";

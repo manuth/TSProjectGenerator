@@ -1,10 +1,10 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSProjectLaunchFileProcessor` class.

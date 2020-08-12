@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { TestGenerator, TestContext } from "@manuth/extended-yo-generator-test";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
@@ -7,6 +7,7 @@ import { IExtensionFile } from "../../../VSCode/IExtensionFile";
 import { ILaunchFile } from "../../../VSCode/ILaunchFile";
 import { ITaskFile } from "../../../VSCode/ITaskFile";
 import { FileMappingTester } from "../../Components/FileMappingTester";
+import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
 
 /**

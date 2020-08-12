@@ -1,9 +1,9 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TestContext } from "../../../TestContext";
 
 /**
  * Registers tests for the `TSGeneratorModuleNameQuestion` class.

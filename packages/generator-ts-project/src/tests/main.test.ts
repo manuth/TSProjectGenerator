@@ -1,5 +1,5 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { join } from "upath";
 import { AppGenerator } from "../generators/app/AppGenerator";
 import { TSGeneratorGenerator } from "../generators/generator/TSGeneratorGenerator";
@@ -9,6 +9,7 @@ import { GeneratorTests } from "./Generators";
 import { LintingTests } from "./Linting";
 import { NPMPackagingTests } from "./NPMPackaging";
 import { ProjectTests } from "./Project";
+import { TestContext } from "./TestContext";
 import { VSCodeTests } from "./VSCode";
 
 suite(
@@ -17,13 +18,18 @@ suite(
     {
         let workingDirectory: string;
         let generatorRoot = join(__dirname, "..", "generators");
-        let contextMap: Map<string, [TestContext, IGeneratorSettings]> = new Map();
-        contextMap.set("default", [TestContext.Default, null]);
+        let contextMap: Map<string, [GeneratorContext, IGeneratorSettings]> = new Map();
+        contextMap.set("default", [GeneratorContext.Default, null]);
 
         for (let namespace of ["app", "generator", "module"])
         {
-            contextMap.set(namespace, [new TestContext(join(generatorRoot, namespace)), null]);
+            contextMap.set(namespace, [new GeneratorContext(join(generatorRoot, namespace)), null]);
         }
+
+        let defaultContext = new TestContext(contextMap.get("default")[0] as GeneratorContext<TestGenerator>);
+        let appContext = new TestContext(contextMap.get("app")[0] as GeneratorContext<AppGenerator>);
+        let generatorContext = new TestContext(contextMap.get("generator")[0] as GeneratorContext<TSGeneratorGenerator>);
+        let moduleContext = new TestContext(contextMap.get("module")[0] as GeneratorContext<TSModuleGenerator>);
 
         suiteSetup(
             async function()
@@ -68,14 +74,14 @@ suite(
                 process.chdir(workingDirectory);
             });
 
-        ComponentTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
-        NPMPackagingTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
-        VSCodeTests(contextMap.get("default")[0] as TestContext<TestGenerator>);
-        LintingTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
-        ProjectTests(contextMap.get("module")[0] as TestContext<TSModuleGenerator>);
+        ComponentTests(defaultContext);
+        NPMPackagingTests(defaultContext);
+        VSCodeTests(defaultContext);
+        LintingTests(moduleContext);
+        ProjectTests(moduleContext);
 
         GeneratorTests(
-            contextMap.get("module")[0] as TestContext<TSModuleGenerator>,
-            contextMap.get("generator")[0] as TestContext<TSGeneratorGenerator>,
-            contextMap.get("app")[0] as TestContext<AppGenerator>);
+            moduleContext,
+            generatorContext,
+            appContext);
     });

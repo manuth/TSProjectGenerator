@@ -1,8 +1,8 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, readFile } from "fs-extra";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
+import { TestContext } from "../TestContext";
 
 /**
  * Registers tests for the `TSProjectGenerator` class.

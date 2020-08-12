@@ -1,6 +1,7 @@
 import Assert = require("assert");
-import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
+import { TestContext } from "../../TestContext";
 import { FileMappingTester } from "../FileMappingTester";
 import { TestTransformFileMapping } from "./TestTransformFileMapping";
 

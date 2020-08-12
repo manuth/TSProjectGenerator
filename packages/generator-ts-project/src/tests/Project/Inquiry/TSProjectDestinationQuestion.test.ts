@@ -1,11 +1,11 @@
 import Assert = require("assert");
 import { resolve } from "path";
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "temp-filesystem";
 import chdir = require("util.chdir");
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSProjectDestinationQuestion` class.

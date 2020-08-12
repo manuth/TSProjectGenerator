@@ -1,9 +1,9 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { readdir, lstat } from "fs-extra";
 import packlist = require("npm-packlist");
 import { resolve } from "upath";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `NPMIgnoreFileMapping` class.

@@ -1,4 +1,5 @@
-import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "../TestContext";
 import { ComponentTests } from "./Components";
 import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test";
 import { FileMappingTests } from "./FileMappings";

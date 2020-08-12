@@ -1,9 +1,10 @@
 import Assert = require("assert");
-import { TestContext, TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { TaskDefinition } from "vscode";
 import { ITaskFile } from "../../VSCode/ITaskFile";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
+import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**

@@ -1,10 +1,10 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksProcessor";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSProjectTasksProcessor` class.

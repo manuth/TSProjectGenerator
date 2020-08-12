@@ -1,5 +1,4 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
 import { Random } from "random-js";
@@ -7,6 +6,7 @@ import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProject
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `TSProjectDescriptionQuestion` class.

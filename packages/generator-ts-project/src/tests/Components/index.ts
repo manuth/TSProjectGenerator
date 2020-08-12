@@ -1,4 +1,5 @@
-import { TestContext, TestGenerator, ITestOptions, ITestGeneratorOptions } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestOptions, ITestGeneratorOptions } from "@manuth/extended-yo-generator-test";
+import { TestContext } from "../TestContext";
 import { TransformationTests } from "./Transformation";
 
 /**

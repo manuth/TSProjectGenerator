@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
@@ -11,6 +11,7 @@ import { SubGeneratorSettingKey } from "../../../../generators/generator/Setting
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TestContext } from "../../../TestContext";
 import { GeneratorPath } from "../TSGeneratorGenerator.test";
 
 /**
@@ -113,7 +114,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 {
                     this.timeout(0);
                     this.slow(10 * 1000);
-                    let testContext = new TestContext(GeneratorPath(runContext.generator, "app"));
+                    let testContext = new GeneratorContext(GeneratorPath(runContext.generator, "app"));
                     await Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
@@ -127,7 +128,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
                         let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
-                        let testContext = new TestContext(GeneratorPath(runContext.generator, name));
+                        let testContext = new GeneratorContext(GeneratorPath(runContext.generator, name));
                         await Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                     }
                 });

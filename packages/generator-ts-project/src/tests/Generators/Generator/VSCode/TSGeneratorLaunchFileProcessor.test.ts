@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
@@ -10,6 +9,7 @@ import { TSGeneratorComponent } from "../../../../generators/generator/Settings/
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TSGeneratorLaunchFileProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchFileProcessor";
+import { TestContext } from "../../../TestContext";
 
 /**
  * Registers tests for the `TSGeneratorLaunchFileProcessor` class.

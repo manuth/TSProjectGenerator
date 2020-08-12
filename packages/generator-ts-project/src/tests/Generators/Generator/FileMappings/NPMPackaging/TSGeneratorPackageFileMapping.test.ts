@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
@@ -8,6 +7,7 @@ import { ITSGeneratorSettings } from "../../../../../generators/generator/Settin
 import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
+import { TestContext } from "../../../../TestContext";
 
 /**
  * Registers tests for the `TSGeneratorPackageFileMapping` class.

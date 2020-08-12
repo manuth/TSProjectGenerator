@@ -1,11 +1,12 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { ProjectType } from "../../../generators/app/ProjectType";
 import { AppGeneratorSettingKey } from "../../../generators/app/Settings/AppGeneratorSettingKey";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the generators.
@@ -126,7 +127,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     await Assert.doesNotReject(
                         async () =>
                         {
-                            return new TestContext(
+                            return new GeneratorContext(
                                 tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
                                     subGeneratorDir.FullName).toPromise();
                         });

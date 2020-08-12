@@ -1,5 +1,5 @@
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 import { GitIgnoreFileMappingTests } from "./GitIgnoreFileMapping.test";
 import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test";
 import { NPMPackagingTests } from "./NPMPackaging";

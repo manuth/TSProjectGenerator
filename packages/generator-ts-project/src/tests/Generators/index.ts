@@ -1,7 +1,7 @@
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { AppGenerator } from "../../generators/app/AppGenerator";
 import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator";
 import { TSModuleGenerator } from "../../generators/module/TSModuleGenerator";
+import { TestContext } from "../TestContext";
 import { AppTests } from "./App";
 import { GeneratorTests as TSGeneratorTests } from "./Generator";
 import { ModuleTests } from "./Module";

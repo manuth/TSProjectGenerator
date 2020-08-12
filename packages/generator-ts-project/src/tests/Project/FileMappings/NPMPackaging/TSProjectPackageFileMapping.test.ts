@@ -1,6 +1,5 @@
 import Assert = require("assert");
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -11,6 +10,7 @@ import { TSProjectComponent } from "../../../../Project/Settings/TSProjectCompon
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
 import { PackageFileMappingTester } from "../../../NPMPackaging/FileMappings/PackageFileMappingTester";
+import { TestContext } from "../../../TestContext";
 
 /**
  * Registers tests for the `TSProjectPackageFileMapping` class.

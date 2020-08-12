@@ -1,5 +1,5 @@
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
+import { TestContext } from "../../../TestContext";
 import { TSProjectPackageFileMappingTests } from "./TSProjectPackageFileMapping.test";
 
 /**

@@ -1,9 +1,9 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { LintingComponent } from "../../../Linting/Components/LintingComponent";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `LintingComponent` class.

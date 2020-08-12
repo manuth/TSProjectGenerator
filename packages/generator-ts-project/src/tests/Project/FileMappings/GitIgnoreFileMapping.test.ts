@@ -1,11 +1,11 @@
 import Assert = require("assert");
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { split } from "eol";
 import { readFile } from "fs-extra";
 import { GitIgnoreFileMapping } from "../../../Project/FileMappings/GitIgnoreFileMapping";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { FileMappingTester } from "../../Components/FileMappingTester";
+import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the `GitIgnoreFileMapping` class.

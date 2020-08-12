@@ -1,8 +1,9 @@
 import Assert = require("assert");
-import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { split } from "eol";
 import { TransformerFactory, SourceFile, Visitor, visitNode, NodeFlags, visitEachChild, isVariableDeclarationList } from "typescript";
+import { TestContext } from "../../TestContext";
 import { FileMappingTester } from "../FileMappingTester";
 import { TestTypeScriptTransformMapping } from "./TestTypeScriptTransformMapping";
 

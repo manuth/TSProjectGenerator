@@ -1,12 +1,13 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { TestContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
 import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
+import { TestContext } from "../../../../TestContext";
 
 /**
  * Registers tests for the `TSModulePackageFileMapping`.

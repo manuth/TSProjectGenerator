@@ -1,12 +1,13 @@
 import Assert = require("assert");
 import { FileMapping } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import dedent = require("dedent");
 import { Random } from "random-js";
 import { join } from "upath";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
 import { FileMappingTester } from "../../Components/FileMappingTester";
+import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
@@ -16,7 +17,7 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
  * @param context
  * The test-context.
  */
-export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator>): void
+export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "WorkspaceFolderCreator",
