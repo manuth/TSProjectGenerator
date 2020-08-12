@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { IFileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
 import { Random } from "random-js";
@@ -19,7 +19,7 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
  * @param context
  * The test-context.
  */
-export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator>): void
+export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "CodeWorkspaceProvider",

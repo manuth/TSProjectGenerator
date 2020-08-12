@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { TestGenerator, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
@@ -12,7 +12,7 @@ import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
  * @param context
  * The test-context.
  */
-export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator>): void
+export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "CodeWorkspaceComponent",

@@ -1,4 +1,4 @@
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
 import { ComponentTests } from "./Components";
 import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test";
@@ -15,7 +15,7 @@ import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test";
  * @param context
  * The test-context.
  */
-export function VSCodeTests(context: TestContext<TestGenerator>): void
+export function VSCodeTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "VSCode",

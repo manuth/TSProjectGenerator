@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { Random } from "random-js";
 import { TempDirectory } from "temp-filesystem";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
@@ -16,7 +16,7 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
  * @param context
  * The test-context.
  */
-export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator>): void
+export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         "WorkspaceFolderLoader",
