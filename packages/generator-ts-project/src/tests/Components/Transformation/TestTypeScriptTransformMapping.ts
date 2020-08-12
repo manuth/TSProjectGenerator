@@ -10,7 +10,7 @@ export class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<I
     /**
      * The original content.
      */
-    public originalContent: string;
+    private originalContent: string;
 
     /**
      * The transformers to apply.
