@@ -57,8 +57,7 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
      */
     public async Processor(): Promise<void>
     {
-        this.Generator.fs.write(
-            await this.Resolved.Destination,
+        this.WriteDestination(
             applyPatch(
                 (await readFile(await this.Resolved.Source)).toString(),
                 parsePatch(

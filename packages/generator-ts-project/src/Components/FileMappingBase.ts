@@ -1,4 +1,5 @@
 import { IFileMapping, FileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { readFile } from "fs-extra";
 import { GeneratrorComponent } from "./GeneratorComponent";
 
 /**
@@ -48,6 +49,14 @@ export abstract class FileMappingBase<T extends IGeneratorSettings> extends Gene
     }
 
     /**
+     * Gets the content of the source-file.
+     */
+    public get Content(): Promise<string>
+    {
+        return this.ReadSource();
+    }
+
+    /**
      * @inheritdoc
      *
      * @returns
@@ -62,4 +71,54 @@ export abstract class FileMappingBase<T extends IGeneratorSettings> extends Gene
      * @inheritdoc
      */
     public async Processor?(): Promise<void>;
+
+    /**
+     * Reads the contents of the file located at the specified `path`.
+     *
+     * @param path
+     * The path to the file to read.
+     *
+     * @returns
+     * The contents of the file.
+     */
+    protected async ReadFile(path: string): Promise<string>
+    {
+        return (await readFile(path)).toString();
+    }
+
+    /**
+     * Reads the contents of the source-file.
+     *
+     * @returns
+     * The contents of the source-file.
+     */
+    protected async ReadSource(): Promise<string>
+    {
+        return this.ReadFile(await this.Resolved.Source);
+    }
+
+    /**
+     * Writes the specified `content` to the file located at the specified `path`.
+     *
+     * @param path
+     * The path to the file to write.
+     *
+     * @param content
+     * The content to write.
+     */
+    protected async WriteFile(path: string, content: string): Promise<void>
+    {
+        this.Generator.fs.write(path, content);
+    }
+
+    /**
+     * Writes the specified `content` to the destination-file.
+     *
+     * @param content
+     * The content to write.
+     */
+    protected async WriteDestination(content: string): Promise<void>
+    {
+        return this.WriteFile(await this.Resolved.Destination, content);
+    }
 }
