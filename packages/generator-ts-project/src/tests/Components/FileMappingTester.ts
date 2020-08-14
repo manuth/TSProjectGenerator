@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { IGenerator, IGeneratorSettings, IFileMapping, FileMapping } from "@manuth/extended-yo-generator";
-import { readFile, pathExists } from "fs-extra";
+import { readFile, pathExists, remove } from "fs-extra";
 
 /**
  * Provides the functionality to test a file-mapping.
@@ -144,7 +144,12 @@ export class FileMappingTester<TGenerator extends IGenerator<TSettings>, TSettin
         if (this.Generator.fs.exists(await this.FileMapping.Destination))
         {
             this.Generator.fs.delete(await this.FileMapping.Destination);
-            return this.Commit();
+            await this.Commit();
+        }
+
+        if (await pathExists(await this.FileMapping.Destination))
+        {
+            return remove(await this.FileMapping.Destination);
         }
     }
 }
