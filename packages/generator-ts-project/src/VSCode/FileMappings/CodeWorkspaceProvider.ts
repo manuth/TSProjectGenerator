@@ -108,6 +108,6 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
      */
     protected async ReadJSON(path: string): Promise<any>
     {
-        return JSON.parse(this.Generator.fs.exists(path) ? this.Generator.fs.read(path) : (await readFile(path)).toString());
+        return JSON.parse((await readFile(path)).toString());
     }
 }

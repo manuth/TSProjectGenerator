@@ -109,20 +109,12 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         });
 
                     test(
-                        "Checking whether files can be read from the file-system…",
+                        "Checking whether files are read from the file-system correctly…",
                         async () =>
                         {
                             await writeFile(fileName, JSON.stringify(randomData));
                             await fileMappingTester.Commit();
                             generator.fs.exists(fileName);
-                            Assert.deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
-                        });
-
-                    test(
-                        "Checking whether files can be read from the `mem-fs`…",
-                        async () =>
-                        {
-                            generator.fs.writeJSON(fileName, randomData);
                             Assert.deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 
