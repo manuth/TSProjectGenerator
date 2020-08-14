@@ -1,5 +1,5 @@
 import { IGenerator } from "@manuth/extended-yo-generator";
-import { createStringLiteral, Node, TransformerFactory, Visitor, visitNode, visitEachChild, SyntaxKind, isExpressionStatement, isBinaryExpression, isPropertyAccessExpression, isPropertyAssignment, isIdentifier, isArrayLiteralExpression, isStringLiteral, SourceFile, isObjectLiteralExpression, createObjectLiteral } from "typescript";
+import { SourceFile, ExportAssignment, Node } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -54,104 +54,76 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends TypeScrip
     }
 
     /**
-     * Gets a component for transforming the `.eslintrc.js` file.
+     * Processes the specified `data`.
+     *
+     * @param sourceFile
+     * The source-file to process.
+     *
+     * @returns
+     * The processed data.
      */
-    protected get Transformers(): Promise<Array<TransformerFactory<SourceFile>>>
+    protected async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
-        return (
-            async (): Promise<Array<TransformerFactory<SourceFile>>> =>
-            {
-                let preset: string;
+        let preset: string;
 
-                switch (this.Generator.Settings[TSProjectSettingKey.LintRuleset])
+        switch (this.Generator.Settings[TSProjectSettingKey.LintRuleset])
+        {
+            case LintRuleset.Weak:
+                preset = "weak-requiring-type-checking";
+                break;
+            case LintRuleset.Recommended:
+            default:
+                preset = "recommended-requiring-type-checking";
+                break;
+        }
+
+        let statement = sourceFile.getStatements().find(
+            (statement): statement is ExportAssignment =>
+            {
+                if (Node.isExpressionStatement(statement))
                 {
-                    case LintRuleset.Weak:
-                        preset = "weak-requiring-type-checking";
-                        break;
-                    case LintRuleset.Recommended:
-                    default:
-                        preset = "recommended-requiring-type-checking";
-                        break;
+                    let expression = statement.getExpression();
+
+                    if (Node.isBinaryExpression(expression))
+                    {
+                        return expression.getLeft().getText() === "module.exports";
+                    }
                 }
 
-                return [
-                    (context) =>
+                return false;
+            });
+
+        let expression = statement.getExpression();
+
+        if (Node.isBinaryExpression(expression))
+        {
+            let right = expression.getRight();
+
+            if (Node.isObjectLiteralExpression(right))
+            {
+                let extendsProperty = right.getProperty("extends");
+                right.getProperty("root").remove();
+
+                if (Node.isPropertyAssignment(extendsProperty))
+                {
+                    let extendsValue = extendsProperty.getInitializer();
+
+                    if (Node.isArrayLiteralExpression(extendsValue))
                     {
-                        let mainVisitor: Visitor;
-                        let sourceFileVisitor: Visitor;
-                        let exportObjectVisitor: Visitor;
-                        let configBaseVisitor: Visitor;
-
-                        mainVisitor = (node: SourceFile) =>
-                        {
-                            let result: Node;
-
-                            if (node.kind === SyntaxKind.SourceFile)
-                            {
-                                result = visitEachChild(node, sourceFileVisitor, context);
-                            }
-                            else
-                            {
-                                result = node;
-                            }
-
-                            return result;
-                        };
-
-                        sourceFileVisitor = <TNode extends Node>(node: TNode) =>
+                        for (let item of extendsValue.getElements())
                         {
                             if (
-                                isExpressionStatement(node) &&
-                                isBinaryExpression(node.expression) &&
-                                isPropertyAccessExpression(node.expression.left) &&
-                                (node.expression.left.getText() === "module.exports") &&
-                                isObjectLiteralExpression(node.expression.right))
+                                Node.isStringLiteral(item) &&
+                                item.getLiteralValue().startsWith(this.RulesetPrefix))
                             {
-                                node.expression.right = createObjectLiteral(
-                                    node.expression.right.properties.filter(
-                                        (property) => property.name?.getText() !== "root"),
-                                    true);
-
-                                node.expression.right = visitEachChild(node.expression.right, exportObjectVisitor, context);
+                                item.setLiteralValue(preset);
                             }
-
-                            return node;
-                        };
-
-                        exportObjectVisitor = <TNode extends Node>(node: TNode) =>
-                        {
-                            if (
-                                isPropertyAssignment(node) &&
-                                isIdentifier(node.name) &&
-                                (node.name.text === "extends") &&
-                                isArrayLiteralExpression(node.initializer))
-                            {
-                                node.initializer = visitEachChild(node.initializer, configBaseVisitor, context);
-                            }
-
-                            return node;
-                        };
-
-                        configBaseVisitor = <TNode extends Node>(node: TNode) =>
-                        {
-                            if (
-                                isStringLiteral(node) &&
-                                node.text.startsWith(this.RulesetPrefix))
-                            {
-                                return createStringLiteral(`${this.RulesetPrefix}${preset}`);
-                            }
-                            else
-                            {
-                                return node;
-                            }
-                        };
-
-                        return (node) =>
-                        {
-                            return visitNode(node, mainVisitor);
-                        };
+                        }
                     }
-                ];
-            })();
+                }
+            }
+        }
+
+        return sourceFile;
     }
 }

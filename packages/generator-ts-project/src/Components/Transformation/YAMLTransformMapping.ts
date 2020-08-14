@@ -1,11 +1,11 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { safeDump, safeLoadAll } from "js-yaml";
-import { ObjectTransformMapping } from "./ObjectTransformMapping";
+import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy YAML-code.
  */
-export abstract class YAMLTransformMapping<TData extends any[], TSettings extends IGeneratorSettings> extends ObjectTransformMapping<TData, TSettings>
+export abstract class YAMLTransformMapping<TData extends any[], TSettings extends IGeneratorSettings> extends TransformFileMapping<TData, TSettings>
 {
     /**
      * Initializes a new instance of the `YAMLTransformMapping` class.

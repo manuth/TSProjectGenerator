@@ -1,11 +1,11 @@
 import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import { TransformerFactory, transform, createSourceFile, ScriptTarget, ScriptKind, SourceFile, createPrinter } from "typescript";
+import { SourceFile, Project } from "ts-morph";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy typescript-files.
  */
-export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> extends TransformFileMapping<T>
+export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> extends TransformFileMapping<SourceFile, T>
 {
     /**
      * Initializes a new instance of the `TypeScriptTransformMapping<T>` class.
@@ -19,55 +19,31 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
     }
 
     /**
-     * @inheritdoc
-     */
-    protected get EmptyTransformationContent(): Promise<string>
-    {
-        return (
-            async () =>
-            {
-                return this.TransformCode(await this.Content, []);
-            })();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected get TransformedContent(): Promise<string>
-    {
-        return (
-            async () =>
-            {
-                return this.TransformCode(await this.Content, await this.Transformers);
-            })();
-    }
-
-    /**
-     * Gets a set of components for transforming the file.
-     */
-    protected abstract get Transformers(): Promise<Array<TransformerFactory<SourceFile>>>;
-
-    /**
-     * Transforms the code.
+     * Loads the meta-data from the `text`.
      *
-     * @param code
-     * The code to transform.
-     *
-     * @param transformers
-     * The transformations to apply.
+     * @param text
+     * The text representing the meta-data.
      *
      * @returns
-     * The transformed code.
+     * An object loaded from the `text`.
      */
-    protected async TransformCode(code: string, transformers: Array<TransformerFactory<SourceFile>>): Promise<string>
+    protected async Parse(text: string): Promise<SourceFile>
     {
-        let fileName = ".ts";
+        let project = new Project();
+        return project.createSourceFile(await this.Resolved.Source, text);
+    }
 
-        let transformResult = transform(
-            createSourceFile(fileName, code, ScriptTarget.Latest, true, ScriptKind.TS),
-            transformers);
-
-        return createPrinter().printFile(
-            transformResult.transformed.find((transformedFile) => transformedFile.fileName === fileName));
+    /**
+     * Dumps the `data` as a text representing the object.
+     *
+     * @param sourceFile
+     * The source-file to dump.
+     *
+     * @returns
+     * A text representing the `data`.
+     */
+    protected async Dump(sourceFile: SourceFile): Promise<string>
+    {
+        return sourceFile.getFullText();
     }
 }
