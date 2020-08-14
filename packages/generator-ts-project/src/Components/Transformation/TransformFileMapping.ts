@@ -4,7 +4,7 @@ import { FileMappingBase } from "../FileMappingBase";
 /**
  * Provides the functionality to transform and copy object-notation code.
  */
-export abstract class TransformFileMapping<TData, TSettings extends IGeneratorSettings> extends FileMappingBase<TSettings>
+export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TData> extends FileMappingBase<TSettings>
 {
     /**
      * Initializes a new instance of the `TransformFileMapping` class.

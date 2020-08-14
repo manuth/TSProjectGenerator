@@ -5,7 +5,7 @@ import { TransformFileMapping } from "./TransformFileMapping";
 /**
  * Provides the functionality to transform and copy JSON-code.
  */
-export abstract class JSONTransformMapping<TData, TSettings extends IGeneratorSettings> extends TransformFileMapping<TData, TSettings>
+export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings, TData> extends TransformFileMapping<TSettings, TData>
 {
     /**
      * Initializes a new instance of the `JSONTransformMapping` class.

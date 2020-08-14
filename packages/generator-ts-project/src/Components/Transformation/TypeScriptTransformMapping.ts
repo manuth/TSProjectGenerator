@@ -5,7 +5,7 @@ import { TransformFileMapping } from "./TransformFileMapping";
 /**
  * Provides the functionality to transform and copy typescript-files.
  */
-export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> extends TransformFileMapping<SourceFile, T>
+export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> extends TransformFileMapping<T, SourceFile>
 {
     /**
      * Initializes a new instance of the `TypeScriptTransformMapping<T>` class.

@@ -5,7 +5,7 @@ import { TransformFileMapping } from "./TransformFileMapping";
 /**
  * Provides the functionality to transform and copy YAML-code.
  */
-export abstract class YAMLTransformMapping<TData extends any[], TSettings extends IGeneratorSettings> extends TransformFileMapping<TData, TSettings>
+export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings, TData extends any[]> extends TransformFileMapping<TSettings, TData>
 {
     /**
      * Initializes a new instance of the `YAMLTransformMapping` class.
