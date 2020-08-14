@@ -91,7 +91,7 @@ export class FileMappingTester<TGenerator extends IGenerator<TSettings>, TSettin
     }
 
     /**
-     * Writes content into the file-mappin goutput.
+     * Writes content into the file-mapping goutput.
      *
      * @param content
      * The content to write.
