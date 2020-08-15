@@ -1,4 +1,6 @@
+import glob = require("glob");
 import { src, dest, parallel } from "gulp";
+import merge = require("merge-stream");
 import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
@@ -33,6 +35,17 @@ function PackagePath(...path: string[]): string
 }
 
 /**
+ * Copies the files to the mono-repo packages.
+ */
+export let CopyFiles = parallel(
+    [
+        CopyGitIgnore,
+        CopyNPMIgnore
+    ]);
+
+CopyFiles.description = "Copies the files to the mono-repo packages.";
+
+/**
  * Copies the `.gitignore` file to the mono-repo packages.
  *
  * @returns
@@ -50,11 +63,26 @@ export function CopyGitIgnore(): NodeJS.ReadWriteStream
 CopyGitIgnore.description = "Copies the `.gitignore` file to the mono-repo packages.";
 
 /**
- * Copies the files to the mono-repo packages.
+ * Copies the `.npmignore` file to the mono-repo packages.
+ *
+ * @returns
+ * The task.
  */
-export let CopyFiles = parallel(
-    [
-        CopyGitIgnore
-    ]);
+export function CopyNPMIgnore(): NodeJS.ReadWriteStream
+{
+    let ignoreFile = src(".npmignore");
+    let streams: NodeJS.ReadWriteStream[] = [];
 
-CopyFiles.description = "Copies the files to the mono-repo packages.";
+    for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
+    {
+        streams.push(
+            ignoreFile.pipe(
+                ApplyPatch(PackagePath(projectGeneratorName, "templates", "npmignore.diff"))
+            ).pipe(dest(folder)));
+    }
+
+    streams.push(ignoreFile.pipe(dest(PackagePath(projectGeneratorName))));
+    return merge(streams);
+}
+
+CopyNPMIgnore.description = "Copies the `.npmignore` file to the mono-repo packages.";
