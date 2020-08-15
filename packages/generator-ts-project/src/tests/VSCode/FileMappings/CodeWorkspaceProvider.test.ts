@@ -122,7 +122,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         "Checking whether files containing comments can be read…",
                         async () =>
                         {
-                            generator.fs.write(
+                            await writeFile(
                                 fileName,
                                 dedent(
                                     `
