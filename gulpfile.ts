@@ -5,6 +5,8 @@ import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
+let npmIgnoreFile = ".npmignore";
+let gitIgnoreFile = ".gitignore";
 
 /**
  * Creates a path relative to the gulp-folder.
@@ -53,14 +55,14 @@ CopyFiles.description = "Copies the files to the mono-repo packages.";
  */
 export function CopyGitIgnore(): NodeJS.ReadWriteStream
 {
-    return src(".gitignore").pipe(
+    return src(gitIgnoreFile).pipe(
         ApplyPatch(join(GulpPath("gitignore.diff")))
     ).pipe(
         dest(PackagePath(projectGeneratorName))
     );
 }
 
-CopyGitIgnore.description = "Copies the `.gitignore` file to the mono-repo packages.";
+CopyGitIgnore.description = `Copies the \`${gitIgnoreFile}\` file to the mono-repo packages.`;
 
 /**
  * Copies the `.npmignore` file to the mono-repo packages.
@@ -70,7 +72,7 @@ CopyGitIgnore.description = "Copies the `.gitignore` file to the mono-repo packa
  */
 export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 {
-    let ignoreFile = src(".npmignore");
+    let ignoreFile = src(npmIgnoreFile);
     let streams: NodeJS.ReadWriteStream[] = [];
 
     for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
@@ -85,4 +87,4 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
     return merge(streams);
 }
 
-CopyNPMIgnore.description = "Copies the `.npmignore` file to the mono-repo packages.";
+CopyNPMIgnore.description = `Copies the \`${npmIgnoreFile}\` file to the mono-repo packages.`;
