@@ -43,6 +43,11 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings>
      */
     protected async Dump(metadata: Document.Parsed[]): Promise<string>
     {
-        return metadata.map((document) => document.toString()).join("---\n");
+        return metadata.map(
+            (document, index) =>
+            {
+                document.directivesEndMarker = document.directivesEndMarker || (index > 0);
+                return document.toString();
+            }).join("");
     }
 }
