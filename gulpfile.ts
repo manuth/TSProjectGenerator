@@ -7,6 +7,8 @@ import ApplyPatch = require("./.gulp/ApplyPatch");
 let projectGeneratorName = "generator-ts-project";
 let npmIgnoreFile = ".npmignore";
 let gitIgnoreFile = ".gitignore";
+let gitDiffFile = GulpPath("gitignore.diff");
+let npmDiffFile = CommonTemplatePath("npmignore.diff");
 
 /**
  * Creates a path relative to the gulp-folder.
@@ -37,6 +39,20 @@ function PackagePath(...path: string[]): string
 }
 
 /**
+ * Creates a path relative to the common template folder.
+ *
+ * @param path
+ * The path to join.
+ *
+ * @returns
+ * The `path` relative to the common template folder.
+ */
+function CommonTemplatePath(...path: string[]): string
+{
+    return PackagePath(projectGeneratorName, "templates", ...path);
+}
+
+/**
  * Copies the files to the mono-repo packages.
  */
 export let CopyFiles = parallel(
@@ -56,7 +72,7 @@ CopyFiles.description = "Copies the files to the mono-repo packages.";
 export function CopyGitIgnore(): NodeJS.ReadWriteStream
 {
     return src(gitIgnoreFile).pipe(
-        ApplyPatch(join(GulpPath("gitignore.diff")))
+        ApplyPatch(gitDiffFile)
     ).pipe(
         dest(PackagePath(projectGeneratorName))
     );
@@ -79,7 +95,7 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
     {
         streams.push(
             ignoreFile.pipe(
-                ApplyPatch(PackagePath(projectGeneratorName, "templates", "npmignore.diff"))
+                ApplyPatch(npmDiffFile)
             ).pipe(dest(folder)));
     }
 
