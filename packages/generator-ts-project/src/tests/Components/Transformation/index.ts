@@ -1,7 +1,6 @@
 import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
 import { TransformFileMappingTests } from "./TransformFileMapping.test";
-import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 
 /**
  * Registers tests for the transformation-components.
@@ -16,6 +15,5 @@ export function TransformationTests(context: TestContext<TestGenerator, ITestGen
         () =>
         {
             TransformFileMappingTests(context);
-            TypeScriptTransformMappingTests(context);
         });
 }

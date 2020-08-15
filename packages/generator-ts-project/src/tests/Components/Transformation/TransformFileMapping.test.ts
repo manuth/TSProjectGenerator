@@ -1,9 +1,9 @@
 import Assert = require("assert");
-import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import dedent = require("dedent");
+import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TempFile } from "temp-filesystem";
+import { TransformFileMapping } from "../../../Components/Transformation/TransformFileMapping";
 import { TestContext } from "../../TestContext";
-import { FileMappingTester } from "../FileMappingTester";
-import { TestTransformFileMapping } from "./TestTransformFileMapping";
+import { JSONFileMappingTester } from "../JSONFileMappingTester";
 
 /**
  * Registers tests for the `TransformFileMapping` class.
@@ -17,87 +17,119 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
         "TransformFileMapping",
         () =>
         {
-            /**
-             * Asserts the result of a file-transformation.
-             *
-             * @param originalContent
-             * The original content.
-             *
-             * @param emptyTransformationContent
-             * The original content without any transformation being applied.
-             *
-             * @param transformedContent
-             * The transformed version of the original content.
-             *
-             * @param expected
-             * The expected result.
-             */
-            async function AssertTransformation(originalContent: string, emptyTransformationContent: string, transformedContent: string, expected: string): Promise<void>
-            {
-                let fileMappingOptions = new TestTransformFileMapping(await context.Generator, originalContent, emptyTransformationContent, transformedContent);
-                let tester = new FileMappingTester(await context.Generator, fileMappingOptions);
-                await tester.Run();
-                Assert.strictEqual(await tester.Content, expected);
-            }
+            let generator: TestGenerator;
+            let tempFile: TempFile;
+            let fileMappingOptions: TransformFileMapping<ITestGeneratorSettings, any>;
+            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, TransformFileMapping<ITestGeneratorSettings, any>>;
+            let randomSource: any;
+            let modifiedSource: any;
 
-            test(
-                "Checking whether newline characters are preserved…",
+            suiteSetup(
                 async function()
                 {
-                    this.slow(1 * 1000);
+                    this.timeout(0);
+                    generator = await context.Generator;
+                    tempFile = new TempFile();
 
-                    await AssertTransformation(
-                        dedent(
-                            `
-                                console.log("a");
+                    fileMappingOptions = new class extends TransformFileMapping<ITestGeneratorSettings, any>
+                    {
+                        /**
+                         * @inheritdoc
+                         */
+                        public constructor()
+                        {
+                            super(generator);
+                        }
 
+                        /**
+                         * @inheritdoc
+                         */
+                        public get Source(): Promise<string>
+                        {
+                            return context.CreatePromise(tempFile.FullName);
+                        }
 
-                                console.log("b");`),
-                        dedent(
-                            `
-                                console.log("a");
-                                console.log("b");`),
-                        dedent(
-                            `
-                                console.log("a");
-                                console.log("c");`),
-                        dedent(
-                            `
-                                console.log("a");
+                        /**
+                         * @inheritdoc
+                         */
+                        public get Destination(): Promise<string>
+                        {
+                            return context.CreatePromise(tempFile.FullName);
+                        }
 
+                        /**
+                         * @inheritdoc
+                         *
+                         * @returns
+                         * A random value.
+                         */
+                        protected async Parse(): Promise<any>
+                        {
+                            return modifiedSource;
+                        }
 
-                                console.log("c");`));
+                        /**
+                         * @inheritdoc
+                         *
+                         * @param data
+                         * The data to process.
+                         *
+                         * @returns
+                         * The processed data.
+                         */
+                        protected async Transform(data: any): Promise<any>
+                        {
+                            Object.assign(data, { transformed: true });
+                            return data;
+                        }
+
+                        /**
+                         * @inheritdoc
+                         *
+                         * @param data
+                         * The data to dump.
+                         *
+                         * @returns
+                         * A random value.
+                         */
+                        protected async Dump(data: any): Promise<string>
+                        {
+                            return JSON.stringify(data);
+                        }
+                    }();
+
+                    tester = new JSONFileMappingTester(generator, fileMappingOptions);
+                });
+
+            setup(
+                () =>
+                {
+                    randomSource = context.RandomObject;
+                    modifiedSource = { ...randomSource };
                 });
 
             test(
-                "Checking whether newline characters are preserved on line-replacements…",
+                "Checking whether the source is being parsed as expected…",
                 async () =>
                 {
-                    await AssertTransformation(
-                        dedent(
-                            `
-                                console.log("a");
-                                console.log("b");
+                    Assert.deepStrictEqual(await fileMappingOptions.Metadata, randomSource);
+                });
 
+            test(
+                "Checking whether the data is dumped as expected…",
+                async function()
+                {
+                    await tester.Run();
+                    Assert.strictEqual(await tester.Content, JSON.stringify(modifiedSource));
+                });
 
-                                console.log("c");`),
-                        dedent(
-                            `
-                            console.log("a");
-                            console.log("b");
-                            console.log("c");`),
-                        dedent(
-                            `
-                            console.log("a");
-                            console.log("x");
-                            console.log("d");`),
-                        dedent(
-                            `
-                            console.log("a");
-                            console.log("x");
-
-
-                            console.log("d");`));
+            test(
+                "Checking whether the data is transformed correctly…",
+                async function()
+                {
+                    await tester.Run();
+                    Assert.notDeepStrictEqual(await tester.Metadata, randomSource);
+                    Assert.deepStrictEqual(await tester.Metadata, modifiedSource);
                 });
         });
 }
