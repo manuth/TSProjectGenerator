@@ -30,7 +30,13 @@ export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> e
     protected async Parse(text: string): Promise<SourceFile>
     {
         let project = new Project();
-        return project.createSourceFile(await this.Resolved.Source, text);
+
+        return project.createSourceFile(
+            await this.Resolved.Source,
+            text,
+            {
+                overwrite: true
+            });
     }
 
     /**
