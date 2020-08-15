@@ -35,14 +35,14 @@ export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      *
-     * @param metadata
-     * The metadata to dump.
+     * @param data
+     * The data to dump.
      *
      * @returns
      * A text representing the `metadata`.
      */
-    protected async Dump(metadata: TData): Promise<string>
+    protected async Dump(data: TData): Promise<string>
     {
-        return JSON.stringify(metadata);
+        return JSON.stringify(data);
     }
 }
