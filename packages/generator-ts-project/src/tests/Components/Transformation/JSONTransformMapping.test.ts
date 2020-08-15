@@ -14,17 +14,6 @@ import { FileMappingTester } from "../FileMappingTester";
  */
 export function JSONTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
-    /**
-     * Provides test-data.
-     */
-    interface ITestData
-    {
-        /**
-         * A random value.
-         */
-        randomValue: string;
-    }
-
     suite(
         "JSONTransformMapping",
         () =>
@@ -32,10 +21,10 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: JSONTransformMapping<ITestGeneratorSettings, ITestData>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, JSONTransformMapping<ITestGeneratorSettings, ITestData>>;
-            let sourceData: ITestData;
-            let randomValue: string;
+            let fileMappingOptions: JSONTransformMapping<ITestGeneratorSettings, any>;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, JSONTransformMapping<ITestGeneratorSettings, any>>;
+            let sourceData: any;
+            let randomData: any;
 
             suiteSetup(
                 async function()
@@ -45,7 +34,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
 
-                    fileMappingOptions = new class extends JSONTransformMapping<ITestGeneratorSettings, ITestData>
+                    fileMappingOptions = new class extends JSONTransformMapping<ITestGeneratorSettings, any>
                     {
                         /**
                          * @inheritdoc
@@ -80,10 +69,9 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: ITestData): Promise<ITestData>
+                        public async Transform(data: any): Promise<any>
                         {
-                            data.randomValue = randomValue;
-                            return data;
+                            return randomData;
                         }
                     }();
 
@@ -100,11 +88,8 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             setup(
                 async () =>
                 {
-                    sourceData = {
-                        randomValue: context.RandomString
-                    };
-
-                    randomValue = context.RandomString;
+                    sourceData = context.RandomObject;
+                    randomData = context.RandomObject;
                     await writeFile(sourceFile.FullName, JSON.stringify(sourceData));
                 });
 
@@ -120,8 +105,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                 async () =>
                 {
                     await tester.Run();
-                    let result: ITestData = JSON.parse(await tester.Content);
-                    Assert.strictEqual(result.randomValue, randomValue);
+                    Assert.deepStrictEqual(JSON.parse(await tester.Content), randomData);
                 });
         });
 }
