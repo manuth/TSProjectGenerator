@@ -18,7 +18,6 @@ import { GeneratorOptions } from "yeoman-generator";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
-import { GitIgnoreFileMapping } from "./FileMappings/GitIgnoreFileMapping";
 import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping";
 import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
@@ -87,7 +86,10 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
     {
         return [
             new TSProjectPackageFileMapping(this),
-            new GitIgnoreFileMapping(this),
+            {
+                Source: this.modulePath(".gitignore"),
+                Destination: ".gitignore"
+            },
             new NPMIgnoreFileMapping(this),
             {
                 Source: this.modulePath(".mocharc.jsonc"),
