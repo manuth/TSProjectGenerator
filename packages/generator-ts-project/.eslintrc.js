@@ -29,6 +29,32 @@ module.exports = {
             {
                 args: "none"
             }
+        ],
+        "jsdoc/require-jsdoc": [
+            "warn",
+            {
+                require: {
+                    ClassDeclaration: true,
+                    ClassExpression: false,
+                    ArrowFunctionExpression: false,
+                    FunctionDeclaration: true,
+                    FunctionExpression: false,
+                    MethodDefinition: true
+                },
+                contexts: [
+                    "TSEnumDeclaration",
+                    "TSEnumMember",
+                    "TSInterfaceDeclaration",
+                    "ClassProperty",
+                    "TSTypeAliasDeclaration",
+                    "TSPropertySignature",
+                    "TSAbstractMethodDefinition",
+                    "TSCallSignatureDeclaration",
+                    "TSConstructSignatureDeclaration",
+                    "TSMethodSignature",
+                    "TSDeclareFunction"
+                ]
+            }
         ]
     }
 };
