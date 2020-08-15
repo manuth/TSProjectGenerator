@@ -1,5 +1,6 @@
 import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
+import { JSONTransformMappingTests } from "./JSONTransformMapping.test";
 import { TransformFileMappingTests } from "./TransformFileMapping.test";
 
 /**
@@ -15,5 +16,6 @@ export function TransformationTests(context: TestContext<TestGenerator, ITestGen
         () =>
         {
             TransformFileMappingTests(context);
+            JSONTransformMappingTests(context);
         });
 }
