@@ -28,15 +28,6 @@ export abstract class FileMappingBase<T extends IGeneratorSettings> extends Gene
 
     /**
      * @inheritdoc
-     *
-     * @param fileMapping
-     * The resolved representation of the file-mapping.
-     *
-     * @param generator
-     * The generator of the file-mapping.
-     *
-     * @returns
-     * The destination of the file-mapping.
      */
     public abstract get Destination(): Promise<string>;
 
