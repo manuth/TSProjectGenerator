@@ -2,6 +2,7 @@ import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/exte
 import { TestContext } from "../../TestContext";
 import { JSONTransformMappingTests } from "./JSONTransformMapping.test";
 import { TransformFileMappingTests } from "./TransformFileMapping.test";
+import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
 
 /**
@@ -19,5 +20,6 @@ export function TransformationTests(context: TestContext<TestGenerator, ITestGen
             TransformFileMappingTests(context);
             JSONTransformMappingTests(context);
             YAMLTransformMappingTests(context);
+            TypeScriptTransformMappingTests(context);
         });
 }
