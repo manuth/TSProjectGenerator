@@ -18,6 +18,11 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     }
 
     /**
+     * @inheritdoc
+     */
+    public abstract get Source(): Promise<string>;
+
+    /**
      * Gets the data representing this file.
      */
     public get Metadata(): Promise<TData>
