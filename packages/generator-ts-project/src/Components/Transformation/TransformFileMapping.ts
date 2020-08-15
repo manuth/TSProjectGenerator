@@ -39,7 +39,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
      */
     public async Processor(): Promise<void>
     {
-        this.WriteDestination(await this.Dump(await this.Transform(await this.Metadata)));
+        return this.WriteDestination(await this.Dump(await this.Transform(await this.Metadata)));
     }
 
     /**
