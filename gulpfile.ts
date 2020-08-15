@@ -2,6 +2,8 @@ import { src, dest, parallel } from "gulp";
 import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
+let projectGeneratorName = "generator-ts-project";
+
 /**
  * Creates a path relative to the gulp-folder.
  *
@@ -41,7 +43,7 @@ export function CopyGitIgnore(): NodeJS.ReadWriteStream
     return src(".gitignore").pipe(
         ApplyPatch(join(GulpPath("gitignore.diff")))
     ).pipe(
-        dest(PackagePath("generator-ts-project"))
+        dest(PackagePath(projectGeneratorName))
     );
 }
 
