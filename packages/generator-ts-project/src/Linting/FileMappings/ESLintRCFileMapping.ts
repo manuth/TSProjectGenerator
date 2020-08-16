@@ -116,7 +116,7 @@ export class ESLintRCFileMapping<T extends ITSProjectSettings> extends TypeScrip
                                 Node.isStringLiteral(item) &&
                                 item.getLiteralValue().startsWith(this.RulesetPrefix))
                             {
-                                item.setLiteralValue(preset);
+                                item.setLiteralValue(this.RulesetPrefix + preset);
                             }
                         }
                     }
