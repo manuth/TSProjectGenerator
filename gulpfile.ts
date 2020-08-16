@@ -1,6 +1,7 @@
 import glob = require("glob");
 import { src, dest, parallel, watch, series } from "gulp";
 import merge = require("merge-stream");
+import minimist = require("minimist");
 import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
@@ -9,6 +10,7 @@ let npmIgnoreFile = ".npmignore";
 let gitIgnoreFile = ".gitignore";
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath("npmignore.diff");
+let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
  * Creates a path relative to the gulp-folder.
@@ -55,11 +57,36 @@ function CommonTemplatePath(...path: string[]): string
 /**
  * Copies the files to the mono-repo packages.
  */
-export let CopyFiles = parallel(
-    [
-        CopyGitIgnore,
-        CopyNPMIgnore
-    ]);
+export let CopyFiles =
+    series(
+        [
+            parallel(
+                [
+                    CopyGitIgnore,
+                    CopyNPMIgnore
+                ]),
+            ...(
+                options.watch ?
+                    [
+                        function WatchFiles()
+                        {
+                            watch(
+                                [
+                                    gitIgnoreFile,
+                                    gitDiffFile
+                                ],
+                                CopyGitIgnore);
+
+                            watch(
+                                [
+                                    npmIgnoreFile,
+                                    npmDiffFile
+                                ],
+                                CopyNPMIgnore);
+                        }
+                    ] :
+                    [])
+        ]);
 
 CopyFiles.description = "Copies the files to the mono-repo packages.";
 
@@ -104,30 +131,3 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 }
 
 CopyNPMIgnore.description = `Copies the \`${npmIgnoreFile}\` file to the mono-repo packages.`;
-
-/**
- * Copies and watches the files for changes.
- *
- * @returns
- * The task.
- */
-export let Watch = series(
-    [
-        CopyFiles,
-        function WatchFiles()
-        {
-            watch(
-                [
-                    gitIgnoreFile,
-                    gitDiffFile
-                ],
-                CopyGitIgnore);
-
-            watch(
-                [
-                    npmIgnoreFile,
-                    npmDiffFile
-                ],
-                CopyNPMIgnore);
-        }
-    ]);
