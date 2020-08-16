@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "npm run copy-files && npm run compile",
-    "copy-files": "glob-exec --foreach \"./packages/*\" --parallel -- copy-and-watch .{npmignore,gitignore} \"{{file}}\"",
+    "copy-files": "gulp CopyFiles",
     "compile": "tsc -b tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- --watch | dev-null\" \"npm run compile -- --watch\"",
