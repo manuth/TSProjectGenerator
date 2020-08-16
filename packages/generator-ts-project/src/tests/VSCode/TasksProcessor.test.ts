@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
-import { ITaskFile } from "../../VSCode/ITaskFile";
+import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -22,7 +22,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
             let excludedTask: TaskDefinition;
             let mutatedTask: TaskDefinition;
             let newType: string;
-            let taskMeta: ITaskFile;
+            let taskMeta: ITaskSettings;
             let processor: TasksProcessor<ITestGeneratorSettings>;
 
             /**
@@ -147,7 +147,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                              * @param expected
                              * A value indicating whether a mutation is expected to exist.
                              */
-                            function AssertMutation(taskMeta: ITaskFile, expected = true): void
+                            function AssertMutation(taskMeta: ITaskSettings, expected = true): void
                             {
                                 Assert.strictEqual(
                                     taskMeta.tasks.some(

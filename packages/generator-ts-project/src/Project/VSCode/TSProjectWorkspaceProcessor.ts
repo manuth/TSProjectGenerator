@@ -1,8 +1,8 @@
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { IExtensionFile } from "../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../VSCode/ILaunchFile";
-import { ITaskFile } from "../../VSCode/ITaskFile";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
+import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectExtensionsProcessor } from "./TSProjectExtensionsProcessor";
@@ -29,7 +29,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
+    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
     {
         return new TSProjectExtensionsProcessor(this.Component);
     }
@@ -37,7 +37,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
     {
         return new TSProjectLaunchFileProcessor(this.Component);
     }
@@ -53,7 +53,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get TasksProcessor(): JSONProcessor<T, ITaskFile>
+    protected get TasksProcessor(): JSONProcessor<T, ITaskSettings>
     {
         return new TSProjectTasksProcessor(this.Component);
     }

@@ -2,9 +2,9 @@ import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { readFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
-import { IExtensionFile } from "../IExtensionFile";
-import { ILaunchFile } from "../ILaunchFile";
-import { ITaskFile } from "../ITaskFile";
+import { IExtensionSettings } from "../IExtensionSettings";
+import { ILaunchSettings } from "../ILaunchSettings";
+import { ITaskSettings } from "../ITaskSettings";
 import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 
 /**
@@ -52,7 +52,7 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
     /**
      * Gets the meta-data of the extensions.
      */
-    public get ExtensionsMetadata(): Promise<IExtensionFile>
+    public get ExtensionsMetadata(): Promise<IExtensionSettings>
     {
         return (
             async () =>
@@ -64,7 +64,7 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
     /**
      * Gets the meta-data of the debug-settings.
      */
-    public get LaunchMetadata(): Promise<ILaunchFile>
+    public get LaunchMetadata(): Promise<ILaunchSettings>
     {
         return (
             async () =>
@@ -88,7 +88,7 @@ export abstract class CodeWorkspaceProvider<T extends IGeneratorSettings>
     /**
      * Gets the meta-data of the tasks.
      */
-    public get TasksMetadata(): Promise<ITaskFile>
+    public get TasksMetadata(): Promise<ITaskSettings>
     {
         return (
             async () =>

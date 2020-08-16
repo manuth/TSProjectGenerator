@@ -1,9 +1,9 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
-import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { ITaskFile } from "../../../VSCode/ITaskFile";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 
 /**
@@ -36,7 +36,7 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     /**
      * @inheritdoc
      */
-    public get ExtensionsMetadata(): Promise<IExtensionFile>
+    public get ExtensionsMetadata(): Promise<IExtensionSettings>
     {
         return (async () => (await this.WorkspaceMetadata).extensions)();
     }
@@ -44,7 +44,7 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     /**
      * @inheritdoc
      */
-    public get LaunchMetadata(): Promise<ILaunchFile>
+    public get LaunchMetadata(): Promise<ILaunchSettings>
     {
         return (async () => (await this.WorkspaceMetadata).launch)();
     }
@@ -60,7 +60,7 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
     /**
      * @inheritdoc
      */
-    public get TasksMetadata(): Promise<ITaskFile>
+    public get TasksMetadata(): Promise<ITaskSettings>
     {
         return (async () => (await this.WorkspaceMetadata).tasks)();
     }

@@ -5,9 +5,9 @@ import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
 import { TempDirectory } from "temp-filesystem";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { ITaskFile } from "../../../VSCode/ITaskFile";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
@@ -62,10 +62,10 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                 "General",
                 () =>
                 {
-                    let randomExtensions: IExtensionFile;
-                    let randomLaunchData: ILaunchFile;
+                    let randomExtensions: IExtensionSettings;
+                    let randomLaunchData: ILaunchSettings;
                     let randomSettings: Record<string, any>;
-                    let randomTasks: ITaskFile;
+                    let randomTasks: ITaskSettings;
 
                     setup(
                         () =>

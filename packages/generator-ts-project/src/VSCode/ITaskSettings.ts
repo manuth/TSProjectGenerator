@@ -1,9 +1,9 @@
 import { TaskDefinition } from "vscode";
 
 /**
- * Represents the content of a `tasks.json` file.
+ * Represents task-settings.
  */
-export interface ITaskFile
+export interface ITaskSettings
 {
     /**
      * The version of the meta-data.

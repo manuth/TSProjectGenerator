@@ -1,13 +1,13 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { ILaunchFile } from "./ILaunchFile";
+import { ILaunchSettings } from "./ILaunchSettings";
 import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode debug configurations.
  */
-export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ILaunchFile>
+export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ILaunchSettings>
 {
     /**
      * Initializes a new instance of the `LaunchFileProcessor` class.
@@ -29,7 +29,7 @@ export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSO
      * @returns
      * The processed data.
      */
-    public async Process(data: ILaunchFile): Promise<ILaunchFile>
+    public async Process(data: ILaunchSettings): Promise<ILaunchSettings>
     {
         let result = await super.Process(data);
 

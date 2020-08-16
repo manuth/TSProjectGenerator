@@ -1,9 +1,9 @@
 import Assert = require("assert");
 import { isNullOrUndefined } from "util";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
-import { IExtensionFile } from "../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../VSCode/ILaunchFile";
-import { ITaskFile } from "../../VSCode/ITaskFile";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
+import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { TestJSONProcessor } from "../Components/TestJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -24,10 +24,10 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
         {
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
             let workspaceProcessor: TestWorkspaceProcessor<ITestGeneratorSettings>;
-            let randomExtensions: IExtensionFile;
-            let randomDebugSettings: ILaunchFile;
+            let randomExtensions: IExtensionSettings;
+            let randomDebugSettings: ILaunchSettings;
             let randomSettings: Record<string, any>;
-            let randomTasks: ITaskFile;
+            let randomTasks: ITaskSettings;
             let workspaceLoader: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
 
             suiteSetup(

@@ -1,13 +1,13 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { ITaskFile } from "./ITaskFile";
+import { ITaskSettings } from "./ITaskSettings";
 import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode-tasks.
  */
-export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ITaskFile>
+export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ITaskSettings>
 {
     /**
      * Initializes a new instance of the `TasksProcessor` class.
@@ -29,7 +29,7 @@ export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProc
      * @returns
      * The processed data.
      */
-    public async Process(data: ITaskFile): Promise<ITaskFile>
+    public async Process(data: ITaskSettings): Promise<ITaskSettings>
     {
         let result = await super.Process(data);
 

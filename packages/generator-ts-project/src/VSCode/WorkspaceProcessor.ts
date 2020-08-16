@@ -2,9 +2,9 @@ import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "./ExtensionsProcessor";
-import { IExtensionFile } from "./IExtensionFile";
-import { ILaunchFile } from "./ILaunchFile";
-import { ITaskFile } from "./ITaskFile";
+import { IExtensionSettings } from "./IExtensionSettings";
+import { ILaunchSettings } from "./ILaunchSettings";
+import { ITaskSettings } from "./ITaskSettings";
 import { IWorkspaceMetadata } from "./IWorkspaceMetadata";
 import { LaunchFileProcessor } from "./LaunchFileProcessor";
 import { SettingsProcessor } from "./SettingsProcessor";
@@ -66,7 +66,7 @@ export class WorkspaceProcessor<T extends IGeneratorSettings> extends VSCodeJSON
     /**
      * Gets a component for processing the extensions.
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
+    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
     {
         return new ExtensionsProcessor(this.Component);
     }
@@ -74,7 +74,7 @@ export class WorkspaceProcessor<T extends IGeneratorSettings> extends VSCodeJSON
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
     {
         return new LaunchFileProcessor(this.Component);
     }
@@ -90,7 +90,7 @@ export class WorkspaceProcessor<T extends IGeneratorSettings> extends VSCodeJSON
     /**
      * Gets a component for processing tasks.
      */
-    protected get TasksProcessor(): JSONProcessor<T, ITaskFile>
+    protected get TasksProcessor(): JSONProcessor<T, ITaskSettings>
     {
         return new TasksProcessor(this.Component);
     }

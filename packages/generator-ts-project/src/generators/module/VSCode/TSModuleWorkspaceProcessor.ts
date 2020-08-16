@@ -2,7 +2,7 @@ import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { TSModuleLaunchFileProcessor } from "./TSModuleLaunchFileProcessor";
 
 /**
@@ -24,7 +24,7 @@ export class TSModuleWorkspaceProcessor<T extends ITSProjectSettings> extends TS
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
     {
         return new TSModuleLaunchFileProcessor(this.Component);
     }

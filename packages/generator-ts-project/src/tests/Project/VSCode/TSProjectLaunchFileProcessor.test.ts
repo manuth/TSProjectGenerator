@@ -3,7 +3,7 @@ import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectC
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { TestContext } from "../../TestContext";
 
 /**
@@ -48,7 +48,7 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                     let argsName = "args";
                     let cwdName = "cwd";
 
-                    let testData: ILaunchFile = {
+                    let testData: ILaunchSettings = {
                         version: "",
                         configurations: [
                             {

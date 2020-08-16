@@ -1,6 +1,6 @@
-import { IExtensionFile } from "./IExtensionFile";
-import { ILaunchFile } from "./ILaunchFile";
-import { ITaskFile } from "./ITaskFile";
+import { IExtensionSettings } from "./IExtensionSettings";
+import { ILaunchSettings } from "./ILaunchSettings";
+import { ITaskSettings } from "./ITaskSettings";
 import { WorkspaceFolder } from "./WorkspaceFolder";
 
 /**
@@ -16,12 +16,12 @@ export interface IWorkspaceMetadata
     /**
      * The extensions of the workspace folder.
      */
-    extensions?: IExtensionFile;
+    extensions?: IExtensionSettings;
 
     /**
      * The debug-configurations of the workspace folder.
      */
-    launch?: ILaunchFile;
+    launch?: ILaunchSettings;
 
     /**
      * The settings of the workspace folder.
@@ -31,5 +31,5 @@ export interface IWorkspaceMetadata
     /**
      * The tasks of the workspace folder.
      */
-    tasks?: ITaskFile;
+    tasks?: ITaskSettings;
 }

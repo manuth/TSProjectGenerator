@@ -2,8 +2,8 @@ import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "../../../VSCode/ExtensionsProcessor";
-import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorLaunchFileProcessor } from "./TSGeneratorLaunchFileProcessor";
 
@@ -26,7 +26,7 @@ export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> exten
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionFile>
+    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
     {
         return new ExtensionsProcessor(this.Component);
     }
@@ -34,7 +34,7 @@ export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> exten
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchFile>
+    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
     {
         return new TSGeneratorLaunchFileProcessor(this.Component);
     }

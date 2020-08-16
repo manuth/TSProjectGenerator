@@ -1,9 +1,9 @@
 import { DebugConfiguration } from "vscode";
 
 /**
- * Represents a launch-config file.
+ * Represents the launch-settings.
  */
-export interface ILaunchFile
+export interface ILaunchSettings
 {
     /**
      * The version of the meta-data format.

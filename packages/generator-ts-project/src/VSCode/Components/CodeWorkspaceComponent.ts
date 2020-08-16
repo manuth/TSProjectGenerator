@@ -6,9 +6,9 @@ import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
 import { CodeWorkspaceProvider } from "../FileMappings/CodeWorkspaceProvider";
 import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator";
 import { WorkspaceFolderLoader } from "../FileMappings/WorkspaceFolderLoader";
-import { IExtensionFile } from "../IExtensionFile";
-import { ILaunchFile } from "../ILaunchFile";
-import { ITaskFile } from "../ITaskFile";
+import { IExtensionSettings } from "../IExtensionSettings";
+import { ILaunchSettings } from "../ILaunchSettings";
+import { ITaskSettings } from "../ITaskSettings";
 import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 import { WorkspaceProcessor } from "../WorkspaceProcessor";
 
@@ -87,7 +87,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets the meta-data of the extensions to write.
      */
-    public get ExtensionsMetadata(): Promise<IExtensionFile>
+    public get ExtensionsMetadata(): Promise<IExtensionSettings>
     {
         return (
             async () =>
@@ -99,7 +99,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets the meta-data of the debug-settings to write.
      */
-    public get LaunchMetadata(): Promise<ILaunchFile>
+    public get LaunchMetadata(): Promise<ILaunchSettings>
     {
         return (
             async () =>
@@ -123,7 +123,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets the metadata of the tasks to write.
      */
-    public get TasksMetadata(): Promise<ITaskFile>
+    public get TasksMetadata(): Promise<ITaskSettings>
     {
         return (
             async () =>

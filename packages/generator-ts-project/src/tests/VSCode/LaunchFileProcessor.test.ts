@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
-import { ILaunchFile } from "../../VSCode/ILaunchFile";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -18,7 +18,7 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
         "LaunchFileProcessor",
         () =>
         {
-            let launchMetadata: ILaunchFile;
+            let launchMetadata: ILaunchSettings;
             let includedDebugConfig: DebugConfiguration;
             let excludedDebugConfig: DebugConfiguration;
             let mutatedDebugConfig: DebugConfiguration;

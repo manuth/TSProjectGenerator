@@ -2,9 +2,9 @@ import Assert = require("assert");
 import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "temp-filesystem";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
-import { IExtensionFile } from "../../../VSCode/IExtensionFile";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
-import { ITaskFile } from "../../../VSCode/ITaskFile";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
@@ -25,10 +25,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             let moduleRoot: string;
             let destinationRoot: string;
             let tempDir: TempDirectory;
-            let randomExtensions: IExtensionFile;
-            let randomLaunchFile: ILaunchFile;
+            let randomExtensions: IExtensionSettings;
+            let randomLaunchFile: ILaunchSettings;
             let randomSettings: Record<string, any>;
-            let randomTasks: ITaskFile;
+            let randomTasks: ITaskSettings;
 
             suiteSetup(
                 async function()

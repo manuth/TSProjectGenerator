@@ -1,7 +1,7 @@
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 
 /**
  * Provides the functionality to process debug-configurations for `TSModule`s.
@@ -28,7 +28,7 @@ export class TSModuleLaunchFileProcessor<T extends ITSProjectSettings> extends T
      * @returns
      * The processed data.
      */
-    public async Process(data: ILaunchFile): Promise<ILaunchFile>
+    public async Process(data: ILaunchSettings): Promise<ILaunchSettings>
     {
         let result = await super.Process(data);
 

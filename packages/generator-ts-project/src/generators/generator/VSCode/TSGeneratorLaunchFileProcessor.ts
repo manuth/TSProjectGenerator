@@ -3,7 +3,7 @@ import { DebugConfiguration } from "vscode";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchFile } from "../../../VSCode/ILaunchFile";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ISubGenerator } from "../Settings/ISubGenerator";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
@@ -51,7 +51,7 @@ export class TSGeneratorLaunchFileProcessor<T extends ITSGeneratorSettings> exte
      * @returns
      * The processed data.
      */
-    public async Process(data: ILaunchFile): Promise<ILaunchFile>
+    public async Process(data: ILaunchSettings): Promise<ILaunchSettings>
     {
         let result = await super.Process(data);
         let configurations: DebugConfiguration[] = [];

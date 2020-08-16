@@ -1,12 +1,12 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { IExtensionFile } from "./IExtensionFile";
+import { IExtensionSettings } from "./IExtensionSettings";
 import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode-extensions.
  */
-export class ExtensionsProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, IExtensionFile>
+export class ExtensionsProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, IExtensionSettings>
 {
     /**
      * Initializes a new instance of the `ExtensionsProcessor` class.
@@ -28,7 +28,7 @@ export class ExtensionsProcessor<T extends IGeneratorSettings> extends VSCodeJSO
      * @returns
      * The processed data.
      */
-    public async Process(data: IExtensionFile): Promise<IExtensionFile>
+    public async Process(data: IExtensionSettings): Promise<IExtensionSettings>
     {
         let result = await super.Process(data);
 

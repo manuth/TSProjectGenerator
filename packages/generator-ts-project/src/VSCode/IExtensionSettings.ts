@@ -1,7 +1,7 @@
 /**
- * Represents an extension-file.
+ * Represents the extension-settings.
  */
-export interface IExtensionFile
+export interface IExtensionSettings
 {
     /**
      * Gets or sets recommended extensions.
