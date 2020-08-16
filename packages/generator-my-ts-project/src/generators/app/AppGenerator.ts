@@ -1,7 +1,7 @@
+import Path = require("path");
+import { Generator, IComponentCollection, Question } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import Dedent = require("dedent");
-import { Generator, IComponentCollection, Question } from "@manuth/extended-yo-generator";
-import Path = require("path");
 import YoSay = require("yosay");
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
