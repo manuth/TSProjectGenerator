@@ -3,10 +3,10 @@
     "files": [],
     "references": [
         {
-            "path": "./packages/generator-ts-project"
+            "path": "."
         },
         {
-            "path": "./packages/generator-my-ts-project"
+            "path": "./src/tests"
         }
     ]
 }

@@ -1,0 +1,7 @@
+{
+    "spec": [
+        "./lib/tests/main.test"
+    ],
+    "ui": "tdd",
+    "colors": true
+}

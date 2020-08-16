@@ -5,6 +5,10 @@
             "name": "TSProjectGenerator"
         },
         {
+            "path": "../generator-my-ts-project",
+            "name": "MyTSProjectGenerator"
+        },
+        {
             "path": "../..",
             "name": "Solution Items"
         }
