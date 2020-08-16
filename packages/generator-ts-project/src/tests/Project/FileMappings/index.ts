@@ -1,6 +1,5 @@
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
-import { GitIgnoreFileMappingTests } from "./GitIgnoreFileMapping.test";
 import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test";
 import { NPMPackagingTests } from "./NPMPackaging";
 
@@ -16,7 +15,6 @@ export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
         "FileMappings",
         () =>
         {
-            GitIgnoreFileMappingTests(context);
             NPMIgnoreFileMappingTests(context);
             NPMPackagingTests(context);
         });
