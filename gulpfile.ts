@@ -1,5 +1,5 @@
 import glob = require("glob");
-import { src, dest, parallel } from "gulp";
+import { src, dest, parallel, watch, series } from "gulp";
 import merge = require("merge-stream");
 import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
@@ -104,3 +104,30 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 }
 
 CopyNPMIgnore.description = `Copies the \`${npmIgnoreFile}\` file to the mono-repo packages.`;
+
+/**
+ * Copies and watches the files for changes.
+ *
+ * @returns
+ * The task.
+ */
+export let Watch = series(
+    [
+        CopyFiles,
+        function WatchFiles()
+        {
+            watch(
+                [
+                    gitIgnoreFile,
+                    gitDiffFile
+                ],
+                CopyGitIgnore);
+
+            watch(
+                [
+                    npmIgnoreFile,
+                    npmDiffFile
+                ],
+                CopyNPMIgnore);
+        }
+    ]);
