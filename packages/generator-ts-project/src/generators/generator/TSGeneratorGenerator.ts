@@ -193,6 +193,14 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     /**
      * @inheritdoc
      */
+    public async cleanup(): Promise<void>
+    {
+        return super.cleanup();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public async end(): Promise<void>
     {
         await super.end();

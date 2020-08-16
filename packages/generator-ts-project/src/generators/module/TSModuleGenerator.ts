@@ -122,6 +122,14 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
     /**
      * @inheritdoc
      */
+    public async cleanup(): Promise<void>
+    {
+        return super.cleanup();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public async end(): Promise<void>
     {
         await super.end();
