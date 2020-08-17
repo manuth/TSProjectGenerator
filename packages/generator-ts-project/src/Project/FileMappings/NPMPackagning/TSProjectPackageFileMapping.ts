@@ -42,9 +42,13 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
                     {
                         Source: "watch-compile",
                         Destination: "watch",
-                        Processor: async (script) => script.replace("compile", "build")
+                        Processor: async (script) => script.replace(/compile/g, "build")
                     },
-                    "clean"
+                    {
+                        Source: "clean",
+                        Destination: "clean",
+                        Processor: async (script) => script.replace(/compile/g, "build")
+                    }
                 ];
             })();
     }
