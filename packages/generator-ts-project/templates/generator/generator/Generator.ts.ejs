@@ -29,7 +29,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    protected get TemplateRoot(): string
+    public get TemplateRoot(): string
     {
         return "<%= ID %>";
     }
@@ -37,7 +37,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    protected get Questions(): Array<Question<<%= SettingsInterface %>>>
+    public get Questions(): Array<Question<<%= SettingsInterface %>>>
     {
         return [
             {
@@ -69,7 +69,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<<%= SettingsInterface %>, GeneratorOptions>
+    public get Components(): IComponentCollection<<%= SettingsInterface %>, GeneratorOptions>
     {
         return {
             Question: "What do you want to include in your workspace?",
