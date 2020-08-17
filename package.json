@@ -7,7 +7,7 @@
     "compile": "tsc -b tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- --watch | dev-null\" \"npm run compile -- --watch\"",
-    "clean": "lerna run clean",
+    "clean": "npm run compile -- --clean && lerna run clean",
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint-local": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx .eslintrc.js",
     "lint-local-compact": "npm run lint-local -- -f compact || exit 0",
