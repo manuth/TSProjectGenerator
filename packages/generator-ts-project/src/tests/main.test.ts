@@ -31,17 +31,16 @@ suite(
         let generatorContext = new TestContext(contextMap.get("generator")[0] as GeneratorContext<TSGeneratorGenerator>);
         let moduleContext = new TestContext(contextMap.get("module")[0] as GeneratorContext<TSModuleGenerator>);
 
-        suiteSetup(
-            async function()
+        teardown(
+            async () =>
             {
-                this.timeout(0);
-                workingDirectory = process.cwd();
-
                 for (let entry of contextMap.values())
                 {
-                    let generator = await entry[0].Generator;
-                    entry[1] = { ...generator.Settings };
+                    let context = entry[0];
+                    await context.ResetSettings();
                 }
+
+                process.chdir(workingDirectory);
             });
 
         suiteTeardown(
@@ -52,26 +51,6 @@ suite(
                     let context = entry[0];
                     context.Dispose();
                 }
-            });
-
-        setup(
-            async () =>
-            {
-                for (let namespace of contextMap.keys())
-                {
-                    let entry = contextMap.get(namespace);
-                    let generator = await entry[0].Generator;
-                    let settings = generator.Settings as any;
-
-                    for (let key in settings)
-                    {
-                        delete settings[key];
-                    }
-
-                    Object.assign(settings, entry[1]);
-                }
-
-                process.chdir(workingDirectory);
             });
 
         ComponentTests(defaultContext);
