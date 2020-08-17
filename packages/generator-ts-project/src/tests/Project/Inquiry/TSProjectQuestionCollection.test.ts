@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
 import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion";
@@ -20,7 +21,7 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
         "TSProjectQuestionCollection",
         () =>
         {
-            let questionCollection: TSProjectQuestionCollection<ITSProjectSettings>;
+            let questionCollection: TSProjectQuestionCollection<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

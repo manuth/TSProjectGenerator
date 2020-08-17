@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 import { ILaunchSettings } from "./ILaunchSettings";
@@ -7,7 +7,7 @@ import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 /**
  * Provides the functionality to process vscode debug configurations.
  */
-export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ILaunchSettings>
+export class LaunchFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, ILaunchSettings>
 {
     /**
      * Initializes a new instance of the `LaunchFileProcessor` class.
@@ -15,7 +15,7 @@ export class LaunchFileProcessor<T extends IGeneratorSettings> extends VSCodeJSO
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

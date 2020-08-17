@@ -1,4 +1,4 @@
-import { IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
@@ -15,7 +15,7 @@ import { WorkspaceProcessor } from "../WorkspaceProcessor";
 /**
  * Provides a component for creating a vscode-workspace.
  */
-export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends ComponentBase<T>
+export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
@@ -23,7 +23,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
      * @param generator
      * The generator of the component.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -55,10 +55,10 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
     {
         return (
-            async (): Promise<Array<IFileMapping<T>>> =>
+            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
             {
                 return this.FileMappingCreator.FileMappings;
             })();
@@ -67,7 +67,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets a component for loading vscode-workspaces.
      */
-    public get Source(): CodeWorkspaceProvider<T>
+    public get Source(): CodeWorkspaceProvider<TSettings, TOptions>
     {
         return new WorkspaceFolderLoader(this);
     }
@@ -135,7 +135,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets a component for processing the workspace.
      */
-    protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
+    protected get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return new WorkspaceProcessor(this);
     }
@@ -143,7 +143,7 @@ export class CodeWorkspaceComponent<T extends IGeneratorSettings> extends Compon
     /**
      * Gets a component for creating file-mappings.
      */
-    protected get FileMappingCreator(): CodeFileMappingCreator<T>
+    protected get FileMappingCreator(): CodeFileMappingCreator<TSettings, TOptions>
     {
         return new WorkspaceFolderCreator(this);
     }

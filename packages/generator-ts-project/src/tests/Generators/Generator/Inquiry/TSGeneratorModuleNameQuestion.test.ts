@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -18,7 +19,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
         () =>
         {
             let settings: ITSGeneratorSettings;
-            let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings>;
+            let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

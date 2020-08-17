@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
@@ -6,7 +7,7 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 /**
  * Provides the functionality to process debug-configurations for `TSProject`s.
  */
-export class TSProjectLaunchFileProcessor<T extends ITSProjectSettings> extends LaunchFileProcessor<T>
+export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends LaunchFileProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSProjectLaunchFileProcessor` class.
@@ -14,7 +15,7 @@ export class TSProjectLaunchFileProcessor<T extends ITSProjectSettings> extends 
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

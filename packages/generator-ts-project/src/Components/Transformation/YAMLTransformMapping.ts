@@ -1,11 +1,11 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { parseAllDocuments, Document } from "yaml";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy YAML-code.
  */
-export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings> extends TransformFileMapping<TSettings, Document.Parsed[]>
+export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, Document.Parsed[]>
 {
     /**
      * Initializes a new instance of the `YAMLTransformMapping` class.
@@ -13,7 +13,7 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings>
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<TSettings>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

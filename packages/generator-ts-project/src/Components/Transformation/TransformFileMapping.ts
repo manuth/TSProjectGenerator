@@ -1,10 +1,10 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { FileMappingBase } from "../FileMappingBase";
 
 /**
  * Provides the functionality to transform and copy object-notation code.
  */
-export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TData> extends FileMappingBase<TSettings>
+export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends FileMappingBase<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TransformFileMapping` class.
@@ -12,7 +12,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<TSettings>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

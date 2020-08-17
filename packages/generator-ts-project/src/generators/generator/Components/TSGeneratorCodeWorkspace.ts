@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
@@ -8,15 +8,15 @@ import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspacePro
 /**
  * Provides a component for creating a vscode-workspace folder for `TSGenerator`s.
  */
-export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends TSProjectWorkspaceFolder<T>
+export class TSGeneratorCodeWorkspace<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectWorkspaceFolder<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the `TSGeneratorWorkspaceFolder<T>` class.
+     * Initializes a new isntance of the `TSGeneratorWorkspaceFolder` class.
      *
      * @param generator
      * The generator of the component.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -24,7 +24,7 @@ export class TSGeneratorCodeWorkspace<T extends ITSGeneratorSettings> extends TS
     /**
      * @inheritdoc
      */
-    protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
+    protected get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return new TSGeneratorWorkspaceProcessor(this);
     }

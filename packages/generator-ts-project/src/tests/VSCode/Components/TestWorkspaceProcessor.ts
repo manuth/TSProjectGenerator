@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
@@ -8,32 +8,32 @@ import { WorkspaceProcessor } from "../../../VSCode/WorkspaceProcessor";
 /**
  * Provides an implementation of the `WorkspaceProcessor` class for testing.
  */
-export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends WorkspaceProcessor<T>
+export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends WorkspaceProcessor<TSettings, TOptions>
 {
     /**
      * A component for processing the extensions.
      */
-    private extensionsProcessor: JSONProcessor<T, IExtensionSettings> = new JSONProcessor(this.Generator);
+    private extensionsProcessor: JSONProcessor<TSettings, TOptions, IExtensionSettings> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing debug-settings.
      */
-    private launchFileProcessor: JSONProcessor<T, ILaunchSettings> = new JSONProcessor(this.Generator);
+    private launchFileProcessor: JSONProcessor<TSettings, TOptions, ILaunchSettings> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing settings.
      */
-    private settingsProcessor: JSONProcessor<T, Record<string, any>> = new JSONProcessor(this.Generator);
+    private settingsProcessor: JSONProcessor<TSettings, TOptions, Record<string, any>> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing tasks.
      */
-    private tasksProcessor: JSONProcessor<T, ITaskSettings> = new JSONProcessor(this.Generator);
+    private tasksProcessor: JSONProcessor<TSettings, TOptions, ITaskSettings> = new JSONProcessor(this.Generator);
 
     /**
      * Gets or sets a component for processing the extensions.
      */
-    public get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
+    public get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
     {
         return this.extensionsProcessor;
     }
@@ -41,7 +41,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * @inheritdoc
      */
-    public set ExtensionsProcessor(value: JSONProcessor<T, IExtensionSettings>)
+    public set ExtensionsProcessor(value: JSONProcessor<TSettings, TOptions, IExtensionSettings>)
     {
         this.extensionsProcessor = value;
     }
@@ -49,7 +49,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * Gets or sets a component for processing debug-settings.
      */
-    public get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
+    public get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return this.launchFileProcessor;
     }
@@ -57,7 +57,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * @inheritdoc
      */
-    public set LaunchFileProcessor(value: JSONProcessor<T, ILaunchSettings>)
+    public set LaunchFileProcessor(value: JSONProcessor<TSettings, TOptions, ILaunchSettings>)
     {
         this.launchFileProcessor = value;
     }
@@ -65,7 +65,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * Gets or sets a component for processing settings.
      */
-    public get SettingsProcessor(): JSONProcessor<T, Record<string, any>>
+    public get SettingsProcessor(): JSONProcessor<TSettings, TOptions, Record<string, any>>
     {
         return this.settingsProcessor;
     }
@@ -73,7 +73,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * @inheritdoc
      */
-    public set SettingsProcessor(value: JSONProcessor<T, Record<string, any>>)
+    public set SettingsProcessor(value: JSONProcessor<TSettings, TOptions, Record<string, any>>)
     {
         this.settingsProcessor = value;
     }
@@ -81,7 +81,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * Gets or sets a component for processing tasks.
      */
-    public get TasksProcessor(): JSONProcessor<T, ITaskSettings>
+    public get TasksProcessor(): JSONProcessor<TSettings, TOptions, ITaskSettings>
     {
         return this.tasksProcessor;
     }
@@ -89,7 +89,7 @@ export class TestWorkspaceProcessor<T extends IGeneratorSettings> extends Worksp
     /**
      * @inheritdoc
      */
-    public set TasksProcessor(value: JSONProcessor<T, ITaskSettings>)
+    public set TasksProcessor(value: JSONProcessor<TSettings, TOptions, ITaskSettings>)
     {
         this.tasksProcessor = value;
     }

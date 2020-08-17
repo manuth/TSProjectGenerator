@@ -1,7 +1,7 @@
 import { createRequire } from "module";
 import { EOL } from "os";
 import { relative } from "path";
-import { Generator, Question, IComponentCollection, IFileMapping, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions, Question, IComponentCollection, IFileMapping, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import chalk = require("chalk");
 import JSON = require("comment-json");
@@ -14,7 +14,6 @@ import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
 import { Program } from "typescript";
 import { join, resolve } from "upath";
-import { GeneratorOptions } from "yeoman-generator";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
@@ -28,7 +27,7 @@ import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
 /**
  * Provides the functionality to generate a project writtein in TypeScript.
  */
-export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSettings> extends Generator<T>
+export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSProjectGenerator<T>` class.
@@ -39,7 +38,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: Record<string, unknown>)
+    public constructor(args: string | string[], options: TOptions)
     {
         super(
             args,
@@ -52,13 +51,13 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
                         priorityName: "cleanup"
                     }
                 ]
-            } as GeneratorOptions);
+            });
     }
 
     /**
      * Gets the path to the directory for the source-files.
      */
-    protected get SourceRoot(): string
+    public get SourceRoot(): string
     {
         return "src";
     }
@@ -66,7 +65,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
     /**
      * @inheritdoc
      */
-    protected get Questions(): Array<Question<T>>
+    public get Questions(): Array<Question<TSettings>>
     {
         return new TSProjectQuestionCollection(this).Questions;
     }
@@ -74,7 +73,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<T>
+    public get Components(): IComponentCollection<TSettings, TOptions>
     {
         return new TSProjectComponentCollection(this);
     }
@@ -82,7 +81,7 @@ export class TSProjectGenerator<T extends ITSProjectSettings = ITSProjectSetting
     /**
      * @inheritdoc
      */
-    protected get FileMappings(): Array<IFileMapping<T>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
             new TSProjectPackageFileMapping(this),

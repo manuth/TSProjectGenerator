@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "temp-filesystem";
 import { TransformFileMapping } from "../../../Components/Transformation/TransformFileMapping";
@@ -19,8 +20,8 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
         {
             let generator: TestGenerator;
             let tempFile: TempFile;
-            let fileMappingOptions: TransformFileMapping<ITestGeneratorSettings, any>;
-            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, TransformFileMapping<ITestGeneratorSettings, any>>;
+            let fileMappingOptions: TransformFileMapping<ITestGeneratorSettings, GeneratorOptions, any>;
+            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TransformFileMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
             let randomSource: any;
             let modifiedSource: any;
 
@@ -31,7 +32,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                     generator = await context.Generator;
                     tempFile = new TempFile();
 
-                    fileMappingOptions = new class extends TransformFileMapping<ITestGeneratorSettings, any>
+                    fileMappingOptions = new class extends TransformFileMapping<ITestGeneratorSettings, GeneratorOptions, any>
                     {
                         /**
                          * @inheritdoc

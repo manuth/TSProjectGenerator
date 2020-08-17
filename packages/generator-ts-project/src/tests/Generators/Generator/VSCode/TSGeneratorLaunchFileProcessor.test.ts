@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
@@ -24,8 +24,8 @@ export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGener
         () =>
         {
             let settings: Partial<ITSGeneratorSettings>;
-            let component: CodeWorkspaceComponent<ITSGeneratorSettings>;
-            let processor: TSGeneratorLaunchFileProcessor<ITSGeneratorSettings>;
+            let component: CodeWorkspaceComponent<ITSGeneratorSettings, GeneratorOptions>;
+            let processor: TSGeneratorLaunchFileProcessor<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

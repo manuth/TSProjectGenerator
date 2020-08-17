@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
@@ -23,8 +23,8 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
         "TSGeneratorPackageFileMapping",
         () =>
         {
-            let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings>;
-            let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, TSGeneratorPackageFileMapping<ITSGeneratorSettings>>;
+            let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>;
+            let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, GeneratorOptions, TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()

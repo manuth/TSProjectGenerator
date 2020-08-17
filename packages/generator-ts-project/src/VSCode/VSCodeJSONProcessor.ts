@@ -1,16 +1,16 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 
 /**
  * Provides the functionality to process json objects related to vscode.
  */
-export class VSCodeJSONProcessor<T extends IGeneratorSettings, TData> extends JSONProcessor<T, TData>
+export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends JSONProcessor<TSettings, TOptions, TData>
 {
     /**
      * The component of this processor.
      */
-    private component: CodeWorkspaceComponent<T>;
+    private component: CodeWorkspaceComponent<TSettings, TOptions>;
 
     /**
      * Initializes a new instance of the `CodeFileProcessor` class.
@@ -18,7 +18,7 @@ export class VSCodeJSONProcessor<T extends IGeneratorSettings, TData> extends JS
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component.Generator);
         this.component = component;
@@ -27,7 +27,7 @@ export class VSCodeJSONProcessor<T extends IGeneratorSettings, TData> extends JS
     /**
      * Gets the generator of this component.
      */
-    public get Generator(): IGenerator<T>
+    public get Generator(): IGenerator<TSettings, TOptions>
     {
         return this.Component.Generator;
     }
@@ -35,7 +35,7 @@ export class VSCodeJSONProcessor<T extends IGeneratorSettings, TData> extends JS
     /**
      * Gets the component of this processor.
      */
-    public get Component(): CodeWorkspaceComponent<T>
+    public get Component(): CodeWorkspaceComponent<TSettings, TOptions>
     {
         return this.component;
     }

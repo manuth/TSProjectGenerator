@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import parsePackageName = require("parse-pkg-name");
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -6,15 +6,15 @@ import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends TSProjectModuleNameQuestion<T>
+export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectModuleNameQuestion<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorModuleNameQuestion<T>` class.
+     * Initializes a new instance of the `TSGeneratorModuleNameQuestion` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -28,7 +28,7 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: T): Promise<string>
+    public async Default(answers: TSettings): Promise<string>
     {
         return `generator-${(await super.Default(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
     }
@@ -45,7 +45,7 @@ export class TSGeneratorModuleNameQuestion<T extends ITSProjectSettings> extends
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: T): Promise<boolean | string>
+    public async Validate(input: string, answers: TSettings): Promise<boolean | string>
     {
         let result = await super.Validate(input, answers);
 

@@ -1,4 +1,4 @@
-import { IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSGeneratorDependencies } from "../../Dependencies/TSGeneratorDependencies";
@@ -9,15 +9,15 @@ import { TSGeneratorComponent } from "../../Settings/TSGeneratorComponent";
 /**
  * Represents a file-mapping for the `package.json` file for `TSGenerator`s.
  */
-export class TSGeneratorPackageFileMapping<T extends ITSGeneratorSettings> extends TSProjectPackageFileMapping<T>
+export class TSGeneratorPackageFileMapping<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectPackageFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorPackageFileMapping<T>` class.
+     * Initializes a new instance of the `TSGeneratorPackageFileMapping` class.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

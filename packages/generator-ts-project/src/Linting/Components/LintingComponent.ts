@@ -1,4 +1,4 @@
-import { Question, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, Question, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
@@ -8,15 +8,15 @@ import { LintingQuestion } from "../Inquiry/LintingQuestion";
 /**
  * Provides a component which allows creating files for linting the workspace.
  */
-export class LintingComponent<T extends ITSProjectSettings> extends ComponentBase<T>
+export class LintingComponent<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `LintingComponent<T>` class.
+     * Initializes a new instance of the `LintingComponent` class.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -48,7 +48,7 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<T>>
+    public get Questions(): Array<Question<TSettings>>
     {
         return [
             new LintingQuestion(this.Generator)
@@ -58,7 +58,7 @@ export class LintingComponent<T extends ITSProjectSettings> extends ComponentBas
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
     {
         return (
             async () =>

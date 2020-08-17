@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { InputQuestionOptions } from "inquirer";
 import { isAbsolute } from "upath";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
@@ -9,7 +9,7 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 /**
  * Provides a question for asking for the destination-path of a project.
  */
-export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
@@ -22,12 +22,12 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
     public name = TSProjectSettingKey.Destination;
 
     /**
-     * Initializes a new instance of the `TSProjectDestinationQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectDestinationQuestion` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -41,7 +41,7 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The message to show to the user.
      */
-    public async Message(answers: T): Promise<string>
+    public async Message(answers: TSettings): Promise<string>
     {
         return "Where do you want to save your project to?";
     }
@@ -55,7 +55,7 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value.
      */
-    public async Default(answers: T): Promise<string>
+    public async Default(answers: TSettings): Promise<string>
     {
         return "./";
     }
@@ -72,7 +72,7 @@ export class TSProjectDestinationQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The filtered value.
      */
-    public async Filter(input: any, answers: T): Promise<string>
+    public async Filter(input: any, answers: TSettings): Promise<string>
     {
         return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
     }

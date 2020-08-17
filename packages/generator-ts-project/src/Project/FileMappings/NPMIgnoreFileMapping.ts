@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
 import { readFile } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -7,7 +7,7 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 /**
  * Provides the functionality to copy the `.npmignore` file.
  */
-export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMappingBase<T>
+export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `NPMIgnoreFileMapping` class.
@@ -15,7 +15,7 @@ export class NPMIgnoreFileMapping<T extends ITSProjectSettings> extends FileMapp
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

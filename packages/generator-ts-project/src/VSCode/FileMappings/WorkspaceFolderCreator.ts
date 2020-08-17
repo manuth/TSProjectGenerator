@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { split } from "eol";
 import { join } from "upath";
@@ -9,7 +9,7 @@ import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 /**
  * Provides the functionality to create file-mappings for a workspace-folder.
  */
-export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFileMappingCreator<T>
+export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeFileMappingCreator<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `WorkspaceFolderCreator` class.
@@ -17,7 +17,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
      * @param component
      * The component of the file-mapping creator.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }
@@ -69,10 +69,10 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
     {
         return (
-            async (): Promise<Array<IFileMapping<T>>> =>
+            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
             {
                 let files: Array<[string, Promise<any>]> = [
                     [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
@@ -81,7 +81,7 @@ export class WorkspaceFolderCreator<T extends IGeneratorSettings> extends CodeFi
                     [this.TasksFileName, this.Component.TasksMetadata]
                 ];
 
-                let result: Array<IFileMapping<T>> = [];
+                let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
                 for (let fileEntry of files)
                 {

@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
@@ -9,7 +9,7 @@ import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 /**
  * Provides an implementation of the `CodeWorkspaceProvider` class for testing.
  */
-export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends CodeWorkspaceProvider<T>
+export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
     /**
      * The workspace-metadata.
@@ -28,7 +28,7 @@ export class TestCodeWorkspaceProvider<T extends IGeneratorSettings> extends Cod
      * @param component
      * The component of this code-workspace provider.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

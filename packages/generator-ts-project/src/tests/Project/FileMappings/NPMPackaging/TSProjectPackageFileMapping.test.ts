@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintDependencies } from "../../../../NPMPackaging/Dependencies/LintDependencies";
@@ -23,8 +23,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
         "TSProjectPackageFileMapping",
         () =>
         {
-            let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings>;
-            let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, TSProjectPackageFileMapping<ITSProjectSettings>>;
+            let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             /**
              * Asserts that a script has been copied.

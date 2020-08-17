@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
@@ -9,7 +9,7 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 /**
  * Provides a question for asking for the module-name of a project.
  */
-export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements InputQuestionOptions<T>
+export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
@@ -22,12 +22,12 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
     public name = TSProjectSettingKey.Description;
 
     /**
-     * Initializes a new instance of the `TSProjectDescriptionQuestion<T>` class.
+     * Initializes a new instance of the `TSProjectDescriptionQuestion` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -41,7 +41,7 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The message which is shown to the user.
      */
-    public async Message(answers: T): Promise<string>
+    public async Message(answers: TSettings): Promise<string>
     {
         return "Please enter a description for your project.";
     }
@@ -55,7 +55,7 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: T): Promise<string>
+    public async Default(answers: TSettings): Promise<string>
     {
         let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
         await npmPackage.Normalize();
@@ -74,7 +74,7 @@ export class TSProjectDescriptionQuestion<T extends ITSProjectSettings> extends 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: T): Promise<string | boolean>
+    public async Validate(input: string, answers: TSettings): Promise<string | boolean>
     {
         return true;
     }

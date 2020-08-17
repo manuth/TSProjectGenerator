@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { LintingComponent } from "../../../Linting/Components/LintingComponent";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -13,7 +14,7 @@ import { TestContext } from "../../TestContext";
  */
 export function LintingComponentTests(context: TestContext<TSProjectGenerator>): void
 {
-    let component: LintingComponent<ITSProjectSettings>;
+    let component: LintingComponent<ITSProjectSettings, GeneratorOptions>;
 
     suiteSetup(
         async function()

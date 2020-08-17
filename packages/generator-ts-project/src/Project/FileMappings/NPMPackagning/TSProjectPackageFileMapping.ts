@@ -1,4 +1,4 @@
-import { IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -12,15 +12,15 @@ import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
 /**
  * Represents a file-mapping for the `package.json` file of `TSProject`s.
  */
-export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends PackageFileMapping<T>
+export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends PackageFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectPackageFileMapping<T>` class.
+     * Initializes a new instance of the `TSProjectPackageFileMapping` class.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -28,10 +28,10 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     /**
      * Gets all `npm`-scripts which are related to `TypeScript`.
      */
-    protected get TypeScriptScripts(): Promise<Array<IScriptMapping<T> | string>>
+    protected get TypeScriptScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
-            async (): Promise<Array<IScriptMapping<T> | string>> =>
+            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
             {
                 return [
                     {
@@ -52,10 +52,10 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     /**
      * Gets all `npm`-scripts which are related to linting.
      */
-    protected get LintScripts(): Promise<Array<IScriptMapping<T> | string>>
+    protected get LintScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
-            async (): Promise<Array<IScriptMapping<T> | string>> =>
+            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
             {
                 return [
                     {
@@ -79,7 +79,7 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     /**
      * Gets additional `npm`-scripts.
      */
-    protected get MiscScripts(): Promise<Array<IScriptMapping<T> | string>>
+    protected get MiscScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
             async () =>
@@ -94,7 +94,7 @@ export class TSProjectPackageFileMapping<T extends ITSProjectSettings> extends P
     /**
      * @inheritdoc
      */
-    protected get ScriptMappings(): Promise<Array<IScriptMapping<T> | string>>
+    protected get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
             async () =>

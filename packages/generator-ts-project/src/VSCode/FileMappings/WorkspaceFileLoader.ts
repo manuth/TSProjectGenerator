@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
@@ -6,7 +6,7 @@ import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 /**
  * Provides the functionality to load workspace-settings from a `.code-workspace` file.
  */
-export class WorkspaceFileLoader<T extends IGeneratorSettings> extends CodeWorkspaceProvider<T>
+export class WorkspaceFileLoader<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
     /**
      * The name of the workspace file.
@@ -22,7 +22,7 @@ export class WorkspaceFileLoader<T extends IGeneratorSettings> extends CodeWorks
      * @param workspaceFileName
      * The name of the workspace file.
      */
-    public constructor(component: CodeWorkspaceComponent<T>, workspaceFileName: string)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>, workspaceFileName: string)
     {
         super(component);
         this.workspaceFileName = workspaceFileName;

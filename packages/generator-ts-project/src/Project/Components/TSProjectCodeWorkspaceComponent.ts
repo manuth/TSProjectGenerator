@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { CodeWorkspaceProvider } from "../../VSCode/FileMappings/CodeWorkspaceProvider";
@@ -10,15 +10,15 @@ import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcess
 /**
  * Provides a component for creating a vscode-workspace folder for `TSProject`s.
  */
-export class TSProjectWorkspaceFolder<T extends ITSProjectSettings> extends CodeWorkspaceComponent<T>
+export class TSProjectWorkspaceFolder<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceComponent<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent<T>` class.
+     * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent` class.
      *
      * @param generator
      * The generator of the component.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -26,7 +26,7 @@ export class TSProjectWorkspaceFolder<T extends ITSProjectSettings> extends Code
     /**
      * @inheritdoc
      */
-    protected get WorkspaceProcessor(): JSONProcessor<T, IWorkspaceMetadata>
+    protected get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return new TSProjectWorkspaceProcessor(this);
     }
@@ -34,7 +34,7 @@ export class TSProjectWorkspaceFolder<T extends ITSProjectSettings> extends Code
     /**
      * @inheritdoc
      */
-    public get Source(): CodeWorkspaceProvider<T>
+    public get Source(): CodeWorkspaceProvider<TSettings, TOptions>
     {
         return new WorkspaceFileLoader(this, this.Generator.modulePath("TSProjectGenerator.code-workspace"));
     }

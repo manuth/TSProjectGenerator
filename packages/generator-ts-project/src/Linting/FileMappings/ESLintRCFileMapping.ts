@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { SourceFile, ExportAssignment, Node } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
@@ -8,15 +8,15 @@ import { LintRuleset } from "../LintRuleset";
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
  */
-export class ESLintRCFileMapping<T extends ITSProjectSettings> extends TypeScriptTransformMapping<T>
+export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TypeScriptTransformMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ESLintRCFileMapping<T>` class.
+     * Initializes a new instance of the `ESLintRCFileMapping` class.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

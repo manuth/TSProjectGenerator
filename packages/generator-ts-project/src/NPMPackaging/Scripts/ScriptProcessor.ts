@@ -1,10 +1,10 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { ScriptMapping } from "./ScriptMapping";
 
 /**
  * Provides the functionality to process scripts.
  */
-export type ScriptProcessor<T extends IGeneratorSettings> =
+export type ScriptProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> =
     /**
      * Processes a script.
      *
@@ -20,4 +20,4 @@ export type ScriptProcessor<T extends IGeneratorSettings> =
      * @returns
      * The processed script.
      */
-    (script: string, target: ScriptMapping<T>, generator: IGenerator<T>) => Promise<string>;
+    (script: string, target: ScriptMapping<TSettings, TOptions>, generator: IGenerator<TSettings, TOptions>) => Promise<string>;

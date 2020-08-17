@@ -1,11 +1,11 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy JSON-code.
  */
-export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings, TData> extends TransformFileMapping<TSettings, TData>
+export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends TransformFileMapping<TSettings, TOptions, TData>
 {
     /**
      * Initializes a new instance of the `JSONTransformMapping` class.
@@ -13,7 +13,7 @@ export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings,
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<TSettings>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

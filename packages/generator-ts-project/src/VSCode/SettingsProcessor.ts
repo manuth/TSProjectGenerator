@@ -1,11 +1,11 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode-settings.
  */
-export class SettingsProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, Record<string, any>>
+export class SettingsProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, Record<string, any>>
 {
     /**
      * Initializes a new instance of the `SettingsProcessor` class.
@@ -13,7 +13,7 @@ export class SettingsProcessor<T extends IGeneratorSettings> extends VSCodeJSONP
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

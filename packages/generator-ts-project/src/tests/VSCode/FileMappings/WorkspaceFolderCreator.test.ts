@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { FileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, FileMapping } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import dedent = require("dedent");
@@ -24,9 +24,9 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
         {
             let generator: TestGenerator;
             let randomComment: string;
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
-            let source: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
-            let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings>;
+            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
+            let source: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
+            let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
              * Asserts the content of the file located at the `path`.

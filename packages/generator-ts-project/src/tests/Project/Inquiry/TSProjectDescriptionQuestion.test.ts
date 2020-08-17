@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
@@ -20,7 +21,7 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
         () =>
         {
             let generator: TSProjectGenerator;
-            let question: TSProjectDescriptionQuestion<ITSProjectSettings>;
+            let question: TSProjectDescriptionQuestion<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

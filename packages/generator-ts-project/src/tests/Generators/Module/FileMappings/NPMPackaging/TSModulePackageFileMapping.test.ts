@@ -1,5 +1,6 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
@@ -22,8 +23,8 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;
-            let fileMapping: TSModulePackageFileMapping<ITSProjectSettings>;
-            let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, TSModulePackageFileMapping<ITSProjectSettings>>;
+            let fileMapping: TSModulePackageFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, GeneratorOptions, TSModulePackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()

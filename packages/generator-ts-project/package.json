@@ -41,7 +41,7 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^5.0.0",
+    "@manuth/extended-yo-generator": "^6.0.0",
     "@manuth/package-json-editor": "^1.4.1",
     "@types/vscode": "^1.48.0",
     "chalk": "^4.1.0",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.1.2",
-    "@manuth/extended-yo-generator-test": "^5.0.0",
+    "@manuth/extended-yo-generator-test": "^6.0.0",
     "@manuth/tsconfig": "^1.2.2",
     "@types/comment-json": "^1.1.1",
     "@types/dedent": "^0.7.0",
@@ -87,7 +87,7 @@
     "dev-null-cli": "^1.0.0",
     "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsdoc": "^30.2.2",
+    "eslint-plugin-jsdoc": "^30.2.3",
     "markdownlint-cli": "^0.23.2",
     "mocha": "^8.1.1",
     "npm-packlist": "^2.1.2",

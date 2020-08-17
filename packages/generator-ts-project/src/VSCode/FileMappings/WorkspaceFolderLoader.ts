@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
@@ -6,7 +6,7 @@ import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 /**
  * Provides the functionality to load workspace-settings from a folder.
  */
-export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWorkspaceProvider<T>
+export class WorkspaceFolderLoader<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `WorkspaceFolderLoader` class.
@@ -14,7 +14,7 @@ export class WorkspaceFolderLoader<T extends IGeneratorSettings> extends CodeWor
      * @param component
      * The component of the file-mapping creator.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

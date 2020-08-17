@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
@@ -23,12 +24,12 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
             let excludedDebugConfig: DebugConfiguration;
             let mutatedDebugConfig: DebugConfiguration;
             let newName: string;
-            let processor: LaunchFileProcessor<ITestGeneratorSettings>;
+            let processor: LaunchFileProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the `LaunchFileProcessor`class for testing.
              */
-            class TestLaunchFileProcessor extends LaunchFileProcessor<ITestGeneratorSettings>
+            class TestLaunchFileProcessor extends LaunchFileProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

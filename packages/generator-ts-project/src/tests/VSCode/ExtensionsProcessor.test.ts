@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { TestContext } from "../TestContext";
@@ -18,12 +19,12 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
         {
             let includedExtension: string;
             let excludedExtension: string;
-            let processor: ExtensionsProcessor<ITestGeneratorSettings>;
+            let processor: ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the `ExtensionsProcessor` class for testing.
              */
-            class TestExtensionsProcessor extends ExtensionsProcessor<ITestGeneratorSettings>
+            class TestExtensionsProcessor extends ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

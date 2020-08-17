@@ -1,10 +1,10 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
-import { Question, Answers, KeyUnion, ChoiceCollection } from "inquirer";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Question, KeyUnion, ChoiceCollection } from "inquirer";
 
 /**
  * Represents a question.
  */
-export abstract class QuestionBase<T extends Answers = Answers> implements Question<T>
+export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> implements Question<TSettings>
 {
     /**
      * @inheritdoc
@@ -19,15 +19,15 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
     /**
      * The generator of the question.
      */
-    private generator: IGenerator<T>;
+    private generator: IGenerator<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `QuestionBase<T>` class.
+     * Initializes a new instance of the `QuestionBase` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         this.generator = generator;
     }
@@ -35,7 +35,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
     /**
      * Gets the generator of the question.
      */
-    protected get Generator(): IGenerator<T>
+    protected get Generator(): IGenerator<TSettings, TOptions>
     {
         return this.generator;
     }
@@ -48,7 +48,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
     /**
      * @inheritdoc
      */
-    public abstract get name(): KeyUnion<T>;
+    public abstract get name(): KeyUnion<TSettings>;
 
     /**
      * @inheritdoc
@@ -59,7 +59,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The message to show to the user.
      */
-    public message = async (answers: T): Promise<string> =>
+    public message = async (answers: TSettings): Promise<string> =>
     {
         return this.Message(answers);
     };
@@ -73,7 +73,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The default value.
      */
-    public default = async (answers: T): Promise<any> =>
+    public default = async (answers: TSettings): Promise<any> =>
     {
         return this.Default(answers);
     };
@@ -90,7 +90,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The filtered value.
      */
-    public filter = async (input: any, answers: T): Promise<any> =>
+    public filter = async (input: any, answers: TSettings): Promise<any> =>
     {
         return this.Filter(input, answers);
     };
@@ -104,7 +104,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * A value indicating whether the question should be asked.
      */
-    public when = async (answers: T): Promise<boolean> =>
+    public when = async (answers: TSettings): Promise<boolean> =>
     {
         return this.When(answers);
     };
@@ -121,7 +121,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * Either a value indicating whether the answer is valid or a `string` which describes the error.
      */
-    public validate = async (input: any, answers: T): Promise<string | boolean> =>
+    public validate = async (input: any, answers: TSettings): Promise<string | boolean> =>
     {
         return this.Validate(input, answers);
     };
@@ -135,7 +135,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The choices the user can choose from.
      */
-    public choices = async (answers: T): Promise<ChoiceCollection<T>> =>
+    public choices = async (answers: TSettings): Promise<ChoiceCollection<TSettings>> =>
     {
         return this.Choices(answers);
     };
@@ -149,7 +149,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The default value.
      */
-    protected async Default(answers: T): Promise<any>
+    protected async Default(answers: TSettings): Promise<any>
     {
         return null;
     }
@@ -166,7 +166,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The filtered value.
      */
-    protected async Filter(input: any, answers: T): Promise<any>
+    protected async Filter(input: any, answers: TSettings): Promise<any>
     {
         return input;
     }
@@ -180,7 +180,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * A value indicating whether the question should be asked.
      */
-    protected async When(answers: T): Promise<boolean>
+    protected async When(answers: TSettings): Promise<boolean>
     {
         return true;
     }
@@ -197,7 +197,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * Either a value indicating whether the answer is valid or a `string` which describes the error.
      */
-    protected async Validate(input: any, answers: T): Promise<boolean | string>
+    protected async Validate(input: any, answers: TSettings): Promise<boolean | string>
     {
         return true;
     }
@@ -211,7 +211,7 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The choices the user can choose from.
      */
-    protected async Choices(answers: T): Promise<ChoiceCollection<T>>
+    protected async Choices(answers: TSettings): Promise<ChoiceCollection<TSettings>>
     {
         return [];
     }
@@ -225,5 +225,5 @@ export abstract class QuestionBase<T extends Answers = Answers> implements Quest
      * @returns
      * The message to show to the user.
      */
-    protected abstract async Message(answers: T): Promise<string>;
+    protected abstract async Message(answers: TSettings): Promise<string>;
 }

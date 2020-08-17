@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import{ GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGeneralCategory } from "../../../../generators/module/Components/TSModuleGeneralCategory";
@@ -17,7 +18,7 @@ export function TSModuleGeneralCategoryTests(context: TestContext<TSModuleGenera
         "TSModuleGeneralCategory",
         () =>
         {
-            let category: TSModuleGeneralCategory<ITSProjectSettings>;
+            let category: TSModuleGeneralCategory<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

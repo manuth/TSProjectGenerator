@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
-import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
@@ -29,7 +29,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
             let runContext: IRunContext<TSGeneratorGenerator>;
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
-            let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings>;
+            let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

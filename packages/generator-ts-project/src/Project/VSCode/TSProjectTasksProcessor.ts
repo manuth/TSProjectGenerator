@@ -1,4 +1,5 @@
 import { isNullOrUndefined } from "util";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -7,7 +8,7 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 /**
  * Provides the functionality to process tasks for `TSProject`s.
  */
-export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends TasksProcessor<T>
+export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TasksProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `ExtensionsProcessor` class.
@@ -15,7 +16,7 @@ export class TSProjectTasksProcessor<T extends ITSProjectSettings> extends Tasks
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

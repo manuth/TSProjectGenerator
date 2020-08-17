@@ -1,5 +1,5 @@
 import Path = require("path");
-import { GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import dedent = require("dedent");
 import FileSystem = require("fs-extra");
@@ -20,10 +20,10 @@ import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorSettings> extends TSProjectGenerator<T>
+export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSProjectGenerator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGenerator<T>` class.
+     * Initializes a new instance of the `TSGeneratorGenerator` class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -31,7 +31,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: Record<string, unknown>)
+    public constructor(args: string | string[], options: TOptions)
     {
         super(args, options);
         this.env.adapter.promptModule.registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
@@ -40,7 +40,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     /**
      * @inheritdoc
      */
-    protected get TemplateRoot(): string
+    public get TemplateRoot(): string
     {
         return "generator";
     }
@@ -48,7 +48,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     /**
      * @inheritdoc
      */
-    protected get Questions(): Array<Question<T>>
+    public get Questions(): Array<Question<TSettings>>
     {
         return new TSGeneratorQuestionCollection(this).Questions;
     }
@@ -56,7 +56,7 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<T>
+    public get Components(): IComponentCollection<TSettings, TOptions>
     {
         return new TSGeneratorComponentCollection(this);
     }
@@ -64,9 +64,9 @@ export class TSGeneratorGenerator<T extends ITSGeneratorSettings = ITSGeneratorS
     /**
      * @inheritdoc
      */
-    protected get FileMappings(): Array<IFileMapping<T>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        let result: Array<IFileMapping<T>> = [];
+        let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
         for (let fileMapping of super.FileMappings)
         {

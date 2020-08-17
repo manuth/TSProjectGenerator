@@ -1,15 +1,15 @@
-import { IGeneratorSettings, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
  * Provides the functionality to create file-mappings for a code workspace.
  */
-export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
+export abstract class CodeFileMappingCreator<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions>
 {
     /**
      * The component of the file-mapping creator.
      */
-    private component: CodeWorkspaceComponent<T>;
+    private component: CodeWorkspaceComponent<TSettings, TOptions>;
 
     /**
      * Initializes a new instance of the `CodeFileMappingCreator` class.
@@ -17,7 +17,7 @@ export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
      * @param component
      * The component of the file-mapping creator.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         this.component = component;
     }
@@ -25,7 +25,7 @@ export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
     /**
      * Gets the component of this file-mapping creator.
      */
-    public get Component(): CodeWorkspaceComponent<T>
+    public get Component(): CodeWorkspaceComponent<TSettings, TOptions>
     {
         return this.component;
     }
@@ -33,7 +33,7 @@ export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
     /**
      * Gets the generator of this file-mapping creator.
      */
-    public get Generator(): IGenerator<T>
+    public get Generator(): IGenerator<TSettings, TOptions>
     {
         return this.Component.Generator;
     }
@@ -41,5 +41,5 @@ export abstract class CodeFileMappingCreator<T extends IGeneratorSettings>
     /**
      * Gets the file-mappings for creating the workspace.
      */
-    public abstract get FileMappings(): Promise<Array<IFileMapping<T>>>;
+    public abstract get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>;
 }

@@ -11,5 +11,10 @@
     ],
     "exclude": [
         "./src/tests/**/*"
+    ],
+    "references": [
+        {
+            "path": "../generator-ts-project"
+        }
     ]
 }

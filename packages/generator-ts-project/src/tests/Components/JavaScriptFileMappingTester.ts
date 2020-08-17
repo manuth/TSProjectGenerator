@@ -1,10 +1,10 @@
-import { IGenerator, IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "./FileMappingTester";
 
 /**
  * Provides the functionality to test javascript file-mappings.
  */
-export class JavaScriptFileMappingTester<TGenerator extends IGenerator<TSettings>, TSettings extends IGeneratorSettings, TFileMapping extends IFileMapping<TSettings>> extends FileMappingTester<TGenerator, TSettings, TFileMapping>
+export class JavaScriptFileMappingTester<TGenerator extends IGenerator<TSettings, TOptions>, TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TFileMapping extends IFileMapping<TSettings, TOptions>> extends FileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>
 {
     /**
      * Initializes a new instance of the `JavaScriptFileMappingTester` class.

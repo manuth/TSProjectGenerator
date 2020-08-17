@@ -1,5 +1,5 @@
 import { join } from "path";
-import { IComponentCollection, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponentCollection, IFileMapping } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import dedent = require("dedent");
 import yosay = require("yosay");
@@ -11,12 +11,12 @@ import { TSModuleComponentCollection } from "./Components/TSModuleComponentColle
 import { TSModulePackageFileMapping } from "./FileMappings/NPMPackaging/TSModulePackageFileMapping";
 
 /**
- * Provides the functionality to generate a generator written in TypeScript.
+ * Provides the functionality to generate a module written in TypeScript.
  */
-export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings> extends TSProjectGenerator<T>
+export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSProjectGenerator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ModuleGenerator<T>` class.
+     * Initializes a new instance of the `TSModuleGenerator` class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -24,7 +24,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: Record<string, unknown>)
+    public constructor(args: string | string[], options: TOptions)
     {
         super(args, options);
     }
@@ -32,7 +32,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
     /**
      * @inheritdoc
      */
-    protected get TemplateRoot(): string
+    public get TemplateRoot(): string
     {
         return "module";
     }
@@ -40,7 +40,7 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<T>
+    public get Components(): IComponentCollection<TSettings, TOptions>
     {
         return new TSModuleComponentCollection(this);
     }
@@ -48,9 +48,9 @@ export class TSModuleGenerator<T extends ITSProjectSettings = ITSProjectSettings
     /**
      * @inheritdoc
      */
-    protected get FileMappings(): Array<IFileMapping<T>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        let result: Array<IFileMapping<T>> = [];
+        let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
         for (let fileMapping of super.FileMappings)
         {

@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -18,8 +19,8 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
         "TSProjectTasksProcessor",
         () =>
         {
-            let component: TSProjectWorkspaceFolder<ITSProjectSettings>;
-            let processor: TSProjectTasksProcessor<ITSProjectSettings>;
+            let component: TSProjectWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
+            let processor: TSProjectTasksProcessor<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

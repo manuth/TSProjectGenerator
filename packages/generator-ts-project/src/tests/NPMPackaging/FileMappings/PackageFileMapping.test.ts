@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { Generator } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { TestContext } from "../../TestContext";
@@ -22,9 +22,9 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
         {
             let originalName: Generator["user"]["git"]["name"];
             let originalMail: Generator["user"]["git"]["email"];
-            let options: ITestPackageOptions<ITestGeneratorSettings>;
-            let fileMapping: TestPackageFileMapping<ITestGeneratorSettings>;
-            let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, TestPackageFileMapping<ITestGeneratorSettings>>;
+            let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
+            let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async () =>

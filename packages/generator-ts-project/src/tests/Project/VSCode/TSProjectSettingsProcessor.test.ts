@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -18,8 +19,8 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
         () =>
         {
             let excludedSetting = "files.associations";
-            let component: TSProjectWorkspaceFolder<ITSProjectSettings>;
-            let processor: TSProjectSettingsProcessor<ITSProjectSettings>;
+            let component: TSProjectWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
+            let processor: TSProjectSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

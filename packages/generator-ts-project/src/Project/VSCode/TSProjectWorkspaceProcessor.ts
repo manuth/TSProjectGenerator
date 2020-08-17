@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
@@ -13,7 +14,7 @@ import { TSProjectTasksProcessor } from "./TSProjectTasksProcessor";
 /**
  * Provides the functionality to process workspaces for `TSProject`s.
  */
-export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends WorkspaceProcessor<T>
+export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends WorkspaceProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSProjectWorkspaceProcessor` class.
@@ -21,7 +22,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }
@@ -29,7 +30,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
+    protected get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
     {
         return new TSProjectExtensionsProcessor(this.Component);
     }
@@ -37,7 +38,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
+    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return new TSProjectLaunchFileProcessor(this.Component);
     }
@@ -45,7 +46,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get SettingsProcessor(): JSONProcessor<T, Record<string, any>>
+    protected get SettingsProcessor(): JSONProcessor<TSettings, TOptions, Record<string, any>>
     {
         return new TSProjectSettingsProcessor(this.Component);
     }
@@ -53,7 +54,7 @@ export class TSProjectWorkspaceProcessor<T extends ITSProjectSettings> extends W
     /**
      * @inheritdoc
      */
-    protected get TasksProcessor(): JSONProcessor<T, ITaskSettings>
+    protected get TasksProcessor(): JSONProcessor<TSettings, TOptions, ITaskSettings>
     {
         return new TSProjectTasksProcessor(this.Component);
     }

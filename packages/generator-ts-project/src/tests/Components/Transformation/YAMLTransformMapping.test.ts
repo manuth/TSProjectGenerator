@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
@@ -23,8 +24,8 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: YAMLTransformMapping<ITestGeneratorSettings>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, YAMLTransformMapping<ITestGeneratorSettings>>;
+            let fileMappingOptions: YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
             let sourceData: any;
             let randomData: any;
 
@@ -36,7 +37,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
 
-                    fileMappingOptions = new class extends YAMLTransformMapping<ITestGeneratorSettings>
+                    fileMappingOptions = new class extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
                     {
                         /**
                          * @inheritdoc

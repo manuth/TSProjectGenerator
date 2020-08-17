@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
 import { TestContext } from "../TestContext";
@@ -21,12 +22,12 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
             let mutatedSetting: string;
             let newSetting: any;
             let settings: Record<string, any>;
-            let processor: SettingsProcessor<ITestGeneratorSettings>;
+            let processor: SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the `SettingsProcessor` class for testing.
              */
-            class TestSettingsProcessor extends SettingsProcessor<ITestGeneratorSettings>
+            class TestSettingsProcessor extends SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

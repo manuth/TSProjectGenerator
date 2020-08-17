@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
@@ -10,7 +11,7 @@ import { TSGeneratorLaunchFileProcessor } from "./TSGeneratorLaunchFileProcessor
 /**
  * Provides the functionality to process workspaces for `TSGenerator`s.
  */
-export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> extends TSProjectWorkspaceProcessor<T>
+export class TSGeneratorWorkspaceProcessor<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectWorkspaceProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSGeneratorWorkspaceProcessor` class.
@@ -18,7 +19,7 @@ export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> exten
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }
@@ -26,7 +27,7 @@ export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> exten
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<T, IExtensionSettings>
+    protected get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
     {
         return new ExtensionsProcessor(this.Component);
     }
@@ -34,7 +35,7 @@ export class TSGeneratorWorkspaceProcessor<T extends ITSGeneratorSettings> exten
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
+    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return new TSGeneratorLaunchFileProcessor(this.Component);
     }

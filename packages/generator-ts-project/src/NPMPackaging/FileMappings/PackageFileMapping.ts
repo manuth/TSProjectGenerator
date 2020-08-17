@@ -1,4 +1,4 @@
-import { IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -8,7 +8,7 @@ import { ScriptMapping } from "../Scripts/ScriptMapping";
 /**
  * Represents a file-mapping for a `package.json` file.
  */
-export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappingBase<T>
+export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
 {
     /**
      * The package to write.
@@ -21,7 +21,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -65,10 +65,10 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
     /**
      * Gets the scripts to copy from the template-package.
      */
-    protected get ScriptMappings(): Promise<Array<IScriptMapping<T> | string>>
+    protected get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
-            async (): Promise<Array<IScriptMapping<T> | string>> =>
+            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
             {
                 return [];
             })();
@@ -77,7 +77,7 @@ export class PackageFileMapping<T extends IGeneratorSettings> extends FileMappin
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): Promise<Array<ScriptMapping<T>>>
+    protected get ScriptMappingCollection(): Promise<Array<ScriptMapping<TSettings, TOptions>>>
     {
         return (
             async () =>

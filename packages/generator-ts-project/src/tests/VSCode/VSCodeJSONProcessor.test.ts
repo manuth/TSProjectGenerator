@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorSettings, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
 import { TestContext } from "../TestContext";
@@ -16,8 +17,8 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
         "VSCodeJSONProcessor",
         () =>
         {
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
-            let processor: VSCodeJSONProcessor<ITestGeneratorSettings, any>;
+            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: VSCodeJSONProcessor<ITestGeneratorSettings, GeneratorOptions, any>;
 
             suiteSetup(
                 async function()

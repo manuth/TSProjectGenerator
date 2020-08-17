@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
@@ -5,7 +6,7 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 /**
  * Provides the functionality to process extensions for `TSProject`s.
  */
-export class TSProjectExtensionsProcessor<T extends ITSProjectSettings> extends ExtensionsProcessor<T>
+export class TSProjectExtensionsProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ExtensionsProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSProjectExtensionsProcessor` class.
@@ -13,7 +14,7 @@ export class TSProjectExtensionsProcessor<T extends ITSProjectSettings> extends 
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

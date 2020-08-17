@@ -1,4 +1,4 @@
-import { IComponentCategory, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponentCategory, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSModuleGeneralCategory } from "./TSModuleGeneralCategory";
@@ -6,15 +6,15 @@ import { TSModuleGeneralCategory } from "./TSModuleGeneralCategory";
 /**
  * Provides components for `TSModule`s.
  */
-export class TSModuleComponentCollection<T extends ITSProjectSettings> extends TSProjectComponentCollection<T>
+export class TSModuleComponentCollection<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectComponentCollection<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSModuleComponentCollection<T>` class.
+     * Initializes a new instance of the `TSModuleComponentCollection` class.
      *
      * @param generator
      * The generator of the collection.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -22,7 +22,7 @@ export class TSModuleComponentCollection<T extends ITSProjectSettings> extends T
     /**
      * @inheritdoc
      */
-    public get Categories(): Array<IComponentCategory<T>>
+    public get Categories(): Array<IComponentCategory<TSettings, TOptions>>
     {
         return [
             new TSModuleGeneralCategory(this.Generator)

@@ -1,19 +1,19 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { SourceFile, Project } from "ts-morph";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy typescript-files.
  */
-export abstract class TypeScriptTransformMapping<T extends IGeneratorSettings> extends TransformFileMapping<T, SourceFile>
+export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, SourceFile>
 {
     /**
-     * Initializes a new instance of the `TypeScriptTransformMapping<T>` class.
+     * Initializes a new instance of the `TypeScriptTransformMapping` class.
      *
      * @param generator
      * The generator of the file-mapping.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

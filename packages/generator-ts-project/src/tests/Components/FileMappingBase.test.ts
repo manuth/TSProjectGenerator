@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { writeFile } from "fs-extra";
 import { TempFile } from "temp-filesystem";
@@ -21,8 +22,8 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
             let generator: TestGenerator;
             let tempSourceFile: TempFile;
             let tempDestinationFile: TempFile;
-            let fileMappingOptions: FileMappingBase<ITestGeneratorSettings>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, FileMappingBase<ITestGeneratorSettings>>;
+            let fileMappingOptions: FileMappingBase<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, FileMappingBase<ITestGeneratorSettings, GeneratorOptions>>;
             let randomValue: string;
 
             suiteSetup(
@@ -33,7 +34,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                     tempSourceFile = new TempFile();
                     tempDestinationFile = new TempFile();
 
-                    fileMappingOptions = new class extends FileMappingBase<ITestGeneratorSettings>
+                    fileMappingOptions = new class extends FileMappingBase<ITestGeneratorSettings, GeneratorOptions>
                     {
                         /**
                          * @inheritdoc

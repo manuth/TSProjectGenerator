@@ -1,5 +1,6 @@
 import Assert = require("assert");
 import { resolve } from "path";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempDirectory } from "temp-filesystem";
 import chdir = require("util.chdir");
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
@@ -21,7 +22,7 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
         {
             let tempDir: TempDirectory;
             let generator: TSProjectGenerator;
-            let question: TSProjectDestinationQuestion<ITSProjectSettings>;
+            let question: TSProjectDestinationQuestion<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

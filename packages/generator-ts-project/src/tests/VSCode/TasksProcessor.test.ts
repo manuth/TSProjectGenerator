@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
@@ -23,12 +24,12 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
             let mutatedTask: TaskDefinition;
             let newType: string;
             let taskMeta: ITaskSettings;
-            let processor: TasksProcessor<ITestGeneratorSettings>;
+            let processor: TasksProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the `TasksProcessor` class for testing.
              */
-            class TestTasksProcessor extends TasksProcessor<ITestGeneratorSettings>
+            class TestTasksProcessor extends TasksProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

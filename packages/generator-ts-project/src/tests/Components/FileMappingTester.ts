@@ -1,11 +1,11 @@
 import Assert = require("assert");
-import { IGenerator, IGeneratorSettings, IFileMapping, FileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings, IFileMapping, FileMapping } from "@manuth/extended-yo-generator";
 import { readFile, pathExists, remove } from "fs-extra";
 
 /**
  * Provides the functionality to test a file-mapping.
  */
-export class FileMappingTester<TGenerator extends IGenerator<TSettings>, TSettings extends IGeneratorSettings, TFileMapping extends IFileMapping<TSettings>>
+export class FileMappingTester<TGenerator extends IGenerator<TSettings, TOptions>, TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TFileMapping extends IFileMapping<TSettings, TOptions>>
 {
     /**
      * The generator of the file-mapping.
@@ -51,7 +51,7 @@ export class FileMappingTester<TGenerator extends IGenerator<TSettings>, TSettin
     /**
      * Gets the file-mapping to test.
      */
-    public get FileMapping(): FileMapping<TSettings>
+    public get FileMapping(): FileMapping<TSettings, TOptions>
     {
         return new FileMapping(this.Generator, this.FileMappingOptions);
     }

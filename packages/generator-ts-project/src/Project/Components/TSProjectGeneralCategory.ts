@@ -1,4 +1,4 @@
-import { IComponent, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { ComponentCategoryBase } from "../../Components/ComponentCategoryBase";
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
@@ -7,15 +7,15 @@ import { TSProjectWorkspaceFolder } from "./TSProjectCodeWorkspaceComponent";
 /**
  * Provides general components for `TSProject`s.
  */
-export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends ComponentCategoryBase<T>
+export class TSProjectGeneralCategory<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectGeneralCategory<T>` class.
+     * Initializes a new instance of the `TSProjectGeneralCategory` class.
      *
      * @param generator
      * The generator of the category.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -31,7 +31,7 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
     /**
      * @inheritdoc
      */
-    public get Components(): Array<IComponent<T>>
+    public get Components(): Array<IComponent<TSettings, TOptions>>
     {
         return [
             this.LintingComponent,
@@ -42,7 +42,7 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
     /**
      * Provides a component for creating a linting-environment.
      */
-    protected get LintingComponent(): IComponent<T>
+    protected get LintingComponent(): IComponent<TSettings, TOptions>
     {
         return new LintingComponent(this.Generator);
     }
@@ -50,7 +50,7 @@ export class TSProjectGeneralCategory<T extends ITSProjectSettings> extends Comp
     /**
      * Provides a component for creating a vscode-environment.
      */
-    protected get WorkspaceComponent(): IComponent<T>
+    protected get WorkspaceComponent(): IComponent<TSettings, TOptions>
     {
         return new TSProjectWorkspaceFolder(this.Generator);
     }

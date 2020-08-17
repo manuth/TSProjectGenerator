@@ -1,5 +1,5 @@
 import { join } from "path";
-import { IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
@@ -13,15 +13,15 @@ import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";
 /**
  * Provides general components for `TSGenerator`s.
  */
-export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends TSProjectGeneralCategory<T>
+export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectGeneralCategory<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGeneralCategory<T>` class.
+     * Initializes a new instance of the `TSGeneratorGeneralCategory` class.
      *
      * @param generator
      * The generator of the category.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -29,7 +29,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
     /**
      * @inheritdoc
      */
-    public get Components(): Array<IComponent<T>>
+    public get Components(): Array<IComponent<TSettings, TOptions>>
     {
         return [
             ...super.Components,
@@ -41,7 +41,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
     /**
      * @inheritdoc
      */
-    protected get WorkspaceComponent(): IComponent<T>
+    protected get WorkspaceComponent(): IComponent<TSettings, TOptions>
     {
         return new TSGeneratorCodeWorkspace(this.Generator);
     }
@@ -49,7 +49,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
     /**
      * Gets a component for creating an example generator.
      */
-    protected get GeneratorComponent(): IComponent<T>
+    protected get GeneratorComponent(): IComponent<TSettings, TOptions>
     {
         return {
             ID: TSGeneratorComponent.GeneratorExample,
@@ -62,7 +62,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
     /**
      * Gets a component for creating sub-generators.
      */
-    protected get SubGeneratorComponent(): IComponent<T>
+    protected get SubGeneratorComponent(): IComponent<TSettings, TOptions>
     {
         return {
             ID: TSGeneratorComponent.SubGeneratorExample,
@@ -100,7 +100,7 @@ export class TSGeneratorGeneralCategory<T extends ITSGeneratorSettings> extends 
      * @returns
      * File-mappings for a generator.
      */
-    protected async GetGeneratorFileMappings(id: string, displayName: string): Promise<Array<IFileMapping<T>>>
+    protected async GetGeneratorFileMappings(id: string, displayName: string): Promise<Array<IFileMapping<TSettings, TOptions>>>
     {
         return (
             async () =>

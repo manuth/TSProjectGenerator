@@ -1,5 +1,6 @@
 import Assert = require("assert");
 import { isNullOrUndefined } from "util";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
@@ -22,13 +23,13 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
         "WorkspaceProcessor",
         () =>
         {
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings>;
-            let workspaceProcessor: TestWorkspaceProcessor<ITestGeneratorSettings>;
+            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
+            let workspaceProcessor: TestWorkspaceProcessor<ITestGeneratorSettings, GeneratorOptions>;
             let randomExtensions: IExtensionSettings;
             let randomDebugSettings: ILaunchSettings;
             let randomSettings: Record<string, any>;
             let randomTasks: ITaskSettings;
-            let workspaceLoader: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
+            let workspaceLoader: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()
@@ -49,10 +50,10 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                     randomSettings = context.RandomObject;
                     randomTasks = context.RandomObject;
 
-                    let extensionsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(randomExtensions);
-                    let debugSettingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(randomDebugSettings);
-                    let settingsProcessor = new TestJSONProcessor<ITestGeneratorSettings>(randomSettings);
-                    let tasksProcessor = new TestJSONProcessor<ITestGeneratorSettings>(randomTasks);
+                    let extensionsProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomExtensions);
+                    let debugSettingsProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomDebugSettings);
+                    let settingsProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomSettings);
+                    let tasksProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomTasks);
 
                     let workspace = await workspaceLoader.WorkspaceMetadata;
                     workspace.extensions = context.RandomObject;

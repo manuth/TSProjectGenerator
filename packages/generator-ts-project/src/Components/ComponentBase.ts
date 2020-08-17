@@ -1,18 +1,18 @@
-import { Component, IComponent, IFileMapping, IGenerator, Question, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Component, GeneratorOptions, IComponent, IFileMapping, IGenerator, Question, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { GeneratrorComponent } from "./GeneratorComponent";
 
 /**
- * Provides a basic implementation of the `IComponent<T>` interface.
+ * Provides a basic implementation of the `IComponent` interface.
  */
-export abstract class ComponentBase<T extends IGeneratorSettings> extends GeneratrorComponent<T, Component<T>> implements IComponent<T>
+export abstract class ComponentBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratrorComponent<TSettings, TOptions, Component<TSettings, TOptions>> implements IComponent<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ComponentBase<T>` class.
+     * Initializes a new instance of the `ComponentBase` class.
      *
      * @param generator
      * The generator of the component.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -38,7 +38,7 @@ export abstract class ComponentBase<T extends IGeneratorSettings> extends Genera
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<T>>
+    public get Questions(): Array<Question<TSettings>>
     {
         return [];
     }
@@ -46,10 +46,10 @@ export abstract class ComponentBase<T extends IGeneratorSettings> extends Genera
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<T>>>
+    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
     {
         return (
-            async (): Promise<Array<IFileMapping<T>>> =>
+            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
             {
                 return [];
             })();
@@ -58,7 +58,7 @@ export abstract class ComponentBase<T extends IGeneratorSettings> extends Genera
     /**
      * @inheritdoc
      */
-    public get Resolved(): Component<T>
+    public get Resolved(): Component<TSettings, TOptions>
     {
         return new Component(this.Generator, this);
     }

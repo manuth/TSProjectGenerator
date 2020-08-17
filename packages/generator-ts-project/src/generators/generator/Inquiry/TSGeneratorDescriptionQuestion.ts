@@ -1,19 +1,19 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 
 /**
  * Provides a question for asking for description of a generator.
  */
-export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extends TSProjectDescriptionQuestion<T>
+export class TSGeneratorDescriptionQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectDescriptionQuestion<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorDescriptionQuestion<T>` class.
+     * Initializes a new instance of the `TSGeneratorDescriptionQuestion` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -27,7 +27,7 @@ export class TSGeneratorDescriptionQuestion<T extends ITSProjectSettings> extend
      * @returns
      * The message which is shown to the user.
      */
-    public async Message(answers: T): Promise<string>
+    public async Message(answers: TSettings): Promise<string>
     {
         return "Please enter a description for your generator.";
     }

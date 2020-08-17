@@ -5,7 +5,7 @@ import { Random } from "random-js";
 /**
  * Represents a context for testing.
  */
-export class TestContext<TGenerator extends Generator, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
+export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
 {
     /**
      * A component for creating random literals.

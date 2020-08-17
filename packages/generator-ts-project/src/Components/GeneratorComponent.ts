@@ -1,14 +1,14 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 
 /**
  * Represents a component which belongs to a generator.
  */
-export abstract class GeneratrorComponent<TSettings extends IGeneratorSettings, TResolved>
+export abstract class GeneratrorComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TResolved>
 {
     /**
      * The generator of this component.
      */
-    private generator: IGenerator<TSettings>;
+    private generator: IGenerator<TSettings, TOptions>;
 
     /**
      * Initializes a new instance of the `GeneratorComponent` class.
@@ -16,7 +16,7 @@ export abstract class GeneratrorComponent<TSettings extends IGeneratorSettings, 
      * @param generator
      * The generator of the component.
      */
-    public constructor(generator: IGenerator<TSettings>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         this.generator = generator;
     }
@@ -24,7 +24,7 @@ export abstract class GeneratrorComponent<TSettings extends IGeneratorSettings, 
     /**
      * Gets the generator of this component.
      */
-    public get Generator(): IGenerator<TSettings>
+    public get Generator(): IGenerator<TSettings, TOptions>
     {
         return this.generator;
     }

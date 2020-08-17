@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -22,8 +22,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
         () =>
         {
             let settings: Partial<ITSProjectSettings>;
-            let fileMapping: ESLintRCFileMapping<ITSProjectSettings>;
-            let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, ESLintRCFileMapping<ITSProjectSettings>>;
+            let fileMapping: ESLintRCFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, ESLintRCFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()

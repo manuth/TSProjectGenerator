@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
@@ -8,7 +9,7 @@ import { TSModuleLaunchFileProcessor } from "./TSModuleLaunchFileProcessor";
 /**
  * Provides the functionality to process workspaces for `TSModule`s.
  */
-export class TSModuleWorkspaceProcessor<T extends ITSProjectSettings> extends TSProjectWorkspaceProcessor<T>
+export class TSModuleWorkspaceProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectWorkspaceProcessor<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSModuleWorkspaceProcessor` class.
@@ -16,7 +17,7 @@ export class TSModuleWorkspaceProcessor<T extends ITSProjectSettings> extends TS
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }
@@ -24,7 +25,7 @@ export class TSModuleWorkspaceProcessor<T extends ITSProjectSettings> extends TS
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<T, ILaunchSettings>
+    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return new TSModuleLaunchFileProcessor(this.Component);
     }

@@ -1,3 +1,4 @@
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSGeneratorDescriptionQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorDescriptionQuestion";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { TSGeneratorQuestionCollection } from "../../../../generators/generator/Inquiry/TSGeneratorQuestionCollection";
@@ -17,7 +18,7 @@ export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGenera
         "TSGeneratorQuestionCollection",
         () =>
         {
-            let collection: TSGeneratorQuestionCollection<ITSGeneratorSettings>;
+            let collection: TSGeneratorQuestionCollection<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

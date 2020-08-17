@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import kebabCase = require("lodash.kebabcase");
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -20,7 +21,7 @@ export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectG
         {
             let testName: string;
             let generator: TSProjectGenerator;
-            let question: TSProjectModuleNameQuestion<ITSProjectSettings>;
+            let question: TSProjectModuleNameQuestion<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

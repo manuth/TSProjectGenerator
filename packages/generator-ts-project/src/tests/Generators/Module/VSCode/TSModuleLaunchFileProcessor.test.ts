@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
@@ -17,8 +18,8 @@ export function TSModuleLaunchFileProcessorTests(context: TestContext<TSModuleGe
         "TSModuleLaunchFileProcessor",
         () =>
         {
-            let component: TSModuleCodeWorkspace<ITSProjectSettings>;
-            let processor: TSModuleLaunchFileProcessor<ITSProjectSettings>;
+            let component: TSModuleCodeWorkspace<ITSProjectSettings, GeneratorOptions>;
+            let processor: TSModuleLaunchFileProcessor<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

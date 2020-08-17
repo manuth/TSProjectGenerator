@@ -1,10 +1,10 @@
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { GeneratrorComponent } from "./GeneratorComponent";
 
 /**
  * Provides the functionality to process JSON-objects.
  */
-export class JSONProcessor<T extends IGeneratorSettings, TData> extends GeneratrorComponent<T, null>
+export class JSONProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends GeneratrorComponent<TSettings, TOptions, null>
 {
     /**
      * Initializes a new instance of the `JSONProcessor` class.
@@ -12,7 +12,7 @@ export class JSONProcessor<T extends IGeneratorSettings, TData> extends Generatr
      * @param generator
      * The generator of the processor.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }

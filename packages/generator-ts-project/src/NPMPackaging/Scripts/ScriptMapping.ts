@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "util";
-import { IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
 import { PropertyResolver } from "@manuth/extended-yo-generator/lib/Components/Resolving/PropertyResolver";
 import { IScriptMapping } from "./IScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
@@ -7,10 +7,10 @@ import { ScriptProcessor } from "./ScriptProcessor";
 /**
  * Represents a script-mapping for copying npm-scripts.
  */
-export class ScriptMapping<T extends IGeneratorSettings> extends PropertyResolver<IScriptMapping<T>, ScriptMapping<T>, T>
+export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ScriptMapping<T>` class.
+     * Initializes a new instance of the `ScriptMapping` class.
      *
      * @param generator
      * The generator of the script-mapping
@@ -18,7 +18,7 @@ export class ScriptMapping<T extends IGeneratorSettings> extends PropertyResolve
      * @param scriptInfo
      * A component which provides information about the script.
      */
-    public constructor(generator: IGenerator<T>, scriptInfo: string | IScriptMapping<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>, scriptInfo: string | IScriptMapping<TSettings, TOptions>)
     {
         super(
             generator,
@@ -49,7 +49,7 @@ export class ScriptMapping<T extends IGeneratorSettings> extends PropertyResolve
     /**
      * Gets a component for manipulating the script.
      */
-    protected get Processor(): ScriptProcessor<T>
+    protected get Processor(): ScriptProcessor<TSettings, TOptions>
     {
         return async (script, target, generator) =>
         {

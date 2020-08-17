@@ -1,4 +1,4 @@
-import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 import { ITaskSettings } from "./ITaskSettings";
@@ -7,7 +7,7 @@ import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 /**
  * Provides the functionality to process vscode-tasks.
  */
-export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProcessor<T, ITaskSettings>
+export class TasksProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, ITaskSettings>
 {
     /**
      * Initializes a new instance of the `TasksProcessor` class.
@@ -15,7 +15,7 @@ export class TasksProcessor<T extends IGeneratorSettings> extends VSCodeJSONProc
      * @param component
      * The component of the processor.
      */
-    public constructor(component: CodeWorkspaceComponent<T>)
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
     }

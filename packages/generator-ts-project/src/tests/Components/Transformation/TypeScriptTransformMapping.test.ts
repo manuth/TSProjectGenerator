@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, readFile } from "fs-extra";
@@ -23,8 +24,8 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: TypeScriptTransformMapping<ITestGeneratorSettings>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, TypeScriptTransformMapping<ITestGeneratorSettings>>;
+            let fileMappingOptions: TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
             let sourceCode: string;
 
             suiteSetup(
@@ -43,7 +44,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
 
                     await writeFile(sourceFile.FullName, sourceCode);
 
-                    fileMappingOptions = new class extends TypeScriptTransformMapping<ITestGeneratorSettings>
+                    fileMappingOptions = new class extends TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>
                     {
                         /**
                          * @inheritdoc

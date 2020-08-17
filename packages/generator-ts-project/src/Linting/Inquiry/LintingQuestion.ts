@@ -1,4 +1,4 @@
-import { IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ListQuestionOptions, ChoiceCollection } from "inquirer";
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
@@ -8,7 +8,7 @@ import { LintRuleset } from "../LintRuleset";
 /**
  * Provides a question for asking for the linting-ruleset.
  */
-export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<T> implements ListQuestionOptions<T>
+export class LintingQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements ListQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
@@ -21,12 +21,12 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
     public name = TSProjectSettingKey.LintRuleset;
 
     /**
-     * Initializes a new instance of the `LintingQuestion<T>` class.
+     * Initializes a new instance of the `LintingQuestion` class.
      *
      * @param generator
      * The generator of the question.
      */
-    public constructor(generator: IGenerator<T>)
+    public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
     }
@@ -40,7 +40,7 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The message to show to the user.
      */
-    public async Message(answers: T): Promise<string>
+    public async Message(answers: TSettings): Promise<string>
     {
         return "What ruleset do you want to use for linting?";
     }
@@ -54,7 +54,7 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: T): Promise<LintRuleset>
+    public async Default(answers: TSettings): Promise<LintRuleset>
     {
         return LintRuleset.Recommended;
     }
@@ -68,7 +68,7 @@ export class LintingQuestion<T extends ITSProjectSettings> extends QuestionBase<
      * @returns
      * The choices the user can choose from.
      */
-    public async Choices(answers: T): Promise<ChoiceCollection<T>>
+    public async Choices(answers: TSettings): Promise<ChoiceCollection<TSettings>>
     {
         return [
             {

@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
@@ -27,8 +27,8 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
-            let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, IFileMapping<ITestGeneratorSettings>>;
-            let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings>;
+            let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

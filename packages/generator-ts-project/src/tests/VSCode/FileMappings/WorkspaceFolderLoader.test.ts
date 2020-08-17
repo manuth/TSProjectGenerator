@@ -35,10 +35,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 {
                     this.timeout(0);
                     generator = await context.Generator;
-                    moduleRoot = generator["moduleRoot"];
+                    moduleRoot = generator["moduleRootPath"];
                     destinationRoot = generator.destinationRoot();
                     tempDir = new TempDirectory();
-                    generator["moduleRoot"] = tempDir.FullName;
+                    generator["moduleRootPath"] = tempDir.FullName;
                     generator.destinationRoot(tempDir.FullName);
                 });
 
@@ -46,7 +46,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 () =>
                 {
                     tempDir.Dispose();
-                    generator["moduleRoot"] = moduleRoot;
+                    generator["moduleRootPath"] = moduleRoot;
                     generator.destinationRoot(destinationRoot);
                 });
 
