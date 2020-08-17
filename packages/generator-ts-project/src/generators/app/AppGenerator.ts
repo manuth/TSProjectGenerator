@@ -1,4 +1,4 @@
-import { Generator, Question } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions, Question } from "@manuth/extended-yo-generator";
 import { join } from "upath";
 import { ProjectType } from "./ProjectType";
 import { AppGeneratorSettingKey } from "./Settings/AppGeneratorSettingKey";
@@ -7,10 +7,10 @@ import { IAppGeneratorSettings } from "./Settings/IAppGeneratorSettings";
 /**
  * Provides the functionality to generate typescript-projects.
  */
-export class AppGenerator<T extends IAppGeneratorSettings = IAppGeneratorSettings> extends Generator<T>
+export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `AppGenerator<T>` class.
+     * Initializes a new instance of the `AppGenerator` class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -18,7 +18,7 @@ export class AppGenerator<T extends IAppGeneratorSettings = IAppGeneratorSetting
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: Record<string, unknown>)
+    public constructor(args: string | string[], options: TOptions)
     {
         super(args, options);
     }
@@ -26,7 +26,7 @@ export class AppGenerator<T extends IAppGeneratorSettings = IAppGeneratorSetting
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<T>>
+    public get Questions(): Array<Question<TSettings>>
     {
         return [
             {
