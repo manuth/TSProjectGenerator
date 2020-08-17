@@ -1,5 +1,5 @@
 import Path = require("path");
-import { Generator, IComponentCollection, Question } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions, IComponentCollection, Question } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import Dedent = require("dedent");
 import YoSay = require("yosay");
@@ -10,7 +10,7 @@ import { LicenseType } from "./LicenseType";
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class AppGenerator extends Generator<IAppSettings>
+export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
 {
     /**
      * Initializes a new instance of the `AppGenerator` class.
@@ -21,7 +21,7 @@ export class AppGenerator extends Generator<IAppSettings>
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: Record<string, unknown>)
+    public constructor(args: string | string[], options: GeneratorOptions)
     {
         super(args, options);
     }
@@ -29,7 +29,7 @@ export class AppGenerator extends Generator<IAppSettings>
     /**
      * @inheritdoc
      */
-    protected get TemplateRoot(): string
+    public get TemplateRoot(): string
     {
         return "app";
     }
@@ -37,7 +37,7 @@ export class AppGenerator extends Generator<IAppSettings>
     /**
      * @inheritdoc
      */
-    protected get Questions(): Array<Question<IAppSettings>>
+    public get Questions(): Array<Question<IAppSettings>>
     {
         return [
             {
@@ -69,7 +69,7 @@ export class AppGenerator extends Generator<IAppSettings>
     /**
      * @inheritdoc
      */
-    protected get Components(): IComponentCollection<IAppSettings>
+    public get Components(): IComponentCollection<IAppSettings, GeneratorOptions>
     {
         return {
             Question: "What do you want to include in your workspace?",
