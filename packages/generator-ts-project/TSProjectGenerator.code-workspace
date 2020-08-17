@@ -78,7 +78,7 @@
                     "watch"
                 ],
                 "options": {
-                    "cwd": "${workspaceFolder:TSProjectGenerator}"
+                    "cwd": "${workspaceFolder:Solution Items}"
                 },
                 "group": {
                     "kind": "build",
@@ -88,7 +88,7 @@
                     "base": "$tsc-watch",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder:TSProjectGenerator}"
+                        "${workspaceFolder:Solution Items}"
                     ]
                 },
                 "isBackground": true,
@@ -105,13 +105,13 @@
                     "rebuild"
                 ],
                 "options": {
-                    "cwd": "${workspaceFolder:TSProjectGenerator}"
+                    "cwd": "${workspaceFolder:Solution Items}"
                 },
                 "problemMatcher": {
                     "base": "$tsc",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder:TSProjectGenerator}"
+                        "${workspaceFolder:Solution Items}"
                     ]
                 },
                 "presentation": {
@@ -127,20 +127,20 @@
                     "lint-compact"
                 ],
                 "options": {
-                    "cwd": "${workspaceFolder:TSProjectGenerator}"
+                    "cwd": "${workspaceFolder:Solution Items}"
                 },
                 "problemMatcher": [
                     {
                         "base": "$eslint-compact",
                         "fileLocation": [
                             "relative",
-                            "${workspaceFolder:TSProjectGenerator}"
+                            "${workspaceFolder:Solution Items}"
                         ]
                     },
                     {
                         "fileLocation": [
                             "relative",
-                            "${workspaceFolder:TSProjectGenerator}"
+                            "${workspaceFolder:Solution Items}"
                         ],
                         "owner": "markdownlint",
                         "source": "markdownlint",
