@@ -1,5 +1,5 @@
 {
-  "name": "generator-my-ts-project",
+  "name": "@manuth/generator-my-ts-project",
   "version": "0.0.0",
   "description": "Generates TypeScript-Projects with custom additions",
   "author": "Manuel Thalmann <m@nuth.ch>",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.1.2",
+    "@manuth/generator-ts-project": "^1.4.7",
     "@manuth/tsconfig": "^1.2.2",
     "@types/dedent": "^0.7.0",
     "@types/mocha": "^8.0.2",
