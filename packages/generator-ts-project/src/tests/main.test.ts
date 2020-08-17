@@ -31,6 +31,12 @@ suite(
         let generatorContext = new TestContext(contextMap.get("generator")[0] as GeneratorContext<TSGeneratorGenerator>);
         let moduleContext = new TestContext(contextMap.get("module")[0] as GeneratorContext<TSModuleGenerator>);
 
+        suiteSetup(
+            () =>
+            {
+                workingDirectory = process.cwd();
+            });
+
         teardown(
             async () =>
             {
