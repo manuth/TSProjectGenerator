@@ -1,6 +1,7 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
@@ -21,6 +22,21 @@ export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, 
     }
 
     /**
+     * @inheritdoc
+     *
+     * @param debugSettings
+     * The data to process.
+     *
+     * @returns
+     * The processed data.
+     */
+    public Process(debugSettings: ILaunchSettings): Promise<ILaunchSettings>
+    {
+        delete (debugSettings as any).compounds;
+        return super.Process(debugSettings);
+    }
+
+    /**
      * Determines whether a debug-configuration should be included.
      *
      * @param debugConfig
@@ -31,7 +47,9 @@ export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, 
      */
     protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
-        return !debugConfig.name.toLowerCase().includes("yeoman");
+        return !(
+            debugConfig.name.toLowerCase().includes("yeoman") ||
+            debugConfig.name.toLowerCase().includes("mytsproject"));
     }
 
     /**
@@ -45,6 +63,9 @@ export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, 
      */
     protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
+        debugConfig.name = debugConfig.name.replace(/\s*TSProjectGenerator\s*/, " ");
+        delete debugConfig.presentation;
+
         if (typeof debugConfig.program === "string")
         {
             debugConfig.program = this.StripWorkspaceFolder(debugConfig.program);
@@ -58,6 +79,11 @@ export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, 
         if (typeof debugConfig.cwd === "string")
         {
             debugConfig.cwd = this.StripWorkspaceFolder(debugConfig.cwd);
+
+            if (debugConfig.cwd === "${workspaceFolder}")
+            {
+                delete debugConfig.cwd;
+            }
         }
 
         return debugConfig;
