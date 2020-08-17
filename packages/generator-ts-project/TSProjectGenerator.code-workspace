@@ -28,7 +28,7 @@
             {
                 "type": "pwa-node",
                 "request": "launch",
-                "name": "Launch Yeoman",
+                "name": "Launch TSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:TSProjectGenerator}/node_modules/yo/lib/cli.js",
                 "args": [
                     "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
@@ -38,17 +38,68 @@
                 "preLaunchTask": "Build",
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "sourceMaps": true,
-                "autoAttachChildProcesses": false
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 2
+                }
             },
             {
                 "type": "pwa-node",
                 "request": "launch",
-                "name": "Launch Tests",
+                "name": "Launch TSProjectGenerator Tests",
                 "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "sourceMaps": true,
-                "autoAttachChildProcesses": false
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 3
+                }
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch MyTSProjectGenerator Yeoman",
+                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "args": [
+                    "${workspaceFolder:MyTSProjectGenerator}/lib/generators/module"
+                ],
+                "console": "integratedTerminal",
+                "internalConsoleOptions": "neverOpen",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:Solution Items}/..",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 4
+                }
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch MyTSProjectGenerator Tests",
+                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:MyTSProjectGenerator}",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 5
+                }
+            }
+        ],
+        "compounds": [
+            {
+                "name": "Launch All Tests",
+                "configurations": [
+                    "Launch TSProjectGenerator Tests",
+                    "Launch MyTSProjectGenerator Tests"
+                ],
+                "presentation": {
+                    "order": 1
+                }
             }
         ]
     },
