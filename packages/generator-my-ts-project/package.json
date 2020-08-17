@@ -31,6 +31,8 @@
     "@manuth/generator-ts-project": "^1.4.7",
     "chalk": "^4.1.0",
     "dedent": "^0.7.0",
+    "detect-newline": "^3.1.0",
+    "eol": "^0.9.1",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
