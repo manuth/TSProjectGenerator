@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile, remove, pathExists } from "fs-extra";
 import { TempDirectory } from "temp-filesystem";
@@ -8,7 +8,6 @@ import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspace
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../../VSCode/ITaskSettings";
-import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 

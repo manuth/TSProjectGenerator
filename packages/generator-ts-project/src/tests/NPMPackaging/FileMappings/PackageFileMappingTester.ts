@@ -1,8 +1,8 @@
 import Assert = require("assert");
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { Package, DependencyCollection, IPackageJSON } from "@manuth/package-json-editor";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
-import { FileMappingTester } from "../../Components/FileMappingTester";
 
 /**
  * Provides the functionality to test a package-filemapping.

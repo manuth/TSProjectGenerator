@@ -1,12 +1,12 @@
 import Assert = require("assert");
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { JavaScriptFileMappingTester } from "../../Components/JavaScriptFileMappingTester";
 import { TestContext } from "../../TestContext";
 
 /**

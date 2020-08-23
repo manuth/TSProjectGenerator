@@ -1,11 +1,10 @@
 import Assert = require("assert");
 import { GeneratorOptions, FileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import dedent = require("dedent");
 import { join } from "upath";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
-import { FileMappingTester } from "../../Components/FileMappingTester";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";

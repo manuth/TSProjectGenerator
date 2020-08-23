@@ -1,17 +1,11 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
-import { Random } from "random-js";
 
 /**
  * Represents a context for testing.
  */
 export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
 {
-    /**
-     * A component for creating random literals.
-     */
-    private random: Random = new Random();
-
     /**
      * A context for testing generators.
      */
@@ -27,32 +21,6 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     {
         super(generatorContext.GeneratorDirectory);
         this.generatorContext = generatorContext;
-    }
-
-    /**
-     * Gets a component for creating random literals.
-     */
-    public get Random(): Random
-    {
-        return this.random;
-    }
-
-    /**
-     * Gets a random value.
-     */
-    public get RandomString(): string
-    {
-        return this.Random.string(10);
-    }
-
-    /**
-     * Gets a random object.
-     */
-    public get RandomObject(): any
-    {
-        return {
-            randomValue: this.RandomString
-        };
     }
 
     /**

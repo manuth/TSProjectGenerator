@@ -1,10 +1,9 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings, JSONFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "temp-filesystem";
 import { TransformFileMapping } from "../../../Components/Transformation/TransformFileMapping";
 import { TestContext } from "../../TestContext";
-import { JSONFileMappingTester } from "../JSONFileMappingTester";
 
 /**
  * Registers tests for the `TransformFileMapping` class.

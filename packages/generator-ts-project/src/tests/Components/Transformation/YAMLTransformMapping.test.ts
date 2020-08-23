@@ -1,13 +1,12 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings, FileMappingTester } from "@manuth/extended-yo-generator-test";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
 import { TempFile } from "temp-filesystem";
 import { Document, parse, stringify, parseAllDocuments } from "yaml";
 import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTransformMapping";
 import { TestContext } from "../../TestContext";
-import { FileMappingTester } from "../FileMappingTester";
 
 /**
  * Registers tests for the `YAMLTransformMapping` class.

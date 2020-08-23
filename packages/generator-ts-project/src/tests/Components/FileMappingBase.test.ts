@@ -1,11 +1,10 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { writeFile } from "fs-extra";
 import { TempFile } from "temp-filesystem";
 import { FileMappingBase } from "../../Components/FileMappingBase";
 import { TestContext } from "../TestContext";
-import { FileMappingTester } from "./FileMappingTester";
 
 /**
  * Registers tests for the `FileMappingBase` class.
