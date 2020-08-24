@@ -33,6 +33,20 @@ steps:
         - tag
       ref:
         - refs/tags/v[0-9].[0-9].[0-9]
+  - name: publish module to github
+    image: node
+    environment:
+      GITHUB_TOKEN:
+        from_secret: github_packages_token
+    commands:
+      - echo "//npm.pkg.github.com/:_authToken=$${GITHUB_TOKEN}" > ~/.npmrc
+      - echo "registry=https://npm.pkg.github.com" >> ~/.npmrc
+      - npx lerna publish from-package -y
+    when:
+      event:
+        - tag
+      ref:
+        - refs/tags/v[0-9].[0-9].[0-9]
   - name: prepare release
     image: node
     commands:
