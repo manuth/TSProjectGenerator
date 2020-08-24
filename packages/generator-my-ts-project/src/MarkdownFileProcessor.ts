@@ -72,14 +72,13 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
         let lines = split(content);
         result = [...lines];
 
-        for (let i = 0; i < lines.length; i++)
+        for (let i = lines.length - 3; i >= 0; i--)
         {
             if (
                 lines[i].startsWith("#") &&
-                ((i + 1) < lines.length) &&
                 (lines[i + 1] === ""))
             {
-                result.splice(i, 1);
+                result.splice(i + 1, 1);
             }
         }
 
