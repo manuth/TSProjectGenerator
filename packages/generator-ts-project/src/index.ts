@@ -74,6 +74,7 @@ export { CodeWorkspaceComponent } from "./VSCode/Components/CodeWorkspaceCompone
 export { CodeFileMappingCreator } from "./VSCode/FileMappings/CodeFileMappingCreator";
 export { CodeWorkspaceProvider } from "./VSCode/FileMappings/CodeWorkspaceProvider";
 export { WorkspaceFileLoader } from "./VSCode/FileMappings/WorkspaceFileLoader";
+export { WorkspaceFileCreator } from "./VSCode/FileMappings/WorkspaceFileCreator";
 export { WorkspaceFolderCreator } from "./VSCode/FileMappings/WorkspaceFolderCreator";
 export { WorkspaceFolderLoader } from "./VSCode/FileMappings/WorkspaceFolderLoader";
 export { ExtensionsProcessor } from "./VSCode/ExtensionsProcessor";
