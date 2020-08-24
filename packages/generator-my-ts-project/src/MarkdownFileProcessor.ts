@@ -65,7 +65,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
      */
     public async Processor(): Promise<void>
     {
-        await this.FileMapping.Processor(this.FileMapping, this.Generator);
+        await this.FileMapping.Processor();
         let content = this.Generator.fs.read(await this.Destination);
         let eol = detectNewLine(content);
         let result: string[];
