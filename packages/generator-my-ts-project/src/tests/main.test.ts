@@ -1,6 +1,10 @@
+import { TestContext } from "@manuth/extended-yo-generator-test";
+import { MarkdownFileProcessorTests } from "./MarkdownFileProcessor.test";
+
 suite(
     "MyTSProjectGenerator",
     () =>
     {
-        require("./Generators/index.test");
+        let context = TestContext.Default;
+        MarkdownFileProcessorTests(context);
     });
