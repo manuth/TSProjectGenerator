@@ -1,10 +1,11 @@
-import { GeneratorOptions, Generator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
+import { MyTSProjectGenerator } from "../../MyTSProjectGenerator";
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
  */
-export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator.ComposeWith(TSModuleGenerator, require.resolve("@manuth/generator-ts-project"))
+export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends MyTSProjectGenerator.Create(TSModuleGenerator, require.resolve("@manuth/generator-ts-project"))
 {
     /**
      * The base of this generator.
