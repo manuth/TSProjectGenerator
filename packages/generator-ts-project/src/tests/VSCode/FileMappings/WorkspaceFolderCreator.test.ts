@@ -103,7 +103,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 });
 
             test(
-                "Checking whether comments presist in the workspace-files…",
+                "Checking whether comments persist in the workspace-files…",
                 async () =>
                 {
                     Assert.ok(
