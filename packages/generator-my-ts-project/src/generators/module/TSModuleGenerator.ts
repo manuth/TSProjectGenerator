@@ -1,11 +1,10 @@
-import { GeneratorOptions, IComponentCollection, IFileMapping, Question, ComponentCollection, FileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, Generator } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator as TSModuleGeneratorBase } from "@manuth/generator-ts-project";
-import { join } from "upath";
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
  */
-export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSModuleGeneratorBase<TSettings, TOptions>
+export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator.ComposeWith(TSModuleGeneratorBase, require.resolve("@manuth/generator-ts-project"))
 {
     /**
      * The base of this generator.
@@ -24,55 +23,6 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     public constructor(args: string | string[], options: TOptions)
     {
         super(args, options);
-        this.base = this.env.create("@manuth/ts-project:module") as any;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Settings(): TSettings
-    {
-        return this.base.Settings;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Questions(): Array<Question<TSettings>>
-    {
-        return this.base.Questions;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Components(): IComponentCollection<TSettings, TOptions>
-    {
-        return this.base.Components;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get ComponentCollection(): ComponentCollection<TSettings, TOptions>
-    {
-        return this.base.ComponentCollection;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
-    {
-        return this.base.FileMappings;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get FileMappingCollection(): Array<FileMapping<TSettings, TOptions>>
-    {
-        return this.base.FileMappingCollection;
     }
 
     /**
