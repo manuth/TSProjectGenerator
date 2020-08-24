@@ -181,13 +181,7 @@
                     "cwd": "${workspaceFolder:Solution Items}"
                 },
                 "problemMatcher": [
-                    {
-                        "base": "$eslint-compact",
-                        "fileLocation": [
-                            "relative",
-                            "${workspaceFolder:Solution Items}"
-                        ]
-                    },
+                    "$eslint-compact",
                     {
                         "fileLocation": [
                             "relative",
