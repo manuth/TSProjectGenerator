@@ -1,15 +1,15 @@
 import { GeneratorOptions, Generator } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings, TSModuleGenerator as TSModuleGeneratorBase } from "@manuth/generator-ts-project";
+import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
  */
-export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator.ComposeWith(TSModuleGeneratorBase, require.resolve("@manuth/generator-ts-project"))
+export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator.ComposeWith(TSModuleGenerator, require.resolve("@manuth/generator-ts-project"))
 {
     /**
      * The base of this generator.
      */
-    private base: TSModuleGeneratorBase<TSettings, TOptions>;
+    private base: TSModuleGenerator<TSettings, TOptions>;
 
     /**
      * Initializes a new instance of the `TSModuleGenerator` class.

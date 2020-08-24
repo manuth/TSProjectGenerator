@@ -1,3 +1,3 @@
-import { TSModuleGenerator } from "./TSModuleGenerator";
+import { MyTSModuleGenerator } from "./TSModuleGenerator";
 
-export = TSModuleGenerator;
+export = MyTSModuleGenerator;
