@@ -1,4 +1,4 @@
-import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component } from "@manuth/extended-yo-generator";
+import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, ResolveValue } from "@manuth/extended-yo-generator";
 import { CompositeConstructor } from "@manuth/extended-yo-generator/lib/CompositeConstructor";
 import { GeneratorConstructor } from "@manuth/extended-yo-generator/lib/GeneratorConstructor";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
@@ -83,9 +83,13 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public get BaseFileMappings(): Array<IFileMapping<any, any>>
+            public get BaseFileMappings(): ResolveValue<Array<IFileMapping<any, any>>>
             {
-                return MyTSProjectGenerator.ProcessFileMappings(super.BaseFileMappings);
+                return (
+                    async () =>
+                    {
+                        return MyTSProjectGenerator.ProcessFileMappings(await super.BaseFileMappings);
+                    })();
             }
         }
 
