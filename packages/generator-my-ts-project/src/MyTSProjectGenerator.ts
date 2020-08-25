@@ -1,6 +1,7 @@
 import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, ResolveValue } from "@manuth/extended-yo-generator";
 import { CompositeConstructor } from "@manuth/extended-yo-generator/lib/CompositeConstructor";
 import { GeneratorConstructor } from "@manuth/extended-yo-generator/lib/GeneratorConstructor";
+import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 
 /**
@@ -85,11 +86,39 @@ export abstract class MyTSProjectGenerator
              */
             public get BaseFileMappings(): ResolveValue<Array<IFileMapping<any, any>>>
             {
+                let fileMappingTask = super.BaseFileMappings;
+
                 return (
                     async () =>
                     {
-                        return MyTSProjectGenerator.ProcessFileMappings(await super.BaseFileMappings);
+                        return MyTSProjectGenerator.ProcessFileMappings(await fileMappingTask);
                     })();
+            }
+
+            /**
+             * @inheritdoc
+             */
+            public get Components(): IComponentCollection<any, any>
+            {
+                let components = super.Components;
+
+                for (let category of components.Categories)
+                {
+                    if (category.DisplayName === "General")
+                    {
+                        category.Components.push(
+                            {
+                                ID: "drone-configuration",
+                                DisplayName: "Drone-CI Configuration",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    new DroneFileMapping(this)
+                                ]
+                            });
+                    }
+                }
+
+                return components;
             }
         }
 
