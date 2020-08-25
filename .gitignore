@@ -71,6 +71,7 @@ typings/
 # Redundant ignore files
 packages/*/.npmignore
 packages/*/.gitignore
+packages/*/.drone.yml
 
 # Yarn Integrity file
 .yarn-integrity

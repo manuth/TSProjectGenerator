@@ -1,14 +1,15 @@
 diff --git a/.gitignore b/.gitignore
-index df63174..347d0b8 100644
+index ee8a5b7..347d0b8 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -68,10 +68,6 @@ typings/
+@@ -68,11 +68,6 @@ typings/
  # Output of 'npm pack'
  *.tgz
  
 -# Redundant ignore files
 -packages/*/.npmignore
 -packages/*/.gitignore
+-packages/*/.drone.yml
 -
  # Yarn Integrity file
  .yarn-integrity

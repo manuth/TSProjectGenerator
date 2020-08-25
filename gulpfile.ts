@@ -6,8 +6,10 @@ import { join } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
-let npmIgnoreFile = ".npmignore";
+let customProjectGeneratorName = "generator-my-ts-project";
 let gitIgnoreFile = ".gitignore";
+let npmIgnoreFile = ".npmignore";
+let droneFile = ".drone.yml";
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath("npmignore.diff");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
@@ -63,7 +65,8 @@ export let CopyFiles =
             parallel(
                 [
                     CopyGitIgnore,
-                    CopyNPMIgnore
+                    CopyNPMIgnore,
+                    CopyDroneFile
                 ]),
             ...(
                 options.watch ?
@@ -83,6 +86,12 @@ export let CopyFiles =
                                     npmDiffFile
                                 ],
                                 CopyNPMIgnore);
+
+                            watch(
+                                [
+                                    droneFile
+                                ],
+                                CopyDroneFile);
                         }
                     ] :
                     [])
@@ -131,3 +140,16 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 }
 
 CopyNPMIgnore.description = `Copies the \`${npmIgnoreFile}\` file to the mono-repo packages.`;
+
+/**
+ * Copies the `.drone.yml` file to the mono-repo packages.
+ *
+ * @returns
+ * The task.
+ */
+export function CopyDroneFile(): NodeJS.ReadWriteStream
+{
+    return src(droneFile).pipe(dest(PackagePath(customProjectGeneratorName)));
+}
+
+CopyDroneFile.description = `Copies the \`${droneFile}\` file to the mono-repo packages.`;
