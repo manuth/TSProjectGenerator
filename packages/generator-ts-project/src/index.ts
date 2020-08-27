@@ -51,7 +51,7 @@ export { PackageFileMapping } from "./NPMPackaging/FileMappings/PackageFileMappi
 export { IScriptMapping } from "./NPMPackaging/Scripts/IScriptMapping";
 export { ScriptMapping } from "./NPMPackaging/Scripts/ScriptMapping";
 export { ScriptProcessor } from "./NPMPackaging/Scripts/ScriptProcessor";
-export { TSProjectWorkspaceFolder as TSProjectCodeWorkspaceComponent } from "./Project/Components/TSProjectCodeWorkspaceComponent";
+export { TSProjectWorkspaceFolder } from "./Project/Components/TSProjectCodeWorkspaceComponent";
 export { TSProjectComponentCollection } from "./Project/Components/TSProjectComponentCollection";
 export { TSProjectGeneralCategory } from "./Project/Components/TSProjectGeneralCategory";
 export { NPMIgnoreFileMapping } from "./Project/FileMappings/NPMIgnoreFileMapping";
