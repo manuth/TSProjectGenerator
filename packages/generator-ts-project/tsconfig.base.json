@@ -2,12 +2,6 @@
     "extends": "@manuth/tsconfig/recommended",
     "compilerOptions": {
         "declarationMap": true,
-        "baseUrl": "../../__INVALID__",
-        "paths": {
-            "@manuth/*": [
-                "../packages/*/src"
-            ]
-        },
         "typeRoots": [
             "./node_modules/@types"
         ],

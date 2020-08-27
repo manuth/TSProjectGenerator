@@ -101,8 +101,6 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 {
                     let tsConfig = JSON.parse((await readFile(fileMapping.Source)).toString());
                     delete tsConfig.compilerOptions.declarationMap;
-                    delete tsConfig.compilerOptions.baseUrl;
-                    delete tsConfig.compilerOptions.paths;
                     delete tsConfig.compilerOptions.typeRoots;
 
                     generator.fs.write(fileMapping.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
