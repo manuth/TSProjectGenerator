@@ -45,7 +45,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                 name: <%= Identities %>.Destination,
                 message: "Where do you want to save your project to?",
                 default: "./",
-                filter: async input =>
+                filter: async (input) =>
                 {
                     let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
                     this.destinationRoot(destination);
@@ -71,8 +71,6 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
      */
     public get Components(): IComponentCollection<<%= SettingsInterface %>, GeneratorOptions>
     {
-        let self = this;
-
         return {
             Question: "What do you want to include in your workspace?",
             Categories: [
@@ -86,11 +84,11 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
-                                    Context()
+                                    Context: () =>
                                     {
                                         return {
-                                            Name: self.Settings[<%= Identities %>.Name],
-                                            Description: self.Settings[<%= Identities %>.Description]
+                                            Name: this.Settings[<%= Identities %>.Name],
+                                            Description: this.Settings[<%= Identities %>.Description]
                                         };
                                     },
                                     Destination: "README.md"
@@ -120,9 +118,9 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                             ],
                             FileMappings: [
                                 {
-                                    get Source()
+                                    Source: () =>
                                     {
-                                        switch (self.Settings[<%= Identities %>.LicenseType])
+                                        switch (this.Settings[<%= Identities %>.LicenseType])
                                         {
                                             case LicenseType.Apache:
                                                 return "Apache.txt";
