@@ -1,8 +1,8 @@
 import { join } from "path";
 import { GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
+import { ComponentCategoryBase } from "../../../Components/ComponentCategoryBase";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
@@ -13,7 +13,7 @@ import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";
 /**
  * Provides general components for `TSGenerator`s.
  */
-export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectGeneralCategory<TSettings, TOptions>
+export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `TSGeneratorGeneralCategory` class.
@@ -29,10 +29,17 @@ export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, 
     /**
      * @inheritdoc
      */
+    public get DisplayName(): string
+    {
+        return "Generators";
+    }
+
+    /**
+     * @inheritdoc
+     */
     public get Components(): Array<IComponent<TSettings, TOptions>>
     {
         return [
-            ...super.Components,
             this.GeneratorComponent,
             this.SubGeneratorComponent
         ];

@@ -17,7 +17,7 @@ export { AppGeneratorSettingKey } from "./generators/app/Settings/AppGeneratorSe
 export { IAppGeneratorSettings } from "./generators/app/Settings/IAppGeneratorSettings";
 export { TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorCodeWorkspace";
 export { TSGeneratorComponentCollection } from "./generators/generator/Components/TSGeneratorComponentCollection";
-export { TSGeneratorGeneralCategory } from "./generators/generator/Components/TSGeneratorGeneralCategory";
+export { TSGeneratorCategory } from "./generators/generator/Components/TSGeneratorCategory";
 export { TSGeneratorDependencies } from "./generators/generator/Dependencies/TSGeneratorDependencies";
 export { TSGeneratorExampleDependencies } from "./generators/generator/Dependencies/TSGeneratorExampleDependencies";
 export { TSGeneratorPackageFileMapping } from "./generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";

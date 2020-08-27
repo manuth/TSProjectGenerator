@@ -1,7 +1,8 @@
 import { GeneratorOptions, IComponentCategory, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection";
+import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
-import { TSGeneratorGeneralCategory } from "./TSGeneratorGeneralCategory";
+import { TSGeneratorCategory } from "./TSGeneratorCategory";
 
 /**
  * Provides components for `TSGenerator`s.
@@ -25,7 +26,8 @@ export class TSGeneratorComponentCollection<TSettings extends ITSGeneratorSettin
     public get Categories(): Array<IComponentCategory<TSettings, TOptions>>
     {
         return [
-            new TSGeneratorGeneralCategory(this.Generator)
+            new TSProjectGeneralCategory(this.Generator),
+            new TSGeneratorCategory(this.Generator)
         ];
     }
 }
