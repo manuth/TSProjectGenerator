@@ -33,7 +33,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     /**
      * Gets the name of the source-script.
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
         return this.ResolveProperty(this, this.Object.Source);
     }
@@ -41,7 +41,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     /**
      * Gets the name of the destination-script.
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
         return this.ResolveProperty(this, this.Object.Destination);
     }

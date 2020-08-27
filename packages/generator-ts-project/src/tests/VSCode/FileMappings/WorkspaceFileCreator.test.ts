@@ -72,7 +72,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                                     /* ${rootComment} */
                                     ${JSON.stringify(workspace, null, 4)}`)));
 
-                    for (let fileMappingOptions of await component.FileMappings)
+                    for (let fileMappingOptions of component.FileMappings)
                     {
                         let tester = new FileMappingTester(generator, fileMappingOptions);
                         await tester.Run();

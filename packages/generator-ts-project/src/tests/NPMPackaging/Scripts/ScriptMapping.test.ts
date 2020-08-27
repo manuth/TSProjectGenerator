@@ -43,16 +43,16 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 async () =>
                 {
                     scriptMapping = new ScriptMapping(await context.Generator, randomSource);
-                    Assert.strictEqual(await scriptMapping.Destination, await scriptMapping.Source);
-                    Assert.strictEqual(await scriptMapping.Source, randomSource);
+                    Assert.strictEqual(scriptMapping.Destination, scriptMapping.Source);
+                    Assert.strictEqual(scriptMapping.Source, randomSource);
                 });
 
             test(
                 "Checking whether passing options constructs a proper script-mapping…",
                 async () =>
                 {
-                    Assert.strictEqual(await scriptMapping.Source, randomSource);
-                    Assert.strictEqual(await scriptMapping.Destination, randomDestination);
+                    Assert.strictEqual(scriptMapping.Source, randomSource);
+                    Assert.strictEqual(scriptMapping.Destination, randomDestination);
                 });
 
             test(

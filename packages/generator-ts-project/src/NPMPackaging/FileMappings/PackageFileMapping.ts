@@ -38,12 +38,12 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
 
                 for (let scriptMapping of await this.ScriptMappingCollection)
                 {
-                    if (result.Scripts.Has(await scriptMapping.Destination))
+                    if (result.Scripts.Has(scriptMapping.Destination))
                     {
-                        result.Scripts.Remove(await scriptMapping.Destination);
+                        result.Scripts.Remove(scriptMapping.Destination);
                     }
 
-                    result.Scripts.Add(await scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(await scriptMapping.Source)));
+                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(scriptMapping.Source)));
                 }
 
                 return result;
