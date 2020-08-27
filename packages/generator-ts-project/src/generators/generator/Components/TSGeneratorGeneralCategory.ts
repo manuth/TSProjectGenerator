@@ -64,17 +64,15 @@ export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, 
      */
     protected get SubGeneratorComponent(): IComponent<TSettings, TOptions>
     {
-        let self = this;
-
         return {
             ID: TSGeneratorComponent.SubGeneratorExample,
             DisplayName: "Example Sub-Generator",
-            get FileMappings()
+            FileMappings: () =>
             {
-                return self.Generator.Settings[TSGeneratorSettingKey.SubGenerators].flatMap(
+                return this.Generator.Settings[TSGeneratorSettingKey.SubGenerators].flatMap(
                     (subGeneratorOptions) =>
                     {
-                        return self.GetGeneratorFileMappings(
+                        return this.GetGeneratorFileMappings(
                             subGeneratorOptions[SubGeneratorSettingKey.Name],
                             subGeneratorOptions[SubGeneratorSettingKey.DisplayName]);
                     });
