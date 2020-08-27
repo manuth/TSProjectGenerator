@@ -103,7 +103,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 "watch",
                                 Constants.Package.Scripts.Get("watch-compile").replace("compile", "build"));
 
-                            await AssertScriptCopy("clean");
+                            await AssertScript("clean", Constants.Package.Scripts.Get("clean").replace("compile", "build"));
                             await AssertScriptCopy("lint-code-base", "lint-base");
 
                             await AssertScript(
