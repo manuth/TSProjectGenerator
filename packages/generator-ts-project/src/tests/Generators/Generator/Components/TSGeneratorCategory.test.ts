@@ -4,8 +4,8 @@ import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-gener
 import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
+import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
-import { TSGeneratorGeneralCategory } from "../../../../generators/generator/Components/TSGeneratorGeneralCategory";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -15,21 +15,21 @@ import { TestContext } from "../../../TestContext";
 import { GeneratorPath } from "../TSGeneratorGenerator.test";
 
 /**
- * Registers tests for the `TSGeneratorGeneralCategory` class.
+ * Registers tests for the `TSGeneratorCategory` class.
  *
  * @param context
  * The test-context.
  */
-export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGeneratorGenerator>): void
+export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorGeneralCategory",
+        "TSGeneratorCategory",
         () =>
         {
             let runContext: IRunContext<TSGeneratorGenerator>;
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
-            let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings, GeneratorOptions>;
+            let collection: TSGeneratorCategory<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()
@@ -57,7 +57,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                     runContext = context.ExecuteGenerator();
                     runContext.withPrompts(settings);
                     await runContext.toPromise();
-                    collection = new TSGeneratorGeneralCategory(await context.Generator);
+                    collection = new TSGeneratorCategory(await context.Generator);
 
                     spawnSync(
                         npmWhich(__dirname).sync("npm"),

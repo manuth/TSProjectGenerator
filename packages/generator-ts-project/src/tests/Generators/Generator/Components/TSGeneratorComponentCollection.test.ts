@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
 import { TSGeneratorComponentCollection } from "../../../../generators/generator/Components/TSGeneratorComponentCollection";
-import { TSGeneratorGeneralCategory } from "../../../../generators/generator/Components/TSGeneratorGeneralCategory";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../TestContext";
@@ -31,7 +31,7 @@ export function TSGeneratorComponentCollectionTests(context: TestContext<TSGener
                 "Checking whether all categories for `TSGenerator`s are present…",
                 async () =>
                 {
-                    for (let categoryType of [TSGeneratorGeneralCategory])
+                    for (let categoryType of [TSGeneratorCategory])
                     {
                         Assert.ok(collection.Categories.some((category) => category instanceof categoryType));
                     }
