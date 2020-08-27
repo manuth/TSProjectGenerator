@@ -32,25 +32,17 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     /**
      * @inheritdoc
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
-        return (
-            async () =>
-            {
-                return this.Generator.modulePath(".eslintrc.js");
-            })();
+        return this.Generator.modulePath(".eslintrc.js");
     }
 
     /**
      * @inheritdoc
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
-        return (
-            async () =>
-            {
-                return ".eslintrc.js";
-            })();
+        return ".eslintrc.js";
     }
 
     /**

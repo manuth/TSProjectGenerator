@@ -44,17 +44,17 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                         /**
                          * @inheritdoc
                          */
-                        public get Source(): Promise<string>
+                        public get Source(): string
                         {
-                            return context.CreatePromise(tempFile.FullName);
+                            return tempFile.FullName;
                         }
 
                         /**
                          * @inheritdoc
                          */
-                        public get Destination(): Promise<string>
+                        public get Destination(): string
                         {
-                            return context.CreatePromise(tempFile.FullName);
+                            return tempFile.FullName;
                         }
 
                         /**

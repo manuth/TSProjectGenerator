@@ -53,13 +53,9 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
-        return (
-            async () =>
-            {
-                return "package.json";
-            })();
+        return "package.json";
     }
 
     /**
@@ -105,12 +101,9 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public Processor(): Promise<void>
+    public async Processor(): Promise<void>
     {
-        return (async () =>
-        {
-            this.Generator.fs.writeJSON(await this.Resolved.Destination, (await this.Package).ToJSON());
-        })();
+        this.Generator.fs.writeJSON(this.Resolved.Destination, (await this.Package).ToJSON());
     }
 
     /**
@@ -129,7 +122,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     protected async LoadPackage(): Promise<Package>
     {
-        let fileName = await this.Resolved.Destination;
+        let fileName = this.Resolved.Destination;
 
         if (this.package === null)
         {

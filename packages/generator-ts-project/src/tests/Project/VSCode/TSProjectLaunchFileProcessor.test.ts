@@ -1,5 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { join } from "upath";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -48,6 +49,9 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                     let programName = "program";
                     let argsName = "args";
                     let cwdName = "cwd";
+                    let folderName = context.RandomString;
+                    let namedPath = join(context.NamedWorkspaceFolderDirective, folderName);
+                    let path = join(context.WorkspaceFolderDirective, folderName);
 
                     let testData: ILaunchSettings = {
                         version: "",
@@ -56,21 +60,21 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                                 type: "",
                                 name: programName,
                                 request: "",
-                                program: context.NamedWorkspaceFolderDirective
+                                program: namedPath
                             },
                             {
                                 type: "",
                                 name: argsName,
                                 request: "",
                                 args: [
-                                    context.NamedWorkspaceFolderDirective
+                                    namedPath
                                 ]
                             },
                             {
                                 type: "",
                                 name: cwdName,
                                 request: "",
-                                cwd: context.NamedWorkspaceFolderDirective
+                                cwd: namedPath
                             }
                         ]
                     };
@@ -95,7 +99,7 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
                                 break;
                         }
 
-                        Assert.strictEqual(actual, context.WorkspaceFolderDirective);
+                        Assert.strictEqual(actual, path);
                     }
                 });
         });

@@ -58,18 +58,14 @@ export class LintingComponent<TSettings extends ITSProjectSettings, TOptions ext
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        return (
-            async () =>
+        return [
+            new ESLintRCFileMapping(this.Generator),
             {
-                return [
-                    new ESLintRCFileMapping(this.Generator),
-                    {
-                        Source: this.Generator.modulePath("tsconfig.eslint.json"),
-                        Destination: "tsconfig.eslint.json"
-                    }
-                ];
-            })();
+                Source: this.Generator.modulePath("tsconfig.eslint.json"),
+                Destination: "tsconfig.eslint.json"
+            }
+        ];
     }
 }

@@ -47,7 +47,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     /**
      * @inheritdoc
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
         return this.FileMapping.Source;
     }
@@ -55,7 +55,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     /**
      * @inheritdoc
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
         return this.FileMapping.Destination;
     }
@@ -66,7 +66,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     public async Processor(): Promise<void>
     {
         await this.FileMapping.Processor();
-        let content = this.Generator.fs.read(await this.Destination);
+        let content = this.Generator.fs.read(this.Destination);
         let eol = detectNewLine(content);
         let result: string[];
         let lines = split(content);

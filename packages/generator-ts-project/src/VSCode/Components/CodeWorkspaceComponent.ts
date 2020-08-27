@@ -55,13 +55,9 @@ export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptio
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        return (
-            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
-            {
-                return this.FileMappingCreator.FileMappings;
-            })();
+        return this.FileMappingCreator.FileMappings;
     }
 
     /**

@@ -56,17 +56,17 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                         /**
                          * @inheritdoc
                          */
-                        public get Source(): Promise<string>
+                        public get Source(): string
                         {
-                            return context.CreatePromise(sourceFile.FullName);
+                            return sourceFile.FullName;
                         }
 
                         /**
                          * @inheritdoc
                          */
-                        public get Destination(): Promise<string>
+                        public get Destination(): string
                         {
-                            return context.CreatePromise(destinationFile.FullName);
+                            return destinationFile.FullName;
                         }
 
                         /**

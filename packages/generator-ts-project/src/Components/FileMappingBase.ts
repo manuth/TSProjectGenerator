@@ -21,7 +21,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
     /**
      * @inheritdoc
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
         return null;
     }
@@ -29,7 +29,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
     /**
      * @inheritdoc
      */
-    public abstract get Destination(): Promise<string>;
+    public abstract get Destination(): string;
 
     /**
      * @inheritdoc
@@ -85,7 +85,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
      */
     protected async ReadSource(): Promise<string>
     {
-        return this.ReadFile(await this.Resolved.Source);
+        return this.ReadFile(this.Resolved.Source);
     }
 
     /**
@@ -110,6 +110,6 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
      */
     protected async WriteDestination(content: string): Promise<void>
     {
-        return this.WriteFile(await this.Resolved.Destination, content);
+        return this.WriteFile(this.Resolved.Destination, content);
     }
 }

@@ -32,7 +32,7 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
         let project = new Project();
 
         return project.createSourceFile(
-            await this.Resolved.Source,
+            this.Resolved.Source,
             text,
             {
                 overwrite: true

@@ -30,7 +30,7 @@ export function LintingComponentTests(context: TestContext<TSProjectGenerator>):
             for (let fileMappingType of [ESLintRCFileMapping])
             {
                 Assert.ok(
-                    (await component.FileMappings).some(
+                    component.FileMappings.some(
                         (fileMapping) =>
                         {
                             return fileMapping instanceof fileMappingType;

@@ -45,7 +45,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                     });
 
                 Assert.deepStrictEqual(
-                    await source.ReadJSON(await fileMapping.Destination),
+                    await source.ReadJSON(fileMapping.Destination),
                     await expected);
             }
 
@@ -77,7 +77,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                                 /* ${randomComment} */
                                 ${JSON.stringify(context.RandomObject)}`));
 
-                    for (let fileMappingOptions of await component.FileMappings)
+                    for (let fileMappingOptions of component.FileMappings)
                     {
                         let tester = new FileMappingTester(generator, fileMappingOptions);
                         await tester.Run();
@@ -97,7 +97,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
 
                     for (let fileAssertion of fileAssertions)
                     {
-                        let path = join(await fileMappingCreator.SettingsFolderName, fileAssertion[0]);
+                        let path = join(fileMappingCreator.SettingsFolderName, fileAssertion[0]);
                         await AssertContent(path, await fileAssertion[1]);
                     }
                 });
@@ -109,11 +109,11 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                     Assert.ok(
                         JSON.stringify(
                             await source.ReadJSON(
-                                await new FileMapping(
+                                new FileMapping(
                                     generator,
                                     {
                                         Destination: join(
-                                            await fileMappingCreator.SettingsFolderName,
+                                            fileMappingCreator.SettingsFolderName,
                                             fileMappingCreator.TasksFileName)
                                     }).Destination),
                             null,

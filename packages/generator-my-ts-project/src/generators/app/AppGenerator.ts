@@ -84,11 +84,11 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
-                                    Context: (fileMapping, generator) =>
+                                    Context: () =>
                                     {
                                         return {
-                                            Name: generator.Settings[AppSetting.Name],
-                                            Description: generator.Settings[AppSetting.Description]
+                                            Name: this.Settings[AppSetting.Name],
+                                            Description: this.Settings[AppSetting.Description]
                                         };
                                     },
                                     Destination: "README.md"
@@ -118,17 +118,18 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                             ],
                             FileMappings: [
                                 {
-                                    Source: (fileMapping, generator) =>
-                                    {
-                                        switch (generator.Settings[AppSetting.LicenseType])
+                                    Source: (
+                                        () =>
                                         {
-                                            case LicenseType.Apache:
-                                                return "Apache.txt";
-                                            case LicenseType.GPL:
-                                            default:
-                                                return "GPL.txt";
-                                        }
-                                    },
+                                            switch (this.Settings[AppSetting.LicenseType])
+                                            {
+                                                case LicenseType.Apache:
+                                                    return "Apache.txt";
+                                                case LicenseType.GPL:
+                                                default:
+                                                    return "GPL.txt";
+                                            }
+                                        })(),
                                     Destination: "LICENSE"
                                 }
                             ]

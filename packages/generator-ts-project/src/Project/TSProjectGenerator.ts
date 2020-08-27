@@ -99,13 +99,13 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 Destination: "tsconfig.base.json",
                 Processor: async (fileMapping, generator) =>
                 {
-                    let tsConfig = JSON.parse((await readFile(await fileMapping.Source)).toString());
+                    let tsConfig = JSON.parse((await readFile(fileMapping.Source)).toString());
                     delete tsConfig.compilerOptions.declarationMap;
                     delete tsConfig.compilerOptions.baseUrl;
                     delete tsConfig.compilerOptions.paths;
                     delete tsConfig.compilerOptions.typeRoots;
 
-                    generator.fs.write(await fileMapping.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
+                    generator.fs.write(fileMapping.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
                 }
             },
             {
@@ -113,14 +113,14 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 Destination: "tsconfig.json",
                 Processor: async (target, generator) =>
                 {
-                    let tsConfig = JSON.parse((await readFile(await target.Source)).toString());
+                    let tsConfig = JSON.parse((await readFile(target.Source)).toString());
 
                     if (!this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
                     {
                         delete tsConfig.references;
                     }
 
-                    generator.fs.write(await target.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
+                    generator.fs.write(target.Destination, split(JSON.stringify(tsConfig, null, 4)).join(EOL));
                 }
             },
             {

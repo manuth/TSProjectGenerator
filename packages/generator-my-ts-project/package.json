@@ -27,7 +27,7 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^7.1.0",
+    "@manuth/extended-yo-generator": "^7.2.0",
     "@manuth/generator-ts-project": "^1.4.7",
     "chalk": "^4.1.0",
     "dedent": "^0.7.0",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.1.2",
-    "@manuth/extended-yo-generator-test": "^7.1.0",
+    "@manuth/extended-yo-generator-test": "^7.2.0",
     "@manuth/tsconfig": "^1.2.2",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.1",
@@ -53,8 +53,8 @@
     "@typescript-eslint/parser": "^3.10.1",
     "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsdoc": "^30.2.4",
-    "mocha": "^8.1.1",
+    "eslint-plugin-jsdoc": "^30.3.0",
+    "mocha": "^8.1.2",
     "rimraf": "^3.0.2",
     "tslint": "^6.1.3",
     "typescript": "^4.0.2",

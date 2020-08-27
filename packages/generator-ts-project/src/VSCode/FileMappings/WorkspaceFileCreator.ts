@@ -41,20 +41,16 @@ export class WorkspaceFileCreator<TSettings extends IGeneratorSettings, TOptions
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        return (
-            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
+        return [
             {
-                return [
-                    {
-                        Destination: this.FileName,
-                        Processor: async (fileMapping, generator) =>
-                        {
-                            generator.fs.write(await fileMapping.Destination, split(JSON.stringify(await this.Component.WorkspaceMetadata, null, 4)).join(EOL));
-                        }
-                    }
-                ];
-            })();
+                Destination: this.FileName,
+                Processor: async (fileMapping, generator) =>
+                {
+                    generator.fs.write(fileMapping.Destination, split(JSON.stringify(await this.Component.WorkspaceMetadata, null, 4)).join(EOL));
+                }
+            }
+        ];
     }
 }

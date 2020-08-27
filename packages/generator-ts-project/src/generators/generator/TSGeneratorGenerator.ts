@@ -150,16 +150,16 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
             },
             {
                 Destination: Path.join(this.SourceRoot, "generators"),
-                Processor: async (target) =>
+                Processor: (target) =>
                 {
-                    return FileSystem.ensureDir(await target.Destination);
+                    return FileSystem.ensureDir(target.Destination);
                 }
             },
             {
                 Destination: "templates",
-                Processor: async (target) =>
+                Processor: (target) =>
                 {
-                    return FileSystem.ensureDir(await target.Destination);
+                    return FileSystem.ensureDir(target.Destination);
                 }
             }
         ];

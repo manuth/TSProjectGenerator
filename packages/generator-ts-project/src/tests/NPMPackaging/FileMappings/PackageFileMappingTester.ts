@@ -43,7 +43,7 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
      */
     public async WritePackage(npmPackage: IPackageJSON): Promise<void>
     {
-        this.Generator.fs.writeJSON(await this.FileMapping.Destination, new Package(npmPackage).ToJSON());
+        this.Generator.fs.writeJSON(this.FileMapping.Destination, new Package(npmPackage).ToJSON());
         await this.Commit();
     }
 

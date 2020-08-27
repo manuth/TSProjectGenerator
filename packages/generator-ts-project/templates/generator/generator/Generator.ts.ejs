@@ -71,6 +71,8 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
      */
     public get Components(): IComponentCollection<<%= SettingsInterface %>, GeneratorOptions>
     {
+        let self = this;
+
         return {
             Question: "What do you want to include in your workspace?",
             Categories: [
@@ -84,11 +86,11 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
-                                    Context: (fileMapping, generator) =>
+                                    Context()
                                     {
                                         return {
-                                            Name: generator.Settings[<%= Identities %>.Name],
-                                            Description: generator.Settings[<%= Identities %>.Description]
+                                            Name: self.Settings[<%= Identities %>.Name],
+                                            Description: self.Settings[<%= Identities %>.Description]
                                         };
                                     },
                                     Destination: "README.md"
@@ -118,9 +120,9 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                             ],
                             FileMappings: [
                                 {
-                                    Source: (fileMapping, generator) =>
+                                    get Source()
                                     {
-                                        switch (generator.Settings[<%= Identities %>.LicenseType])
+                                        switch (self.Settings[<%= Identities %>.LicenseType])
                                         {
                                             case LicenseType.Apache:
                                                 return "Apache.txt";

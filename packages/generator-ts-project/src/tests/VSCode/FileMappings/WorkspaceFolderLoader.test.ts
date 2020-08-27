@@ -64,7 +64,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                     workspace.settings = randomSettings;
                     workspace.tasks = randomTasks;
 
-                    for (let fileMappingOptions of await component.FileMappings)
+                    for (let fileMappingOptions of component.FileMappings)
                     {
                         await new FileMappingTester(generator, fileMappingOptions).Run();
                     }

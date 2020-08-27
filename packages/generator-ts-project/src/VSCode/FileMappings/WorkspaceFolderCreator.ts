@@ -25,13 +25,9 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets the name of the folder which contains the settings (such as `.vscode`, `.vscode-insiders` or `.vscodium`).
      */
-    public get SettingsFolderName(): Promise<string>
+    public get SettingsFolderName(): string
     {
-        return (
-            async () =>
-            {
-                return ".vscode";
-            })();
+        return ".vscode";
     }
 
     /**
@@ -69,33 +65,29 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>
+    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
-        return (
-            async (): Promise<Array<IFileMapping<TSettings, TOptions>>> =>
-            {
-                let files: Array<[string, Promise<any>]> = [
-                    [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
-                    [this.LaunchFileName, this.Component.LaunchMetadata],
-                    [this.SettingsFileName, this.Component.SettingsMetadata],
-                    [this.TasksFileName, this.Component.TasksMetadata]
-                ];
+        let files: Array<[string, Promise<any>]> = [
+            [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
+            [this.LaunchFileName, this.Component.LaunchMetadata],
+            [this.SettingsFileName, this.Component.SettingsMetadata],
+            [this.TasksFileName, this.Component.TasksMetadata]
+        ];
 
-                let result: Array<IFileMapping<TSettings, TOptions>> = [];
+        let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
-                for (let fileEntry of files)
+        for (let fileEntry of files)
+        {
+            result.push(
                 {
-                    result.push(
-                        {
-                            Destination: join(await this.SettingsFolderName, fileEntry[0]),
-                            Processor: async (fileMapping, generator) =>
-                            {
-                                generator.fs.write(await fileMapping.Destination, split(JSON.stringify(await fileEntry[1], null, 4)).join(EOL));
-                            }
-                        });
-                }
+                    Destination: join(this.SettingsFolderName, fileEntry[0]),
+                    Processor: async (fileMapping, generator) =>
+                    {
+                        generator.fs.write(fileMapping.Destination, split(JSON.stringify(await fileEntry[1], null, 4)).join(EOL));
+                    }
+                });
+        }
 
-                return result;
-            })();
+        return result;
     }
 }

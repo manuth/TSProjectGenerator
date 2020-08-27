@@ -23,25 +23,17 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     /**
      * @inheritdoc
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
-        return (
-            async () =>
-            {
-                return this.Generator.modulePath(".npmignore");
-            })();
+        return this.Generator.modulePath(".npmignore");
     }
 
     /**
      * @inheritdoc
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
-        return (
-            async () =>
-            {
-                return ".npmignore";
-            })();
+        return ".npmignore";
     }
 
     /**
@@ -59,7 +51,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     {
         this.WriteDestination(
             applyPatch(
-                (await readFile(await this.Resolved.Source)).toString(),
+                (await readFile(this.Resolved.Source)).toString(),
                 parsePatch(
                     (await readFile(this.PatchFileName)).toString()
                 )[0]));

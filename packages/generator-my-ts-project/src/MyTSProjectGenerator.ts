@@ -1,4 +1,4 @@
-import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, ResolveValue } from "@manuth/extended-yo-generator";
+import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, IGenerator } from "@manuth/extended-yo-generator";
 import { CompositeConstructor } from "@manuth/extended-yo-generator/lib/CompositeConstructor";
 import { GeneratorConstructor } from "@manuth/extended-yo-generator/lib/GeneratorConstructor";
 import { DroneFileMapping } from "./DroneFileMapping";
@@ -69,11 +69,7 @@ export abstract class MyTSProjectGenerator
                                             DisplayName: componentOptions.DisplayName,
                                             DefaultEnabled: componentOptions.DefaultEnabled,
                                             Questions: componentOptions.Questions,
-                                            FileMappings: async (component, generator) =>
-                                            {
-                                                return MyTSProjectGenerator.ProcessFileMappings(
-                                                    await new Component(generator, componentOptions).FileMappings);
-                                            }
+                                            FileMappings: MyTSProjectGenerator.ProcessFileMappings(this.Base, new Component(this, componentOptions).FileMappings)
                                         };
                                     })
                             };
@@ -84,15 +80,9 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public get BaseFileMappings(): ResolveValue<Array<IFileMapping<any, any>>>
+            public get BaseFileMappings(): Array<IFileMapping<any, any>>
             {
-                let fileMappingTask = super.BaseFileMappings;
-
-                return (
-                    async () =>
-                    {
-                        return MyTSProjectGenerator.ProcessFileMappings(await fileMappingTask);
-                    })();
+                return MyTSProjectGenerator.ProcessFileMappings(this.Base, super.BaseFileMappings);
             }
 
             /**
@@ -128,25 +118,28 @@ export abstract class MyTSProjectGenerator
     /**
      * Processes the file-mappings.
      *
+     * @param generator
+     * The generator of the file-mappings.
+     *
      * @param fileMappings
      * The file-mappings to process.
      *
      * @returns
      * The processed file-mappings.
      */
-    protected static ProcessFileMappings(fileMappings: Array<IFileMapping<any, any>>): Array<IFileMapping<any, any>>
+    protected static ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: Array<IFileMapping<any, any>>): Array<IFileMapping<any, any>>
     {
         for (let i = 0; i < fileMappings.length; i++)
         {
             let fileMappingOptions = fileMappings[i];
 
             fileMappings[i] = {
-                Destination: (fileMapping, generator) => new FileMapping(generator, fileMappingOptions).Destination,
-                Processor: async (target, generator) =>
+                Destination: new FileMapping(generator, fileMappingOptions).Destination,
+                Processor: async () =>
                 {
                     let fileMapping = new FileMapping(generator, fileMappingOptions);
 
-                    if ((await fileMapping.Destination).endsWith(".md"))
+                    if (fileMapping.Destination.endsWith(".md"))
                     {
                         return new MarkdownFileProcessor(generator, fileMappingOptions).Processor();
                     }

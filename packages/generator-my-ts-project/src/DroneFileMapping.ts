@@ -10,25 +10,17 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
     /**
      * @inheritdoc
      */
-    public get Source(): Promise<string>
+    public get Source(): string
     {
-        return (
-            async () =>
-            {
-                return this.Generator.modulePath(".drone.yml");
-            })();
+        return this.Generator.modulePath(".drone.yml");
     }
 
     /**
      * @inheritdoc
      */
-    public get Destination(): Promise<string>
+    public get Destination(): string
     {
-        return (
-            async () =>
-            {
-                return ".drone.yml";
-            })();
+        return ".drone.yml";
     }
 
     /**

@@ -41,5 +41,5 @@ export abstract class CodeFileMappingCreator<TSettings extends IGeneratorSetting
     /**
      * Gets the file-mappings for creating the workspace.
      */
-    public abstract get FileMappings(): Promise<Array<IFileMapping<TSettings, TOptions>>>;
+    public abstract get FileMappings(): Array<IFileMapping<TSettings, TOptions>>;
 }

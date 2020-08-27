@@ -20,7 +20,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      */
-    public abstract get Source(): Promise<string>;
+    public abstract get Source(): string;
 
     /**
      * Gets the data representing this file.
