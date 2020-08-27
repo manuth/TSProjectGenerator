@@ -5,7 +5,6 @@ import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-y
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -97,14 +96,9 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                 "Checking whether all components for `TSGenerator`s are present…",
                 async () =>
                 {
-                    for (let componentType of [TSGeneratorCodeWorkspace])
-                    {
-                        Assert.ok((collection.Components).some((component) => component instanceof componentType));
-                    }
-
                     for (let componentID of [TSGeneratorComponent.GeneratorExample, TSGeneratorComponent.SubGeneratorExample])
                     {
-                        Assert.ok((collection.Components).some((component) => component.ID === componentID));
+                        Assert.ok(collection.Components.some((component) => component.ID === componentID));
                     }
                 });
 
