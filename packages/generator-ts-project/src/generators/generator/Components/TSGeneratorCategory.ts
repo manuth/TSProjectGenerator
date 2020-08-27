@@ -8,7 +8,6 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
-import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";
 
 /**
  * Provides general components for `TSGenerator`s.
@@ -16,7 +15,7 @@ import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";
 export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGeneralCategory` class.
+     * Initializes a new instance of the `TSGeneratorCategory` class.
      *
      * @param generator
      * The generator of the category.
@@ -43,14 +42,6 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             this.GeneratorComponent,
             this.SubGeneratorComponent
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected get WorkspaceComponent(): IComponent<TSettings, TOptions>
-    {
-        return new TSGeneratorCodeWorkspace(this.Generator);
     }
 
     /**
