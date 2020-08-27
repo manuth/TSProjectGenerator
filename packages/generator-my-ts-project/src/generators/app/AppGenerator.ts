@@ -45,7 +45,7 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                 name: AppSetting.Destination,
                 message: "Where do you want to save your project to?",
                 default: "./",
-                filter: async input =>
+                filter: async (input) =>
                 {
                     let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
                     this.destinationRoot(destination);
@@ -84,14 +84,14 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                             FileMappings: [
                                 {
                                     Source: "README.md.ejs",
+                                    Destination: "README.md",
                                     Context: () =>
                                     {
                                         return {
                                             Name: this.Settings[AppSetting.Name],
                                             Description: this.Settings[AppSetting.Description]
                                         };
-                                    },
-                                    Destination: "README.md"
+                                    }
                                 }
                             ]
                         },
@@ -118,8 +118,7 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                             ],
                             FileMappings: [
                                 {
-                                    Source: (
-                                        () =>
+                                    Source: () =>
                                         {
                                             switch (this.Settings[AppSetting.LicenseType])
                                             {
@@ -129,7 +128,7 @@ export class AppGenerator extends Generator<IAppSettings, GeneratorOptions>
                                                 default:
                                                     return "GPL.txt";
                                             }
-                                        })(),
+                                        },
                                     Destination: "LICENSE"
                                 }
                             ]
