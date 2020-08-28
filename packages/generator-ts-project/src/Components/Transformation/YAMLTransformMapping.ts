@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import { parseAllDocuments, Document } from "yaml";
+import { parseAllDocuments, Document, scalarOptions } from "yaml";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
@@ -46,8 +46,22 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
         return metadata.map(
             (document, index) =>
             {
-                document.directivesEndMarker = document.directivesEndMarker || (index > 0);
-                return document.toString();
+                let initialWidth = scalarOptions.str.fold.lineWidth;
+                scalarOptions.str.fold.lineWidth = 0;
+
+                try
+                {
+                    document.directivesEndMarker = document.directivesEndMarker || (index > 0);
+                    return document.toString();
+                }
+                catch (e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    scalarOptions.str.fold.lineWidth = initialWidth;
+                }
             }).join("");
     }
 }
