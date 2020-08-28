@@ -67,7 +67,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             DisplayName: "Example Sub-Generator",
             FileMappings: () =>
             {
-                return this.Generator.Settings[TSGeneratorSettingKey.SubGenerators].flatMap(
+                return (this.Generator.Settings[TSGeneratorSettingKey.SubGenerators] ?? []).flatMap(
                     (subGeneratorOptions) =>
                     {
                         return this.GetGeneratorFileMappings(
