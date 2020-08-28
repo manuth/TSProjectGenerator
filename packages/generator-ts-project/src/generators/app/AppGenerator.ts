@@ -1,14 +1,13 @@
-import { Generator, GeneratorOptions, Question } from "@manuth/extended-yo-generator";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { join } from "upath";
-import { GeneratorLoader } from "./GeneratorLoader";
+import { IProjectType } from "./IProjectType";
 import { ProjectType } from "./ProjectType";
-import { AppGeneratorSettingKey } from "./Settings/AppGeneratorSettingKey";
-import { IAppGeneratorSettings } from "./Settings/IAppGeneratorSettings";
+import { ProjectTypeSelector } from "./ProjectTypeSelector";
 
 /**
  * Provides the functionality to generate typescript-projects.
  */
-export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
+export class AppGenerator extends ProjectTypeSelector<ProjectType>
 {
     /**
      * Initializes a new instance of the `AppGenerator` class.
@@ -19,7 +18,7 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: TOptions)
+    public constructor(args: string | string[], options: GeneratorOptions)
     {
         super(args, options);
     }
@@ -27,26 +26,33 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<TSettings>>
+    protected get ProjectTypes(): Map<ProjectType, IProjectType>
     {
-        return [
-            {
-                type: "list",
-                name: AppGeneratorSettingKey.ProjectType,
-                message: "Please choose the type of project you want to create.",
-                choices: [
+        return new Map<ProjectType, IProjectType>(
+            [
+                [
+                    ProjectType.Module,
                     {
-                        name: "NPM-Module",
-                        value: ProjectType.Module
-                    },
-                    {
-                        name: "Yeoman-Generator",
-                        value: ProjectType.Generator
+                        DisplayName: "NPM-Module",
+                        Path: join(__dirname, "..", "module")
                     }
                 ],
-                default: ProjectType.Module
-            }
-        ];
+                [
+                    ProjectType.Generator,
+                    {
+                        DisplayName: "Yeoman-Generator",
+                        Path: join(__dirname, "..", "generator")
+                    }
+                ]
+            ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get DefaultType(): ProjectType
+    {
+        return ProjectType.Module;
     }
 
     /**
@@ -54,27 +60,6 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
      */
     public async initializing(): Promise<void>
     {
-        await this.prompting();
-        return this.LoadGenerator(this.Settings[AppGeneratorSettingKey.ProjectType]);
+        return super.initializing();
     }
-
-    /**
-     * Loads the propper generator according to the `ProjectType`.
-     *
-     * @param projectType
-     * The type of the project to load.
-     */
-    protected LoadGenerator: GeneratorLoader = async (projectType) =>
-    {
-        switch (projectType)
-        {
-            case ProjectType.Generator:
-                this.composeWith(join(__dirname, "..", "generator"), this.options);
-                break;
-            case ProjectType.Module:
-            default:
-                this.composeWith(join(__dirname, "..", "module"), this.options);
-                break;
-        }
-    };
 }

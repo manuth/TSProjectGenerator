@@ -14,8 +14,8 @@ export { YAMLTransformMapping } from "./Components/Transformation/YAMLTransformM
 export { AppGenerator } from "./generators/app/AppGenerator";
 export { GeneratorLoader } from "./generators/app/GeneratorLoader";
 export { ProjectType } from "./generators/app/ProjectType";
-export { AppGeneratorSettingKey } from "./generators/app/Settings/AppGeneratorSettingKey";
-export { IAppGeneratorSettings } from "./generators/app/Settings/IAppGeneratorSettings";
+export { ProjectSelectorSettingKey } from "./generators/app/Settings/ProjectSelectorSettingKey";
+export { IProjectSelectorSettings } from "./generators/app/Settings/IProjectSelectorSettings";
 export { TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorCodeWorkspace";
 export { TSGeneratorComponentCollection } from "./generators/generator/Components/TSGeneratorComponentCollection";
 export { TSGeneratorCategory } from "./generators/generator/Components/TSGeneratorCategory";

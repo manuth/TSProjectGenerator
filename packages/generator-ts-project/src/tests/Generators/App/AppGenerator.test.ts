@@ -5,7 +5,7 @@ import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { ProjectType } from "../../../generators/app/ProjectType";
-import { AppGeneratorSettingKey } from "../../../generators/app/Settings/AppGeneratorSettingKey";
+import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey";
 import { TestContext } from "../../TestContext";
 
 /**
@@ -56,7 +56,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         {
                             return context.ExecuteGenerator().withPrompts(
                                 {
-                                    [AppGeneratorSettingKey.ProjectType]: ProjectType.Module
+                                    [ProjectSelectorSettingKey.ProjectType]: ProjectType.Module
                                 }).inDir(tempDir.FullName).toPromise();
                         });
 
@@ -100,7 +100,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         {
                             return context.ExecuteGenerator().withPrompts(
                                 {
-                                    [AppGeneratorSettingKey.ProjectType]: ProjectType.Generator
+                                    [ProjectSelectorSettingKey.ProjectType]: ProjectType.Generator
                                 }).inDir(tempDir.FullName).toPromise();
                         });
 

@@ -1,11 +1,12 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { AppGenerator as AppGeneratorBase, IAppGeneratorSettings, ProjectType, GeneratorLoader } from "@manuth/generator-ts-project";
+import { AppGenerator as AppGeneratorBase, ProjectType } from "@manuth/generator-ts-project";
+import { IProjectType } from "@manuth/generator-ts-project/lib/generators/app/IProjectType";
 import { join } from "upath";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends AppGeneratorBase<TSettings, TOptions>
+export class AppGenerator extends AppGeneratorBase
 {
     /**
      * Initializes a new instance of the `AppGenerator` class.
@@ -16,9 +17,33 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
      * @param options
      * A set of options for the generator.
      */
-    public constructor(args: string | string[], options: TOptions)
+    public constructor(args: string | string[], options: GeneratorOptions)
     {
         super(args, options);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected get ProjectTypes(): Map<ProjectType, IProjectType>
+    {
+        return new Map<ProjectType, IProjectType>(
+            [
+                [
+                    ProjectType.Module,
+                    {
+                        DisplayName: "NPM-Module",
+                        Path: join(__dirname, "..", "module")
+                    }
+                ],
+                [
+                    ProjectType.Generator,
+                    {
+                        DisplayName: "Yeoman-Generator",
+                        Path: join(__dirname, "..", "generator")
+                    }
+                ]
+            ]);
     }
 
     /**
@@ -28,20 +53,4 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
     {
         return super.initializing();
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @param projectType
-     * The type of the project to load.
-     */
-    protected LoadGenerator: GeneratorLoader = async (projectType) =>
-    {
-        switch (projectType)
-        {
-            case ProjectType.Module:
-            default:
-                this.composeWith(join(__dirname, "..", "module"), this.options);
-        }
-    };
 }
