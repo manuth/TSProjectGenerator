@@ -70,7 +70,11 @@ export abstract class MyTSProjectGenerator
                                             DisplayName: componentOptions.DisplayName,
                                             DefaultEnabled: componentOptions.DefaultEnabled,
                                             Questions: componentOptions.Questions,
-                                            FileMappings: MyTSProjectGenerator.ProcessFileMappings(this.Base, new Component(this, componentOptions).FileMappings)
+                                            FileMappings: (component, generator) =>
+                                            {
+                                                let fileMappings = new Component(generator, componentOptions).FileMappings;
+                                                return MyTSProjectGenerator.ProcessFileMappings(this.Base, fileMappings);
+                                            }
                                         };
                                     })
                             };
