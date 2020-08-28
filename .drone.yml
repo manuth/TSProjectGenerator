@@ -49,7 +49,7 @@ steps:
   - name: prepare release
     image: node
     commands:
-      - npx lerna exec --no-private npm pack
+      - npx lerna exec --no-private -- npm pack
       - npm install escape-string-regexp
       - node -e "console.log(require('escape-string-regexp')('${DRONE_TAG}'))" > TagName.txt
     when:
