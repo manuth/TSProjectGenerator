@@ -1,5 +1,6 @@
 import { Generator, GeneratorOptions, Question } from "@manuth/extended-yo-generator";
 import { join } from "upath";
+import { GeneratorLoader } from "./GeneratorLoader";
 import { ProjectType } from "./ProjectType";
 import { AppGeneratorSettingKey } from "./Settings/AppGeneratorSettingKey";
 import { IAppGeneratorSettings } from "./Settings/IAppGeneratorSettings";
@@ -49,13 +50,23 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
     }
 
     /**
-     * Initializes the generator.
+     * @inheritdoc
      */
     public async initializing(): Promise<void>
     {
         await this.prompting();
+        return this.LoadGenerator(this.Settings[AppGeneratorSettingKey.ProjectType]);
+    }
 
-        switch (this.Settings[AppGeneratorSettingKey.ProjectType])
+    /**
+     * Loads the propper generator according to the `ProjectType`.
+     *
+     * @param projectType
+     * The type of the project to load.
+     */
+    protected LoadGenerator: GeneratorLoader = async (projectType) =>
+    {
+        switch (projectType)
         {
             case ProjectType.Generator:
                 this.composeWith(join(__dirname, "..", "generator"), undefined);
@@ -65,5 +76,5 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
                 this.composeWith(join(__dirname, "..", "module"), undefined);
                 break;
         }
-    }
+    };
 }
