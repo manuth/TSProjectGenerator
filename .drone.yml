@@ -73,7 +73,7 @@ steps:
     commands: []
     settings:
       api_key:
-        from_secret: github_token
+        from_secret: github_publish_token
       files:
         - "./packages/*/*.tgz"
       title: ReleaseTitle.md
