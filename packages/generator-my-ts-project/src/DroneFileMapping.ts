@@ -62,6 +62,11 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
                         command.replace(/^npx lerna exec .* --[\s]*(.*)$/, "$1"));
                 }
             }
+
+            if (step.image === "plugins/github-release")
+            {
+                document.setIn([stepsKey, i, "settings", "files", "0"], "*.tgz");
+            }
         }
 
         return [document];
