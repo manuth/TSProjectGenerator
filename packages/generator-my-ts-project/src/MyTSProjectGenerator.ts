@@ -3,6 +3,7 @@ import { CompositeConstructor } from "@manuth/extended-yo-generator/lib/Composit
 import { GeneratorConstructor } from "@manuth/extended-yo-generator/lib/GeneratorConstructor";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
+import { MyGeneratorComponent } from "./MyGeneratorComponent";
 
 /**
  * Provides the functionality to create base-constructors.
@@ -98,7 +99,7 @@ export abstract class MyTSProjectGenerator
                     {
                         category.Components.push(
                             {
-                                ID: "drone-configuration",
+                                ID: MyGeneratorComponent.Drone,
                                 DisplayName: "Drone-CI Configuration",
                                 DefaultEnabled: true,
                                 FileMappings: [
