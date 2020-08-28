@@ -69,11 +69,11 @@ export class AppGenerator<TSettings extends IAppGeneratorSettings = IAppGenerato
         switch (projectType)
         {
             case ProjectType.Generator:
-                this.composeWith(join(__dirname, "..", "generator"), undefined);
+                this.composeWith(join(__dirname, "..", "generator"), this.options);
                 break;
             case ProjectType.Module:
             default:
-                this.composeWith(join(__dirname, "..", "module"), undefined);
+                this.composeWith(join(__dirname, "..", "module"), this.options);
                 break;
         }
     };
