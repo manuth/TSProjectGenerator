@@ -25,8 +25,7 @@ steps:
       NPM_TOKEN:
         from_secret: npm_token
     commands:
-      - echo "always_auth=true" > ~/.npmrc
-      - echo "//registry.npmjs.org/:_authToken=$${NPM_TOKEN}" >> ~/.npmrc
+      - echo "//registry.npmjs.org/:_authToken=$${NPM_TOKEN}" > ~/.npmrc
       - npx lerna publish from-package -y
     when:
       event:
