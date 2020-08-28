@@ -63,7 +63,7 @@
                 "name": "Launch MyTSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
                 "args": [
-                    "${workspaceFolder:MyTSProjectGenerator}/lib/generators/module"
+                    "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
                 ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
