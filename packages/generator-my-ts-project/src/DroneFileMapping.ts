@@ -42,16 +42,24 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
 
         for (let i = 0; i < steps.length; i++)
         {
-            let commands: string[] = steps[i][commandsKey];
+            let step = steps[i];
+            let commands: string[] = step[commandsKey];
 
             for (let j = 0; j < commands.length; j++)
             {
-                if (commands[j].startsWith("npx lerna publish"))
+                let command = commands[j];
+
+                if (command.startsWith("npx lerna publish"))
                 {
-                    let command = commands[j];
                     document.setIn(
                         [stepsKey, i, commandsKey, j],
                         command.replace(/^npx lerna (publish) from-package -y/, "npm $1"));
+                }
+                else if (command.startsWith("npx lerna exec"))
+                {
+                    document.setIn(
+                        [stepsKey, i, commandsKey, j],
+                        command.replace(/^npx lerna exec .* --[\s]*(.*)$/, "$1"));
                 }
             }
         }
