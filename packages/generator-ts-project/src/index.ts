@@ -12,6 +12,7 @@ export { TransformFileMapping } from "./Components/Transformation/TransformFileM
 export { TypeScriptTransformMapping } from "./Components/Transformation/TypeScriptTransformMapping";
 export { YAMLTransformMapping } from "./Components/Transformation/YAMLTransformMapping";
 export { AppGenerator } from "./generators/app/AppGenerator";
+export { GeneratorLoader } from "./generators/app/GeneratorLoader";
 export { ProjectType } from "./generators/app/ProjectType";
 export { AppGeneratorSettingKey } from "./generators/app/Settings/AppGeneratorSettingKey";
 export { IAppGeneratorSettings } from "./generators/app/Settings/IAppGeneratorSettings";
