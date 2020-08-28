@@ -34,11 +34,11 @@ export class TSGeneratorLaunchFileProcessor<TSettings extends ITSGeneratorSettin
         return (
             async () =>
             {
-                return (await this.Component.Source.LaunchMetadata).configurations.find(
+                return this.ProcessDebugConfig((await this.Component.Source.LaunchMetadata).configurations.find(
                     (debugConfig) =>
                     {
                         return debugConfig.name.toLowerCase().includes("yeoman");
-                    });
+                    }));
             })();
     }
 
@@ -63,7 +63,7 @@ export class TSGeneratorLaunchFileProcessor<TSettings extends ITSGeneratorSettin
             }
         ];
 
-        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
+        if (this.Generator.Settings[GeneratorSettingKey.Components]?.includes(TSGeneratorComponent.SubGeneratorExample))
         {
             for (let subGeneratorOptions of this.Generator.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
             {
