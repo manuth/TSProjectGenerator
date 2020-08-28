@@ -104,7 +104,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
         let source = "generator";
         let destination = `src/generators/${id}`;
         let generatorName = `${name}Generator`;
-        let identities = `${name}Setting`;
+        let identities = `${name}SettingKey`;
         let settings = `I${name}Settings`;
 
         return [
