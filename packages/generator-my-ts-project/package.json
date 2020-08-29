@@ -11,6 +11,8 @@
     "manuth",
     "TypeScript"
   ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
   "repository": {
     "type": "git",
