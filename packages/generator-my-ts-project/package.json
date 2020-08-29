@@ -6,14 +6,14 @@
   "keywords": [
     "yeoman-generator"
   ],
-  "homepage": "https://github.com/manuth/TSGenerators#readme",
+  "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuth/TSGenerators.git",
+    "url": "git+https://github.com/manuth/TSGeneratorGenerator.git",
     "directory": "packages/generator-my-ts-project"
   },
   "bugs": {
-    "url": "https://github.com/manuth/TSGenerators/issues"
+    "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
   },
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
