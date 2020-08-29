@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
  */
 export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
-    suite(
+    suite.only(
         "TSProjectTasksProcessor",
         () =>
         {
@@ -49,6 +49,19 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                         ]
                     })).tasks[0];
             }
+
+            test(
+                "Checking whether the `Bump Version` task is skipped…",
+                async () =>
+                {
+                    Assert.strictEqual(
+                        await ProcessTask(
+                            {
+                                type: "",
+                                label: "Bump Version"
+                            }),
+                            undefined);
+                });
 
             test(
                 "Checking whether the problem-matcher of the `lint` task is correct…",
