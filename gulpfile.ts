@@ -124,18 +124,18 @@ CopyGitIgnore.description = `Copies the \`${gitIgnoreFile}\` file to the mono-re
  */
 export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 {
-    let ignoreFile = src(npmIgnoreFile);
+    let ignoreFile = (): NodeJS.ReadWriteStream => src(npmIgnoreFile);
     let streams: NodeJS.ReadWriteStream[] = [];
 
     for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
     {
         streams.push(
-            ignoreFile.pipe(
+            ignoreFile().pipe(
                 ApplyPatch(npmDiffFile)
             ).pipe(dest(folder)));
     }
 
-    streams.push(ignoreFile.pipe(dest(PackagePath(projectGeneratorName))));
+    streams.push(ignoreFile().pipe(dest(PackagePath(projectGeneratorName))));
     return merge(streams);
 }
 
