@@ -32,7 +32,7 @@
     "watch-compile": "npm run compile -- --watch",
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- -- --watch | shusher\" \"npm run watch-compile\"",
-    "clean": "npm run build -- --clean && rimraf ./lib",
+    "clean": "npm run compile -- --clean && rimraf ./lib",
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
     "lint-compact": "npm run lint -- -f compact || exit 0",
