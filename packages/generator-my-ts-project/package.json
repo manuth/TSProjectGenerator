@@ -4,7 +4,12 @@
   "description": "Generates TypeScript-Projects with custom additions",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "keywords": [
-    "yeoman-generator"
+    "yo",
+    "yeoman-generator",
+    "Generator",
+    "Custom",
+    "manuth",
+    "TypeScript"
   ],
   "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
   "repository": {
