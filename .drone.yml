@@ -6,7 +6,7 @@ steps:
   - name: install
     image: node
     commands:
-      - npm install
+      - npm install --unsafe-perm
   - name: lint
     image: node
     commands:
