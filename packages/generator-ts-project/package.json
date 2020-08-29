@@ -15,7 +15,8 @@
   "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuth/TSGeneratorGenerator.git"
+    "url": "git+https://github.com/manuth/TSGeneratorGenerator.git",
+    "directory": "packages/generator-ts-project"
   },
   "bugs": {
     "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
