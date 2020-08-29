@@ -20,6 +20,9 @@
   "bugs": {
     "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
