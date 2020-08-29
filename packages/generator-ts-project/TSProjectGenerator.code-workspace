@@ -202,6 +202,19 @@
                 "presentation": {
                     "reveal": "never"
                 }
+            },
+            {
+                "label": "Bump Version",
+                "type": "shell",
+                "command": "npm",
+                "args": [
+                    "run",
+                    "version"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder:Solution Items}"
+                },
+                "problemMatcher": []
             }
         ]
     }
