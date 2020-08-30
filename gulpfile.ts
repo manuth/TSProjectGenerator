@@ -10,6 +10,7 @@ let customProjectGeneratorName = "generator-my-ts-project";
 let gitIgnoreFile = ".gitignore";
 let npmIgnoreFile = ".npmignore";
 let droneFile = ".drone.yml";
+let licenseFile = "LICENSE";
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath("npmignore.diff");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
@@ -66,7 +67,8 @@ export let CopyFiles =
                 [
                     CopyGitIgnore,
                     CopyNPMIgnore,
-                    CopyDroneFile
+                    CopyDroneFile,
+                    CopyLicenseFile
                 ]),
             ...(
                 options.watch ?
@@ -92,6 +94,12 @@ export let CopyFiles =
                                     droneFile
                                 ],
                                 CopyDroneFile);
+
+                            watch(
+                                [
+                                    licenseFile
+                                ],
+                                CopyLicenseFile);
                         }
                     ] :
                     [])
@@ -124,18 +132,18 @@ CopyGitIgnore.description = `Copies the \`${gitIgnoreFile}\` file to the mono-re
  */
 export function CopyNPMIgnore(): NodeJS.ReadWriteStream
 {
-    let ignoreFile = src(npmIgnoreFile);
+    let ignoreFile = (): NodeJS.ReadWriteStream => src(npmIgnoreFile);
     let streams: NodeJS.ReadWriteStream[] = [];
 
     for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
     {
         streams.push(
-            ignoreFile.pipe(
+            ignoreFile().pipe(
                 ApplyPatch(npmDiffFile)
             ).pipe(dest(folder)));
     }
 
-    streams.push(ignoreFile.pipe(dest(PackagePath(projectGeneratorName))));
+    streams.push(ignoreFile().pipe(dest(PackagePath(projectGeneratorName))));
     return merge(streams);
 }
 
@@ -153,3 +161,22 @@ export function CopyDroneFile(): NodeJS.ReadWriteStream
 }
 
 CopyDroneFile.description = `Copies the \`${droneFile}\` file to the mono-repo packages.`;
+
+/**
+ * Copies the `LICENSE` file to the mono-repo packages.
+ *
+ * @returns
+ * The task.
+ */
+export function CopyLicenseFile(): NodeJS.ReadWriteStream
+{
+    let source = (): NodeJS.ReadWriteStream => src(licenseFile);
+    let streams: NodeJS.ReadWriteStream[] = [];
+
+    for (let folder of glob.sync(PackagePath("*")))
+    {
+        streams.push(source().pipe(dest(folder)));
+    }
+
+    return merge(streams);
+}

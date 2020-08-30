@@ -1,23 +1,19 @@
-# MyTSProjectGenerator
-A Set of Generators for Creating Projects Written in TypeScript with custom additions
-
-## General
-The generators in this packages are based on the [`@manuth/generator-ts-project`][TSProjectGenerator] package.  
-In addition to the output of these generators, the code-style of all `.md` files will be refactored automatically and a Drone configuration will be created for continuous integration.
+# TSProjectGenerator
+A Set of Generators for Creating Projects Written in TypeScript
 
 ## Usage
-### Install MyTSProjectGenerator
-You can install `MyTSProjectGenerator` using the following command:
+### Install TSProjectGenerator
+You can install `TSProjectGenerator` using the following command:
 
 ```bash
-npm install -g yo @manuth/generator-my-ts-project
+npm install -g yo @manuth/generator-ts-project
 ```
 
 ### Generate a Generator Written in TypeScript
 You can create a generator written in TypeScript using this command:
 
 ```bash
-yo @manuth/my-ts-project
+yo @manuth/ts-project
 ```
 
 It is recommended to use a code-editor which provides TypeScript-support (like, for example [VSCode] or [Atom]).
@@ -34,7 +30,6 @@ It is recommended to use a code-editor which provides TypeScript-support (like, 
     - Cleaning compiled TypeScript-code
     - Linting the package
     - Testing the package
- - Drone-configuration
  - Visual Studio Code workspace _(optional)_
     - Settings
     - Task for building the generator (by pressing <kbd>CTRL</kbd>, <kbd>SHIFT</kbd> + <kbd>B</kbd>)
@@ -52,4 +47,3 @@ When generating a generator you'll get following in addition:
 <!--- References -->
 [VSCode]: https://code.visualstudio.com/
 [Atom]: https://atom.io/
-[TSProjectGenerator]: https://github.com/manuth/TSProjectGenerator/tree/master/packages/generator-ts-project

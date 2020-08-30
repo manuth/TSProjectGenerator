@@ -22,6 +22,27 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
     }
 
     /**
+     * @inheritdoc
+     *
+     * @param task
+     * The task to filter.
+     *
+     * @returns
+     * A value indicating whether the task should be included.
+     */
+    protected async FilterTask(task: TaskDefinition): Promise<boolean>
+    {
+        let result = super.FilterTask(task);
+
+        if (result)
+        {
+            return `${task.label}`.toLowerCase() !== "bump version";
+        }
+
+        return !result ? (`${task.label}`.toLowerCase() !== "bump version") : result;
+    }
+
+    /**
      * Processes a task-configuration.
      *
      * @param task
