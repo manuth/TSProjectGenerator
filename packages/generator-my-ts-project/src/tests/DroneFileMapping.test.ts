@@ -13,7 +13,7 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
  */
 export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
 {
-    suite.only(
+    suite(
         "DroneFileMapping",
         () =>
         {
