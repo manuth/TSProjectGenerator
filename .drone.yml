@@ -26,7 +26,7 @@ steps:
         from_secret: npm_token
     commands:
       - echo "//registry.npmjs.org/:_authToken=$${NPM_TOKEN}" > ~/.npmrc
-      - npx lerna publish from-package -y | exit 0
+      - npx lerna publish from-package -y
     when:
       event:
         - tag
