@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.0...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.1...dev)
+
+## TSProjectGenerator v1.0.1
+### Fixed
+  - Incorrect drone-pipeline
+  - GitHub Packages mechanism
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.0...v1.0.1)
 
 ## TSProjectGenerator v1.0.0
 Initial release
