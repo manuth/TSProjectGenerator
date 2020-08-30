@@ -13,14 +13,14 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://github.com/manuth/TSGeneratorGenerator#readme",
+  "homepage": "https://github.com/manuth/TSProjectGenerator#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manuth/TSGeneratorGenerator.git",
+    "url": "git+https://github.com/manuth/TSProjectGenerator.git",
     "directory": "packages/generator-my-ts-project"
   },
   "bugs": {
-    "url": "https://github.com/manuth/TSGeneratorGenerator/issues"
+    "url": "https://github.com/manuth/TSProjectGenerator/issues"
   },
   "publishConfig": {
     "access": "public"
