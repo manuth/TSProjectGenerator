@@ -1,0 +1,159 @@
+# Welcome to your TypeScript Generator
+
+This workspace allows you to easilly create yeoman generators written in TypeScript.
+
+## What's in the folder?
+<%
+    if (HasCodeWorkspace) { %>
+- `.vscode`  
+  This folder contains settings and build-task configurations for VSCode.<%
+    } %>
+- `src`  
+  This is where you program your module in TypeScript.  
+  The TypeScript-Compiler is configured to use this folder as the root of your source-code.
+  - `src/generators`
+    This folder holds the generators written in TypeScript.
+- `lib`  
+  The `lib`-folder is the one where your compiled `.js`-files are written to.
+- `tsconfig.json`  
+  This is the file where the compiler-options are configured.  
+  [Learn more…][TypeScriptConfig]<%
+    if (HasLinting) { %>
+- `.eslintrc.js`
+  This file mostly holds rules for your coding-style.  
+  [Learn more…][LintConfig]<%
+    } %>
+
+## Working with the Library
+
+### Creating a Generator
+
+Generators are made by creating a directory,
+for example `test`, inside `src/generators`.  
+Inside this newly created directory, place a new `index.ts`-file
+and let it export a class which inherits the `Generator` class
+which you can import from the `@manuth/extended-yo-generator` module.
+
+***Example:***
+```ts
+import { Generator } from "@manuth/extended-yo-generator";
+
+export = class MyGenerator extends Generator
+{
+    // […]
+}
+```
+
+You can invoke your newly created generator by specifying its name as a sub-command:
+
+```
+yo <%= ID %>:test
+```
+<%
+    if (SubGenerators.length > 0) {
+        if (SubGenerators.length > 1) {
+            let generators = Array.from(SubGenerators).map(generator => `\`${generator.Path}\``);
+            let last = generators.splice(generators.length - 1);
+%>
+There are example sub-generators located at <%= generators.join(", ") %> and <%= last %>, btw.
+<%
+        } else { %>
+There is an example sub-generator located at `<%= SubGenerators[0].Path %>`, btw.
+<%
+        }
+    }
+
+    if (HasGenerator) { %>
+### Checking out the Example Generator
+
+In your `src/generators/app` directory you can find an example generator.
+Check it out in order to learn how to make use of the `@manuth/extended-yo-generator` module.
+<%
+    } else { %>
+### Creating a Main Generator
+
+The main generator always is located at `src/generators/app`.  
+It is invoked when no subcommand is specified.
+(e.g. when running `yo <%= ID %>` instead of `yo <%= ID %>:test`)
+
+The generator is created as explained in the
+[Creating a Generator](#creating-a-generator) section.
+<%
+    } %>
+### Editing Generators
+
+Use the IntelliSense of your TypeScript-editor for getting
+more information about the different useful class members such as following:
+
+- The `TemplateRoot`-member allows you to specify
+  a path to the templates relative to the `templates/`-directory
+- The `Components`-member allows you to specify
+  components users can optionally choose to install
+- The `Questions`-member contains questions users
+  are prompted to answer during the execution of `Generator.prompting()`
+
+### Testing the Generator
+<%
+    if (HasCodeWorkspace) { %>
+#### Using Visual Studio Code
+
+You can test the generator in Visual Studio Code
+by running the `Launch Yeoman`-Debug configuration.  
+This project also supports Unit-Tests using `mocha`.
+You can run them using the `Launch Tests`-configuration.
+<%
+    } %>
+#### Using the Command Prompt
+
+First you need to create a symbolic link of
+your project in the global `node_modules`-directory.  
+You can do this by invoking following command:
+
+```bash
+npm link
+```
+
+This can be undone using its counterpart:
+
+```bash
+npm unlink
+```
+
+Before you can use your generator
+you must transpile the TypeScript-code to JavaScript.  
+Doing this is as simple as:
+
+```bash
+npm run build
+```
+
+Or - if you want to clean the output-directory before transpiling the code:
+
+```bash
+npm run rebuild
+```
+
+You can then run your generator by invoking<%
+    if (SubGenerators.length > 0) { %><%
+%> either one of these commands:
+
+```bash
+npx yo <%= ID %><%
+%><%
+        for (let subGenerator of SubGenerators) { %>
+npx yo <%= ID %>:<%= subGenerator.Name %><%
+        } %>
+```<%
+    } else { %><%
+%> following command:
+
+```bash
+npx yo <%= ID %>
+```<%
+    } %>
+
+<!--- References -->
+[TypeScriptConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html<%
+    if (HasLinting) { %>
+[LintConfig]: https://eslint.org/docs/user-guide/configuring<%
+    } %>

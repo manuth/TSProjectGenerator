@@ -1,0 +1,221 @@
+{
+    "folders": [
+        {
+            "path": ".",
+            "name": "TSProjectGenerator"
+        },
+        {
+            "path": "../generator-my-ts-project",
+            "name": "MyTSProjectGenerator"
+        },
+        {
+            "path": "../..",
+            "name": "Solution Items"
+        }
+    ],
+    "extensions": {
+        "recommendations": [
+            "manuth.eslint-language-service",
+            "digitalbrainstem.javascript-ejs-support"
+        ]
+    },
+    "launch": {
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch TSProjectGenerator Yeoman",
+                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "args": [
+                    "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
+                ],
+                "console": "integratedTerminal",
+                "internalConsoleOptions": "neverOpen",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:Solution Items}/..",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 2
+                }
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch TSProjectGenerator Tests",
+                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:TSProjectGenerator}",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 3
+                }
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch MyTSProjectGenerator Yeoman",
+                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "args": [
+                    "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
+                ],
+                "console": "integratedTerminal",
+                "internalConsoleOptions": "neverOpen",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:Solution Items}/..",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 4
+                }
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch MyTSProjectGenerator Tests",
+                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "cwd": "${workspaceFolder:MyTSProjectGenerator}",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 5
+                }
+            }
+        ],
+        "compounds": [
+            {
+                "name": "Launch All Tests",
+                "configurations": [
+                    "Launch TSProjectGenerator Tests",
+                    "Launch MyTSProjectGenerator Tests"
+                ],
+                "presentation": {
+                    "order": 1
+                }
+            }
+        ]
+    },
+    "settings": {
+        "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+        "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+        "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+        "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+        "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+        "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+        "files.associations": {
+            ".gitignore.ejs": "ignore",
+            ".npmignore.ejs": "ignore"
+        }
+    },
+    "tasks": {
+        // See https://go.microsoft.com/fwlink/?LinkId=733558
+        // for the documentation about the tasks.json format
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Build",
+                "type": "shell",
+                "command": "npm",
+                "args": [
+                    "run",
+                    "watch"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder:Solution Items}"
+                },
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": {
+                    "base": "$tsc-watch",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder:Solution Items}"
+                    ]
+                },
+                "isBackground": true,
+                "presentation": {
+                    "reveal": "never"
+                }
+            },
+            {
+                "label": "Rebuild",
+                "type": "shell",
+                "command": "npm",
+                "args": [
+                    "run",
+                    "rebuild"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder:Solution Items}"
+                },
+                "problemMatcher": {
+                    "base": "$tsc",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder:Solution Items}"
+                    ]
+                },
+                "presentation": {
+                    "reveal": "never"
+                }
+            },
+            {
+                "label": "Lint",
+                "type": "shell",
+                "command": "npm",
+                "args": [
+                    "run",
+                    "lint-compact"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder:Solution Items}"
+                },
+                "problemMatcher": [
+                    "$eslint-compact",
+                    {
+                        "fileLocation": [
+                            "relative",
+                            "${workspaceFolder:Solution Items}"
+                        ],
+                        "owner": "markdownlint",
+                        "source": "markdownlint",
+                        "pattern": {
+                            "regexp": "^(.*?):(\\d+)(:(\\d+))? (MD\\d{3})([a-z-\\/]*) (.*)$",
+                            "file": 1,
+                            "line": 2,
+                            "column": 4,
+                            "code": 5,
+                            "message": 7
+                        }
+                    }
+                ],
+                "presentation": {
+                    "reveal": "never"
+                }
+            },
+            {
+                "label": "Bump Version",
+                "type": "shell",
+                "command": "npm",
+                "args": [
+                    "run",
+                    "version"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder:Solution Items}"
+                },
+                "problemMatcher": []
+            }
+        ]
+    }
+}

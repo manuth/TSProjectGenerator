@@ -1,0 +1,20 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compileOnSave": true,
+    "compilerOptions": {
+        "composite": true,
+        "rootDir": "./src",
+        "outDir": "./lib"
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "./src/tests/**/*"
+    ],
+    "references": [
+        {
+            "path": "../generator-ts-project"
+        }
+    ]
+}

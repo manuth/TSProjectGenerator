@@ -1,0 +1,29 @@
+diff --git a/.npmignore b/.npmignore
+index 0fbb90a..dad1548 100644
+--- a/.npmignore
++++ b/.npmignore
+@@ -1,4 +1 @@
+-!.gitignore
+-!.npmignore
+-
+ # Logs
+@@ -111,2 +108,10 @@ dist
+ 
++# TypeScript config-files
++tsconfig.json
++tsconfig.*.json
++
++# Lint config-files
++.eslintrc
++.eslintrc.*
++
+ # Source-maps
+@@ -115,4 +120,8 @@ dist
+ # Unit-Tests
++.mocharc.*
+ [Ll]ib/tests/
+ 
++# Visual Studio Code-Environment
++.vscode/
++
+ # Drone configuration

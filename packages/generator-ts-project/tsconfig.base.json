@@ -1,0 +1,19 @@
+{
+    "extends": "@manuth/tsconfig/recommended",
+    "compilerOptions": {
+        "declarationMap": true,
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "module": "CommonJS",
+        "lib": [
+            "ES2020"
+        ],
+        "plugins": [
+            {
+                "name": "typescript-eslint-plugin"
+            }
+        ],
+        "target": "ES6"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.base.json",
+    "files": [],
+    "references": [
+        {
+            "path": "./packages/generator-ts-project/tsconfig.build.json"
+        },
+        {
+            "path": "./packages/generator-my-ts-project/tsconfig.build.json"
+        }
+    ]
+}

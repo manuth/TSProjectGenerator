@@ -1,0 +1,29 @@
+import { IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { <%= Identities %> } from "./<%= Identities %>";
+import { LicenseType } from "./LicenseType";
+
+/**
+ * Provides settings for the `<%= Name %>`.
+ */
+export interface <%= SettingsInterface %> extends IGeneratorSettings
+{
+    /**
+     * Gets or sets the destination.
+     */
+    [<%= Identities %>.Destination]: string;
+
+    /**
+     * Gets or sets the name.
+     */
+    [<%= Identities %>.Name]: string;
+
+    /**
+     * Gets or sets the description.
+     */
+    [<%= Identities %>.Description]: string;
+
+    /**
+     * Gets or sets the type of the license.
+     */
+    [<%= Identities %>.LicenseType]: LicenseType;
+}
