@@ -12,7 +12,7 @@ let npmIgnoreFile = ".npmignore";
 let droneFile = ".drone.yml";
 let licenseFile = "LICENSE";
 let gitDiffFile = GulpPath("gitignore.diff");
-let npmDiffFile = CommonTemplatePath("npmignore.diff");
+let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
@@ -46,15 +46,18 @@ function PackagePath(...path: string[]): string
 /**
  * Creates a path relative to the common template folder.
  *
+ * @param generatorName
+ * The name of the generator containing the common templates.
+ *
  * @param path
  * The path to join.
  *
  * @returns
  * The `path` relative to the common template folder.
  */
-function CommonTemplatePath(...path: string[]): string
+function CommonTemplatePath(generatorName: string, ...path: string[]): string
 {
-    return PackagePath(projectGeneratorName, "templates", ...path);
+    return PackagePath(generatorName, "templates", ...path);
 }
 
 /**
