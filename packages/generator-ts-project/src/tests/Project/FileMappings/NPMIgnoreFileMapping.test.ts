@@ -86,7 +86,6 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 "Checking whether ignore-files are ignored…",
                 async () =>
                 {
-                    await AssertIgnored(".gitignore");
                     await AssertIgnored(".npmignore");
                 });
 
