@@ -8,7 +8,7 @@ import JSON = require("comment-json");
 import dedent = require("dedent");
 import { split } from "eol";
 import { ESLint } from "eslint";
-import { readFile, writeJSON, readJSON } from "fs-extra";
+import { readFile, writeJSON, readJSON, writeFile } from "fs-extra";
 import npmWhich = require("npm-which");
 import { TempDirectory } from "temp-filesystem";
 import { Linter } from "tslint";
@@ -185,6 +185,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
         tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
         await writeJSON(tsConfigFile, tsConfig);
+        await writeFile(this.modulePath(".eslintrc.js"), await readFile(this.destinationPath(".eslintrc.js")));
         lintPackage.Register(new BuildDependencies());
         lintPackage.Register(new LintEssentials());
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
@@ -209,7 +210,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 cwd: tempDir.FullName,
                 fix: true,
                 useEslintrc: false,
-                overrideConfigFile: join(__dirname, "..", "..", ".eslintrc.js"),
+                overrideConfigFile: this.destinationPath(".eslintrc.js"),
                 overrideConfig: {
                     parserOptions: {
                         project: tsConfigFile
