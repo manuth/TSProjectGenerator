@@ -210,7 +210,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 cwd: tempDir.FullName,
                 fix: true,
                 useEslintrc: false,
-                overrideConfigFile: this.destinationPath(".eslintrc.js"),
+                overrideConfigFile: tempDir.MakePath(".eslintrc.js"),
                 overrideConfig: {
                     parserOptions: {
                         project: tsConfigFile
