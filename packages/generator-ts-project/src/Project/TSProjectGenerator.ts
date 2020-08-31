@@ -185,7 +185,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
         tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
         await writeJSON(tsConfigFile, tsConfig);
-        await writeFile(this.modulePath(".eslintrc.js"), await readFile(this.destinationPath(".eslintrc.js")));
+        await writeFile(tempDir.MakePath(".eslintrc.js"), await readFile(this.modulePath(".eslintrc.js")));
         lintPackage.Register(new BuildDependencies());
         lintPackage.Register(new LintEssentials());
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
