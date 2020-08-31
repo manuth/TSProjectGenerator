@@ -1,5 +1,6 @@
 import glob = require("glob");
 import { src, dest, parallel, watch, series } from "gulp";
+import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
 import { join } from "upath";
@@ -121,7 +122,12 @@ export function CopyGitIgnore(): NodeJS.ReadWriteStream
     return src(gitIgnoreFile).pipe(
         ApplyPatch(gitDiffFile)
     ).pipe(
-        dest(PackagePath(projectGeneratorName))
+        rename(
+            {
+                suffix: ".ejs"
+            })
+    ).pipe(
+        dest(CommonTemplatePath(projectGeneratorName))
     );
 }
 

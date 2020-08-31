@@ -70,9 +70,9 @@ typings/
 
 # Redundant ignore files
 packages/*/.npmignore
-packages/*/.gitignore
 packages/*/.drone.yml
 packages/*/LICENSE
+packages/generator-ts-project/templates/.gitignore.ejs
 
 # Yarn Integrity file
 .yarn-integrity
