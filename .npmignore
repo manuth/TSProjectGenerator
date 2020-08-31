@@ -107,7 +107,8 @@ dist
 .tern-port
 
 # Source-files
-[Ss]rc/
+[Ss]rc/**/*
+![Ss]rc/tests/tsconfig.json
 
 # Source-maps
 [Ll]ib/**/*.map
