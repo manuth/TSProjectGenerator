@@ -220,7 +220,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         for (let fileName of program.getRootFileNames())
         {
             this.log(chalk.gray(`Cleaning up "${relative(this.destinationPath(), fileName)}"…`));
-            await ESLint.outputFixes(await linter.lintFiles(fileName));
+            await eslintConstructor.outputFixes(await linter.lintFiles(fileName));
         }
 
         tempDir.Dispose();
