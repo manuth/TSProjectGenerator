@@ -3,7 +3,7 @@ import { src, dest, parallel, watch, series } from "gulp";
 import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
-import { join } from "upath";
+import { join, basename } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
@@ -14,6 +14,7 @@ let droneFile = ".drone.yml";
 let licenseFile = "LICENSE";
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
+let customNPMDiffFile = GulpPath("npmignore.diff");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
@@ -89,7 +90,8 @@ export let CopyFiles =
                             watch(
                                 [
                                     npmIgnoreFile,
-                                    npmDiffFile
+                                    npmDiffFile,
+                                    customNPMDiffFile
                                 ],
                                 CopyNPMIgnore);
 
@@ -144,15 +146,26 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
     let ignoreFile = (): NodeJS.ReadWriteStream => src(npmIgnoreFile);
     let streams: NodeJS.ReadWriteStream[] = [];
 
-    for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
+    for (let folder of glob.sync(PackagePath("*")))
     {
-        streams.push(
-            ignoreFile().pipe(
-                ApplyPatch(npmDiffFile)
-            ).pipe(dest(folder)));
+        let stream = ignoreFile();
+        let packageName = basename(folder);
+
+        if (packageName !== projectGeneratorName)
+        {
+            stream = stream.pipe(
+                ApplyPatch(npmDiffFile));
+
+            if (packageName === customProjectGeneratorName)
+            {
+                stream = stream.pipe(
+                    ApplyPatch(customNPMDiffFile));
+            }
+        }
+
+        streams.push(stream.pipe(dest(folder)));
     }
 
-    streams.push(ignoreFile().pipe(dest(PackagePath(projectGeneratorName))));
     return merge(streams);
 }
 
