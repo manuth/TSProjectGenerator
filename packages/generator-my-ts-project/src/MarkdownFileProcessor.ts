@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGeneratorSettings, IFileMapping, IGenerator, FileMapping } from "@manuth/extended-yo-generator";
+import { FileMappingBase } from "@manuth/generator-ts-project";
 import detectNewLine = require("detect-newline");
 import { split } from "eol";
-import { FileMappingBase } from "../../generator-ts-project/lib";
 
 /**
  * Provides the functionality to remove unnecessary blank lines from markdown-files.

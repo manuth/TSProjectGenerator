@@ -1,6 +1,5 @@
-import { Generator, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, IGenerator } from "@manuth/extended-yo-generator";
-import { CompositeConstructor } from "@manuth/extended-yo-generator/lib/CompositeConstructor";
-import { GeneratorConstructor } from "@manuth/extended-yo-generator/lib/GeneratorConstructor";
+import { CompositeConstructor, Generator, GeneratorConstructor, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, IGenerator } from "@manuth/extended-yo-generator";
+import { TSProjectGenerator } from "@manuth/generator-ts-project";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 import { MyGeneratorComponent } from "./MyGeneratorComponent";
@@ -28,7 +27,7 @@ export abstract class MyTSProjectGenerator
      * @returns
      * The generated constructor.
      */
-    public static Create<T extends GeneratorConstructor>(base: T, namespaceOrPath?: string): CompositeConstructor<T>
+    public static Create<T extends GeneratorConstructor<TSProjectGenerator>>(base: T, namespaceOrPath?: string): CompositeConstructor<T>
     {
         let baseClass = Generator.ComposeWith(base, namespaceOrPath);
 
@@ -114,6 +113,14 @@ export abstract class MyTSProjectGenerator
                 }
 
                 return components;
+            }
+
+            /**
+             * @inheritdoc
+             */
+            public async cleanup(): Promise<void>
+            {
+                this.Base.cleanup();
             }
         }
 
