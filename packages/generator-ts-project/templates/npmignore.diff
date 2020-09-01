@@ -1,14 +1,22 @@
 diff --git a/.npmignore b/.npmignore
-index 0fbb90a..dad1548 100644
+index bf1aa6e..9d3909d 100644
 --- a/.npmignore
 +++ b/.npmignore
-@@ -1,4 +1 @@
+@@ -1,6 +1,3 @@
 -!.gitignore
 -!.npmignore
 -
  # Logs
-@@ -111,2 +108,10 @@ dist
+ logs
+ *.log
+@@ -107,14 +104,25 @@ dist
+ .tern-port
  
+ # Source-files
+-[Ss]rc/**/*
+-![Ss]rc/tests/tsconfig.json
++[Ss]rc/
++
 +# TypeScript config-files
 +tsconfig.json
 +tsconfig.*.json
@@ -16,9 +24,10 @@ index 0fbb90a..dad1548 100644
 +# Lint config-files
 +.eslintrc
 +.eslintrc.*
-+
+ 
  # Source-maps
-@@ -115,4 +120,8 @@ dist
+ [Ll]ib/**/*.map
+ 
  # Unit-Tests
 +.mocharc.*
  [Ll]ib/tests/
@@ -27,3 +36,4 @@ index 0fbb90a..dad1548 100644
 +.vscode/
 +
  # Drone configuration
+ .drone.yml

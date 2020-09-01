@@ -1,8 +1,9 @@
 import glob = require("glob");
 import { src, dest, parallel, watch, series } from "gulp";
+import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
-import { join } from "upath";
+import { join, basename } from "upath";
 import ApplyPatch = require("./.gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
@@ -12,7 +13,8 @@ let npmIgnoreFile = ".npmignore";
 let droneFile = ".drone.yml";
 let licenseFile = "LICENSE";
 let gitDiffFile = GulpPath("gitignore.diff");
-let npmDiffFile = CommonTemplatePath("npmignore.diff");
+let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
+let customNPMDiffFile = GulpPath("npmignore.diff");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
@@ -46,15 +48,18 @@ function PackagePath(...path: string[]): string
 /**
  * Creates a path relative to the common template folder.
  *
+ * @param generatorName
+ * The name of the generator containing the common templates.
+ *
  * @param path
  * The path to join.
  *
  * @returns
  * The `path` relative to the common template folder.
  */
-function CommonTemplatePath(...path: string[]): string
+function CommonTemplatePath(generatorName: string, ...path: string[]): string
 {
-    return PackagePath(projectGeneratorName, "templates", ...path);
+    return PackagePath(generatorName, "templates", ...path);
 }
 
 /**
@@ -85,7 +90,8 @@ export let CopyFiles =
                             watch(
                                 [
                                     npmIgnoreFile,
-                                    npmDiffFile
+                                    npmDiffFile,
+                                    customNPMDiffFile
                                 ],
                                 CopyNPMIgnore);
 
@@ -118,7 +124,12 @@ export function CopyGitIgnore(): NodeJS.ReadWriteStream
     return src(gitIgnoreFile).pipe(
         ApplyPatch(gitDiffFile)
     ).pipe(
-        dest(PackagePath(projectGeneratorName))
+        rename(
+            {
+                suffix: ".ejs"
+            })
+    ).pipe(
+        dest(CommonTemplatePath(projectGeneratorName))
     );
 }
 
@@ -135,15 +146,26 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
     let ignoreFile = (): NodeJS.ReadWriteStream => src(npmIgnoreFile);
     let streams: NodeJS.ReadWriteStream[] = [];
 
-    for (let folder of glob.sync(PackagePath(`!(${projectGeneratorName})`)))
+    for (let folder of glob.sync(PackagePath("*")))
     {
-        streams.push(
-            ignoreFile().pipe(
-                ApplyPatch(npmDiffFile)
-            ).pipe(dest(folder)));
+        let stream = ignoreFile();
+        let packageName = basename(folder);
+
+        if (packageName !== projectGeneratorName)
+        {
+            stream = stream.pipe(
+                ApplyPatch(npmDiffFile));
+
+            if (packageName === customProjectGeneratorName)
+            {
+                stream = stream.pipe(
+                    ApplyPatch(customNPMDiffFile));
+            }
+        }
+
+        streams.push(stream.pipe(dest(folder)));
     }
 
-    streams.push(ignoreFile().pipe(dest(PackagePath(projectGeneratorName))));
     return merge(streams);
 }
 

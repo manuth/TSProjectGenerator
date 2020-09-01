@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.2...dev)
+
+## TSProjectGenerator v1.0.2
+### Fixed
+  - Fix the creation of `.gitignore` files
+  - Malformed and inexistent imports
+  - Fix the creation of `.drone.yml` files
+  - Errors due to missing dependencies
+  - Errors during the `cleanup`-task due to `.eslintrc.js` being placed incorrectly
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.1...v1.0.2)
 
 ## TSProjectGenerator v1.0.1
 ### Updated
