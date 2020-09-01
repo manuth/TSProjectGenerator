@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-my-ts-project",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Generates TypeScript-Projects with custom additions",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "keywords": [
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^7.3.2",
-    "@manuth/generator-ts-project": "^1.0.2",
+    "@manuth/generator-ts-project": "^1.0.3",
     "chalk": "^4.1.0",
     "dedent": "^0.7.0",
     "detect-newline": "^3.1.0",
