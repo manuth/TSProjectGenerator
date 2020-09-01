@@ -1,0 +1,11 @@
+diff --git a/.npmignore b/.npmignore
+index 9d3909d..e8a353f 100644
+--- a/.npmignore
++++ b/.npmignore
+@@ -123,6 +123,3 @@ tsconfig.*.json
+ 
+ # Visual Studio Code-Environment
+ .vscode/
+-
+-# Drone configuration
+-.drone.yml

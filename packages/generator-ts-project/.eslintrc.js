@@ -30,6 +30,9 @@ module.exports = {
                 args: "none"
             }
         ],
+        "@typescript-eslint/no-use-before-define": [
+            "off"
+        ],
         "jsdoc/require-jsdoc": [
             "warn",
             {
