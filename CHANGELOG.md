@@ -6,7 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.3...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.0...dev)
+
+## TSProjectGenerator v1.1.0
+### Added
+  - Statements to the generated `package.json` files which ensure the package is published with public access
+
+### Updated
+  - All dependencies
+
+### Fixed
+  - Slow tests by increasing timeouts
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.3...v1.1.0)
 
 ## TSProjectGenerator v1.0.3
 ### Fixed
