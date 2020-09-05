@@ -136,6 +136,11 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
         result.Description = this.Generator.Settings[TSProjectSettingKey.Description];
         result.Register(new CommonDependencies(), true);
 
+        result.PublishConfig = {
+            ...result.PublishConfig,
+            access: "public"
+        };
+
         if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {
             result.Register(new LintDependencies(), true);

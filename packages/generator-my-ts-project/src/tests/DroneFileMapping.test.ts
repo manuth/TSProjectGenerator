@@ -69,23 +69,27 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
 
             test(
                 "Checking whether `publish` commands are replaced correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(20 * 1000);
                     Assert.ok(await AssertCommand((command) => command.startsWith("npm publish")));
                     Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
                 });
 
             test(
                 "Checking whether `lerna exec` commands are replaced correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(20 * 1000);
                     Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
                 });
 
             test(
                 "Checking whether github-releases are adjusted correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(20 * 1000);
+
                     Assert.ok(
                         (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
                             (document) =>

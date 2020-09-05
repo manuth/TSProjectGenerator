@@ -64,7 +64,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                                     "random": ${JSON.stringify(context.RandomObject)}
                                 }`));
 
-                    Object.assign(
+                    JSON.assign(
                         workspace,
                         JSON.parse(
                             dedent(
