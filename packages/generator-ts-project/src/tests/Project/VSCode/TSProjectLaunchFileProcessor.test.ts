@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { join } from "upath";
+import { join, normalize } from "upath";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -39,7 +39,7 @@ export function TSProjectLaunchFileProcessorTests(context: TestContext<TSProject
 
                     Assert.ok(
                         launchFile.configurations.every(
-                            (debugConfig) => !debugConfig.name.toLowerCase().includes("yeoman")));
+                            (debugConfig) => !normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js")));
                 });
 
             test(

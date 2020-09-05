@@ -1,4 +1,5 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { normalize } from "upath";
 import { DebugConfiguration } from "vscode";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectLaunchFileProcessor } from "../../../Project/VSCode/TSProjectLaunchFileProcessor";
@@ -37,7 +38,7 @@ export class TSGeneratorLaunchFileProcessor<TSettings extends ITSGeneratorSettin
                 return this.ProcessDebugConfig((await this.Component.Source.LaunchMetadata).configurations.find(
                     (debugConfig) =>
                     {
-                        return debugConfig.name.toLowerCase().includes("yeoman");
+                        return normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js");
                     }));
             })();
     }

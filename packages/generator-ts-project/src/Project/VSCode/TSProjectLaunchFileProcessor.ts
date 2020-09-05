@@ -1,4 +1,5 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { normalize } from "upath";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
@@ -48,8 +49,8 @@ export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, 
     protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
         return !(
-            debugConfig.name.toLowerCase().includes("yeoman") ||
-            debugConfig.name.toLowerCase().includes("mytsproject"));
+            normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js") ||
+            (debugConfig.program ?? "").includes("${workspaceFolder:MyTSProjectGenerator}"));
     }
 
     /**
