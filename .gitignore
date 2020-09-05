@@ -68,7 +68,7 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# Redundant ignore files
+# Redundant files
 packages/*/.npmignore
 packages/*/.drone.yml
 packages/*/LICENSE
