@@ -71,7 +71,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 "Checking whether `publish` commands are replaced correctly…",
                 async function()
                 {
-                    this.timeout(5 * 1000);
+                    this.timeout(10 * 1000);
                     Assert.ok(await AssertCommand((command) => command.startsWith("npm publish")));
                     Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
                 });
@@ -80,7 +80,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 "Checking whether `lerna exec` commands are replaced correctly…",
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
                 });
 
