@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
-import { TempDirectory } from "temp-filesystem";
+import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
