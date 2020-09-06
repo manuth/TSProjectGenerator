@@ -18,7 +18,7 @@ export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptio
     /**
      * A component for processing debug-settings.
      */
-    private launchFileProcessor: JSONProcessor<TSettings, TOptions, ILaunchSettings> = new JSONProcessor(this.Generator);
+    private launchSettingsProcessor: JSONProcessor<TSettings, TOptions, ILaunchSettings> = new JSONProcessor(this.Generator);
 
     /**
      * A component for processing settings.
@@ -49,17 +49,17 @@ export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets or sets a component for processing debug-settings.
      */
-    public get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    public get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
-        return this.launchFileProcessor;
+        return this.launchSettingsProcessor;
     }
 
     /**
      * @inheritdoc
      */
-    public set LaunchFileProcessor(value: JSONProcessor<TSettings, TOptions, ILaunchSettings>)
+    public set LaunchSettingsProcessor(value: JSONProcessor<TSettings, TOptions, ILaunchSettings>)
     {
-        this.launchFileProcessor = value;
+        this.launchSettingsProcessor = value;
     }
 
     /**

@@ -7,7 +7,7 @@ import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectExtensionsProcessor } from "./TSProjectExtensionsProcessor";
-import { TSProjectLaunchFileProcessor } from "./TSProjectLaunchFileProcessor";
+import { TSProjectLaunchSettingsProcessor } from "./TSProjectLaunchSettingsProcessor";
 import { TSProjectSettingsProcessor } from "./TSProjectSettingsProcessor";
 import { TSProjectTasksProcessor } from "./TSProjectTasksProcessor";
 
@@ -38,9 +38,9 @@ export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
-        return new TSProjectLaunchFileProcessor(this.Component);
+        return new TSProjectLaunchSettingsProcessor(this.Component);
     }
 
     /**

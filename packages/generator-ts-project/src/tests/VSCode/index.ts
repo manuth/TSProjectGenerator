@@ -3,7 +3,7 @@ import { TestContext } from "../TestContext";
 import { ComponentTests } from "./Components";
 import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test";
 import { FileMappingTests } from "./FileMappings";
-import { LaunchFileProcessorTests } from "./LaunchFileProcessor.test";
+import { LaunchSettingsProcessorTests } from "./LaunchSettingsProcessor.test";
 import { SettingsProcessorTest } from "./SettingsProcessor.test";
 import { TasksProcessorTests } from "./TasksProcessor.test";
 import { VSCodeJSONProcessorTests } from "./VSCodeJSONProcessor.test";
@@ -23,7 +23,7 @@ export function VSCodeTests(context: TestContext<TestGenerator, ITestGeneratorOp
         {
             VSCodeJSONProcessorTests(context);
             ExtensionsProcessorTests(context);
-            LaunchFileProcessorTests(context);
+            LaunchSettingsProcessorTests(context);
             SettingsProcessorTest(context);
             TasksProcessorTests(context);
             WorkspaceProcessorTests(context);

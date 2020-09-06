@@ -1,7 +1,7 @@
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { TSProjectExtensionsProcessorTests } from "./TSProjectExtensionsProcessor.test";
-import { TSProjectLaunchFileProcessorTests } from "./TSProjectLaunchFileProcessor.test";
+import { TSProjectLaunchSettingsProcessorTests } from "./TSProjectLaunchSettingsProcessor.test";
 import { TSProjectSettingsProcessorTests } from "./TSProjectSettingsProcessor.test";
 import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test";
 
@@ -18,7 +18,7 @@ export function VSCodeTests(context: TestContext<TSProjectGenerator>): void
         () =>
         {
             TSProjectExtensionsProcessorTests(context);
-            TSProjectLaunchFileProcessorTests(context);
+            TSProjectLaunchSettingsProcessorTests(context);
             TSProjectSettingsProcessorTests(context);
             TSProjectTasksProcessorTests(context);
         });
