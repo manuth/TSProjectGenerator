@@ -3,17 +3,17 @@ import Dedent = require("dedent");
 import { Generator, GeneratorOptions, IComponentCollection, Question } from "@manuth/extended-yo-generator";
 import Path = require("path");
 import YoSay = require("yosay");
-import { <%= Identities %> } from "./<%= Identities %>";
-import { <%= SettingsInterface %> } from "./<%= SettingsInterface %>";
+import { <%- Identities %> } from "./<%- Identities %>";
+import { <%- SettingsInterface %> } from "./<%- SettingsInterface %>";
 import { LicenseType } from "./LicenseType";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
  */
-export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOptions>
+export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOptions>
 {
     /**
-     * Initializes a new instance of the `<%= Name %>` class.
+     * Initializes a new instance of the `<%- Name %>` class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -31,18 +31,18 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
      */
     public get TemplateRoot(): string
     {
-        return "<%= ID %>";
+        return "<%- ID %>";
     }
 
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<<%= SettingsInterface %>>>
+    public get Questions(): Array<Question<<%- SettingsInterface %>>>
     {
         return [
             {
                 type: "input",
-                name: <%= Identities %>.Destination,
+                name: <%- Identities %>.Destination,
                 message: "Where do you want to save your project to?",
                 default: "./",
                 filter: async (input) =>
@@ -54,13 +54,13 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
             },
             {
                 type: "input",
-                name: <%= Identities %>.Name,
+                name: <%- Identities %>.Name,
                 message: "What's the name of your project?",
-                default: (answers: <%= SettingsInterface %>) => Path.basename(answers[<%= Identities %>.Destination])
+                default: (answers: <%- SettingsInterface %>) => Path.basename(answers[<%- Identities %>.Destination])
             },
             {
                 type: "input",
-                name: <%= Identities %>.Description,
+                name: <%- Identities %>.Description,
                 message: "Please enter a description."
             }
         ];
@@ -69,7 +69,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public get Components(): IComponentCollection<<%= SettingsInterface %>, GeneratorOptions>
+    public get Components(): IComponentCollection<<%- SettingsInterface %>, GeneratorOptions>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -87,8 +87,8 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                                     Context: () =>
                                     {
                                         return {
-                                            Name: this.Settings[<%= Identities %>.Name],
-                                            Description: this.Settings[<%= Identities %>.Description]
+                                            Name: this.Settings[<%- Identities %>.Name],
+                                            Description: this.Settings[<%- Identities %>.Description]
                                         };
                                     },
                                     Destination: "README.md"
@@ -100,7 +100,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                             DisplayName: "License-File",
                             Questions: [
                                 {
-                                    name: <%= Identities %>.LicenseType,
+                                    name: <%- Identities %>.LicenseType,
                                     type: "list",
                                     message: "What license do you want to use?",
                                     choices: [
@@ -120,7 +120,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
                                 {
                                     Source: () =>
                                     {
-                                        switch (this.Settings[<%= Identities %>.LicenseType])
+                                        switch (this.Settings[<%- Identities %>.LicenseType])
                                         {
                                             case LicenseType.Apache:
                                                 return "Apache.txt";
@@ -144,7 +144,7 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
      */
     public async prompting(): Promise<void>
     {
-        this.log(YoSay(`Welcome to the ${chalk.whiteBright("<%= DisplayName %>")} generator!`));
+        this.log(YoSay(`Welcome to the ${chalk.whiteBright("<%- DisplayName %>")} generator!`));
         return super.prompting();
     }
 
@@ -165,6 +165,6 @@ export class <%= Name %> extends Generator<<%= SettingsInterface %>, GeneratorOp
             Dedent(`
                 Your project is ready!
 
-                It lives in "${this.Settings[<%= Identities %>.Destination]}"`));
+                It lives in "${this.Settings[<%- Identities %>.Destination]}"`));
     }
 }
