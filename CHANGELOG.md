@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.2...dev)
+
+## TSProjectGenerator v1.1.2
+### Fixed
+  - Malformed markdown-files
+  - Task execution order
+
+### Updated
+  - All packages
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.1...v1.1.2)
 
 ## TSProjectGenerator v1.1.1
 ### Fixed
