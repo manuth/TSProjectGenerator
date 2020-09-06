@@ -3,33 +3,33 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
+import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `LaunchFileProcessor` class.
+ * Registers tests for the `LaunchSettingsProcessor` class.
  *
  * @param context
  * The test-context.
  */
-export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "LaunchFileProcessor",
+        "LaunchSettingsProcessor",
         () =>
         {
-            let launchMetadata: ILaunchSettings;
+            let launchSettings: ILaunchSettings;
             let includedDebugConfig: DebugConfiguration;
             let excludedDebugConfig: DebugConfiguration;
             let mutatedDebugConfig: DebugConfiguration;
             let newName: string;
-            let processor: LaunchFileProcessor<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `LaunchFileProcessor`class for testing.
+             * Provides an implementation of the `LaunchSettingsProcessor`class for testing.
              */
-            class TestLaunchFileProcessor extends LaunchFileProcessor<ITestGeneratorSettings, GeneratorOptions>
+            class TestLaunchSettingsProcessor extends LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -69,7 +69,7 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                 async function()
                 {
                     this.timeout(0);
-                    processor = new TestLaunchFileProcessor(new TestCodeWorkspaceComponent(await context.Generator));
+                    processor = new TestLaunchSettingsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
             setup(
@@ -93,7 +93,7 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                         request: context.Random.string(11)
                     };
 
-                    launchMetadata = {
+                    launchSettings = {
                         version: "",
                         configurations: [
                             includedDebugConfig,
@@ -127,8 +127,8 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                         "Checking whether debug-configurations can be excluded…",
                         async () =>
                         {
-                            Assert.ok((await processor.Process(launchMetadata)).configurations.includes(includedDebugConfig));
-                            Assert.ok(!(await processor.Process(launchMetadata)).configurations.includes(excludedDebugConfig));
+                            Assert.ok((await processor.Process(launchSettings)).configurations.includes(includedDebugConfig));
+                            Assert.ok(!(await processor.Process(launchSettings)).configurations.includes(excludedDebugConfig));
                         });
                 });
 
@@ -141,7 +141,7 @@ export function LaunchFileProcessorTests(context: TestContext<TestGenerator, ITe
                         async () =>
                         {
                             Assert.ok(
-                                (await processor.Process(launchMetadata)).configurations.some(
+                                (await processor.Process(launchSettings)).configurations.some(
                                     (configuration) => configuration.name === newName));
                         });
                 });

@@ -6,7 +6,7 @@ import { IExtensionSettings } from "./IExtensionSettings";
 import { ILaunchSettings } from "./ILaunchSettings";
 import { ITaskSettings } from "./ITaskSettings";
 import { IWorkspaceMetadata } from "./IWorkspaceMetadata";
-import { LaunchFileProcessor } from "./LaunchFileProcessor";
+import { LaunchSettingsProcessor } from "./LaunchSettingsProcessor";
 import { SettingsProcessor } from "./SettingsProcessor";
 import { TasksProcessor } from "./TasksProcessor";
 import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
@@ -47,7 +47,7 @@ export class WorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions e
 
         if (result?.launch)
         {
-            result.launch = await this.LaunchFileProcessor.Process(result.launch);
+            result.launch = await this.LaunchSettingsProcessor.Process(result.launch);
         }
 
         if (result?.settings)
@@ -74,9 +74,9 @@ export class WorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
-        return new LaunchFileProcessor(this.Component);
+        return new LaunchSettingsProcessor(this.Component);
     }
 
     /**

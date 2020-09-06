@@ -7,10 +7,10 @@ import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 /**
  * Provides the functionality to process vscode debug configurations.
  */
-export class LaunchFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, ILaunchSettings>
+export class LaunchSettingsProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, ILaunchSettings>
 {
     /**
-     * Initializes a new instance of the `LaunchFileProcessor` class.
+     * Initializes a new instance of the `LaunchSettingsProcessor` class.
      *
      * @param component
      * The component of the processor.
@@ -23,15 +23,15 @@ export class LaunchFileProcessor<TSettings extends IGeneratorSettings, TOptions 
     /**
      * @inheritdoc
      *
-     * @param data
+     * @param launchSettings
      * The data to process.
      *
      * @returns
      * The processed data.
      */
-    public async Process(data: ILaunchSettings): Promise<ILaunchSettings>
+    public async Process(launchSettings: ILaunchSettings): Promise<ILaunchSettings>
     {
-        let result = await super.Process(data);
+        let result = await super.Process(launchSettings);
 
         if (result?.configurations)
         {

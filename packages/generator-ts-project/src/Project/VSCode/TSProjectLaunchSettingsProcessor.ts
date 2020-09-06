@@ -3,16 +3,16 @@ import { normalize } from "upath";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { LaunchFileProcessor } from "../../VSCode/LaunchFileProcessor";
+import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
  * Provides the functionality to process debug-configurations for `TSProject`s.
  */
-export class TSProjectLaunchFileProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends LaunchFileProcessor<TSettings, TOptions>
+export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends LaunchSettingsProcessor<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectLaunchFileProcessor` class.
+     * Initializes a new instance of the `TSProjectLaunchDataProcessor` class.
      *
      * @param component
      * The component of the processor.

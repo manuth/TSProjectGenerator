@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.0...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.1...dev)
+
+## TSProjectGenerator v1.1.1
+### Fixed
+  - Fixed broken `.gitignore` file creation
+
+### Updated
+  - The code for creating `launch.json` files
+  - The terminoloy of some file-processors
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.0...v1.1.1)
 
 ## TSProjectGenerator v1.1.0
 ### Added
