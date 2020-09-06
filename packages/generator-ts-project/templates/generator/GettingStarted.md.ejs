@@ -47,7 +47,7 @@ export = class MyGenerator extends Generator
 You can invoke your newly created generator by specifying its name as a sub-command:
 
 ```
-yo <%= ID %>:test
+yo <%- ID %>:test
 ```
 <%
     if (SubGenerators.length > 0) {
@@ -55,10 +55,10 @@ yo <%= ID %>:test
             let generators = Array.from(SubGenerators).map(generator => `\`${generator.Path}\``);
             let last = generators.splice(generators.length - 1);
 %>
-There are example sub-generators located at <%= generators.join(", ") %> and <%= last %>, btw.
+There are example sub-generators located at <%- generators.join(", ") %> and <%- last %>, btw.
 <%
         } else { %>
-There is an example sub-generator located at `<%= SubGenerators[0].Path %>`, btw.
+There is an example sub-generator located at `<%- SubGenerators[0].Path %>`, btw.
 <%
         }
     }
@@ -74,7 +74,7 @@ Check it out in order to learn how to make use of the `@manuth/extended-yo-gener
 
 The main generator always is located at `src/generators/app`.  
 It is invoked when no subcommand is specified.
-(e.g. when running `yo <%= ID %>` instead of `yo <%= ID %>:test`)
+(e.g. when running `yo <%- ID %>` instead of `yo <%- ID %>:test`)
 
 The generator is created as explained in the
 [Creating a Generator](#creating-a-generator) section.
@@ -138,17 +138,17 @@ You can then run your generator by invoking<%
 %> either one of these commands:
 
 ```bash
-npx yo <%= ID %><%
+npx yo <%- ID %><%
 %><%
         for (let subGenerator of SubGenerators) { %>
-npx yo <%= ID %>:<%= subGenerator.Name %><%
+npx yo <%- ID %>:<%- subGenerator.Name %><%
         } %>
 ```<%
     } else { %><%
 %> following command:
 
 ```bash
-npx yo <%= ID %>
+npx yo <%- ID %>
 ```<%
     } %>
 

@@ -120,7 +120,7 @@ export abstract class MyTSProjectGenerator
              */
             public async cleanup(): Promise<void>
             {
-                this.Base.cleanup();
+                return this.Base.cleanup();
             }
         }
 
