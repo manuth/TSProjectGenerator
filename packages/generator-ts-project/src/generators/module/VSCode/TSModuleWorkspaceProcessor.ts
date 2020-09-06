@@ -4,7 +4,7 @@ import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings
 import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { TSModuleLaunchFileProcessor } from "./TSModuleLaunchFileProcessor";
+import { TSModuleLaunchSettingsProcessor } from "./TSModuleLaunchSettingsProcessor";
 
 /**
  * Provides the functionality to process workspaces for `TSModule`s.
@@ -25,8 +25,8 @@ export class TSModuleWorkspaceProcessor<TSettings extends ITSProjectSettings, TO
     /**
      * @inheritdoc
      */
-    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
-        return new TSModuleLaunchFileProcessor(this.Component);
+        return new TSModuleLaunchSettingsProcessor(this.Component);
     }
 }

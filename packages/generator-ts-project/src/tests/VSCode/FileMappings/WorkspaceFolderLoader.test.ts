@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { TestGenerator, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
-import { TempDirectory } from "temp-filesystem";
+import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
@@ -25,7 +25,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             let destinationRoot: string;
             let tempDir: TempDirectory;
             let randomExtensions: IExtensionSettings;
-            let randomLaunchFile: ILaunchSettings;
+            let randomLaunchSettings: ILaunchSettings;
             let randomSettings: Record<string, any>;
             let randomTasks: ITaskSettings;
 
@@ -53,14 +53,14 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 async () =>
                 {
                     randomExtensions = context.RandomObject;
-                    randomLaunchFile = context.RandomObject;
+                    randomLaunchSettings = context.RandomObject;
                     randomSettings = context.RandomObject;
                     randomTasks = context.RandomObject;
 
                     let component = new TestCodeWorkspaceComponent(generator);
                     let workspace = await component.Source.WorkspaceMetadata;
                     workspace.extensions = randomExtensions;
-                    workspace.launch = randomLaunchFile;
+                    workspace.launch = randomLaunchSettings;
                     workspace.settings = randomSettings;
                     workspace.tasks = randomTasks;
 
@@ -76,7 +76,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 {
                     let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
                     Assert.deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
-                    Assert.deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchFile);
+                    Assert.deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
                     Assert.deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
                     Assert.deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
                 });

@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { resolve } from "path";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TempDirectory } from "temp-filesystem";
+import { TempDirectory } from "@manuth/temp-files";
 import chdir = require("util.chdir");
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";

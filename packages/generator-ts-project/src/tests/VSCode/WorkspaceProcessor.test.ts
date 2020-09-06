@@ -61,7 +61,7 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                     workspace.settings = context.RandomObject;
                     workspace.tasks = context.RandomObject;
                     workspaceProcessor.ExtensionsProcessor = extensionsProcessor;
-                    workspaceProcessor.LaunchFileProcessor = debugSettingsProcessor;
+                    workspaceProcessor.LaunchSettingsProcessor = debugSettingsProcessor;
                     workspaceProcessor.SettingsProcessor = settingsProcessor;
                     workspaceProcessor.TasksProcessor = tasksProcessor;
                 });

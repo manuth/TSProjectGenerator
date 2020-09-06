@@ -6,7 +6,7 @@ import { ExtensionsProcessor } from "../../../VSCode/ExtensionsProcessor";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
-import { TSGeneratorLaunchFileProcessor } from "./TSGeneratorLaunchFileProcessor";
+import { TSGeneratorLaunchSettingsProcessor } from "./TSGeneratorLaunchSettingsProcessor";
 
 /**
  * Provides the functionality to process workspaces for `TSGenerator`s.
@@ -35,8 +35,8 @@ export class TSGeneratorWorkspaceProcessor<TSettings extends ITSGeneratorSetting
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchFileProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
-        return new TSGeneratorLaunchFileProcessor(this.Component);
+        return new TSGeneratorLaunchSettingsProcessor(this.Component);
     }
 }

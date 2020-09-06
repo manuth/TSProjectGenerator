@@ -1,9 +1,9 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
-import { TempFile } from "temp-filesystem";
 import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 
 /**

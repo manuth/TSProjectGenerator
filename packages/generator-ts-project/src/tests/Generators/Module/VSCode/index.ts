@@ -1,6 +1,6 @@
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
 import { TestContext } from "../../../TestContext";
-import { TSModuleLaunchFileProcessorTests } from "./TSModuleLaunchFileProcessor.test";
+import { TSModuleLaunchSettingsProcessorTests } from "./TSModuleLaunchSettingsProcessor.test";
 
 /**
  * Registers tests for vscode components for `TSModule`s.
@@ -14,6 +14,6 @@ export function VSCodeTests(context: TestContext<TSModuleGenerator>): void
         "VSCode",
         () =>
         {
-            TSModuleLaunchFileProcessorTests(context);
+            TSModuleLaunchSettingsProcessorTests(context);
         });
 }

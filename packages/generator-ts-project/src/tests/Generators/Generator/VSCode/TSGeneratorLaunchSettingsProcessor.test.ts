@@ -8,24 +8,24 @@ import { SubGeneratorSettingKey } from "../../../../generators/generator/Setting
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { TSGeneratorLaunchFileProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchFileProcessor";
+import { TSGeneratorLaunchSettingsProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchSettingsProcessor";
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorLaunchFileProcessor` class.
+ * Registers tests for the `TSGeneratorLaunchSettingsProcessor` class.
  *
  * @param context
  * The test-context.
  */
-export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGeneratorGenerator>): void
+export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorLaunchFileProcessor",
+        "TSGeneratorLaunchSettingsProcessor",
         () =>
         {
             let settings: Partial<ITSGeneratorSettings>;
             let component: CodeWorkspaceComponent<ITSGeneratorSettings, GeneratorOptions>;
-            let processor: TSGeneratorLaunchFileProcessor<ITSGeneratorSettings, GeneratorOptions>;
+            let processor: TSGeneratorLaunchSettingsProcessor<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()
@@ -51,7 +51,7 @@ export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGener
                     };
 
                     component = new TSGeneratorCodeWorkspace(await context.Generator);
-                    processor = new TSGeneratorLaunchFileProcessor(component);
+                    processor = new TSGeneratorLaunchSettingsProcessor(component);
                 });
 
             setup(
@@ -64,8 +64,8 @@ export function TSGeneratorLaunchFileProcessorTests(context: TestContext<TSGener
                 "Checking whether a launch-configuration for each generator is present…",
                 async () =>
                 {
-                    let launchFile = await processor.Process(await component.Source.LaunchMetadata);
-                    let debugConfigs = launchFile.configurations ?? [];
+                    let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
+                    let debugConfigs = launchSettings.configurations ?? [];
 
                     Assert.ok(
                         debugConfigs.some(

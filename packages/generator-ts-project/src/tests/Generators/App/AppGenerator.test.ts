@@ -1,8 +1,8 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
-import { TempDirectory } from "temp-filesystem";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { ProjectType } from "../../../generators/app/ProjectType";
 import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey";
