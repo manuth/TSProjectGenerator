@@ -175,13 +175,13 @@
                 "command": "npm",
                 "args": [
                     "run",
-                    "lint-compact"
+                    "lint-ide"
                 ],
                 "options": {
                     "cwd": "${workspaceFolder:Solution Items}"
                 },
                 "problemMatcher": [
-                    "$eslint-compact",
+                    "$eslint-stylish",
                     {
                         "fileLocation": [
                             "relative",

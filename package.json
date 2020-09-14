@@ -10,9 +10,9 @@
     "clean": "npm run compile -- --clean && lerna run clean",
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint-local": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./scripts .eslintrc.js gulpfile.ts ./gulp",
-    "lint-local-compact": "npm run lint-local -- -f compact || exit 0",
+    "lint-local-ide": "npm run lint-local || exit 0",
     "lint": "npm run lint-local && lerna run lint",
-    "lint-compact": "npm run lint-local-compact && lerna run lint-compact",
+    "lint-ide": "npm run lint-local-ide && lerna run lint-ide",
     "test": "lerna run test",
     "version": "ts-node ./scripts/bumpVersion.ts",
     "prepare": "lerna bootstrap && npm run rebuild"

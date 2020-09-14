@@ -72,8 +72,8 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
                         Processor: async (script) => script.replace("lint-code-base", "lint-base")
                     },
                     {
-                        Source: "lint-code-compact",
-                        Destination: "lint-compact",
+                        Source: "lint-code-ide",
+                        Destination: "lint-ide",
                         Processor: async (script) => script.replace("lint-code", "lint")
                     }
                 ];
