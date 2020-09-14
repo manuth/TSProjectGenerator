@@ -1,9 +1,9 @@
 import glob = require("glob");
-import { src, dest, parallel, watch, series } from "gulp";
+import { dest, parallel, series, src, watch } from "gulp";
 import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
-import { join, basename } from "upath";
+import { basename, join } from "upath";
 import ApplyPatch = require("./gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
