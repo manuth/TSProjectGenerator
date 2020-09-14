@@ -3,7 +3,7 @@ import { dest, parallel, series, src, watch } from "gulp";
 import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
-import { basename, join, relative } from "upath";
+import { basename, dirname, join, relative } from "upath";
 import ApplyPatch = require("./gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
@@ -221,7 +221,7 @@ CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to t
  */
 export function CopyDependabotFile(): NodeJS.ReadWriteStream
 {
-    return src(dependabotFile).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dependabotFile))));
+    return src(dependabotFile).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dirname(dependabotFile)))));
 }
 
 CopyDependabotFile.description = "Copies the dependabot configuration to the proper mono-repo package.";
