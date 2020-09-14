@@ -28,7 +28,7 @@ let options = minimist(process.argv.slice(2), { boolean: "watch" });
  */
 function GulpPath(...path: string[]): string
 {
-    return join(__dirname, ".gulp", ...path);
+    return join(__dirname, "gulp", ...path);
 }
 
 /**
