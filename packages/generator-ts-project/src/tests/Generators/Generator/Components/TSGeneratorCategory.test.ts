@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";

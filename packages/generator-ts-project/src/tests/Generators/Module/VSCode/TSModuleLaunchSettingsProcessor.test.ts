@@ -1,9 +1,9 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
 import { TSModuleLaunchSettingsProcessor } from "../../../../generators/module/VSCode/TSModuleLaunchSettingsProcessor";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TestContext } from "../../../TestContext";
 
 /**
