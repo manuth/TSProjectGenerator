@@ -8,10 +8,10 @@ import ApplyPatch = require("./gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
 let customProjectGeneratorName = "generator-my-ts-project";
-let gitIgnoreFile = ".gitignore";
-let npmIgnoreFile = ".npmignore";
-let droneFile = ".drone.yml";
-let licenseFile = "LICENSE";
+let gitIgnoreFile = join(__dirname, ".gitignore");
+let npmIgnoreFile = join(__dirname, ".npmignore");
+let droneFile = join(__dirname, ".drone.yml");
+let licenseFile = join(__dirname, "LICENSE");
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let customNPMDiffFile = GulpPath("npmignore.diff");
@@ -133,7 +133,7 @@ export function CopyGitIgnore(): NodeJS.ReadWriteStream
     );
 }
 
-CopyGitIgnore.description = `Copies the \`${gitIgnoreFile}\` file to the mono-repo packages.`;
+CopyGitIgnore.description = `Copies the \`${basename(gitIgnoreFile)}\` file to the mono-repo packages.`;
 
 /**
  * Copies the `.npmignore` file to the mono-repo packages.
@@ -169,7 +169,7 @@ export function CopyNPMIgnore(): NodeJS.ReadWriteStream
     return merge(streams);
 }
 
-CopyNPMIgnore.description = `Copies the \`${npmIgnoreFile}\` file to the mono-repo packages.`;
+CopyNPMIgnore.description = `Copies the \`${basename(npmIgnoreFile)}\` file to the mono-repo packages.`;
 
 /**
  * Copies the `.drone.yml` file to the mono-repo packages.
@@ -182,7 +182,7 @@ export function CopyDroneFile(): NodeJS.ReadWriteStream
     return src(droneFile).pipe(dest(PackagePath(customProjectGeneratorName)));
 }
 
-CopyDroneFile.description = `Copies the \`${droneFile}\` file to the mono-repo packages.`;
+CopyDroneFile.description = `Copies the \`${basename(droneFile)}\` file to the mono-repo packages.`;
 
 /**
  * Copies the `LICENSE` file to the mono-repo packages.
