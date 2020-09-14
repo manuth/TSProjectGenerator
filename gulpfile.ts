@@ -202,3 +202,5 @@ export function CopyLicenseFile(): NodeJS.ReadWriteStream
 
     return merge(streams);
 }
+
+CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to the monl-repo packages.`;
