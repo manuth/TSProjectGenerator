@@ -1,4 +1,4 @@
-import { DependencyCollection, PropertyDictionary, IDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { DependencyCollection, IDependencyCollectionOptions, PropertyDictionary } from "@manuth/package-json-editor";
 import { Constants } from "../../Core/Constants";
 import { PackageDependencyCollectionOptions } from "./PackageDependencyCollectionOptions";
 

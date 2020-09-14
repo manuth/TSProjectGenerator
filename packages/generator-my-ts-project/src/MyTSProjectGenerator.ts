@@ -1,4 +1,4 @@
-import { CompositeConstructor, Generator, GeneratorConstructor, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, IGenerator } from "@manuth/extended-yo-generator";
+import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator } from "@manuth/generator-ts-project";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";

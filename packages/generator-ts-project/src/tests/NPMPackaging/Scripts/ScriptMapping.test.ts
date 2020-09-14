@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "./TestScriptTransformer";

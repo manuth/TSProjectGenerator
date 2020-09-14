@@ -1,7 +1,7 @@
 import { createRequire } from "module";
 import { EOL } from "os";
 import { relative } from "path";
-import { Generator, GeneratorOptions, Question, IComponentCollection, IFileMapping, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
 import chalk = require("chalk");
@@ -9,7 +9,7 @@ import JSON = require("comment-json");
 import dedent = require("dedent");
 import { split } from "eol";
 import { ESLint } from "eslint";
-import { readFile, writeJSON, readJSON, writeFile } from "fs-extra";
+import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
 import npmWhich = require("npm-which");
 import { Linter } from "tslint";
 import { Program } from "typescript";
