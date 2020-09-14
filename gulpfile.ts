@@ -3,7 +3,7 @@ import { dest, parallel, series, src, watch } from "gulp";
 import rename = require("gulp-rename");
 import merge = require("merge-stream");
 import minimist = require("minimist");
-import { basename, join } from "upath";
+import { basename, join, relative } from "upath";
 import ApplyPatch = require("./gulp/ApplyPatch");
 
 let projectGeneratorName = "generator-ts-project";
@@ -15,6 +15,7 @@ let licenseFile = join(__dirname, "LICENSE");
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let customNPMDiffFile = GulpPath("npmignore.diff");
+let dependabotFile = join(__dirname, ".github", "dependabot.yml");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
@@ -73,7 +74,8 @@ export let CopyFiles =
                     CopyGitIgnore,
                     CopyNPMIgnore,
                     CopyDroneFile,
-                    CopyLicenseFile
+                    CopyLicenseFile,
+                    CopyDependabotFile
                 ]),
             ...(
                 options.watch ?
@@ -106,6 +108,12 @@ export let CopyFiles =
                                     licenseFile
                                 ],
                                 CopyLicenseFile);
+
+                            watch(
+                                [
+                                    dependabotFile
+                                ],
+                                CopyDependabotFile);
                         }
                     ] :
                     [])
@@ -203,4 +211,17 @@ export function CopyLicenseFile(): NodeJS.ReadWriteStream
     return merge(streams);
 }
 
-CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to the monl-repo packages.`;
+CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to the mono-repo packages.`;
+
+/**
+ * Copies the dependabot configuration to the proper package.
+ *
+ * @returns
+ * The task.
+ */
+export function CopyDependabotFile(): NodeJS.ReadWriteStream
+{
+    return src(dependabotFile).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dependabotFile))));
+}
+
+CopyDependabotFile.description = "Copies the dependabot configuration to the proper mono-repo package.";
