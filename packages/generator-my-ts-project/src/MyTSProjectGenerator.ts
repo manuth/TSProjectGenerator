@@ -1,5 +1,6 @@
 import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator } from "@manuth/generator-ts-project";
+import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 import { MyGeneratorComponent } from "./MyGeneratorComponent";
@@ -107,6 +108,14 @@ export abstract class MyTSProjectGenerator
                                 DefaultEnabled: true,
                                 FileMappings: [
                                     new DroneFileMapping(this)
+                                ]
+                            },
+                            {
+                                ID: MyGeneratorComponent.Dependabot,
+                                DisplayName: "Dependabot Configuration",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    new DependabotFileMapping(this)
                                 ]
                             });
                     }
