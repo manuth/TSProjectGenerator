@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGeneratorSettings, IComponentCategory, IComponent, IGenerator, ComponentCategory } from "@manuth/extended-yo-generator";
+import { ComponentCategory, GeneratorOptions, IComponent, IComponentCategory, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { GeneratrorComponent } from "./GeneratorComponent";
 
 /**

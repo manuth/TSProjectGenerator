@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { YAMLTransformMapping, ITSProjectSettings, TSProjectSettingKey } from "@manuth/generator-ts-project";
+import { ITSProjectSettings, TSProjectSettingKey, YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { Document } from "yaml";
 
 /**

@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { TransformFileMapping } from "./TransformFileMapping";
 

@@ -1,5 +1,5 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import { parseAllDocuments, Document, scalarOptions } from "yaml";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Document, parseAllDocuments, scalarOptions } from "yaml";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**

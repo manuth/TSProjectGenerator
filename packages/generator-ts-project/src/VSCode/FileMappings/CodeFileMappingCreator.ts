@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGeneratorSettings, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**

@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { SourceFile, ExportAssignment, Node } from "ts-morph";
+import { ExportAssignment, Node, SourceFile } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";

@@ -4,9 +4,9 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
-import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../../TestContext";
 

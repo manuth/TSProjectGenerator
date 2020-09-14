@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { readdir, lstat } from "fs-extra";
+import { lstat, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
 import { resolve } from "upath";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
