@@ -33,12 +33,6 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
                     question = new TSProjectDestinationQuestion(generator);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether the question default to the generator-destinationpath…",
                 async () =>

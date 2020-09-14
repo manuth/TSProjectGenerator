@@ -68,12 +68,6 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     tempDir = new TempDirectory();
                 });
 
-            teardown(
-                () =>
-                {
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether the generated project can be installed…",
                 function()

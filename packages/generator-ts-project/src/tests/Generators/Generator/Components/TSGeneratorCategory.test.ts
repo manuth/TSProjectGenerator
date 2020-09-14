@@ -85,13 +85,6 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                     tempDir = new TempDirectory();
                 });
 
-            teardown(
-                function()
-                {
-                    this.timeout(0);
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether all components for `TSGenerator`s are present…",
                 async () =>

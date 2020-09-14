@@ -44,7 +44,6 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             suiteTeardown(
                 () =>
                 {
-                    tempDir.Dispose();
                     generator.moduleRoot(moduleRoot);
                     generator.destinationRoot(destinationRoot);
                 });

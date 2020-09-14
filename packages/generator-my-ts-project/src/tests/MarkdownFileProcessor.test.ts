@@ -55,13 +55,6 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                     tester = new FileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             test(
                 "Checking whether unnecessary new-lines are stripped correctly…",
                 async () =>

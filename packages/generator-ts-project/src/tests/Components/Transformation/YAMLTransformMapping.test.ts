@@ -86,13 +86,6 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             setup(
                 async () =>
                 {

@@ -28,13 +28,6 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     tempDir = new TempDirectory();
                 });
 
-            teardown(
-                function()
-                {
-                    this.timeout(0);
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether the generator can be executed…",
                 async function()
@@ -131,8 +124,6 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
                                     subGeneratorDir.FullName).toPromise();
                         });
-
-                    subGeneratorDir.Dispose();
                 });
         });
 }

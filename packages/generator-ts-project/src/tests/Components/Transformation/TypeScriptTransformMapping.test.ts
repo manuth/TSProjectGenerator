@@ -93,13 +93,6 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             test(
                 "Checking whether the file is parsed correctly…",
                 async () =>

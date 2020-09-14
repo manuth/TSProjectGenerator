@@ -97,13 +97,6 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                     await tester.Commit();
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    tempSourceFile.Dispose();
-                    tempDestinationFile.Dispose();
-                });
-
             test(
                 "Checking whether the content is read from the source-file…",
                 async () =>

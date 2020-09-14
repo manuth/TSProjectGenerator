@@ -40,12 +40,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     workspaceProvider = new TestCodeWorkspaceProvider(new CodeWorkspaceComponent(generator));
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    tempDir.Dispose();
-                });
-
             teardown(
                 async () =>
                 {
