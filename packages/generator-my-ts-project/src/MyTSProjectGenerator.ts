@@ -146,20 +146,10 @@ export abstract class MyTSProjectGenerator
             let fileMappingOptions = fileMappings[i];
             let fileMapping = new FileMapping(generator, fileMappingOptions);
 
-            fileMappings[i] = {
-                Destination: fileMapping.Destination,
-                Processor: async () =>
-                {
-                    if (fileMapping.Destination.endsWith(".md"))
-                    {
-                        return new MarkdownFileProcessor(generator, fileMappingOptions).Processor();
-                    }
-                    else
-                    {
-                        return fileMapping.Processor();
-                    }
-                }
-            };
+            if (fileMapping.Destination.endsWith(".md"))
+            {
+                fileMappings[i] = new MarkdownFileProcessor(generator, fileMapping);
+            }
         }
 
         return fileMappings;
