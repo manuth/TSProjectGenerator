@@ -6,6 +6,6 @@
     "include": [
         "./scripts/**/*",
         "./gulpfile.ts",
-        "./.gulp/**/*"
+        "./gulp/**/*"
     ]
 }

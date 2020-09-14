@@ -1,9 +1,9 @@
 import { applyPatch, parsePatch } from "diff";
+import { readFile } from "fs-extra";
 import { obj } from "through2";
 import Vinyl = require("vinyl");
-import { readFile } from "fs-extra";
 
-export = (patchPath: string) =>
+export = (patchPath: string): NodeJS.ReadWriteStream =>
 {
     return obj(
         async (vinylFile: Vinyl, encoding, callback) =>
@@ -25,4 +25,4 @@ export = (patchPath: string) =>
                 callback(new Error("Only buffers are supported."));
             }
         });
-}
+};
