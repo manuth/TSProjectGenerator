@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Question, KeyUnion, ChoiceCollection } from "inquirer";
+import { ChoiceCollection, KeyUnion, Question } from "inquirer";
 
 /**
  * Represents a question.

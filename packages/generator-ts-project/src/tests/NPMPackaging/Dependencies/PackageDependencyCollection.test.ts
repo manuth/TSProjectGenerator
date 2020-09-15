@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Constants } from "../../../Core/Constants";
 import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
 import { TestContext } from "../../TestContext";

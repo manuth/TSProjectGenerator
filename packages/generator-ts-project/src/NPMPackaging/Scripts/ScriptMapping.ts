@@ -1,5 +1,4 @@
-import { isNullOrUndefined } from "util";
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { PropertyResolver } from "@manuth/extended-yo-generator/lib/Components/Resolving/PropertyResolver";
 import { IScriptMapping } from "./IScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
@@ -53,14 +52,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     {
         return async (script, target, generator) =>
         {
-            if (isNullOrUndefined(this.Object.Processor))
-            {
-                return script;
-            }
-            else
-            {
-                return this.Object.Processor(script, target, generator);
-            }
+            return this.Object.Processor?.(script, target, generator) ?? script;
         };
     }
 

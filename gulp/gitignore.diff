@@ -1,12 +1,13 @@
 diff --git a/.gitignore b/.gitignore
-index 6b0a34e..347d0b8 100644
+index e833b71..347d0b8 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -68,12 +68,6 @@ typings/
+@@ -68,13 +68,6 @@ typings/
  # Output of 'npm pack'
  *.tgz
  
 -# Redundant files
+-packages/*/templates/.github/
 -packages/*/.npmignore
 -packages/*/.drone.yml
 -packages/*/LICENSE

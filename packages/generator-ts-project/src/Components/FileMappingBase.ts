@@ -1,4 +1,4 @@
-import { GeneratorOptions, IFileMapping, FileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMapping, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { readFile } from "fs-extra";
 import { GeneratrorComponent } from "./GeneratorComponent";
 

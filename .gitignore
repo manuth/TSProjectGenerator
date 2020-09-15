@@ -69,6 +69,7 @@ typings/
 *.tgz
 
 # Redundant files
+packages/*/templates/.github/
 packages/*/.npmignore
 packages/*/.drone.yml
 packages/*/LICENSE

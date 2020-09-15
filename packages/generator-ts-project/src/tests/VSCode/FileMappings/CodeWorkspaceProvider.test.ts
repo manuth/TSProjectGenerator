@@ -1,9 +1,9 @@
 import Assert = require("assert");
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { writeFile, remove, pathExists } from "fs-extra";
+import { pathExists, remove, writeFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
@@ -38,12 +38,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     generator = await context.Generator;
                     fileMappingTester = new FileMappingTester(generator, { Destination: fileName });
                     workspaceProvider = new TestCodeWorkspaceProvider(new CodeWorkspaceComponent(generator));
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    tempDir.Dispose();
                 });
 
             teardown(

@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGenerator, IComponent } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorCodeWorkspace } from "./TSGeneratorCodeWorkspace";

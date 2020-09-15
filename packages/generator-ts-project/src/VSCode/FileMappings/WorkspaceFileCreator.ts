@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { GeneratorOptions, IGeneratorSettings, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
 import { split } from "eol";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";

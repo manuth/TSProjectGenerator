@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGenerator, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -72,8 +72,8 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
                         Processor: async (script) => script.replace("lint-code-base", "lint-base")
                     },
                     {
-                        Source: "lint-code-compact",
-                        Destination: "lint-compact",
+                        Source: "lint-code-ide",
+                        Destination: "lint-ide",
                         Processor: async (script) => script.replace("lint-code", "lint")
                     }
                 ];

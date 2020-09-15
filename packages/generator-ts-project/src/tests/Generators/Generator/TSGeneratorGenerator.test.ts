@@ -1,7 +1,7 @@
 import Assert = require("assert");
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -66,12 +66,6 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 () =>
                 {
                     tempDir = new TempDirectory();
-                });
-
-            teardown(
-                () =>
-                {
-                    tempDir.Dispose();
                 });
 
             test(

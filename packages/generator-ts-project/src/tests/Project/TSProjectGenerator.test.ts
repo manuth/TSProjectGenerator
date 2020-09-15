@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import dedent = require("dedent");
-import { writeFile, readFile } from "fs-extra";
+import { readFile, writeFile } from "fs-extra";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TestContext } from "../TestContext";
 

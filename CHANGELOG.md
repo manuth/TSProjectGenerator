@@ -6,7 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.2...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.3...dev)
+
+## TSProjectGenerator v1.1.3
+### Added
+  - A dependabot configuration
+  - The feature to generate a dependabot configuration using the `MyTSProjectGenerator`
+
+### Updated
+  - All dependencies
+  - The coding-style
+  - The markdown-processing for the `MyTSProjectGenerator`
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.2...v1.1.3)
 
 ## TSProjectGenerator v1.1.2
 ### Fixed

@@ -1,5 +1,6 @@
-import { CompositeConstructor, Generator, GeneratorConstructor, IComponentCollection, IFileMapping, FileMapping, IComponentCategory, IComponent, Component, IGenerator } from "@manuth/extended-yo-generator";
+import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator } from "@manuth/generator-ts-project";
+import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 import { MyGeneratorComponent } from "./MyGeneratorComponent";
@@ -108,6 +109,14 @@ export abstract class MyTSProjectGenerator
                                 FileMappings: [
                                     new DroneFileMapping(this)
                                 ]
+                            },
+                            {
+                                ID: MyGeneratorComponent.Dependabot,
+                                DisplayName: "Dependabot Configuration",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    new DependabotFileMapping(this)
+                                ]
                             });
                     }
                 }
@@ -146,20 +155,10 @@ export abstract class MyTSProjectGenerator
             let fileMappingOptions = fileMappings[i];
             let fileMapping = new FileMapping(generator, fileMappingOptions);
 
-            fileMappings[i] = {
-                Destination: fileMapping.Destination,
-                Processor: async () =>
-                {
-                    if (fileMapping.Destination.endsWith(".md"))
-                    {
-                        return new MarkdownFileProcessor(generator, fileMappingOptions).Processor();
-                    }
-                    else
-                    {
-                        return fileMapping.Processor();
-                    }
-                }
-            };
+            if (fileMapping.Destination.endsWith(".md"))
+            {
+                fileMappings[i] = new MarkdownFileProcessor(generator, fileMapping);
+            }
         }
 
         return fileMappings;

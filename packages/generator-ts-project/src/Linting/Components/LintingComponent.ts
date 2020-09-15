@@ -1,4 +1,4 @@
-import { GeneratorOptions, Question, IGenerator, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
 import { ComponentBase } from "../../Components/ComponentBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";

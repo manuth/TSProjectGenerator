@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
 import { JSONTransformMapping } from "../../../Components/Transformation/JSONTransformMapping";
@@ -76,13 +76,6 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     }();
 
                     tester = new FileMappingTester(generator, fileMappingOptions);
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
                 });
 
             setup(

@@ -1,6 +1,6 @@
 import Assert = require("assert");
-import { GeneratorOptions, FileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMapping, GeneratorOptions } from "@manuth/extended-yo-generator";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import JSON = require("comment-json");
 import dedent = require("dedent");
 import { join } from "upath";

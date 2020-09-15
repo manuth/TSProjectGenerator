@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings, TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";

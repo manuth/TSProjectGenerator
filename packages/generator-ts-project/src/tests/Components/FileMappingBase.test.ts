@@ -1,6 +1,6 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -95,13 +95,6 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                 async () =>
                 {
                     await tester.Commit();
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    tempSourceFile.Dispose();
-                    tempDestinationFile.Dispose();
                 });
 
             test(

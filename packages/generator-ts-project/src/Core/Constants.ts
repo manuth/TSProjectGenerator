@@ -1,5 +1,5 @@
 import { join } from "path";
-import { Package, Dictionary } from "@manuth/package-json-editor";
+import { Dictionary, Package } from "@manuth/package-json-editor";
 
 /**
  * Provides constants for this package.

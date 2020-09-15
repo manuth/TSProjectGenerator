@@ -1,4 +1,4 @@
-import { GeneratorOptions, Question, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
 import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorDescriptionQuestion } from "./TSGeneratorDescriptionQuestion";

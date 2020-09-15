@@ -1,7 +1,6 @@
 import Assert = require("assert");
-import { isNullOrUndefined } from "util";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
@@ -83,7 +82,7 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                     Assert.strictEqual(await component.ExtensionsMetadata, randomExtensions);
                     delete (await workspaceLoader.WorkspaceMetadata).extensions;
                     Assert.notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    Assert.ok(isNullOrUndefined(await component.ExtensionsMetadata));
+                    Assert.ok(!await component.ExtensionsMetadata);
                 });
         });
 }

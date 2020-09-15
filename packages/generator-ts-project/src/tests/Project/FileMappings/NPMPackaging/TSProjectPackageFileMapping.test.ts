@@ -111,8 +111,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 Constants.Package.Scripts.Get("lint-code").replace("lint-code-base", "lint-base"));
 
                             await AssertScript(
-                                "lint-compact",
-                                Constants.Package.Scripts.Get("lint-code-compact").replace("lint-code", "lint"));
+                                "lint-ide",
+                                Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
 
                             await AssertScriptCopy("test");
                             return AssertScriptCopy("prepare");

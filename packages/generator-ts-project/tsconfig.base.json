@@ -1,6 +1,7 @@
 {
     "extends": "@manuth/tsconfig/recommended",
     "compilerOptions": {
+        "declaration": true,
         "declarationMap": true,
         "typeRoots": [
             "./node_modules/@types"

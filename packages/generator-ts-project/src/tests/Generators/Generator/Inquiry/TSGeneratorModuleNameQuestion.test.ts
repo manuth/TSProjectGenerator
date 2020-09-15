@@ -1,9 +1,9 @@
 import Assert = require("assert");
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../../TestContext";
 
 /**
