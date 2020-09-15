@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.3...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...dev)
+
+## TSProjectGenerator v1.1.4
+### Updated
+  - The `.eslintrc.js`-file to exclude redundant rule-configurations
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.3...v1.1.4)
 
 ## TSProjectGenerator v1.1.3
 ### Added
