@@ -1,5 +1,5 @@
 diff --git a/.npmignore b/.npmignore
-index bf1aa6e..9d3909d 100644
+index 493e1e8..74af7d7 100644
 --- a/.npmignore
 +++ b/.npmignore
 @@ -1,6 +1,3 @@
@@ -9,7 +9,7 @@ index bf1aa6e..9d3909d 100644
  # Logs
  logs
  *.log
-@@ -107,14 +104,25 @@ dist
+@@ -107,15 +104,26 @@ dist
  .tern-port
  
  # Source-files
@@ -35,5 +35,6 @@ index bf1aa6e..9d3909d 100644
 +# Visual Studio Code-Environment
 +.vscode/
 +
- # Drone configuration
- .drone.yml
+ # GitHub configuration
+ .github/
+ 
