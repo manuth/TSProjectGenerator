@@ -78,7 +78,7 @@
     "@types/lodash.camelcase": "^4.3.6",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/mocha": "^8.0.3",
-    "@types/node": "^14.10.2",
+    "@types/node": "^14.10.3",
     "@types/npm-packlist": "^1.1.1",
     "@types/npm-which": "^3.0.0",
     "@types/validate-npm-package-name": "^3.0.0",
