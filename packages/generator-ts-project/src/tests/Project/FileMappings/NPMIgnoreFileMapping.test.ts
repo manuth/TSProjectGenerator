@@ -1,5 +1,5 @@
 import Assert = require("assert");
-import { lstat, readdir } from "fs-extra";
+import { ensureDir, ensureFile, lstat, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
 import { resolve } from "upath";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -115,6 +115,17 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 async () =>
                 {
                     await AssertDirectoryIgnored(".vscode");
+                });
+
+            test(
+                "Checking whether github-files are ignored…",
+                async () =>
+                {
+                    let testFile = context.RandomString;
+                    let dirName = ".github";
+                    await ensureDir(await DestinationPath(dirName));
+                    await ensureFile(await DestinationPath(dirName, testFile));
+                    await AssertDirectoryIgnored(".github");
                 });
         });
 }
