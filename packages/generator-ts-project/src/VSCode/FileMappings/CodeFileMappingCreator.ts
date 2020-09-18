@@ -84,13 +84,10 @@ export abstract class CodeFileMappingCreator<TSettings extends IGeneratorSetting
 
                         /**
                          * @inheritdoc
-                         *
-                         * @returns
-                         * The contents of the source-file.
                          */
-                        public async ReadSource(): Promise<string>
+                        public get Metadata(): Promise<any>
                         {
-                            return this.Dump(data instanceof Promise ? await data : data);
+                            return Promise.resolve(data);
                         }
                     }(generator)).Processor();
             }
