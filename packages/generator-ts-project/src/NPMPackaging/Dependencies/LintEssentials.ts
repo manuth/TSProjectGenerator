@@ -14,6 +14,7 @@ export class LintEssentials extends PackageDependencyCollection
             {
                 devDependencies: [
                     "eslint",
+                    "eslint-plugin-deprecation",
                     "eslint-plugin-import",
                     "eslint-plugin-jsdoc",
                     "@manuth/eslint-plugin-typescript",
