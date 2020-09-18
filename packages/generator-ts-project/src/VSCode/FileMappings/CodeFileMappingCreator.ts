@@ -1,5 +1,4 @@
-import { FileMapping, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONTransformMapping } from "../../Components/Transformation/JSONTransformMapping";
+import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
@@ -43,54 +42,4 @@ export abstract class CodeFileMappingCreator<TSettings extends IGeneratorSetting
      * Gets the file-mappings for creating the workspace.
      */
     public abstract get FileMappings(): Array<IFileMapping<TSettings, TOptions>>;
-
-    /**
-     * Creates a file-mapping for writing the specified `data` to a file located at the specified `filePath`.
-     *
-     * @param filePath
-     * The path to copy the json-content to.
-     *
-     * @param data
-     * The data to copy.
-     *
-     * @returns
-     * The newly created file-mapping.
-     */
-    protected CreateJSONMapping<T>(filePath: string, data: T | Promise<T>): IFileMapping<TSettings, TOptions>
-    {
-        return {
-            Destination: filePath,
-            Processor: async (fileMapping, generator) =>
-            {
-                await new FileMapping(
-                    generator,
-                    new class extends JSONTransformMapping<TSettings, TOptions, T>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return null;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return fileMapping.Destination;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Metadata(): Promise<any>
-                        {
-                            return Promise.resolve(data);
-                        }
-                    }(generator)).Processor();
-            }
-        };
-    }
 }

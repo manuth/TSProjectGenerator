@@ -1,5 +1,6 @@
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { join } from "upath";
+import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
@@ -74,7 +75,7 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
         return files.map(
             (fileEntry) =>
             {
-                return this.CreateJSONMapping(join(this.SettingsFolderName, fileEntry[0]), fileEntry[1]);
+                return new JSONCreatorMapping(this.Generator, join(this.SettingsFolderName, fileEntry[0]), fileEntry[1]);
             });
     }
 }
