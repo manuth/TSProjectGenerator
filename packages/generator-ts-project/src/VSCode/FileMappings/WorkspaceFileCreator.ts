@@ -1,7 +1,4 @@
-import { EOL } from "os";
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import JSON = require("comment-json");
-import { split } from "eol";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
@@ -44,13 +41,7 @@ export class WorkspaceFileCreator<TSettings extends IGeneratorSettings, TOptions
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
-            {
-                Destination: this.FileName,
-                Processor: async (fileMapping, generator) =>
-                {
-                    generator.fs.write(fileMapping.Destination, split(JSON.stringify(await this.Component.WorkspaceMetadata, null, 4)).join(EOL));
-                }
-            }
+            this.CreateJSONMapping(this.FileName, this.Component.WorkspaceMetadata)
         ];
     }
 }
