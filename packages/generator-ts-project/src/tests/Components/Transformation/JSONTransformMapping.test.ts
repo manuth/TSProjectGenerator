@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
  */
 export function JSONTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
-    suite.only(
+    suite(
         "JSONTransformMapping",
         () =>
         {
