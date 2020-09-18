@@ -3,6 +3,7 @@ import { TestContext } from "../TestContext";
 import { FileMappingBaseTests } from "./FileMappingBase.test";
 import { JSONCreatorMappingTests } from "./JSONCreatorMapping.test";
 import { TransformationTests } from "./Transformation";
+import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
 
 /**
  * Registers tests for `Components`.
@@ -19,5 +20,6 @@ export function ComponentTests(context: TestContext<TestGenerator, ITestGenerato
             FileMappingBaseTests(context);
             TransformationTests(context);
             JSONCreatorMappingTests(context);
+            YAMLCreatorMappingTests(context);
         });
 }
