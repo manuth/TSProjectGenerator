@@ -1,5 +1,7 @@
+import { EOL } from "os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import JSON = require("comment-json");
+import { split } from "eol";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
@@ -43,6 +45,7 @@ export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings,
      */
     protected async Dump(data: TData): Promise<string>
     {
-        return JSON.stringify(data);
+        let text = split(JSON.stringify(data, null, 4)).join(EOL);
+        return text + EOL;
     }
 }
