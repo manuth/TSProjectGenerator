@@ -1,4 +1,5 @@
 import Assert = require("assert");
+import { EOL } from "os";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -14,7 +15,7 @@ import { TestContext } from "../../TestContext";
  */
 export function JSONTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
-    suite(
+    suite.only(
         "JSONTransformMapping",
         () =>
         {
@@ -99,6 +100,14 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                 {
                     await tester.Run();
                     Assert.deepStrictEqual(JSON.parse(await tester.Content), randomData);
+                });
+
+            test(
+                "Checking whether a trailing new-line is added…",
+                async () =>
+                {
+                    await tester.Run();
+                    Assert.ok((await tester.Content).endsWith(EOL));
                 });
         });
 }
