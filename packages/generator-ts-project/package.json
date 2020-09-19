@@ -60,13 +60,13 @@
     "parse-pkg-name": "^2.0.0",
     "shusher": "^0.1.1",
     "ts-morph": "^8.1.0",
-    "typescript": "^4.0.2",
+    "typescript": "^4.0.3",
     "validate-npm-package-name": "^3.0.0",
     "yaml": "^1.10.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^2.3.1",
+    "@manuth/eslint-plugin-typescript": "^2.3.2",
     "@manuth/extended-yo-generator-test": "^7.3.3",
     "@manuth/tsconfig": "^1.2.3",
     "@types/comment-json": "^1.1.1",
