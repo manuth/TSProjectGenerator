@@ -215,7 +215,8 @@ export function CopyChangelogFile(): NodeJS.ReadWriteStream
             /(# Changelog[\s\S]*?[\n$])##[\s\S]*$/g,
             [
                 "$1## <%- Name %> [Unreleased]",
-                "  - Initial release"
+                "  - Initial release",
+                ""
             ].join(EOL)
         )).pipe(
             rename(
