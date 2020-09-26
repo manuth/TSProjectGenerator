@@ -1,6 +1,8 @@
+import { EOL } from "os";
 import glob = require("glob");
 import { dest, parallel, series, src, watch } from "gulp";
 import rename = require("gulp-rename");
+import replace = require("gulp-replace");
 import merge = require("merge-stream");
 import minimist = require("minimist");
 import { basename, dirname, join, relative } from "upath";
@@ -11,6 +13,7 @@ let customProjectGeneratorName = "generator-my-ts-project";
 let gitIgnoreFile = join(__dirname, ".gitignore");
 let npmIgnoreFile = join(__dirname, ".npmignore");
 let droneFile = join(__dirname, ".drone.yml");
+let changelogFile = join(__dirname, "CHANGELOG.md");
 let licenseFile = join(__dirname, "LICENSE");
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
@@ -74,6 +77,7 @@ export let CopyFiles =
                     CopyGitIgnore,
                     CopyNPMIgnore,
                     CopyDroneFile,
+                    CopyChangelogFile,
                     CopyLicenseFile,
                     CopyDependabotFile
                 ]),
@@ -102,6 +106,12 @@ export let CopyFiles =
                                     droneFile
                                 ],
                                 CopyDroneFile);
+
+                            watch(
+                                [
+                                    changelogFile
+                                ],
+                                CopyChangelogFile);
 
                             watch(
                                 [
@@ -191,6 +201,32 @@ export function CopyDroneFile(): NodeJS.ReadWriteStream
 }
 
 CopyDroneFile.description = `Copies the \`${basename(droneFile)}\` file to the mono-repo packages.`;
+
+/**
+ * Copies the `CHANGELOG` file to the mono-repo packages.
+ *
+ * @returns
+ * The task.
+ */
+export function CopyChangelogFile(): NodeJS.ReadWriteStream
+{
+    return src(changelogFile).pipe(
+        replace(
+            /(# Changelog[\s\S]*?[\n$])##[\s\S]*$/g,
+            [
+                "$1## <%- Name %> [Unreleased]",
+                "  - Initial release"
+            ].join(EOL)
+        )).pipe(
+            rename(
+                (parsed) =>
+                {
+                    parsed.extname += ".ejs";
+                })
+        ).pipe(
+            dest(CommonTemplatePath(projectGeneratorName))
+        );
+}
 
 /**
  * Copies the `LICENSE` file to the mono-repo packages.
