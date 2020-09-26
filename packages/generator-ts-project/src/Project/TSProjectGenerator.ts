@@ -83,6 +83,14 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
+            {
+                Source: this.commonTemplatePath("CHANGELOG.md.ejs"),
+                Destination: "CHANGELOG.md",
+                Context: () => (
+                    {
+                        Name: this.Settings[TSProjectSettingKey.DisplayName]
+                    })
+            },
             new TSProjectPackageFileMapping(this),
             {
                 Source: this.commonTemplatePath(".gitignore.ejs"),
