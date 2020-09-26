@@ -53,6 +53,10 @@
                 "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ],
                 "presentation": {
                     "order": 3
                 }
@@ -71,6 +75,10 @@
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
+                "outFiles": [
+                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ],
                 "presentation": {
                     "order": 4
                 }
@@ -85,6 +93,10 @@
                 "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ],
                 "presentation": {
                     "order": 5
                 }
