@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## TSProjectGenerator [Unreleased]
 ### Added
   - A feature for creating `CHANGELOG` files for new projects
+  - A feature to set the default package-name to the name of the existing package
 
 ### Updated
   - The development environment
