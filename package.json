@@ -18,7 +18,7 @@
     "prepare": "lerna bootstrap && npm run rebuild"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^2.3.2",
+    "@manuth/eslint-plugin-typescript": "^2.3.3",
     "@types/diff": "^4.0.2",
     "@types/fs-extra": "^9.0.1",
     "@types/git-branch": "^2.0.1",

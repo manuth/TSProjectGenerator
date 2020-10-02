@@ -52,7 +52,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^2.3.2",
+    "@manuth/eslint-plugin-typescript": "^2.3.3",
     "@manuth/extended-yo-generator-test": "^7.3.3",
     "@manuth/tsconfig": "^1.2.3",
     "@types/dedent": "^0.7.0",
