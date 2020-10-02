@@ -6,7 +6,7 @@ import replace = require("gulp-replace");
 import merge = require("merge-stream");
 import minimist = require("minimist");
 import { basename, dirname, join, relative } from "upath";
-import ApplyPatch = require("./gulp/ApplyPatch");
+import { ApplyPatch } from "./gulp/ApplyPatch";
 
 let projectGeneratorName = "generator-ts-project";
 let customProjectGeneratorName = "generator-my-ts-project";
