@@ -40,7 +40,11 @@ export class TSModuleLaunchSettingsProcessor<TSettings extends ITSProjectSetting
                 name: "Launch Program",
                 program: "${workspaceFolder}/lib/index.js",
                 preLaunchTask: "Build",
-                sourceMaps: true
+                sourceMaps: true,
+                outFiles: [
+                    "${workspaceFolder}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             });
 
         return result;
