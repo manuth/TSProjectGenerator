@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -78,9 +78,9 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
                     this.slow(1 * 1000);
                     await tester.Run();
                     let documents = await checker.Metadata;
-                    Assert.strictEqual(documents.length, 1);
+                    strictEqual(documents.length, 1);
                     let document = documents[0];
-                    Assert.deepStrictEqual(document.toJSON(), randomObject);
+                    deepStrictEqual(document.toJSON(), randomObject);
                 });
         });
 }

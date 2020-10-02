@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSModuleCodeWorkspace } from "../../../../generators/module/Components/TSModuleCodeWorkspace";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
@@ -36,7 +36,7 @@ export function TSModuleLaunchSettingsProcessorTests(context: TestContext<TSModu
                     let launchConfig = await processor.Process(await component.Source.LaunchMetadata);
                     let debugConfigs = launchConfig.configurations ?? [];
 
-                    Assert.ok(
+                    ok(
                         debugConfigs.some(
                             (debugConfig) =>
                             {

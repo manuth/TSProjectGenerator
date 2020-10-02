@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import glob = require("glob");
+import { glob } from "glob";
 import { dest, parallel, series, src, watch } from "gulp";
 import rename = require("gulp-rename");
 import replace = require("gulp-replace");

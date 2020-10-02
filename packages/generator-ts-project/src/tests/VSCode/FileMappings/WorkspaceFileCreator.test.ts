@@ -1,7 +1,7 @@
-import Assert = require("assert");
+import { deepStrictEqual, ok } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import JSON = require("comment-json");
+import { assign, parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { WorkspaceFileCreator } from "../../../VSCode/FileMappings/WorkspaceFileCreator";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
@@ -56,21 +56,21 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                     workspace.launch = context.RandomObject;
                     workspace.settings = context.RandomObject;
 
-                    workspace.tasks = JSON.parse(
+                    workspace.tasks = parse(
                         dedent(
                             `
                                 {
                                     /* ${tasksComment} */
-                                    "random": ${JSON.stringify(context.RandomObject)}
+                                    "random": ${stringify(context.RandomObject)}
                                 }`));
 
-                    JSON.assign(
+                    assign(
                         workspace,
-                        JSON.parse(
+                        parse(
                             dedent(
                                 `
                                     /* ${rootComment} */
-                                    ${JSON.stringify(workspace, null, 4)}`)));
+                                    ${stringify(workspace, null, 4)}`)));
 
                     for (let fileMappingOptions of component.FileMappings)
                     {
@@ -83,16 +83,16 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                 "Checking whether the metadata of the workspace-file is created correctly…",
                 async () =>
                 {
-                    Assert.deepStrictEqual(JSON.parse(await tester.Content, null, true), JSON.parse(JSON.stringify(workspace)));
+                    deepStrictEqual(parse(await tester.Content, null, true), parse(stringify(workspace)));
                 });
 
             test(
                 "Checking whether comments inside nested objects persist…",
                 async () =>
                 {
-                    Assert.ok(
-                        JSON.stringify(
-                            (JSON.parse(await tester.Content) as IWorkspaceMetadata).tasks,
+                    ok(
+                        stringify(
+                            (parse(await tester.Content) as IWorkspaceMetadata).tasks,
                             null,
                             4).includes(tasksComment));
                 });
@@ -101,7 +101,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                 "Checking whether root comments persist…",
                 async () =>
                 {
-                    Assert.ok((await tester.Content).includes(rootComment));
+                    ok((await tester.Content).includes(rootComment));
                 });
         });
 }

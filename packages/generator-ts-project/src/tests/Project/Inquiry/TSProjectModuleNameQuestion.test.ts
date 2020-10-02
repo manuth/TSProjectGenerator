@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import kebabCase = require("lodash.kebabcase");
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
@@ -36,7 +36,7 @@ export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectG
                 "Checking whether the default module-name equals the kebab-cased display-name…",
                 async () =>
                 {
-                    Assert.strictEqual(
+                    strictEqual(
                         await question.default(
                             {
                                 ...generator.Settings,

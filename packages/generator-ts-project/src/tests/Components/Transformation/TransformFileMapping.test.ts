@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, notDeepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -112,7 +112,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                 "Checking whether the source is being parsed as expected…",
                 async () =>
                 {
-                    Assert.deepStrictEqual(await fileMappingOptions.Metadata, randomSource);
+                    deepStrictEqual(await fileMappingOptions.Metadata, randomSource);
                 });
 
             test(
@@ -120,7 +120,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                 async function()
                 {
                     await tester.Run();
-                    Assert.strictEqual(await tester.Content, JSON.stringify(modifiedSource));
+                    strictEqual(await tester.Content, JSON.stringify(modifiedSource));
                 });
 
             test(
@@ -128,8 +128,8 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                 async function()
                 {
                     await tester.Run();
-                    Assert.notDeepStrictEqual(await tester.Metadata, randomSource);
-                    Assert.deepStrictEqual(await tester.Metadata, modifiedSource);
+                    notDeepStrictEqual(await tester.Metadata, randomSource);
+                    deepStrictEqual(await tester.Metadata, modifiedSource);
                 });
         });
 }

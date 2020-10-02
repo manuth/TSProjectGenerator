@@ -4,7 +4,7 @@ import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection,
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
 import chalk = require("chalk");
-import JSON = require("comment-json");
+import { parse } from "comment-json";
 import dedent = require("dedent");
 import { ESLint } from "eslint";
 import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
@@ -106,7 +106,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 Destination: "tsconfig.base.json",
                 Processor: async (fileMapping, generator) =>
                 {
-                    let tsConfig = JSON.parse((await readFile(fileMapping.Source)).toString());
+                    let tsConfig = parse((await readFile(fileMapping.Source)).toString());
                     delete tsConfig.compilerOptions.declarationMap;
                     delete tsConfig.compilerOptions.typeRoots;
 
@@ -118,7 +118,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 Destination: "tsconfig.json",
                 Processor: async (target, generator) =>
                 {
-                    let tsConfig = JSON.parse((await readFile(target.Source)).toString());
+                    let tsConfig = parse((await readFile(target.Source)).toString());
 
                     if (!this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
                     {

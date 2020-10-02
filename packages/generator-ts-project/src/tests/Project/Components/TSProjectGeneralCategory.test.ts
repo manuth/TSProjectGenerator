@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
@@ -33,7 +33,7 @@ export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGene
                 {
                     for (let componentType of [TSProjectWorkspaceFolder])
                     {
-                        Assert.ok(
+                        ok(
                             category.Components.some(
                                 (component) =>
                                 {

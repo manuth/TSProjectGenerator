@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
@@ -104,9 +104,9 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                         "Checking whether settings can be filtered…",
                         async () =>
                         {
-                            Assert.ok(excludedSetting in settings);
-                            Assert.ok(includedSetting in await processor.Process(settings));
-                            Assert.ok(!(excludedSetting in await processor.Process(settings)));
+                            ok(excludedSetting in settings);
+                            ok(includedSetting in await processor.Process(settings));
+                            ok(!(excludedSetting in await processor.Process(settings)));
                         });
                 });
 
@@ -118,8 +118,8 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                         "Checking whether settings can be pre-processed…",
                         async () =>
                         {
-                            Assert.notDeepStrictEqual(settings[mutatedSetting], newSetting);
-                            Assert.deepStrictEqual((await processor.Process(settings))[mutatedSetting], newSetting);
+                            notDeepStrictEqual(settings[mutatedSetting], newSetting);
+                            deepStrictEqual((await processor.Process(settings))[mutatedSetting], newSetting);
                         });
                 });
         });

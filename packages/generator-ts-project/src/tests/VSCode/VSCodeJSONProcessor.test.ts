@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
@@ -36,7 +36,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                         "Checking whether a single named workspace is stripped…",
                         () =>
                         {
-                            Assert.strictEqual(
+                            strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);
                         });
@@ -59,7 +59,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                                 return `--filemapping=${text}:${text}`;
                             }
 
-                            Assert.strictEqual(
+                            strictEqual(
                                 processor.StripWorkspaceFolder(StringProcessor(context.NamedWorkspaceFolderDirective)),
                                 StringProcessor(context.WorkspaceFolderDirective));
                         });
@@ -68,7 +68,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                         "Checking whether normal workspace-directives are left ountouched…",
                         () =>
                         {
-                            Assert.strictEqual(
+                            strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);
                         });

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
@@ -93,7 +93,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.slow(4 * 1000);
                             options.ScriptMappings.push(randomSource);
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Scripts.Get(randomSource), randomScript);
+                            strictEqual((await tester.Package).Scripts.Get(randomSource), randomScript);
                         });
 
                     test(
@@ -110,7 +110,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                                 });
 
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Scripts.Get(randomDestination), randomScript);
+                            strictEqual((await tester.Package).Scripts.Get(randomDestination), randomScript);
                         });
 
                     test(
@@ -131,7 +131,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                                 });
 
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Scripts.Get(randomDestination), transformer(randomScript));
+                            strictEqual((await tester.Package).Scripts.Get(randomDestination), transformer(randomScript));
                         });
                 });
 
@@ -153,7 +153,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                                 });
 
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).License, randomLicense);
+                            strictEqual((await tester.Package).License, randomLicense);
                         });
 
                     test(
@@ -164,8 +164,8 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.slow(2 * 1000);
 
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Author.Name, tester.Generator.user.git.name());
-                            Assert.strictEqual((await tester.Package).Author.EMail, tester.Generator.user.git.email());
+                            strictEqual((await tester.Package).Author.Name, tester.Generator.user.git.name());
+                            strictEqual((await tester.Package).Author.EMail, tester.Generator.user.git.email());
                         });
 
                     test(
@@ -173,7 +173,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         async () =>
                         {
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Version, "0.0.0");
+                            strictEqual((await tester.Package).Version, "0.0.0");
                         });
                 });
         });

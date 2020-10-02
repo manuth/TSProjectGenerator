@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { notStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -42,7 +42,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether the default value is applied correctly…",
                         async () =>
                         {
-                            Assert.strictEqual(await question.default(settings), "generator-this-is-a-test");
+                            strictEqual(await question.default(settings), "generator-this-is-a-test");
                         });
                 });
 
@@ -54,16 +54,16 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("lol", settings), true);
-                            Assert.strictEqual(await question.validate("generator-lol", settings), true);
+                            notStrictEqual(await question.validate("lol", settings), true);
+                            strictEqual(await question.validate("generator-lol", settings), true);
                         });
 
                     test(
                         "Checking whether scoped module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("@me/lol", settings), true);
-                            Assert.strictEqual(await question.validate("@me/generator-lol", settings), true);
+                            notStrictEqual(await question.validate("@me/lol", settings), true);
+                            strictEqual(await question.validate("@me/generator-lol", settings), true);
                         });
                 });
         });

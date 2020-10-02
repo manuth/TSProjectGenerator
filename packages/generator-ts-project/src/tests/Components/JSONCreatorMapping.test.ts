@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMappingTester, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -43,7 +43,7 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                 async () =>
                 {
                     await tester.Run();
-                    Assert.deepStrictEqual(await tester.Metadata, randomObject);
+                    deepStrictEqual(await tester.Metadata, randomObject);
                 });
         });
 }

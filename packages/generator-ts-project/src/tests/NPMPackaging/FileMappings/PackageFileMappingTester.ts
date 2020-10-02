@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, IPackageJSON, Package } from "@manuth/package-json-editor";
@@ -71,16 +71,16 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
         {
             for (let dependency of dependencyListSet[0].Entries)
             {
-                Assert.strictEqual(dependencyListSet[1].Has(dependency[0]), present);
+                strictEqual(dependencyListSet[1].Has(dependency[0]), present);
 
                 if (present)
                 {
-                    Assert.strictEqual(dependencyListSet[1].Get(dependency[0]), dependency[1]);
+                    strictEqual(dependencyListSet[1].Get(dependency[0]), dependency[1]);
                 }
             }
         }
 
-        Assert.ok(
+        ok(
             dependencies.BundledDependencies.Values.every(
                 (dependency) =>
                 {

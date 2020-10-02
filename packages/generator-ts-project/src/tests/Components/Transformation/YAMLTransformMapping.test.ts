@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -102,7 +102,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                         "Checking whether the content is parsed correctly…",
                         async () =>
                         {
-                            Assert.deepStrictEqual(
+                            deepStrictEqual(
                                 parse((await fileMappingOptions.Metadata).map(
                                     (document) =>
                                     {
@@ -136,11 +136,11 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
 
                             await tester.Run();
                             let documents = parseAllDocuments(await tester.Content);
-                            Assert.strictEqual(documents.length, 2);
+                            strictEqual(documents.length, 2);
 
                             for (let document of documents)
                             {
-                                Assert.deepStrictEqual(parse(document.toString()), randomData);
+                                deepStrictEqual(parse(document.toString()), randomData);
                             }
                         });
 
@@ -157,8 +157,8 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
 
                             await tester.Run();
                             let documents = parseAllDocuments(await tester.Content);
-                            Assert.strictEqual(documents.length, 2);
-                            Assert.ok(!(await tester.Content).startsWith("---"));
+                            strictEqual(documents.length, 2);
+                            ok(!(await tester.Content).startsWith("---"));
                         });
                 });
         });

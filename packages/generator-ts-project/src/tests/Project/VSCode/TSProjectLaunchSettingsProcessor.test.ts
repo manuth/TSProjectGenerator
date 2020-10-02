@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { join, normalize } from "upath";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
@@ -37,7 +37,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 {
                     let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
 
-                    Assert.ok(
+                    ok(
                         launchSettings.configurations.every(
                             (debugConfig) => !normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js")));
                 });
@@ -99,7 +99,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                                 break;
                         }
 
-                        Assert.strictEqual(actual, path);
+                        strictEqual(actual, path);
                     }
                 });
         });
