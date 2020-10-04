@@ -35,13 +35,8 @@ export { TSGeneratorSettingKey } from "./generators/generator/Settings/TSGenerat
 export { TSGeneratorGenerator } from "./generators/generator/TSGeneratorGenerator";
 export { TSGeneratorLaunchSettingsProcessor } from "./generators/generator/VSCode/TSGeneratorLaunchSettingsProcessor";
 export { TSGeneratorWorkspaceProcessor } from "./generators/generator/VSCode/TSGeneratorWorkspaceProcessor";
-export { TSModuleCodeWorkspace } from "./generators/module/Components/TSModuleCodeWorkspace";
-export { TSModuleComponentCollection } from "./generators/module/Components/TSModuleComponentCollection";
-export { TSModuleGeneralCategory } from "./generators/module/Components/TSModuleGeneralCategory";
 export { TSModulePackageFileMapping } from "./generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 export { TSModuleGenerator } from "./generators/module/TSModuleGenerator";
-export { TSModuleLaunchSettingsProcessor } from "./generators/module/VSCode/TSModuleLaunchSettingsProcessor";
-export { TSModuleWorkspaceProcessor } from "./generators/module/VSCode/TSModuleWorkspaceProcessor";
 export { LintingComponent } from "./Linting/Components/LintingComponent";
 export { ESLintRCFileMapping } from "./Linting/FileMappings/ESLintRCFileMapping";
 export { LintingQuestion } from "./Linting/Inquiry/LintingQuestion";
