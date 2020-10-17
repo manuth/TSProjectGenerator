@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Updated
   - The development environment
   - The format of transformed JSON and YAML files
-  - Al dependencies
+  - All dependencies
   - The typescript-configuration for tests
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...dev)
