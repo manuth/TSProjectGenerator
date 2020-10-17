@@ -1,8 +1,8 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { resolve } from "path";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempDirectory } from "@manuth/temp-files";
-import chdir = require("util.chdir");
+import { popd, pushd } from "util.chdir";
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -37,7 +37,7 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
                 "Checking whether the question default to the generator-destinationpath…",
                 async () =>
                 {
-                    Assert.strictEqual(await question.default(generator.Settings), "./");
+                    strictEqual(await question.default(generator.Settings), "./");
                 });
 
             test(
@@ -46,10 +46,10 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
                 {
                     let path = ".";
                     let expected = resolve(generator.destinationPath(path));
-                    Assert.strictEqual(await question.filter(path, generator.Settings), expected);
-                    chdir.pushd(tempDir.FullName);
-                    Assert.strictEqual(await question.filter(path, generator.Settings), expected);
-                    chdir.popd();
+                    strictEqual(await question.filter(path, generator.Settings), expected);
+                    pushd(tempDir.FullName);
+                    strictEqual(await question.filter(path, generator.Settings), expected);
+                    popd();
                 });
         });
 }

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
@@ -46,17 +46,17 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                 "Checking whether a custom workspace-processor can be injected…",
                 async () =>
                 {
-                    Assert.strictEqual(await component.WorkspaceMetadata, randomWorkspace);
+                    strictEqual(await component.WorkspaceMetadata, randomWorkspace);
                 });
 
             test(
                 "Checking whether the workspace-object is read correctly…",
                 async () =>
                 {
-                    Assert.strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
-                    Assert.strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
-                    Assert.strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
-                    Assert.strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
+                    strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
+                    strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
+                    strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
+                    strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
                 });
         });
 }

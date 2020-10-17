@@ -2,8 +2,8 @@ import Path = require("path");
 import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import dedent = require("dedent");
-import FileSystem = require("fs-extra");
-import YoSay = require("yosay");
+import { ensureDir } from "fs-extra";
+import yosay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
@@ -152,14 +152,14 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 Destination: Path.join(this.SourceRoot, "generators"),
                 Processor: (target) =>
                 {
-                    return FileSystem.ensureDir(target.Destination);
+                    return ensureDir(target.Destination);
                 }
             },
             {
                 Destination: "templates",
                 Processor: (target) =>
                 {
-                    return FileSystem.ensureDir(target.Destination);
+                    return ensureDir(target.Destination);
                 }
             }
         ];
@@ -170,7 +170,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
      */
     public async prompting(): Promise<void>
     {
-        this.log(YoSay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
+        this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 

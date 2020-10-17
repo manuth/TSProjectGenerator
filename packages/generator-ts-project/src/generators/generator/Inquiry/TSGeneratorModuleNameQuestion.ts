@@ -22,20 +22,6 @@ export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings,
     /**
      * @inheritdoc
      *
-     * @param answers
-     * The answers provided by the user.
-     *
-     * @returns
-     * The default value for this question.
-     */
-    public async Default(answers: TSettings): Promise<string>
-    {
-        return `generator-${(await super.Default(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
-    }
-
-    /**
-     * @inheritdoc
-     *
      * @param input
      * The input provided by the user.
      *
@@ -58,5 +44,19 @@ export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings,
         {
             return result;
         }
+    }
+
+    /**
+     * Creates a new module-name.
+     *
+     * @param answers
+     * The answers provided by the user.
+     *
+     * @returns
+     * A new module-name for the module.
+     */
+    protected async CreateModuleName(answers: TSettings): Promise<string>
+    {
+        return `generator-${(await super.CreateModuleName(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
     }
 }

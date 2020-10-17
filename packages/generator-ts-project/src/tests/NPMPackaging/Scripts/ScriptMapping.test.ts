@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
@@ -43,23 +43,23 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 async () =>
                 {
                     scriptMapping = new ScriptMapping(await context.Generator, randomSource);
-                    Assert.strictEqual(scriptMapping.Destination, scriptMapping.Source);
-                    Assert.strictEqual(scriptMapping.Source, randomSource);
+                    strictEqual(scriptMapping.Destination, scriptMapping.Source);
+                    strictEqual(scriptMapping.Source, randomSource);
                 });
 
             test(
                 "Checking whether passing options constructs a proper script-mapping…",
                 async () =>
                 {
-                    Assert.strictEqual(scriptMapping.Source, randomSource);
-                    Assert.strictEqual(scriptMapping.Destination, randomDestination);
+                    strictEqual(scriptMapping.Source, randomSource);
+                    strictEqual(scriptMapping.Destination, randomDestination);
                 });
 
             test(
                 "Checking whether sciprts are not being transformed by default…",
                 async () =>
                 {
-                    Assert.strictEqual(await scriptMapping.Process(randomScript), randomScript);
+                    strictEqual(await scriptMapping.Process(randomScript), randomScript);
                 });
 
             test(
@@ -77,7 +77,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                             Processor: async (script) => transformer(script)
                         });
 
-                    Assert.strictEqual(await scriptMapping.Process(randomScript), transformer(randomScript));
+                    strictEqual(await scriptMapping.Process(randomScript), transformer(randomScript));
                 });
         });
 }

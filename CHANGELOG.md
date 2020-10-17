@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Added
+  - A feature for creating `CHANGELOG` files for new projects
+  - A feature to set the default package-name to the name of the existing package
+  - New unit-tests
+
+### Updated
+  - The development environment
+  - The format of transformed JSON and YAML files
+  - All dependencies
+  - The typescript-configuration for tests
+  - The `.npmignore` file to exclude the `.github` directory
+  - `.json` and `.yml`-filemappings to include new lines at the end of files
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...dev)
 

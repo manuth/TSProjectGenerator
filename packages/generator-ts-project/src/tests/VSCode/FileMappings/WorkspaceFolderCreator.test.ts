@@ -1,7 +1,7 @@
-import Assert = require("assert");
+import { deepStrictEqual, ok } from "assert";
 import { FileMapping, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import JSON = require("comment-json");
+import { parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { join } from "upath";
 import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
@@ -44,7 +44,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                         Destination: path
                     });
 
-                Assert.deepStrictEqual(
+                deepStrictEqual(
                     await source.ReadJSON(fileMapping.Destination),
                     await expected);
             }
@@ -71,11 +71,11 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                     workspace.launch = context.RandomObject;
                     workspace.settings = context.RandomObject;
 
-                    workspace.tasks = JSON.parse(
+                    workspace.tasks = parse(
                         dedent(
                             `
                                 /* ${randomComment} */
-                                ${JSON.stringify(context.RandomObject)}`));
+                                ${stringify(context.RandomObject)}`));
 
                     for (let fileMappingOptions of component.FileMappings)
                     {
@@ -106,8 +106,8 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 "Checking whether comments persist in the workspace-files…",
                 async () =>
                 {
-                    Assert.ok(
-                        JSON.stringify(
+                    ok(
+                        stringify(
                             await source.ReadJSON(
                                 new FileMapping(
                                     generator,

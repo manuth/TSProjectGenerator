@@ -1,6 +1,9 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { Package } from "@manuth/package-json-editor";
+import { pathExists } from "fs-extra";
 import { InputQuestionOptions } from "inquirer";
 import kebabCase = require("lodash.kebabcase");
+import { join } from "upath";
 import validate = require("validate-npm-package-name");
 import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
@@ -57,7 +60,15 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
      */
     public async Default(answers: TSettings): Promise<string>
     {
-        return kebabCase(answers[TSProjectSettingKey.DisplayName]);
+        let fileName = join(answers[TSProjectSettingKey.Destination], "package.json");
+        let originalName: string = null;
+
+        if (await pathExists(fileName))
+        {
+            originalName = new Package(fileName).Name;
+        }
+
+        return originalName ?? this.CreateModuleName(answers);
     }
 
     /**
@@ -85,5 +96,19 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
         {
             return errors[0] ?? "Please provide a name according to the npm naming-conventions.";
         }
+    }
+
+    /**
+     * Creates a new module-name.
+     *
+     * @param answers
+     * The answers provided by the user.
+     *
+     * @returns
+     * A new module-name for the module.
+     */
+    protected async CreateModuleName(answers: TSettings): Promise<string>
+    {
+        return kebabCase(answers[TSProjectSettingKey.DisplayName]);
     }
 }

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -97,7 +97,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                 "Checking whether the file is parsed correctly…",
                 async () =>
                 {
-                    Assert.strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
+                    strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
                 });
 
             test(
@@ -105,7 +105,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                 async () =>
                 {
                     await tester.Run();
-                    Assert.strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                    strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
                 });
         });
 }

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual } from "assert";
 import { FileMappingTester, ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
@@ -74,10 +74,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 async () =>
                 {
                     let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
-                    Assert.deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
-                    Assert.deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
-                    Assert.deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
-                    Assert.deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
+                    deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
+                    deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
+                    deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
+                    deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
                 });
         });
 }

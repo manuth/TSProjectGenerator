@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
@@ -72,8 +72,8 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 async function()
                 {
                     this.timeout(20 * 1000);
-                    Assert.ok(await AssertCommand((command) => command.startsWith("npm publish")));
-                    Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
+                    ok(await AssertCommand((command) => command.startsWith("npm publish")));
+                    ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
                 });
 
             test(
@@ -81,7 +81,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 async function()
                 {
                     this.timeout(20 * 1000);
-                    Assert.ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
+                    ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
                 });
 
             test(
@@ -90,7 +90,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 {
                     this.timeout(20 * 1000);
 
-                    Assert.ok(
+                    ok(
                         (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
                             (document) =>
                             {

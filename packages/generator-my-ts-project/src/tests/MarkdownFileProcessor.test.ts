@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
@@ -60,7 +60,7 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                 async () =>
                 {
                     await tester.Run();
-                    Assert.strictEqual(await tester.Content, expected);
+                    strictEqual(await tester.Content, expected);
                 });
         });
 }

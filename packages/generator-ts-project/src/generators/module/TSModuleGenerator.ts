@@ -1,5 +1,5 @@
 import { join } from "path";
-import { GeneratorOptions, IComponentCollection, IFileMapping } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import chalk = require("chalk");
 import dedent = require("dedent");
 import yosay = require("yosay");
@@ -7,7 +7,6 @@ import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPacka
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TSModuleComponentCollection } from "./Components/TSModuleComponentCollection";
 import { TSModulePackageFileMapping } from "./FileMappings/NPMPackaging/TSModulePackageFileMapping";
 
 /**
@@ -35,14 +34,6 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     public get TemplateRoot(): string
     {
         return "module";
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Components(): IComponentCollection<TSettings, TOptions>
-    {
-        return new TSModuleComponentCollection(this);
     }
 
     /**

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -34,7 +34,7 @@ export function TSProjectExtensionsProcessorTests(context: TestContext<TSProject
                 `Checking whether the \`${excludedExtension}\` is excluded…`,
                 async () =>
                 {
-                    Assert.ok(
+                    ok(
                         !(await processor.Process(
                             {
                                 recommendations: [excludedExtension]

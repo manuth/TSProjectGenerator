@@ -1,4 +1,4 @@
-const path = require("path");
+const { join } = require("path");
 
 module.exports = {
     extends: [
@@ -6,8 +6,8 @@ module.exports = {
     ],
     parserOptions: {
         project: [
-            path.join(__dirname, "tsconfig.json"),
-            path.join(__dirname, "tsconfig.eslint.json")
+            join(__dirname, "tsconfig.json"),
+            join(__dirname, "tsconfig.eslint.json")
         ]
     }
 };

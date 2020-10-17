@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
@@ -56,7 +56,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                 });
 
                             await tester.Run();
-                            Assert.ok((await tester.Package).Keywords.includes(yeomanKeyword));
+                            ok((await tester.Package).Keywords.includes(yeomanKeyword));
                         });
 
                     test(
@@ -74,7 +74,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
 
                             await tester.Run();
 
-                            Assert.strictEqual(
+                            strictEqual(
                                 (await tester.Package).Keywords.filter(
                                     (keyword) =>
                                     {

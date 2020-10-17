@@ -78,6 +78,11 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
             debugConfig.args = debugConfig.args.map((arg) => this.StripWorkspaceFolder(arg));
         }
 
+        if (Array.isArray(debugConfig.outFiles))
+        {
+            debugConfig.outFiles = debugConfig.outFiles.map((pattern) => this.StripWorkspaceFolder(pattern));
+        }
+
         if (typeof debugConfig.cwd === "string")
         {
             debugConfig.cwd = this.StripWorkspaceFolder(debugConfig.cwd);

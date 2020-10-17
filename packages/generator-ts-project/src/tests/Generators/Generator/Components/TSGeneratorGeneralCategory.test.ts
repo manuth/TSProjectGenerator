@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
 import { TSGeneratorGeneralCategory } from "../../../../generators/generator/Components/TSGeneratorGeneralCategory";
@@ -33,7 +33,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 {
                     for (let componentType of [TSGeneratorCodeWorkspace])
                     {
-                        Assert.ok(collection.Components.some((component) => component instanceof componentType));
+                        ok(collection.Components.some((component) => component instanceof componentType));
                     }
                 });
         });

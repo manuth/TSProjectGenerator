@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
@@ -44,7 +44,7 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                                 # This is a test
                                 ${randomDescription}`));
 
-                    Assert.strictEqual(
+                    strictEqual(
                         await question.default(
                             {
                                 ...generator.Settings,

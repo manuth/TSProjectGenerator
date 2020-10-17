@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
@@ -111,7 +111,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                         "Checking whether tasks are only processed if existent…",
                         async () =>
                         {
-                            Assert.strictEqual(
+                            strictEqual(
                                 (await processor.Process({ version: "", tasks: null })).tasks,
                                 null);
                         });
@@ -125,9 +125,9 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                         "Checking whether tasks can be filtered…",
                         async () =>
                         {
-                            Assert.ok(taskMeta.tasks.includes(excludedTask));
-                            Assert.ok((await processor.Process(taskMeta)).tasks.includes(includedTask));
-                            Assert.ok(!(await processor.Process(taskMeta)).tasks.includes(excludedTask));
+                            ok(taskMeta.tasks.includes(excludedTask));
+                            ok((await processor.Process(taskMeta)).tasks.includes(includedTask));
+                            ok(!(await processor.Process(taskMeta)).tasks.includes(excludedTask));
                         });
                 });
 
@@ -150,7 +150,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                              */
                             function AssertMutation(taskMeta: ITaskSettings, expected = true): void
                             {
-                                Assert.strictEqual(
+                                strictEqual(
                                     taskMeta.tasks.some(
                                         (task) => task.type === newType), expected);
                             }

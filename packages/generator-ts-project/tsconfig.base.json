@@ -12,7 +12,7 @@
         ],
         "plugins": [
             {
-                "name": "typescript-eslint-plugin"
+                "name": "@manuth/typescript-eslint-plugin"
             }
         ],
         "target": "ES6"

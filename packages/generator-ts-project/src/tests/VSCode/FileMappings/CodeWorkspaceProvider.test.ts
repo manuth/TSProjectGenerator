@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
@@ -82,10 +82,10 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                                     tasks: randomTasks
                                 });
 
-                            Assert.strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
-                            Assert.strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
-                            Assert.strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
-                            Assert.strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
+                            strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
+                            strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
+                            strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
+                            strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
                         });
                 });
 
@@ -108,7 +108,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                             await writeFile(fileName, JSON.stringify(randomData));
                             await fileMappingTester.Commit();
                             generator.fs.exists(fileName);
-                            Assert.deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
+                            deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 
                     test(
@@ -122,7 +122,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                                         // Hello world
                                         ${JSON.stringify(randomData)}`));
 
-                            Assert.strictEqual(JSON.stringify(await workspaceProvider.ReadJSON(fileName)), JSON.stringify(randomData));
+                            strictEqual(JSON.stringify(await workspaceProvider.ReadJSON(fileName)), JSON.stringify(randomData));
                         });
                 });
         });

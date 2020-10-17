@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { deepStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
@@ -54,7 +54,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether the `Bump Version` task is skipped…",
                 async () =>
                 {
-                    Assert.strictEqual(
+                    strictEqual(
                         await ProcessTask(
                             {
                                 type: "",
@@ -74,7 +74,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             typeof task.label === "string" &&
                             task.label.toLowerCase() === "lint");
 
-                    Assert.ok(
+                    ok(
                         typeof lintTask.problemMatcher === "string" &&
                         lintTask.problemMatcher.startsWith("$eslint"));
                 });
@@ -83,7 +83,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether shell-scripts are converted to npm-scripts…",
                 async () =>
                 {
-                    Assert.deepStrictEqual(
+                    deepStrictEqual(
                         await ProcessTask(
                             {
                                 type: "shell",
@@ -111,7 +111,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                         ]
                     };
 
-                    Assert.deepStrictEqual(await ProcessTask(task), task);
+                    deepStrictEqual(await ProcessTask(task), task);
                 });
 
             test(
@@ -123,7 +123,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                         "Release"
                     ];
 
-                    Assert.deepStrictEqual(
+                    deepStrictEqual(
                         await ProcessTask(
                             {
                                 type: "shell",
@@ -154,7 +154,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                         ]
                     };
 
-                    Assert.ok(!("label" in await ProcessTask(task)));
+                    ok(!("label" in await ProcessTask(task)));
                 });
 
             test(
@@ -172,7 +172,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                      */
                     let cwdCreator = (root: string): string => `${root}/src?`;
 
-                    Assert.strictEqual(
+                    strictEqual(
                         (await ProcessTask(
                             {
                                 type: "",
@@ -187,7 +187,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether `cwd`s pointing to the workspace-folder are removed…",
                 async () =>
                 {
-                    Assert.ok(
+                    ok(
                         !("cwd" in (await ProcessTask(
                             {
                                 type: "",
@@ -202,14 +202,14 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether `options` are deleted if left empty…",
                 async () =>
                 {
-                    Assert.ok(
+                    ok(
                         !("options" in (await ProcessTask(
                             {
                                 type: "",
                                 options: {}
                             }))));
 
-                    Assert.ok(
+                    ok(
                         !("options" in (await ProcessTask(
                             {
                                 type: "",
@@ -223,7 +223,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 "Checking whether unnecessary `fileLocation` options are deleted…",
                 async () =>
                 {
-                    Assert.ok(
+                    ok(
                         !("fileLocation" in (await ProcessTask(
                             {
                                 type: "",
@@ -243,7 +243,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 {
                     let base = "$eslint-compact";
 
-                    Assert.strictEqual(
+                    strictEqual(
                         (await ProcessTask(
                             {
                                 type: "",
@@ -253,7 +253,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             })).problemMatcher,
                         base);
 
-                    Assert.strictEqual(
+                    strictEqual(
                         (await ProcessTask(
                             {
                                 type: "",
@@ -274,7 +274,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 {
                     let problemMatcher = "$eslint-compact";
 
-                    Assert.strictEqual(
+                    strictEqual(
                         (await ProcessTask(
                             {
                                 type: "",

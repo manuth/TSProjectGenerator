@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { doesNotReject, ok } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
@@ -50,7 +50,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 async () =>
                 {
                     await tester.Run();
-                    Assert.ok(!("root" in await tester.Require()));
+                    ok(!("root" in await tester.Require()));
                 });
 
             test(
@@ -64,7 +64,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         let baseConfigs: string[];
                         tester.Generator.Settings[TSProjectSettingKey.LintRuleset] = ruleset;
                         await tester.Run();
-                        await Assert.doesNotReject(async () => eslintConfig = await tester.Require());
+                        await doesNotReject(async () => eslintConfig = await tester.Require());
                         baseConfigs = eslintConfig.extends;
 
                         switch (ruleset)
@@ -78,7 +78,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                 break;
                         }
 
-                        Assert.ok(
+                        ok(
                             baseConfigs.some(
                                 (baseConfig) =>
                                 {

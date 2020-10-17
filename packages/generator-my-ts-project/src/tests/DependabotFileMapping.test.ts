@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
@@ -42,21 +42,21 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                 "Checking whether only one document is present inside the file…",
                 () =>
                 {
-                    Assert.strictEqual(documents.length, 1);
+                    strictEqual(documents.length, 1);
                 });
 
             test(
                 "Checking whether only one dependabot-configuration is present…",
                 () =>
                 {
-                    Assert.strictEqual(documents[0].get(updateKey).toJSON().length, 1);
+                    strictEqual(documents[0].get(updateKey).toJSON().length, 1);
                 });
 
             test(
                 "Checking whether the dependabot-configuration directory points to the root of the project…",
                 () =>
                 {
-                    Assert.strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
+                    strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
                 });
         });
 }

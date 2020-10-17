@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -35,7 +35,7 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
                 async () =>
                 {
                     let settings = processor.Process(await component.Source.LaunchMetadata);
-                    Assert.ok(!(excludedSetting in settings));
+                    ok(!(excludedSetting in settings));
                 });
         });
 }
