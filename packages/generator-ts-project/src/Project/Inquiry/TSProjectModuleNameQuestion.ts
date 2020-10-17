@@ -68,7 +68,7 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
             originalName = new Package(fileName).Name;
         }
 
-        return originalName ?? kebabCase(answers[TSProjectSettingKey.DisplayName]);
+        return originalName ?? this.CreateModuleName(answers);
     }
 
     /**
@@ -96,5 +96,19 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
         {
             return errors[0] ?? "Please provide a name according to the npm naming-conventions.";
         }
+    }
+
+    /**
+     * Creates a new module-name.
+     *
+     * @param answers
+     * The answers provided by the user.
+     *
+     * @returns
+     * A new module-name for the module.
+     */
+    protected async CreateModuleName(answers: TSettings): Promise<string>
+    {
+        return kebabCase(answers[TSProjectSettingKey.DisplayName]);
     }
 }
