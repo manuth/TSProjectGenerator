@@ -33,10 +33,10 @@
                 "args": [
                     "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
                 ],
+                "cwd": "${workspaceFolder:Solution Items}/..",
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
                 "preLaunchTask": "Build",
-                "cwd": "${workspaceFolder:Solution Items}/..",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "presentation": {
@@ -48,9 +48,9 @@
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Tests",
                 "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
-                "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "outFiles": [
@@ -69,10 +69,10 @@
                 "args": [
                     "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
                 ],
+                "cwd": "${workspaceFolder:Solution Items}/..",
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
                 "preLaunchTask": "Build",
-                "cwd": "${workspaceFolder:Solution Items}/..",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "outFiles": [
@@ -88,9 +88,9 @@
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
-                "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "outFiles": [
