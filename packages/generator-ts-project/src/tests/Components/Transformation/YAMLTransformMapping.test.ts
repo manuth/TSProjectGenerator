@@ -1,8 +1,10 @@
 import { deepStrictEqual, ok, strictEqual } from "assert";
+import { EOL } from "os";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
+import { split } from "eol";
 import { writeFile } from "fs-extra";
 import { Document, parse, parseAllDocuments, stringify } from "yaml";
 import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTransformMapping";
@@ -116,7 +118,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                         async () =>
                         {
                             await tester.Run();
-                            await tester.AssertContent(stringify(randomData));
+                            await tester.AssertContent(split(stringify(randomData)).join(EOL));
                         });
                 });
 
