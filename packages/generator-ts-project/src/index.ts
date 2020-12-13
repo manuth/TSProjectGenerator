@@ -5,7 +5,7 @@ export { ComponentBase } from "./Components/ComponentBase";
 export { ComponentCategoryBase } from "./Components/ComponentCategoryBase";
 export { ComponentCollectionBase } from "./Components/ComponentCollectionBase";
 export { FileMappingBase } from "./Components/FileMappingBase";
-export { GeneratrorComponent } from "./Components/GeneratorComponent";
+export { GeneratorComponent } from "./Components/GeneratorComponent";
 export { JSONCreatorMapping } from "./Components/JSONCreatorMapping";
 export { JSONProcessor } from "./Components/JSONProcessor";
 export { YAMLCreatorMapping } from "./Components/YAMLCreatorMapping";

@@ -3,7 +3,7 @@ import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extend
 /**
  * Represents a component which belongs to a generator.
  */
-export abstract class GeneratrorComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TResolved>
+export abstract class GeneratorComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TResolved>
 {
     /**
      * The generator of this component.

@@ -1,11 +1,11 @@
 import { FileMapping, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { readFile } from "fs-extra";
-import { GeneratrorComponent } from "./GeneratorComponent";
+import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
  * Provides a basic implementation of the `IFileMapping` interface.
  */
-export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratrorComponent<TSettings, TOptions, FileMapping<TSettings, TOptions>> implements IFileMapping<TSettings, TOptions>
+export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, FileMapping<TSettings, TOptions>> implements IFileMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `FileMappingBase` class.

@@ -1,10 +1,10 @@
 import { ComponentCollection, GeneratorOptions, IComponentCategory, IComponentCollection, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratrorComponent } from "./GeneratorComponent";
+import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
  * Represents a collection of components.
  */
-export abstract class ComponentCollectionBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratrorComponent<TSettings, TOptions, ComponentCollection<TSettings, TOptions>> implements IComponentCollection<TSettings, TOptions>
+export abstract class ComponentCollectionBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, ComponentCollection<TSettings, TOptions>> implements IComponentCollection<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `ComponentCollectionBase` class.
