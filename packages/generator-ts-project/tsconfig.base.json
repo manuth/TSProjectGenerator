@@ -3,9 +3,11 @@
     "compilerOptions": {
         "declaration": true,
         "declarationMap": true,
-        "typeRoots": [
-            "./node_modules/@types"
-        ],
+        "paths": {
+            "@manuth/*": [
+                "../*"
+            ]
+        },
         "module": "CommonJS",
         "lib": [
             "ES2020"
