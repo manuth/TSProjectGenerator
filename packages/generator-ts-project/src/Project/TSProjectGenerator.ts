@@ -108,8 +108,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 {
                     let tsConfig = parse((await readFile(fileMapping.Source)).toString());
                     delete tsConfig.compilerOptions.declarationMap;
-                    delete tsConfig.compilerOptions.typeRoots;
-
+                    delete tsConfig.compilerOptions.paths;
                     return new JSONCreatorMapping(generator, fileMapping.Destination, tsConfig).Processor();
                 }
             },

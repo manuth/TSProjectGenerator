@@ -225,5 +225,5 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
      * @returns
      * The message to show to the user.
      */
-    protected abstract async Message(answers: TSettings): Promise<string>;
+    protected abstract Message(answers: TSettings): Promise<string>;
 }

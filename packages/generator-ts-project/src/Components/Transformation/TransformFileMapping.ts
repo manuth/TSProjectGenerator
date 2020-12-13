@@ -65,7 +65,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
      * @returns
      * An object loaded from the `text`.
      */
-    protected abstract async Parse(text: string): Promise<TData>;
+    protected abstract Parse(text: string): Promise<TData>;
 
     /**
      * Dumps the `data` as a text representing the object.
@@ -76,5 +76,5 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
      * @returns
      * A text representing the `data`.
      */
-    protected abstract async Dump(data: TData): Promise<string>;
+    protected abstract Dump(data: TData): Promise<string>;
 }
