@@ -15,12 +15,15 @@ export { TypeScriptTransformMapping } from "./Components/Transformation/TypeScri
 export { YAMLTransformMapping } from "./Components/Transformation/YAMLTransformMapping";
 export { AppGenerator } from "./generators/app/AppGenerator";
 export { GeneratorLoader } from "./generators/app/GeneratorLoader";
+export { IProjectType } from "./generators/app/IProjectType";
 export { ProjectType } from "./generators/app/ProjectType";
+export { ProjectTypeSelector } from "./generators/app/ProjectTypeSelector";
 export { ProjectSelectorSettingKey } from "./generators/app/Settings/ProjectSelectorSettingKey";
 export { IProjectSelectorSettings } from "./generators/app/Settings/IProjectSelectorSettings";
 export { TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorCodeWorkspace";
 export { TSGeneratorComponentCollection } from "./generators/generator/Components/TSGeneratorComponentCollection";
 export { TSGeneratorCategory } from "./generators/generator/Components/TSGeneratorCategory";
+export { TSGeneratorGeneralCategory } from "./generators/generator/Components/TSGeneratorGeneralCategory";
 export { TSGeneratorDependencies } from "./generators/generator/Dependencies/TSGeneratorDependencies";
 export { TSGeneratorExampleDependencies } from "./generators/generator/Dependencies/TSGeneratorExampleDependencies";
 export { TSGeneratorPackageFileMapping } from "./generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
@@ -71,8 +74,8 @@ export { TSProjectWorkspaceProcessor } from "./Project/VSCode/TSProjectWorkspace
 export { CodeWorkspaceComponent } from "./VSCode/Components/CodeWorkspaceComponent";
 export { CodeFileMappingCreator } from "./VSCode/FileMappings/CodeFileMappingCreator";
 export { CodeWorkspaceProvider } from "./VSCode/FileMappings/CodeWorkspaceProvider";
-export { WorkspaceFileLoader } from "./VSCode/FileMappings/WorkspaceFileLoader";
 export { WorkspaceFileCreator } from "./VSCode/FileMappings/WorkspaceFileCreator";
+export { WorkspaceFileLoader } from "./VSCode/FileMappings/WorkspaceFileLoader";
 export { WorkspaceFolderCreator } from "./VSCode/FileMappings/WorkspaceFolderCreator";
 export { WorkspaceFolderLoader } from "./VSCode/FileMappings/WorkspaceFolderLoader";
 export { ExtensionsProcessor } from "./VSCode/ExtensionsProcessor";
