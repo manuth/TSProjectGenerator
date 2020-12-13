@@ -52,7 +52,7 @@ export class DependabotFileMapping<TSettings extends IGeneratorSettings, TOption
         let updateKey = "updates";
         let configurations: any[] = document.get(updateKey).toJSON();
 
-        for (let i = 1; i < configurations.length; i++)
+        for (let i = configurations.length - 1; i > 0; i--)
         {
             document.deleteIn([updateKey, i]);
         }
