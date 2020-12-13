@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -31,7 +31,7 @@ export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGene
                 "Checking whether all necessary components are present…",
                 () =>
                 {
-                    for (let componentType of [TSProjectWorkspaceFolder])
+                    for (let componentType of [TSProjectCodeWorkspaceFolder])
                     {
                         ok(
                             category.Components.some(

@@ -10,10 +10,10 @@ import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcess
 /**
  * Provides a component for creating a vscode-workspace folder for `TSProject`s.
  */
-export class TSProjectWorkspaceFolder<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceComponent<TSettings, TOptions>
+export class TSProjectCodeWorkspaceFolder<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceComponent<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the `TSProjectCodeWorkspaceComponent` class.
+     * Initializes a new isntance of the `TSProjectCodeWorkspaceFolder` class.
      *
      * @param generator
      * The generator of the component.

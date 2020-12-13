@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
+import { TSGeneratorCodeWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspaceFolder";
 import { TSGeneratorGeneralCategory } from "../../../../generators/generator/Components/TSGeneratorGeneralCategory";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
@@ -31,7 +31,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 "Checking whether all components for `TSGenerator`s are present…",
                 async () =>
                 {
-                    for (let componentType of [TSGeneratorCodeWorkspace])
+                    for (let componentType of [TSGeneratorCodeWorkspaceFolder])
                     {
                         ok(collection.Components.some((component) => component instanceof componentType));
                     }

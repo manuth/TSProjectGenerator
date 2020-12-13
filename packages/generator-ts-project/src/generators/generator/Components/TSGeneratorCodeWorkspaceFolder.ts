@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
-import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspaceProcessor";
@@ -8,10 +8,10 @@ import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspacePro
 /**
  * Provides a component for creating a vscode-workspace folder for `TSGenerator`s.
  */
-export class TSGeneratorCodeWorkspace<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectWorkspaceFolder<TSettings, TOptions>
+export class TSGeneratorCodeWorkspaceFolder<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectCodeWorkspaceFolder<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the `TSGeneratorWorkspaceFolder` class.
+     * Initializes a new isntance of the `TSGeneratorCodeWorkspaceFolder` class.
      *
      * @param generator
      * The generator of the component.

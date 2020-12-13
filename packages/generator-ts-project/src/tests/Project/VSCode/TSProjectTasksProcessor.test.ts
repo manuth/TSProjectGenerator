@@ -1,7 +1,7 @@
 import { deepStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
-import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksProcessor";
@@ -19,14 +19,14 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
         "TSProjectTasksProcessor",
         () =>
         {
-            let component: TSProjectWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
+            let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectTasksProcessor<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    component = new TSProjectWorkspaceFolder(await context.Generator);
+                    component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TSProjectTasksProcessor(component);
                 });
 

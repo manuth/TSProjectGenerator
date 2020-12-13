@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
+import { TSGeneratorCodeWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspaceFolder";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -50,7 +50,7 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
                         ]
                     };
 
-                    component = new TSGeneratorCodeWorkspace(await context.Generator);
+                    component = new TSGeneratorCodeWorkspaceFolder(await context.Generator);
                     processor = new TSGeneratorLaunchSettingsProcessor(component);
                 });
 

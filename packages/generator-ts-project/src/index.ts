@@ -20,7 +20,7 @@ export { ProjectType } from "./generators/app/ProjectType";
 export { ProjectTypeSelector } from "./generators/app/ProjectTypeSelector";
 export { ProjectSelectorSettingKey } from "./generators/app/Settings/ProjectSelectorSettingKey";
 export { IProjectSelectorSettings } from "./generators/app/Settings/IProjectSelectorSettings";
-export { TSGeneratorCodeWorkspace } from "./generators/generator/Components/TSGeneratorCodeWorkspace";
+export { TSGeneratorCodeWorkspaceFolder } from "./generators/generator/Components/TSGeneratorCodeWorkspaceFolder";
 export { TSGeneratorComponentCollection } from "./generators/generator/Components/TSGeneratorComponentCollection";
 export { TSGeneratorCategory } from "./generators/generator/Components/TSGeneratorCategory";
 export { TSGeneratorGeneralCategory } from "./generators/generator/Components/TSGeneratorGeneralCategory";
@@ -52,7 +52,7 @@ export { PackageFileMapping } from "./NPMPackaging/FileMappings/PackageFileMappi
 export { IScriptMapping } from "./NPMPackaging/Scripts/IScriptMapping";
 export { ScriptMapping } from "./NPMPackaging/Scripts/ScriptMapping";
 export { ScriptProcessor } from "./NPMPackaging/Scripts/ScriptProcessor";
-export { TSProjectWorkspaceFolder } from "./Project/Components/TSProjectCodeWorkspaceComponent";
+export { TSProjectCodeWorkspaceFolder } from "./Project/Components/TSProjectCodeWorkspaceFolder";
 export { TSProjectComponentCollection } from "./Project/Components/TSProjectComponentCollection";
 export { TSProjectGeneralCategory } from "./Project/Components/TSProjectGeneralCategory";
 export { NPMIgnoreFileMapping } from "./Project/FileMappings/NPMIgnoreFileMapping";
