@@ -1,5 +1,5 @@
-import Assert = require("assert");
-import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { strictEqual } from "assert";
+import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Constants } from "../../../Core/Constants";
 import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
 import { TestContext } from "../../TestContext";
@@ -22,7 +22,7 @@ export function PackageDependencyCollectionTests(context: TestContext<TestGenera
                 {
                     let dependency = context.Random.pick(Constants.Dependencies.Keys);
 
-                    Assert.strictEqual(
+                    strictEqual(
                         new PackageDependencyCollection(
                             {
                                 dependencies: [

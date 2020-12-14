@@ -1,7 +1,7 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { join, normalize } from "upath";
-import { TSProjectWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor";
@@ -20,14 +20,14 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
         "TSProjectLaunchSettingsProcessor",
         () =>
         {
-            let component: TSProjectWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
+            let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectLaunchSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(0);
-                    component = new TSProjectWorkspaceFolder(await context.Generator);
+                    component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TSProjectLaunchSettingsProcessor(component);
                 });
 
@@ -37,7 +37,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 {
                     let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
 
-                    Assert.ok(
+                    ok(
                         launchSettings.configurations.every(
                             (debugConfig) => !normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js")));
                 });
@@ -99,7 +99,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                                 break;
                         }
 
-                        Assert.strictEqual(actual, path);
+                        strictEqual(actual, path);
                     }
                 });
         });

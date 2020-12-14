@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
@@ -33,7 +33,7 @@ export function TSProjectComponentCollectionTests(context: TestContext<TSProject
                 {
                     for (let categoryType of [TSProjectGeneralCategory])
                     {
-                        Assert.ok(collection.Categories.some((category) => category instanceof categoryType));
+                        ok(collection.Categories.some((category) => category instanceof categoryType));
                     }
                 });
         });

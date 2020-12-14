@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../Components/JSONProcessor";
 import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 

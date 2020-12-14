@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { LintingComponent } from "../../../Linting/Components/LintingComponent";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
@@ -29,7 +29,7 @@ export function LintingComponentTests(context: TestContext<TSProjectGenerator>):
         {
             for (let fileMappingType of [ESLintRCFileMapping])
             {
-                Assert.ok(
+                ok(
                     component.FileMappings.some(
                         (fileMapping) =>
                         {

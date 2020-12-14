@@ -1,10 +1,10 @@
-import { Component, GeneratorOptions, IComponent, IFileMapping, IGenerator, Question, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratrorComponent } from "./GeneratorComponent";
+import { Component, GeneratorOptions, IComponent, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
+import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
  * Provides a basic implementation of the `IComponent` interface.
  */
-export abstract class ComponentBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratrorComponent<TSettings, TOptions, Component<TSettings, TOptions>> implements IComponent<TSettings, TOptions>
+export abstract class ComponentBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, Component<TSettings, TOptions>> implements IComponent<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the `ComponentBase` class.

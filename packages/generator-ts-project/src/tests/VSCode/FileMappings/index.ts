@@ -1,4 +1,4 @@
-import { TestGenerator, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
 import { CodeWorkspaceProviderTests } from "./CodeWorkspaceProvider.test";
 import { WorkspaceFileCreatorTests } from "./WorkspaceFileCreator.test";

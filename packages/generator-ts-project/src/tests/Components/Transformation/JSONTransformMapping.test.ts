@@ -1,6 +1,7 @@
-import Assert = require("assert");
+import { deepStrictEqual, ok } from "assert";
+import { EOL } from "os";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
 import { JSONTransformMapping } from "../../../Components/Transformation/JSONTransformMapping";
@@ -78,13 +79,6 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             setup(
                 async () =>
                 {
@@ -97,7 +91,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                 "Checking whether the data is parsed correctly…",
                 async () =>
                 {
-                    Assert.deepStrictEqual(await fileMappingOptions.Metadata, sourceData);
+                    deepStrictEqual(await fileMappingOptions.Metadata, sourceData);
                 });
 
             test(
@@ -105,7 +99,15 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                 async () =>
                 {
                     await tester.Run();
-                    Assert.deepStrictEqual(JSON.parse(await tester.Content), randomData);
+                    deepStrictEqual(JSON.parse(await tester.Content), randomData);
+                });
+
+            test(
+                "Checking whether a trailing new-line is added…",
+                async () =>
+                {
+                    await tester.Run();
+                    ok((await tester.Content).endsWith(EOL));
                 });
         });
 }

@@ -1,12 +1,12 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { spawnSync } from "child_process";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
-import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../../TestContext";
 
@@ -68,7 +68,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 async function()
                 {
                     this.slow(2 * 1000);
-                    Assert.ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
+                    ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
                 });
 
             test(
@@ -76,7 +76,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 async function()
                 {
                     this.slow(2 * 1000);
-                    Assert.ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
+                    ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
                 });
         });
 }

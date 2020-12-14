@@ -1,6 +1,5 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { AppGenerator as AppGeneratorBase, ProjectType } from "@manuth/generator-ts-project";
-import { IProjectType } from "@manuth/generator-ts-project/lib/generators/app/IProjectType";
+import { AppGenerator as AppGeneratorBase, IProjectType, ProjectType } from "@manuth/generator-ts-project";
 import { join } from "upath";
 
 /**

@@ -2,7 +2,7 @@ import { GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-ge
 import { ComponentCategoryBase } from "../../Components/ComponentCategoryBase";
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectWorkspaceFolder } from "./TSProjectCodeWorkspaceComponent";
+import { TSProjectCodeWorkspaceFolder } from "./TSProjectCodeWorkspaceFolder";
 
 /**
  * Provides general components for `TSProject`s.
@@ -52,6 +52,6 @@ export class TSProjectGeneralCategory<TSettings extends ITSProjectSettings, TOpt
      */
     protected get WorkspaceComponent(): IComponent<TSettings, TOptions>
     {
-        return new TSProjectWorkspaceFolder(this.Generator);
+        return new TSProjectCodeWorkspaceFolder(this.Generator);
     }
 }

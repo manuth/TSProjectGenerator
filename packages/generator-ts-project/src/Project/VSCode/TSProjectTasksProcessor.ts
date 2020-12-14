@@ -1,4 +1,3 @@
-import { isNullOrUndefined } from "util";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
@@ -111,7 +110,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
             task.problemMatcher = (Array.isArray(task.problemMatcher) ? task.problemMatcher : [task.problemMatcher]).map(
                 (problemMatcher) =>
                 {
-                    if (!isNullOrUndefined(problemMatcher))
+                    if (problemMatcher)
                     {
                         if (
                             Array.isArray(problemMatcher.fileLocation) &&

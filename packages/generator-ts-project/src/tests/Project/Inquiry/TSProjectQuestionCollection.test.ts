@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
@@ -43,7 +43,7 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
 
                     for (let questionType of questionTypes)
                     {
-                        Assert.ok(
+                        ok(
                             questionCollection.Questions.some(
                                 (question) => question instanceof questionType));
                     }

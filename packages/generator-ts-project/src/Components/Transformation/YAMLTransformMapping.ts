@@ -1,5 +1,7 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import { parseAllDocuments, Document, scalarOptions } from "yaml";
+import { EOL } from "os";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { split } from "eol";
+import { Document, parseAllDocuments, scalarOptions } from "yaml";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
@@ -43,7 +45,7 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
      */
     protected async Dump(metadata: Document.Parsed[]): Promise<string>
     {
-        return metadata.map(
+        return split(metadata.map(
             (document, index) =>
             {
                 let initialWidth = scalarOptions.str.fold.lineWidth;
@@ -62,6 +64,6 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
                 {
                     scalarOptions.str.fold.lineWidth = initialWidth;
                 }
-            }).join("");
+            }).join("")).join(EOL);
     }
 }

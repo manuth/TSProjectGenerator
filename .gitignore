@@ -69,8 +69,10 @@ typings/
 *.tgz
 
 # Redundant files
+packages/*/templates/.github/
 packages/*/.npmignore
 packages/*/.drone.yml
+packages/*/templates/CHANGELOG.md.ejs
 packages/*/LICENSE
 packages/generator-ts-project/templates/.gitignore.ejs
 

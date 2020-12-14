@@ -1,14 +1,14 @@
-import Assert = require("assert");
+import { ok } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
-import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
-import { TSGeneratorCodeWorkspace } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspace";
+import { TSGeneratorCodeWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspaceFolder";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TSGeneratorLaunchSettingsProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchSettingsProcessor";
+import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
+import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
 import { TestContext } from "../../../TestContext";
 
 /**
@@ -50,7 +50,7 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
                         ]
                     };
 
-                    component = new TSGeneratorCodeWorkspace(await context.Generator);
+                    component = new TSGeneratorCodeWorkspaceFolder(await context.Generator);
                     processor = new TSGeneratorLaunchSettingsProcessor(component);
                 });
 
@@ -67,14 +67,14 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
                     let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
                     let debugConfigs = launchSettings.configurations ?? [];
 
-                    Assert.ok(
+                    ok(
                         debugConfigs.some(
                             (debugConfig) =>
                             {
                                 return debugConfig.name === "Launch Yeoman";
                             }));
 
-                    Assert.ok(
+                    ok(
                         settings[TSGeneratorSettingKey.SubGenerators].every(
                             (subGeneratorOptions) =>
                             {

@@ -1,11 +1,14 @@
 diff --git a/.npmignore b/.npmignore
-index 9d3909d..e8a353f 100644
+index 74af7d7..e8a353f 100644
 --- a/.npmignore
 +++ b/.npmignore
-@@ -123,6 +123,3 @@ tsconfig.*.json
+@@ -123,9 +123,3 @@ tsconfig.*.json
  
  # Visual Studio Code-Environment
  .vscode/
+-
+-# GitHub configuration
+-.github/
 -
 -# Drone configuration
 -.drone.yml

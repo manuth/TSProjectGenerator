@@ -116,5 +116,8 @@ dist
 # Unit-Tests
 [Ll]ib/tests/
 
+# GitHub configuration
+.github/
+
 # Drone configuration
 .drone.yml

@@ -1,6 +1,7 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { join } from "upath";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { DependabotFileMappingTests } from "./DependabotFileMapping.test";
 import { DroneFileMappingTests } from "./DroneFileMapping.test";
 import { MarkdownFileProcessorTests } from "./MarkdownFileProcessor.test";
 
@@ -22,4 +23,5 @@ suite(
 
         MarkdownFileProcessorTests(context);
         DroneFileMappingTests(projectContext);
+        DependabotFileMappingTests(projectContext);
     });

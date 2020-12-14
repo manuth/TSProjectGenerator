@@ -1,6 +1,6 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import dedent = require("dedent");
-import { writeFile, readFile } from "fs-extra";
+import { readFile, writeFile } from "fs-extra";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TestContext } from "../TestContext";
 
@@ -39,7 +39,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                     this.slow(45 * 1000);
                     await writeFile(generator.destinationPath(fileName), testCode);
                     await generator.cleanup();
-                    Assert.strictEqual((await readFile(generator.destinationPath(fileName))).toString(), testCode.replace(/'/g, '"'));
+                    strictEqual((await readFile(generator.destinationPath(fileName))).toString(), testCode.replace(/'/g, '"'));
                 });
         });
 }

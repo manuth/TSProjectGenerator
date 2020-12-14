@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -40,7 +40,7 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
                 "Checking whether the name is taken from the destination-directory…",
                 async () =>
                 {
-                    Assert.strictEqual(
+                    strictEqual(
                         await question.Default(
                             {
                                 ...generator.Settings,

@@ -1,14 +1,12 @@
 import { EOL } from "os";
 import { ReadLine } from "readline";
-import inquirer = require("inquirer");
-import Base = require("inquirer/lib/prompts/base");
+import { Answers, ConfirmQuestionOptions, DistinctQuestion, prompt } from "inquirer";
+import Prompt = require("inquirer/lib/prompts/base");
 import kebabCase = require("lodash.kebabcase");
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { PromptCallback } from "./PromptCallback";
-import Answers = inquirer.Answers;
-import DistinctQuestion = inquirer.DistinctQuestion;
 
 declare module "inquirer"
 {
@@ -28,7 +26,7 @@ declare module "inquirer"
 /**
  * Provides options for the `SubGeneratorPrompt`.
  */
-interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends inquirer.ConfirmQuestionOptions<T>
+interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends ConfirmQuestionOptions<T>
 {
     /**
      * @inheritdoc
@@ -55,7 +53,7 @@ interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGenerat
 /**
  * Provides a prompt for asking for sub-generators.
  */
-export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISubGeneratorQuestion<T>>
+export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<ISubGeneratorQuestion<T>>
 {
     /**
      * The name of the prompt-type.
@@ -159,7 +157,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
      */
     public async AddSubGenerator(): Promise<void>
     {
-        this.SubGeneratorSettings.push(await inquirer.prompt(this.Questions));
+        this.SubGeneratorSettings.push(await prompt(this.Questions));
     }
 
     /**
@@ -181,7 +179,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Base<ISu
                 {
                     await this.AddSubGenerator();
 
-                    answerHash = await inquirer.prompt<IInternalAnswerHash>(
+                    answerHash = await prompt<IInternalAnswerHash>(
                         [
                             {
                                 type: "confirm",

@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { doesNotReject, doesNotThrow } from "assert";
 import { spawnSync } from "child_process";
 import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
@@ -28,20 +28,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     tempDir = new TempDirectory();
                 });
 
-            teardown(
-                function()
-                {
-                    this.timeout(0);
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether the generator can be executed…",
                 async function()
                 {
                     this.timeout(0);
                     this.slow(1.5 * 60 * 1000);
-                    await Assert.doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                    await doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
             test(
@@ -51,7 +44,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     this.timeout(0);
                     this.slow(3 * 60 * 1000);
 
-                    await Assert.doesNotReject(
+                    await doesNotReject(
                         () =>
                         {
                             return context.ExecuteGenerator().withPrompts(
@@ -80,7 +73,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             cwd: tempDir.FullName
                         });
 
-                    Assert.doesNotThrow(
+                    doesNotThrow(
                         () =>
                         {
                             require(tempDir.FullName);
@@ -95,7 +88,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     this.slow(5 * 60 * 1000);
                     let subGeneratorDir = new TempDirectory();
 
-                    await Assert.doesNotReject(
+                    await doesNotReject(
                         async () =>
                         {
                             return context.ExecuteGenerator().withPrompts(
@@ -124,15 +117,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             cwd: tempDir.FullName
                         });
 
-                    await Assert.doesNotReject(
+                    await doesNotReject(
                         async () =>
                         {
                             return new GeneratorContext(
                                 tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
                                     subGeneratorDir.FullName).toPromise();
                         });
-
-                    subGeneratorDir.Dispose();
                 });
         });
 }

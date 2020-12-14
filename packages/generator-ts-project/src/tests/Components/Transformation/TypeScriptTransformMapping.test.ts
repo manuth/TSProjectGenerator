@@ -1,9 +1,9 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { writeFile, readFile } from "fs-extra";
+import { readFile, writeFile } from "fs-extra";
 import { SourceFile, VariableDeclarationKind } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../../Components/Transformation/TypeScriptTransformMapping";
 import { TestContext } from "../../TestContext";
@@ -93,18 +93,11 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             test(
                 "Checking whether the file is parsed correctly…",
                 async () =>
                 {
-                    Assert.strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
+                    strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
                 });
 
             test(
@@ -112,7 +105,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                 async () =>
                 {
                     await tester.Run();
-                    Assert.strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                    strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
                 });
         });
 }

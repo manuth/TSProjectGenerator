@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Question, KeyUnion, ChoiceCollection } from "inquirer";
+import { ChoiceCollection, KeyUnion, Question } from "inquirer";
 
 /**
  * Represents a question.
@@ -225,5 +225,5 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
      * @returns
      * The message to show to the user.
      */
-    protected abstract async Message(answers: TSettings): Promise<string>;
+    protected abstract Message(answers: TSettings): Promise<string>;
 }

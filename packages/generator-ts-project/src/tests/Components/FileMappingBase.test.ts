@@ -1,6 +1,6 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
@@ -97,19 +97,12 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                     await tester.Commit();
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    tempSourceFile.Dispose();
-                    tempDestinationFile.Dispose();
-                });
-
             test(
                 "Checking whether the content is read from the source-file…",
                 async () =>
                 {
                     await writeFile(tempSourceFile.FullName, randomValue);
-                    Assert.strictEqual(await fileMappingOptions.Content, randomValue);
+                    strictEqual(await fileMappingOptions.Content, randomValue);
                 });
 
             test(
@@ -118,7 +111,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                 {
                     await writeFile(tempSourceFile.FullName, randomValue);
                     await fileMappingOptions.Processor();
-                    Assert.strictEqual(generator.fs.read(tempDestinationFile.FullName), randomValue);
+                    strictEqual(generator.fs.read(tempDestinationFile.FullName), randomValue);
                 });
         });
 }

@@ -6,7 +6,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.2...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.2.1...dev)
+
+## TSProjectGenerator v1.2.1
+### Added
+  - Missing exports
+
+### Fixed
+  - Broken Dependabot-settings
+  - Typos
+
+### Updated
+  - All dependencies
+  - TypeScript-settings
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.2.0...v1.2.1)
+
+## TSProjectGenerator v1.2.0
+### Added
+  - A feature for creating `CHANGELOG` files for new projects
+  - A feature to set the default package-name to the name of the existing package
+  - New unit-tests
+
+### Updated
+  - The development environment
+  - The format of transformed JSON and YAML files
+  - All dependencies
+  - The typescript-configuration for tests
+  - The `.npmignore` file to exclude the `.github` directory
+  - `.json` and `.yml`-filemappings to include new lines at the end of files
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...v1.2.0)
+
+## TSProjectGenerator v1.1.4
+### Updated
+  - The `.eslintrc.js`-file to exclude redundant rule-configurations
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.3...v1.1.4)
+
+## TSProjectGenerator v1.1.3
+### Added
+  - A dependabot configuration
+  - The feature to generate a dependabot configuration using the `MyTSProjectGenerator`
+
+### Updated
+  - All dependencies
+  - The coding-style
+  - The markdown-processing for the `MyTSProjectGenerator`
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.2...v1.1.3)
 
 ## TSProjectGenerator v1.1.2
 ### Fixed

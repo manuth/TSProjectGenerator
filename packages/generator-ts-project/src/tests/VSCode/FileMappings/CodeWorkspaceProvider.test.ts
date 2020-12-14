@@ -1,9 +1,9 @@
-import Assert = require("assert");
+import { deepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { writeFile, remove, pathExists } from "fs-extra";
+import { pathExists, remove, writeFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
@@ -38,12 +38,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     generator = await context.Generator;
                     fileMappingTester = new FileMappingTester(generator, { Destination: fileName });
                     workspaceProvider = new TestCodeWorkspaceProvider(new CodeWorkspaceComponent(generator));
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    tempDir.Dispose();
                 });
 
             teardown(
@@ -88,10 +82,10 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                                     tasks: randomTasks
                                 });
 
-                            Assert.strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
-                            Assert.strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
-                            Assert.strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
-                            Assert.strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
+                            strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
+                            strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
+                            strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
+                            strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
                         });
                 });
 
@@ -114,7 +108,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                             await writeFile(fileName, JSON.stringify(randomData));
                             await fileMappingTester.Commit();
                             generator.fs.exists(fileName);
-                            Assert.deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
+                            deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 
                     test(
@@ -128,7 +122,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                                         // Hello world
                                         ${JSON.stringify(randomData)}`));
 
-                            Assert.strictEqual(JSON.stringify(await workspaceProvider.ReadJSON(fileName)), JSON.stringify(randomData));
+                            strictEqual(JSON.stringify(await workspaceProvider.ReadJSON(fileName)), JSON.stringify(randomData));
                         });
                 });
         });

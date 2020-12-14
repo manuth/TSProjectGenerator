@@ -1,9 +1,12 @@
-import Assert = require("assert");
+import { notStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
+import { Package } from "@manuth/package-json-editor";
+import { TempDirectory } from "@manuth/temp-files";
+import { writeJSON } from "fs-extra";
 import { TSGeneratorModuleNameQuestion } from "../../../../generators/generator/Inquiry/TSGeneratorModuleNameQuestion";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../../TestContext";
 
 /**
@@ -18,6 +21,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
         "TSGeneratorModuleNameQuestion",
         () =>
         {
+            let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
             let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings, GeneratorOptions>;
 
@@ -25,9 +29,11 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                 async function()
                 {
                     this.timeout(0);
+                    tempDir = new TempDirectory();
 
                     settings = {
                         ...(await context.Generator).Settings,
+                        [TSProjectSettingKey.Destination]: tempDir.FullName,
                         [TSProjectSettingKey.DisplayName]: "ThisIsATestGenerator"
                     };
 
@@ -42,7 +48,16 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether the default value is applied correctly…",
                         async () =>
                         {
-                            Assert.strictEqual(await question.default(settings), "generator-this-is-a-test");
+                            strictEqual(await question.default(settings), "generator-this-is-a-test");
+                        });
+
+                    test(
+                        "Checking whether names of existing packages are preserved…",
+                        async () =>
+                        {
+                            let npmPackage = new Package(tempDir.MakePath("package.json"), { name: "this-is-a-test" });
+                            await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
+                            strictEqual(await question.default(settings), npmPackage.Name);
                         });
                 });
 
@@ -54,16 +69,16 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("lol", settings), true);
-                            Assert.strictEqual(await question.validate("generator-lol", settings), true);
+                            notStrictEqual(await question.validate("lol", settings), true);
+                            strictEqual(await question.validate("generator-lol", settings), true);
                         });
 
                     test(
                         "Checking whether scoped module-names are only valid if they start with `generator-`…",
                         async () =>
                         {
-                            Assert.notStrictEqual(await question.validate("@me/lol", settings), true);
-                            Assert.strictEqual(await question.validate("@me/generator-lol", settings), true);
+                            notStrictEqual(await question.validate("@me/lol", settings), true);
+                            strictEqual(await question.validate("@me/generator-lol", settings), true);
                         });
                 });
         });

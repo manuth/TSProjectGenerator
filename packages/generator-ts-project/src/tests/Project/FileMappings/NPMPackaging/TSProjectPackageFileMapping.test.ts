@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -52,7 +52,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
              */
             async function AssertScript(name: string, content: string): Promise<void>
             {
-                Assert.strictEqual((await tester.Package).Scripts.Get(name), content);
+                strictEqual((await tester.Package).Scripts.Get(name), content);
             }
 
             suiteSetup(
@@ -82,8 +82,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
                             tester.Generator.Settings[TSProjectSettingKey.Description] = randomDescription;
                             await tester.Run();
-                            Assert.strictEqual((await tester.Package).Name, randomName);
-                            Assert.strictEqual((await tester.Package).Description, randomDescription);
+                            strictEqual((await tester.Package).Name, randomName);
+                            strictEqual((await tester.Package).Description, randomDescription);
                         });
                 });
 
@@ -111,8 +111,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 Constants.Package.Scripts.Get("lint-code").replace("lint-code-base", "lint-base"));
 
                             await AssertScript(
-                                "lint-compact",
-                                Constants.Package.Scripts.Get("lint-code-compact").replace("lint-code", "lint"));
+                                "lint-ide",
+                                Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
 
                             await AssertScriptCopy("test");
                             return AssertScriptCopy("prepare");

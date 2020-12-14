@@ -1,5 +1,5 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import JSON = require("comment-json");
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { parse } from "comment-json";
 import { readFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../IExtensionSettings";
@@ -108,6 +108,6 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
      */
     protected async ReadJSON(path: string): Promise<any>
     {
-        return JSON.parse((await readFile(path)).toString());
+        return parse((await readFile(path)).toString());
     }
 }

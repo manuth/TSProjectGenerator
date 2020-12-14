@@ -1,5 +1,5 @@
-import { GeneratorOptions, IGeneratorSettings, IGenerator } from "@manuth/extended-yo-generator";
-import { SourceFile, Project } from "ts-morph";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Project, SourceFile } from "ts-morph";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**

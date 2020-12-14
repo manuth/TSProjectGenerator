@@ -1,7 +1,7 @@
-import Assert = require("assert");
+import { doesNotReject, strictEqual } from "assert";
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext, IRunContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -68,12 +68,6 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     tempDir = new TempDirectory();
                 });
 
-            teardown(
-                () =>
-                {
-                    tempDir.Dispose();
-                });
-
             test(
                 "Checking whether the generated project can be installed…",
                 function()
@@ -101,8 +95,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             cwd: mainContext.generator.destinationPath()
                         });
 
-                    Assert.strictEqual(installationResult.status, 0);
-                    Assert.strictEqual(buildResult.status, 0);
+                    strictEqual(installationResult.status, 0);
+                    strictEqual(buildResult.status, 0);
                 });
 
             test(
@@ -112,7 +106,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     this.timeout(0);
                     this.slow(10 * 1000);
                     let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, "app"));
-                    return Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                    return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
             test(
@@ -125,7 +119,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                     {
                         let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, subGeneratorOptions[SubGeneratorSettingKey.Name]));
-                        await Assert.doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                        await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                     }
                 });
 
@@ -142,7 +136,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             cwd: mainContext.generator.destinationPath()
                         });
 
-                    Assert.strictEqual(result.status, 0);
+                    strictEqual(result.status, 0);
                 });
         });
 }

@@ -1,6 +1,6 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator, ITestGeneratorOptions, ITestOptions, ITestGeneratorSettings, FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
@@ -55,19 +55,12 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                     tester = new FileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            suiteTeardown(
-                () =>
-                {
-                    sourceFile.Dispose();
-                    destinationFile.Dispose();
-                });
-
             test(
                 "Checking whether unnecessary new-lines are stripped correctly…",
                 async () =>
                 {
                     await tester.Run();
-                    Assert.strictEqual(await tester.Content, expected);
+                    strictEqual(await tester.Content, expected);
                 });
         });
 }

@@ -1,12 +1,21 @@
 import { applyPatch, parsePatch } from "diff";
-import { obj } from "through2";
-import Vinyl = require("vinyl");
 import { readFile } from "fs-extra";
+import { obj } from "through2";
+import File = require("vinyl");
 
-export = (patchPath: string) =>
+/**
+ * Applies a patch to the stream.
+ *
+ * @param patchPath
+ * The path to the patch to apply.
+ *
+ * @returns
+ * The resulting stream.
+ */
+export function ApplyPatch(patchPath: string): NodeJS.ReadWriteStream
 {
     return obj(
-        async (vinylFile: Vinyl, encoding, callback) =>
+        async (vinylFile: File, encoding, callback) =>
         {
             if (vinylFile.isBuffer())
             {

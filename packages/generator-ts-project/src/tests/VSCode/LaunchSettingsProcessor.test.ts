@@ -1,6 +1,6 @@
-import Assert = require("assert");
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
@@ -113,7 +113,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                         "Checking whether debug-configurations are only processed if existent…",
                         async () =>
                         {
-                            Assert.strictEqual(
+                            strictEqual(
                                 (await processor.Process({ version: "", configurations: null })).configurations,
                                 null);
                         });
@@ -127,8 +127,8 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                         "Checking whether debug-configurations can be excluded…",
                         async () =>
                         {
-                            Assert.ok((await processor.Process(launchSettings)).configurations.includes(includedDebugConfig));
-                            Assert.ok(!(await processor.Process(launchSettings)).configurations.includes(excludedDebugConfig));
+                            ok((await processor.Process(launchSettings)).configurations.includes(includedDebugConfig));
+                            ok(!(await processor.Process(launchSettings)).configurations.includes(excludedDebugConfig));
                         });
                 });
 
@@ -140,7 +140,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                         "Checking whether debug-configurations can be mutated…",
                         async () =>
                         {
-                            Assert.ok(
+                            ok(
                                 (await processor.Process(launchSettings)).configurations.some(
                                     (configuration) => configuration.name === newName));
                         });

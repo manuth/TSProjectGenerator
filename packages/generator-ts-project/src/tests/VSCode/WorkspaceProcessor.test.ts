@@ -1,7 +1,6 @@
-import Assert = require("assert");
-import { isNullOrUndefined } from "util";
+import { notStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TestGenerator, ITestGeneratorSettings, ITestGeneratorOptions, ITestOptions } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
@@ -70,20 +69,20 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                 "Checking whether custom processors can be injected…",
                 async () =>
                 {
-                    Assert.strictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    Assert.strictEqual(await component.LaunchMetadata, randomDebugSettings);
-                    Assert.strictEqual(await component.SettingsMetadata, randomSettings);
-                    Assert.strictEqual(await component.TasksMetadata, randomTasks);
+                    strictEqual(await component.ExtensionsMetadata, randomExtensions);
+                    strictEqual(await component.LaunchMetadata, randomDebugSettings);
+                    strictEqual(await component.SettingsMetadata, randomSettings);
+                    strictEqual(await component.TasksMetadata, randomTasks);
                 });
 
             test(
                 "Checking whether processors are executed only if the corresponding property exists…",
                 async () =>
                 {
-                    Assert.strictEqual(await component.ExtensionsMetadata, randomExtensions);
+                    strictEqual(await component.ExtensionsMetadata, randomExtensions);
                     delete (await workspaceLoader.WorkspaceMetadata).extensions;
-                    Assert.notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    Assert.ok(isNullOrUndefined(await component.ExtensionsMetadata));
+                    notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
+                    ok(!await component.ExtensionsMetadata);
                 });
         });
 }

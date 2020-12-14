@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { doesNotThrow, strictEqual } from "assert";
 import { spawnSync } from "child_process";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich = require("npm-which");
@@ -61,15 +61,15 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             cwd: runContext.generator.destinationPath()
                         });
 
-                    Assert.strictEqual(installationResult.status, 0);
-                    Assert.strictEqual(buildResult.status, 0);
+                    strictEqual(installationResult.status, 0);
+                    strictEqual(buildResult.status, 0);
                 });
 
             test(
                 "Checking whether the generated module can be loaded…",
                 () =>
                 {
-                    Assert.doesNotThrow(
+                    doesNotThrow(
                         () =>
                         {
                             require(runContext.generator.destinationPath());
@@ -88,7 +88,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             cwd: runContext.generator.destinationPath()
                         });
 
-                    Assert.strictEqual(result.status, 0);
+                    strictEqual(result.status, 0);
                 });
         });
 }
