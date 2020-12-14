@@ -1,5 +1,4 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { PropertyResolver } from "@manuth/extended-yo-generator/lib/Components/Resolving/PropertyResolver";
+import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver } from "@manuth/extended-yo-generator";
 import { IScriptMapping } from "./IScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
 
