@@ -52,4 +52,4 @@ When generating a generator you'll get following in addition:
 <!--- References -->
 [VSCode]: https://code.visualstudio.com/
 [Atom]: https://atom.io/
-[TSProjectGenerator]: https://github.com/manuth/TSProjectGenerator/tree/master/packages/generator-ts-project
+[TSProjectGenerator]: https://github.com/manuth/TSProjectGenerator/tree/main/packages/generator-ts-project
