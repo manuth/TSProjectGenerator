@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.2.1...dev)
+
+## TSProjectGenerator v1.2.1
+### Added
+  - Missing exports
+
+### Fixed
+  - Broken Dependabot-settings
+  - Typos
+
+### Updated
+  - All dependencies
+  - TypeScript-settings
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.2.0...v1.2.1)
+
+## TSProjectGenerator v1.2.0
 ### Added
   - A feature for creating `CHANGELOG` files for new projects
   - A feature to set the default package-name to the name of the existing package
@@ -18,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - The `.npmignore` file to exclude the `.github` directory
   - `.json` and `.yml`-filemappings to include new lines at the end of files
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...v1.2.0)
 
 ## TSProjectGenerator v1.1.4
 ### Updated
