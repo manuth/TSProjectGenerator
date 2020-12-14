@@ -14,7 +14,7 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://github.com/manuth/TSProjectGenerator#readme",
+  "homepage": "https://github.com/manuth/TSProjectGenerator/tree/master/packages/generator-my-ts-project#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manuth/TSProjectGenerator.git",
