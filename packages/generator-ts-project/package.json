@@ -91,7 +91,7 @@
     "eslint-plugin-deprecation": "^1.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^30.7.8",
-    "markdownlint-cli": "^0.25.0",
+    "markdownlint-cli": "^0.26.0",
     "mocha": "^8.2.1",
     "npm-packlist": "^2.1.4",
     "random-js": "^2.1.0",
