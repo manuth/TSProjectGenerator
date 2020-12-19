@@ -17,7 +17,7 @@ npm install -g yo <%- Name %>
 You can run the generator by invoking this command on a command prompt:
 
 ```bash
-yo <%- Name.replace(/^generator-/, "") %>
+yo <%- Name.replace(/^(@[^\/]*\/)?generator-/, "$1") %>
 ```
 
 ## Generator Output
