@@ -80,6 +80,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 "Checking whether the mocha-tests can be executed…",
                 function()
                 {
+                    this.timeout(8 * 1000);
                     this.slow(4 * 1000);
 
                     let result = spawnSync(
