@@ -69,7 +69,7 @@
     "eslint": "^7.18.0",
     "eslint-plugin-deprecation": "^1.2.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^31.0.7",
+    "eslint-plugin-jsdoc": "^32.3.0",
     "mocha": "^8.2.1",
     "rimraf": "^3.0.2",
     "shusher": "^0.1.1",
