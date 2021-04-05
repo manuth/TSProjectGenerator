@@ -136,6 +136,17 @@ export abstract class MyTSProjectGenerator
                                         Destination: join(".github", "workflows", "auto-merge.yml")
                                     }
                                 ]
+                            },
+                            {
+                                ID: MyGeneratorComponent.CodeQLAnalysisWorkflow,
+                                DisplayName: "CodeQL Analysis Workflow",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    {
+                                        Source: this.commonTemplatePath(".github", "workflows", "codeql-analysis.yml"),
+                                        Destination: join(".github", "workflows", "codeql-analysis.yml")
+                                    }
+                                ]
                             }
                         ]
                     });
