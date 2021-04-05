@@ -7,6 +7,7 @@ import merge = require("merge-stream");
 import minimist = require("minimist");
 import { basename, dirname, join, relative } from "upath";
 import { ApplyPatch } from "./gulp/ApplyPatch";
+import "./gulp/TaskFunction";
 
 let projectGeneratorName = "generator-ts-project";
 let customProjectGeneratorName = "generator-my-ts-project";
