@@ -281,7 +281,7 @@ CopyDependabotFile.description = "Copies the dependabot configuration to the pro
  */
 export function CopyWorkflows(): NodeJS.ReadWriteStream
 {
-    return src(join(workflowsDir, "**")).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dirname(workflowsDir)))));
+    return src(join(workflowsDir, "**")).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, workflowsDir))));
 }
 
 CopyWorkflows.description = "Copies the workflows to the proper package.";
