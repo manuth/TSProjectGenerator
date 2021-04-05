@@ -18,7 +18,9 @@ let licenseFile = join(__dirname, "LICENSE");
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let customNPMDiffFile = GulpPath("npmignore.diff");
-let dependabotFile = join(__dirname, ".github", "dependabot.yml");
+let dotGitHubDir = join(__dirname, ".github");
+let dependabotFile = join(dotGitHubDir, "dependabot.yml");
+let workflowsDir = join(dotGitHubDir, "workflows");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
 /**
@@ -79,7 +81,8 @@ export let CopyFiles =
                     CopyDroneFile,
                     CopyChangelogFile,
                     CopyLicenseFile,
-                    CopyDependabotFile
+                    CopyDependabotFile,
+                    CopyWorkflows
                 ]),
             ...(
                 options.watch ?
@@ -124,6 +127,12 @@ export let CopyFiles =
                                     dependabotFile
                                 ],
                                 CopyDependabotFile);
+
+                            watch(
+                                [
+                                    join(workflowsDir, "**")
+                                ],
+                                CopyWorkflows);
                         }
                     ] :
                     [])
@@ -262,3 +271,16 @@ export function CopyDependabotFile(): NodeJS.ReadWriteStream
 }
 
 CopyDependabotFile.description = "Copies the dependabot configuration to the proper mono-repo package.";
+
+/**
+ * Copies the workflows to the proper package.
+ *
+ * @returns
+ * The task.
+ */
+export function CopyWorkflows(): NodeJS.ReadWriteStream
+{
+    return src(join(workflowsDir, "**")).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dirname(workflowsDir)))));
+}
+
+CopyWorkflows.description = "Copies the workflows to the proper package.";
