@@ -59,7 +59,7 @@ steps:
     image: ubuntu
     commands:
       - export TagName=$$(cat TagName.txt)
-      - export TagHeading="/## \(.* \($${TagName}\|[$${TagName}]\)\)\$/"
+      - export TagHeading="/## \(.* \($${TagName}\|\[$${TagName}\]\)\)\$/"
       - export HeadingPattern='/## \(.* \(v[0-9.]*\|\[.*\]\)\)/'
       - cp -f CHANGELOG.md ReleaseNotes.md
       - sed -i "0,$${TagHeading}{ $${TagHeading}P ; d } ; $${HeadingPattern},\$d" ReleaseNotes.md
