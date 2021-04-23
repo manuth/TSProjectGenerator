@@ -7,6 +7,11 @@ declare global
     interface Function
     {
         /**
+         * The human-readable name of the task.
+         */
+        displayName: string;
+
+        /**
          * The description of the task.
          */
         description: string;
