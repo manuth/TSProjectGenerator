@@ -15,7 +15,7 @@
     "lint-ide": "npm run lint-local-ide && lerna run lint-ide",
     "test": "lerna run test",
     "version": "ts-node ./scripts/bumpVersion.ts",
-    "prepare": "lerna bootstrap && npm run rebuild"
+    "prepare": "lerna bootstrap --ignore-scripts && npm run rebuild"
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.3.8",
