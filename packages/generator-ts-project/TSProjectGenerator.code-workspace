@@ -94,7 +94,7 @@
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "outFiles": [
-                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
                     "!**/node_modules/**"
                 ],
                 "presentation": {
