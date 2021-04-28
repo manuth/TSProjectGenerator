@@ -16,7 +16,7 @@ steps:
     commands:
       - npm run lint
   - name: test
-    image: node
+    image: node:lts
     commands:
       - npm run test
   - name: publish package to npm
