@@ -113,5 +113,32 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                                     });
                             }));
                 });
+
+            test(
+                "Checking whether the `test`-step is adjusted correctly…",
+                async function()
+                {
+                    this.timeout(20 * 1000);
+
+                    ok(
+                        (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
+                            (document) =>
+                            {
+                                let steps: any[] = document.toJSON().steps;
+
+                                return steps.every(
+                                    (step) =>
+                                    {
+                                        if (step.name === "test")
+                                        {
+                                            return !(step.image as string).endsWith(":lts");
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    });
+                            }));
+                });
         });
 }
