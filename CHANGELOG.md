@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Fixed
+  - Broken drone-pipelines
+  - Broken vscode-settings
+
+### Added
+  - A workflow for merging Dependabot-PRs
+  - A workflow for analyzing the code
+  - A feature for adding the new workflows to the generated packages
+
+### Updated
+  - All dependencies
+  - Drone-pipelines to use small-sized images
+  - IntelliSense to improve the development environment
+  - The template of the mocha-tests
+  - Lifecycle-scripts for fastening `npm install`
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.0...dev)
 
