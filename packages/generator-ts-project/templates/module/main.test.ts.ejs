@@ -1,4 +1,4 @@
-import Assert = require("assert");
+import { strictEqual } from "assert";
 
 suite(
     "<%- Name %>",
@@ -8,6 +8,6 @@ suite(
             "Example…",
             () =>
             {
-                Assert.strictEqual(1, 1);
+                strictEqual(1, 1);
             });
     });

@@ -1,5 +1,6 @@
 import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator } from "@manuth/generator-ts-project";
+import { join } from "upath";
 import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
@@ -120,6 +121,35 @@ export abstract class MyTSProjectGenerator
                             });
                     }
                 }
+
+                components.Categories.push(
+                    {
+                        DisplayName: "Workflows",
+                        Components: [
+                            {
+                                ID: MyGeneratorComponent.AutoMergeWorkflow,
+                                DisplayName: "Dependabot Auto-Merge Workflow",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    {
+                                        Source: this.commonTemplatePath(".github", "workflows", "auto-merge.yml"),
+                                        Destination: join(".github", "workflows", "auto-merge.yml")
+                                    }
+                                ]
+                            },
+                            {
+                                ID: MyGeneratorComponent.CodeQLAnalysisWorkflow,
+                                DisplayName: "CodeQL Analysis Workflow",
+                                DefaultEnabled: true,
+                                FileMappings: [
+                                    {
+                                        Source: this.commonTemplatePath(".github", "workflows", "codeql-analysis.yml"),
+                                        Destination: join(".github", "workflows", "codeql-analysis.yml")
+                                    }
+                                ]
+                            }
+                        ]
+                    });
 
                 return components;
             }

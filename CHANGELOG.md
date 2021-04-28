@@ -6,7 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.0...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.1...dev)
+
+## TSProjectGenerator v1.3.1
+### Fixed
+  - Broken drone-pipelines
+  - Broken vscode-settings
+
+### Added
+  - A workflow for merging Dependabot-PRs
+  - A workflow for analyzing the code
+  - A feature for adding the new workflows to the generated packages
+
+### Updated
+  - All dependencies
+  - Drone-pipelines to use small-sized images
+  - IntelliSense to improve the development environment
+  - The template of the mocha-tests
+  - Lifecycle-scripts for fastening `npm install`
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.0...v1.3.1)
 
 ## TSProjectGenerator v1.3.0
 ### Updated
