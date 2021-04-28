@@ -42,7 +42,7 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^7.5.3",
+    "@manuth/extended-yo-generator": "^8.0.0",
     "@manuth/package-json-editor": "^1.4.6",
     "@manuth/temp-files": "^2.0.4",
     "@types/vscode": "^1.55.0",

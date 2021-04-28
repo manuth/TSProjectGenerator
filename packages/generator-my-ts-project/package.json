@@ -41,7 +41,7 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^7.5.3",
+    "@manuth/extended-yo-generator": "^8.0.0",
     "@manuth/generator-ts-project": "^1.3.0",
     "@manuth/temp-files": "^2.0.4",
     "chalk": "^4.1.1",
