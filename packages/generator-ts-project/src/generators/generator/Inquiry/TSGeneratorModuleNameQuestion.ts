@@ -57,6 +57,8 @@ export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings,
      */
     protected async CreateModuleName(answers: TSettings): Promise<string>
     {
-        return `generator-${(await super.CreateModuleName(answers)).replace(/(generator-)?(.*?)(-generator)?$/i, "$2")}`;
+        return `generator-${(await super.CreateModuleName(answers)).replace(
+            /^(generator-)/i, ""
+        ).replace(/-generator$/i, "")}`;
     }
 }
