@@ -64,7 +64,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      */
     protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
-        debugConfig.name = debugConfig.name.replace(/\s*TSProjectGenerator\s*/, " ");
+        debugConfig.name = debugConfig.name.replace(/(?<!\s)\s+TSProjectGenerator\s+/, " ");
         delete debugConfig.presentation;
         delete debugConfig.autoAttachChildProcesses;
 
