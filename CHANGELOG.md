@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Fixed
+  - ReDoS-threats
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.0...dev)
 
