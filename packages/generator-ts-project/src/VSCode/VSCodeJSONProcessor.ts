@@ -51,6 +51,6 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
      */
     public StripWorkspaceFolder(value: string): string
     {
-        return value.replace(/(\$\{workspaceFolder):[^}]+(\})/g, "$1$2");
+        return value.replace(/(?<=\$)(\{workspaceFolder):[^}]+(\})/g, "$1$2");
     }
 }
