@@ -7,15 +7,3 @@ updates:
     schedule:
       interval: daily
       timezone: Europe/Zurich
-  - directory: /packages/generator-ts-project
-    package-ecosystem: npm
-    target-branch: dev
-    schedule:
-      interval: daily
-      timezone: Europe/Zurich
-  - directory: /packages/generator-my-ts-project
-    package-ecosystem: npm
-    target-branch: dev
-    schedule:
-      interval: daily
-      timezone: Europe/Zurich

@@ -6,7 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.0...dev)
+
+## TSProjectGenerator v2.0.0
+### Breaking
+  - Updated `@manuth/extended-yo-generator` which requires `yo@4.0.0^` to be installed in order to use the generators
+
+### Updated
+  - All dependencies
+
+### Removed
+  - Redundant dependabot-settings
+  - Unnecessary dependencies
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.3.1...v2.0.0)
 
 ## TSProjectGenerator v1.3.1
 ### Fixed
