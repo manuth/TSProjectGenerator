@@ -63,6 +63,6 @@
     "vinyl": "^2.2.1"
   },
   "dependencies": {
-    "dargs": "^7.0.0"
+    "dargs": "^8.0.0"
   }
 }
