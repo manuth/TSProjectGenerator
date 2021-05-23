@@ -1,13 +1,10 @@
-import { SpawnOptions } from "child_process";
 import { createRequire } from "module";
-import { EOL } from "os";
 import { relative } from "path";
 import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
 import chalk = require("chalk");
 import { parse } from "comment-json";
-import dargs = require("dargs");
 import dedent = require("dedent");
 import { ESLint } from "eslint";
 import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
@@ -164,81 +161,8 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
      */
     public async install(): Promise<void>
     {
-        this.log(
-            dedent(
-                `Your workspace has been generated!
-
-                ${chalk.whiteBright("Installing Dependencies…")}`));
-
-        this.npmInstall();
-    }
-
-    /**
-     * Queues an `npm install`-command.
-     *
-     * @param packages
-     * The packages to install.
-     *
-     * @param options
-     * The options to pass to `npm`.
-     *
-     * @param spawnOptions
-     * The options for spawning the `npm`-command.
-     */
-    public npmInstall(packages?: string | string[], options?: Record<string, any>, spawnOptions?: SpawnOptions): void
-    {
-        let args = ["install"].concat(packages ?? []).concat(dargs(options ?? {}));
-
-        if (this.options.skipInstall || this.options["skip-install"])
-        {
-            this.log("Skipping install command: " + chalk.yellow("npm " + args.join(" ")));
-        }
-        else
-        {
-            (this.env as any).runLoop.add(
-                "install",
-                (done: () => void) =>
-                {
-                    this.spawnCommand(
-                        "npm",
-                        args,
-                        spawnOptions ?? {}).on(
-                            "error",
-                            (error: Error): any =>
-                            {
-                                this.log(
-                                    chalk.red("Could not finish installation.") + EOL +
-                                    "Try running the following command manually: " +
-                                    chalk.yellow("npm " + args.join(" ")));
-
-                                if (this.options.forceInstall || this.options["force-install"])
-                                {
-                                    return this.emit("error", error);
-                                }
-
-                                done();
-                            }
-                        ).on(
-                            "exit",
-                            (code: any, signal: any): any =>
-                            {
-                                if (
-                                    (code || signal) &&
-                                    (this.options.forceInstall || this.options["force-install"]))
-                                {
-                                    return this.emit(
-                                        "error",
-                                        new Error(`Installation of npm failed with code ${code || signal}`));
-                                }
-
-                                done();
-                            });
-                },
-                {
-                    once: "npm " + args.join(" ") + " " + JSON.stringify(spawnOptions),
-                    run: false
-                });
-        }
+        this.log("Your workspace has been generated!");
+        super.install();
     }
 
     /**

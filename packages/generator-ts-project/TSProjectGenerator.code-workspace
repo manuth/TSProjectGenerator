@@ -53,10 +53,6 @@
                 "preLaunchTask": "Build",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
-                "outFiles": [
-                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
-                    "!**/node_modules/**"
-                ],
                 "presentation": {
                     "order": 3
                 }
@@ -75,10 +71,6 @@
                 "preLaunchTask": "Build",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
-                "outFiles": [
-                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
-                    "!**/node_modules/**"
-                ],
                 "presentation": {
                     "order": 4
                 }
@@ -93,10 +85,6 @@
                 "preLaunchTask": "Build",
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
-                "outFiles": [
-                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
-                    "!**/node_modules/**"
-                ],
                 "presentation": {
                     "order": 5
                 }
@@ -125,6 +113,13 @@
         "files.associations": {
             ".gitignore.ejs": "ignore",
             ".npmignore.ejs": "ignore"
+        },
+        "search.exclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/*.code-search": true,
+            "lib/**/*": true,
+            "**/*.tsbuildinfo": true
         }
     },
     "tasks": {

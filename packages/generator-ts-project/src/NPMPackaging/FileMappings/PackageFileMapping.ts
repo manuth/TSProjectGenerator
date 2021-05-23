@@ -103,7 +103,8 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public async Processor(): Promise<void>
     {
-        this.Generator.fs.writeJSON(this.Resolved.Destination, (await this.Package).ToJSON());
+        this.Generator.fs.writeJSON(this.Resolved.Destination, {});
+        this.Generator.packageJson.merge((await this.Package).ToJSON());
     }
 
     /**
