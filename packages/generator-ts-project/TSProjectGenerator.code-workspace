@@ -113,6 +113,13 @@
         "files.associations": {
             ".gitignore.ejs": "ignore",
             ".npmignore.ejs": "ignore"
+        },
+        "search.exclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/*.code-search": true,
+            "lib/**/*": true,
+            "**/*.tsbuildinfo": true
         }
     },
     "tasks": {

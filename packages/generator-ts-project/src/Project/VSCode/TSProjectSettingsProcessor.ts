@@ -33,6 +33,9 @@ export class TSProjectSettingsProcessor<TSettings extends ITSProjectSettings, TO
      */
     protected async FilterSetting(key: string, value: any): Promise<boolean>
     {
-        return key !== "files.associations";
+        return ![
+            "files.associations",
+            "search.exclude"
+        ].includes(key);
     }
 }
