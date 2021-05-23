@@ -42,7 +42,7 @@
     "prepare": "npm run rebuild"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^8.0.2",
+    "@manuth/extended-yo-generator": "^8.0.3",
     "@manuth/package-json-editor": "^1.4.6",
     "@manuth/temp-files": "^2.0.4",
     "@types/vscode": "^1.56.0",
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^2.3.10",
-    "@manuth/extended-yo-generator-test": "^8.0.2",
+    "@manuth/extended-yo-generator-test": "^8.0.3",
     "@manuth/tsconfig": "^1.2.9",
     "@manuth/typescript-eslint-plugin": "^1.3.5",
     "@types/dedent": "^0.7.0",
