@@ -162,6 +162,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     public async install(): Promise<void>
     {
         this.log("Your workspace has been generated!");
+        super.install();
     }
 
     /**
