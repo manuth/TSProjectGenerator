@@ -34,6 +34,10 @@
                     "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
                 ],
                 "cwd": "${workspaceFolder:Solution Items}/..",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
                 "preLaunchTask": "Build",
@@ -49,6 +53,10 @@
                 "name": "Launch TSProjectGenerator Tests",
                 "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
                 "cwd": "${workspaceFolder:TSProjectGenerator}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
                 "sourceMaps": true,
@@ -66,6 +74,10 @@
                     "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
                 ],
                 "cwd": "${workspaceFolder:Solution Items}/..",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
                 "preLaunchTask": "Build",
@@ -81,6 +93,10 @@
                 "name": "Launch MyTSProjectGenerator Tests",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
                 "cwd": "${workspaceFolder:MyTSProjectGenerator}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
                 "sourceMaps": true,
