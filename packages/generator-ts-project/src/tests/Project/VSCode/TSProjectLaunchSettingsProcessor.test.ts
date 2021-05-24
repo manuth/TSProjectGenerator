@@ -44,6 +44,23 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 });
 
             test(
+                "Checking whether unnecessary settings are being removed…",
+                async () =>
+                {
+                    let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
+
+                    ok(
+                        launchSettings.configurations.every(
+                            (debugConfig) =>
+                            {
+                                return (
+                                    debugConfig.presentation === undefined &&
+                                    debugConfig.autoAttachChildProcesses === undefined &&
+                                    debugConfig.SkipFiles === undefined);
+                            }));
+                });
+
+            test(
                 "Checking whether named workspace-directives are stripped properly…",
                 async () =>
                 {
