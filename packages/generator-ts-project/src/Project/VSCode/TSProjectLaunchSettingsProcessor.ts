@@ -67,6 +67,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
         debugConfig.name = debugConfig.name.replace(/(?<!\s)\s+TSProjectGenerator\s+/, " ");
         delete debugConfig.presentation;
         delete debugConfig.autoAttachChildProcesses;
+        delete debugConfig.skipFiles;
 
         if (typeof debugConfig.program === "string")
         {
