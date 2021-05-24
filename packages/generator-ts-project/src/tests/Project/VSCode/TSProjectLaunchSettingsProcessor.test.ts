@@ -40,7 +40,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                     ok(
                         launchSettings.configurations.every(
                             (debugConfig) => !normalize(debugConfig.program ?? "").toLowerCase().endsWith(
-                                join("node_modules", "yo", "lib", "cli.js"))));
+                                join("yo", "lib", "cli.js"))));
                 });
 
             test(
