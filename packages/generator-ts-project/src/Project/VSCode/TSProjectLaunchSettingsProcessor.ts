@@ -64,6 +64,8 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      */
     protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
+        let workspaceDirective = "${workspaceFolder}";
+        let destinationSetting = "outFiles";
         debugConfig.name = debugConfig.name.replace(/(?<!\s)\s+TSProjectGenerator\s+/, " ");
         delete debugConfig.presentation;
         delete debugConfig.autoAttachChildProcesses;
@@ -88,10 +90,18 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
         {
             debugConfig.cwd = this.StripWorkspaceFolder(debugConfig.cwd);
 
-            if (debugConfig.cwd === "${workspaceFolder}")
+            if (debugConfig.cwd === workspaceDirective)
             {
                 delete debugConfig.cwd;
             }
+        }
+
+        if (!(destinationSetting in debugConfig))
+        {
+            debugConfig[destinationSetting] = [
+                join(workspaceDirective, "**", "*.js"),
+                join("!**", "node_modules", "**")
+            ];
         }
 
         return debugConfig;
