@@ -59,7 +59,7 @@
     "npm-which": "^3.0.1",
     "parse-pkg-name": "^2.0.0",
     "shusher": "^0.1.1",
-    "ts-morph": "^10.1.0",
+    "ts-morph": "^11.0.0",
     "typescript": "^4.3.2",
     "validate-npm-package-name": "^3.0.0",
     "yaml": "^1.10.2",
