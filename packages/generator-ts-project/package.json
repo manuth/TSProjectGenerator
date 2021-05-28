@@ -68,7 +68,7 @@
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.0.0",
     "@manuth/extended-yo-generator-test": "^8.0.3",
-    "@manuth/tsconfig": "^1.2.9",
+    "@manuth/tsconfig": "^2.0.0",
     "@manuth/typescript-eslint-plugin": "^1.3.5",
     "@types/dedent": "^0.7.0",
     "@types/diff": "^5.0.0",
