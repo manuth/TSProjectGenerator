@@ -35,7 +35,8 @@ export class TSProjectSettingsProcessor<TSettings extends ITSProjectSettings, TO
     {
         return ![
             "files.associations",
-            "search.exclude"
+            "search.exclude",
+            "typescript.tsdk"
         ].includes(key);
     }
 }
