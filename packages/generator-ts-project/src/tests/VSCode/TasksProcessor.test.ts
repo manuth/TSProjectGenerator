@@ -40,7 +40,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * A value indicating whether the task should be included.
                  */
-                protected async FilterTask(task: TaskDefinition): Promise<boolean>
+                protected override async FilterTask(task: TaskDefinition): Promise<boolean>
                 {
                     return task !== excludedTask;
                 }
@@ -54,7 +54,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * The processed task.
                  */
-                protected async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
+                protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
                 {
                     if (task === mutatedTask)
                     {

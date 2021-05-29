@@ -46,7 +46,7 @@ export class DependabotFileMapping<TSettings extends IGeneratorSettings, TOption
      * @returns
      * The transformed documents.
      */
-    public async Transform(documents: Document.Parsed[]): Promise<Document.Parsed[]>
+    public override async Transform(documents: Document.Parsed[]): Promise<Document.Parsed[]>
     {
         let document = documents[0];
         let updateKey = "updates";

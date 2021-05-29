@@ -55,7 +55,7 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public get Metadata(): Promise<Document.Parsed[]>
+    public override get Metadata(): Promise<Document.Parsed[]>
     {
         return this.Parse(this.data.map(
             (document) => document.toString()).join(""));

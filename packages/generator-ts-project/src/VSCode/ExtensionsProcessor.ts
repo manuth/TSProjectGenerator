@@ -28,7 +28,7 @@ export class ExtensionsProcessor<TSettings extends IGeneratorSettings, TOptions 
      * @returns
      * The processed data.
      */
-    public async Process(data: IExtensionSettings): Promise<IExtensionSettings>
+    public override async Process(data: IExtensionSettings): Promise<IExtensionSettings>
     {
         let result = await super.Process(data);
 

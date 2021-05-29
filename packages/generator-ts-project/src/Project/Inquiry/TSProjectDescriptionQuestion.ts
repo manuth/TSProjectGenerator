@@ -55,7 +55,7 @@ export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: TSettings): Promise<string>
+    public override async Default(answers: TSettings): Promise<string>
     {
         let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
         await npmPackage.Normalize();
@@ -74,7 +74,7 @@ export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: TSettings): Promise<string | boolean>
+    public override async Validate(input: string, answers: TSettings): Promise<string | boolean>
     {
         return true;
     }

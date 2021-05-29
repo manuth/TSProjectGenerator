@@ -31,7 +31,7 @@ export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings,
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: TSettings): Promise<boolean | string>
+    public override async Validate(input: string, answers: TSettings): Promise<boolean | string>
     {
         let result = await super.Validate(input, answers);
 
@@ -55,7 +55,7 @@ export class TSGeneratorModuleNameQuestion<TSettings extends ITSProjectSettings,
      * @returns
      * A new module-name for the module.
      */
-    protected async CreateModuleName(answers: TSettings): Promise<string>
+    protected override async CreateModuleName(answers: TSettings): Promise<string>
     {
         return `generator-${(await super.CreateModuleName(answers)).replace(
             /^(generator-)/i, ""

@@ -29,7 +29,7 @@ export class LaunchSettingsProcessor<TSettings extends IGeneratorSettings, TOpti
      * @returns
      * The processed data.
      */
-    public async Process(launchSettings: ILaunchSettings): Promise<ILaunchSettings>
+    public override async Process(launchSettings: ILaunchSettings): Promise<ILaunchSettings>
     {
         let result = await super.Process(launchSettings);
 

@@ -35,7 +35,7 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                  * @returns
                  * All necessary recommendations.
                  */
-                protected async FilterRecommendations(recommendations: string[]): Promise<string[]>
+                protected override async FilterRecommendations(recommendations: string[]): Promise<string[]>
                 {
                     return recommendations.filter((extension) => extension !== excludedExtension);
                 }

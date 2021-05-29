@@ -29,7 +29,7 @@ export class TasksProcessor<TSettings extends IGeneratorSettings, TOptions exten
      * @returns
      * The processed data.
      */
-    public async Process(data: ITaskSettings): Promise<ITaskSettings>
+    public override async Process(data: ITaskSettings): Promise<ITaskSettings>
     {
         let result = await super.Process(data);
 

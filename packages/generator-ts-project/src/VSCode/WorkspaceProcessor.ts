@@ -36,7 +36,7 @@ export class WorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions e
      * @returns
      * The processed data.
      */
-    public async Process(data: IWorkspaceMetadata): Promise<IWorkspaceMetadata>
+    public override async Process(data: IWorkspaceMetadata): Promise<IWorkspaceMetadata>
     {
         let result = await super.Process(data);
 

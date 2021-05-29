@@ -20,7 +20,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      */
-    public abstract get Source(): string;
+    public abstract override get Source(): string;
 
     /**
      * Gets the data representing this file.
@@ -37,7 +37,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      */
-    public async Processor(): Promise<void>
+    public override async Processor(): Promise<void>
     {
         return this.WriteDestination(await this.Dump(await this.Transform(await this.Metadata)));
     }

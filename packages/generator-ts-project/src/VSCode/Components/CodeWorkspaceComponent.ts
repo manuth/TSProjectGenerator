@@ -47,7 +47,7 @@ export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptio
     /**
      * @inheritdoc
      */
-    public get DefaultEnabled(): boolean
+    public override get DefaultEnabled(): boolean
     {
         return true;
     }
@@ -55,7 +55,7 @@ export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptio
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
+    public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return this.FileMappingCreator.FileMappings;
     }

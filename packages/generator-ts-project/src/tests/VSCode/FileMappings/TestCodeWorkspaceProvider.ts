@@ -36,7 +36,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * @inheritdoc
      */
-    public get ExtensionsMetadata(): Promise<IExtensionSettings>
+    public override get ExtensionsMetadata(): Promise<IExtensionSettings>
     {
         return (async () => (await this.WorkspaceMetadata).extensions)();
     }
@@ -44,7 +44,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * @inheritdoc
      */
-    public get LaunchMetadata(): Promise<ILaunchSettings>
+    public override get LaunchMetadata(): Promise<ILaunchSettings>
     {
         return (async () => (await this.WorkspaceMetadata).launch)();
     }
@@ -52,7 +52,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * @inheritdoc
      */
-    public get SettingsMetadata(): Promise<Record<string, any>>
+    public override get SettingsMetadata(): Promise<Record<string, any>>
     {
         return (async () => (await this.WorkspaceMetadata).settings)();
     }
@@ -60,7 +60,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * @inheritdoc
      */
-    public get TasksMetadata(): Promise<ITaskSettings>
+    public override get TasksMetadata(): Promise<ITaskSettings>
     {
         return (async () => (await this.WorkspaceMetadata).tasks)();
     }
@@ -90,7 +90,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
      * @returns
      * The JSON read from the `path`.
      */
-    public async ReadJSON(path: string): Promise<any>
+    public override async ReadJSON(path: string): Promise<any>
     {
         return super.ReadJSON(path);
     }

@@ -24,7 +24,7 @@ export class AppGenerator extends AppGeneratorBase
     /**
      * @inheritdoc
      */
-    protected get ProjectTypes(): Map<ProjectType, IProjectType>
+    protected override get ProjectTypes(): Map<ProjectType, IProjectType>
     {
         return new Map<ProjectType, IProjectType>(
             [
@@ -48,7 +48,7 @@ export class AppGenerator extends AppGeneratorBase
     /**
      * @inheritdoc
      */
-    public async initializing(): Promise<void>
+    public override async initializing(): Promise<void>
     {
         return super.initializing();
     }

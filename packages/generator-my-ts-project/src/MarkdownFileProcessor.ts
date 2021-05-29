@@ -47,7 +47,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     /**
      * @inheritdoc
      */
-    public get Source(): string
+    public override get Source(): string
     {
         return this.FileMapping.Source;
     }
@@ -63,7 +63,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     /**
      * @inheritdoc
      */
-    public async Processor(): Promise<void>
+    public override async Processor(): Promise<void>
     {
         await this.FileMapping.Processor();
         let content = this.Generator.fs.read(this.Destination);

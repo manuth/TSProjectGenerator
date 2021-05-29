@@ -52,7 +52,7 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public get BaseComponents(): IComponentCollection<any, any>
+            public override get BaseComponents(): IComponentCollection<any, any>
             {
                 let components = super.BaseComponents;
 
@@ -86,7 +86,7 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public get BaseFileMappings(): Array<IFileMapping<any, any>>
+            public override get BaseFileMappings(): Array<IFileMapping<any, any>>
             {
                 return MyTSProjectGenerator.ProcessFileMappings(this.Base, super.BaseFileMappings);
             }
@@ -94,7 +94,7 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public get Components(): IComponentCollection<any, any>
+            public override get Components(): IComponentCollection<any, any>
             {
                 let components = super.Components;
 
@@ -157,7 +157,7 @@ export abstract class MyTSProjectGenerator
             /**
              * @inheritdoc
              */
-            public async cleanup(): Promise<void>
+            public override async cleanup(): Promise<void>
             {
                 return this.Base.cleanup();
             }

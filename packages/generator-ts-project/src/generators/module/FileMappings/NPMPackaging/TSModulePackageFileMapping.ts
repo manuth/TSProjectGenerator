@@ -25,7 +25,7 @@ export class TSModulePackageFileMapping<TSettings extends ITSProjectSettings, TO
      * @returns
      * The loaded package.
      */
-    protected async LoadPackage(): Promise<Package>
+    protected override async LoadPackage(): Promise<Package>
     {
         let result = await super.LoadPackage();
         result.Main = "lib/index.js";

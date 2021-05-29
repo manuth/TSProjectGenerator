@@ -40,7 +40,7 @@ export class LintingComponent<TSettings extends ITSProjectSettings, TOptions ext
     /**
      * @inheritdoc
      */
-    public get DefaultEnabled(): boolean
+    public override get DefaultEnabled(): boolean
     {
         return true;
     }
@@ -48,7 +48,7 @@ export class LintingComponent<TSettings extends ITSProjectSettings, TOptions ext
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<TSettings>>
+    public override get Questions(): Array<Question<TSettings>>
     {
         return [
             new LintingQuestion(this.Generator)
@@ -58,7 +58,7 @@ export class LintingComponent<TSettings extends ITSProjectSettings, TOptions ext
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
+    public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
             new ESLintRCFileMapping(this.Generator),

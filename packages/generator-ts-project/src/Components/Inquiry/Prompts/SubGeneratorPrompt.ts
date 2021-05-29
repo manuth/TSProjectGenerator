@@ -166,7 +166,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
      * @param callback
      * A callback for resolving the result.
      */
-    public _run(callback: PromptCallback): void
+    public override _run(callback: PromptCallback): void
     {
         (
             async () =>

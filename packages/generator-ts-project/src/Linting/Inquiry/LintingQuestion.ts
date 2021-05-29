@@ -54,7 +54,7 @@ export class LintingQuestion<TSettings extends ITSProjectSettings, TOptions exte
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: TSettings): Promise<LintRuleset>
+    public override async Default(answers: TSettings): Promise<LintRuleset>
     {
         return LintRuleset.Recommended;
     }
@@ -68,7 +68,7 @@ export class LintingQuestion<TSettings extends ITSProjectSettings, TOptions exte
      * @returns
      * The choices the user can choose from.
      */
-    public async Choices(answers: TSettings): Promise<ChoiceCollection<TSettings>>
+    public override async Choices(answers: TSettings): Promise<ChoiceCollection<TSettings>>
     {
         return [
             {

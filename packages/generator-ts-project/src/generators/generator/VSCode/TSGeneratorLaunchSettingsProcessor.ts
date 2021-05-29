@@ -53,7 +53,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
      * @returns
      * The processed data.
      */
-    public async Process(data: ILaunchSettings): Promise<ILaunchSettings>
+    public override async Process(data: ILaunchSettings): Promise<ILaunchSettings>
     {
         let result = await super.Process(data);
         let configurations: DebugConfiguration[] = [];

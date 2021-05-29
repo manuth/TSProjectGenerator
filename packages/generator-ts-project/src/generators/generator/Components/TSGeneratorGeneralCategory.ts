@@ -22,7 +22,7 @@ export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, 
     /**
      * @inheritdoc
      */
-    protected get WorkspaceComponent(): IComponent<TSettings, TOptions>
+    protected override get WorkspaceComponent(): IComponent<TSettings, TOptions>
     {
         return new TSGeneratorCodeWorkspaceFolder(this.Generator);
     }

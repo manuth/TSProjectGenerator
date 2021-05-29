@@ -73,7 +73,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
+                        public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
                         {
                             data.map(
                                 (document) =>

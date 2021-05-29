@@ -78,7 +78,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: SourceFile): Promise<SourceFile>
+                        public override async Transform(data: SourceFile): Promise<SourceFile>
                         {
                             data.getVariableStatements().forEach(
                                 (variableStatement) =>

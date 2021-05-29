@@ -23,7 +23,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     /**
      * @inheritdoc
      */
-    public get Source(): string
+    public override get Source(): string
     {
         return this.Generator.modulePath(".npmignore");
     }
@@ -47,7 +47,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     /**
      * @inheritdoc
      */
-    public async Processor(): Promise<void>
+    public override async Processor(): Promise<void>
     {
         this.WriteDestination(
             applyPatch(

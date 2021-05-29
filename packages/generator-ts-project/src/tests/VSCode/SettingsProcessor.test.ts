@@ -41,7 +41,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * A value indicating whether the setting with the specified key should be included.
                  */
-                protected async FilterSetting(key: string, value: any): Promise<boolean>
+                protected override async FilterSetting(key: string, value: any): Promise<boolean>
                 {
                     return key !== excludedSetting;
                 }
@@ -58,7 +58,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * The processed setting.
                  */
-                protected async ProcessSetting(key: string, value: any): Promise<any>
+                protected override async ProcessSetting(key: string, value: any): Promise<any>
                 {
                     if (key === mutatedSetting)
                     {

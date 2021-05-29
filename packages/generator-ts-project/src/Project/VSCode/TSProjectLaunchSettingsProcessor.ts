@@ -31,7 +31,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * The processed data.
      */
-    public Process(debugSettings: ILaunchSettings): Promise<ILaunchSettings>
+    public override Process(debugSettings: ILaunchSettings): Promise<ILaunchSettings>
     {
         delete (debugSettings as any).compounds;
         return super.Process(debugSettings);
@@ -46,7 +46,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * A value indicating whether the debug-configuration should be included.
      */
-    protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+    protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
         return !(
             normalize(debugConfig.program ?? "").toLowerCase().endsWith(join("node_modules", "yo", "lib", "cli.js")) ||
@@ -62,7 +62,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * The processed debug-configuration.
      */
-    protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
+    protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
         let workspaceDirective = "${workspaceFolder}";
         let destinationSetting = "outFiles";

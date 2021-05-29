@@ -70,7 +70,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: any): Promise<any>
+                        public override async Transform(data: any): Promise<any>
                         {
                             return randomData;
                         }

@@ -91,7 +91,7 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
     /**
      * Cleans the file-mapping output.
      */
-    public async Clean(): Promise<void>
+    public override async Clean(): Promise<void>
     {
         await super.Clean();
         return this.FileMappingOptions.Clear();

@@ -28,7 +28,7 @@ export class TSGeneratorPackageFileMapping<TSettings extends ITSGeneratorSetting
      * @returns
      * The loaded package.
      */
-    protected async LoadPackage(): Promise<Package>
+    protected override async LoadPackage(): Promise<Package>
     {
         let result = await super.LoadPackage();
 

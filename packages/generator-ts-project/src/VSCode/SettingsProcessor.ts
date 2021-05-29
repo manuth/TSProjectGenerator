@@ -27,7 +27,7 @@ export class SettingsProcessor<TSettings extends IGeneratorSettings, TOptions ex
      * @returns
      * The processed data.
      */
-    public async Process(data: Record<string, any>): Promise<Record<string, any>>
+    public override async Process(data: Record<string, any>): Promise<Record<string, any>>
     {
         let result = await super.Process(data);
 

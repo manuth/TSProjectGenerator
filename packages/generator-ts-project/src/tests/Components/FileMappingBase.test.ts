@@ -46,7 +46,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                         /**
                          * @inheritdoc
                          */
-                        public get Source(): string
+                        public override get Source(): string
                         {
                             return tempSourceFile.FullName;
                         }
@@ -62,7 +62,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                         /**
                          * @inheritdoc
                          */
-                        public async Processor(): Promise<void>
+                        public override async Processor(): Promise<void>
                         {
                             return this.WriteDestination(await this.Content);
                         }
@@ -76,7 +76,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                          * @returns
                          * The contents of the file.
                          */
-                        public async ReadFile(path: string): Promise<string>
+                        public override async ReadFile(path: string): Promise<string>
                         {
                             return super.ReadFile(path);
                         }

@@ -54,7 +54,7 @@ export class TSProjectDisplayNameQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: TSettings): Promise<string>
+    public override async Default(answers: TSettings): Promise<string>
     {
         return basename(answers[TSProjectSettingKey.Destination]);
     }
@@ -71,7 +71,7 @@ export class TSProjectDisplayNameQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: TSettings): Promise<string | boolean>
+    public override async Validate(input: string, answers: TSettings): Promise<string | boolean>
     {
         return (input.trim().length > 0) ? true : "The name must not be empty!";
     }

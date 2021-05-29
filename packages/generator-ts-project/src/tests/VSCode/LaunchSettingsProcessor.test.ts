@@ -40,7 +40,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * A value indicating whether the debug-configuration should be included.
                  */
-                protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+                protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
                 {
                     return debugConfig !== excludedDebugConfig;
                 }
@@ -54,7 +54,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * The processed debug-configuration.
                  */
-                protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
+                protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
                 {
                     if (debugConfig === mutatedDebugConfig)
                     {

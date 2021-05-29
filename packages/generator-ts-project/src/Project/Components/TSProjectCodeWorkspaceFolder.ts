@@ -26,7 +26,7 @@ export class TSProjectCodeWorkspaceFolder<TSettings extends ITSProjectSettings, 
     /**
      * @inheritdoc
      */
-    protected get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
+    protected override get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return new TSProjectWorkspaceProcessor(this);
     }
@@ -34,7 +34,7 @@ export class TSProjectCodeWorkspaceFolder<TSettings extends ITSProjectSettings, 
     /**
      * @inheritdoc
      */
-    public get Source(): CodeWorkspaceProvider<TSettings, TOptions>
+    public override get Source(): CodeWorkspaceProvider<TSettings, TOptions>
     {
         return new WorkspaceFileLoader(this, this.Generator.modulePath("TSProjectGenerator.code-workspace"));
     }

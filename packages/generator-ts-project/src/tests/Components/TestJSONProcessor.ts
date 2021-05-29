@@ -29,7 +29,7 @@ export class TestJSONProcessor<TSettings extends IGeneratorSettings, TOptions ex
      * @returns
      * The predefined `data`.
      */
-    public async Process(): Promise<any>
+    public override async Process(): Promise<any>
     {
         return this.data;
     }

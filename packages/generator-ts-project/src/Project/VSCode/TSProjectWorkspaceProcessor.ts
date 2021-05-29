@@ -30,7 +30,7 @@ export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
+    protected override get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
     {
         return new TSProjectExtensionsProcessor(this.Component);
     }
@@ -38,7 +38,7 @@ export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected override get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return new TSProjectLaunchSettingsProcessor(this.Component);
     }
@@ -46,7 +46,7 @@ export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get SettingsProcessor(): JSONProcessor<TSettings, TOptions, Record<string, any>>
+    protected override get SettingsProcessor(): JSONProcessor<TSettings, TOptions, Record<string, any>>
     {
         return new TSProjectSettingsProcessor(this.Component);
     }
@@ -54,7 +54,7 @@ export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get TasksProcessor(): JSONProcessor<TSettings, TOptions, ITaskSettings>
+    protected override get TasksProcessor(): JSONProcessor<TSettings, TOptions, ITaskSettings>
     {
         return new TSProjectTasksProcessor(this.Component);
     }
