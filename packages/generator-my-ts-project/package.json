@@ -53,9 +53,9 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^3.0.0",
+    "@manuth/eslint-plugin-typescript": "^3.0.1",
     "@manuth/extended-yo-generator-test": "^8.0.3",
-    "@manuth/tsconfig": "^1.2.9",
+    "@manuth/tsconfig": "^2.0.0",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.11",
     "@types/mocha": "^8.2.2",
