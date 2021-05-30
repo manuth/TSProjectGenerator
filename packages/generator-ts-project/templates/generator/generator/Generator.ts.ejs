@@ -1,8 +1,8 @@
 import chalk = require("chalk");
-import Dedent = require("dedent");
+import dedent = require("dedent");
 import { Generator, GeneratorOptions, IComponentCollection, Question } from "@manuth/extended-yo-generator";
-import Path = require("path");
-import YoSay = require("yosay");
+import { basename, isAbsolute, resolve } from "path";
+import yosay = require("yosay");
 import { <%- Identities %> } from "./<%- Identities %>";
 import { <%- SettingsInterface %> } from "./<%- SettingsInterface %>";
 import { LicenseType } from "./LicenseType";
@@ -47,7 +47,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
                 default: "./",
                 filter: async (input) =>
                 {
-                    let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
+                    let destination = isAbsolute(input) ? input : resolve(process.cwd(), input);
                     this.destinationRoot(destination);
                     return destination;
                 }
@@ -56,7 +56,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
                 type: "input",
                 name: <%- Identities %>.Name,
                 message: "What's the name of your project?",
-                default: (answers: <%- SettingsInterface %>) => Path.basename(answers[<%- Identities %>.Destination])
+                default: (answers: <%- SettingsInterface %>) => basename(answers[<%- Identities %>.Destination])
             },
             {
                 type: "input",
@@ -144,7 +144,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
      */
     public async prompting(): Promise<void>
     {
-        this.log(YoSay(`Welcome to the ${chalk.whiteBright("<%- DisplayName %>")} generator!`));
+        this.log(yosay(`Welcome to the ${chalk.whiteBright("<%- DisplayName %>")} generator!`));
         return super.prompting();
     }
 
@@ -162,7 +162,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     public async end(): Promise<void>
     {
         this.log(
-            Dedent(`
+            dedent(`
                 Your project is ready!
 
                 It lives in "${this.Settings[<%- Identities %>.Destination]}"`));
