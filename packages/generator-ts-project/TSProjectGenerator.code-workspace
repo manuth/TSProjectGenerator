@@ -45,7 +45,11 @@
                 "autoAttachChildProcesses": false,
                 "presentation": {
                     "order": 2
-                }
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             },
             {
                 "type": "pwa-node",
@@ -63,7 +67,11 @@
                 "autoAttachChildProcesses": false,
                 "presentation": {
                     "order": 3
-                }
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             },
             {
                 "type": "pwa-node",
@@ -85,7 +93,12 @@
                 "autoAttachChildProcesses": false,
                 "presentation": {
                     "order": 4
-                }
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             },
             {
                 "type": "pwa-node",
@@ -103,7 +116,12 @@
                 "autoAttachChildProcesses": false,
                 "presentation": {
                     "order": 5
-                }
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             }
         ],
         "compounds": [
