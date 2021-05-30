@@ -98,6 +98,14 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                                 name: cwdOption,
                                 request: "",
                                 [cwdOption]: namedPath
+                            },
+                            {
+                                type: "",
+                                name: outFilesOption,
+                                request: "",
+                                [outFilesOption]: [
+                                    namedPath
+                                ]
                             }
                         ]
                     };
@@ -119,6 +127,9 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                                 break;
                             case cwdOption:
                                 actual = debugConfig.cwd;
+                                break;
+                            case outFilesOption:
+                                actual = debugConfig[outFilesOption][0];
                                 break;
                         }
 
