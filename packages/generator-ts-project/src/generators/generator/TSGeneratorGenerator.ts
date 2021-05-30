@@ -129,8 +129,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: Path.join("tests", "Generators", "index.test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.test.ts"),
+                Source: Path.join("tests", "Generators", "index.ts.ejs"),
+                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.ts"),
                 Context: () =>
                 {
                     return {
