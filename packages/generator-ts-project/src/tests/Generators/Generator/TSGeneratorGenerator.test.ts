@@ -9,6 +9,7 @@ import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/S
 import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../TestContext";
 
 /**
@@ -34,6 +35,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
 
                     settings = {
                         ...(await context.Generator).Settings,
+                        [TSProjectSettingKey.DisplayName]: "Z",
                         [GeneratorSettingKey.Components]: [
                             TSGeneratorComponent.GeneratorExample,
                             TSGeneratorComponent.SubGeneratorExample
