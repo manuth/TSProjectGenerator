@@ -29,7 +29,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public get TemplateRoot(): string
+    public override get TemplateRoot(): string
     {
         return "<%- ID %>";
     }
@@ -37,7 +37,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<<%- SettingsInterface %>>>
+    public override get Questions(): Array<Question<<%- SettingsInterface %>>>
     {
         return [
             {
@@ -69,7 +69,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public get Components(): IComponentCollection<<%- SettingsInterface %>, GeneratorOptions>
+    public override get Components(): IComponentCollection<<%- SettingsInterface %>, GeneratorOptions>
     {
         return {
             Question: "What do you want to include in your workspace?",
@@ -142,7 +142,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public async prompting(): Promise<void>
+    public override async prompting(): Promise<void>
     {
         this.log(yosay(`Welcome to the ${chalk.whiteBright("<%- DisplayName %>")} generator!`));
         return super.prompting();
@@ -151,7 +151,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public async writing(): Promise<void>
+    public override async writing(): Promise<void>
     {
         return super.writing();
     }
@@ -159,7 +159,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     /**
      * @inheritdoc
      */
-    public async end(): Promise<void>
+    public override async end(): Promise<void>
     {
         this.log(
             dedent(`
