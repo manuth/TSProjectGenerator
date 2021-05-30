@@ -1,6 +1,7 @@
-import { ok, strictEqual } from "assert";
+import { notStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { join, normalize } from "upath";
+import { DebugConfiguration } from "vscode";
 import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -30,7 +31,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     cwdOption = "cwd";
                     programOption = "program";
                     argsOption = "args";
@@ -135,6 +136,56 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
 
                         strictEqual(actual, path);
                     }
+                });
+
+            test(
+                "Checking whether duplicate values insied the `outFiles`-option are stripped…",
+                async () =>
+                {
+                    let testName = context.RandomString;
+                    let workspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
+                    let otherWorkspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
+                    let namedPath = join(workspaceDirective, "**", "*.js");
+                    let otherNamedPath = join(otherWorkspaceDirective, "**", "*.js");
+                    let localPath = join("**", "!node_modules", "**");
+
+                    let outFiles = [
+                        namedPath,
+                        otherNamedPath,
+                        localPath,
+                        localPath
+                    ];
+
+                    let configuration: DebugConfiguration = {
+                        name: testName,
+                        request: "",
+                        type: "",
+                        [outFilesOption]: outFiles
+                    };
+
+                    let testSettings: ILaunchSettings = {
+                        version: "",
+                        configurations: [
+                            configuration
+                        ]
+                    };
+
+                    let processedSettings = await processor.Process(testSettings);
+
+                    let processedOutFiles: string[] = processedSettings.configurations.filter(
+                        (config) => config.name === configuration.name)[0][outFilesOption];
+
+                    notStrictEqual(outFiles.length, processedOutFiles.length);
+
+                    strictEqual(
+                        processedOutFiles.filter(
+                            (outFilesEntry) =>
+                            {
+                                return outFilesEntry.includes(context.WorkspaceFolderDirective);
+                            }).length,
+                            1);
+
+                    strictEqual(processedOutFiles.filter((outFilesEntry) => outFilesEntry === localPath).length, 1);
                 });
         });
 }
