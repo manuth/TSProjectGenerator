@@ -140,7 +140,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                         names.push(this.Settings[TSProjectSettingKey.DisplayName]);
                     }
 
-                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators])
+                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
                     {
                         names.push(subGenerator[SubGeneratorSettingKey.DisplayName]);
                     }
