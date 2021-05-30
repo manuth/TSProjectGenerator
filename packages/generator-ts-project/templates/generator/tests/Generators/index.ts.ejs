@@ -1,6 +1,9 @@
 suite(
     "Generators",
     () =>
-    {
-        require("./<%- Name %>.test");
+    {<%
+for (let name of Names)
+{ %>
+        require("./<%- name %>.test");<%
+} %>
     });

@@ -133,18 +133,20 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.ts"),
                 Context: () =>
                 {
+                    let names: string[] = [];
+
+                    if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample))
+                    {
+                        names.push(this.Settings[TSProjectSettingKey.DisplayName]);
+                    }
+
+                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators])
+                    {
+                        names.push(subGenerator[SubGeneratorSettingKey.DisplayName]);
+                    }
+
                     return {
-                        Name: this.Settings[TSProjectSettingKey.Name]
-                    };
-                }
-            },
-            {
-                Source: this.commonTemplatePath("test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", `${this.Settings[TSProjectSettingKey.Name]}.test.ts`),
-                Context: () =>
-                {
-                    return {
-                        Name: this.Settings[TSProjectSettingKey.DisplayName]
+                        Names: names
                     };
                 }
             },

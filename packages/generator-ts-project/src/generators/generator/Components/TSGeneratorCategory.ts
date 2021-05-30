@@ -157,6 +157,16 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
                 Destination: join(destination, "index.ts")
             },
             {
+                Source: this.Generator.commonTemplatePath("test.ts.ejs"),
+                Context: (target, generator) =>
+                {
+                    return {
+                        Name: displayName
+                    };
+                },
+                Destination: join("src", "tests", "Generators", `${displayName}.test.ts`)
+            },
+            {
                 Source: join(source, "templates"),
                 Destination: join("templates", id)
             }
