@@ -62,7 +62,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 Destination: join(this.SourceRoot, "index.ts")
             },
             {
-                Source: "main.test.ts.ejs",
+                Source: this.commonTemplatePath("test.ts.ejs"),
                 Destination: join(this.SourceRoot, "tests", "main.test.ts"),
                 Context: () =>
                 {

@@ -139,7 +139,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: Path.join("tests", "Generators", "app.test.ts.ejs"),
+                Source: this.commonTemplatePath("test.ts.ejs"),
                 Destination: Path.join(this.SourceRoot, "tests", "Generators", `${this.Settings[TSProjectSettingKey.Name]}.test.ts`),
                 Context: () =>
                 {
