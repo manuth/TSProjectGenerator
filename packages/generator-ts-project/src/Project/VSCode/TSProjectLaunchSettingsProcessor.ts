@@ -81,9 +81,13 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
             debugConfig.args = debugConfig.args.map((arg) => this.StripWorkspaceFolder(arg));
         }
 
-        if (Array.isArray(debugConfig.outFiles))
+        if (Array.isArray(debugConfig[destinationSetting]))
         {
-            debugConfig.outFiles = debugConfig.outFiles.map((pattern) => this.StripWorkspaceFolder(pattern));
+            let outFiles = debugConfig[destinationSetting];
+
+            debugConfig[destinationSetting] = [
+                ...new Set((outFiles as string[]).map((pattern) => this.StripWorkspaceFolder(pattern)))
+            ];
         }
 
         if (typeof debugConfig.cwd === "string")
@@ -94,14 +98,6 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
             {
                 delete debugConfig.cwd;
             }
-        }
-
-        if (!(destinationSetting in debugConfig))
-        {
-            debugConfig[destinationSetting] = [
-                join(workspaceDirective, "**", "*.js"),
-                join("!**", "node_modules", "**")
-            ];
         }
 
         return debugConfig;
