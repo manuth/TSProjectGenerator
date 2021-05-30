@@ -20,6 +20,10 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
         "TSProjectLaunchSettingsProcessor",
         () =>
         {
+            let cwdOption: string;
+            let programOption: string;
+            let argsOption: string;
+            let outFilesOption: string;
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectLaunchSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
 
@@ -27,6 +31,10 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 async function()
                 {
                     this.timeout(0);
+                    cwdOption = "cwd";
+                    programOption = "program";
+                    argsOption = "args";
+                    outFilesOption = "outFiles";
                     component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TSProjectLaunchSettingsProcessor(component);
                 });
@@ -64,9 +72,6 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 "Checking whether named workspace-directives are stripped properly…",
                 async () =>
                 {
-                    let programName = "program";
-                    let argsName = "args";
-                    let cwdName = "cwd";
                     let folderName = context.RandomString;
                     let namedPath = join(context.NamedWorkspaceFolderDirective, folderName);
                     let path = join(context.WorkspaceFolderDirective, folderName);
@@ -76,43 +81,43 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                         configurations: [
                             {
                                 type: "",
-                                name: programName,
+                                name: programOption,
                                 request: "",
-                                program: namedPath
+                                [programOption]: namedPath
                             },
                             {
                                 type: "",
-                                name: argsName,
+                                name: argsOption,
                                 request: "",
-                                args: [
+                                [argsOption]: [
                                     namedPath
                                 ]
                             },
                             {
                                 type: "",
-                                name: cwdName,
+                                name: cwdOption,
                                 request: "",
-                                cwd: namedPath
+                                [cwdOption]: namedPath
                             }
                         ]
                     };
 
                     let processedSettings = await processor.Process(testSettings);
 
-                    for (let name of [programName, argsName, cwdName])
+                    for (let name of [programOption, argsOption, cwdOption])
                     {
                         let debugConfig = processedSettings.configurations.find((config) => config.name === name);
                         let actual: string;
 
                         switch (debugConfig.name)
                         {
-                            case programName:
-                                actual = debugConfig.program;
+                            case programOption:
+                                actual = debugConfig[programOption];
                                 break;
-                            case argsName:
-                                actual = debugConfig.args[0];
+                            case argsOption:
+                                actual = debugConfig[argsOption][0];
                                 break;
-                            case cwdName:
+                            case cwdOption:
                                 actual = debugConfig.cwd;
                                 break;
                         }
