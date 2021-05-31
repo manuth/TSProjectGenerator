@@ -21,7 +21,8 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
             let excludedSettings = [
                 "files.associations",
                 "search.exclude",
-                "typescript.tsdk"
+                "typescript.tsdk",
+                "terminal.integrated.cwd"
             ];
 
             let settings: Record<string, any>;
