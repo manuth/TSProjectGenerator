@@ -28,7 +28,7 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     generator = await context.Generator;
                     tempSourceFile = new TempFile();
                     tempDestinationFile = new TempFile();

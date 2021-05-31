@@ -27,7 +27,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     fileMappingOptions = new DroneFileMapping(await context.Generator);
                 });
 

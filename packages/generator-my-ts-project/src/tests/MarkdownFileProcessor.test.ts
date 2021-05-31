@@ -28,7 +28,7 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
 
@@ -57,8 +57,10 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
 
             test(
                 "Checking whether unnecessary new-lines are stripped correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     await tester.Run();
                     strictEqual(await tester.Content, expected);
                 });

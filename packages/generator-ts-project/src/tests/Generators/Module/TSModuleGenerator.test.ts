@@ -22,7 +22,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
                 });
@@ -30,7 +30,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
             suiteTeardown(
                 function()
                 {
-                    this.timeout(0);
+                    this.timeout(1 * 60 * 1000);
                     runContext.cleanTestDirectory();
                 });
 
@@ -38,8 +38,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 "Checking whether the generated project can be installed…",
                 function()
                 {
-                    this.timeout(0);
-                    this.slow(2 * 60 * 1000);
+                    this.timeout(6 * 60 * 1000);
+                    this.slow(3 * 60 * 1000);
 
                     let installationResult = spawnSync(
                         npmWhich(__dirname).sync("npm"),

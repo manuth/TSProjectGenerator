@@ -33,7 +33,7 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     component = new TestCodeWorkspaceComponent(await context.Generator);
                     workspaceLoader = new TestCodeWorkspaceProvider(component);
                     component.Source = workspaceLoader;

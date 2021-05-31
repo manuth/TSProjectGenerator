@@ -28,7 +28,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
+
                     settings = {
                         [GeneratorSettingKey.Components]: [
                             TSProjectComponent.Linting
@@ -47,16 +48,21 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
 
             test(
                 "Checking whether the `root` property is not present…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     await tester.Run();
                     ok(!("root" in await tester.Require()));
                 });
 
             test(
                 "Checking whether the eslint config base is applied correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
+
                     for (let ruleset of [LintRuleset.Weak, LintRuleset.Recommended])
                     {
                         let eslintConfig: any;

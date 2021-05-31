@@ -32,8 +32,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 "Checking whether the generator can be executed…",
                 async function()
                 {
-                    this.timeout(0);
-                    this.slow(1.5 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
+                    this.slow(2.5 * 60 * 1000);
                     await doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                 });
 
@@ -41,8 +41,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 "Checking whether modules can be generated…",
                 async function()
                 {
-                    this.timeout(0);
-                    this.slow(3 * 60 * 1000);
+                    this.timeout(15 * 60 * 1000);
+                    this.slow(7.5 * 60 * 1000);
 
                     await doesNotReject(
                         () =>
@@ -84,8 +84,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 "Checking whether generators can be generated…",
                 async function()
                 {
-                    this.timeout(0);
-                    this.slow(5 * 60 * 1000);
+                    this.timeout(15 * 60 * 1000);
+                    this.slow(7.5 * 60 * 1000);
                     let subGeneratorDir = new TempDirectory();
 
                     await doesNotReject(

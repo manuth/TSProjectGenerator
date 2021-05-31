@@ -32,7 +32,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     tempDir = new TempDirectory();
                     fileName = tempDir.MakePath("temp.txt");
                     generator = await context.Generator;

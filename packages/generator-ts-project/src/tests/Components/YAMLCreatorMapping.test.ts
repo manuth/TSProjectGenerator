@@ -29,7 +29,7 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     generator = await context.Generator;
                     tempFile = new TempFile();
                 });

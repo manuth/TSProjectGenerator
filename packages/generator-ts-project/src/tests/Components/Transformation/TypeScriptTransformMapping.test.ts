@@ -30,7 +30,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
@@ -95,15 +95,19 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
 
             test(
                 "Checking whether the file is parsed correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
                 });
 
             test(
                 "Checking whether the code can be transformed as expected…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     await tester.Run();
                     strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
                 });

@@ -44,7 +44,7 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     processor = new TestExtensionsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 

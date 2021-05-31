@@ -27,7 +27,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     generator = await context.Generator;
                     tempFile = new TempFile();
 

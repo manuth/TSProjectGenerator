@@ -25,7 +25,7 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     generator = await context.Generator;
                     question = new TSProjectDisplayNameQuestion(generator);
                 });

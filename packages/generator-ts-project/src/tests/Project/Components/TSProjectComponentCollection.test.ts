@@ -23,7 +23,7 @@ export function TSProjectComponentCollectionTests(context: TestContext<TSProject
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(1 * 60 * 1000);
                     collection = new TSProjectComponentCollection(await context.Generator);
                 });
 

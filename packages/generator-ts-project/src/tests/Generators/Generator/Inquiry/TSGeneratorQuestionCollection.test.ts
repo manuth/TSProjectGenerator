@@ -23,7 +23,7 @@ export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGenera
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     collection = new TSGeneratorQuestionCollection(await context.Generator);
                 });
 

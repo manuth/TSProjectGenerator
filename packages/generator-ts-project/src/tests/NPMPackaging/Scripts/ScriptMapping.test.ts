@@ -25,7 +25,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
             setup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     randomSource = context.RandomString;
                     randomDestination = context.RandomString;
                     randomScript = context.RandomString;
