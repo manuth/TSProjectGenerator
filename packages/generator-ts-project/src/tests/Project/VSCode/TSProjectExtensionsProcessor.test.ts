@@ -25,7 +25,7 @@ export function TSProjectExtensionsProcessorTests(context: TestContext<TSProject
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
                     component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TSProjectExtensionsProcessor(component);
                 });

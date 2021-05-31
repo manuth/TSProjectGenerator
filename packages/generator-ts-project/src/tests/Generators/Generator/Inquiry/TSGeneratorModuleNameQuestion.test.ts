@@ -28,7 +28,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
                     tempDir = new TempDirectory();
 
                     settings = {

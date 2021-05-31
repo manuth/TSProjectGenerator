@@ -22,7 +22,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
                 });

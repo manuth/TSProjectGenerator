@@ -23,7 +23,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
 
                     testCode = dedent(
                         `
