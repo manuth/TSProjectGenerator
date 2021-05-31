@@ -33,7 +33,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(10 * 1000);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();

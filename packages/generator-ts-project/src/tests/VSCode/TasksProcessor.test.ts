@@ -72,7 +72,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
             suiteSetup(
                 async function()
                 {
-                    this.timeout(10 * 1000);
+                    this.timeout(30 * 1000);
                     processor = new TestTasksProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 

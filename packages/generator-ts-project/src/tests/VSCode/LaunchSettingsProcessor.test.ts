@@ -68,7 +68,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
             suiteSetup(
                 async function()
                 {
-                    this.timeout(10 * 1000);
+                    this.timeout(30 * 1000);
                     processor = new TestLaunchSettingsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 
