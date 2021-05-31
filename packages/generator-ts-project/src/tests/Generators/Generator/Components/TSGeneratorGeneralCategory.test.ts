@@ -23,7 +23,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
                     collection = new TSGeneratorGeneralCategory(await context.Generator);
                 });
 

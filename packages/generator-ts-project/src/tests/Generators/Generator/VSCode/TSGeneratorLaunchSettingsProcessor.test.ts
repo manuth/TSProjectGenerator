@@ -30,7 +30,7 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
 
                     settings = {
                         [GeneratorSettingKey.Components]: [
@@ -62,8 +62,10 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
 
             test(
                 "Checking whether a launch-configuration for each generator is present…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
                     let debugConfigs = launchSettings.configurations ?? [];
 

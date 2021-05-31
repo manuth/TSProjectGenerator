@@ -58,7 +58,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
             suiteSetup(
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
+                    this.timeout(5 * 60 * 1000);
                     fileMapping = new TSProjectPackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
