@@ -34,7 +34,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     /**
      * @inheritdoc
      */
-    public get Generator(): Promise<TGenerator>
+    public override get Generator(): Promise<TGenerator>
     {
         return this.GeneratorContext.Generator;
     }

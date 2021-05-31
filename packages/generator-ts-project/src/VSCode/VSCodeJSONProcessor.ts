@@ -27,7 +27,7 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
     /**
      * Gets the generator of this component.
      */
-    public get Generator(): IGenerator<TSettings, TOptions>
+    public override get Generator(): IGenerator<TSettings, TOptions>
     {
         return this.Component.Generator;
     }

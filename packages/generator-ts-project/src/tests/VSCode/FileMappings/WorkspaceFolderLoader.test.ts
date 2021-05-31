@@ -32,7 +32,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     moduleRoot = generator.moduleRoot();
                     destinationRoot = generator.destinationRoot();
@@ -71,8 +71,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
 
             test(
                 "Checking whether files are read correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
                     deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
                     deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);

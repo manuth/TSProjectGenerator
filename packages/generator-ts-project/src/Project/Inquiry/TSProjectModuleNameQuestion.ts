@@ -58,7 +58,7 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
      * @returns
      * The default value for this question.
      */
-    public async Default(answers: TSettings): Promise<string>
+    public override async Default(answers: TSettings): Promise<string>
     {
         let fileName = join(answers[TSProjectSettingKey.Destination], "package.json");
         let originalName: string = null;
@@ -83,7 +83,7 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
      * @returns
      * Either a value indicating whether the input is valid or a string which contains an error-message.
      */
-    public async Validate(input: string, answers: TSettings): Promise<string | boolean>
+    public override async Validate(input: string, answers: TSettings): Promise<string | boolean>
     {
         let result = validate(input);
         let errors = (result.errors ?? []).concat(result.warnings ?? []);

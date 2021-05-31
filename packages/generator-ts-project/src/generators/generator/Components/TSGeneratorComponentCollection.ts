@@ -23,7 +23,7 @@ export class TSGeneratorComponentCollection<TSettings extends ITSGeneratorSettin
     /**
      * @inheritdoc
      */
-    public get Categories(): Array<IComponentCategory<TSettings, TOptions>>
+    public override get Categories(): Array<IComponentCategory<TSettings, TOptions>>
     {
         return [
             new TSGeneratorGeneralCategory(this.Generator),

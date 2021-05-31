@@ -23,7 +23,7 @@ export class TSGeneratorQuestionCollection<TSettings extends ITSGeneratorSetting
     /**
      * @inheritdoc
      */
-    protected get ModuleNameQuestion(): Question<TSettings>
+    protected override get ModuleNameQuestion(): Question<TSettings>
     {
         return new TSGeneratorModuleNameQuestion(this.Generator);
     }
@@ -31,7 +31,7 @@ export class TSGeneratorQuestionCollection<TSettings extends ITSGeneratorSetting
     /**
      * @inheritdoc
      */
-    protected get DescriptionQuestion(): Question<TSettings>
+    protected override get DescriptionQuestion(): Question<TSettings>
     {
         return new TSGeneratorDescriptionQuestion(this.Generator);
     }

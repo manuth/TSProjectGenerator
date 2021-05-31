@@ -26,7 +26,7 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     updateKey = "updates";
                     directoryKey = "directory";
                     fileMappingOptions = new DependabotFileMapping(await context.Generator);

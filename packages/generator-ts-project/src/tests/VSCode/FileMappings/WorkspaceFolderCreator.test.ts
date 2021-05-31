@@ -52,7 +52,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     component = new TestCodeWorkspaceComponent(generator);
                     source = new TestCodeWorkspaceProvider(component);
@@ -64,7 +64,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
             setup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     let workspace = await source.WorkspaceMetadata;
                     randomComment = context.RandomString;
                     workspace.extensions = context.RandomObject;
@@ -86,8 +86,11 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
 
             test(
                 "Checking whether the workspace-files are created correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
+
                     let fileAssertions: Array<[string, Promise<any>]> = [
                         [fileMappingCreator.ExtensionsFileName, component.Source.ExtensionsMetadata],
                         [fileMappingCreator.LaunchFileName, component.Source.LaunchMetadata],

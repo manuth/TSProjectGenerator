@@ -32,7 +32,7 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
      * @returns
      * The transformed documents.
      */
-    public async Transform(documents: Document.Parsed[]): Promise<Document.Parsed[]>
+    public override async Transform(documents: Document.Parsed[]): Promise<Document.Parsed[]>
     {
         let document = documents[0];
         let stepsKey = "steps";

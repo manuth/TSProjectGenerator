@@ -98,7 +98,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected override get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
             async () =>
@@ -114,7 +114,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected get Template(): Promise<Package>
+    protected override get Template(): Promise<Package>
     {
         return (
             async () =>
@@ -129,7 +129,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      * @returns
      * The loaded package.
      */
-    protected async LoadPackage(): Promise<Package>
+    protected override async LoadPackage(): Promise<Package>
     {
         let result = await super.LoadPackage();
         result.Name = this.Generator.Settings[TSProjectSettingKey.Name];

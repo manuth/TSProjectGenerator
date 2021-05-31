@@ -55,7 +55,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The default value.
      */
-    public async Default(answers: TSettings): Promise<string>
+    public override async Default(answers: TSettings): Promise<string>
     {
         return "./";
     }
@@ -72,7 +72,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The filtered value.
      */
-    public async Filter(input: any, answers: TSettings): Promise<string>
+    public override async Filter(input: any, answers: TSettings): Promise<string>
     {
         return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
     }

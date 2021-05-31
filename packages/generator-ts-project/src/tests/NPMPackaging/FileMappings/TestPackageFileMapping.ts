@@ -32,7 +32,7 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets the scripts to copy from the template-package.
      */
-    public get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    public override get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
             async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
@@ -44,7 +44,7 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets the template package.
      */
-    public get Template(): Promise<Package>
+    public override get Template(): Promise<Package>
     {
         return (
             async () =>

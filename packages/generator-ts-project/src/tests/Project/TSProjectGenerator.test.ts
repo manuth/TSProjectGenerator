@@ -23,6 +23,8 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
             suiteSetup(
                 async function()
                 {
+                    this.timeout(2 * 60 * 1000);
+
                     testCode = dedent(
                         `
                             console.log('hello world');`) + "\n";
@@ -35,8 +37,8 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                 "Checking whether the source-code is cleaned up correctly…",
                 async function()
                 {
-                    this.timeout(2 * 60 * 1000);
-                    this.slow(1 * 60 * 1000);
+                    this.timeout(15 * 60 * 1000);
+                    this.slow(7.5 * 60 * 1000);
                     await writeFile(generator.destinationPath(fileName), testCode);
                     await generator.cleanup();
                     strictEqual((await readFile(generator.destinationPath(fileName))).toString(), testCode.replace(/'/g, '"'));

@@ -6,7 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.2...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.3...dev)
+
+## TSProjectGenerator v2.0.3
+### Updated
+  - All dependencies
+  - Templates to include tests for each created generator
+  - Test-timeouts
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.2...v2.0.3)
 
 ## TSProjectGenerator v2.0.2
 ### Fixed

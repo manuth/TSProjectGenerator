@@ -27,7 +27,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     tempFile = new TempFile();
 
@@ -77,7 +77,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        protected async Transform(data: any): Promise<any>
+                        protected override async Transform(data: any): Promise<any>
                         {
                             Object.assign(data, { transformed: true });
                             return data;

@@ -101,7 +101,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public async Processor(): Promise<void>
+    public override async Processor(): Promise<void>
     {
         this.Generator.fs.writeJSON(this.Resolved.Destination, {});
         this.Generator.packageJson.merge((await this.Package).ToJSON());

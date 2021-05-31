@@ -24,7 +24,7 @@ export class TSGeneratorCodeWorkspaceFolder<TSettings extends ITSGeneratorSettin
     /**
      * @inheritdoc
      */
-    protected get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
+    protected override get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return new TSGeneratorWorkspaceProcessor(this);
     }

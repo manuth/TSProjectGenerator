@@ -9,6 +9,7 @@ import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/S
 import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../TestContext";
 
 /**
@@ -30,10 +31,11 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
 
                     settings = {
                         ...(await context.Generator).Settings,
+                        [TSProjectSettingKey.DisplayName]: "Z",
                         [GeneratorSettingKey.Components]: [
                             TSGeneratorComponent.GeneratorExample,
                             TSGeneratorComponent.SubGeneratorExample
@@ -58,7 +60,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
             suiteTeardown(
                 function()
                 {
-                    this.timeout(0);
+                    this.timeout(1 * 60 * 1000);
                     mainContext.cleanTestDirectory();
                 });
 
@@ -72,8 +74,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether the generated project can be installed…",
                 function()
                 {
-                    this.timeout(0);
-                    this.slow(2.5 * 60 * 1000);
+                    this.timeout(10 * 60 * 1000);
+                    this.slow(5 * 60 * 1000);
 
                     let installationResult = spawnSync(
                         npmWhich(__dirname).sync("npm"),
@@ -103,7 +105,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether the main generator can be executed…",
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(20 * 1000);
                     this.slow(10 * 1000);
                     let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, "app"));
                     return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
@@ -113,7 +115,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether the sub-generators can be executed…",
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(20 * 1000);
                     this.slow(10 * 1000);
 
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
@@ -127,7 +129,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 "Checking whether mocha can be executed…",
                 function()
                 {
-                    this.timeout(0);
+                    this.timeout(8 * 1000);
                     this.slow(4 * 1000);
 
                     let result = spawnSync(

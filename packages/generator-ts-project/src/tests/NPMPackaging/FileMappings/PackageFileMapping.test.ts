@@ -89,7 +89,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         "Checking whether scripts can be copied…",
                         async function()
                         {
-                            this.timeout(0);
+                            this.timeout(8 * 1000);
                             this.slow(4 * 1000);
                             options.ScriptMappings.push(randomSource);
                             await tester.Run();
@@ -100,7 +100,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         "Checking whether scripts can be renamed…",
                         async function()
                         {
-                            this.timeout(0);
+                            this.timeout(4 * 1000);
                             this.slow(2 * 1000);
 
                             options.ScriptMappings.push(
@@ -117,7 +117,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         "Checking whether scripts can be transformed…",
                         async function()
                         {
-                            this.timeout(0);
+                            this.timeout(8 * 1000);
                             this.slow(4 * 1000);
                             let index = context.Random.integer(1, randomScript.length - 1);
 
@@ -143,7 +143,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         "Checking whether values from existing package-files are preserved…",
                         async function()
                         {
-                            this.timeout(0);
+                            this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             let randomLicense = context.RandomString;
 
@@ -160,7 +160,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         "Checking whether info about the author are loaded using git…",
                         async function()
                         {
-                            this.timeout(0);
+                            this.timeout(4 * 1000);
                             this.slow(2 * 1000);
 
                             await tester.Run();
@@ -170,8 +170,10 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
 
                     test(
                         "Checking whether the version defaults to `0.0.0`…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
                             await tester.Run();
                             strictEqual((await tester.Package).Version, "0.0.0");
                         });

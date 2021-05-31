@@ -35,7 +35,7 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                  * @returns
                  * All necessary recommendations.
                  */
-                protected async FilterRecommendations(recommendations: string[]): Promise<string[]>
+                protected override async FilterRecommendations(recommendations: string[]): Promise<string[]>
                 {
                     return recommendations.filter((extension) => extension !== excludedExtension);
                 }
@@ -44,7 +44,7 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     processor = new TestExtensionsProcessor(new TestCodeWorkspaceComponent(await context.Generator));
                 });
 

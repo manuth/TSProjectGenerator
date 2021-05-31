@@ -24,7 +24,7 @@ export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProje
     /**
      * @inheritdoc
      */
-    public async prompting(): Promise<void>
+    public override async prompting(): Promise<void>
     {
         return super.prompting();
     }
@@ -32,7 +32,7 @@ export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProje
     /**
      * @inheritdoc
      */
-    public async writing(): Promise<void>
+    public override async writing(): Promise<void>
     {
         return super.writing();
     }
@@ -40,7 +40,7 @@ export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProje
     /**
      * @inheritdoc
      */
-    public async install(): Promise<void>
+    public override async install(): Promise<void>
     {
         return super.install();
     }
@@ -48,7 +48,7 @@ export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProje
     /**
      * @inheritdoc
      */
-    public async cleanup(): Promise<void>
+    public override async cleanup(): Promise<void>
     {
         return super.cleanup();
     }
@@ -56,7 +56,7 @@ export class MyTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProje
     /**
      * @inheritdoc
      */
-    public async end(): Promise<void>
+    public override async end(): Promise<void>
     {
         return super.end();
     }

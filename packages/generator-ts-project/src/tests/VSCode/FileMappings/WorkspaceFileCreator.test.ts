@@ -34,7 +34,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     fileName = "test.code-workspace";
                     component = new TestCodeWorkspaceComponent(generator);
@@ -48,7 +48,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
             setup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(10 * 1000);
                     workspace = await source.WorkspaceMetadata;
                     tasksComment = context.RandomString + "-comment";
                     rootComment = context.RandomString + "-comment-2";

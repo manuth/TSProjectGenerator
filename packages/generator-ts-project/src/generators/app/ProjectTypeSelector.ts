@@ -35,7 +35,7 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<IProjectSelectorSettings<T>>>
+    public override get Questions(): Array<Question<IProjectSelectorSettings<T>>>
     {
         return [
             {
@@ -55,7 +55,7 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
     /**
      * @inheritdoc
      */
-    public async initializing(): Promise<void>
+    public override async initializing(): Promise<void>
     {
         await this.prompting();
         return this.LoadGenerator(this.Settings[ProjectSelectorSettingKey.ProjectType]);

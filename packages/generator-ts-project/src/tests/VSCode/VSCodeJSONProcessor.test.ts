@@ -23,7 +23,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     component = new TestCodeWorkspaceComponent(await context.Generator);
                     processor = new VSCodeJSONProcessor(component);
                 });

@@ -40,7 +40,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public get TemplateRoot(): string
+    public override get TemplateRoot(): string
     {
         return "generator";
     }
@@ -48,7 +48,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<TSettings>>
+    public override get Questions(): Array<Question<TSettings>>
     {
         return new TSGeneratorQuestionCollection(this).Questions;
     }
@@ -56,7 +56,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public get Components(): IComponentCollection<TSettings, TOptions>
+    public override get Components(): IComponentCollection<TSettings, TOptions>
     {
         return new TSGeneratorComponentCollection(this);
     }
@@ -64,7 +64,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
+    public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
@@ -129,22 +129,24 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: Path.join("tests", "Generators", "index.test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.test.ts"),
+                Source: Path.join("tests", "Generators", "index.ts.ejs"),
+                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.ts"),
                 Context: () =>
                 {
+                    let names: string[] = [];
+
+                    if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample))
+                    {
+                        names.push(this.Settings[TSProjectSettingKey.DisplayName]);
+                    }
+
+                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
+                    {
+                        names.push(subGenerator[SubGeneratorSettingKey.DisplayName]);
+                    }
+
                     return {
-                        Name: this.Settings[TSProjectSettingKey.Name]
-                    };
-                }
-            },
-            {
-                Source: Path.join("tests", "Generators", "app.test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", `${this.Settings[TSProjectSettingKey.Name]}.test.ts`),
-                Context: () =>
-                {
-                    return {
-                        Name: this.Settings[TSProjectSettingKey.DisplayName]
+                        Names: names
                     };
                 }
             },
@@ -168,7 +170,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public async prompting(): Promise<void>
+    public override async prompting(): Promise<void>
     {
         this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
         return super.prompting();
@@ -177,7 +179,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public async writing(): Promise<void>
+    public override async writing(): Promise<void>
     {
         return super.writing();
     }
@@ -185,7 +187,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public async install(): Promise<void>
+    public override async install(): Promise<void>
     {
         return super.install();
     }
@@ -193,7 +195,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public async cleanup(): Promise<void>
+    public override async cleanup(): Promise<void>
     {
         return super.cleanup();
     }
@@ -201,7 +203,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     /**
      * @inheritdoc
      */
-    public async end(): Promise<void>
+    public override async end(): Promise<void>
     {
         await super.end();
 

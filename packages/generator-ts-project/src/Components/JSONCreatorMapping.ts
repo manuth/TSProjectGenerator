@@ -54,7 +54,7 @@ export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public get Metadata(): Promise<any>
+    public override get Metadata(): Promise<any>
     {
         return this.data;
     }

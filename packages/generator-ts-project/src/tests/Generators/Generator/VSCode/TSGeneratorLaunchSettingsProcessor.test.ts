@@ -30,7 +30,7 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
 
                     settings = {
                         [GeneratorSettingKey.Components]: [

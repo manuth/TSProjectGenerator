@@ -1,0 +1,9 @@
+suite(
+    "Generators",
+    () =>
+    {<%
+for (let name of Names)
+{ %>
+        require("./<%- name %>.test");<%
+} %>
+    });

@@ -42,7 +42,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * Gets or sets a component for loading vscode-workspaces.
      */
-    public get Source(): CodeWorkspaceProvider<TSettings, TOptions>
+    public override get Source(): CodeWorkspaceProvider<TSettings, TOptions>
     {
         return this.source;
     }
@@ -50,7 +50,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * @inheritdoc
      */
-    public set Source(value: CodeWorkspaceProvider<TSettings, TOptions>)
+    public override set Source(value: CodeWorkspaceProvider<TSettings, TOptions>)
     {
         this.source = value;
     }
@@ -58,7 +58,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * Gets or sets a component for creating file-mappings.
      */
-    public get FileMappingCreator(): CodeFileMappingCreator<TSettings, TOptions>
+    public override get FileMappingCreator(): CodeFileMappingCreator<TSettings, TOptions>
     {
         return this.fileMappingCreator;
     }
@@ -66,7 +66,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * @inheritdoc
      */
-    public set FileMappingCreator(value: CodeFileMappingCreator<TSettings, TOptions>)
+    public override set FileMappingCreator(value: CodeFileMappingCreator<TSettings, TOptions>)
     {
         this.fileMappingCreator = value;
     }
@@ -74,7 +74,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * Gets or sets a component for processing workspaces.
      */
-    public get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
+    public override get WorkspaceProcessor(): JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>
     {
         return this.workspaceProcessor;
     }
@@ -82,7 +82,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     /**
      * @inheritdoc
      */
-    public set WorkspaceProcessor(value: JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>)
+    public override set WorkspaceProcessor(value: JSONProcessor<TSettings, TOptions, IWorkspaceMetadata>)
     {
         this.workspaceProcessor = value;
     }

@@ -33,7 +33,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
@@ -73,7 +73,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
+                        public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
                         {
                             data.map(
                                 (document) =>
@@ -128,8 +128,11 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                 {
                     test(
                         "Checking whether multi-document files are processed correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+
                             await writeFile(sourceFile.FullName,
                                 dedent(
                                     `

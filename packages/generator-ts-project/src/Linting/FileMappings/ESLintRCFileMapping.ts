@@ -54,7 +54,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      * @returns
      * The processed data.
      */
-    protected async Transform(sourceFile: SourceFile): Promise<SourceFile>
+    protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
         let preset: string;
 

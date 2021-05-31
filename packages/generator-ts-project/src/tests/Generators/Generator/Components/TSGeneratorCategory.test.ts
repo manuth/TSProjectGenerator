@@ -33,7 +33,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -99,7 +99,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                 "Checking whether the generator is created correctly…",
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(20 * 1000);
                     this.slow(10 * 1000);
                     let testContext = new GeneratorContext(GeneratorPath(runContext.generator, "app"));
                     await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
@@ -109,7 +109,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                 "Checking whether sub-generators are created correctly…",
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(20 * 1000);
                     this.slow(10 * 1000);
 
                     for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])

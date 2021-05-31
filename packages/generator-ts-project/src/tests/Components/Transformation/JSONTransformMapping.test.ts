@@ -30,7 +30,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
@@ -70,7 +70,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                          * @returns
                          * The processed data.
                          */
-                        public async Transform(data: any): Promise<any>
+                        public override async Transform(data: any): Promise<any>
                         {
                             return randomData;
                         }
@@ -96,16 +96,20 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
 
             test(
                 "Checking whether the data is transformed correctly…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     await tester.Run();
                     deepStrictEqual(JSON.parse(await tester.Content), randomData);
                 });
 
             test(
                 "Checking whether a trailing new-line is added…",
-                async () =>
+                async function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     await tester.Run();
                     ok((await tester.Content).endsWith(EOL));
                 });

@@ -31,7 +31,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public get TemplateRoot(): string
+    public override get TemplateRoot(): string
     {
         return "module";
     }
@@ -39,7 +39,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
+    public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
 
@@ -62,7 +62,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 Destination: join(this.SourceRoot, "index.ts")
             },
             {
-                Source: "main.test.ts.ejs",
+                Source: this.commonTemplatePath("test.ts.ejs"),
                 Destination: join(this.SourceRoot, "tests", "main.test.ts"),
                 Context: () =>
                 {
@@ -88,7 +88,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public async prompting(): Promise<void>
+    public override async prompting(): Promise<void>
     {
         this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Module")} generator!`));
         return super.prompting();
@@ -97,7 +97,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public async writing(): Promise<void>
+    public override async writing(): Promise<void>
     {
         return super.writing();
     }
@@ -105,7 +105,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public async install(): Promise<void>
+    public override async install(): Promise<void>
     {
         return super.install();
     }
@@ -113,7 +113,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public async cleanup(): Promise<void>
+    public override async cleanup(): Promise<void>
     {
         return super.cleanup();
     }
@@ -121,7 +121,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     /**
      * @inheritdoc
      */
-    public async end(): Promise<void>
+    public override async end(): Promise<void>
     {
         await super.end();
 

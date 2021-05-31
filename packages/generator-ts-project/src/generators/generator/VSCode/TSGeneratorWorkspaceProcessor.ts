@@ -27,7 +27,7 @@ export class TSGeneratorWorkspaceProcessor<TSettings extends ITSGeneratorSetting
     /**
      * @inheritdoc
      */
-    protected get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
+    protected override get ExtensionsProcessor(): JSONProcessor<TSettings, TOptions, IExtensionSettings>
     {
         return new ExtensionsProcessor(this.Component);
     }
@@ -35,7 +35,7 @@ export class TSGeneratorWorkspaceProcessor<TSettings extends ITSGeneratorSetting
     /**
      * Gets a component for processing the debug-settings.
      */
-    protected get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
+    protected override get LaunchSettingsProcessor(): JSONProcessor<TSettings, TOptions, ILaunchSettings>
     {
         return new TSGeneratorLaunchSettingsProcessor(this.Component);
     }

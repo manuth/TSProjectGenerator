@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { normalize } from "upath";
+import { join, normalize } from "upath";
 import { DebugConfiguration } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
@@ -31,7 +31,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * The processed data.
      */
-    public Process(debugSettings: ILaunchSettings): Promise<ILaunchSettings>
+    public override Process(debugSettings: ILaunchSettings): Promise<ILaunchSettings>
     {
         delete (debugSettings as any).compounds;
         return super.Process(debugSettings);
@@ -46,10 +46,10 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * A value indicating whether the debug-configuration should be included.
      */
-    protected async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+    protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
         return !(
-            normalize(debugConfig.program ?? "").toLowerCase().endsWith("yo/lib/cli.js") ||
+            normalize(debugConfig.program ?? "").toLowerCase().endsWith(join("node_modules", "yo", "lib", "cli.js")) ||
             (debugConfig.program ?? "").includes("${workspaceFolder:MyTSProjectGenerator}"));
     }
 
@@ -62,11 +62,14 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      * @returns
      * The processed debug-configuration.
      */
-    protected async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
+    protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
+        let workspaceDirective = "${workspaceFolder}";
+        let destinationSetting = "outFiles";
         debugConfig.name = debugConfig.name.replace(/(?<!\s)\s+TSProjectGenerator\s+/, " ");
         delete debugConfig.presentation;
         delete debugConfig.autoAttachChildProcesses;
+        delete debugConfig.skipFiles;
 
         if (typeof debugConfig.program === "string")
         {
@@ -78,16 +81,20 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
             debugConfig.args = debugConfig.args.map((arg) => this.StripWorkspaceFolder(arg));
         }
 
-        if (Array.isArray(debugConfig.outFiles))
+        if (Array.isArray(debugConfig[destinationSetting]))
         {
-            debugConfig.outFiles = debugConfig.outFiles.map((pattern) => this.StripWorkspaceFolder(pattern));
+            let outFiles = debugConfig[destinationSetting];
+
+            debugConfig[destinationSetting] = [
+                ...new Set((outFiles as string[]).map((pattern) => this.StripWorkspaceFolder(pattern)))
+            ];
         }
 
         if (typeof debugConfig.cwd === "string")
         {
             debugConfig.cwd = this.StripWorkspaceFolder(debugConfig.cwd);
 
-            if (debugConfig.cwd === "${workspaceFolder}")
+            if (debugConfig.cwd === workspaceDirective)
             {
                 delete debugConfig.cwd;
             }

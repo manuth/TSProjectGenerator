@@ -64,7 +64,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public get Questions(): Array<Question<TSettings>>
+    public override get Questions(): Array<Question<TSettings>>
     {
         return new TSProjectQuestionCollection(this).Questions;
     }
@@ -72,7 +72,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public get Components(): IComponentCollection<TSettings, TOptions>
+    public override get Components(): IComponentCollection<TSettings, TOptions>
     {
         return new TSProjectComponentCollection(this);
     }
@@ -80,7 +80,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
+    public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
             {
@@ -141,7 +141,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public async prompting(): Promise<void>
+    public override async prompting(): Promise<void>
     {
         return super.prompting();
     }
@@ -149,7 +149,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public async writing(): Promise<void>
+    public override async writing(): Promise<void>
     {
         this.log(chalk.whiteBright("Generating the Workspace"));
         this.destinationRoot(this.Settings[TSProjectSettingKey.Destination]);
@@ -159,7 +159,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public async install(): Promise<void>
+    public override async install(): Promise<void>
     {
         this.log("Your workspace has been generated!");
         super.install();
@@ -231,7 +231,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     /**
      * @inheritdoc
      */
-    public async end(): Promise<void>
+    public override async end(): Promise<void>
     {
         this.log("");
 

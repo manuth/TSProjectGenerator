@@ -58,7 +58,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
             suiteSetup(
                 async function()
                 {
-                    this.timeout(0);
+                    this.timeout(2 * 60 * 1000);
                     fileMapping = new TSProjectPackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
@@ -75,8 +75,10 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 {
                     test(
                         "Checking whether the name and the description are loaded from the prompts…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let randomName = context.RandomString;
                             let randomDescription = context.RandomString;
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
@@ -93,8 +95,10 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 {
                     test(
                         "Checking whether all expected scripts are present…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
                             await tester.Run();
                             await AssertScriptCopy("compile", "build");
                             await AssertScriptCopy("rebuild");
@@ -125,16 +129,21 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 {
                     test(
                         "Checking whether common dependencies are present…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
                             await tester.Run();
                             await tester.AssertDependencies(new CommonDependencies());
                         });
 
                     test(
                         "Checking whether lint-dependencies are present if linting is enabled…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
+
                             for (let lintingEnabled of [true, false])
                             {
                                 await tester.Clean();

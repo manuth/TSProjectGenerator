@@ -31,11 +31,12 @@ export class TSProjectSettingsProcessor<TSettings extends ITSProjectSettings, TO
      * @returns
      * A value indicating whether the setting with the specified key should be included.
      */
-    protected async FilterSetting(key: string, value: any): Promise<boolean>
+    protected override async FilterSetting(key: string, value: any): Promise<boolean>
     {
         return ![
             "files.associations",
-            "search.exclude"
+            "search.exclude",
+            "typescript.tsdk"
         ].includes(key);
     }
 }

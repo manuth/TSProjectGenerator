@@ -18,8 +18,10 @@ export function PackageDependencyCollectionTests(context: TestContext<TestGenera
         {
             test(
                 "Checking whether dependencies can be loaded from the `package.json` file…",
-                () =>
+                function()
                 {
+                    this.timeout(1 * 1000);
+                    this.slow(0.5 * 1000);
                     let dependency = context.Random.pick(Constants.Dependencies.Keys);
 
                     strictEqual(

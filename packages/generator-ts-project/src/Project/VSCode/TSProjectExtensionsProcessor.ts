@@ -28,7 +28,7 @@ export class TSProjectExtensionsProcessor<TSettings extends ITSProjectSettings, 
      * @returns
      * All necessary recommendations.
      */
-    protected async FilterRecommendations(recommendations: string[]): Promise<string[]>
+    protected override async FilterRecommendations(recommendations: string[]): Promise<string[]>
     {
         return recommendations.filter(
             (extension) =>

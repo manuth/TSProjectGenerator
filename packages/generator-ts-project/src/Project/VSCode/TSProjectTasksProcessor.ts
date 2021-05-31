@@ -29,7 +29,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      * @returns
      * A value indicating whether the task should be included.
      */
-    protected async FilterTask(task: TaskDefinition): Promise<boolean>
+    protected override async FilterTask(task: TaskDefinition): Promise<boolean>
     {
         let result = super.FilterTask(task);
 
@@ -50,7 +50,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      * @returns
      * The processed task.
      */
-    protected async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
+    protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
     {
         if (
             task.type === "shell" &&
