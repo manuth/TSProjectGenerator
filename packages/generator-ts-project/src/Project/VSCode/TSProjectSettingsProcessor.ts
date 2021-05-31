@@ -36,7 +36,8 @@ export class TSProjectSettingsProcessor<TSettings extends ITSProjectSettings, TO
         return ![
             "files.associations",
             "search.exclude",
-            "typescript.tsdk"
+            "typescript.tsdk",
+            "terminal.integrated.cwd"
         ].includes(key);
     }
 }
