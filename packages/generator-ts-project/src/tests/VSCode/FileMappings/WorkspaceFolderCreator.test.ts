@@ -52,7 +52,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
             suiteSetup(
                 async function()
                 {
-                    this.timeout(10 * 1000);
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     component = new TestCodeWorkspaceComponent(generator);
                     source = new TestCodeWorkspaceProvider(component);
