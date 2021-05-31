@@ -18,7 +18,13 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
         "TSProjectSettingsProcessor",
         () =>
         {
-            let excludedSetting = "files.associations";
+            let excludedSettings = [
+                "files.associations",
+                "search.exclude",
+                "typescript.tsdk"
+            ];
+
+            let settings: Record<string, any>;
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
 
@@ -28,14 +34,17 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
                     this.timeout(2 * 60 * 1000);
                     component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TSProjectSettingsProcessor(component);
+                    settings = processor.Process(await component.Source.LaunchMetadata);
                 });
 
-            test(
-                `Checking whether the \`${excludedSetting}\` setting is excluded…`,
-                async () =>
-                {
-                    let settings = processor.Process(await component.Source.LaunchMetadata);
-                    ok(!(excludedSetting in settings));
-                });
+            for (let excludedSetting of excludedSettings)
+            {
+                test(
+                    `Checking whether the \`${excludedSetting}\` setting is excluded…`,
+                    async () =>
+                    {
+                        ok(!(excludedSetting in settings));
+                    });
+            }
         });
 }
