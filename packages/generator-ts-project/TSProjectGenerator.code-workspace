@@ -155,7 +155,8 @@
             "**/*.code-search": true,
             "lib/**/*": true,
             "**/*.tsbuildinfo": true
-        }
+        },
+        "terminal.integrated.cwd": "${workspaceFolder:Solution Items}"
     },
     "tasks": {
         // See https://go.microsoft.com/fwlink/?LinkId=733558
