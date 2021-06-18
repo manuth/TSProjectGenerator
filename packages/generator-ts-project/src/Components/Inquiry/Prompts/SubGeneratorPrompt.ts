@@ -106,7 +106,6 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
     {
         return [
             {
-                type: "input",
                 name: SubGeneratorSettingKey.DisplayName,
                 message: "What's the human-readable name of the sub-generator?",
                 validate:(input: string) =>
@@ -127,7 +126,6 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
                 }
             },
             {
-                type: "input",
                 name: SubGeneratorSettingKey.Name,
                 message: "What's the unique name of the sub-generator?",
                 default: (settings: ITSGeneratorSettings) => kebabCase(settings[SubGeneratorSettingKey.DisplayName] || ""),

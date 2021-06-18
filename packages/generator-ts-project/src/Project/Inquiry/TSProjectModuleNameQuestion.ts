@@ -17,11 +17,6 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
-
-    /**
-     * @inheritdoc
-     */
     public name = TSProjectSettingKey.Name;
 
     /**

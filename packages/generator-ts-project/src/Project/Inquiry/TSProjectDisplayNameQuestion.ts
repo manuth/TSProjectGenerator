@@ -13,11 +13,6 @@ export class TSProjectDisplayNameQuestion<TSettings extends ITSProjectSettings, 
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
-
-    /**
-     * @inheritdoc
-     */
     public name = TSProjectSettingKey.DisplayName;
 
     /**

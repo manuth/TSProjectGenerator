@@ -43,11 +43,6 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
     /**
      * @inheritdoc
      */
-    public abstract get type(): string;
-
-    /**
-     * @inheritdoc
-     */
     public abstract get name(): KeyUnion<TSettings>;
 
     /**

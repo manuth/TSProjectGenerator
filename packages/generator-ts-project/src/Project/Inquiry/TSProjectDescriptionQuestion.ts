@@ -14,11 +14,6 @@ export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, 
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
-
-    /**
-     * @inheritdoc
-     */
     public name = TSProjectSettingKey.Description;
 
     /**

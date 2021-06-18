@@ -41,7 +41,6 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
     {
         return [
             {
-                type: "input",
                 name: <%- Identities %>.Destination,
                 message: "Where do you want to save your project to?",
                 default: "./",
@@ -53,13 +52,11 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
                 }
             },
             {
-                type: "input",
                 name: <%- Identities %>.Name,
                 message: "What's the name of your project?",
                 default: (answers: <%- SettingsInterface %>) => basename(answers[<%- Identities %>.Destination])
             },
             {
-                type: "input",
                 name: <%- Identities %>.Description,
                 message: "Please enter a description."
             }
