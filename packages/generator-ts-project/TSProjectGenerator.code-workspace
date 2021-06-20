@@ -15,8 +15,10 @@
     ],
     "extensions": {
         "recommendations": [
-            "manuth.eslint-language-service",
-            "digitalbrainstem.javascript-ejs-support"
+            "digitalbrainstem.javascript-ejs-support",
+            "hbenl.vscode-mocha-test-adapter",
+            "hbenl.vscode-test-explorer",
+            "manuth.eslint-language-service"
         ]
     },
     "launch": {
@@ -141,6 +143,7 @@
         "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
         "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
         "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+        "mochaExplorer.require": "source-map-support/register",
         "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
         "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
         "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
