@@ -144,7 +144,6 @@
         "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
         "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
         "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
-        "typescript.tsdk": "./Solution Items/node_modules/typescript/lib",
         "files.associations": {
             ".gitignore.ejs": "ignore",
             ".npmignore.ejs": "ignore"
