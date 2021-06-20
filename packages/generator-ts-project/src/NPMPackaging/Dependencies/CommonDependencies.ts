@@ -17,7 +17,8 @@ export class CommonDependencies extends PackageDependencyCollection
                     "@types/mocha",
                     "@types/node",
                     "mocha",
-                    "rimraf"
+                    "rimraf",
+                    "source-map-support"
                 ]
             });
 
