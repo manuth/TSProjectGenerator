@@ -1,10 +1,11 @@
 import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { TSProjectGenerator } from "@manuth/generator-ts-project";
+import { TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { join } from "upath";
 import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 import { MyGeneratorComponent } from "./MyGeneratorComponent";
+import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
 
 /**
  * Provides the functionality to create base-constructors.
@@ -180,6 +181,8 @@ export abstract class MyTSProjectGenerator
      */
     protected static ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: Array<IFileMapping<any, any>>): Array<IFileMapping<any, any>>
     {
+        let tsConfigPath = generator.destinationPath("tsconfig.base.json");
+
         for (let i = 0; i < fileMappings.length; i++)
         {
             let fileMappingOptions = fileMappings[i];
@@ -188,6 +191,28 @@ export abstract class MyTSProjectGenerator
             if (fileMapping.Destination.endsWith(".md"))
             {
                 fileMappings[i] = new MarkdownFileProcessor(generator, fileMapping);
+            }
+
+            if (fileMappingOptions instanceof TSProjectPackageFileMapping)
+            {
+                fileMappings[i] = new MyTSProjectPackageFileMapping(generator);
+            }
+
+            if (fileMapping.Destination === tsConfigPath)
+            {
+                fileMappings[i] = {
+                    Source: fileMapping.Source,
+                    Destination: fileMapping.Destination,
+                    Processor: async (target, generator) =>
+                    {
+                        // eslint-disable-next-line @typescript-eslint/no-var-requires
+                        let originalConfig = require(target.Source);
+                        await fileMapping.Processor();
+                        let tsConfig = generator.fs.readJSON(target.Destination) as any;
+                        tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
+                        generator.fs.writeJSON(target.Destination, tsConfig, null, 4);
+                    }
+                };
             }
         }
 

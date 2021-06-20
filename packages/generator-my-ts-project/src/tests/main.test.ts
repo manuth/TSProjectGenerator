@@ -4,6 +4,8 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 import { DependabotFileMappingTests } from "./DependabotFileMapping.test";
 import { DroneFileMappingTests } from "./DroneFileMapping.test";
 import { MarkdownFileProcessorTests } from "./MarkdownFileProcessor.test";
+import { MyTSProjectGeneratorTests } from "./MyTSProjectGenerator.test";
+import { MyTSProjectPackageFileMappingTests } from "./MyTSProjectPackageFileMapping.test";
 
 suite(
     "MyTSProjectGenerator",
@@ -21,7 +23,9 @@ suite(
                 }
             });
 
+        MyTSProjectGeneratorTests(projectContext);
         MarkdownFileProcessorTests(context);
         DroneFileMappingTests(projectContext);
         DependabotFileMappingTests(projectContext);
+        MyTSProjectPackageFileMappingTests(projectContext);
     });
