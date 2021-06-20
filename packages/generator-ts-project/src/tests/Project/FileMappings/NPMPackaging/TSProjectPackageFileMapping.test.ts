@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -97,6 +97,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether all expected scripts are present…",
                         async function()
                         {
+                            let patchScriptName = "patchTypeScript";
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
@@ -119,7 +120,10 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
 
                             await AssertScriptCopy("test");
-                            return AssertScriptCopy("prepare");
+                            let scripts = (await tester.Package).Scripts;
+                            console.log(scripts);
+                            ok(!(await tester.Package).Scripts.Get("prepare").includes(patchScriptName));
+                            ok(!scripts.Has(patchScriptName));
                         });
                 });
 

@@ -16,6 +16,8 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
         "TSProjectGenerator",
         () =>
         {
+            let tsConfigFileName = "tsconfig.base.json";
+            let transformName = "ts-nameof";
             let testCode: string;
             let fileName: string;
             let generator: TSProjectGenerator;
@@ -31,6 +33,22 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
 
                     fileName = "src/test.ts";
                     generator = await context.Generator;
+                });
+
+            test(
+                `Checking whether the \`${transformName}\`-plugin is stripped from \`${tsConfigFileName}\`…`,
+                () =>
+                {
+                    // eslint-disable-next-line @typescript-eslint/no-var-requires
+                    let tsConfig = require(generator.destinationPath("tsconfig.base.json"));
+
+                    strictEqual(
+                        (tsConfig.compilerOptions.plugins as any[]).filter(
+                            (plugin) =>
+                            {
+                                return plugin.transform === transformName;
+                            }).length,
+                            0);
                 });
 
             test(

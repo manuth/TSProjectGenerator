@@ -86,11 +86,30 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     protected get MiscScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
     {
         return (
-            async () =>
+            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
             {
                 return [
                     "test",
-                    "prepare"
+                    {
+                        Source: "prepare",
+                        Destination: "prepare",
+                        Processor: async (script, target) =>
+                        {
+                            let separator = " && ";
+                            let commands = script.split(separator);
+                            let filtered: string[] = [];
+
+                            for (let command of commands)
+                            {
+                                if (!command.includes("patchTypeScript"))
+                                {
+                                    filtered.push(command);
+                                }
+                            }
+
+                            return filtered.join(separator);
+                        }
+                    }
                 ];
             })();
     }
