@@ -40,7 +40,7 @@
     "lint-ide": "npm run lint-code-ide && npm run lint-docs || exit 0",
     "test": "mocha",
     "prepare": "npm run patchTypeScript && npm run rebuild",
-    "patchTypeScript": "npx ts-patch install --persist"
+    "patchTypeScript": "npx ts-patch install && npx ts-patch --persist"
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^8.0.4",

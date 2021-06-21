@@ -16,7 +16,7 @@
     "test": "lerna run test",
     "version": "ts-node ./scripts/bumpVersion.ts",
     "prepare": "lerna bootstrap --ignore-scripts && npm run patchTypeScript && npm run rebuild",
-    "patchTypeScript": "ts-patch install --persist && lerna run patchTypeScript"
+    "patchTypeScript": "npx ts-patch install && npx ts-patch --persist && lerna run patchTypeScript"
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.0.1",
