@@ -19,6 +19,17 @@ import npmWhich = require("npm-which");
                 ]);
 
             spawnSync(
+                npmWhich(__dirname).sync("lerna"),
+                [
+                    "exec",
+                    "--",
+                    "npm",
+                    "version",
+                    releaseName,
+                    "--allow-same-version"
+                ]);
+
+            spawnSync(
                 npmWhich(__dirname).sync("git"),
                 [
                     "commit",
