@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^8.0.4",
-    "@manuth/package-json-editor": "^1.4.7",
+    "@manuth/package-json-editor": "^2.0.0",
     "@manuth/temp-files": "^2.0.5",
     "@types/vscode": "^1.56.0",
     "chalk": "^4.1.1",
