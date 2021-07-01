@@ -65,8 +65,6 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
         let dependencies = [
             "@types/ts-nameof",
             "ts-nameof",
-            // Workaround for [nonara/ts-patch#38](https://github.com/nonara/ts-patch/issues/38)
-            "ts-node",
             "ts-patch"
         ];
 
