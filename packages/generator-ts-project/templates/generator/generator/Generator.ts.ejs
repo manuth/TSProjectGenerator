@@ -1,4 +1,4 @@
-import chalk = require("chalk");
+import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import { Generator, GeneratorOptions, IComponentCollection, Question } from "@manuth/extended-yo-generator";
 import { basename, isAbsolute, resolve } from "path";
@@ -141,7 +141,7 @@ export class <%- Name %> extends Generator<<%- SettingsInterface %>, GeneratorOp
      */
     public override async prompting(): Promise<void>
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright("<%- DisplayName %>")} generator!`));
+        this.log(yosay(`Welcome to the ${whiteBright("<%- DisplayName %>")} generator!`));
         return super.prompting();
     }
 

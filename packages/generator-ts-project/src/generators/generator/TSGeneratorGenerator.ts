@@ -1,6 +1,6 @@
-import Path = require("path");
+import { join } from "path";
 import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
-import chalk = require("chalk");
+import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import { ensureDir } from "fs-extra";
 import yosay = require("yosay");
@@ -100,7 +100,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
 
                                 return {
                                     Name: name,
-                                    Path: Path.join(this.SourceRoot, "generators", name)
+                                    Path: join(this.SourceRoot, "generators", name)
                                 };
                             })
                     };
@@ -119,8 +119,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: Path.join("tests", "main.test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "main.test.ts"),
+                Source: join("tests", "main.test.ts.ejs"),
+                Destination: join(this.SourceRoot, "tests", "main.test.ts"),
                 Context: () =>
                 {
                     return {
@@ -129,8 +129,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: Path.join("tests", "Generators", "index.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.ts"),
+                Source: join("tests", "Generators", "index.ts.ejs"),
+                Destination: join(this.SourceRoot, "tests", "Generators", "index.ts"),
                 Context: () =>
                 {
                     let names: string[] = [];
@@ -151,7 +151,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Destination: Path.join(this.SourceRoot, "generators"),
+                Destination: join(this.SourceRoot, "generators"),
                 Processor: (target) =>
                 {
                     return ensureDir(target.Destination);
@@ -172,7 +172,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
      */
     public override async prompting(): Promise<void>
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
+        this.log(yosay(`Welcome to the ${whiteBright.bold("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 

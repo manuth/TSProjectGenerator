@@ -1,6 +1,6 @@
 import { join } from "path";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import chalk = require("chalk");
+import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import yosay = require("yosay");
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
@@ -90,7 +90,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
      */
     public override async prompting(): Promise<void>
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Module")} generator!`));
+        this.log(yosay(`Welcome to the ${whiteBright.bold("TypeScript Module")} generator!`));
         return super.prompting();
     }
 
