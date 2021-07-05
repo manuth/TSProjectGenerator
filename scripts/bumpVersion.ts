@@ -24,6 +24,7 @@ import npmWhich = require("npm-which");
                     "exec",
                     "--",
                     "npm",
+                    "--no-git-tag-version",
                     "version",
                     releaseName,
                     "--allow-same-version"
