@@ -2,11 +2,13 @@ import { strictEqual } from "assert";
 import { ensureDir, ensureFile, lstat, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
 import { resolve } from "upath";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `NPMIgnoreFileMapping` class.
+ * Registers tests for the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -41,13 +43,13 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
             }
 
             /**
-             * Asserts whether the file at the specified `path` is `ignored`.
+             * Asserts whether the file at the specified {@link path `path`} is {@link ignored `ignored`}.
              *
              * @param path
              * The path to check.
              *
              * @param ignored
-             * A value indicating whether the `path` is expected to be ignored.
+             * A value indicating whether the {@link path `path`} is expected to be ignored.
              */
             async function AssertIgnored(path: string, ignored = true): Promise<void>
             {
@@ -55,13 +57,13 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
             }
 
             /**
-             * Asserts whether the directory at the specified `path` is `ignored`.
+             * Asserts whether the directory at the specified {@link path `path`} is {@link ignored `ignored`}.
              *
              * @param path
              * The path to check.
              *
              * @param ignored
-             * A value indicating whether the `path` is expected to be ignored.
+             * A value indicating whether the {@link path `path`} is expected to be ignored.
              */
             async function AssertDirectoryIgnored(path: string, ignored = true): Promise<void>
             {

@@ -3,7 +3,7 @@ import { TestContext } from "@manuth/extended-yo-generator-test";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
 /**
- * Registers tests for the `MyTSProjectGenerator` class.
+ * Registers tests for the {@link MyTSProjectGenerator `MyTSProjectGenerator<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

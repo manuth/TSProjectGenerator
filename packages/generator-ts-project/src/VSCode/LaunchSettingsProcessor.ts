@@ -6,11 +6,17 @@ import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode debug configurations.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class LaunchSettingsProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, ILaunchSettings>
 {
     /**
-     * Initializes a new instance of the `LaunchSettingsProcessor` class.
+     * Initializes a new instance of the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.

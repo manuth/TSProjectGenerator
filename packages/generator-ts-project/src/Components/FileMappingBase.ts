@@ -3,12 +3,18 @@ import { readFile } from "fs-extra";
 import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
- * Provides a basic implementation of the `IFileMapping` interface.
+ * Provides a basic implementation of the {@link IFileMapping `IFileMapping<TSettings, TOptions>`} interface.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, FileMapping<TSettings, TOptions>> implements IFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `FileMappingBase` class.
+     * Initializes a new instance of the {@link FileMappingBase `FileMappingBase<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -64,7 +70,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
     public async Processor?(): Promise<void>;
 
     /**
-     * Reads the contents of the file located at the specified `path`.
+     * Reads the contents of the file located at the specified {@link path `path`}.
      *
      * @param path
      * The path to the file to read.
@@ -89,7 +95,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
     }
 
     /**
-     * Writes the specified `content` to the file located at the specified `path`.
+     * Writes the specified {@link content `content`} to the file located at the specified {@link path `path`}.
      *
      * @param path
      * The path to the file to write.
@@ -103,7 +109,7 @@ export abstract class FileMappingBase<TSettings extends IGeneratorSettings, TOpt
     }
 
     /**
-     * Writes the specified `content` to the destination-file.
+     * Writes the specified {@link content `content`} to the destination-file.
      *
      * @param content
      * The content to write.

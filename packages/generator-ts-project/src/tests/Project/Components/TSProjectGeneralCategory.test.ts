@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectGeneralCategory` class.
+ * Registers tests for the {@link TSProjectGeneralCategory `TSProjectGeneralCategory<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

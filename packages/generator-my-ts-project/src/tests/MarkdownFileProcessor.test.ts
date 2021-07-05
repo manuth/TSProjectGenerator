@@ -7,7 +7,7 @@ import { writeFile } from "fs-extra";
 import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 
 /**
- * Registers tests for the `MarkdownFileProcessor` class.
+ * Registers tests for the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

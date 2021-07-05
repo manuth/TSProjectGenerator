@@ -14,7 +14,7 @@ import { TestContext } from "../../../TestContext";
 import { GeneratorPath } from "../TSGeneratorGenerator.test";
 
 /**
- * Registers tests for the `TSGeneratorCategory` class.
+ * Registers tests for the {@link TSGeneratorCategory `TSGeneratorCategory<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

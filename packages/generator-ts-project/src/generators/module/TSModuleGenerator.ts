@@ -11,11 +11,17 @@ import { TSModulePackageFileMapping } from "./FileMappings/NPMPackaging/TSModule
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSProjectGenerator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSModuleGenerator` class.
+     * Initializes a new instance of the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.

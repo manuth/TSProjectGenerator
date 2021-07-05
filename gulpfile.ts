@@ -31,7 +31,7 @@ let options = minimist(process.argv.slice(2), { boolean: "watch" });
  * The path to join.
  *
  * @returns
- * The `path` relative to the gulp-folder.
+ * The specified {@link path `path`} relative to the gulp-folder.
  */
 function GulpPath(...path: string[]): string
 {
@@ -45,7 +45,7 @@ function GulpPath(...path: string[]): string
  * The path to join.
  *
  * @returns
- * The `path` relative to the `packages`-folder.
+ * The specified {@link path `path`} relative to the `packages`-folder.
  */
 function PackagePath(...path: string[]): string
 {
@@ -62,7 +62,7 @@ function PackagePath(...path: string[]): string
  * The path to join.
  *
  * @returns
- * The `path` relative to the common template folder.
+ * The specified {@link path `path`} relative to the common template folder.
  */
 function CommonTemplatePath(generatorName: string, ...path: string[]): string
 {

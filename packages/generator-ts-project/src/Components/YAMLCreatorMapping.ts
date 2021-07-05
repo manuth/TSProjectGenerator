@@ -4,6 +4,12 @@ import { YAMLTransformMapping } from "./Transformation/YAMLTransformMapping";
 
 /**
  * Provides the functionality to create yaml-files.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
 {
@@ -18,7 +24,7 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
     private destination: string;
 
     /**
-     * Initializes a new instance of the `YAMLCreatorMapping` class.
+     * Initializes a new instance of the {@link YAMLCreatorMapping `YAMLCreatorMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of this file-mapping.

@@ -19,11 +19,17 @@ import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSProjectGenerator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGenerator` class.
+     * Initializes a new instance of the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.

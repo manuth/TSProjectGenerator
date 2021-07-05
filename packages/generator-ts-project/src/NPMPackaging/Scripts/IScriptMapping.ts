@@ -4,6 +4,12 @@ import { ScriptProcessor } from "./ScriptProcessor";
 
 /**
  * Represents a script-mapping.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export interface IScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions>
 {

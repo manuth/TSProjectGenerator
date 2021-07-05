@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectComponentCollection` class.
+ * Registers tests for the {@link TSProjectComponentCollection `TSProjectComponentCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

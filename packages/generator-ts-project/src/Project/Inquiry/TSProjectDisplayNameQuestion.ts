@@ -7,6 +7,12 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for a human-readable name of a project.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectDisplayNameQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
@@ -16,7 +22,7 @@ export class TSProjectDisplayNameQuestion<TSettings extends ITSProjectSettings, 
     public name = TSProjectSettingKey.DisplayName;
 
     /**
-     * Initializes a new instance of the `TSProjectDisplayNameQuestion` class.
+     * Initializes a new instance of the {@link TSProjectDisplayNameQuestion `TSProjectDisplayNameQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.

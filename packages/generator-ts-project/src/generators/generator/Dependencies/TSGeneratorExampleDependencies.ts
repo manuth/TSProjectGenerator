@@ -6,7 +6,7 @@ import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/
 export class TSGeneratorExampleDependencies extends PackageDependencyCollection
 {
     /**
-     * Initializes a new instance of the `TSGeneratorExampleDependencies` class.
+     * Initializes a new instance of the {@link TSGeneratorExampleDependencies `TSGeneratorExampleDependencies`} class.
      */
     public constructor()
     {

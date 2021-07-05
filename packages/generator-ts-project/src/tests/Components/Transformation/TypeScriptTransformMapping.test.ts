@@ -9,7 +9,7 @@ import { TypeScriptTransformMapping } from "../../../Components/Transformation/T
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TypeScriptTransformMapping` class.
+ * Registers tests for the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

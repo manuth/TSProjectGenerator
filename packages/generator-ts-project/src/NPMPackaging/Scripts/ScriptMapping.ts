@@ -4,11 +4,17 @@ import { ScriptProcessor } from "./ScriptProcessor";
 
 /**
  * Represents a script-mapping for copying npm-scripts.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ScriptMapping` class.
+     * Initializes a new instance of the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the script-mapping

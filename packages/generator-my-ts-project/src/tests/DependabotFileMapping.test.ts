@@ -7,7 +7,7 @@ import { DependabotFileMapping } from "../DependabotFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
 /**
- * Registers tests for the `DependabotFileMapping` class.
+ * Registers tests for the {@link DependabotFileMapping `DependabotFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

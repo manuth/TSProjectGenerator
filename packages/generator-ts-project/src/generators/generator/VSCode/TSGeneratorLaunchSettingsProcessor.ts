@@ -10,14 +10,22 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
 
 /**
- * Provides the functionality to process vscode debug configurations for `TSGenerator`s.
+ * Provides the functionality to process vscode debug configurations for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectLaunchSettingsProcessor<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorLaunchSettingsProcessor` class.
+     * Initializes a new instance of the {@link TSGeneratorLaunchSettingsProcessor `TSGeneratorLaunchSettingsProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.

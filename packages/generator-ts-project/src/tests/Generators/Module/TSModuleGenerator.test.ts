@@ -6,7 +6,7 @@ import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator"
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSModuleGenerator`.
+ * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

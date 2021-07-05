@@ -3,6 +3,12 @@ import { ChoiceCollection, KeyUnion, Question } from "inquirer";
 
 /**
  * Represents a question.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> implements Question<TSettings>
 {
@@ -22,7 +28,7 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
     private generator: IGenerator<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `QuestionBase` class.
+     * Initializes a new instance of the {@link QuestionBase `QuestionBase<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.
@@ -114,7 +120,7 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
      * The answers provided by the user.
      *
      * @returns
-     * Either a value indicating whether the answer is valid or a `string` which describes the error.
+     * Either a value indicating whether the answer is valid or a {@link String `string`} which describes the error.
      */
     public validate = async (input: any, answers: TSettings): Promise<string | boolean> =>
     {
@@ -190,7 +196,7 @@ export abstract class QuestionBase<TSettings extends IGeneratorSettings = IGener
      * The answers provided by the user.
      *
      * @returns
-     * Either a value indicating whether the answer is valid or a `string` which describes the error.
+     * Either a value indicating whether the answer is valid or a {@link String `string`} which describes the error.
      */
     protected async Validate(input: any, answers: TSettings): Promise<boolean | string>
     {

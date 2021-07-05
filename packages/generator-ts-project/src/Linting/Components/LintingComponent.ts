@@ -7,11 +7,17 @@ import { LintingQuestion } from "../Inquiry/LintingQuestion";
 
 /**
  * Provides a component which allows creating files for linting the workspace.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class LintingComponent<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `LintingComponent` class.
+     * Initializes a new instance of the {@link LintingComponent `LintingComponent<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

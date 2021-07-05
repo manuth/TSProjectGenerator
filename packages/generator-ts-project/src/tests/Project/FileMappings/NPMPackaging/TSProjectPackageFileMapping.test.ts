@@ -12,7 +12,7 @@ import { PackageFileMappingTester } from "../../../NPMPackaging/FileMappings/Pac
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSProjectPackageFileMapping` class.
+ * Registers tests for the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The text-context.

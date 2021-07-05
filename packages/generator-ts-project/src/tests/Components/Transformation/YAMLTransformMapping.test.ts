@@ -11,7 +11,7 @@ import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTra
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `YAMLTransformMapping` class.
+ * Registers tests for the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The text-context.

@@ -3,11 +3,17 @@ import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
  * Represens a category of components.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class ComponentCategoryBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, ComponentCategory<TSettings, TOptions>> implements IComponentCategory<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ComponentCategoryBase` class.
+     * Initializes a new instance of the {@link ComponentCategoryBase `ComponentCategoryBase<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the category.

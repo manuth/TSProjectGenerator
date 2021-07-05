@@ -5,11 +5,17 @@ import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 
 /**
  * Provides the functionality to load workspace-settings from a folder.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class WorkspaceFolderLoader<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `WorkspaceFolderLoader` class.
+     * Initializes a new instance of the {@link WorkspaceFolderLoader `WorkspaceFolderLoader<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the file-mapping creator.

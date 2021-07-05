@@ -6,7 +6,7 @@ import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "./TestScriptTransformer";
 
 /**
- * Registers tests for the `ScriptMapping` class.
+ * Registers tests for the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

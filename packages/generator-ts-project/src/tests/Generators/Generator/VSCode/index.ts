@@ -3,7 +3,7 @@ import { TestContext } from "../../../TestContext";
 import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSettingsProcessor.test";
 
 /**
- * Registers tests for VSCode-components for `TSGenerator`s.
+ * Registers tests for VSCode-components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.

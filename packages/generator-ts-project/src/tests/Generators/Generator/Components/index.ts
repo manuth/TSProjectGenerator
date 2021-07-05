@@ -5,7 +5,7 @@ import { TSGeneratorComponentCollectionTests } from "./TSGeneratorComponentColle
 import { TSGeneratorGeneralCategoryTests } from "./TSGeneratorGeneralCategory.test";
 
 /**
- * Registers tests for the `Generator`-generator.
+ * Registers tests for the components of the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

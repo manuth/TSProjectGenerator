@@ -5,7 +5,13 @@ import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITestPackageOptions } from "./ITestPackageOptions";
 
 /**
- * Provides an implementation of the `PackageFileMapping` class for testing.
+ * Provides an implementation of the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class for testing.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PackageFileMapping<TSettings, TOptions>
 {
@@ -15,7 +21,7 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     private options: ITestPackageOptions<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `TestPackageFileMapping` class.
+     * Initializes a new instance of the {@link TestPackageFileMapping `TestPackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

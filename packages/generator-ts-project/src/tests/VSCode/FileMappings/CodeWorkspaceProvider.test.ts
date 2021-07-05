@@ -5,6 +5,8 @@ import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../../VSCode/ITaskSettings";
@@ -12,7 +14,7 @@ import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `CodeWorkspaceProvider` class.
+ * Registers tests for the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

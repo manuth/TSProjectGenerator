@@ -7,6 +7,12 @@ import { LintRuleset } from "../LintRuleset";
 
 /**
  * Provides a question for asking for the linting-ruleset.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class LintingQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements ListQuestionOptions<TSettings>
 {
@@ -21,7 +27,7 @@ export class LintingQuestion<TSettings extends ITSProjectSettings, TOptions exte
     public name = TSProjectSettingKey.LintRuleset;
 
     /**
-     * Initializes a new instance of the `LintingQuestion` class.
+     * Initializes a new instance of the {@link LintingQuestion `LintingQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.

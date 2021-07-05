@@ -14,11 +14,17 @@ import { WorkspaceProcessor } from "../WorkspaceProcessor";
 
 /**
  * Provides a component for creating a vscode-workspace.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
+     * Initializes a new instance of the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.

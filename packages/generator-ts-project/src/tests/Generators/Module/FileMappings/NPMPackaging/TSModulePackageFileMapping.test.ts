@@ -11,7 +11,7 @@ import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/
 import { TestContext } from "../../../../TestContext";
 
 /**
- * Registers tests for the `TSModulePackageFileMapping`.
+ * Registers tests for the {@link TSModulePackageFileMapping `TSModulePackageFileMapping<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

@@ -6,7 +6,7 @@ import { PackageDependencyCollection } from "./PackageDependencyCollection";
 export class BuildDependencies extends PackageDependencyCollection
 {
     /**
-     * Initializes a new instance of the `CommonDependencies` class.
+     * Initializes a new instance of the {@link BuildDependencies `BuildDependencies`} class.
      */
     public constructor()
     {

@@ -7,7 +7,7 @@ import { TSProjectSettingsProcessor } from "../../../Project/VSCode/TSProjectSet
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectSettingsProcessor` class.
+ * Registers tests for the {@link TSProjectSettingsProcessor `TSProjectSettingsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

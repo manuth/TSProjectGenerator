@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `LintingComponent` class.
+ * Registers tests for the {@link LintingComponent `LintingComponent<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

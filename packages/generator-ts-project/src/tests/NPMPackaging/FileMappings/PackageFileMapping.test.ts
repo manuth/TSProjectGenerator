@@ -2,6 +2,8 @@ import { strictEqual } from "assert";
 import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
 import { ITestPackageOptions } from "./ITestPackageOptions";
@@ -9,7 +11,7 @@ import { PackageFileMappingTester } from "./PackageFileMappingTester";
 import { TestPackageFileMapping } from "./TestPackageFileMapping";
 
 /**
- * Registers tests for the `PackageFileMapping` class.
+ * Registers tests for the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

@@ -4,7 +4,7 @@ import { FileMappingTests } from "./FileMappings";
 import { TSModuleGeneratorTests } from "./TSModuleGenerator.test";
 
 /**
- * Registers tests for the `TSModuleGenerator`.
+ * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

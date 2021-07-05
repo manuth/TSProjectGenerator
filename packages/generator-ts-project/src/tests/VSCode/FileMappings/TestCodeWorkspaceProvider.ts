@@ -7,7 +7,13 @@ import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 
 /**
- * Provides an implementation of the `CodeWorkspaceProvider` class for testing.
+ * Provides an implementation of the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class for testing.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
@@ -23,7 +29,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
         })();
 
     /**
-     * Initializes a new instance of the `TestCodeWorkspaceProvider` class.
+     * Initializes a new instance of the {@link TestCodeWorkspaceProvider `TestCodeWorkspaceProvider<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of this code-workspace provider.
@@ -88,7 +94,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
      * The path to the JSON file to read.
      *
      * @returns
-     * The JSON read from the `path`.
+     * The JSON read from the {@link path `path`}.
      */
     public override async ReadJSON(path: string): Promise<any>
     {

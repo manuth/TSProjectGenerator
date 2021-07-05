@@ -7,7 +7,7 @@ import { PackageDependencyCollection } from "./PackageDependencyCollection";
 export class LintDependencies extends LintEssentials
 {
     /**
-     * Initializes a new instance of the `LintDependencies` class.
+     * Initializes a new instance of the {@link LintDependencies `LintDependencies`} class.
      */
     public constructor()
     {

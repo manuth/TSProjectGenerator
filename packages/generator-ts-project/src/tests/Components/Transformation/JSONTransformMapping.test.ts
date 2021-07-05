@@ -8,7 +8,7 @@ import { JSONTransformMapping } from "../../../Components/Transformation/JSONTra
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `JSONTransformMapping` class.
+ * Registers tests for the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
  *
  * @param context
  * The test-context.

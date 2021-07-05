@@ -10,7 +10,7 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `WorkspaceFileCreator` class.
+ * Registers tests for the {@link WorkspaceFileCreator `WorkspaceFileCreator<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

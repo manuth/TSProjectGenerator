@@ -5,6 +5,12 @@ import { split } from "eol";
 
 /**
  * Provides the functionality to remove unnecessary blank lines from markdown-files.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
 {
@@ -14,7 +20,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     private fileMapping: IFileMapping<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `MarkdownFileProcessor` class.
+     * Initializes a new instance of the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

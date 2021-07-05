@@ -7,7 +7,7 @@ import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test";
 import { VSCodeTests } from "./VSCode";
 
 /**
- * Registers tests for the `Generator`-generator.
+ * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

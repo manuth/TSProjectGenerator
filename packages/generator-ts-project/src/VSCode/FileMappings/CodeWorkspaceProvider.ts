@@ -9,6 +9,12 @@ import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 
 /**
  * Provides the functionality to load a vscode-workspace.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions>
 {
@@ -18,7 +24,7 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
     private component: CodeWorkspaceComponent<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `CodeWorkspaceProvider` class.
+     * Initializes a new instance of the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of this code-workspace provider.
@@ -98,13 +104,13 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
     }
 
     /**
-     * Reads json from the specified `path`.
+     * Reads json from the specified {@link path `path`}.
      *
      * @param path
      * The path to the JSON file to read.
      *
      * @returns
-     * The JSON read from the `path`.
+     * The JSON read from the {@link path `path`}.
      */
     protected async ReadJSON(path: string): Promise<any>
     {

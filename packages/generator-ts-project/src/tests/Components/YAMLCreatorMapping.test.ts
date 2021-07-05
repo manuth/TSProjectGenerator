@@ -8,7 +8,7 @@ import { YAMLCreatorMapping } from "../../Components/YAMLCreatorMapping";
 import { TestContext } from "../TestContext";
 
 /**
- * Registers tests for the `YAMLCreatorMapping`class.
+ * Registers tests for the {@link YAMLCreatorMapping `YAMLCreatorMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

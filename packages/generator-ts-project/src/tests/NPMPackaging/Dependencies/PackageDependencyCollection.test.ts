@@ -5,7 +5,7 @@ import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `PackageDependencyCollection` class.
+ * Registers tests for the {@link PackageDependencyCollection `PackageDependencyCollection`} class.
  *
  * @param context
  * The test-context.

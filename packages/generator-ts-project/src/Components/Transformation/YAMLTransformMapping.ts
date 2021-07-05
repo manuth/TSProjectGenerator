@@ -6,11 +6,17 @@ import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
  * Provides the functionality to transform and copy YAML-code.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, Document.Parsed[]>
 {
     /**
-     * Initializes a new instance of the `YAMLTransformMapping` class.
+     * Initializes a new instance of the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -21,13 +27,13 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
     }
 
     /**
-     * Loads the meta-data from the `text`.
+     * @inheritdoc
      *
      * @param text
      * The text representing the meta-data.
      *
      * @returns
-     * An object loaded from the `text`.
+     * An object loaded from the specified {@link text `text`}.
      */
     protected async Parse(text: string): Promise<Document.Parsed[]>
     {
@@ -37,15 +43,15 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      *
-     * @param metadata
+     * @param data
      * The metadata to dump.
      *
      * @returns
-     * A text representing the `metadata`.
+     * A text representing the specified {@link data `data`}.
      */
-    protected async Dump(metadata: Document.Parsed[]): Promise<string>
+    protected async Dump(data: Document.Parsed[]): Promise<string>
     {
-        return split(metadata.map(
+        return split(data.map(
             (document, index) =>
             {
                 let initialWidth = scalarOptions.str.fold.lineWidth;

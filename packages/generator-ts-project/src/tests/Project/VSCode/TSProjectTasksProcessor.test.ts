@@ -8,7 +8,7 @@ import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksP
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectTasksProcessor` class.
+ * Registers tests for the {@link TSProjectTasksProcessor `TSProjectTasksProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -31,7 +31,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 });
 
             /**
-             * Processes the specified `task`.
+             * Processes the specified {@link task `task`}.
              *
              * @param task
              * The task to process.

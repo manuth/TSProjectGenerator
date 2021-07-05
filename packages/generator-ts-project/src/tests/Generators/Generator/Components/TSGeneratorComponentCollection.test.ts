@@ -7,7 +7,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorComponentCollection` class.
+ * Registers tests for the {@link TSGeneratorComponentCollection `TSGeneratorComponentCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

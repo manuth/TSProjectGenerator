@@ -4,11 +4,17 @@ import { MyTSProjectGenerator } from "../../MyTSProjectGenerator";
 
 /**
  * Provides the functionality to generate a custom generator written in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class MyTSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends MyTSProjectGenerator.Create(TSGeneratorGenerator, require.resolve("@manuth/generator-ts-project"))<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `MyTSGeneratorGenerator` class.
+     * Initializes a new instance of the {@link MyTSGeneratorGenerator `MyTSGeneratorGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.

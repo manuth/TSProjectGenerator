@@ -13,7 +13,7 @@ import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingK
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorGenerator` class.
+ * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

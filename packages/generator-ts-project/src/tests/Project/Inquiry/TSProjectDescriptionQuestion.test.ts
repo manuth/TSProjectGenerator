@@ -9,7 +9,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectDescriptionQuestion` class.
+ * Registers tests for the {@link TSProjectDescriptionQuestion `TSProjectDescriptionQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

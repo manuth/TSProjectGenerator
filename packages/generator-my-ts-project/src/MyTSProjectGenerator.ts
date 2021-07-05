@@ -13,7 +13,7 @@ import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
 export abstract class MyTSProjectGenerator
 {
     /**
-     * Initializes a new instance of the `MyTSProjectGenerator` class.
+     * Initializes a new instance of the {@link MyTSProjectGenerator `MyTSProjectGenerator`} class.
      */
     private constructor()
     { }
@@ -25,7 +25,7 @@ export abstract class MyTSProjectGenerator
      * The constructor the generated constructor should be based on.
      *
      * @param namespaceOrPath
-     * The namespace or path to the generator with the specified `base`-constructor.
+     * The namespace or path to the generator with the specified {@link base `base`}-constructor.
      *
      * @returns
      * The generated constructor.
@@ -40,7 +40,7 @@ export abstract class MyTSProjectGenerator
         class BaseGenerator extends baseClass
         {
             /**
-             * Initializes a new instance of the `BaseGenerator` class.
+             * Initializes a new instance of the {@link BaseGenerator `BaseGenerator`} class.
              *
              * @param params
              * The arguments of the constructor.

@@ -8,6 +8,12 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for the destination-path of a project.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
@@ -17,7 +23,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
     public name = TSProjectSettingKey.Destination;
 
     /**
-     * Initializes a new instance of the `TSProjectDestinationQuestion` class.
+     * Initializes a new instance of the {@link TSProjectDestinationQuestion `TSProjectDestinationQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.

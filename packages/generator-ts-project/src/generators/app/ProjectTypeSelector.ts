@@ -5,11 +5,14 @@ import { ProjectSelectorSettingKey } from "./Settings/ProjectSelectorSettingKey"
 
 /**
  * Provides the functionality to choose from a set of generators.
+ *
+ * @template T
+ * The type of the project-names.
  */
 export abstract class ProjectTypeSelector<T extends string | number> extends Generator<IProjectSelectorSettings<T>>
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the {@link ProjectTypeSelector `ProjectTypeSelector<T>`} class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -62,7 +65,7 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
     }
 
     /**
-     * Loads the propper generator according to the `ProjectType`.
+     * Loads the propper generator according to the specified {@link projectType `projectType`}.
      *
      * @param projectType
      * The type of the project to load.

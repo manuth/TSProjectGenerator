@@ -9,7 +9,7 @@ import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `WorkspaceFolderLoader` class.
+ * Registers tests for the {@link WorkspaceFolderLoader `WorkspaceFolderLoader<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

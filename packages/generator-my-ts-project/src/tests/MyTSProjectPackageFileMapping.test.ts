@@ -7,7 +7,7 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
 
 /**
- * Registers tests for the `MyTSProjectPackageFileMapping` class.
+ * Registers tests for the {@link MyTSProjectPackageFileMapping `MyTSProjectPackageFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

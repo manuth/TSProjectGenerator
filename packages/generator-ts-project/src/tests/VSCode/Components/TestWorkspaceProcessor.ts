@@ -6,7 +6,13 @@ import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { WorkspaceProcessor } from "../../../VSCode/WorkspaceProcessor";
 
 /**
- * Provides an implementation of the `WorkspaceProcessor` class for testing.
+ * Provides an implementation of the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class for testing.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends WorkspaceProcessor<TSettings, TOptions>
 {

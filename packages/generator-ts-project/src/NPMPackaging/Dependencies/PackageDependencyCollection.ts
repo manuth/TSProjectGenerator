@@ -8,7 +8,7 @@ import { PackageDependencyCollectionOptions } from "./PackageDependencyCollectio
 export class PackageDependencyCollection extends DependencyCollection
 {
     /**
-     * Initializes a new instance of the `PackageDependencyCollection` class.
+     * Initializes a new instance of the {@link PackageDependencyCollection `PackageDependencyCollection`} class.
      *
      * @param collection
      * The collection to load.

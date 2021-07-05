@@ -6,7 +6,7 @@ import { DroneFileMapping } from "../DroneFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
 /**
- * Registers tests for the `DroneFileMapping` class.
+ * Registers tests for the {@link DroneFileMapping `DroneFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -32,7 +32,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 });
 
             /**
-             * Asserts the truthyness of the spceified `condition`.
+             * Asserts the truthyness of the spceified {@link condition `condition`}.
              *
              * @param condition
              * The condition to assert.

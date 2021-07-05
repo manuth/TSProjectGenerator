@@ -2,14 +2,22 @@ import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { IScriptMapping, ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "./Constants";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { MyTSProjectGenerator } from "./MyTSProjectGenerator";
 
 /**
- * Represents a file-mapping for the `package.json` file of `TSProject`s containing dependencies for using `ts-patch`.
+ * Represents a file-mapping for the `package.json` file of {@link MyTSProjectGenerator `MyTSProjectGenerator`}s containing dependencies for using `ts-patch`.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectPackageFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `MyTSProjectPackageFileMapping` class.
+     * Initializes a new instance of the {@link MyTSProjectPackageFileMapping `MyTSProjectPackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

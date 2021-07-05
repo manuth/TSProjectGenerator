@@ -8,14 +8,22 @@ import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSProjectGenerator } from "../../TSProjectGenerator";
 
 /**
- * Represents a file-mapping for the `package.json` file of `TSProject`s.
+ * Represents a file-mapping for the `package.json` file of {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends PackageFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectPackageFileMapping` class.
+     * Initializes a new instance of the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

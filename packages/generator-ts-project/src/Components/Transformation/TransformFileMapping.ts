@@ -3,11 +3,20 @@ import { FileMappingBase } from "../FileMappingBase";
 
 /**
  * Provides the functionality to transform and copy object-notation code.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
+ *
+ * @template TData
+ * The type of the data to process.
  */
 export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends FileMappingBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TransformFileMapping` class.
+     * Initializes a new instance of the {@link TransformFileMapping `TransformFileMapping<TSettings, TOptions, TData>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -43,7 +52,7 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     }
 
     /**
-     * Processes the specified `data`.
+     * Processes the specified {@link data `data`}.
      *
      * @param data
      * The data to process.
@@ -57,24 +66,24 @@ export abstract class TransformFileMapping<TSettings extends IGeneratorSettings,
     }
 
     /**
-     * Loads the meta-data from the `text`.
+     * Loads the meta-data from the specified {@link text `text`}.
      *
      * @param text
      * The text representing the meta-data.
      *
      * @returns
-     * An object loaded from the `text`.
+     * An object loaded from the specified {@link text `text`}.
      */
     protected abstract Parse(text: string): Promise<TData>;
 
     /**
-     * Dumps the `data` as a text representing the object.
+     * Dumps the specified {@link data `data`} as a text representing the object.
      *
      * @param data
      * The data to dump.
      *
      * @returns
-     * A text representing the `data`.
+     * A text representing the specified {@link data `data`}.
      */
     protected abstract Dump(data: TData): Promise<string>;
 }

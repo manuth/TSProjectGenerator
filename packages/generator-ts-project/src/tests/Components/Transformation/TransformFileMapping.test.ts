@@ -6,7 +6,7 @@ import { TransformFileMapping } from "../../../Components/Transformation/Transfo
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TransformFileMapping` class.
+ * Registers tests for the {@link TransformFileMapping `TransformFileMapping<TSettings, TOptions, TData>`} class.
  *
  * @param context
  * The test-context.

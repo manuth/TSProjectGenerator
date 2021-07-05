@@ -10,7 +10,7 @@ import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectLaunchSettingsProcessor` class.
+ * Registers tests for the {@link TSProjectLaunchSettingsProcessor `TSProjectLaunchSettingsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

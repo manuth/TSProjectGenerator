@@ -5,7 +5,7 @@ import { TempFile } from "@manuth/temp-files";
 import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
 
 /**
- * Registers tests for the `JSONCreatorMapping` class.
+ * Registers tests for the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

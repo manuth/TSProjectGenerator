@@ -7,7 +7,7 @@ import { TSProjectModuleNameQuestionTests } from "./TSProjectModuleNameQuestion.
 import { TSProjectQuestionCollectionTests } from "./TSProjectQuestionCollection.test";
 
 /**
- * Registers tests for inquiry-components for `TSProject`s.
+ * Registers tests for inquiry-components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.

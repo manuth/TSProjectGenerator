@@ -6,7 +6,7 @@ import { TSProjectSettingsProcessorTests } from "./TSProjectSettingsProcessor.te
 import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test";
 
 /**
- * Registers tests for `VSCode` components for `TSProject`s.
+ * Registers tests for `VSCode` components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.

@@ -1,15 +1,23 @@
 import { GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
 import { TSGeneratorCodeWorkspaceFolder } from "./TSGeneratorCodeWorkspaceFolder";
 
 /**
- * Provides general components for `TSGenerator`s.
+ * Provides general components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorGeneralCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectGeneralCategory<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGeneralCategory` class.
+     * Initializes a new instance of the {@link TSGeneratorGeneralCategory `TSGeneratorGeneralCategory<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the category.

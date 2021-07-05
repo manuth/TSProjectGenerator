@@ -7,11 +7,17 @@ import { LintRuleset } from "../LintRuleset";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TypeScriptTransformMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ESLintRCFileMapping` class.
+     * Initializes a new instance of the {@link ESLintRCFileMapping `ESLintRCFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -46,7 +52,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     }
 
     /**
-     * Processes the specified `data`.
+     * Processes the specified {@link sourceFile `sourceFile`}.
      *
      * @param sourceFile
      * The source-file to process.

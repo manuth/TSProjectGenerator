@@ -10,7 +10,7 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `WorkspaceFolderCreator` class.
+ * Registers tests for the {@link WorkspaceFolderCreator `WorkspaceFolderCreator<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -28,7 +28,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
             let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Asserts the content of the file located at the `path`.
+             * Asserts the content of the file located at the specified {@link path `path`}.
              *
              * @param path
              * The path whose contents to assert.

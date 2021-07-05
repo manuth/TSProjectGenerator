@@ -8,7 +8,7 @@ import { join } from "upath";
 export class AppGenerator extends AppGeneratorBase
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the {@link AppGenerator `AppGenerator`} class.
      *
      * @param args
      * A set of arguments for the generator.

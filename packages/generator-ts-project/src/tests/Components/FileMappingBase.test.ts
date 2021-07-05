@@ -7,7 +7,7 @@ import { FileMappingBase } from "../../Components/FileMappingBase";
 import { TestContext } from "../TestContext";
 
 /**
- * Registers tests for the `FileMappingBase` class.
+ * Registers tests for the {@link FileMappingBase `FileMappingBase<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

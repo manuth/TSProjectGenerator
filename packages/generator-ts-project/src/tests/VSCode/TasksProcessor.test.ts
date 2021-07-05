@@ -8,7 +8,7 @@ import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `TasksProcessor` class.
+ * Registers tests for the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -27,7 +27,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
             let processor: TasksProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `TasksProcessor` class for testing.
+             * Provides an implementation of the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestTasksProcessor extends TasksProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
@@ -140,7 +140,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                         async () =>
                         {
                             /**
-                             * Checks whether the specified `taskMeta` contains the predefined mutation.
+                             * Checks whether the specified {@link taskMeta `taskMeta`} contains the predefined mutation.
                              *
                              * @param taskMeta
                              * The task-metadata.

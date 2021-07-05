@@ -10,7 +10,7 @@ import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/
 import { TestContext } from "../../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorPackageFileMapping` class.
+ * Registers tests for the {@link TSGeneratorPackageFileMapping `TSGeneratorPackageFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

@@ -4,7 +4,7 @@ import { TSProjectComponentCollectionTests } from "./TSProjectComponentCollectio
 import { TSProjectGeneralCategoryTests } from "./TSProjectGeneralCategory.test";
 
 /**
- * Registers tests for components for `TSProject` generators.
+ * Registers tests for components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.

@@ -2,12 +2,18 @@ import { Component, GeneratorOptions, IComponent, IFileMapping, IGenerator, IGen
 import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
- * Provides a basic implementation of the `IComponent` interface.
+ * Provides a basic implementation of the {@link IComponent `IComponent<TSettings, TOptions>`} interface.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class ComponentBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorComponent<TSettings, TOptions, Component<TSettings, TOptions>> implements IComponent<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ComponentBase` class.
+     * Initializes a new instance of the {@link ComponentBase `ComponentBase<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.

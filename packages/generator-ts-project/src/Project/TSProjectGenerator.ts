@@ -25,11 +25,17 @@ import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
 
 /**
  * Provides the functionality to generate a project writtein in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectGenerator<T>` class.
+     * Initializes a new instance of the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.

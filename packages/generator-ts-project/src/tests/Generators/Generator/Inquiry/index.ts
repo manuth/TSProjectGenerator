@@ -4,7 +4,7 @@ import { TSGeneratorModuleNameQuestionTests } from "./TSGeneratorModuleNameQuest
 import { TSGeneratorQuestionCollectionTests } from "./TSGeneratorQuestionCollection.test";
 
 /**
- * Registers inquiry-components for the `Generator`-generator.
+ * Registers inquiry-components for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.

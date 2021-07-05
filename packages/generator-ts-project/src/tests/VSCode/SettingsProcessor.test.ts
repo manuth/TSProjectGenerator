@@ -6,7 +6,7 @@ import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `SettingsProcessor` class.
+ * Registers tests for the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -25,7 +25,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
             let processor: SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `SettingsProcessor` class for testing.
+             * Provides an implementation of the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestSettingsProcessor extends SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {

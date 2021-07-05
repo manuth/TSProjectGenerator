@@ -10,7 +10,7 @@ import { ProjectTypeSelector } from "./ProjectTypeSelector";
 export class AppGenerator extends ProjectTypeSelector<ProjectType>
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the {@link AppGenerator `AppGenerator`} class.
      *
      * @param args
      * A set of arguments for the generator.

@@ -8,14 +8,22 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
 
 /**
- * Provides general components for `TSGenerator`s.
+ * Provides general components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorCategory` class.
+     * Initializes a new instance of the {@link TSGeneratorCategory `TSGeneratorCategory<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the category.

@@ -5,6 +5,12 @@ import { Document } from "yaml";
 
 /**
  * Provides the functionality to create a dependabot configuration.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class DependabotFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
 {

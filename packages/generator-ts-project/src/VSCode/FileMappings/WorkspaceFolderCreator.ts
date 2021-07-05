@@ -6,11 +6,17 @@ import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
 /**
  * Provides the functionality to create file-mappings for a workspace-folder.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeFileMappingCreator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `WorkspaceFolderCreator` class.
+     * Initializes a new instance of the {@link WorkspaceFolderCreator `WorkspaceFolderCreator<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the file-mapping creator.

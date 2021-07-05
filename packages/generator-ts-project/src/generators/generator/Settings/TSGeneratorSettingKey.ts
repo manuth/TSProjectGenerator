@@ -4,7 +4,7 @@
 export enum TSGeneratorSettingKey
 {
     /**
-     * Indicates the `SubGenerators`-setting.
+     * Indicates the {@link SubGenerators `SubGenerators`}-setting.
      */
     SubGenerators = "subGenerators"
 }

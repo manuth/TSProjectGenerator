@@ -4,6 +4,8 @@ import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenera
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
 import { TestJSONProcessor } from "../Components/TestJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -11,7 +13,7 @@ import { TestWorkspaceProcessor } from "./Components/TestWorkspaceProcessor";
 import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `WorkspaceProcessor` class.
+ * Registers tests for the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

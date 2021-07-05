@@ -1,12 +1,20 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSProjectGenerator } from "../TSProjectGenerator";
 import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion";
 import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion";
 import { TSProjectDisplayNameQuestion } from "./TSProjectDisplayNameQuestion";
 import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion";
 
 /**
- * Provides questions for asking for the `TSProject`-creation.
+ * Provides questions for asking for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions>
 {
@@ -16,7 +24,7 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
     private generator: IGenerator<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `TSProjectQuestionCollection` class.
+     * Initializes a new instance of the {@link TSProjectQuestionCollection `TSProjectQuestionCollection<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question-collection.

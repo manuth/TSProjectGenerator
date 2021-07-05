@@ -5,11 +5,17 @@ import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
 
 /**
  * Provides the functionality to process vscode-extensions.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class ExtensionsProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends VSCodeJSONProcessor<TSettings, TOptions, IExtensionSettings>
 {
     /**
-     * Initializes a new instance of the `ExtensionsProcessor` class.
+     * Initializes a new instance of the {@link ExtensionsProcessor `ExtensionsProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.

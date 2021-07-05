@@ -6,7 +6,7 @@ import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `VSCodeJSONProcessor` class.
+ * Registers tests for the {@link VSCodeJSONProcessor `VSCodeJSONProcessor<TSettings, TOptions, TData>`} class.
  *
  * @param context
  * The test-context.
@@ -46,13 +46,13 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                         () =>
                         {
                             /**
-                             * Processes the specified `text`.
+                             * Processes the specified {@link text `text`}.
                              *
                              * @param text
                              * The text to process.
                              *
                              * @returns
-                             * A string containing the specified `text` at least two times.
+                             * A string containing the specified {@link text `text`} at least two times.
                              */
                             function StringProcessor(text: string): string
                             {

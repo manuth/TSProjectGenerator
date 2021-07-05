@@ -9,7 +9,13 @@ import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProv
 import { TestWorkspaceProcessor } from "./TestWorkspaceProcessor";
 
 /**
- * Provides an implementation of the `CodeWorkspaceComponent` class for testing.
+ * Provides an implementation of the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class for testing.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceComponent<TSettings, TOptions>
 {
@@ -29,7 +35,7 @@ export class TestCodeWorkspaceComponent<TSettings extends IGeneratorSettings, TO
     private workspaceProcessor: JSONProcessor<TSettings, TOptions, IWorkspaceMetadata> = new TestWorkspaceProcessor(this);
 
     /**
-     * Initializes a new instance of the `TestCodeWorkspaceComponent` class.
+     * Initializes a new instance of the {@link TestCodeWorkspaceComponent `TestCodeWorkspaceComponent<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.

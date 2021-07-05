@@ -6,11 +6,17 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
  * Provides the functionality to copy the `.npmignore` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `NPMIgnoreFileMapping` class.
+     * Initializes a new instance of the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.

@@ -1,13 +1,15 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `CodeWorkspaceComponent` class.
+ * Registers tests for the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

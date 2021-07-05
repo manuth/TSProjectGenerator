@@ -24,7 +24,10 @@ declare module "inquirer"
 }
 
 /**
- * Provides options for the `SubGeneratorPrompt`.
+ * Provides options for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`}.
+ *
+ * @template T
+ * The type of the answers.
  */
 interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends ConfirmQuestionOptions<T>
 {
@@ -40,7 +43,10 @@ interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends Conf
 }
 
 /**
- * Provides options for the `SubGeneratorPrompt`.
+ * Provides options for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`}.
+ *
+ * @template T
+ * The type of the answers.
  */
 interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGeneratorQuestionOptions<T>
 {
@@ -52,6 +58,9 @@ interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGenerat
 
 /**
  * Provides a prompt for asking for sub-generators.
+ *
+ * @template T
+ * The type of the answers.
  */
 export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<ISubGeneratorQuestion<T>>
 {
@@ -66,7 +75,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
     private readonly subGeneratorSettings: ISubGenerator[] = [];
 
     /**
-     * Initializes a new instance of the `SubGeneratorPrompt<T>` class.
+     * Initializes a new instance of the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`} class.
      *
      * @param question
      * The options for the prompt.
@@ -195,7 +204,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
 }
 
 /**
- * Represents an answer-hash which is used inside the `SubGeneratorPrompt` class.
+ * Represents an answer-hash which is used inside the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`} class.
  */
 interface IInternalAnswerHash
 {

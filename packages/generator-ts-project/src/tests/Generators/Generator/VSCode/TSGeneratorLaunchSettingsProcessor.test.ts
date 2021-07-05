@@ -12,7 +12,7 @@ import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorksp
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorLaunchSettingsProcessor` class.
+ * Registers tests for the {@link TSGeneratorLaunchSettingsProcessor `TSGeneratorLaunchSettingsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.

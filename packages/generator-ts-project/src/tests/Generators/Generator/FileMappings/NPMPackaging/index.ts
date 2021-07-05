@@ -3,7 +3,7 @@ import { TestContext } from "../../../../TestContext";
 import { TSGeneratorPackageFileMappingTests } from "./TSGeneratorPackageFileMapping.test";
 
 /**
- * Registers tests for npm file-mappings for `TSGenerator`s.
+ * Registers tests for npm file-mappings for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.
