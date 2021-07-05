@@ -19,7 +19,7 @@ import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspacePro
 export class TSGeneratorCodeWorkspaceFolder<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectCodeWorkspaceFolder<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the {@link TSGeneratorCodeWorkspaceFolder `TSGeneratorCodeWorkspaceFolder<TSettings, TOptions>`} class.
+     * Initializes a new instance of the {@link TSGeneratorCodeWorkspaceFolder `TSGeneratorCodeWorkspaceFolder<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.

@@ -11,7 +11,7 @@ export interface ISubGenerator
     [SubGeneratorSettingKey.Name]: string;
 
     /**
-     * Gets or sets the disaplay-name.
+     * Gets or sets the human-readable name of the generator.
      */
     [SubGeneratorSettingKey.DisplayName]: string;
 }

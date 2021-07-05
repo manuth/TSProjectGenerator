@@ -110,7 +110,7 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
      * The path to the JSON file to read.
      *
      * @returns
-     * The JSON read from the {@link path `path`}.
+     * The JSON read from the specified {@link path `path`}.
      */
     protected async ReadJSON(path: string): Promise<any>
     {

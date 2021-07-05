@@ -5,7 +5,7 @@ import { DependencyCollection, IPackageJSON, Package } from "@manuth/package-jso
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 
 /**
- * Provides the functionality to test a package-filemapping.
+ * Provides the functionality to test a package file-mapping.
  *
  * @template TGenerator
  * The type of the generator.

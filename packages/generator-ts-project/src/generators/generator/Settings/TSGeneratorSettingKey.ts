@@ -1,5 +1,5 @@
 /**
- * Specifies the key of an app-setting.
+ * Specifies the key of a generator-setting.
  */
 export enum TSGeneratorSettingKey
 {

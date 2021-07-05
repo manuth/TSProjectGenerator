@@ -65,7 +65,7 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
     }
 
     /**
-     * Loads the propper generator according to the specified {@link projectType `projectType`}.
+     * Loads the proper generator according to the specified {@link projectType `projectType`}.
      *
      * @param projectType
      * The type of the project to load.

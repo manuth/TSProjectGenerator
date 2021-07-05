@@ -56,7 +56,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 });
 
             test(
-                "Checking whether sciprts are not being transformed by default…",
+                "Checking whether scripts are not being transformed by default…",
                 async () =>
                 {
                     strictEqual(await scriptMapping.Process(randomScript), randomScript);

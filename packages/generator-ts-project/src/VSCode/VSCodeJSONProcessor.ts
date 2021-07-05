@@ -47,7 +47,7 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
     }
 
     /**
-     * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the given {@link value `value`}.
+     * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the specified {@link value `value`}.
      *
      * @param value
      * The value containing the workspace-folder references to strip.

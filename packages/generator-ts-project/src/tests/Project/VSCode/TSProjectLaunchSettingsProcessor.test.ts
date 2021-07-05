@@ -139,7 +139,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 });
 
             test(
-                "Checking whether duplicate values insied the `outFiles`-option are stripped…",
+                "Checking whether duplicate values inside the `outFiles`-option are stripped…",
                 async () =>
                 {
                     let testName = context.RandomString;

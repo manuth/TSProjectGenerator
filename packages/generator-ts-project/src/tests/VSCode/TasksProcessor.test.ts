@@ -140,18 +140,18 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                         async () =>
                         {
                             /**
-                             * Checks whether the specified {@link taskMeta `taskMeta`} contains the predefined mutation.
+                             * Checks whether the specified {@link taskMeta `taskMetadata`} contains the predefined mutation.
                              *
-                             * @param taskMeta
+                             * @param taskMetadata
                              * The task-metadata.
                              *
                              * @param expected
                              * A value indicating whether a mutation is expected to exist.
                              */
-                            function AssertMutation(taskMeta: ITaskSettings, expected = true): void
+                            function AssertMutation(taskMetadata: ITaskSettings, expected = true): void
                             {
                                 strictEqual(
-                                    taskMeta.tasks.some(
+                                    taskMetadata.tasks.some(
                                         (task) => task.type === newType), expected);
                             }
 

@@ -24,7 +24,7 @@ import { TSProjectComponent } from "./Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
 
 /**
- * Provides the functionality to generate a project writtein in TypeScript.
+ * Provides the functionality to generate a project written in in TypeScript.
  *
  * @template TSettings
  * The type of the settings of the generator.

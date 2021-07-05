@@ -32,7 +32,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 });
 
             /**
-             * Asserts the truthyness of the spceified {@link condition `condition`}.
+             * Asserts the truthiness of the specified {@link condition `condition`}.
              *
              * @param condition
              * The condition to assert.

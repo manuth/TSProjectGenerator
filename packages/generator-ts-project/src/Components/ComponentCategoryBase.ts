@@ -2,7 +2,7 @@ import { ComponentCategory, GeneratorOptions, IComponent, IComponentCategory, IG
 import { GeneratorComponent } from "./GeneratorComponent";
 
 /**
- * Represens a category of components.
+ * Represents a category of components.
  *
  * @template TSettings
  * The type of the settings of the generator.

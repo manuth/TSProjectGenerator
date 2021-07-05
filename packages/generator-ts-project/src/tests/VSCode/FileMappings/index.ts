@@ -6,7 +6,7 @@ import { WorkspaceFolderCreatorTest } from "./WorkspaceFolderCreator.test";
 import { WorkspaceFolderLoaderTests } from "./WorkspaceFolderLoader.test";
 
 /**
- * Registers tests for vscode-filemappings.
+ * Registers tests for vscode file-mappings.
  *
  * @param context
  * The test-context.

@@ -34,7 +34,7 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
                 });
 
             test(
-                "Checking whether the question default to the generator-destinationpath…",
+                "Checking whether the question defaults to the generator's destination-path…",
                 async () =>
                 {
                     strictEqual(await question.default(generator.Settings), "./");

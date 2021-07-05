@@ -94,7 +94,7 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
      * The path to the JSON file to read.
      *
      * @returns
-     * The JSON read from the {@link path `path`}.
+     * The JSON read from the specified {@link path `path`}.
      */
     public override async ReadJSON(path: string): Promise<any>
     {

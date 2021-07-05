@@ -6,7 +6,7 @@ import { TransformationTests } from "./Transformation";
 import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
 
 /**
- * Registers tests for `Components`.
+ * Registers tests for components.
  *
  * @param context
  * The test-context.

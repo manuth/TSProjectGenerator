@@ -35,7 +35,7 @@ export abstract class MyTSProjectGenerator
         let baseClass = Generator.ComposeWith(base, namespaceOrPath);
 
         /**
-         * Represents a base-generator iheriting the specified base.
+         * Represents a base-generator inheriting the specified base.
          */
         class BaseGenerator extends baseClass
         {

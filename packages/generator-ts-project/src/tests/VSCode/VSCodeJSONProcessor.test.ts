@@ -56,7 +56,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                              */
                             function StringProcessor(text: string): string
                             {
-                                return `--filemapping=${text}:${text}`;
+                                return `--fileMapping=${text}:${text}`;
                             }
 
                             strictEqual(
@@ -65,7 +65,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                         });
 
                     test(
-                        "Checking whether normal workspace-directives are left ountouched…",
+                        "Checking whether normal workspace-directives are left untouched…",
                         () =>
                         {
                             strictEqual(

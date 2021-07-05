@@ -21,7 +21,7 @@ import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcess
 export class TSProjectCodeWorkspaceFolder<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceComponent<TSettings, TOptions>
 {
     /**
-     * Initializes a new isntance of the {@link TSProjectCodeWorkspaceFolder `TSProjectCodeWorkspaceFolder<TSettings, TOptions>`} class.
+     * Initializes a new instance of the {@link TSProjectCodeWorkspaceFolder `TSProjectCodeWorkspaceFolder<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.
