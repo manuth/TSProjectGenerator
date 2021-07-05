@@ -78,12 +78,12 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
         for (let dependency of dependencies)
         {
-            if (result.DevelpomentDependencies.Has(dependency))
+            if (result.DevelopmentDependencies.Has(dependency))
             {
-                result.DevelpomentDependencies.Remove(dependency);
+                result.DevelopmentDependencies.Remove(dependency);
             }
 
-            result.DevelpomentDependencies.Add(dependency, Constants.Dependencies.Get(dependency));
+            result.DevelopmentDependencies.Add(dependency, Constants.Dependencies.Get(dependency));
         }
 
         return result;

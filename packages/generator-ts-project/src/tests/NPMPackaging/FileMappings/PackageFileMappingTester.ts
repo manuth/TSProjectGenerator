@@ -74,7 +74,7 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
 
         let dependencyListSets = [
             [dependencies.Dependencies, npmPackage.Dependencies],
-            [dependencies.DevelpomentDependencies, npmPackage.DevelpomentDependencies],
+            [dependencies.DevelopmentDependencies, npmPackage.DevelopmentDependencies],
             [dependencies.PeerDependencies, npmPackage.PeerDependencies],
             [dependencies.OptionalDependencies, npmPackage.OptionalDependencies]
         ];
