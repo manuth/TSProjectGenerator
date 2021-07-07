@@ -13,7 +13,7 @@ import { TestContext } from "../TestContext";
 export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectGenerator",
+        nameof(TSProjectGenerator),
         () =>
         {
             let tsConfigFileName = "tsconfig.base.json";

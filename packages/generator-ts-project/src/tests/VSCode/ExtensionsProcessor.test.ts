@@ -14,7 +14,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "ExtensionsProcessor",
+        nameof(ExtensionsProcessor),
         () =>
         {
             let includedExtension: string;

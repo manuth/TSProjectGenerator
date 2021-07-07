@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectComponentCollectionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectComponentCollection",
+        nameof(TSProjectComponentCollection),
         () =>
         {
             let collection: TSProjectComponentCollection<ITSProjectSettings, GeneratorOptions>;
@@ -28,7 +28,7 @@ export function TSProjectComponentCollectionTests(context: TestContext<TSProject
                 });
 
             test(
-                "Checking whether all categories for `TSProject`s are present…",
+                `Checking whether all categories for the \`${nameof(TSProjectGenerator)}\` are present…`,
                 () =>
                 {
                     for (let categoryType of [TSProjectGeneralCategory])

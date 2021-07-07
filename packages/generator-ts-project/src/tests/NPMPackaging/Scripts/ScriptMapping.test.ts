@@ -14,7 +14,7 @@ import { TestScriptTransformer } from "./TestScriptTransformer";
 export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "ScriptMapping",
+        nameof(ScriptMapping),
         () =>
         {
             let scriptMapping: ScriptMapping<ITestGeneratorSettings, GeneratorOptions>;

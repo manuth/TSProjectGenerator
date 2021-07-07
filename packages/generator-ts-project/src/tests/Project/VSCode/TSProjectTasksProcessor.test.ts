@@ -16,7 +16,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectTasksProcessor",
+        nameof(TSProjectTasksProcessor),
         () =>
         {
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;

@@ -1,6 +1,7 @@
 import { deepStrictEqual, ok } from "assert";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import type { MyTSProjectGenerator } from "../MyTSProjectGenerator";
 
 /**
  * Registers tests for the {@link MyTSProjectGenerator `MyTSProjectGenerator<TSettings, TOptions>`} class.
@@ -11,7 +12,7 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 export function MyTSProjectGeneratorTests(context: TestContext<MyTSModuleGenerator>): void
 {
     suite(
-        "MyTSProjectGenerator",
+        nameof<MyTSProjectGenerator>(),
         () =>
         {
             let transformPluginName = "ts-nameof";

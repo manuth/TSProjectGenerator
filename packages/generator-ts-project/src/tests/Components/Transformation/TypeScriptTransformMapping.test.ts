@@ -17,7 +17,7 @@ import { TestContext } from "../../TestContext";
 export function TypeScriptTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "TypeScriptTransformMapping",
+        nameof(TypeScriptTransformMapping),
         () =>
         {
             let generator: TestGenerator;

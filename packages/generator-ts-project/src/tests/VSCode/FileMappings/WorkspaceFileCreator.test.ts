@@ -18,7 +18,7 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "WorkspaceFileCreator",
+        nameof(WorkspaceFileCreator),
         () =>
         {
             let generator: TestGenerator;

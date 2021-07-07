@@ -19,7 +19,7 @@ import { TestContext } from "../../TestContext";
 export function YAMLTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "YAMLTransformMapping",
+        nameof(YAMLTransformMapping),
         () =>
         {
             let generator: TestGenerator;

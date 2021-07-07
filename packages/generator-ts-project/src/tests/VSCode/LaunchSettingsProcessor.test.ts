@@ -16,7 +16,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "LaunchSettingsProcessor",
+        nameof(LaunchSettingsProcessor),
         () =>
         {
             let launchSettings: ILaunchSettings;
@@ -40,7 +40,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * A value indicating whether the debug-configuration should be included.
                  */
-                protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+                public override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
                 {
                     return debugConfig !== excludedDebugConfig;
                 }
@@ -54,7 +54,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * The processed debug-configuration.
                  */
-                protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
+                public override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
                 {
                     if (debugConfig === mutatedDebugConfig)
                     {
@@ -106,7 +106,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "Process",
+                nameof<LaunchSettingsProcessor<any, any>>((processor) => processor.Process),
                 () =>
                 {
                     test(
@@ -120,7 +120,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "FilterDebugConfig",
+                nameof<TestLaunchSettingsProcessor>((processor) => processor.FilterDebugConfig),
                 () =>
                 {
                     test(
@@ -133,7 +133,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "ProcessDebugConfig",
+                nameof<TestLaunchSettingsProcessor>((processor) => processor.ProcessDebugConfig),
                 () =>
                 {
                     test(

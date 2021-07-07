@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectExtensionsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectExtensionsProcessor",
+        nameof(TSProjectExtensionsProcessor),
         () =>
         {
             let excludedExtension = "digitalbrainstem.javascript-ejs-support";

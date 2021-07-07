@@ -18,7 +18,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectLaunchSettingsProcessor",
+        nameof(TSProjectLaunchSettingsProcessor),
         () =>
         {
             let cwdOption: string;

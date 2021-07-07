@@ -15,7 +15,7 @@ import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "MarkdownFileProcessor",
+        nameof(MarkdownFileProcessor),
         () =>
         {
             let sourceFile: TempFile;

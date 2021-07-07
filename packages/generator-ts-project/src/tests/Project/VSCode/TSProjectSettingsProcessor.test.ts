@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectSettingsProcessor",
+        nameof(TSProjectSettingsProcessor),
         () =>
         {
             let excludedSettings = [

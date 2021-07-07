@@ -1,8 +1,10 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintDependencies } from "../../../../NPMPackaging/Dependencies/LintDependencies";
+import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
@@ -20,11 +22,36 @@ import { TestContext } from "../../../TestContext";
 export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectPackageFileMapping",
+        nameof(TSProjectPackageFileMapping),
         () =>
         {
             let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>;
             let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
+
+            /**
+             * Provides an implementation of the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestTSProjectPackageFileMapping extends TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public override get ScriptMappings(): Promise<Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>>
+                {
+                    return super.ScriptMappings;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * The loaded package.
+                 */
+                public override async LoadPackage(): Promise<Package>
+                {
+                    return super.LoadPackage();
+                }
+            }
 
             /**
              * Asserts that a script has been copied.
@@ -70,7 +97,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 });
 
             suite(
-                "General",
+                nameof<TestTSProjectPackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
                 {
                     test(
@@ -90,7 +117,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 });
 
             suite(
-                "Scripts",
+                nameof<TestTSProjectPackageFileMapping>((fileMapping) => fileMapping.ScriptMappings),
                 () =>
                 {
                     test(

@@ -15,7 +15,7 @@ import { TestContext } from "../TestContext";
 export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "FileMappingBase",
+        nameof(FileMappingBase),
         () =>
         {
             let generator: TestGenerator;

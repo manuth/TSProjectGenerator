@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectGeneralCategory",
+        nameof(TSProjectGeneralCategory),
         () =>
         {
             let category: TSProjectGeneralCategory<ITSProjectSettings, GeneratorOptions>;

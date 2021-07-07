@@ -17,7 +17,7 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "WorkspaceFolderLoader",
+        nameof(WorkspaceFolderLoader),
         () =>
         {
             let generator: TestGenerator;

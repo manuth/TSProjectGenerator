@@ -16,7 +16,7 @@ import { TestContext } from "../TestContext";
 export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "YAMLCreatorMapping",
+        nameof(YAMLCreatorMapping),
         () =>
         {
             let generator: TestGenerator;

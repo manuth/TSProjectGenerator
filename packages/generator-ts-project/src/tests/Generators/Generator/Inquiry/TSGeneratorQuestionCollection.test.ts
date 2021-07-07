@@ -15,7 +15,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorQuestionCollection",
+        nameof(TSGeneratorQuestionCollection),
         () =>
         {
             let collection: TSGeneratorQuestionCollection<ITSGeneratorSettings, GeneratorOptions>;

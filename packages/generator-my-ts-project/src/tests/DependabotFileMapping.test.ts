@@ -15,7 +15,7 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
 {
     suite(
-        "DependabotFileMapping",
+        nameof(DependabotFileMapping),
         () =>
         {
             let updateKey: string;

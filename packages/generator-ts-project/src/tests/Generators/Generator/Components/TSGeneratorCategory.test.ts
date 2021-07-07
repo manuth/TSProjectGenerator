@@ -22,7 +22,7 @@ import { GeneratorPath } from "../TSGeneratorGenerator.test";
 export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorCategory",
+        nameof(TSGeneratorCategory),
         () =>
         {
             let runContext: IRunContext<TSGeneratorGenerator>;
@@ -86,7 +86,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                 });
 
             test(
-                "Checking whether all components for `TSGenerator`s are present…",
+                `Checking whether all components for the \`${nameof(TSGeneratorGenerator)}\`s are present…`,
                 async () =>
                 {
                     for (let componentID of [TSGeneratorComponent.GeneratorExample, TSGeneratorComponent.SubGeneratorExample])

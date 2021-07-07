@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectDisplayNameQuestion",
+        nameof(TSProjectDisplayNameQuestion),
         () =>
         {
             let randomName: string;

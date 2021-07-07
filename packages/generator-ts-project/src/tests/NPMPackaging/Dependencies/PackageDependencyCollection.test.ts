@@ -13,7 +13,7 @@ import { TestContext } from "../../TestContext";
 export function PackageDependencyCollectionTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "PackageDependencyCollection",
+        nameof(PackageDependencyCollection),
         () =>
         {
             test(

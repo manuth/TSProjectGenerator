@@ -1,5 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { Package } from "@manuth/package-json-editor";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
@@ -20,7 +21,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
     let yeomanKeyword = "yeoman-generator";
 
     suite(
-        "TSGeneratorPackageFileMapping",
+        nameof(TSGeneratorPackageFileMapping),
         () =>
         {
             let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>;
@@ -41,7 +42,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                 });
 
             suite(
-                "Keywords",
+                nameof<Package>((pkg) => pkg.Keywords),
                 () =>
                 {
                     test(
@@ -85,15 +86,15 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                 });
 
             suite(
-                "Dependencies",
+                nameof<Package>((pkg) => pkg.Dependencies),
                 () =>
                 {
                     suite(
-                        "TSGeneratorDependencies",
+                        nameof(TSGeneratorDependencies),
                         () =>
                         {
                             test(
-                                "Checking whether common dependencies for `TSGenerator`s are present…",
+                                `Checking whether common dependencies for \`${nameof(TSGeneratorGenerator)}\`s are present…`,
                                 async function()
                                 {
                                     this.slow(1 * 1000);
@@ -103,11 +104,11 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                         });
 
                     suite(
-                        "TSGeneratorExampleDependencies",
+                        nameof(TSGeneratorExampleDependencies),
                         () =>
                         {
                             test(
-                                "Checking whether the dependencies are present if a `GeneratorExample` is being created…",
+                                `Checking whether the dependencies are present if a \`${nameof(TSGeneratorComponent.GeneratorExample)}\` is being created…`,
                                 async function()
                                 {
                                     this.slow(1 * 1000);
@@ -121,7 +122,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                 });
 
                             test(
-                                "Checking whether the dependencies are present if `SubGeneratorExample`s are being created…",
+                                `Checking whether the dependencies are present if \`${nameof(TSGeneratorComponent.SubGeneratorExample)}\`s are being created…`,
                                 async function()
                                 {
                                     this.slow(1 * 1000);
@@ -135,7 +136,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                 });
 
                             test(
-                                "Checking whether the dependencies are present if both a `GeneratorExample` and `SubGeneratorExample`s are being created…",
+                                `Checking whether the dependencies are present if both a \`${nameof(TSGeneratorComponent.GeneratorExample)}\` and \`${nameof(TSGeneratorComponent.SubGeneratorExample)}\`s are being created…`,
                                 async function()
                                 {
                                     this.slow(1 * 1000);

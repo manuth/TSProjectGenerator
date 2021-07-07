@@ -16,7 +16,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "TasksProcessor",
+        nameof(TasksProcessor),
         () =>
         {
             let includedTask: TaskDefinition;
@@ -40,7 +40,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * A value indicating whether the task should be included.
                  */
-                protected override async FilterTask(task: TaskDefinition): Promise<boolean>
+                public override async FilterTask(task: TaskDefinition): Promise<boolean>
                 {
                     return task !== excludedTask;
                 }
@@ -54,7 +54,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * The processed task.
                  */
-                protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
+                public override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
                 {
                     if (task === mutatedTask)
                     {
@@ -104,7 +104,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "Process",
+                nameof<TasksProcessor<any, any>>((processor) => processor.Process),
                 () =>
                 {
                     test(
@@ -118,7 +118,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "FilterTask",
+                nameof<TestTasksProcessor>((processor) => processor.FilterTask),
                 () =>
                 {
                     test(
@@ -132,7 +132,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "ProcessTask",
+                nameof<TestTasksProcessor>((processor) => processor.ProcessTask),
                 () =>
                 {
                     test(

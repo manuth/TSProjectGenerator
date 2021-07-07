@@ -14,7 +14,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "SettingsProcessor",
+        nameof(SettingsProcessor),
         () =>
         {
             let includedSetting: string;
@@ -41,7 +41,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * A value indicating whether the setting with the specified key should be included.
                  */
-                protected override async FilterSetting(key: string, value: any): Promise<boolean>
+                public override async FilterSetting(key: string, value: any): Promise<boolean>
                 {
                     return key !== excludedSetting;
                 }
@@ -58,7 +58,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * The processed setting.
                  */
-                protected override async ProcessSetting(key: string, value: any): Promise<any>
+                public override async ProcessSetting(key: string, value: any): Promise<any>
                 {
                     if (key === mutatedSetting)
                     {
@@ -97,7 +97,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                 });
 
             suite(
-                "FilterSettingKey",
+                nameof<TestSettingsProcessor>((processor) => processor.FilterSetting),
                 () =>
                 {
                     test(
@@ -111,7 +111,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                 });
 
             suite(
-                "ProcessSetting",
+                nameof<TestSettingsProcessor>((processor) => processor.ProcessSetting),
                 () =>
                 {
                     test(

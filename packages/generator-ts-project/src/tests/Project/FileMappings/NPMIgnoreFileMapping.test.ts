@@ -16,7 +16,7 @@ import { TestContext } from "../../TestContext";
 export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "NPMIgnoreFileMapping",
+        nameof<NPMIgnoreFileMapping<any, any>>(),
         () =>
         {
             let includedFiles: string[];

@@ -14,7 +14,7 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
 {
     suite(
-        "DroneFileMapping",
+        nameof(DroneFileMapping),
         () =>
         {
             let fileMappingOptions: DroneFileMapping<ITSProjectSettings, GeneratorOptions>;

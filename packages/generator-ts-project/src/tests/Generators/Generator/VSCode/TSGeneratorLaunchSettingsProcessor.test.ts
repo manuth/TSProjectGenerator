@@ -20,7 +20,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorLaunchSettingsProcessor",
+        nameof(TSGeneratorLaunchSettingsProcessor),
         () =>
         {
             let settings: Partial<ITSGeneratorSettings>;

@@ -14,7 +14,7 @@ import { TestContext } from "../../TestContext";
 export function TransformFileMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "TransformFileMapping",
+        nameof(TransformFileMapping),
         () =>
         {
             let generator: TestGenerator;

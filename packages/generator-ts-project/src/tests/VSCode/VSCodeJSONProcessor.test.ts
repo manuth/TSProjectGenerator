@@ -14,7 +14,7 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "VSCodeJSONProcessor",
+        nameof(VSCodeJSONProcessor),
         () =>
         {
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
@@ -29,7 +29,7 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                 });
 
             suite(
-                "StripWorkspaceFolder",
+                nameof<VSCodeJSONProcessor<any, any, any>>((processor) => processor.StripWorkspaceFolder),
                 () =>
                 {
                     test(

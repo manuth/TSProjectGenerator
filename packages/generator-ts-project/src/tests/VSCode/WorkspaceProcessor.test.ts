@@ -21,7 +21,7 @@ import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvi
 export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "WorkspaceProcessor",
+        nameof<WorkspaceProcessor<any, any>>(),
         () =>
         {
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;

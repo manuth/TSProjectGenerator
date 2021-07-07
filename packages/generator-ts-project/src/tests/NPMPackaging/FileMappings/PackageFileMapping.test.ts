@@ -2,7 +2,6 @@ import { strictEqual } from "assert";
 import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
@@ -19,7 +18,7 @@ import { TestPackageFileMapping } from "./TestPackageFileMapping";
 export function PackageFileMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "PackageFileMapping",
+        nameof<PackageFileMapping<any, any>>(),
         () =>
         {
             let originalName: Generator["user"]["git"]["name"];
@@ -71,7 +70,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                 });
 
             suite(
-                "ScriptMappings",
+                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.ScriptMappings),
                 () =>
                 {
                     let randomSource: string;
@@ -138,7 +137,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                 });
 
             suite(
-                "Package",
+                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.Package),
                 () =>
                 {
                     test(

@@ -15,7 +15,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorGeneralCategory",
+        nameof(TSGeneratorGeneralCategory),
         () =>
         {
             let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings, GeneratorOptions>;
@@ -28,7 +28,7 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                 });
 
             test(
-                "Checking whether all components for `TSGenerator`s are present…",
+                `Checking whether all components for the \`${nameof(TSGeneratorGenerator)}\` are present…`,
                 async () =>
                 {
                     for (let componentType of [TSGeneratorCodeWorkspaceFolder])

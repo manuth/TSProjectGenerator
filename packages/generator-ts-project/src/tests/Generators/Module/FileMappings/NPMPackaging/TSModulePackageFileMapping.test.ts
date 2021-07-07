@@ -2,6 +2,7 @@ import { ok } from "assert";
 import { spawnSync } from "child_process";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
+import { IPackageMetadata, Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
@@ -19,7 +20,7 @@ import { TestContext } from "../../../../TestContext";
 export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGenerator>): void
 {
     suite(
-        "TSModulePackageFileMapping",
+        nameof(TSModulePackageFileMapping),
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;
@@ -64,7 +65,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 });
 
             test(
-                "Checking whether the `main`-file exists…",
+                `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.main)}\`-file exists…`,
                 async function()
                 {
                     this.slow(2 * 1000);
@@ -72,7 +73,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 });
 
             test(
-                "Checking whether the `types`-file exists…",
+                `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.types)}\`-file exists…`,
                 async function()
                 {
                     this.slow(2 * 1000);

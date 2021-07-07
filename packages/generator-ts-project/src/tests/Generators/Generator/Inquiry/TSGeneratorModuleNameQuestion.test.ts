@@ -18,7 +18,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorModuleNameQuestion",
+        nameof(TSGeneratorModuleNameQuestion),
         () =>
         {
             let tempDir: TempDirectory;
@@ -41,7 +41,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                 });
 
             suite(
-                "default",
+                nameof<TSGeneratorModuleNameQuestion<any, any>>((question) => question.default),
                 () =>
                 {
                     test(
@@ -62,7 +62,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                 });
 
             suite(
-                "validate",
+                nameof<TSGeneratorModuleNameQuestion<any, any>>((question) => question.validate),
                 () =>
                 {
                     test(

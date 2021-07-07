@@ -17,7 +17,7 @@ import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
 export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "CodeWorkspaceComponent",
+        nameof<CodeWorkspaceComponent<any, any>>(),
         () =>
         {
             let randomWorkspace: IWorkspaceMetadata;

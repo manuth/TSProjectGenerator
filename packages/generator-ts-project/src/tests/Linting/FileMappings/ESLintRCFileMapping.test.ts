@@ -1,6 +1,7 @@
 import { doesNotReject, ok } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
+import { Linter } from "eslint";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -18,7 +19,7 @@ import { TestContext } from "../../TestContext";
 export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "ESLintRCFileMapping",
+        nameof(ESLintRCFileMapping),
         () =>
         {
             let settings: Partial<ITSProjectSettings>;
@@ -47,17 +48,17 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 });
 
             test(
-                "Checking whether the `root` property is not present…",
+                `Checking whether the \`${nameof<Linter.Config>((config) => config.root)}\` property is not present…`,
                 async function()
                 {
                     this.timeout(1 * 1000);
                     this.slow(0.5 * 1000);
                     await tester.Run();
-                    ok(!("root" in await tester.Require()));
+                    ok(!(nameof<Linter.Config>((config) => config.root) in await tester.Require()));
                 });
 
             test(
-                "Checking whether the eslint config base is applied correctly…",
+                `Checking whether the \`${nameof<Linter.Config>((config) => config.extends)}\`-property of the eslint-config is applied correctly…`,
                 async function()
                 {
                     this.timeout(1 * 1000);

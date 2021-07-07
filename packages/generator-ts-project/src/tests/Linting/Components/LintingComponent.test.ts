@@ -23,18 +23,22 @@ export function LintingComponentTests(context: TestContext<TSProjectGenerator>):
             component = new LintingComponent(await context.Generator);
         });
 
-    test(
-        "Checking whether all necessary file-mappings are present…",
-        async () =>
+    suite(
+        nameof(LintingComponent),
+        () =>
         {
-            for (let fileMappingType of [ESLintRCFileMapping])
-            {
-                ok(
-                    component.FileMappings.some(
-                        (fileMapping) =>
-                        {
-                            return fileMapping instanceof fileMappingType;
-                        }));
-            }
-        });
+            test(
+                "Checking whether all necessary file-mappings are present…",
+                async () =>
+                {
+                    for (let fileMappingType of [ESLintRCFileMapping])
+                    {
+                        ok(
+                            component.FileMappings.some(
+                                (fileMapping) =>
+                                {
+                                    return fileMapping instanceof fileMappingType;
+                                }));
+                    }
+                });
 }

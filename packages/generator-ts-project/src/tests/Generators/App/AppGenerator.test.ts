@@ -17,7 +17,7 @@ import { TestContext } from "../../TestContext";
 export function AppGeneratorTests(context: TestContext<AppGenerator>): void
 {
     suite(
-        "AppGenerator",
+        nameof(AppGenerator),
         () =>
         {
             let tempDir: TempDirectory;

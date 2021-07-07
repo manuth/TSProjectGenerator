@@ -14,7 +14,7 @@ import { TestContext } from "../../TestContext";
 export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>): void
 {
     suite(
-        "TSModuleGenerator",
+        nameof(TSModuleGenerator),
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;

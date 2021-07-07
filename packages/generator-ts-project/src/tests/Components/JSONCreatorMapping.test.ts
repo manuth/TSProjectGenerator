@@ -13,7 +13,7 @@ import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
 export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "JSONCreatorMapping",
+        nameof(JSONCreatorMapping),
         () =>
         {
             let generator: TestGenerator;

@@ -5,7 +5,6 @@ import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
@@ -22,7 +21,7 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "CodeWorkspaceProvider",
+        nameof<CodeWorkspaceProvider<any, any>>(),
         () =>
         {
             let tempDir: TempDirectory;
@@ -72,7 +71,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         });
 
                     test(
-                        "Checking whether the metadata of all components are loaded from `WorkspaceMetadata…",
+                        `Checking whether the metadata of all components are loaded from \`${nameof<CodeWorkspaceProvider<any, any>>((p) => p.WorkspaceMetadata)}\`…`,
                         async () =>
                         {
                             workspaceProvider.WorkspaceMetadata = context.CreatePromise(
@@ -92,7 +91,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                 });
 
             suite(
-                "ReadJSON",
+                nameof<TestCodeWorkspaceProvider<any, any>>((provider) => provider.ReadJSON),
                 () =>
                 {
                     let randomData: any;

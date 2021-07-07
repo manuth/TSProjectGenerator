@@ -19,7 +19,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectModuleNameQuestion",
+        nameof(TSProjectModuleNameQuestion),
         () =>
         {
             let tempDir: TempDirectory;

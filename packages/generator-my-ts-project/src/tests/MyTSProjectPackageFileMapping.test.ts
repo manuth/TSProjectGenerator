@@ -1,7 +1,7 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
-import { ITSProjectSettings } from "@manuth/generator-ts-project";
+import { IScriptMapping, ITSProjectSettings } from "@manuth/generator-ts-project";
 import { Package } from "@manuth/package-json-editor";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
@@ -15,12 +15,37 @@ import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping"
 export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
 {
     suite(
-        "MyTSProjectPackageFileMapping",
+        nameof(MyTSProjectPackageFileMapping),
         () =>
         {
             let generator: MyTSModuleGenerator;
             let tester: FileMappingTester<MyTSModuleGenerator, ITSProjectSettings, GeneratorOptions, MyTSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
             let npmPackage: Package;
+
+            /**
+             * Provides an implementation of the {@link MyTSProjectPackageFileMapping `MyTSProjectPackageFileMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestMyTSProjectPackageFileMapping extends MyTSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public override get MiscScripts(): Promise<Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>>
+                {
+                    return super.MiscScripts;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * The loaded package.
+                 */
+                public override async LoadPackage(): Promise<Package>
+                {
+                    return super.LoadPackage();
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -38,7 +63,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModu
                 });
 
             suite(
-                "MiscScripts",
+                nameof<TestMyTSProjectPackageFileMapping>((fileMapping) => fileMapping.MiscScripts),
                 () =>
                 {
                     test(
@@ -54,7 +79,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModu
                 });
 
             suite(
-                "LoadPackage",
+                nameof<TestMyTSProjectPackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
                 {
                     let dependencies: string[];
