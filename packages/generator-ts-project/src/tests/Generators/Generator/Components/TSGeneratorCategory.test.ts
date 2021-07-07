@@ -3,6 +3,7 @@ import { spawnSync } from "child_process";
 import { GeneratorOptions, GeneratorSettingKey, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
+import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
 import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
@@ -172,6 +173,30 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                                 let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
                                 let testContext = new GeneratorContext(GeneratorPath(runContext.generator, name));
                                 await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                            }
+                        });
+                });
+
+            suite(
+                nameof<TestTSGeneratorCategory>((category) => category.GetGeneratorFileMappings),
+                () =>
+                {
+                    test(
+                        "Checking whether test-files for all generators are present…",
+                        async () =>
+                        {
+                            for (
+                                let generatorName of
+                                [
+                                    runContext.generator.Settings[TSProjectSettingKey.DisplayName],
+                                    ...runContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
+                                        (subGenerator) =>
+                                        {
+                                            return subGenerator[SubGeneratorSettingKey.DisplayName];
+                                        })
+                                ])
+                            {
+                                ok(await pathExists(runContext.generator.destinationPath("src", "tests", `${generatorName}.test.ts`)));
                             }
                         });
                 });
