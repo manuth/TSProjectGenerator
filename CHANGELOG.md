@@ -119,7 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All dependencies
   - The typescript-configuration for tests
   - The `.npmignore` file to exclude the `.github` directory
-  - `.json` and `.yml`-filemappings to include new lines at the end of files
+  - `.json` and `.yml` file-mappings to include new lines at the end of files
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.4...v1.2.0)
 
@@ -157,7 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Updated
   - The code for creating `launch.json` files
-  - The terminoloy of some file-processors
+  - The terminology of some file-processors
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.1.0...v1.1.1)
 

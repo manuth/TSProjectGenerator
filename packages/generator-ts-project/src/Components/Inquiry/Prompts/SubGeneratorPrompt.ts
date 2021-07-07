@@ -190,7 +190,7 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
                         [
                             {
                                 type: "confirm",
-                                name: "repeat",
+                                name: nameof<IInternalAnswerHash>((hash) => hash.repeat),
                                 default: this.opt.defaultRepeat,
                                 message: "Do you want to create another sub-generator?"
                             }
