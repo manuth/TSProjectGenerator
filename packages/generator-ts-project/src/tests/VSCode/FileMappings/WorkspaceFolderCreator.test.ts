@@ -84,43 +84,48 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                     }
                 });
 
-            test(
-                "Checking whether the workspace-files are created correctly…",
-                async function()
+            suite(
+                nameof<WorkspaceFolderCreator<any, any>>((creator) => creator.FileMappings),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
+                    test(
+                        "Checking whether the workspace-files are created correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
 
-                    let fileAssertions: Array<[string, Promise<any>]> = [
-                        [fileMappingCreator.ExtensionsFileName, component.Source.ExtensionsMetadata],
-                        [fileMappingCreator.LaunchFileName, component.Source.LaunchMetadata],
-                        [fileMappingCreator.SettingsFileName, component.Source.SettingsMetadata],
-                        [fileMappingCreator.TasksFileName, component.Source.TasksMetadata]
-                    ];
+                            let fileAssertions: Array<[string, Promise<any>]> = [
+                                [fileMappingCreator.ExtensionsFileName, component.Source.ExtensionsMetadata],
+                                [fileMappingCreator.LaunchFileName, component.Source.LaunchMetadata],
+                                [fileMappingCreator.SettingsFileName, component.Source.SettingsMetadata],
+                                [fileMappingCreator.TasksFileName, component.Source.TasksMetadata]
+                            ];
 
-                    for (let fileAssertion of fileAssertions)
-                    {
-                        let path = join(fileMappingCreator.SettingsFolderName, fileAssertion[0]);
-                        await AssertContent(path, await fileAssertion[1]);
-                    }
-                });
+                            for (let fileAssertion of fileAssertions)
+                            {
+                                let path = join(fileMappingCreator.SettingsFolderName, fileAssertion[0]);
+                                await AssertContent(path, await fileAssertion[1]);
+                            }
+                        });
 
-            test(
-                "Checking whether comments persist in the workspace-files…",
-                async () =>
-                {
-                    ok(
-                        stringify(
-                            await source.ReadJSON(
-                                new FileMapping(
-                                    generator,
-                                    {
-                                        Destination: join(
-                                            fileMappingCreator.SettingsFolderName,
-                                            fileMappingCreator.TasksFileName)
-                                    }).Destination),
-                            null,
-                            4).includes(randomComment));
+                    test(
+                        "Checking whether comments persist in the workspace-files…",
+                        async () =>
+                        {
+                            ok(
+                                stringify(
+                                    await source.ReadJSON(
+                                        new FileMapping(
+                                            generator,
+                                            {
+                                                Destination: join(
+                                                    fileMappingCreator.SettingsFolderName,
+                                                    fileMappingCreator.TasksFileName)
+                                            }).Destination),
+                                    null,
+                                    4).includes(randomComment));
+                        });
                 });
         });
 }

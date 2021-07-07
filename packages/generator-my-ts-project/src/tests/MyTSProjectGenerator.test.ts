@@ -26,17 +26,22 @@ export function MyTSProjectGeneratorTests(context: TestContext<MyTSModuleGenerat
                     generator = await context.Generator;
                 });
 
-            test(
-                `Checking whether the \`${transformPluginName}\`-plugin is configured in \`${tsconfigFileName}\`…`,
+            suite(
+                nameof<MyTSModuleGenerator>((generator) => generator.FileMappings),
                 () =>
                 {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    let originalTSConfig = require(generator.Base.modulePath(tsconfigFileName));
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    let tsConfig = require(generator.destinationPath(tsconfigFileName));
+                    test(
+                        `Checking whether the \`${transformPluginName}\`-plugin is configured in \`${tsconfigFileName}\`…`,
+                        () =>
+                        {
+                            // eslint-disable-next-line @typescript-eslint/no-var-requires
+                            let originalTSConfig = require(generator.Base.modulePath(tsconfigFileName));
+                            // eslint-disable-next-line @typescript-eslint/no-var-requires
+                            let tsConfig = require(generator.destinationPath(tsconfigFileName));
 
-                    deepStrictEqual(originalTSConfig.compilerOptions.plugins, tsConfig.compilerOptions.plugins);
-                    ok(tsConfig.compilerOptions.plugins.some((plugin: any) => plugin.transform === transformPluginName));
+                            deepStrictEqual(originalTSConfig.compilerOptions.plugins, tsConfig.compilerOptions.plugins);
+                            ok(tsConfig.compilerOptions.plugins.some((plugin: any) => plugin.transform === transformPluginName));
+                        });
                 });
         });
 }

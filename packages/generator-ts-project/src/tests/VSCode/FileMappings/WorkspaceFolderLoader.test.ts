@@ -69,17 +69,22 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                     }
                 });
 
-            test(
-                "Checking whether files are read correctly…",
-                async function()
+            suite(
+                nameof<WorkspaceFolderLoader<any, any>>((loader) => loader.WorkspaceMetadata),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
-                    deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
-                    deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
-                    deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
-                    deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
+                    test(
+                        "Checking whether files are read correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
+                            deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
+                            deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
+                            deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
+                            deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
+                        });
                 });
         });
 }

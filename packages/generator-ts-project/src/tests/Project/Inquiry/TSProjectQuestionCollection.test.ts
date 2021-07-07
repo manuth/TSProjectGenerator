@@ -30,23 +30,28 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
                     questionCollection = new TSProjectQuestionCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary questions are present…",
+            suite(
+                nameof<TSProjectQuestionCollection<any, any>>((question) => question.Questions),
                 () =>
                 {
-                    let questionTypes = [
-                        TSProjectDestinationQuestion,
-                        TSProjectDisplayNameQuestion,
-                        TSProjectModuleNameQuestion,
-                        TSProjectDescriptionQuestion
-                    ];
+                    test(
+                        "Checking whether all necessary questions are present…",
+                        () =>
+                        {
+                            let questionTypes = [
+                                TSProjectDestinationQuestion,
+                                TSProjectDisplayNameQuestion,
+                                TSProjectModuleNameQuestion,
+                                TSProjectDescriptionQuestion
+                            ];
 
-                    for (let questionType of questionTypes)
-                    {
-                        ok(
-                            questionCollection.Questions.some(
-                                (question) => question instanceof questionType));
-                    }
+                            for (let questionType of questionTypes)
+                            {
+                                ok(
+                                    questionCollection.Questions.some(
+                                        (question) => question instanceof questionType));
+                            }
+                        });
                 });
         });
 }

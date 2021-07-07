@@ -47,51 +47,56 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                     Object.assign(tester.Generator.Settings, settings);
                 });
 
-            test(
-                `Checking whether the \`${nameof<Linter.Config>((config) => config.root)}\` property is not present…`,
-                async function()
+            suite(
+                nameof<ESLintRCFileMapping<any, any>>((fileMapping) => fileMapping.Processor),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    ok(!(nameof<Linter.Config>((config) => config.root) in await tester.Require()));
-                });
-
-            test(
-                `Checking whether the \`${nameof<Linter.Config>((config) => config.extends)}\`-property of the eslint-config is applied correctly…`,
-                async function()
-                {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-
-                    for (let ruleset of [LintRuleset.Weak, LintRuleset.Recommended])
-                    {
-                        let eslintConfig: any;
-                        let configName: string;
-                        let baseConfigs: string[];
-                        tester.Generator.Settings[TSProjectSettingKey.LintRuleset] = ruleset;
-                        await tester.Run();
-                        await doesNotReject(async () => eslintConfig = await tester.Require());
-                        baseConfigs = eslintConfig.extends;
-
-                        switch (ruleset)
+                    test(
+                        `Checking whether the \`${nameof<Linter.Config>((config) => config.root)}\` property is not present…`,
+                        async function()
                         {
-                            case LintRuleset.Weak:
-                                configName = "weak";
-                                break;
-                            case LintRuleset.Recommended:
-                            default:
-                                configName = "recommended";
-                                break;
-                        }
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            ok(!(nameof<Linter.Config>((config) => config.root) in await tester.Require()));
+                        });
 
-                        ok(
-                            baseConfigs.some(
-                                (baseConfig) =>
+                    test(
+                        `Checking whether the \`${nameof<Linter.Config>((config) => config.extends)}\`-property of the eslint-config is applied correctly…`,
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+
+                            for (let ruleset of [LintRuleset.Weak, LintRuleset.Recommended])
+                            {
+                                let eslintConfig: any;
+                                let configName: string;
+                                let baseConfigs: string[];
+                                tester.Generator.Settings[TSProjectSettingKey.LintRuleset] = ruleset;
+                                await tester.Run();
+                                await doesNotReject(async () => eslintConfig = await tester.Require());
+                                baseConfigs = eslintConfig.extends;
+
+                                switch (ruleset)
                                 {
-                                    return baseConfig.includes(configName);
-                                }));
-                    }
+                                    case LintRuleset.Weak:
+                                        configName = "weak";
+                                        break;
+                                    case LintRuleset.Recommended:
+                                    default:
+                                        configName = "recommended";
+                                        break;
+                                }
+
+                                ok(
+                                    baseConfigs.some(
+                                        (baseConfig) =>
+                                        {
+                                            return baseConfig.includes(configName);
+                                        }));
+                            }
+                        });
                 });
         });
 }

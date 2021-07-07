@@ -24,8 +24,25 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;
-            let fileMapping: TSModulePackageFileMapping<ITSProjectSettings, GeneratorOptions>;
-            let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, GeneratorOptions, TSModulePackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
+            let fileMapping: TestTSModulePackageFileMapping;
+            let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, GeneratorOptions, TestTSModulePackageFileMapping>;
+
+            /**
+             * Provides an implementation of the {@link TSModulePackageFileMapping `TSModulePackageFileMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestTSModulePackageFileMapping extends TSModulePackageFileMapping<ITSProjectSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * The loaded package.
+                 */
+                public override async LoadPackage(): Promise<Package>
+                {
+                    return super.LoadPackage();
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -33,7 +50,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                     this.timeout(5 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
-                    fileMapping = new TSModulePackageFileMapping(runContext.generator);
+                    fileMapping = new TestTSModulePackageFileMapping(runContext.generator);
                     tester = new PackageFileMappingTester(runContext.generator, fileMapping);
 
                     spawnSync(
@@ -64,20 +81,25 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                     runContext.cleanTestDirectory();
                 });
 
-            test(
-                `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.main)}\`-file exists…`,
-                async function()
+            suite(
+                nameof<TestTSModulePackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
+                () =>
                 {
-                    this.slow(2 * 1000);
-                    ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
-                });
+                    test(
+                        `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.main)}\`-file exists…`,
+                        async function()
+                        {
+                            this.slow(2 * 1000);
+                            ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
+                        });
 
-            test(
-                `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.types)}\`-file exists…`,
-                async function()
-                {
-                    this.slow(2 * 1000);
-                    ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
+                    test(
+                        `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.types)}\`-file exists…`,
+                        async function()
+                        {
+                            this.slow(2 * 1000);
+                            ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
+                        });
                 });
         });
 }

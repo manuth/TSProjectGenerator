@@ -28,101 +28,106 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     tempDir = new TempDirectory();
                 });
 
-            test(
-                "Checking whether the generator can be executed…",
-                async function()
+            suite(
+                nameof<AppGenerator>((generator) => generator.initializing),
+                () =>
                 {
-                    this.timeout(5 * 60 * 1000);
-                    this.slow(2.5 * 60 * 1000);
-                    await doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
-                });
-
-            test(
-                "Checking whether modules can be generated…",
-                async function()
-                {
-                    this.timeout(15 * 60 * 1000);
-                    this.slow(7.5 * 60 * 1000);
-
-                    await doesNotReject(
-                        () =>
+                    test(
+                        "Checking whether the generator can be executed…",
+                        async function()
                         {
-                            return context.ExecuteGenerator().withPrompts(
+                            this.timeout(5 * 60 * 1000);
+                            this.slow(2.5 * 60 * 1000);
+                            await doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                        });
+
+                    test(
+                        "Checking whether modules can be generated…",
+                        async function()
+                        {
+                            this.timeout(15 * 60 * 1000);
+                            this.slow(7.5 * 60 * 1000);
+
+                            await doesNotReject(
+                                () =>
                                 {
-                                    [ProjectSelectorSettingKey.ProjectType]: ProjectType.Module
-                                }).inDir(tempDir.FullName).toPromise();
-                        });
+                                    return context.ExecuteGenerator().withPrompts(
+                                        {
+                                            [ProjectSelectorSettingKey.ProjectType]: ProjectType.Module
+                                        }).inDir(tempDir.FullName).toPromise();
+                                });
 
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "install",
-                            "--silent"
-                        ],
-                        {
-                            cwd: tempDir.FullName
-                        });
-
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "run",
-                            "build"
-                        ],
-                        {
-                            cwd: tempDir.FullName
-                        });
-
-                    doesNotThrow(
-                        () =>
-                        {
-                            require(tempDir.FullName);
-                        });
-                });
-
-            test(
-                "Checking whether generators can be generated…",
-                async function()
-                {
-                    this.timeout(15 * 60 * 1000);
-                    this.slow(7.5 * 60 * 1000);
-                    let subGeneratorDir = new TempDirectory();
-
-                    await doesNotReject(
-                        async () =>
-                        {
-                            return context.ExecuteGenerator().withPrompts(
+                            spawnSync(
+                                npmWhich(__dirname).sync("npm"),
+                                [
+                                    "install",
+                                    "--silent"
+                                ],
                                 {
-                                    [ProjectSelectorSettingKey.ProjectType]: ProjectType.Generator
-                                }).inDir(tempDir.FullName).toPromise();
+                                    cwd: tempDir.FullName
+                                });
+
+                            spawnSync(
+                                npmWhich(__dirname).sync("npm"),
+                                [
+                                    "run",
+                                    "build"
+                                ],
+                                {
+                                    cwd: tempDir.FullName
+                                });
+
+                            doesNotThrow(
+                                () =>
+                                {
+                                    require(tempDir.FullName);
+                                });
                         });
 
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "install",
-                            "--silent"
-                        ],
+                    test(
+                        "Checking whether generators can be generated…",
+                        async function()
                         {
-                            cwd: tempDir.FullName
-                        });
+                            this.timeout(15 * 60 * 1000);
+                            this.slow(7.5 * 60 * 1000);
+                            let subGeneratorDir = new TempDirectory();
 
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "run",
-                            "build"
-                        ],
-                        {
-                            cwd: tempDir.FullName
-                        });
+                            await doesNotReject(
+                                async () =>
+                                {
+                                    return context.ExecuteGenerator().withPrompts(
+                                        {
+                                            [ProjectSelectorSettingKey.ProjectType]: ProjectType.Generator
+                                        }).inDir(tempDir.FullName).toPromise();
+                                });
 
-                    await doesNotReject(
-                        async () =>
-                        {
-                            return new GeneratorContext(
-                                tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
-                                    subGeneratorDir.FullName).toPromise();
+                            spawnSync(
+                                npmWhich(__dirname).sync("npm"),
+                                [
+                                    "install",
+                                    "--silent"
+                                ],
+                                {
+                                    cwd: tempDir.FullName
+                                });
+
+                            spawnSync(
+                                npmWhich(__dirname).sync("npm"),
+                                [
+                                    "run",
+                                    "build"
+                                ],
+                                {
+                                    cwd: tempDir.FullName
+                                });
+
+                            await doesNotReject(
+                                async () =>
+                                {
+                                    return new GeneratorContext(
+                                        tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
+                                            subGeneratorDir.FullName).toPromise();
+                                });
                         });
                 });
         });

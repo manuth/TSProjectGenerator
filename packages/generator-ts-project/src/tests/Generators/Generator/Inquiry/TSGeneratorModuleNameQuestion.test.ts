@@ -23,6 +23,8 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
         {
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
+            let prefix: string;
+            let expectedID: string;
             let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
@@ -37,6 +39,8 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         [TSProjectSettingKey.DisplayName]: "ThisIsATestGenerator"
                     };
 
+                    prefix = "generator-";
+                    expectedID = `${prefix}this-is-a-test`;
                     question = new TSGeneratorModuleNameQuestion(await context.Generator);
                 });
 
@@ -48,7 +52,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         "Checking whether the default value is applied correctly…",
                         async () =>
                         {
-                            strictEqual(await question.default(settings), "generator-this-is-a-test");
+                            strictEqual(await question.default(settings), expectedID);
                         });
 
                     test(
@@ -66,7 +70,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                 () =>
                 {
                     test(
-                        "Checking whether module-names are only valid if they start with `generator-`…",
+                        `Checking whether module-names are only valid if they start with \`${prefix}\`…`,
                         async () =>
                         {
                             notStrictEqual(await question.validate("lol", settings), true);
@@ -74,7 +78,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         });
 
                     test(
-                        "Checking whether scoped module-names are only valid if they start with `generator-`…",
+                        `Checking whether scoped module-names are only valid if they start with \`${prefix}\`…`,
                         async () =>
                         {
                             notStrictEqual(await question.validate("@me/lol", settings), true);

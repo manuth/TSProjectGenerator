@@ -2,7 +2,6 @@ import { strictEqual } from "assert";
 import { ensureDir, ensureFile, lstat, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
 import { resolve } from "upath";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
@@ -84,50 +83,55 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 }
             }
 
-            test(
-                "Checking whether ignore-files are ignored…",
-                async () =>
+            suite(
+                nameof<NPMIgnoreFileMapping<any, any>>((fileMapping) => fileMapping.Processor),
+                () =>
                 {
-                    await AssertIgnored(".npmignore");
-                });
+                    test(
+                        "Checking whether ignore-files are ignored…",
+                        async () =>
+                        {
+                            await AssertIgnored(".npmignore");
+                        });
 
-            test(
-                "Checking whether TypeScript-configurations are ignored…",
-                async () =>
-                {
-                    await AssertIgnored("tsconfig.json");
-                });
+                    test(
+                        "Checking whether TypeScript-configurations are ignored…",
+                        async () =>
+                        {
+                            await AssertIgnored("tsconfig.json");
+                        });
 
-            test(
-                "Checking whether eslint-files are ignored…",
-                async () =>
-                {
-                    await AssertIgnored(".eslintrc.js");
-                });
+                    test(
+                        "Checking whether eslint-files are ignored…",
+                        async () =>
+                        {
+                            await AssertIgnored(".eslintrc.js");
+                        });
 
-            test(
-                "Checking whether mocha-files are ignored…",
-                async () =>
-                {
-                    await AssertIgnored(".mocharc.json");
-                });
+                    test(
+                        "Checking whether mocha-files are ignored…",
+                        async () =>
+                        {
+                            await AssertIgnored(".mocharc.json");
+                        });
 
-            test(
-                "Checking whether vscode-files are ignored…",
-                async () =>
-                {
-                    await AssertDirectoryIgnored(".vscode");
-                });
+                    test(
+                        "Checking whether vscode-files are ignored…",
+                        async () =>
+                        {
+                            await AssertDirectoryIgnored(".vscode");
+                        });
 
-            test(
-                "Checking whether github-files are ignored…",
-                async () =>
-                {
-                    let testFile = context.RandomString;
-                    let dirName = ".github";
-                    await ensureDir(await DestinationPath(dirName));
-                    await ensureFile(await DestinationPath(dirName, testFile));
-                    await AssertDirectoryIgnored(".github");
+                    test(
+                        "Checking whether github-files are ignored…",
+                        async () =>
+                        {
+                            let testFile = context.RandomString;
+                            let dirName = ".github";
+                            await ensureDir(await DestinationPath(dirName));
+                            await ensureFile(await DestinationPath(dirName, testFile));
+                            await AssertDirectoryIgnored(".github");
+                        });
                 });
         });
 }

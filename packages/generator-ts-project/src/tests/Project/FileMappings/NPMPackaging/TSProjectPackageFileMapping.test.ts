@@ -114,6 +114,31 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             strictEqual((await tester.Package).Name, randomName);
                             strictEqual((await tester.Package).Description, randomDescription);
                         });
+                    test(
+                        "Checking whether common dependencies are present…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            await tester.AssertDependencies(new CommonDependencies());
+                        });
+
+                    test(
+                        "Checking whether lint-dependencies are present if linting is enabled…",
+                        async function()
+                        {
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
+
+                            for (let lintingEnabled of [true, false])
+                            {
+                                await tester.Clean();
+                                tester.Generator.Settings[GeneratorSettingKey.Components] = lintingEnabled ? [TSProjectComponent.Linting] : [];
+                                await tester.Run();
+                                await tester.AssertDependencies(new LintDependencies(), lintingEnabled);
+                            }
+                        });
                 });
 
             suite(
@@ -151,37 +176,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             console.log(scripts);
                             ok(!(await tester.Package).Scripts.Get("prepare").includes(patchScriptName));
                             ok(!scripts.Has(patchScriptName));
-                        });
-                });
-
-            suite(
-                "Dependencies",
-                () =>
-                {
-                    test(
-                        "Checking whether common dependencies are present…",
-                        async function()
-                        {
-                            this.timeout(1 * 1000);
-                            this.slow(0.5 * 1000);
-                            await tester.Run();
-                            await tester.AssertDependencies(new CommonDependencies());
-                        });
-
-                    test(
-                        "Checking whether lint-dependencies are present if linting is enabled…",
-                        async function()
-                        {
-                            this.timeout(2 * 1000);
-                            this.slow(1 * 1000);
-
-                            for (let lintingEnabled of [true, false])
-                            {
-                                await tester.Clean();
-                                tester.Generator.Settings[GeneratorSettingKey.Components] = lintingEnabled ? [TSProjectComponent.Linting] : [];
-                                await tester.Run();
-                                await tester.AssertDependencies(new LintDependencies(), lintingEnabled);
-                            }
                         });
                 });
         });

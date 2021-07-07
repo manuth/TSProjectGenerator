@@ -67,78 +67,83 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                     });
             }
 
-            test(
-                "Checking whether `publish` commands are replaced correctly…",
-                async function()
+            suite(
+                nameof<DroneFileMapping<any, any>>((fileMapping) => fileMapping.Transform),
+                () =>
                 {
-                    this.timeout(20 * 1000);
-                    ok(await AssertCommand((command) => command.startsWith("npm publish")));
-                    ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
-                });
+                    test(
+                        "Checking whether `publish` commands are replaced correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
+                            ok(await AssertCommand((command) => command.startsWith("npm publish")));
+                            ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
+                        });
 
-            test(
-                "Checking whether `lerna exec` commands are replaced correctly…",
-                async function()
-                {
-                    this.timeout(20 * 1000);
-                    ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
-                });
+                    test(
+                        "Checking whether `lerna exec` commands are replaced correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
+                            ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
+                        });
 
-            test(
-                "Checking whether github-releases are adjusted correctly…",
-                async function()
-                {
-                    this.timeout(20 * 1000);
+                    test(
+                        "Checking whether github-releases are adjusted correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
 
-                    ok(
-                        (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
-                            (document) =>
-                            {
-                                let steps: any[] = document.toJSON().steps;
-
-                                return steps.every(
-                                    (step) =>
+                            ok(
+                                (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
+                                    (document) =>
                                     {
-                                        if (step.image === "plugins/github-release")
-                                        {
-                                            let files = step.settings.files;
+                                        let steps: any[] = document.toJSON().steps;
 
-                                            return (files.length === 1) &&
-                                                (files[0] === "*.tgz");
-                                        }
-                                        else
-                                        {
-                                            return true;
-                                        }
-                                    });
-                            }));
-                });
+                                        return steps.every(
+                                            (step) =>
+                                            {
+                                                if (step.image === "plugins/github-release")
+                                                {
+                                                    let files = step.settings.files;
 
-            test(
-                "Checking whether the `test`-step is adjusted correctly…",
-                async function()
-                {
-                    this.timeout(20 * 1000);
+                                                    return (files.length === 1) &&
+                                                        (files[0] === "*.tgz");
+                                                }
+                                                else
+                                                {
+                                                    return true;
+                                                }
+                                            });
+                                    }));
+                        });
 
-                    ok(
-                        (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
-                            (document) =>
-                            {
-                                let steps: any[] = document.toJSON().steps;
+                    test(
+                        "Checking whether the `test`-step is adjusted correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
 
-                                return steps.every(
-                                    (step) =>
+                            ok(
+                                (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
+                                    (document) =>
                                     {
-                                        if (step.name === "test")
-                                        {
-                                            return !(step.image as string).endsWith(":lts");
-                                        }
-                                        else
-                                        {
-                                            return true;
-                                        }
-                                    });
-                            }));
+                                        let steps: any[] = document.toJSON().steps;
+
+                                        return steps.every(
+                                            (step) =>
+                                            {
+                                                if (step.name === "test")
+                                                {
+                                                    return !(step.image as string).endsWith(":lts");
+                                                }
+                                                else
+                                                {
+                                                    return true;
+                                                }
+                                            });
+                                    }));
+                        });
                 });
         });
 }

@@ -31,26 +31,31 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                     question = new TSProjectDescriptionQuestion(generator);
                 });
 
-            test(
-                "Checking whether the description defaults to the contents of the `README` file…",
-                async () =>
+            suite(
+                nameof<TSProjectDescriptionQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    let randomDescription = context.RandomString;
+                    test(
+                        "Checking whether the description defaults to the contents of the `README` file…",
+                        async () =>
+                        {
+                            let randomDescription = context.RandomString;
 
-                    await writeFile(
-                        generator.destinationPath("README.md"),
-                        dedent(
-                            `
-                                # This is a test
-                                ${randomDescription}`));
+                            await writeFile(
+                                generator.destinationPath("README.md"),
+                                dedent(
+                                    `
+                                        # This is a test
+                                        ${randomDescription}`));
 
-                    strictEqual(
-                        await question.default(
-                            {
-                                ...generator.Settings,
-                                [TSProjectSettingKey.Destination]: generator.destinationPath()
-                            }),
-                        randomDescription);
+                            strictEqual(
+                                await question.default(
+                                    {
+                                        ...generator.Settings,
+                                        [TSProjectSettingKey.Destination]: generator.destinationPath()
+                                    }),
+                                randomDescription);
+                        });
                 });
         });
 }

@@ -22,10 +22,82 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: JSONTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
+            let fileMappingOptions: TestJSONTransformMapping;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
             let sourceData: any;
             let randomData: any;
+
+            /**
+             * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
+             */
+            class TestJSONTransformMapping extends JSONTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return sourceFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return destinationFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param text
+                 * The text representing the meta-data.
+                 *
+                 * @returns
+                 * An object loaded from the specified {@link text `text`}.
+                 */
+                public override async Parse(text: string): Promise<any>
+                {
+                    return super.Parse(text);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: any): Promise<any>
+                {
+                    return randomData;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to dump.
+                 *
+                 * @returns
+                 * A text representing the specified {@link data `data`}.
+                 */
+                public override async Dump(data: any): Promise<string>
+                {
+                    return super.Dump(data);
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -34,48 +106,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
-
-                    fileMappingOptions = new class extends JSONTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return sourceFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return destinationFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        public override async Transform(data: any): Promise<any>
-                        {
-                            return randomData;
-                        }
-                    }();
-
+                    fileMappingOptions = new TestJSONTransformMapping();
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
@@ -87,31 +118,41 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     await writeFile(sourceFile.FullName, JSON.stringify(sourceData));
                 });
 
-            test(
-                "Checking whether the data is parsed correctly…",
-                async () =>
+            suite(
+                nameof<TestJSONTransformMapping>((mapping) => mapping.Parse),
+                () =>
                 {
-                    deepStrictEqual(await fileMappingOptions.Metadata, sourceData);
+                    test(
+                        "Checking whether the data is parsed correctly…",
+                        async () =>
+                        {
+                            deepStrictEqual(await fileMappingOptions.Metadata, sourceData);
+                        });
                 });
 
-            test(
-                "Checking whether the data is transformed correctly…",
-                async function()
+            suite(
+                nameof<TestJSONTransformMapping>((mapping) => mapping.Dump),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    deepStrictEqual(JSON.parse(await tester.Content), randomData);
-                });
+                    test(
+                        "Checking whether the data is dumped correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            deepStrictEqual(JSON.parse(await tester.Content), randomData);
+                        });
 
-            test(
-                "Checking whether a trailing new-line is added…",
-                async function()
-                {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    ok((await tester.Content).endsWith(EOL));
+                    test(
+                        "Checking whether a trailing new-line is added…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            ok((await tester.Content).endsWith(EOL));
+                        });
                 });
         });
 }

@@ -1,6 +1,6 @@
 import { doesNotReject, ok } from "assert";
 import { spawnSync } from "child_process";
-import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
@@ -10,6 +10,7 @@ import { SubGeneratorSettingKey } from "../../../../generators/generator/Setting
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../../TestContext";
 import { GeneratorPath } from "../TSGeneratorGenerator.test";
 
@@ -30,6 +31,45 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
             let settings: ITSGeneratorSettings;
             let collection: TSGeneratorCategory<ITSGeneratorSettings, GeneratorOptions>;
 
+            /**
+             * Provides an implementation of the {@link TSGeneratorCategory `TSGeneratorCategory<TSettings, TOptions>`} class for testing.
+             */
+            class TestTSGeneratorCategory extends TSGeneratorCategory<any, any>
+            {
+                /**
+                 * Gets a component for creating an example generator.
+                 */
+                public override get GeneratorComponent(): IComponent<any, any>
+                {
+                    return super.GeneratorComponent;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get SubGeneratorComponent(): IComponent<any, any>
+                {
+                    return super.SubGeneratorComponent;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param id
+                 * The id of the generator.
+                 *
+                 * @param displayName
+                 * The human readable name of the generator.
+                 *
+                 * @returns
+                 * File-mappings for a generator.
+                 */
+                public override GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<any, any>>
+                {
+                    return super.GetGeneratorFileMappings(id, displayName);
+                }
+            }
+
             suiteSetup(
                 async function()
                 {
@@ -37,6 +77,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
 
                     settings = {
                         ...(await context.Generator).Settings,
+                        [TSProjectSettingKey.DisplayName]: "Z",
                         [GeneratorSettingKey.Components]: [
                             TSGeneratorComponent.GeneratorExample,
                             TSGeneratorComponent.SubGeneratorExample
@@ -85,39 +126,54 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                     tempDir = new TempDirectory();
                 });
 
-            test(
-                `Checking whether all components for the \`${nameof(TSGeneratorGenerator)}\`s are present…`,
-                async () =>
+            suite(
+                nameof<TSGeneratorCategory<any, any>>((category) => category.Components),
+                () =>
                 {
-                    for (let componentID of [TSGeneratorComponent.GeneratorExample, TSGeneratorComponent.SubGeneratorExample])
-                    {
-                        ok(collection.Components.some((component) => component.ID === componentID));
-                    }
+                    test(
+                        `Checking whether all components for the \`${nameof(TSGeneratorGenerator)}\`s are present…`,
+                        async () =>
+                        {
+                            for (let componentID of [TSGeneratorComponent.GeneratorExample, TSGeneratorComponent.SubGeneratorExample])
+                            {
+                                ok(collection.Components.some((component) => component.ID === componentID));
+                            }
+                        });
                 });
 
-            test(
-                "Checking whether the generator is created correctly…",
-                async function()
+            suite(
+                nameof<TestTSGeneratorCategory>((category) => category.GeneratorComponent),
+                () =>
                 {
-                    this.timeout(20 * 1000);
-                    this.slow(10 * 1000);
-                    let testContext = new GeneratorContext(GeneratorPath(runContext.generator, "app"));
-                    await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                    test(
+                        "Checking whether the generator is created correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
+                            this.slow(10 * 1000);
+                            let testContext = new GeneratorContext(GeneratorPath(runContext.generator, "app"));
+                            await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                        });
                 });
 
-            test(
-                "Checking whether sub-generators are created correctly…",
-                async function()
+            suite(
+                nameof<TestTSGeneratorCategory>((category) => category.SubGeneratorComponent),
+                () =>
                 {
-                    this.timeout(20 * 1000);
-                    this.slow(10 * 1000);
+                    test(
+                        "Checking whether sub-generators are created correctly…",
+                        async function()
+                        {
+                            this.timeout(20 * 1000);
+                            this.slow(10 * 1000);
 
-                    for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
-                    {
-                        let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
-                        let testContext = new GeneratorContext(GeneratorPath(runContext.generator, name));
-                        await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
-                    }
+                            for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
+                            {
+                                let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
+                                let testContext = new GeneratorContext(GeneratorPath(runContext.generator, name));
+                                await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                            }
+                        });
                 });
         });
 }

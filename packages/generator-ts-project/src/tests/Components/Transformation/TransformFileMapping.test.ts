@@ -24,6 +24,76 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
             let randomSource: any;
             let modifiedSource: any;
 
+            /**
+             * Provides an implementation of the {@link TransformFileMapping `TransformFileMapping<TSettings, TOptions, TData>`}.
+             */
+            class TestTransformFileMapping extends TransformFileMapping<ITestGeneratorSettings, GeneratorOptions, any>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return tempFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return tempFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * A random value.
+                 */
+                public async Parse(): Promise<any>
+                {
+                    return modifiedSource;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: any): Promise<any>
+                {
+                    Object.assign(data, { transformed: true });
+                    return data;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to dump.
+                 *
+                 * @returns
+                 * A random value.
+                 */
+                public async Dump(data: any): Promise<string>
+                {
+                    return JSON.stringify(data);
+                }
+            }
+
             suiteSetup(
                 async function()
                 {
@@ -31,72 +101,7 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                     generator = await context.Generator;
                     tempFile = new TempFile();
 
-                    fileMappingOptions = new class extends TransformFileMapping<ITestGeneratorSettings, GeneratorOptions, any>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return tempFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return tempFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @returns
-                         * A random value.
-                         */
-                        protected async Parse(): Promise<any>
-                        {
-                            return modifiedSource;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        protected override async Transform(data: any): Promise<any>
-                        {
-                            Object.assign(data, { transformed: true });
-                            return data;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to dump.
-                         *
-                         * @returns
-                         * A random value.
-                         */
-                        protected async Dump(data: any): Promise<string>
-                        {
-                            return JSON.stringify(data);
-                        }
-                    }();
+                    fileMappingOptions = new TestTransformFileMapping();
 
                     tester = new JSONFileMappingTester(generator, fileMappingOptions);
                 });
@@ -108,28 +113,38 @@ export function TransformFileMappingTests(context: TestContext<TestGenerator, IT
                     modifiedSource = { ...randomSource };
                 });
 
-            test(
-                "Checking whether the source is being parsed as expected…",
-                async () =>
+            suite(
+                nameof<TransformFileMapping<any, any, any>>((mapping) => mapping.Metadata),
+                () =>
                 {
-                    deepStrictEqual(await fileMappingOptions.Metadata, randomSource);
+                    test(
+                        "Checking whether the source is being parsed as expected…",
+                        async () =>
+                        {
+                            deepStrictEqual(await fileMappingOptions.Metadata, randomSource);
+                        });
+
+                    test(
+                        "Checking whether the data is transformed correctly…",
+                        async function()
+                        {
+                            await tester.Run();
+                            notDeepStrictEqual(await tester.Metadata, randomSource);
+                            deepStrictEqual(await tester.Metadata, modifiedSource);
+                        });
                 });
 
-            test(
-                "Checking whether the data is dumped as expected…",
-                async function()
+            suite(
+                nameof<TransformFileMapping<any, any, any>>((mapping) => mapping.Content),
+                () =>
                 {
-                    await tester.Run();
-                    strictEqual(await tester.Content, JSON.stringify(modifiedSource));
-                });
-
-            test(
-                "Checking whether the data is transformed correctly…",
-                async function()
-                {
-                    await tester.Run();
-                    notDeepStrictEqual(await tester.Metadata, randomSource);
-                    deepStrictEqual(await tester.Metadata, modifiedSource);
+                    test(
+                        "Checking whether the data is dumped as expected…",
+                        async function()
+                        {
+                            await tester.Run();
+                            strictEqual(await tester.Content, JSON.stringify(modifiedSource));
+                        });
                 });
         });
 }

@@ -36,17 +36,22 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
                     randomName = context.RandomString;
                 });
 
-            test(
-                "Checking whether the name is taken from the destination-directory…",
-                async () =>
+            suite(
+                nameof<TSProjectDisplayNameQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    strictEqual(
-                        await question.Default(
-                            {
-                                ...generator.Settings,
-                                [TSProjectSettingKey.Destination]: generator.destinationPath(randomName)
-                            }),
-                        randomName);
+                    test(
+                        "Checking whether the name is taken from the destination-directory…",
+                        async () =>
+                        {
+                            strictEqual(
+                                await question.Default(
+                                    {
+                                        ...generator.Settings,
+                                        [TSProjectSettingKey.Destination]: generator.destinationPath(randomName)
+                                    }),
+                                randomName);
+                        });
                 });
         });
 }

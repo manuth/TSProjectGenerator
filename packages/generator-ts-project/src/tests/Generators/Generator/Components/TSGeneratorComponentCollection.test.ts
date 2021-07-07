@@ -27,14 +27,19 @@ export function TSGeneratorComponentCollectionTests(context: TestContext<TSGener
                     collection = new TSGeneratorComponentCollection(await context.Generator);
                 });
 
-            test(
-                `Checking whether all categories for \`${nameof(TSGeneratorGenerator)}\`s are present…`,
-                async () =>
+            suite(
+                nameof<TSGeneratorComponentCollection<any, any>>((collection) => collection.Categories),
+                () =>
                 {
-                    for (let categoryType of [TSGeneratorCategory])
-                    {
-                        ok(collection.Categories.some((category) => category instanceof categoryType));
-                    }
+                    test(
+                        `Checking whether all categories for \`${nameof(TSGeneratorGenerator)}\`s are present…`,
+                        async () =>
+                        {
+                            for (let categoryType of [TSGeneratorCategory])
+                            {
+                                ok(collection.Categories.some((category) => category instanceof categoryType));
+                            }
+                        });
                 });
         });
 }

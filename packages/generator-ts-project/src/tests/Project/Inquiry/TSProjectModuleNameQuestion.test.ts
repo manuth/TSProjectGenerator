@@ -42,26 +42,31 @@ export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectG
                     question = new TSProjectModuleNameQuestion(await context.Generator);
                 });
 
-            test(
-                "Checking whether the default module-name equals the kebab-cased display-name…",
-                async () =>
+            suite(
+                nameof<TSProjectModuleNameQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    strictEqual(
-                        await question.default(
-                            {
-                                ...settings,
-                                [TSProjectSettingKey.DisplayName]: testName
-                            }),
-                        kebabCase(testName));
-                });
+                    test(
+                        "Checking whether the default module-name equals the kebab-cased display-name…",
+                        async () =>
+                        {
+                            strictEqual(
+                                await question.default(
+                                    {
+                                        ...settings,
+                                        [TSProjectSettingKey.DisplayName]: testName
+                                    }),
+                                kebabCase(testName));
+                        });
 
-            test(
-                "Checking whether the package-name is preserved if a `package.json` already exists…",
-                async () =>
-                {
-                    let npmPackage = new Package(tempDir.MakePath("package.json"), { name: "this is a test" });
-                    await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
-                    strictEqual(await question.default(settings), npmPackage.Name);
+                    test(
+                        "Checking whether the package-name is preserved if a `package.json` already exists…",
+                        async () =>
+                        {
+                            let npmPackage = new Package(tempDir.MakePath("package.json"), { name: "this is a test" });
+                            await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
+                            strictEqual(await question.default(settings), npmPackage.Name);
+                        });
                 });
         });
 }

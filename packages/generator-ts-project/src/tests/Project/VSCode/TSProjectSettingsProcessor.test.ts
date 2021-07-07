@@ -29,23 +29,28 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
 
-            suiteSetup(
-                async function()
+            suite(
+                nameof<TSProjectSettingsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    this.timeout(5 * 60 * 1000);
-                    component = new TSProjectCodeWorkspaceFolder(await context.Generator);
-                    processor = new TSProjectSettingsProcessor(component);
-                    settings = processor.Process(await component.Source.LaunchMetadata);
-                });
+                    suiteSetup(
+                        async function()
+                        {
+                            this.timeout(5 * 60 * 1000);
+                            component = new TSProjectCodeWorkspaceFolder(await context.Generator);
+                            processor = new TSProjectSettingsProcessor(component);
+                            settings = processor.Process(await component.Source.LaunchMetadata);
+                        });
 
-            for (let excludedSetting of excludedSettings)
-            {
-                test(
-                    `Checking whether the \`${excludedSetting}\` setting is excluded…`,
-                    async () =>
+                    for (let excludedSetting of excludedSettings)
                     {
-                        ok(!(excludedSetting in settings));
-                    });
-            }
+                        test(
+                            `Checking whether the \`${excludedSetting}\` setting is excluded…`,
+                            async () =>
+                            {
+                                ok(!(excludedSetting in settings));
+                            });
+                    }
+                });
         });
 }

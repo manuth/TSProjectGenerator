@@ -55,14 +55,19 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                     tester = new FileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            test(
-                "Checking whether unnecessary new-lines are stripped correctly…",
-                async function()
+            suite(
+                nameof<MarkdownFileProcessor<any, any>>((processor) => processor.Processor),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    strictEqual(await tester.Content, expected);
+                    test(
+                        "Checking whether unnecessary new-lines are stripped correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            strictEqual(await tester.Content, expected);
+                        });
                 });
         });
 }

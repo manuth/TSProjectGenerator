@@ -1,7 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
@@ -44,21 +43,26 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                     component.WorkspaceProcessor = new TestJSONProcessor(randomWorkspace);
                 });
 
-            test(
-                "Checking whether a custom workspace-processor can be injected…",
-                async () =>
+            suite(
+                nameof<TestCodeWorkspaceComponent<any, any>>((component) => component.WorkspaceProcessor),
+                () =>
                 {
-                    strictEqual(await component.WorkspaceMetadata, randomWorkspace);
-                });
+                    test(
+                        "Checking whether a custom workspace-processor can be injected…",
+                        async () =>
+                        {
+                            strictEqual(await component.WorkspaceMetadata, randomWorkspace);
+                        });
 
-            test(
-                "Checking whether the workspace-object is read correctly…",
-                async () =>
-                {
-                    strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
-                    strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
-                    strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
-                    strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
+                    test(
+                        "Checking whether the workspace-object is read correctly…",
+                        async () =>
+                        {
+                            strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
+                            strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
+                            strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
+                            strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
+                        });
                 });
         });
 }

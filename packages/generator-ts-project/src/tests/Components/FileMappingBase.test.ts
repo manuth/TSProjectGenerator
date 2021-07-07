@@ -97,21 +97,31 @@ export function FileMappingBaseTests(context: TestContext<TestGenerator, ITestGe
                     await tester.Commit();
                 });
 
-            test(
-                "Checking whether the content is read from the source-file…",
-                async () =>
+            suite(
+                nameof<FileMappingBase<any, any>>((fileMapping) => fileMapping.Content),
+                () =>
                 {
-                    await writeFile(tempSourceFile.FullName, randomValue);
-                    strictEqual(await fileMappingOptions.Content, randomValue);
+                    test(
+                        "Checking whether the content is read from the source-file…",
+                        async () =>
+                        {
+                            await writeFile(tempSourceFile.FullName, randomValue);
+                            strictEqual(await fileMappingOptions.Content, randomValue);
+                        });
                 });
 
-            test(
-                "Checking whether the content is written to the `mem-fs` correctly…",
-                async () =>
+            suite(
+                nameof<FileMappingBase<any, any>>((fileMapping) => fileMapping.Processor),
+                () =>
                 {
-                    await writeFile(tempSourceFile.FullName, randomValue);
-                    await fileMappingOptions.Processor();
-                    strictEqual(generator.fs.read(tempDestinationFile.FullName), randomValue);
+                    test(
+                        "Checking whether the content is written to the `mem-fs` correctly…",
+                        async () =>
+                        {
+                            await writeFile(tempSourceFile.FullName, randomValue);
+                            await fileMappingOptions.Processor();
+                            strictEqual(generator.fs.read(tempDestinationFile.FullName), randomValue);
+                        });
                 });
         });
 }

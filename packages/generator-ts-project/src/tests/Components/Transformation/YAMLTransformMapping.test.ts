@@ -25,10 +25,88 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let fileMappingOptions: TestYAMLTransformMapping;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestYAMLTransformMapping>;
             let sourceData: any;
             let randomData: any;
+
+            /**
+             * Provides an implementation of the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestYAMLTransformMapping extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return sourceFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return destinationFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param text
+                 * The text representing the meta-data.
+                 *
+                 * @returns
+                 * An object loaded from the specified {@link text `text`}.
+                 */
+                public override async Parse(text: string): Promise<Document.Parsed[]>
+                {
+                    return super.Parse(text);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The metadata to dump.
+                 *
+                 * @returns
+                 * A text representing the specified {@link data `data`}.
+                 */
+                public override async Dump(data: Document.Parsed[]): Promise<string>
+                {
+                    return super.Dump(data);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
+                {
+                    data.map(
+                        (document) =>
+                        {
+                            document.contents = randomData;
+                        });
+
+                    return data;
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -37,54 +115,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
-
-                    fileMappingOptions = new class extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return sourceFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return destinationFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
-                        {
-                            data.map(
-                                (document) =>
-                                {
-                                    document.contents = randomData;
-                                });
-
-                            return data;
-                        }
-                    }();
-
+                    fileMappingOptions = new TestYAMLTransformMapping();
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
@@ -97,7 +128,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                 });
 
             suite(
-                "General",
+                nameof<TestYAMLTransformMapping>((mapping) => mapping.Parse),
                 () =>
                 {
                     test(
@@ -112,7 +143,12 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                                     }).join("---\n")),
                                 sourceData);
                         });
+                });
 
+            suite(
+                nameof<TestYAMLTransformMapping>((mapping) => mapping.Dump),
+                () =>
+                {
                     test(
                         "Checking whether the content is transformed correctly…",
                         async () =>
@@ -120,12 +156,7 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                             await tester.Run();
                             await tester.AssertContent(split(stringify(randomData)).join(EOL));
                         });
-                });
 
-            suite(
-                "Multi-Document Handling",
-                () =>
-                {
                     test(
                         "Checking whether multi-document files are processed correctly…",
                         async function()
@@ -136,8 +167,8 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                             await writeFile(sourceFile.FullName,
                                 dedent(
                                     `
-                                        ---
-                                        ---`));
+                                            ---
+                                            ---`));
 
                             await tester.Run();
                             let documents = parseAllDocuments(await tester.Content);
@@ -156,9 +187,9 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                             await writeFile(sourceFile.FullName,
                                 dedent(
                                     `
-                                        hello: world
-                                        ---
-                                        hello: world`));
+                                            hello: world
+                                            ---
+                                            hello: world`));
 
                             await tester.Run();
                             let documents = parseAllDocuments(await tester.Content);

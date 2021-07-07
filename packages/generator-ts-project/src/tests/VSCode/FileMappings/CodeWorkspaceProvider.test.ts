@@ -53,7 +53,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                 });
 
             suite(
-                "General",
+                nameof<CodeWorkspaceProvider<any, any>>((provider) => provider.WorkspaceMetadata),
                 () =>
                 {
                     let randomExtensions: IExtensionSettings;

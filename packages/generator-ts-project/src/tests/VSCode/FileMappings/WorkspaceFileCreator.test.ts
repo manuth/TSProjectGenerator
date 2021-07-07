@@ -79,29 +79,34 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                     }
                 });
 
-            test(
-                "Checking whether the metadata of the workspace-file is created correctly…",
-                async () =>
+            suite(
+                nameof<WorkspaceFileCreator<any, any>>((creator) => creator.FileMappings),
+                () =>
                 {
-                    deepStrictEqual(parse(await tester.Content, null, true), parse(stringify(workspace)));
-                });
+                    test(
+                        "Checking whether the metadata of the workspace-file is created correctly…",
+                        async () =>
+                        {
+                            deepStrictEqual(parse(await tester.Content, null, true), parse(stringify(workspace)));
+                        });
 
-            test(
-                "Checking whether comments inside nested objects persist…",
-                async () =>
-                {
-                    ok(
-                        stringify(
-                            (parse(await tester.Content) as IWorkspaceMetadata).tasks,
-                            null,
-                            4).includes(tasksComment));
-                });
+                    test(
+                        "Checking whether comments inside nested objects persist…",
+                        async () =>
+                        {
+                            ok(
+                                stringify(
+                                    (parse(await tester.Content) as IWorkspaceMetadata).tasks,
+                                    null,
+                                    4).includes(tasksComment));
+                        });
 
-            test(
-                "Checking whether root comments persist…",
-                async () =>
-                {
-                    ok((await tester.Content).includes(rootComment));
+                    test(
+                        "Checking whether root comments persist…",
+                        async () =>
+                        {
+                            ok((await tester.Content).includes(rootComment));
+                        });
                 });
         });
 }

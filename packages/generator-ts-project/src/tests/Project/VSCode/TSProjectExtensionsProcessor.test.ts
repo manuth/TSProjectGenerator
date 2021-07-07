@@ -30,15 +30,20 @@ export function TSProjectExtensionsProcessorTests(context: TestContext<TSProject
                     processor = new TSProjectExtensionsProcessor(component);
                 });
 
-            test(
-                `Checking whether the \`${excludedExtension}\` is excluded…`,
-                async () =>
+            suite(
+                nameof<TSProjectExtensionsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    ok(
-                        !(await processor.Process(
-                            {
-                                recommendations: [excludedExtension]
-                            })).recommendations.includes(excludedExtension));
+                    test(
+                        `Checking whether the \`${excludedExtension}\` is excluded…`,
+                        async () =>
+                        {
+                            ok(
+                                !(await processor.Process(
+                                    {
+                                        recommendations: [excludedExtension]
+                                    })).recommendations.includes(excludedExtension));
+                        });
                 });
         });
 }

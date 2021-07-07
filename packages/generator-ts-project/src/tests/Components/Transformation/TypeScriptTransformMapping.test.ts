@@ -23,9 +23,87 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let fileMappingOptions: TestTypeScriptTransformMapping;
+            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestTypeScriptTransformMapping>;
             let sourceCode: string;
+
+            /**
+             * Provides an implementation of the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return sourceFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return destinationFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param text
+                 * The text representing the meta-data.
+                 *
+                 * @returns
+                 * An object loaded from the specified {@link text `text`}.
+                 */
+                public override async Parse(text: string): Promise<SourceFile>
+                {
+                    return super.Parse(text);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: SourceFile): Promise<SourceFile>
+                {
+                    data.getVariableStatements().forEach(
+                        (variableStatement) =>
+                        {
+                            variableStatement.setDeclarationKind(VariableDeclarationKind.Const);
+                        });
+
+                    return data;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param sourceFile
+                 * The source-file to dump.
+                 *
+                 * @returns
+                 * A text representing the {@link sourceFile `sourceFile`}.
+                 */
+                public override async Dump(sourceFile: SourceFile): Promise<string>
+                {
+                    return super.Dump(sourceFile);
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -42,74 +120,37 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                             var b = 13;`);
 
                     await writeFile(sourceFile.FullName, sourceCode);
-
-                    fileMappingOptions = new class extends TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return sourceFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return destinationFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        public override async Transform(data: SourceFile): Promise<SourceFile>
-                        {
-                            data.getVariableStatements().forEach(
-                                (variableStatement) =>
-                                {
-                                    variableStatement.setDeclarationKind(VariableDeclarationKind.Const);
-                                });
-
-                            return data;
-                        }
-                    }();
-
+                    fileMappingOptions = new TestTypeScriptTransformMapping();
                     tester = new FileMappingTester(generator, fileMappingOptions);
                 });
 
-            test(
-                "Checking whether the file is parsed correctly…",
-                async function()
+            suite(
+                nameof<TestTypeScriptTransformMapping>((mapping) => mapping.Parse),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
+                    test(
+                        "Checking whether the file is parsed correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
+                        });
                 });
 
-            test(
-                "Checking whether the code can be transformed as expected…",
-                async function()
+            suite(
+                nameof<TestTypeScriptTransformMapping>((mapping) => mapping.Dump),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                    test(
+                        "Checking whether the code is dumped correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                        });
                 });
         });
 }

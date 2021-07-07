@@ -55,25 +55,30 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                     excludedExtension = context.RandomString;
                 });
 
-            test(
-                "Checking whether recommendations can be filtered…",
-                async () =>
+            suite(
+                nameof<ExtensionsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    ok(!(
-                        await processor.Process(
-                            {
-                                recommendations: [
-                                    includedExtension,
-                                    excludedExtension
-                                ]
-                            })).recommendations.includes(excludedExtension));
-                });
+                    test(
+                        "Checking whether recommendations can be filtered…",
+                        async () =>
+                        {
+                            ok(!(
+                                await processor.Process(
+                                    {
+                                        recommendations: [
+                                            includedExtension,
+                                            excludedExtension
+                                        ]
+                                    })).recommendations.includes(excludedExtension));
+                        });
 
-            test(
-                "Checking whether recommendations are only processed if existent…",
-                async () =>
-                {
-                    ok(!("recommendations" in await processor.Process({})));
+                    test(
+                        "Checking whether recommendations are only processed if existent…",
+                        async () =>
+                        {
+                            ok(!("recommendations" in await processor.Process({})));
+                        });
                 });
         });
 }

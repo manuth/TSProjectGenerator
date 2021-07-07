@@ -4,7 +4,6 @@ import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenera
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
 import { TestJSONProcessor } from "../Components/TestJSONProcessor";
 import { TestContext } from "../TestContext";
@@ -67,24 +66,29 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                     workspaceProcessor.TasksProcessor = tasksProcessor;
                 });
 
-            test(
-                "Checking whether custom processors can be injected…",
-                async () =>
+            suite(
+                nameof<WorkspaceProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    strictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    strictEqual(await component.LaunchMetadata, randomDebugSettings);
-                    strictEqual(await component.SettingsMetadata, randomSettings);
-                    strictEqual(await component.TasksMetadata, randomTasks);
-                });
+                    test(
+                        "Checking whether custom processors can be injected…",
+                        async () =>
+                        {
+                            strictEqual(await component.ExtensionsMetadata, randomExtensions);
+                            strictEqual(await component.LaunchMetadata, randomDebugSettings);
+                            strictEqual(await component.SettingsMetadata, randomSettings);
+                            strictEqual(await component.TasksMetadata, randomTasks);
+                        });
 
-            test(
-                "Checking whether processors are executed only if the corresponding property exists…",
-                async () =>
-                {
-                    strictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    delete (await workspaceLoader.WorkspaceMetadata).extensions;
-                    notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
-                    ok(!await component.ExtensionsMetadata);
+                    test(
+                        "Checking whether processors are executed only if the corresponding property exists…",
+                        async () =>
+                        {
+                            strictEqual(await component.ExtensionsMetadata, randomExtensions);
+                            delete (await workspaceLoader.WorkspaceMetadata).extensions;
+                            notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
+                            ok(!await component.ExtensionsMetadata);
+                        });
                 });
         });
 }

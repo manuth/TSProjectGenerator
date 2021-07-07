@@ -38,12 +38,17 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                     tester = new JSONFileMappingTester(generator, fileMappingOptions);
                 });
 
-            test(
-                "Checking whether the json-data is written correctly…",
-                async () =>
+            suite(
+                nameof<JSONCreatorMapping<any, any>>((mapping) => mapping.Processor),
+                () =>
                 {
-                    await tester.Run();
-                    deepStrictEqual(await tester.Metadata, randomObject);
+                    test(
+                        "Checking whether the json-data is written correctly…",
+                        async () =>
+                        {
+                            await tester.Run();
+                            deepStrictEqual(await tester.Metadata, randomObject);
+                        });
                 });
         });
 }

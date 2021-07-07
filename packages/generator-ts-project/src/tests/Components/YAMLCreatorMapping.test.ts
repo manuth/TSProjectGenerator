@@ -70,17 +70,22 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
                     }(generator);
                 });
 
-            test(
-                "Checking whether the yaml-data is written correctly…",
-                async function()
+            suite(
+                nameof<YAMLCreatorMapping<any, any>>((mapping) => mapping.Processor),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(1 * 1000);
-                    await tester.Run();
-                    let documents = await checker.Metadata;
-                    strictEqual(documents.length, 1);
-                    let document = documents[0];
-                    deepStrictEqual(document.toJSON(), randomObject);
+                    test(
+                        "Checking whether the yaml-data is written correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(1 * 1000);
+                            await tester.Run();
+                            let documents = await checker.Metadata;
+                            strictEqual(documents.length, 1);
+                            let document = documents[0];
+                            deepStrictEqual(document.toJSON(), randomObject);
+                        });
                 });
         });
 }

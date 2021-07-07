@@ -27,19 +27,24 @@ export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGene
                     category = new TSProjectGeneralCategory(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary components are present…",
+            suite(
+                nameof<TSProjectGeneralCategory<any, any>>((category) => category.Components),
                 () =>
                 {
-                    for (let componentType of [TSProjectCodeWorkspaceFolder])
-                    {
-                        ok(
-                            category.Components.some(
-                                (component) =>
-                                {
-                                    return component instanceof componentType;
-                                }));
-                    }
+                    test(
+                        "Checking whether all necessary components are present…",
+                        () =>
+                        {
+                            for (let componentType of [TSProjectCodeWorkspaceFolder])
+                            {
+                                ok(
+                                    category.Components.some(
+                                        (component) =>
+                                        {
+                                            return component instanceof componentType;
+                                        }));
+                            }
+                        });
                 });
         });
 }

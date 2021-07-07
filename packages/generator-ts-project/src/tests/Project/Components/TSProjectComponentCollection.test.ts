@@ -27,14 +27,19 @@ export function TSProjectComponentCollectionTests(context: TestContext<TSProject
                     collection = new TSProjectComponentCollection(await context.Generator);
                 });
 
-            test(
-                `Checking whether all categories for the \`${nameof(TSProjectGenerator)}\` are present…`,
+            suite(
+                nameof<TSProjectComponentCollection<any, any>>((collection) => collection.Categories),
                 () =>
                 {
-                    for (let categoryType of [TSProjectGeneralCategory])
-                    {
-                        ok(collection.Categories.some((category) => category instanceof categoryType));
-                    }
+                    test(
+                        `Checking whether all categories for the \`${nameof(TSProjectGenerator)}\` are present…`,
+                        () =>
+                        {
+                            for (let categoryType of [TSProjectGeneralCategory])
+                            {
+                                ok(collection.Categories.some((category) => category instanceof categoryType));
+                            }
+                        });
                 });
         });
 }

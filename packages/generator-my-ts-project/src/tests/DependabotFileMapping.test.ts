@@ -38,25 +38,30 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                     documents = await fileMappingOptions.Transform(await fileMappingOptions.Metadata);
                 });
 
-            test(
-                "Checking whether only one document is present inside the file…",
+            suite(
+                nameof<DependabotFileMapping<any, any>>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
-                    strictEqual(documents.length, 1);
-                });
+                    test(
+                        "Checking whether only one document is present inside the file…",
+                        () =>
+                        {
+                            strictEqual(documents.length, 1);
+                        });
 
-            test(
-                "Checking whether only one dependabot-configuration is present…",
-                () =>
-                {
-                    strictEqual(documents[0].get(updateKey).toJSON().length, 1);
-                });
+                    test(
+                        "Checking whether only one dependabot-configuration is present…",
+                        () =>
+                        {
+                            strictEqual(documents[0].get(updateKey).toJSON().length, 1);
+                        });
 
-            test(
-                "Checking whether the dependabot-configuration directory points to the root of the project…",
-                () =>
-                {
-                    strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
+                    test(
+                        "Checking whether the dependabot-configuration directory points to the root of the project…",
+                        () =>
+                        {
+                            strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
+                        });
                 });
         });
 }

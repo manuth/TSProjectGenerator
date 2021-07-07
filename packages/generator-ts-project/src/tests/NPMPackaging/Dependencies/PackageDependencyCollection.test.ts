@@ -16,22 +16,27 @@ export function PackageDependencyCollectionTests(context: TestContext<TestGenera
         nameof(PackageDependencyCollection),
         () =>
         {
-            test(
-                "Checking whether dependencies can be loaded from the `package.json` file…",
-                function()
+            suite(
+                nameof(PackageDependencyCollection.constructor),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    let dependency = context.Random.pick(Constants.Dependencies.Keys);
+                    test(
+                        "Checking whether dependencies can be loaded from the `package.json` file…",
+                        function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            let dependency = context.Random.pick(Constants.Dependencies.Keys);
 
-                    strictEqual(
-                        new PackageDependencyCollection(
-                            {
-                                dependencies: [
-                                    dependency
-                                ]
-                            }).Dependencies.Get(dependency),
-                        Constants.Dependencies.Get(dependency));
+                            strictEqual(
+                                new PackageDependencyCollection(
+                                    {
+                                        dependencies: [
+                                            dependency
+                                        ]
+                                    }).Dependencies.Get(dependency),
+                                Constants.Dependencies.Get(dependency));
+                        });
                 });
         });
 }

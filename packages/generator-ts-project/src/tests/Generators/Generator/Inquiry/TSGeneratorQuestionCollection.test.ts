@@ -27,18 +27,23 @@ export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGenera
                     collection = new TSGeneratorQuestionCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary questions are present…",
+            suite(
+                nameof<TSGeneratorQuestionCollection<any, any>>((collection) => collection.Questions),
                 () =>
                 {
-                    for (let questionType of [TSGeneratorModuleNameQuestion, TSGeneratorDescriptionQuestion])
-                    {
-                        collection.Questions.some(
-                            (question) =>
+                    test(
+                        "Checking whether all necessary questions are present…",
+                        () =>
+                        {
+                            for (let questionType of [TSGeneratorModuleNameQuestion, TSGeneratorDescriptionQuestion])
                             {
-                                return question instanceof questionType;
-                            });
-                    }
+                                collection.Questions.some(
+                                    (question) =>
+                                    {
+                                        return question instanceof questionType;
+                                    });
+                            }
+                        });
                 });
         });
 }
