@@ -43,6 +43,7 @@ export class TSProjectSettingsProcessor<TSettings extends ITSProjectSettings, TO
     {
         return ![
             "files.associations",
+            "mochaExplorer.debuggerConfig",
             "search.exclude",
             "typescript.tsdk",
             "terminal.integrated.cwd"

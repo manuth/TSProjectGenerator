@@ -20,6 +20,7 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
         {
             let excludedSettings = [
                 "files.associations",
+                "mochaExplorer.debuggerConfig",
                 "search.exclude",
                 "typescript.tsdk",
                 "terminal.integrated.cwd"
