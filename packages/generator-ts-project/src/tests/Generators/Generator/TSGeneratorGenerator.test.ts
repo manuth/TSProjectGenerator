@@ -156,6 +156,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         () =>
                         {
                             let sourceFile = new Project().addSourceFileAtPath(mainContext.generator.destinationPath("src", "tests", "Generators", "index.ts"));
+
                             let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
                                 (functionCall) =>
                                 {
@@ -166,7 +167,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                 let generatorName of
                                 [
                                     mainContext.generator.Settings[TSProjectSettingKey.DisplayName],
-                                    mainContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
+                                    ...mainContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
                                         (subGenerator) =>
                                         {
                                             return subGenerator[SubGeneratorSettingKey.DisplayName];
@@ -180,7 +181,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                             let argument = functionCall.getArguments()[0];
 
                                             return argument.getKind() === SyntaxKind.StringLiteral &&
-                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`${generatorName}.test.ts`);
+                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`/${generatorName}.test`);
                                         }).length,
                                     1);
                             }
