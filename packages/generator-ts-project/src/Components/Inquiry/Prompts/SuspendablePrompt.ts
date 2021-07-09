@@ -1,7 +1,7 @@
 import { Interface } from "readline";
 import { ReadStream } from "tty";
 import { Answers, Question } from "inquirer";
-import Prompt = require("inquirer/lib/prompts/base");
+import { PromptBase } from "./PromptBase";
 
 /**
  * Represents a prompt which is capable of being suspended.
@@ -9,7 +9,7 @@ import Prompt = require("inquirer/lib/prompts/base");
  * @template T
  * The type of the prompt-options.
  */
-export abstract class SuspendablePrompt<T extends Question> extends Prompt<T>
+export abstract class SuspendablePrompt<T extends Question> extends PromptBase<T>
 {
     /**
      * Initializes a new instance of the {@link SuspendablePrompt `SuspendablePrompt<T>`} class.

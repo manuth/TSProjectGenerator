@@ -1,13 +1,12 @@
 import { EOL } from "os";
 import { ReadLine } from "readline";
 import { DistinctQuestion, prompt } from "inquirer";
-import Prompt = require("inquirer/lib/prompts/base");
 import kebabCase = require("lodash.kebabcase");
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion";
-import { PromptCallback } from "./PromptCallback";
+import { PromptBase } from "./PromptBase";
 
 declare module "inquirer"
 {
@@ -30,7 +29,7 @@ declare module "inquirer"
  * @template T
  * The type of the answers.
  */
-export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<ISubGeneratorQuestion<T>>
+export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends PromptBase<ISubGeneratorQuestion<T>>
 {
     /**
      * The name of the prompt-type.
@@ -138,36 +137,32 @@ export class SubGeneratorPrompt<T extends ITSGeneratorSettings> extends Prompt<I
     /**
      * @inheritdoc
      *
-     * @param callback
-     * A callback for resolving the result.
+     * @returns
+     * The result of the prompt.
      */
-    public override _run(callback: PromptCallback): void
+    protected override async Run(): Promise<unknown>
     {
-        (
-            async () =>
-            {
-                let answerHash: IInternalAnswerHash;
-                this.rl.write(this.getQuestion());
-                this.rl.write(EOL);
+        let answerHash: IInternalAnswerHash;
+        this.rl.write(this.getQuestion());
+        this.rl.write(EOL);
 
-                do
-                {
-                    await this.AddSubGenerator();
+        do
+        {
+            await this.AddSubGenerator();
 
-                    answerHash = await prompt<IInternalAnswerHash>(
-                        [
-                            {
-                                type: "confirm",
-                                name: nameof<IInternalAnswerHash>((hash) => hash.repeat),
-                                default: this.opt.defaultRepeat,
-                                message: "Do you want to create another sub-generator?"
-                            }
-                        ]);
-                }
-                while (answerHash.repeat);
+            answerHash = await prompt<IInternalAnswerHash>(
+                [
+                    {
+                        type: "confirm",
+                        name: nameof<IInternalAnswerHash>((hash) => hash.repeat),
+                        default: this.opt.defaultRepeat,
+                        message: "Do you want to create another sub-generator?"
+                    }
+                ]);
+        }
+        while (answerHash.repeat);
 
-                callback(this.SubGeneratorSettings);
-            })();
+        return this.SubGeneratorSettings;
     }
 }
 
