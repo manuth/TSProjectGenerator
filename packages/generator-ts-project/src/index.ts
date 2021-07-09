@@ -1,3 +1,5 @@
+export { ISubGeneratorQuestion } from "./Components/Inquiry/Prompts/ISubGeneratorQuestion";
+export { ISubGeneratorQuestionOptions } from "./Components/Inquiry/Prompts/ISubGeneratorQuestionOptions";
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { QuestionBase } from "./Components/Inquiry/QuestionBase";

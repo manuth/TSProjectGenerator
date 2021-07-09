@@ -1,11 +1,12 @@
 import { EOL } from "os";
 import { ReadLine } from "readline";
-import { Answers, ConfirmQuestionOptions, DistinctQuestion, prompt } from "inquirer";
+import { DistinctQuestion, prompt } from "inquirer";
 import Prompt = require("inquirer/lib/prompts/base");
 import kebabCase = require("lodash.kebabcase");
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
+import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion";
 import { PromptCallback } from "./PromptCallback";
 
 declare module "inquirer"
@@ -21,39 +22,6 @@ declare module "inquirer"
          */
         [SubGeneratorPrompt.TypeName]: ISubGeneratorQuestion<T>;
     }
-}
-
-/**
- * Provides options for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`}.
- *
- * @template T
- * The type of the answers.
- */
-interface ISubGeneratorQuestionOptions<T extends Answers = Answers> extends ConfirmQuestionOptions<T>
-{
-    /**
-     * @inheritdoc
-     */
-    default?: null;
-
-    /**
-     * Gets or sets a value indicating whether the prompt to repeat the questions should be answered with `yes` by default.
-     */
-    defaultRepeat?: boolean;
-}
-
-/**
- * Provides options for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`}.
- *
- * @template T
- * The type of the answers.
- */
-interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGeneratorQuestionOptions<T>
-{
-    /**
-     * @inheritdoc
-     */
-    type: typeof SubGeneratorPrompt.TypeName;
 }
 
 /**
