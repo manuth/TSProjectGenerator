@@ -1,8 +1,7 @@
 import { Interface } from "readline";
-import { ReadStream } from "tty";
 import { Answers, Question } from "inquirer";
-import Prompt = require("inquirer/lib/prompts/base");
 import { PromptCallback } from "./PromptCallback";
+import { SuspendablePrompt } from "./SuspendablePrompt";
 
 /**
  * Provides the functionality to display nested prompts.
@@ -10,7 +9,7 @@ import { PromptCallback } from "./PromptCallback";
  * @template T
  * The type of the prompt-options.
  */
-export abstract class NestedPrompt<T extends Question> extends Prompt<T>
+export abstract class NestedPrompt<T extends Question> extends SuspendablePrompt<T>
 {
     /**
      * Initializes a new instance of the {@link NestedPrompt `NestedPrompt<T>`} class.
@@ -52,11 +51,10 @@ export abstract class NestedPrompt<T extends Question> extends Prompt<T>
      */
     protected async Run(): Promise<unknown>
     {
-        this.rl.pause();
+        await this.Suspend();
         this.screen.render("\0", undefined);
         let result = await this.Prompt();
-        this.rl.resume();
-        ((this.rl as any).input as ReadStream)?.setRawMode?.(true);
+        await this.Resume();
         return result;
     }
 
