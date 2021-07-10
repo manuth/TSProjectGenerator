@@ -1,6 +1,9 @@
+export { IQuestionSetQuestion } from "./Components/Inquiry/Prompts/IQuestionSetQuestion";
+export { IQuestionSetQuestionOptions } from "./Components/Inquiry/Prompts/IQuestionSetQuestionOptions";
 export { ISubGeneratorQuestion } from "./Components/Inquiry/Prompts/ISubGeneratorQuestion";
 export { ISubGeneratorQuestionOptions } from "./Components/Inquiry/Prompts/ISubGeneratorQuestionOptions";
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
+export { QuestionSetPrompt } from "./Components/Inquiry/Prompts/QuestionSetPrompt";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { QuestionBase } from "./Components/Inquiry/QuestionBase";
 export { ComponentBase } from "./Components/ComponentBase";
