@@ -6,10 +6,12 @@ import { TempDirectory } from "@manuth/temp-files";
 import chalk = require("chalk");
 import { parse } from "comment-json";
 import dedent = require("dedent");
-import { ESLint } from "eslint";
+// eslint-disable-next-line node/no-unpublished-import
+import type { ESLint } from "eslint";
 import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
 import npmWhich = require("npm-which");
-import { Linter } from "tslint";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Linter } from "tslint";
 import { Program } from "typescript";
 import { join, resolve } from "upath";
 import { JSONCreatorMapping } from "../Components/JSONCreatorMapping";
