@@ -20,7 +20,7 @@ steps:
     commands:
       - npm run lint
   - name: test
-    image: node:lts
+    image: node
     depends_on:
       - build
     commands:
