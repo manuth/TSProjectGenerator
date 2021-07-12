@@ -1,8 +1,11 @@
-import { doesNotReject, ok } from "assert";
+import { doesNotReject, ok, strictEqual } from "assert";
+import { spawnSync } from "child_process";
 import ESLintPresets = require("@manuth/eslint-plugin-typescript");
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
+import { TempDirectory } from "@manuth/temp-files";
 import { Linter } from "eslint";
+import npmWhich = require("npm-which");
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
 import { LintRuleset } from "../../../Linting/LintRuleset";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
@@ -23,6 +26,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
         nameof(ESLintRCFileMapping),
         () =>
         {
+            let tempDir: TempDirectory;
+            let generator: TSProjectGenerator;
             let settings: Partial<ITSProjectSettings>;
             let fileMapping: ESLintRCFileMapping<ITSProjectSettings, GeneratorOptions>;
             let tester: JavaScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, ESLintRCFileMapping<ITSProjectSettings, GeneratorOptions>>;
@@ -30,7 +35,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
             suiteSetup(
                 async function()
                 {
-                    this.timeout(5 * 60 * 1000);
+                    this.timeout(7.5 * 60 * 1000);
+                    tempDir = new TempDirectory();
 
                     settings = {
                         [GeneratorSettingKey.Components]: [
@@ -38,8 +44,24 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         ]
                     };
 
-                    fileMapping = new ESLintRCFileMapping(await context.Generator);
-                    tester = new JavaScriptFileMappingTester(await context.Generator, fileMapping);
+                    let generatorContext = context.ExecuteGenerator();
+                    generatorContext.inDir(tempDir.FullName);
+                    await generatorContext;
+                    generator = generatorContext.generator;
+
+                    let installationResult = spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
+                    strictEqual(installationResult.status, 0);
+                    fileMapping = new ESLintRCFileMapping(generator);
+                    tester = new JavaScriptFileMappingTester(generator, fileMapping);
                 });
 
             setup(
@@ -82,11 +104,11 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                 switch (ruleset)
                                 {
                                     case LintRuleset.Weak:
-                                        configName = `${ESLintPresets.PluginName}/${ESLintPresets.PresetName.WeakWithTypeChecking}`;
+                                        configName = ESLintPresets.PresetName.WeakWithTypeChecking;
                                         break;
                                     case LintRuleset.Recommended:
                                     default:
-                                        configName = `${ESLintPresets.PluginName}/${ESLintPresets.PresetName.RecommendedWithTypeChecking}`;
+                                        configName = ESLintPresets.PresetName.RecommendedWithTypeChecking;
                                         break;
                                 }
 
@@ -94,7 +116,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                     baseConfigs.some(
                                         (baseConfig) =>
                                         {
-                                            return baseConfig === configName;
+                                            return baseConfig === `plugin:${ESLintPresets.PluginName}/${configName}`;
                                         }));
                             }
                         });
