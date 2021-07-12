@@ -172,10 +172,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
 
                             await AssertScriptCopy("test");
-                            let scripts = (await tester.Package).Scripts;
-                            console.log(scripts);
                             ok(!(await tester.Package).Scripts.Get("prepare").includes(patchScriptName));
-                            ok(!scripts.Has(patchScriptName));
+                            ok(!(await tester.Package).Scripts.Has(patchScriptName));
                         });
                 });
         });
