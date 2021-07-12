@@ -1,3 +1,4 @@
+import ESLintPresets = require("@manuth/eslint-plugin-typescript");
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ExportAssignment, Node, SourceFile } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
@@ -25,14 +26,6 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
-    }
-
-    /**
-     * Gets the prefix of the rule-sets.
-     */
-    protected get RulesetPrefix(): string
-    {
-        return "plugin:@manuth/typescript/";
     }
 
     /**
@@ -67,11 +60,11 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
         switch (this.Generator.Settings[TSProjectSettingKey.LintRuleset])
         {
             case LintRuleset.Weak:
-                preset = "weak-requiring-type-checking";
+                preset = nameof(ESLintPresets.PresetName.WeakWithTypeChecking);
                 break;
             case LintRuleset.Recommended:
             default:
-                preset = "recommended-requiring-type-checking";
+                preset = nameof(ESLintPresets.PresetName.RecommendedWithTypeChecking);
                 break;
         }
 
@@ -110,11 +103,24 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                     {
                         for (let item of extendsValue.getElements())
                         {
-                            if (
-                                Node.isStringLiteral(item) &&
-                                item.getLiteralValue().startsWith(this.RulesetPrefix))
+                            if (Node.isTemplateExpression(item))
                             {
-                                item.setLiteralValue(this.RulesetPrefix + preset);
+                                for (let templateSpan of item.getTemplateSpans())
+                                {
+                                    let outerProperty = templateSpan.getExpression();
+
+                                    if (Node.isPropertyAccessExpression(outerProperty))
+                                    {
+                                        let presetNameProperty = outerProperty.getExpression();
+
+                                        if (
+                                            Node.isPropertyAccessExpression(presetNameProperty) &&
+                                            presetNameProperty.getName() === nameof(ESLintPresets.PresetName))
+                                        {
+                                            outerProperty.getNameNode().replaceWithText(preset);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
