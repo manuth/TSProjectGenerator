@@ -36,7 +36,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 /**
                  * @inheritdoc
                  */
-                public override get ScriptMappings(): Promise<Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>>
+                public override get ScriptMappings(): Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>
                 {
                     return super.ScriptMappings;
                 }

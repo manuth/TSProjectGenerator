@@ -42,7 +42,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
             {
                 let result = await this.LoadPackage();
 
-                for (let scriptMapping of await this.ScriptMappingCollection)
+                for (let scriptMapping of this.ScriptMappingCollection)
                 {
                     if (result.Scripts.Has(scriptMapping.Destination))
                     {
@@ -67,29 +67,21 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the scripts to copy from the template-package.
      */
-    protected get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected get ScriptMappings(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
-            {
-                return [];
-            })();
+        return [];
     }
 
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): Promise<Array<ScriptMapping<TSettings, TOptions>>>
+    protected get ScriptMappingCollection(): Array<ScriptMapping<TSettings, TOptions>>
     {
-        return (
-            async () =>
+        return this.ScriptMappings.map(
+            (scriptMapping) =>
             {
-                return (await this.ScriptMappings).map(
-                    (scriptMapping) =>
-                    {
-                        return new ScriptMapping(this.Generator, scriptMapping);
-                    });
-            })();
+                return new ScriptMapping(this.Generator, scriptMapping);
+            });
     }
 
     /**

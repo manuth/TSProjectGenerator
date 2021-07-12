@@ -36,106 +36,90 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * Gets all `npm`-scripts which are related to `TypeScript`.
      */
-    protected get TypeScriptScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        return [
             {
-                return [
-                    {
-                        Source: "compile",
-                        Destination: "build"
-                    },
-                    "rebuild",
-                    {
-                        Source: "watch-compile",
-                        Destination: "watch",
-                        Processor: async (script) => script.replace(/compile/g, "build")
-                    },
-                    {
-                        Source: "clean",
-                        Destination: "clean",
-                        Processor: async (script) => script.replace(/compile/g, "build")
-                    }
-                ];
-            })();
+                Source: "compile",
+                Destination: "build"
+            },
+            "rebuild",
+            {
+                Source: "watch-compile",
+                Destination: "watch",
+                Processor: async (script) => script.replace(/compile/g, "build")
+            },
+            {
+                Source: "clean",
+                Destination: "clean",
+                Processor: async (script) => script.replace(/compile/g, "build")
+            }
+        ];
     }
 
     /**
      * Gets all `npm`-scripts which are related to linting.
      */
-    protected get LintScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        return [
             {
-                return [
-                    {
-                        Source: "lint-code-base",
-                        Destination: "lint-base"
-                    },
-                    {
-                        Source: "lint-code",
-                        Destination: "lint",
-                        Processor: async (script) => script.replace("lint-code-base", "lint-base")
-                    },
-                    {
-                        Source: "lint-code-ide",
-                        Destination: "lint-ide",
-                        Processor: async (script) => script.replace("lint-code", "lint")
-                    }
-                ];
-            })();
+                Source: "lint-code-base",
+                Destination: "lint-base"
+            },
+            {
+                Source: "lint-code",
+                Destination: "lint",
+                Processor: async (script) => script.replace("lint-code-base", "lint-base")
+            },
+            {
+                Source: "lint-code-ide",
+                Destination: "lint-ide",
+                Processor: async (script) => script.replace("lint-code", "lint")
+            }
+        ];
     }
 
     /**
      * Gets additional `npm`-scripts.
      */
-    protected get MiscScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        return [
+            "test",
             {
-                return [
-                    "test",
+                Source: "prepare",
+                Destination: "prepare",
+                Processor: async (script, target) =>
+                {
+                    let separator = " && ";
+                    let commands = script.split(separator);
+                    let filtered: string[] = [];
+
+                    for (let command of commands)
                     {
-                        Source: "prepare",
-                        Destination: "prepare",
-                        Processor: async (script, target) =>
+                        if (!command.includes("patchTypeScript"))
                         {
-                            let separator = " && ";
-                            let commands = script.split(separator);
-                            let filtered: string[] = [];
-
-                            for (let command of commands)
-                            {
-                                if (!command.includes("patchTypeScript"))
-                                {
-                                    filtered.push(command);
-                                }
-                            }
-
-                            return filtered.join(separator);
+                            filtered.push(command);
                         }
                     }
-                ];
-            })();
+
+                    return filtered.join(separator);
+                }
+            }
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    protected override get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected override get ScriptMappings(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async () =>
-            {
-                return [
-                    ...await this.TypeScriptScripts,
-                    ...await this.LintScripts,
-                    ...await this.MiscScripts
-                ];
-            })();
+        return [
+            ...this.TypeScriptScripts,
+            ...this.LintScripts,
+            ...this.MiscScripts
+        ];
     }
 
     /**

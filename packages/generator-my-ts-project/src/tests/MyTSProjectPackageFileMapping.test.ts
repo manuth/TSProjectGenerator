@@ -30,7 +30,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModu
                 /**
                  * @inheritdoc
                  */
-                public override get MiscScripts(): Promise<Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>>
+                public override get MiscScripts(): Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>
                 {
                     return super.MiscScripts;
                 }

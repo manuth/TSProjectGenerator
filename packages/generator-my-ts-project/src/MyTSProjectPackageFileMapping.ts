@@ -30,34 +30,28 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     /**
      * @inheritdoc
      */
-    protected override get MiscScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected override get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        let baseScripts = super.MiscScripts;
+        let prepareScriptName = "prepare";
+        let scripts: Array<IScriptMapping<TSettings, TOptions> | string> = [];
 
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        for (let script of super.MiscScripts)
+        {
+            if (
+                typeof script === "string" ?
+                    script === prepareScriptName :
+                    script.Destination === prepareScriptName)
             {
-                let prepareScriptName = "prepare";
-                let scripts: Array<IScriptMapping<TSettings, TOptions> | string> = [];
+                scripts.push(prepareScriptName);
+            }
+            else
+            {
+                scripts.push(script);
+            }
+        }
 
-                for (let script of await baseScripts)
-                {
-                    if (
-                        typeof script === "string" ?
-                            script === prepareScriptName :
-                            script.Destination === prepareScriptName)
-                    {
-                        scripts.push(prepareScriptName);
-                    }
-                    else
-                    {
-                        scripts.push(script);
-                    }
-                }
-
-                scripts.push("patchTypeScript");
-                return scripts;
-            })();
+        scripts.push("patchTypeScript");
+        return scripts;
     }
 
     /**
