@@ -11,7 +11,7 @@ import { ScriptProcessor } from "./ScriptProcessor";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions>
+export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions> implements IScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
@@ -53,12 +53,20 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     /**
      * Gets a component for manipulating the script.
      */
-    protected get Processor(): ScriptProcessor<TSettings, TOptions>
+    public get Processor(): ScriptProcessor<TSettings, TOptions>
     {
         return async (script, target, generator) =>
         {
             return this.Object.Processor?.(script, target, generator) ?? script;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Result(): IScriptMapping<TSettings, TOptions>
+    {
+        return this;
     }
 
     /**

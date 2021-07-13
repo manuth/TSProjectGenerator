@@ -1,4 +1,4 @@
-import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { join } from "upath";
 import { DependabotFileMapping } from "./DependabotFileMapping";
@@ -10,13 +10,43 @@ import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
 /**
  * Provides the functionality to create base-constructors.
  */
-export abstract class MyTSProjectGenerator
+export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenerator<any, any>>> extends BaseGeneratorFactory<T>
 {
     /**
      * Initializes a new instance of the {@link MyTSProjectGenerator `MyTSProjectGenerator`} class.
      */
-    private constructor()
-    { }
+    protected constructor()
+    {
+        super();
+    }
+
+    /**
+     * Gets the default instance of the {@link MyTSProjectGenerator `MyTSProjectGenerator<T>`} class.
+     */
+    protected static override get Default(): MyTSProjectGenerator<any>
+    {
+        return new MyTSProjectGenerator();
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @template TBase
+     * The type of the constructor of the base generator.
+     *
+     * @param base
+     * The constructor the generated constructor should be based on.
+     *
+     * @param namespaceOrPath
+     * The namespace or path to the generator with the specified {@link base `base`}-constructor.
+     *
+     * @returns
+     * The generated constructor.
+     */
+    public static override Create<TBase extends GeneratorConstructor>(base: TBase, namespaceOrPath?: string): GeneratorExtensionConstructor<TBase>
+    {
+        return this.Default.Create(base, namespaceOrPath);
+    }
 
     /**
      * Creates a new base-constructor.
@@ -30,9 +60,9 @@ export abstract class MyTSProjectGenerator
      * @returns
      * The generated constructor.
      */
-    public static Create<T extends GeneratorConstructor<TSProjectGenerator>>(base: T, namespaceOrPath?: string): CompositeConstructor<T>
+    public override Create(base: T, namespaceOrPath?: string): GeneratorExtensionConstructor<T>
     {
-        let baseClass = Generator.ComposeWith(base, namespaceOrPath);
+        let baseClass = super.Create(base, namespaceOrPath);
 
         /**
          * Represents a base-generator inheriting the specified base.
@@ -42,54 +72,63 @@ export abstract class MyTSProjectGenerator
             /**
              * Initializes a new instance of the {@link BaseGenerator `BaseGenerator`} class.
              *
-             * @param params
-             * The arguments of the constructor.
+             * @param args
+             * The arguments for creating the base generator.
+             *
+             * @param options
+             * A set of options for the generator.
              */
-            public constructor(...params: any[])
+            public constructor(args: string | string[], options: GeneratorOptions)
             {
-                super(...params);
+                super(args, options);
             }
 
             /**
              * @inheritdoc
              */
-            public override get BaseComponents(): IComponentCollection<any, any>
+            public override get BaseComponents(): ComponentCollection<any, any>
             {
                 let components = super.BaseComponents;
 
-                return {
-                    Question: components.Question,
-                    Categories: components.Categories.map(
-                        (category): IComponentCategory<any, any> =>
-                        {
-                            return {
-                                DisplayName: category.DisplayName,
-                                Components: category.Components.map(
-                                    (componentOptions): IComponent<any, any> =>
+                components.Categories.Replace(
+                    () => true,
+                    (item) =>
+                    {
+                        item.Components.Replace(
+                            () => true,
+                            (item) =>
+                            {
+                                item.FileMappings.ReplaceObject(
+                                    () => true,
+                                    (item) =>
                                     {
-                                        return {
-                                            ID: componentOptions.ID,
-                                            DisplayName: componentOptions.DisplayName,
-                                            DefaultEnabled: componentOptions.DefaultEnabled,
-                                            Questions: componentOptions.Questions,
-                                            FileMappings: (component, generator) =>
-                                            {
-                                                let fileMappings = new Component(generator, componentOptions).FileMappings;
-                                                return MyTSProjectGenerator.ProcessFileMappings(this.Base, fileMappings);
-                                            }
-                                        };
-                                    })
-                            };
-                        })
-                };
+                                        return MyTSProjectGenerator.ProcessFileMapping(this.Base, item);
+                                    });
+
+                                return item;
+                            });
+
+                        return item;
+                    });
+
+                return components;
             }
 
             /**
              * @inheritdoc
              */
-            public override get BaseFileMappings(): Array<IFileMapping<any, any>>
+            public override get BaseFileMappings(): FileMappingCollectionEditor
             {
-                return MyTSProjectGenerator.ProcessFileMappings(this.Base, super.BaseFileMappings);
+                let result = super.BaseFileMappings;
+
+                result.ReplaceObject(
+                    () => true,
+                    (fileMapping) =>
+                    {
+                        return MyTSProjectGenerator.ProcessFileMapping(this.Base, fileMapping);
+                    });
+
+                return result;
             }
 
             /**
@@ -173,49 +212,44 @@ export abstract class MyTSProjectGenerator
      * @param generator
      * The generator of the file-mappings.
      *
-     * @param fileMappings
-     * The file-mappings to process.
+     * @param fileMappingOptions
+     * The file-mapping options to process.
      *
      * @returns
      * The processed file-mappings.
      */
-    protected static ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: Array<IFileMapping<any, any>>): Array<IFileMapping<any, any>>
+    protected static ProcessFileMapping(generator: IGenerator<any, any>, fileMappingOptions: IFileMapping<any, any>): IFileMapping<any, any>
     {
+        let fileMapping = new FileMapping(generator, fileMappingOptions);
         let tsConfigPath = generator.destinationPath("tsconfig.base.json");
 
-        for (let i = 0; i < fileMappings.length; i++)
+        if (fileMapping.Destination.endsWith(".md"))
         {
-            let fileMappingOptions = fileMappings[i];
-            let fileMapping = new FileMapping(generator, fileMappingOptions);
-
-            if (fileMapping.Destination.endsWith(".md"))
-            {
-                fileMappings[i] = new MarkdownFileProcessor(generator, fileMapping);
-            }
-
-            if (fileMappingOptions instanceof TSProjectPackageFileMapping)
-            {
-                fileMappings[i] = new MyTSProjectPackageFileMapping(generator);
-            }
-
-            if (fileMapping.Destination === tsConfigPath)
-            {
-                fileMappings[i] = {
-                    Source: fileMapping.Source,
-                    Destination: fileMapping.Destination,
-                    Processor: async (target, generator) =>
-                    {
-                        // eslint-disable-next-line @typescript-eslint/no-var-requires
-                        let originalConfig = require(target.Source);
-                        await fileMapping.Processor();
-                        let tsConfig = generator.fs.readJSON(target.Destination) as any;
-                        tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
-                        generator.fs.writeJSON(target.Destination, tsConfig, null, 4);
-                    }
-                };
-            }
+            fileMappingOptions = new MarkdownFileProcessor(generator, fileMapping);
         }
 
-        return fileMappings;
+        if (fileMappingOptions instanceof TSProjectPackageFileMapping)
+        {
+            fileMappingOptions = new MyTSProjectPackageFileMapping(generator);
+        }
+
+        if (fileMapping.Destination === tsConfigPath)
+        {
+            fileMappingOptions = {
+                Source: fileMapping.Source,
+                Destination: fileMapping.Destination,
+                Processor: async (target, generator) =>
+                {
+                    // eslint-disable-next-line @typescript-eslint/no-var-requires
+                    let originalConfig = require(target.Source);
+                    await fileMapping.Processor();
+                    let tsConfig = generator.fs.readJSON(target.Destination) as any;
+                    tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
+                    generator.fs.writeJSON(target.Destination, tsConfig, null, 4);
+                }
+            };
+        }
+
+        return fileMappingOptions;
     }
 }

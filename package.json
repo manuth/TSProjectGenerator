@@ -19,7 +19,6 @@
     "prepare": "lerna bootstrap --ignore-scripts && npm run patchTypeScript && npm run rebuild",
     "patchTypeScript": "ts-patch install && ts-patch --persist && lerna run patchTypeScript"
   },
-  "dependencies": {},
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.2",
     "@types/diff": "^5.0.0",

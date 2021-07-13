@@ -3,6 +3,7 @@ import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { FileMappingBase } from "../../Components/FileMappingBase";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
+import { ScriptCollectionEditor } from "../Scripts/ScriptCollectionEditor";
 import { ScriptMapping } from "../Scripts/ScriptMapping";
 
 /**
@@ -42,7 +43,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
             {
                 let result = await this.LoadPackage();
 
-                for (let scriptMapping of this.ScriptMappingCollection)
+                for (let scriptMapping of this.ScriptMappingCollection.Items)
                 {
                     if (result.Scripts.Has(scriptMapping.Destination))
                     {
@@ -75,12 +76,17 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): Array<ScriptMapping<TSettings, TOptions>>
+    protected get ScriptMappingCollection(): ScriptCollectionEditor
     {
-        return this.ScriptMappings.map(
-            (scriptMapping) =>
+        return new ScriptCollectionEditor(
+            this.Generator,
+            () =>
             {
-                return new ScriptMapping(this.Generator, scriptMapping);
+                return this.ScriptMappings.map(
+                    (scriptMapping) =>
+                    {
+                        return new ScriptMapping(this.Generator, scriptMapping);
+                    });
             });
     }
 
