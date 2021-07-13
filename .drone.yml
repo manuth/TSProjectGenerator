@@ -25,11 +25,22 @@ steps:
       - build
     commands:
       - npm run test
-  - name: publish package to npm
+  - name: create package
     image: node
     depends_on:
       - lint
       - test
+    commands:
+      - npx lerna exec --no-private -- npm pack
+    when:
+      event:
+        - tag
+      ref:
+        - refs/tags/v[0-9]*.[0-9]*.[0-9]*
+  - name: publish package to npm
+    image: node
+    depends_on:
+      - create package
     environment:
       NPM_TOKEN:
         from_secret: npm_token
@@ -44,8 +55,7 @@ steps:
   - name: publish package to github
     image: node
     depends_on:
-      - lint
-      - test
+      - publish package to npm
     environment:
       GITHUB_TOKEN:
         from_secret: github_packages_token
@@ -61,12 +71,10 @@ steps:
   - name: prepare release
     image: node
     depends_on:
-      - lint
-      - test
+      - create package
     commands:
-      - npx lerna exec --no-private -- npm pack
       - npm install escape-string-regexp --no-save
-      - node -e "console.log(require('escape-string-regexp')('${DRONE_TAG}'))" > TagName.txt
+      - node -e "console.log(require('escape-string-regexp')('${DRONE_TAG}'))" > .tagName.txt
     when:
       event:
         - tag
@@ -75,13 +83,13 @@ steps:
     depends_on:
       - prepare release
     commands:
-      - export TagName=$$(cat TagName.txt)
+      - export TagName=$$(cat .tagName.txt)
       - export TagHeading="/## \(.* \($${TagName}\|\[$${TagName}\]\)\)\$/"
       - export HeadingPattern='/## \(.* \(v[0-9.]*\|\[.*\]\)\)/'
-      - cp -f CHANGELOG.md ReleaseNotes.md
-      - sed -i "1,$${TagHeading}{ $${TagHeading}P ; d } ; $${HeadingPattern},\$d" ReleaseNotes.md
-      - cp -f ReleaseNotes.md ReleaseTitle.md
-      - sed -i "2,\$d ; s$${HeadingPattern}\\\\1/" ReleaseTitle.md
+      - cp -f CHANGELOG.md .releaseNotes.md
+      - sed -i "1,$${TagHeading}{ $${TagHeading}P ; d } ; $${HeadingPattern},\$d" .releaseNotes.md
+      - cp -f .releaseNotes.md .releaseTitle.md
+      - sed -i "2,\$d ; s$${HeadingPattern}\\\\1/" .releaseTitle.md
     when:
       event:
         - tag
@@ -95,8 +103,8 @@ steps:
         from_secret: github_publish_token
       files:
         - "./packages/*/*.tgz"
-      title: ReleaseTitle.md
-      note: ReleaseNotes.md
+      title: .releaseTitle.md
+      note: .releaseNotes.md
     when:
       event:
         - tag
