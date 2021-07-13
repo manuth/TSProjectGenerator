@@ -63,6 +63,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
     public override Create(base: T, namespaceOrPath?: string): GeneratorExtensionConstructor<T>
     {
         let baseClass = super.Create(base, namespaceOrPath);
+        let self = this;
 
         /**
          * Represents a base-generator inheriting the specified base.
@@ -102,7 +103,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                                     () => true,
                                     (item) =>
                                     {
-                                        return MyTSProjectGenerator.ProcessFileMapping(this.Base, item);
+                                        return self.ProcessFileMapping(this, item);
                                     });
 
                                 return item;
@@ -125,7 +126,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                     () => true,
                     (fileMapping) =>
                     {
-                        return MyTSProjectGenerator.ProcessFileMapping(this.Base, fileMapping);
+                        return self.ProcessFileMapping(this, fileMapping);
                     });
 
                 return result;
@@ -210,7 +211,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
      * Processes the file-mappings.
      *
      * @param generator
-     * The generator of the file-mappings.
+     * The generator to process the file-mappings for.
      *
      * @param fileMappingOptions
      * The file-mapping options to process.
@@ -218,7 +219,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
      * @returns
      * The processed file-mappings.
      */
-    protected static ProcessFileMapping(generator: IGenerator<any, any>, fileMappingOptions: IFileMapping<any, any>): IFileMapping<any, any>
+    protected ProcessFileMapping(generator: IGenerator<any, any>, fileMappingOptions: IFileMapping<any, any>): IFileMapping<any, any>
     {
         let fileMapping = new FileMapping(generator, fileMappingOptions);
         let tsConfigPath = generator.destinationPath("tsconfig.base.json");
@@ -230,7 +231,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
 
         if (fileMappingOptions instanceof TSProjectPackageFileMapping)
         {
-            fileMappingOptions = new MyTSProjectPackageFileMapping(generator);
+            fileMappingOptions = new MyTSProjectPackageFileMapping(generator, fileMappingOptions);
         }
 
         if (fileMapping.Destination === tsConfigPath)

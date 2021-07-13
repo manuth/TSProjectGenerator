@@ -1,10 +1,10 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
-import { IScriptMapping, ITSProjectSettings } from "@manuth/generator-ts-project";
+import { IScriptMapping, ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { Package } from "@manuth/package-json-editor";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
+import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
 
 /**
  * Registers tests for the {@link MyTSProjectPackageFileMapping `MyTSProjectPackageFileMapping<TSettings, TOptions>`} class.
@@ -12,14 +12,14 @@ import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping"
  * @param context
  * The test-context.
  */
-export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
+export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSModuleGenerator>): void
 {
     suite(
         nameof(MyTSProjectPackageFileMapping),
         () =>
         {
-            let generator: MyTSModuleGenerator;
-            let tester: FileMappingTester<MyTSModuleGenerator, ITSProjectSettings, GeneratorOptions, MyTSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
+            let generator: TestTSModuleGenerator;
+            let tester: FileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, MyTSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
             let npmPackage: Package;
 
             /**
@@ -52,7 +52,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<MyTSModu
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    tester = new FileMappingTester(generator, new MyTSProjectPackageFileMapping(generator));
+                    tester = new FileMappingTester(generator, new MyTSProjectPackageFileMapping(generator, new TSProjectPackageFileMapping(generator.Base)));
                 });
 
             setup(

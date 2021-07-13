@@ -36,7 +36,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * Gets all `npm`-scripts which are related to `TypeScript`.
      */
-    protected get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
+    public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return [
             {
@@ -60,7 +60,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * Gets all `npm`-scripts which are related to linting.
      */
-    protected get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
+    public get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return [
             {
@@ -83,7 +83,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * Gets additional `npm`-scripts.
      */
-    protected get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
+    public get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return [
             "test",
