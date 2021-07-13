@@ -1,7 +1,8 @@
 import { strictEqual } from "assert";
-import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
+import { createSandbox, SinonSandbox } from "sinon";
 import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
@@ -21,23 +22,21 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
         nameof<PackageFileMapping<any, any>>(),
         () =>
         {
-            let originalName: Generator["user"]["git"]["name"];
-            let originalMail: Generator["user"]["git"]["email"];
+            let sinon: SinonSandbox;
             let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
             let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
             let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
 
             suiteSetup(
-                async () =>
+                async function()
                 {
+                    this.timeout(30 * 1000);
+                    sinon = createSandbox();
                     let generator = await context.Generator;
                     let randomName = context.RandomString;
                     let randomMail = context.RandomString;
-
-                    originalName = generator.user.git.name;
-                    originalMail = generator.user.git.email;
-                    generator.user.git.name = () => randomName;
-                    generator.user.git.email = () => randomMail;
+                    sinon.replace(generator.user.git, "name", () => randomName);
+                    sinon.replace(generator.user.git, "email", () => randomMail);
 
                     options = {
                         ScriptMappings: null,
@@ -51,9 +50,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
             suiteTeardown(
                 async () =>
                 {
-                    let generator = await context.Generator;
-                    generator.user.git.name = originalName;
-                    generator.user.git.email = originalMail;
+                    sinon.restore();
                 });
 
             setup(
