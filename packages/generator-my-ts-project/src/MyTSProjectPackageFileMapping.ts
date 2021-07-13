@@ -132,7 +132,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                         (baseScriptMapping: ScriptMapping<TSettings, TOptions>) =>
                         {
                             return baseScriptMapping.Destination === scriptMapping.Destination;
-                        }).Process();
+                        }).Processor();
                 };
 
                 return scriptMapping;

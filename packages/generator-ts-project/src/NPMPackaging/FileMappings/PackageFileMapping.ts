@@ -49,7 +49,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
                         result.Scripts.Remove(scriptMapping.Destination);
                     }
 
-                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process());
+                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Processor());
                 }
 
                 return result;

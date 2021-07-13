@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver, Resolvable } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { IScriptMapping } from "./IScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
@@ -62,6 +62,14 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     }
 
     /**
+     * @inheritdoc
+     */
+    public set Source(value: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>)
+    {
+        this.Object.Source = value;
+    }
+
+    /**
      * Gets the name of the destination-script.
      */
     public get Destination(): string
@@ -70,14 +78,41 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     }
 
     /**
+     * @inheritdoc
+     */
+    public set Destination(value: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>)
+    {
+        this.Object.Destination = value;
+    }
+
+    /**
      * Gets a component for manipulating the script.
      */
-    public get Processor(): ScriptProcessor<TSettings, TOptions>
+    public get Processor(): () => Promise<string>
     {
-        return async (script, target, generator) =>
+        return async () =>
         {
-            return this.Object.Processor?.(script, target, generator) ?? script;
+            let script;
+
+            if (this.Source)
+            {
+                script = (await this.SourcePackage).Scripts.Get(this.Source);
+            }
+            else
+            {
+                script = null;
+            }
+
+            return this.Object.Processor?.(script, this, this.Generator) ?? script;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public set Processor(value: ScriptProcessor<TSettings, TOptions>)
+    {
+        this.Object.Processor = value;
     }
 
     /**
@@ -86,21 +121,5 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     public get Result(): IScriptMapping<TSettings, TOptions>
     {
         return this;
-    }
-
-    /**
-     * Manipulates the script accordingly.
-     *
-     * @returns
-     * The manipulated script.
-     */
-    public async Process(): Promise<string>
-    {
-        return this.Processor(
-            this.Source ?
-                (await this.SourcePackage).Scripts.Get(this.Source) :
-                null,
-            this,
-            this.Generator);
     }
 }

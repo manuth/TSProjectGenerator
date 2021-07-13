@@ -67,21 +67,21 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 });
 
             suite(
-                nameof<ScriptMapping<any, any>>((scriptMapping) => scriptMapping.Process),
+                nameof<ScriptMapping<any, any>>((scriptMapping) => scriptMapping.Processor),
                 () =>
                 {
                     test(
                         "Checking whether scripts are loaded from the source-package correctly…",
                         async () =>
                         {
-                            strictEqual(await scriptMapping.Process(), randomScript);
+                            strictEqual(await scriptMapping.Processor(), randomScript);
                         });
 
                     test(
                         "Checking whether scripts are not being transformed by default…",
                         async () =>
                         {
-                            strictEqual(await scriptMapping.Process(), randomScript);
+                            strictEqual(await scriptMapping.Processor(), randomScript);
                         });
 
                     test(
@@ -100,7 +100,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                                     Processor: async (script) => transformer(script)
                                 });
 
-                            strictEqual(await scriptMapping.Process(), transformer(randomScript));
+                            strictEqual(await scriptMapping.Processor(), transformer(randomScript));
                         });
                 });
         });
