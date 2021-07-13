@@ -12,7 +12,8 @@ import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
 import npmWhich = require("npm-which");
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
-import { Program } from "typescript";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Program } from "typescript";
 import { join, resolve } from "upath";
 import { JSONCreatorMapping } from "../Components/JSONCreatorMapping";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
