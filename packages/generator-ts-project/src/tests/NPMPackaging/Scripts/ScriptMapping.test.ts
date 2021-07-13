@@ -1,6 +1,7 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { Package } from "@manuth/package-json-editor";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "./TestScriptTransformer";
@@ -17,6 +18,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
         nameof(ScriptMapping),
         () =>
         {
+            let npmPackage: Package;
             let scriptMapping: ScriptMapping<ITestGeneratorSettings, GeneratorOptions>;
             let randomSource: string;
             let randomDestination: string;
@@ -26,12 +28,16 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 async function()
                 {
                     this.timeout(30 * 1000);
+                    npmPackage = new Package();
                     randomSource = context.RandomString;
                     randomDestination = context.RandomString;
                     randomScript = context.RandomString;
 
+                    npmPackage.Scripts.Add(randomSource, randomScript);
+
                     scriptMapping = new ScriptMapping(
                         await context.Generator,
+                        (async () => npmPackage)(),
                         {
                             Source: randomSource,
                             Destination: randomDestination
@@ -46,7 +52,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                         "Checking whether passing a string constructs a script-mapping for copying the specified script…",
                         async () =>
                         {
-                            scriptMapping = new ScriptMapping(await context.Generator, randomSource);
+                            scriptMapping = new ScriptMapping(await context.Generator, (async () => npmPackage)(), randomSource);
                             strictEqual(scriptMapping.Destination, scriptMapping.Source);
                             strictEqual(scriptMapping.Source, randomSource);
                         });
@@ -65,10 +71,17 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 () =>
                 {
                     test(
+                        "Checking whether scripts are loaded from the source-package correctly…",
+                        async () =>
+                        {
+                            strictEqual(await scriptMapping.Process(), randomScript);
+                        });
+
+                    test(
                         "Checking whether scripts are not being transformed by default…",
                         async () =>
                         {
-                            strictEqual(await scriptMapping.Process(randomScript), randomScript);
+                            strictEqual(await scriptMapping.Process(), randomScript);
                         });
 
                     test(
@@ -80,13 +93,14 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
 
                             scriptMapping = new ScriptMapping(
                                 await context.Generator,
+                                (async () => npmPackage)(),
                                 {
                                     Source: randomSource,
                                     Destination: randomDestination,
                                     Processor: async (script) => transformer(script)
                                 });
 
-                            strictEqual(await scriptMapping.Process(randomScript), transformer(randomScript));
+                            strictEqual(await scriptMapping.Process(), transformer(randomScript));
                         });
                 });
         });

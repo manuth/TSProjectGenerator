@@ -50,18 +50,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
                         result.Scripts.Remove(scriptMapping.Destination);
                     }
 
-                    let source: string;
-
-                    if (scriptMapping.Source)
-                    {
-                        source = (await this.Template).Scripts.Get(scriptMapping.Source);
-                    }
-                    else
-                    {
-                        source = null;
-                    }
-
-                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process(source));
+                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process());
                 }
 
                 return result;
@@ -87,16 +76,17 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): ScriptCollectionEditor
+    public get ScriptMappingCollection(): ScriptCollectionEditor
     {
         return new ScriptCollectionEditor(
             this.Generator,
+            this.Template,
             () =>
             {
                 return this.ScriptMappings.map(
                     (scriptMapping) =>
                     {
-                        return new ScriptMapping(this.Generator, scriptMapping);
+                        return new ScriptMapping(this.Generator, this.Template, scriptMapping);
                     });
             });
     }
