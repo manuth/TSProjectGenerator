@@ -50,7 +50,18 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
                         result.Scripts.Remove(scriptMapping.Destination);
                     }
 
-                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(scriptMapping.Source)));
+                    let source: string;
+
+                    if (scriptMapping.Source)
+                    {
+                        source = (await this.Template).Scripts.Get(scriptMapping.Source);
+                    }
+                    else
+                    {
+                        source = null;
+                    }
+
+                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process(source));
                 }
 
                 return result;

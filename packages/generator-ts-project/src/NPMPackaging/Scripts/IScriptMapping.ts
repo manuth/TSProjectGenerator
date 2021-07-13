@@ -16,7 +16,7 @@ export interface IScriptMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * The source-script.
      */
-    Source: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>;
+    Source?: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>;
 
     /**
      * The name of the destination-script.
