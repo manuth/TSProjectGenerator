@@ -1,7 +1,9 @@
+export { ArrayPrompt } from "./Components/Inquiry/Prompts/ArrayPrompt";
+export { IArrayPromptHash } from "./Components/Inquiry/Prompts/IArrayPromptHash";
+export { IArrayQuestionOptions } from "./Components/Inquiry/Prompts/IArrayQuestionOptions";
 export { IQuestionSetQuestion } from "./Components/Inquiry/Prompts/IQuestionSetQuestion";
 export { IQuestionSetQuestionOptions } from "./Components/Inquiry/Prompts/IQuestionSetQuestionOptions";
 export { ISubGeneratorQuestion } from "./Components/Inquiry/Prompts/ISubGeneratorQuestion";
-export { ISubGeneratorQuestionOptions } from "./Components/Inquiry/Prompts/ISubGeneratorQuestionOptions";
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
 export { QuestionSetPrompt } from "./Components/Inquiry/Prompts/QuestionSetPrompt";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";

@@ -1,5 +1,5 @@
 import { Answers } from "inquirer";
-import { ISubGeneratorQuestionOptions } from "./ISubGeneratorQuestionOptions";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
 import { SubGeneratorPrompt } from "./SubGeneratorPrompt";
 
 /**
@@ -8,7 +8,7 @@ import { SubGeneratorPrompt } from "./SubGeneratorPrompt";
  * @template T
  * The type of the answers.
  */
-export interface ISubGeneratorQuestion<T extends Answers = Answers> extends ISubGeneratorQuestionOptions<T>
+export interface ISubGeneratorQuestion<T extends Answers = Answers> extends IArrayQuestionOptions<T>
 {
     /**
      * @inheritdoc
