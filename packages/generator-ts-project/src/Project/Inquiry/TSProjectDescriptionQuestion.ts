@@ -1,8 +1,7 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
-import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 

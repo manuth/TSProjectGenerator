@@ -1,3 +1,4 @@
+export { QuestionBase } from "@manuth/extended-yo-generator";
 export { ArrayPrompt } from "./Components/Inquiry/Prompts/ArrayPrompt";
 export { IArrayPromptHash } from "./Components/Inquiry/Prompts/IArrayPromptHash";
 export { IArrayQuestionOptions } from "./Components/Inquiry/Prompts/IArrayQuestionOptions";
