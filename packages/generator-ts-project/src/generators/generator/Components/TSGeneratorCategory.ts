@@ -1,7 +1,6 @@
 import { join } from "path";
-import { GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
-import { ComponentCategoryBase } from "../../../Components/ComponentCategoryBase";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
@@ -20,7 +19,7 @@ import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
+export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentCategoryOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TSGeneratorCategory `TSGeneratorCategory<TSettings, TOptions>`} class.

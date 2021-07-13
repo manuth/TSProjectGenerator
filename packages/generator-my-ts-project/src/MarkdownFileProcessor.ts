@@ -1,5 +1,4 @@
-import { FileMapping, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { FileMappingBase } from "@manuth/generator-ts-project";
+import { FileMapping, FileMappingOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import detectNewLine = require("detect-newline");
 import { split } from "eol";
 
@@ -12,7 +11,7 @@ import { split } from "eol";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
      * The file-mapping wrapped by this generator.

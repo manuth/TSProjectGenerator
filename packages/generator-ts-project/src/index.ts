@@ -1,4 +1,4 @@
-export { QuestionBase } from "@manuth/extended-yo-generator";
+export { ComponentOptions, ComponentCategoryOptions, ComponentCollectionEditor, FileMappingOptions, QuestionBase } from "@manuth/extended-yo-generator";
 export { ArrayPrompt } from "./Components/Inquiry/Prompts/ArrayPrompt";
 export { IArrayPromptHash } from "./Components/Inquiry/Prompts/IArrayPromptHash";
 export { IArrayQuestionOptions } from "./Components/Inquiry/Prompts/IArrayQuestionOptions";
@@ -8,11 +8,6 @@ export { ISubGeneratorQuestion } from "./Components/Inquiry/Prompts/ISubGenerato
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
 export { QuestionSetPrompt } from "./Components/Inquiry/Prompts/QuestionSetPrompt";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
-export { QuestionBase } from "./Components/Inquiry/QuestionBase";
-export { ComponentBase } from "./Components/ComponentBase";
-export { ComponentCategoryBase } from "./Components/ComponentCategoryBase";
-export { ComponentCollectionBase } from "./Components/ComponentCollectionBase";
-export { FileMappingBase } from "./Components/FileMappingBase";
 export { GeneratorComponent } from "./Components/GeneratorComponent";
 export { JSONCreatorMapping } from "./Components/JSONCreatorMapping";
 export { JSONProcessor } from "./Components/JSONProcessor";

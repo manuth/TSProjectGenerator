@@ -1,5 +1,4 @@
-import { GeneratorOptions, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { ComponentBase } from "../../Components/ComponentBase";
+import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { ESLintRCFileMapping } from "../FileMappings/ESLintRCFileMapping";
@@ -14,7 +13,7 @@ import { LintingQuestion } from "../Inquiry/LintingQuestion";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class LintingComponent<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
+export class LintingComponent<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link LintingComponent `LintingComponent<TSettings, TOptions>`} class.

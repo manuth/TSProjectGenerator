@@ -1,6 +1,5 @@
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
-import { FileMappingBaseTests } from "./FileMappingBase.test";
 import { JSONCreatorMappingTests } from "./JSONCreatorMapping.test";
 import { TransformationTests } from "./Transformation";
 import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
@@ -17,7 +16,6 @@ export function ComponentTests(context: TestContext<TestGenerator, ITestGenerato
         "Components",
         () =>
         {
-            FileMappingBaseTests(context);
             TransformationTests(context);
             JSONCreatorMappingTests(context);
             YAMLCreatorMappingTests(context);

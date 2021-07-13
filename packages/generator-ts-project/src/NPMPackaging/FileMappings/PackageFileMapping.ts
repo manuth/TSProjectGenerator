@@ -1,7 +1,6 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMappingOptions, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
-import { FileMappingBase } from "../../Components/FileMappingBase";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
 import { ScriptCollectionEditor } from "../Scripts/ScriptCollectionEditor";
 import { ScriptMapping } from "../Scripts/ScriptMapping";
@@ -15,7 +14,7 @@ import { ScriptMapping } from "../Scripts/ScriptMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
      * The package to write.

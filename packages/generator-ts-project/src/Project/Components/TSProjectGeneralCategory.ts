@@ -1,5 +1,4 @@
-import { GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
-import { ComponentCategoryBase } from "../../Components/ComponentCategoryBase";
+import { ComponentCategoryOptions, GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
 import { LintingComponent } from "../../Linting/Components/LintingComponent";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,7 +14,7 @@ import { TSProjectCodeWorkspaceFolder } from "./TSProjectCodeWorkspaceFolder";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class TSProjectGeneralCategory<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentCategoryBase<TSettings, TOptions>
+export class TSProjectGeneralCategory<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends ComponentCategoryOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TSProjectGeneralCategory `TSProjectGeneralCategory<TSettings, TOptions>`} class.

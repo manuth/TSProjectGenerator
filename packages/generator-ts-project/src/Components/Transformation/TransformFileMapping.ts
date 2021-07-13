@@ -1,5 +1,4 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { FileMappingBase } from "../FileMappingBase";
+import { FileMappingOptions, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 
 /**
  * Provides the functionality to transform and copy object-notation code.
@@ -13,7 +12,7 @@ import { FileMappingBase } from "../FileMappingBase";
  * @template TData
  * The type of the data to process.
  */
-export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends FileMappingBase<TSettings, TOptions>
+export abstract class TransformFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TransformFileMapping `TransformFileMapping<TSettings, TOptions, TData>`} class.

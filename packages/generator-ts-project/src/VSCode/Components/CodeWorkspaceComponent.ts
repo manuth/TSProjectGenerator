@@ -1,5 +1,4 @@
-import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ComponentBase } from "../../Components/ComponentBase";
+import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
@@ -21,7 +20,7 @@ import { WorkspaceProcessor } from "../WorkspaceProcessor";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
+export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.

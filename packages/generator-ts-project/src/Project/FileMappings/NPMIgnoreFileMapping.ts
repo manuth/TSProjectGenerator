@@ -1,7 +1,6 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { FileMappingOptions, GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
 import { readFile } from "fs-extra";
-import { FileMappingBase } from "../../Components/FileMappingBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
@@ -13,7 +12,7 @@ import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.

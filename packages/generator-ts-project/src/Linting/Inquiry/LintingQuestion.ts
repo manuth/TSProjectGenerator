@@ -1,6 +1,5 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { ChoiceCollection, ListQuestionOptions } from "inquirer";
-import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { LintRuleset } from "../LintRuleset";
