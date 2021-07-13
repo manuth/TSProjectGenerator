@@ -1,7 +1,7 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
-import { IScriptMapping, ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
+import { ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { Package } from "@manuth/package-json-editor";
 import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
 import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
@@ -19,7 +19,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
         () =>
         {
             let generator: TestTSModuleGenerator;
-            let tester: FileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, MyTSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
+            let tester: FileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, TestMyTSProjectPackageFileMapping>;
             let npmPackage: Package;
 
             /**
@@ -30,9 +30,9 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                 /**
                  * @inheritdoc
                  */
-                public override get MiscScripts(): Array<IScriptMapping<ITSProjectSettings, GeneratorOptions> | string>
+                public override get Base(): TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>
                 {
-                    return super.MiscScripts;
+                    return super.Base;
                 }
 
                 /**
@@ -52,7 +52,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    tester = new FileMappingTester(generator, new MyTSProjectPackageFileMapping(generator, new TSProjectPackageFileMapping(generator.Base)));
+                    tester = new FileMappingTester(generator, new TestMyTSProjectPackageFileMapping(generator, new TSProjectPackageFileMapping(generator.Base)));
                 });
 
             setup(
@@ -60,6 +60,27 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                 {
                     await tester.Run();
                     npmPackage = new Package(tester.FileMapping.Destination);
+                });
+
+            suite(
+                "General",
+                () =>
+                {
+                    test(
+                        "Checking whether all scripts from the base file-mapping are included…",
+                        () =>
+                        {
+                            ok(
+                                tester.FileMappingOptions.ScriptMappingCollection.Items.every(
+                                    (scriptMapping) =>
+                                    {
+                                        return tester.FileMappingOptions.ScriptMappingCollection.Items.some(
+                                            (script) =>
+                                            {
+                                                return script.Destination === scriptMapping.Destination;
+                                            });
+                                    }));
+                        });
                 });
 
             suite(
