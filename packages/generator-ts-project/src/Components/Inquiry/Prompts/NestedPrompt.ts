@@ -7,7 +7,7 @@ import { SuspendablePrompt } from "./SuspendablePrompt";
  * Provides the functionality to display nested prompts.
  *
  * @template T
- * The type of the prompt-options.
+ * The type of the options for the question.
  */
 export abstract class NestedPrompt<T extends Question> extends SuspendablePrompt<T>
 {

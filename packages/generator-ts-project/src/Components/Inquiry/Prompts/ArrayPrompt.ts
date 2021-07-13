@@ -6,11 +6,17 @@ import { SuspendablePrompt } from "./SuspendablePrompt";
 
 /**
  * Provides the functionality to prompt for an array of objects.
+ *
+ * @template TQuestion
+ * The type of the options for the question.
+ *
+ * @template TItem
+ * The type of the items to prompt the user for.
  */
 export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem> extends SuspendablePrompt<TQuestion>
 {
     /**
-     * Initializes a new instance of the {@link ArrayPrompt `ArrayPrompt<T>`} class.
+     * Initializes a new instance of the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`} class.
      *
      * @param question
      * The question to prompt the user to answer.

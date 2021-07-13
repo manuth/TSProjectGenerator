@@ -7,7 +7,7 @@ import { PromptBase } from "./PromptBase";
  * Represents a prompt which is capable of being suspended.
  *
  * @template T
- * The type of the prompt-options.
+ * The type of the options for the question.
  */
 export abstract class SuspendablePrompt<T extends Question> extends PromptBase<T>
 {

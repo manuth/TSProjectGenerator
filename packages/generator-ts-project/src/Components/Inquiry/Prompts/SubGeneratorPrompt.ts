@@ -28,7 +28,7 @@ declare module "inquirer"
  * Provides a prompt for asking for sub-generators.
  *
  * @template T
- * The type of the answers.
+ * The type of the options for the question.
  */
 export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPrompt<T, ISubGenerator>
 {

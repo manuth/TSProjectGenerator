@@ -31,7 +31,7 @@ declare module "inquirer"
  * The type of the answer-hash of the inner questions.
  *
  * @template TQuestion
- * The type of the prompt-options.
+ * The type of the options for the question.
  */
 export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion extends IQuestionSetQuestionOptions<TAnswers> = IQuestionSetQuestionOptions<TAnswers>> extends NestedPrompt<TQuestion>
 {

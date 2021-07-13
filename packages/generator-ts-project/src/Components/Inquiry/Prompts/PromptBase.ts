@@ -5,6 +5,9 @@ import { PromptCallback } from "./PromptCallback";
 
 /**
  * Provides a basic implementation of the {@link Prompt `Prompt<T>`} class.
+ *
+ * @template T
+ * The type of the options for the question.
  */
 export abstract class PromptBase<T extends Question> extends Prompt<T>
 {

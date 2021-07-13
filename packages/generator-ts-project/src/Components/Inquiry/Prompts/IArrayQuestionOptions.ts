@@ -4,6 +4,9 @@ import { ArrayPrompt } from "./ArrayPrompt";
 
 /**
  * Provides options for the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`}.
+ *
+ * @template T
+ * The type of the answers.
  */
 export interface IArrayQuestionOptions<T extends Answers = Answers> extends Question<T>
 {
