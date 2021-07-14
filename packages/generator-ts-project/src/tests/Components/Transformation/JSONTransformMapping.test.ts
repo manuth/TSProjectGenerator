@@ -1,8 +1,9 @@
-import { deepStrictEqual, ok } from "assert";
+import { deepStrictEqual, doesNotReject, ok } from "assert";
 import { EOL } from "os";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
+import { assign, parse } from "comment-json";
 import { writeFile } from "fs-extra";
 import { JSONTransformMapping } from "../../../Components/Transformation/JSONTransformMapping";
 import { TestContext } from "../../TestContext";
@@ -19,13 +20,14 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
         nameof(JSONTransformMapping),
         () =>
         {
+            let comment: string;
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
             let fileMappingOptions: TestJSONTransformMapping;
             let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
             let sourceData: any;
-            let randomData: any;
+            let addition: Record<string, any>;
 
             /**
              * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
@@ -81,7 +83,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                  */
                 public override async Transform(data: any): Promise<any>
                 {
-                    return randomData;
+                    return assign(data, addition);
                 }
 
                 /**
@@ -113,9 +115,11 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             setup(
                 async () =>
                 {
+                    comment = `// ${context.RandomString}`;
                     sourceData = context.RandomObject;
-                    randomData = context.RandomObject;
+                    addition = { [context.RandomString]: context.RandomObject };
                     await writeFile(sourceFile.FullName, JSON.stringify(sourceData));
+                    await tester.Run();
                 });
 
             suite(
@@ -127,6 +131,29 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                         async () =>
                         {
                             deepStrictEqual(await fileMappingOptions.Metadata, sourceData);
+                        });
+
+                    test(
+                        "Checking whether json-files containing comments can be parsed…",
+                        async () =>
+                        {
+                            await writeFile(sourceFile.FullName, `${comment}${await tester.Content}`);
+                            doesNotReject(async () => tester.Run());
+                        });
+                });
+
+            suite(
+                nameof<TestJSONTransformMapping>((mapping) => mapping.Transform),
+                () =>
+                {
+                    test(
+                        "Checking whether the data can be transformed",
+                        async () =>
+                        {
+                            for (let key in addition)
+                            {
+                                deepStrictEqual(await parse(await tester.Content)[key], addition[key]);
+                            }
                         });
                 });
 
@@ -140,8 +167,22 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                         {
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
+
+                            deepStrictEqual(
+                                JSON.parse(await tester.Content),
+                                {
+                                    ...sourceData,
+                                    ...addition
+                                });
+                        });
+
+                    test(
+                        "Checking whether comments are dumped…",
+                        async () =>
+                        {
+                            await writeFile(sourceFile.FullName, `${comment}${EOL}${await tester.Content}`);
                             await tester.Run();
-                            deepStrictEqual(JSON.parse(await tester.Content), randomData);
+                            ok((await tester.Content).startsWith(comment));
                         });
 
                     test(
