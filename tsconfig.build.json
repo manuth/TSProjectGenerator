@@ -7,6 +7,9 @@
         },
         {
             "path": "./packages/generator-my-ts-project/tsconfig.build.json"
+        },
+        {
+            "path": "./packages/generator-ts-project-test/tsconfig.build.json"
         }
     ]
 }

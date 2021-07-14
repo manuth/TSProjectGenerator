@@ -9,6 +9,10 @@
             "name": "MyTSProjectGenerator"
         },
         {
+            "path": "../generator-ts-project-test",
+            "name": "TSProjectGeneratorTest"
+        },
+        {
             "path": "../..",
             "name": "Solution Items"
         }
@@ -56,28 +60,6 @@
             {
                 "type": "pwa-node",
                 "request": "launch",
-                "name": "Launch TSProjectGenerator Tests",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
-                "cwd": "${workspaceFolder:TSProjectGenerator}",
-                "skipFiles": [
-                    "<node_internals>/**",
-                    "**/node_modules/typescript/**"
-                ],
-                "internalConsoleOptions": "openOnSessionStart",
-                "preLaunchTask": "Build",
-                "sourceMaps": true,
-                "autoAttachChildProcesses": false,
-                "presentation": {
-                    "order": 3
-                },
-                "outFiles": [
-                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
-                    "!**/node_modules/**"
-                ]
-            },
-            {
-                "type": "pwa-node",
-                "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
                 "args": [
@@ -94,11 +76,33 @@
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "presentation": {
-                    "order": 4
+                    "order": 3
                 },
                 "outFiles": [
                     "${workspaceFolder:TSProjectGenerator}/**/*.js",
                     "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch TSProjectGenerator Tests",
+                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "cwd": "${workspaceFolder:TSProjectGenerator}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 4
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
                     "!**/node_modules/**"
                 ]
             },
@@ -124,6 +128,29 @@
                     "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
                     "!**/node_modules/**"
                 ]
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch TSProjectGeneratorTest Tests",
+                "program": "${workspaceFolder:TSProjectGeneratorTest}/node_modules/mocha/bin/mocha",
+                "cwd": "${workspaceFolder:TSProjectGeneratorTest}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 6
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "${workspaceFolder:TSProjectGeneratorTest}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             }
         ],
         "compounds": [
@@ -131,7 +158,8 @@
                 "name": "Launch All Tests",
                 "configurations": [
                     "Launch TSProjectGenerator Tests",
-                    "Launch MyTSProjectGenerator Tests"
+                    "Launch MyTSProjectGenerator Tests",
+                    "Launch TSProjectGeneratorTest Tests"
                 ],
                 "presentation": {
                     "order": 1
