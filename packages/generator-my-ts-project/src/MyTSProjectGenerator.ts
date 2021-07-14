@@ -1,5 +1,7 @@
-import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
+import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IGenerator } from "@manuth/extended-yo-generator";
 import { TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
+// eslint-disable-next-line node/no-unpublished-import
+import type { TSConfigJSON } from "types-tsconfig";
 import { join } from "upath";
 import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
@@ -99,13 +101,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                             () => true,
                             (item) =>
                             {
-                                item.FileMappings.ReplaceObject(
-                                    () => true,
-                                    (item) =>
-                                    {
-                                        return self.ProcessFileMapping(this, item);
-                                    });
-
+                                self.ProcessFileMappings(this, item.FileMappings);
                                 return item;
                             });
 
@@ -121,14 +117,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             public override get BaseFileMappings(): FileMappingCollectionEditor
             {
                 let result = super.BaseFileMappings;
-
-                result.ReplaceObject(
-                    () => true,
-                    (fileMapping) =>
-                    {
-                        return self.ProcessFileMapping(this, fileMapping);
-                    });
-
+                self.ProcessFileMappings(this, result);
                 return result;
             }
 
@@ -213,44 +202,39 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
      * @param generator
      * The generator to process the file-mappings for.
      *
-     * @param fileMappingOptions
-     * The file-mapping options to process.
+     * @param fileMappings
+     * The file-mappings to process.
      *
      * @returns
      * The processed file-mappings.
      */
-    protected ProcessFileMapping(generator: IGenerator<any, any>, fileMappingOptions: IFileMapping<any, any>): IFileMapping<any, any>
+    protected ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: FileMappingCollectionEditor): void
     {
-        let fileMapping = new FileMapping(generator, fileMappingOptions);
-        let tsConfigPath = generator.destinationPath("tsconfig.base.json");
+        fileMappings.ReplaceObject(
+            (fileMapping: FileMapping<any, any>) => fileMapping.Destination.endsWith(".md"),
+            (fileMapping) => new MarkdownFileProcessor(generator, fileMapping.Result));
 
-        if (fileMapping.Destination.endsWith(".md"))
-        {
-            fileMappingOptions = new MarkdownFileProcessor(generator, fileMapping);
-        }
+        fileMappings.ReplaceObject(
+            TSProjectPackageFileMapping,
+            (fileMapping) => new MyTSProjectPackageFileMapping(generator, fileMapping.Object as TSProjectPackageFileMapping<any, any>));
 
-        if (fileMappingOptions instanceof TSProjectPackageFileMapping)
-        {
-            fileMappingOptions = new MyTSProjectPackageFileMapping(generator, fileMappingOptions);
-        }
-
-        if (fileMapping.Destination === tsConfigPath)
-        {
-            fileMappingOptions = {
-                Source: fileMapping.Source,
-                Destination: fileMapping.Destination,
-                Processor: async (target, generator) =>
-                {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    let originalConfig = require(target.Source);
-                    await fileMapping.Processor();
-                    let tsConfig = generator.fs.readJSON(target.Destination) as any;
-                    tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
-                    generator.fs.writeJSON(target.Destination, tsConfig, null, 4);
-                }
-            };
-        }
-
-        return fileMappingOptions;
+        fileMappings.ReplaceObject(
+            (fileMapping: FileMapping<any, any>) => fileMapping.Destination === generator.destinationPath("tsconfig.base.json"),
+            (fileMapping) =>
+            {
+                return {
+                    Source: fileMapping.Source,
+                    Destination: fileMapping.Destination,
+                    Processor: async (target, generator) =>
+                    {
+                        // eslint-disable-next-line @typescript-eslint/no-var-requires
+                        let originalConfig: TSConfigJSON = require(target.Source);
+                        await fileMapping.Processor();
+                        let tsConfig: TSConfigJSON = generator.fs.readJSON(target.Destination) as any;
+                        tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
+                        generator.fs.writeJSON(target.Destination, tsConfig, null, 4);
+                    }
+                };
+            });
     }
 }
