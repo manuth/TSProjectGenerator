@@ -125,7 +125,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected override get Template(): Promise<Package>
+    protected override get SourcePackage(): Promise<Package>
     {
         return (
             async () =>

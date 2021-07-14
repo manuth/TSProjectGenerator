@@ -99,13 +99,4 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
                     return npmPackage.BundledDependencies.Contains(dependency) === present;
                 }));
     }
-
-    /**
-     * Cleans the file-mapping output.
-     */
-    public override async Clean(): Promise<void>
-    {
-        await super.Clean();
-        return this.FileMappingOptions.Clear();
-    }
 }

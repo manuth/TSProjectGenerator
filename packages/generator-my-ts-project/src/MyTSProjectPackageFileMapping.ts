@@ -61,7 +61,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
             ...this.GetBaseScripts(this.Base.MiscScripts).map(
                 (script) =>
                 {
-                    let scriptMapping = new ScriptMapping(this.Generator, this.Template, script);
+                    let scriptMapping = new ScriptMapping(this.Generator, this.SourcePackage, script);
 
                     if (scriptMapping.Destination === "prepare")
                     {
@@ -87,7 +87,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     /**
      * @inheritdoc
      */
-    protected override get Template(): Promise<Package>
+    protected override get SourcePackage(): Promise<Package>
     {
         return (
             async () =>
@@ -137,6 +137,17 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
                 return scriptMapping;
             });
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The template of the package to write.
+     */
+    protected override GetTemplate(): Promise<Package>
+    {
+        return this.Base.Package;
     }
 
     /**

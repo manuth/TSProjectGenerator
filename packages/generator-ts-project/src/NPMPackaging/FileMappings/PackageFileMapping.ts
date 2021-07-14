@@ -17,11 +17,6 @@ import { ScriptMapping } from "../Scripts/ScriptMapping";
 export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
-     * The package to write.
-     */
-    private package: Package = null;
-
-    /**
      * Initializes a new instance of the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
@@ -79,21 +74,21 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     {
         return new ScriptCollectionEditor(
             this.Generator,
-            this.Template,
+            this.SourcePackage,
             () =>
             {
                 return this.ScriptMappings.map(
                     (scriptMapping) =>
                     {
-                        return new ScriptMapping(this.Generator, this.Template, scriptMapping);
+                        return new ScriptMapping(this.Generator, this.SourcePackage, scriptMapping);
                     });
             });
     }
 
     /**
-     * Gets the template package.
+     * Gets the package to load scripts from.
      */
-    protected get Template(): Promise<Package>
+    protected get SourcePackage(): Promise<Package>
     {
         return (
             async () =>
@@ -112,11 +107,35 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     }
 
     /**
-     * Clears the cached package.
+     * Gets the template of the package to write.
+     *
+     * @returns
+     * The template of the package to write.
      */
-    public async Clear(): Promise<void>
+    protected async GetTemplate(): Promise<Package>
     {
-        this.package = null;
+        let npmPackage: Package;
+        let fileName = this.Resolved.Destination;
+
+        if (await pathExists(fileName))
+        {
+            npmPackage = new Package(fileName);
+        }
+        else
+        {
+            npmPackage = new Package(
+                fileName,
+                {
+                    version: "0.0.0",
+                    author: {
+                        name: this.Generator.user.git.name(),
+                        email: this.Generator.user.git.email()
+                    }
+                });
+        }
+
+        await npmPackage.Normalize();
+        return npmPackage;
     }
 
     /**
@@ -127,30 +146,6 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     protected async LoadPackage(): Promise<Package>
     {
-        let fileName = this.Resolved.Destination;
-
-        if (this.package === null)
-        {
-            if (await pathExists(fileName))
-            {
-                this.package = new Package(fileName);
-            }
-            else
-            {
-                this.package = new Package(
-                    fileName,
-                    {
-                        version: "0.0.0",
-                        author: {
-                            name: this.Generator.user.git.name(),
-                            email: this.Generator.user.git.email()
-                        }
-                    });
-            }
-
-            await this.package.Normalize();
-        }
-
-        return this.package;
+        return this.GetTemplate();
     }
 }

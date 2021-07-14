@@ -46,7 +46,7 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets the template package.
      */
-    public override get Template(): Promise<Package>
+    public override get SourcePackage(): Promise<Package>
     {
         return (
             async () =>
