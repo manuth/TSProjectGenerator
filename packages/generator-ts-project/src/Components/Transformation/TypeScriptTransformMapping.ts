@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Project, SourceFile } from "ts-morph";
+import { FormatCodeSettings, Project, SourceFile } from "ts-morph";
 import { TransformFileMapping } from "./TransformFileMapping";
 
 /**
@@ -22,6 +22,23 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
     public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
+    }
+
+    /**
+     * Gets the settings for formatting the code.
+     */
+    protected get FormatSettings(): FormatCodeSettings
+    {
+        return {
+            convertTabsToSpaces: true,
+            ensureNewLineAtEndOfFile: true,
+            indentSize: 4,
+            insertSpaceAfterFunctionKeywordForAnonymousFunctions: false,
+            placeOpenBraceOnNewLineForControlBlocks: true,
+            placeOpenBraceOnNewLineForFunctions: true,
+            tabSize: 4,
+            trimTrailingWhitespace: true
+        };
     }
 
     /**
@@ -56,6 +73,7 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
      */
     protected async Dump(sourceFile: SourceFile): Promise<string>
     {
+        sourceFile.formatText(this.FormatSettings);
         return sourceFile.getFullText();
     }
 }
