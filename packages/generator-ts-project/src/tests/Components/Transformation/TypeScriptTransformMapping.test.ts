@@ -149,7 +149,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
-                            strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                            strictEqual((await readFile(destinationFile.FullName)).toString().trimEnd(), sourceCode.replace(/var/g, "const"));
                         });
                 });
         });
