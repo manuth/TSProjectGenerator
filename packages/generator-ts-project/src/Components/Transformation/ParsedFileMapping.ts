@@ -66,12 +66,4 @@ export abstract class ParsedFileMapping<TSettings extends IGeneratorSettings, TO
                 return this.Parser.Parse(await this.Content);
             })();
     }
-
-    /**
-     * @inheritdoc
-     */
-    public override async Processor(): Promise<void>
-    {
-        return this.WriteDestination(this.Dumper.Dump(await this.Metadata));
-    }
 }
