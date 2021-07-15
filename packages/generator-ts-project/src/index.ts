@@ -1,4 +1,5 @@
 export { ComponentOptions, ComponentCategoryOptions, ComponentCollectionEditor, FileMappingOptions, QuestionBase } from "@manuth/extended-yo-generator";
+export { DumpCreatorFileMapping } from "./Components/DumpCreatorFileMapping";
 export { GeneratorComponent } from "./Components/GeneratorComponent";
 export { ArrayPrompt } from "./Components/Inquiry/Prompts/ArrayPrompt";
 export { IArrayPromptHash } from "./Components/Inquiry/Prompts/IArrayPromptHash";
@@ -11,8 +12,16 @@ export { QuestionSetPrompt } from "./Components/Inquiry/Prompts/QuestionSetPromp
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { JSONCreatorMapping } from "./Components/JSONCreatorMapping";
 export { JSONProcessor } from "./Components/JSONProcessor";
+export { IDumper } from "./Components/Transformation/Conversion/IDumper";
+export { IParser } from "./Components/Transformation/Conversion/IParser";
+export { JSONConverter } from "./Components/Transformation/Conversion/JSONConverter";
+export { Parser } from "./Components/Transformation/Conversion/Parser";
+export { TextConverter } from "./Components/Transformation/Conversion/TextConverter";
+export { TypeScriptConverter } from "./Components/Transformation/Conversion/TypeScriptConverter";
+export { YAMLConverter } from "./Components/Transformation/Conversion/YAMLConverter";
+export { DumpFileMapping } from "./Components/Transformation/DumpFileMapping";
 export { JSONTransformMapping } from "./Components/Transformation/JSONTransformMapping";
-export { TransformFileMapping } from "./Components/Transformation/TransformFileMapping";
+export { ParsedFileMapping } from "./Components/Transformation/ParsedFileMapping";
 export { TypeScriptTransformMapping } from "./Components/Transformation/TypeScriptTransformMapping";
 export { YAMLTransformMapping } from "./Components/Transformation/YAMLTransformMapping";
 export { YAMLCreatorMapping } from "./Components/YAMLCreatorMapping";

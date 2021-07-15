@@ -18,8 +18,8 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
         {
             let generator: TestGenerator;
             let tempFile: TempFile;
-            let fileMappingOptions: JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let fileMappingOptions: JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>;
+            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
             let randomObject: any;
 
             suiteSetup(
@@ -39,7 +39,7 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                 });
 
             suite(
-                nameof<JSONCreatorMapping<any, any>>((mapping) => mapping.Processor),
+                nameof<JSONCreatorMapping<any, any, any>>((mapping) => mapping.Processor),
                 () =>
                 {
                     test(

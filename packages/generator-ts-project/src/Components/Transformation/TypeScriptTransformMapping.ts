@@ -1,6 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { FormatCodeSettings, Project, SourceFile } from "ts-morph";
-import { TransformFileMapping } from "./TransformFileMapping";
+import { SourceFile } from "ts-morph";
+import { TextConverter } from "./Conversion/TextConverter";
+import { TypeScriptConverter } from "./Conversion/TypeScriptConverter";
+import { ParsedFileMapping } from "./ParsedFileMapping";
 
 /**
  * Provides the functionality to transform and copy typescript-files.
@@ -11,7 +13,7 @@ import { TransformFileMapping } from "./TransformFileMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, SourceFile>
+export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ParsedFileMapping<TSettings, TOptions, SourceFile>
 {
     /**
      * Initializes a new instance of the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.
@@ -25,55 +27,10 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
     }
 
     /**
-     * Gets the settings for formatting the code.
-     */
-    protected get FormatSettings(): FormatCodeSettings
-    {
-        return {
-            convertTabsToSpaces: true,
-            ensureNewLineAtEndOfFile: true,
-            indentSize: 4,
-            insertSpaceAfterFunctionKeywordForAnonymousFunctions: false,
-            placeOpenBraceOnNewLineForControlBlocks: true,
-            placeOpenBraceOnNewLineForFunctions: true,
-            tabSize: 4,
-            trimTrailingWhitespace: true
-        };
-    }
-
-    /**
      * @inheritdoc
-     *
-     * @param text
-     * The text representing the meta-data.
-     *
-     * @returns
-     * An object loaded from the specified {@link text `text`}.
      */
-    protected async Parse(text: string): Promise<SourceFile>
-    {
-        let project = new Project();
-
-        return project.createSourceFile(
-            this.Resolved.Source,
-            text,
-            {
-                overwrite: true
-            });
-    }
-
-    /**
-     * Dumps the specified {@link sourceFile `sourceFile`} as a text representing the object.
-     *
-     * @param sourceFile
-     * The source-file to dump.
-     *
-     * @returns
-     * A text representing the {@link sourceFile `sourceFile`}.
-     */
-    protected async Dump(sourceFile: SourceFile): Promise<string>
-    {
-        sourceFile.formatText(this.FormatSettings);
-        return sourceFile.getFullText();
-    }
+     public get Converter(): TextConverter<SourceFile>
+     {
+         return new TypeScriptConverter(this.Resolved.Destination);
+     }
 }

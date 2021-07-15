@@ -1,8 +1,8 @@
-import { EOL } from "os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { split } from "eol";
-import { Document, parseAllDocuments, scalarOptions } from "yaml";
-import { TransformFileMapping } from "./TransformFileMapping";
+import { Document } from "yaml";
+import { TextConverter } from "./Conversion/TextConverter";
+import { YAMLConverter } from "./Conversion/YAMLConverter";
+import { ParsedFileMapping } from "./ParsedFileMapping";
 
 /**
  * Provides the functionality to transform and copy YAML-code.
@@ -13,7 +13,7 @@ import { TransformFileMapping } from "./TransformFileMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, Document.Parsed[]>
+export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ParsedFileMapping<TSettings, TOptions, Document.Parsed[]>
 {
     /**
      * Initializes a new instance of the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.
@@ -28,48 +28,9 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
 
     /**
      * @inheritdoc
-     *
-     * @param text
-     * The text representing the meta-data.
-     *
-     * @returns
-     * An object loaded from the specified {@link text `text`}.
      */
-    protected async Parse(text: string): Promise<Document.Parsed[]>
+    public get Converter(): TextConverter<Document.Parsed[]>
     {
-        return parseAllDocuments(text);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param data
-     * The metadata to dump.
-     *
-     * @returns
-     * A text representing the specified {@link data `data`}.
-     */
-    protected async Dump(data: Document.Parsed[]): Promise<string>
-    {
-        return split(data.map(
-            (document, index) =>
-            {
-                let initialWidth = scalarOptions.str.fold.lineWidth;
-                scalarOptions.str.fold.lineWidth = 0;
-
-                try
-                {
-                    document.directivesEndMarker = document.directivesEndMarker || (index > 0);
-                    return document.toString();
-                }
-                catch (e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    scalarOptions.str.fold.lineWidth = initialWidth;
-                }
-            }).join("")).join(EOL);
+        return new YAMLConverter();
     }
 }

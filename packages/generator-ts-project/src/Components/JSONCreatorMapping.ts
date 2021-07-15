@@ -1,5 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONTransformMapping } from "./Transformation/JSONTransformMapping";
+import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
+import { IDumper } from "./Transformation/Conversion/IDumper";
+import { JSONConverter } from "./Transformation/Conversion/JSONConverter";
 
 /**
  * Provides the functionality to create a json-file.
@@ -10,20 +12,10 @@ import { JSONTransformMapping } from "./Transformation/JSONTransformMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends JSONTransformMapping<TSettings, TOptions, any>
+export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends DumpCreatorFileMapping<TSettings, TOptions, TData>
 {
     /**
-     * The data to write.
-     */
-    private data: any;
-
-    /**
-     * The destination to save the file to.
-     */
-    private destination: string;
-
-    /**
-     * Initializes a new instance of the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions>`} class.
+     * Initializes a new instance of the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions, TData>`} class.
      *
      * @param generator
      * The generator of this file-mapping.
@@ -36,32 +28,14 @@ export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: any)
     {
-        super(generator);
-        this.destination = fileName;
-        this.data = data;
+        super(generator, fileName, data);
     }
 
     /**
      * @inheritdoc
      */
-    public get Source(): string
+    public get Dumper(): IDumper<TData>
     {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Destination(): string
-    {
-        return this.destination;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override get Metadata(): Promise<any>
-    {
-        return this.data;
+        return new JSONConverter();
     }
 }

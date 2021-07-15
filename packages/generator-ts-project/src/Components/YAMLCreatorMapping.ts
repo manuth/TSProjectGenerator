@@ -1,6 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Document } from "yaml";
-import { YAMLTransformMapping } from "./Transformation/YAMLTransformMapping";
+import { Document, parseDocument } from "yaml";
+import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
+import { IDumper } from "./Transformation/Conversion/IDumper";
+import { YAMLConverter } from "./Transformation/Conversion/YAMLConverter";
 
 /**
  * Provides the functionality to create yaml-files.
@@ -11,18 +13,8 @@ import { YAMLTransformMapping } from "./Transformation/YAMLTransformMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
+export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends DumpCreatorFileMapping<TSettings, TOptions, Document.Parsed[]>
 {
-    /**
-     * The data to write.
-     */
-    private data: Document[];
-
-    /**
-     * The destination to save the file to.
-     */
-    private destination: string;
-
     /**
      * Initializes a new instance of the {@link YAMLCreatorMapping `YAMLCreatorMapping<TSettings, TOptions>`} class.
      *
@@ -30,40 +22,28 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
      * The generator of this file-mapping.
      *
      * @param fileName
-     * The name of the file to write the json-file to.
+     * The name of the file to write the yaml-file to.
      *
      * @param data
      * The data to write to the file.
      */
     public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: Document[])
     {
-        super(generator);
-        this.destination = fileName;
-        this.data = data;
+        super(
+            generator,
+            fileName,
+            data.map(
+                (document) =>
+                {
+                    return parseDocument(document.toString());
+                }));
     }
 
     /**
      * @inheritdoc
      */
-    public get Source(): string
+    public get Dumper(): IDumper<Document.Parsed[]>
     {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get Destination(): string
-    {
-        return this.destination;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override get Metadata(): Promise<Document.Parsed[]>
-    {
-        return this.Parse(this.data.map(
-            (document) => document.toString()).join(""));
+        return new YAMLConverter();
     }
 }
