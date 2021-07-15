@@ -29,7 +29,7 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
     /**
      * Gets the object to dump.
      */
-    public abstract get Metadata(): Promise<TData>;
+    public abstract get SourceObject(): Promise<TData>;
 
     /**
      * Gets a component for dumping {@link TData `TData`}-objects.
@@ -41,7 +41,7 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
      */
     public override async Processor(): Promise<void>
     {
-        return this.WriteDestination(this.Dumper.Dump(await this.Transform(await this.Metadata)));
+        return this.WriteDestination(this.Dumper.Dump(await this.Transform(await this.SourceObject)));
     }
 
     /**

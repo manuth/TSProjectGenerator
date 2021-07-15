@@ -58,7 +58,7 @@ export abstract class ParsedFileMapping<TSettings extends IGeneratorSettings, TO
     /**
      * @inheritdoc
      */
-    public override get Metadata(): Promise<TData>
+    public override get SourceObject(): Promise<TData>
     {
         return (
             async () =>

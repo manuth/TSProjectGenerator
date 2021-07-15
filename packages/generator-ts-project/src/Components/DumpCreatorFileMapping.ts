@@ -38,7 +38,7 @@ export abstract class DumpCreatorFileMapping<TSettings extends IGeneratorSetting
     /**
      * @inheritdoc
      */
-    public override get Metadata(): Promise<TData>
+    public override get SourceObject(): Promise<TData>
     {
         return (
             async () =>

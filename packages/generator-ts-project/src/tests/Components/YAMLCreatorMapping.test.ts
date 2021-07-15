@@ -81,7 +81,7 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
                             this.timeout(1 * 1000);
                             this.slow(1 * 1000);
                             await tester.Run();
-                            let documents = await checker.Metadata;
+                            let documents = await checker.SourceObject;
                             strictEqual(documents.length, 1);
                             let document = documents[0];
                             deepStrictEqual(document.toJSON(), randomObject);
