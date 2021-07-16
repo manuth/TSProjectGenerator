@@ -35,7 +35,7 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
             setup(
                 async () =>
                 {
-                    documents = await fileMappingOptions.Transform(await fileMappingOptions.Metadata);
+                    documents = await fileMappingOptions.Transform(await fileMappingOptions.SourceObject);
                 });
 
             suite(

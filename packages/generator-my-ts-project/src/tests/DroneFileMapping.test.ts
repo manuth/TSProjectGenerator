@@ -45,7 +45,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
              */
             async function AssertCommand(condition: CommandCondition, all = false): Promise<boolean>
             {
-                let documents = await fileMappingOptions.Transform(await fileMappingOptions.Metadata);
+                let documents = await fileMappingOptions.Transform(await fileMappingOptions.SourceObject);
                 let filter = <T>(array: T[]) => (condition: (item: T) => boolean) => (all ? array.every(condition) : array.some(condition));
 
                 return filter(documents)(
@@ -95,7 +95,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                             this.timeout(20 * 1000);
 
                             ok(
-                                (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
+                                (await fileMappingOptions.Transform(await fileMappingOptions.SourceObject)).every(
                                     (document) =>
                                     {
                                         let steps: any[] = document.toJSON().steps;
@@ -125,7 +125,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                             this.timeout(20 * 1000);
 
                             ok(
-                                (await fileMappingOptions.Transform(await fileMappingOptions.Metadata)).every(
+                                (await fileMappingOptions.Transform(await fileMappingOptions.SourceObject)).every(
                                     (document) =>
                                     {
                                         let steps: any[] = document.toJSON().steps;
