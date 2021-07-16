@@ -1,6 +1,6 @@
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
-import { JSONCreatorMappingTests } from "./JSONCreatorMapping.test";
+import { JSONCreatorMappingTests } from "./JSONCCreatorMapping.test";
 import { TransformationTests } from "./Transformation";
 import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
 

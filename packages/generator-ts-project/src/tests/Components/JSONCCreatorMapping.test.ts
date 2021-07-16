@@ -2,7 +2,7 @@ import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMappingTester, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
-import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
+import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
 
 /**
  * Registers tests for the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions>`} class.
@@ -13,13 +13,13 @@ import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
 export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        nameof(JSONCreatorMapping),
+        nameof(JSONCCreatorMapping),
         () =>
         {
             let generator: TestGenerator;
             let tempFile: TempFile;
-            let fileMappingOptions: JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>;
-            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
+            let fileMappingOptions: JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>;
+            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
             let randomObject: any;
 
             suiteSetup(
@@ -34,12 +34,12 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                 () =>
                 {
                     randomObject = context.RandomObject;
-                    fileMappingOptions = new JSONCreatorMapping(generator, tempFile.FullName, randomObject);
+                    fileMappingOptions = new JSONCCreatorMapping(generator, tempFile.FullName, randomObject);
                     tester = new JSONFileMappingTester(generator, fileMappingOptions);
                 });
 
             suite(
-                nameof<JSONCreatorMapping<any, any, any>>((mapping) => mapping.Processor),
+                nameof<JSONCCreatorMapping<any, any, any>>((mapping) => mapping.Processor),
                 () =>
                 {
                     test(
