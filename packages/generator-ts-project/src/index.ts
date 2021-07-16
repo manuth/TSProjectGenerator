@@ -1,4 +1,4 @@
-export { ComponentOptions, ComponentCategoryOptions, ComponentCollectionEditor, FileMappingOptions, QuestionBase } from "@manuth/extended-yo-generator";
+export { ComponentOptions, ComponentCategoryOptions, ComponentCollectionEditor, FileMappingOptions, Filter, Predicate, QuestionBase } from "@manuth/extended-yo-generator";
 export { DumpCreatorFileMapping } from "./Components/DumpCreatorFileMapping";
 export { GeneratorComponent } from "./Components/GeneratorComponent";
 export { ArrayPrompt } from "./Components/Inquiry/Prompts/ArrayPrompt";
