@@ -4,7 +4,7 @@ import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMa
 import { TempFile } from "@manuth/temp-files";
 import { assign } from "comment-json";
 import { writeFile } from "fs-extra";
-import { JSONTransformMapping } from "../../../Components/Transformation/JSONTransformMapping";
+import { JSONCTransformMapping } from "../../../Components/Transformation/JSONCTransformMapping";
 import { TestContext } from "../../TestContext";
 
 /**
@@ -16,7 +16,7 @@ import { TestContext } from "../../TestContext";
 export function JSONTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        nameof(JSONTransformMapping),
+        nameof(JSONCTransformMapping),
         () =>
         {
             let generator: TestGenerator;
@@ -30,7 +30,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             /**
              * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
              */
-            class TestJSONTransformMapping extends JSONTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
+            class TestJSONTransformMapping extends JSONCTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
             {
                 /**
                  * @inheritdoc
