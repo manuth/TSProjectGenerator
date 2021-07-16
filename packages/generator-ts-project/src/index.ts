@@ -15,6 +15,7 @@ export { JSONProcessor } from "./Components/JSONProcessor";
 export { IDumper } from "./Components/Transformation/Conversion/IDumper";
 export { IParser } from "./Components/Transformation/Conversion/IParser";
 export { JSONCConverter } from "./Components/Transformation/Conversion/JSONCConverter";
+export { PackageJSONConverter } from "./Components/Transformation/Conversion/PackageJSONConverter";
 export { Parser } from "./Components/Transformation/Conversion/Parser";
 export { TextConverter } from "./Components/Transformation/Conversion/TextConverter";
 export { TypeScriptConverter } from "./Components/Transformation/Conversion/TypeScriptConverter";
