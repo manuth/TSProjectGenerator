@@ -21,7 +21,7 @@ export class TypeScriptConverter extends TextConverter<SourceFile>
      * Initializes a new instance of the {@link TypeScriptConverter `TypeScriptConverter`} class.
      *
      * @param destinationPath
-     * The path to save the resulting code to.
+     * The path the resulting code is supposed to be saved to.
      */
     public constructor(destinationPath: string)
     {
