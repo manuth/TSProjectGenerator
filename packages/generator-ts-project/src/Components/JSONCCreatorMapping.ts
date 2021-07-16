@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
 import { IDumper } from "./Transformation/Conversion/IDumper";
-import { JSONConverter } from "./Transformation/Conversion/JSONConverter";
+import { JSONCConverter } from "./Transformation/Conversion/JSONCConverter";
 
 /**
  * Provides the functionality to create a json-file.
@@ -12,10 +12,10 @@ import { JSONConverter } from "./Transformation/Conversion/JSONConverter";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends DumpCreatorFileMapping<TSettings, TOptions, TData>
+export class JSONCCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends DumpCreatorFileMapping<TSettings, TOptions, TData>
 {
     /**
-     * Initializes a new instance of the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions, TData>`} class.
+     * Initializes a new instance of the {@link JSONCCreatorMapping `JSONCreatorMapping<TSettings, TOptions, TData>`} class.
      *
      * @param generator
      * The generator of this file-mapping.
@@ -36,6 +36,6 @@ export class JSONCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public get Dumper(): IDumper<TData>
     {
-        return new JSONConverter();
+        return new JSONCConverter();
     }
 }

@@ -6,7 +6,7 @@ import { TextConverter } from "./TextConverter";
 /**
  * Provides the functionality to parse and dump `.json`-code.
  */
-export class JSONConverter<T> extends TextConverter<T>
+export class JSONCConverter<T> extends TextConverter<T>
 {
     /**
      * The new-line character to use.
@@ -19,7 +19,7 @@ export class JSONConverter<T> extends TextConverter<T>
     private eolLast = true;
 
     /**
-     * Initializes a new instance of the {@link JSONConverter `JSONConverter`} class.
+     * Initializes a new instance of the {@link JSONCConverter `JSONConverter`} class.
      */
     public constructor()
     {

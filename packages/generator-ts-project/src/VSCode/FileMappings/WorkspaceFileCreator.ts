@@ -1,5 +1,5 @@
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
+import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
@@ -48,7 +48,7 @@ export class WorkspaceFileCreator<TSettings extends IGeneratorSettings, TOptions
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
-            new JSONCreatorMapping(this.Generator, this.FileName, this.Component.WorkspaceMetadata)
+            new JSONCCreatorMapping(this.Generator, this.FileName, this.Component.WorkspaceMetadata)
         ];
     }
 }

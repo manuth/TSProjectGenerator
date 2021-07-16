@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONConverter } from "./Conversion/JSONConverter";
+import { JSONCConverter } from "./Conversion/JSONCConverter";
 import { TextConverter } from "./Conversion/TextConverter";
 import { ParsedFileMapping } from "./ParsedFileMapping";
 
@@ -15,10 +15,10 @@ import { ParsedFileMapping } from "./ParsedFileMapping";
  * @template TData
  * The type of the data to process.
  */
-export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends ParsedFileMapping<TSettings, TOptions, TData>
+export abstract class JSONCTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends ParsedFileMapping<TSettings, TOptions, TData>
 {
     /**
-     * Initializes a new instance of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
+     * Initializes a new instance of the {@link JSONCTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -33,6 +33,6 @@ export abstract class JSONTransformMapping<TSettings extends IGeneratorSettings,
      */
     public get Converter(): TextConverter<TData>
     {
-        return new JSONConverter();
+        return new JSONCConverter();
     }
 }

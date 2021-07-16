@@ -15,7 +15,7 @@ import type { Linter } from "tslint";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
 import { join, resolve } from "upath";
-import { JSONCreatorMapping } from "../Components/JSONCreatorMapping";
+import { JSONCCreatorMapping } from "../Components/JSONCCreatorMapping";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
@@ -131,7 +131,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                     }
 
                     tsConfig.compilerOptions.plugins = plugins;
-                    return new JSONCreatorMapping(generator, fileMapping.Destination, tsConfig).Processor();
+                    return new JSONCCreatorMapping(generator, fileMapping.Destination, tsConfig).Processor();
                 }
             },
             {
@@ -146,7 +146,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                         delete tsConfig.references;
                     }
 
-                    return new JSONCreatorMapping(generator, target.Destination, tsConfig).Processor();
+                    return new JSONCCreatorMapping(generator, target.Destination, tsConfig).Processor();
                 }
             },
             {
