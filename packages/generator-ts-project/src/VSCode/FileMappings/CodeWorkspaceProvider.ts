@@ -1,5 +1,4 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { parse } from "comment-json";
 import { readFile } from "fs-extra";
 import { IParser } from "../../Components/Transformation/Conversion/IParser";
 import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
