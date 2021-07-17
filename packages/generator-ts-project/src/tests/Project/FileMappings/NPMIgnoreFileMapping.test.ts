@@ -130,7 +130,7 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                             let dirName = ".github";
                             await ensureDir(await DestinationPath(dirName));
                             await ensureFile(await DestinationPath(dirName, testFile));
-                            await AssertDirectoryIgnored(".github");
+                            await AssertDirectoryIgnored(dirName);
                         });
                 });
         });
