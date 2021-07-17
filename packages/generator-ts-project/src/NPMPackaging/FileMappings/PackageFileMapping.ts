@@ -1,6 +1,9 @@
-import { FileMappingOptions, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
+import { TextConverter } from "../..";
+import { PackageJSONConverter } from "../../Components/Transformation/Conversion/PackageJSONConverter";
+import { ParsedFileMapping } from "../../Components/Transformation/ParsedFileMapping";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
 import { ScriptCollectionEditor } from "../Scripts/ScriptCollectionEditor";
 import { ScriptMapping } from "../Scripts/ScriptMapping";
@@ -14,7 +17,7 @@ import { ScriptMapping } from "../Scripts/ScriptMapping";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
+export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ParsedFileMapping<TSettings, TOptions, Package>
 {
     /**
      * Initializes a new instance of the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.
@@ -25,6 +28,55 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     public constructor(generator: IGenerator<TSettings, TOptions>)
     {
         super(generator);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Converter(): TextConverter<Package>
+    {
+        return new PackageJSONConverter(this.Resolved.Destination);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Source(): string
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get SourceObject(): Promise<Package>
+    {
+        return (
+            async () =>
+            {
+                let npmPackage: Package;
+                let fileName = this.Resolved.Destination;
+
+                if (await pathExists(fileName))
+                {
+                    npmPackage = new Package(fileName);
+                }
+                else
+                {
+                    npmPackage = new Package(
+                        fileName,
+                        {
+                            version: "0.0.0",
+                            author: {
+                                name: this.Generator.user.git.name(),
+                                email: this.Generator.user.git.email()
+                            }
+                        });
+                }
+
+                await npmPackage.Normalize();
+                return npmPackage;
+            })();
     }
 
     /**
@@ -74,13 +126,13 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     {
         return new ScriptCollectionEditor(
             this.Generator,
-            this.SourcePackage,
+            this.ScriptSource,
             () =>
             {
                 return this.ScriptMappings.map(
                     (scriptMapping) =>
                     {
-                        return new ScriptMapping(this.Generator, this.SourcePackage, scriptMapping);
+                        return new ScriptMapping(this.Generator, this.ScriptSource, scriptMapping);
                     });
             });
     }
@@ -88,7 +140,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the package to load scripts from.
      */
-    protected get SourcePackage(): Promise<Package>
+    protected get ScriptSource(): Promise<Package>
     {
         return (
             async () =>
@@ -107,38 +159,6 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     }
 
     /**
-     * Gets the template of the package to write.
-     *
-     * @returns
-     * The template of the package to write.
-     */
-    protected async GetTemplate(): Promise<Package>
-    {
-        let npmPackage: Package;
-        let fileName = this.Resolved.Destination;
-
-        if (await pathExists(fileName))
-        {
-            npmPackage = new Package(fileName);
-        }
-        else
-        {
-            npmPackage = new Package(
-                fileName,
-                {
-                    version: "0.0.0",
-                    author: {
-                        name: this.Generator.user.git.name(),
-                        email: this.Generator.user.git.email()
-                    }
-                });
-        }
-
-        await npmPackage.Normalize();
-        return npmPackage;
-    }
-
-    /**
      * Loads the package.
      *
      * @returns
@@ -146,6 +166,6 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     protected async LoadPackage(): Promise<Package>
     {
-        return this.GetTemplate();
+        return this.SourceObject;
     }
 }

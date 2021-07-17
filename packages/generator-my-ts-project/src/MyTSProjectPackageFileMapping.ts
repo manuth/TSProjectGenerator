@@ -39,6 +39,14 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     /**
      * @inheritdoc
      */
+    public override get SourceObject(): Promise<Package>
+    {
+        return this.Base.Package;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public override get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return this.GetBaseScripts(this.Base.TypeScriptScripts);
@@ -61,7 +69,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
             ...this.GetBaseScripts(this.Base.MiscScripts).map(
                 (script) =>
                 {
-                    let scriptMapping = new ScriptMapping(this.Generator, this.SourcePackage, script);
+                    let scriptMapping = new ScriptMapping(this.Generator, this.ScriptSource, script);
 
                     if (scriptMapping.Destination === "prepare")
                     {
@@ -87,7 +95,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     /**
      * @inheritdoc
      */
-    protected override get SourcePackage(): Promise<Package>
+    protected override get ScriptSource(): Promise<Package>
     {
         return (
             async () =>
@@ -137,17 +145,6 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
                 return scriptMapping;
             });
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @returns
-     * The template of the package to write.
-     */
-    protected override GetTemplate(): Promise<Package>
-    {
-        return this.Base.Package;
     }
 
     /**

@@ -1,6 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { parse } from "comment-json";
 import { readFile } from "fs-extra";
+import { IParser } from "../../Components/Transformation/Conversion/IParser";
+import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../IExtensionSettings";
 import { ILaunchSettings } from "../ILaunchSettings";
@@ -104,6 +106,14 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
     }
 
     /**
+     * Gets a component for dumping json-code.
+     */
+    protected get Parser(): IParser<any>
+    {
+        return new JSONCConverter();
+    }
+
+    /**
      * Reads json from the specified {@link path `path`}.
      *
      * @param path
@@ -114,6 +124,6 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
      */
     protected async ReadJSON(path: string): Promise<any>
     {
-        return parse((await readFile(path)).toString());
+        return this.Parser.Parse((await readFile(path)).toString());
     }
 }

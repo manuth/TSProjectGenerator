@@ -1,4 +1,6 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { IDumper } from "../../Components/Transformation/Conversion/IDumper";
+import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 
 /**
@@ -48,4 +50,12 @@ export abstract class CodeFileMappingCreator<TSettings extends IGeneratorSetting
      * Gets the file-mappings for creating the workspace.
      */
     public abstract get FileMappings(): Array<IFileMapping<TSettings, TOptions>>;
+
+    /**
+     * Gets a component for dumping json-code.
+     */
+    protected get Dumper(): IDumper<any>
+    {
+        return new JSONCConverter();
+    }
 }

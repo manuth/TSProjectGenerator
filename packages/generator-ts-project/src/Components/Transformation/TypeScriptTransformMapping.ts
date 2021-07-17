@@ -29,8 +29,8 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
     /**
      * @inheritdoc
      */
-     public get Converter(): TextConverter<SourceFile>
-     {
-         return new TypeScriptConverter(this.Resolved.Destination);
-     }
+    public get Converter(): TextConverter<SourceFile>
+    {
+        return new TypeScriptConverter(this.Resolved.Destination);
+    }
 }
