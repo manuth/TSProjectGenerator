@@ -45,6 +45,14 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     }
 
     /**
+     * Gets the name of the `GettingStarted`-file.
+     */
+    protected get GettingStartedFileName(): string
+    {
+        return "GettingStarted.md";
+    }
+
+    /**
      * @inheritdoc
      */
     public override get TemplateRoot(): string
@@ -74,7 +82,6 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
-        let gettingStartedFileName = "GettingStarted.md";
         let readmeFileName = "README.md";
         let mainTestFileName = join("tests", "main.test.ts");
         let generatorTestFileName = join("tests", "Generators", "index.ts");
@@ -94,8 +101,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
         return [
             ...result,
             {
-                Source: `${gettingStartedFileName}.ejs`,
-                Destination: gettingStartedFileName,
+                Source: "GettingStarted.md.ejs",
+                Destination: this.GettingStartedFileName,
                 Context: () =>
                 {
                     return {
@@ -223,7 +230,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
         this.log(
             dedent(
                 `
-                    Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+                    Open "${this.GettingStartedFileName}" in order to learn more about how to create your very own generator.
                     Thanks for using TSGeneratorGenerator!`));
     }
 }
