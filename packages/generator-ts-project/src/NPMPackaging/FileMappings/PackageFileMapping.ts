@@ -89,6 +89,14 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
             {
                 let result = await this.LoadPackage();
 
+                for (let keyword of this.Keywords)
+                {
+                    if (!result.Keywords.includes(keyword))
+                    {
+                        result.Keywords.push(keyword);
+                    }
+                }
+
                 for (let scriptMapping of this.ScriptMappingCollection.Items)
                 {
                     if (result.Scripts.Has(scriptMapping.Destination))
@@ -109,6 +117,14 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     public get Destination(): string
     {
         return "package.json";
+    }
+
+    /**
+     * Gets the keywords to add to the package.
+     */
+    public get Keywords(): string[]
+    {
+        return [];
     }
 
     /**
