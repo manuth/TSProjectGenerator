@@ -23,6 +23,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
         () =>
         {
             let sinon: SinonSandbox;
+            let defaultVersion = "0.0.0";
             let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
             let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
             let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
@@ -167,13 +168,13 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                         });
 
                     test(
-                        "Checking whether the version defaults to `0.0.0`…",
+                        `Checking whether the version defaults to \`${defaultVersion}\`…`,
                         async function()
                         {
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
-                            strictEqual((await tester.Package).Version, "0.0.0");
+                            strictEqual((await tester.Package).Version, defaultVersion);
                         });
                 });
         });

@@ -1,5 +1,5 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { AppGenerator as AppGeneratorBase, IProjectType, ProjectType } from "@manuth/generator-ts-project";
+import { AppGenerator as AppGeneratorBase, GeneratorName, IProjectType, ProjectType } from "@manuth/generator-ts-project";
 import { join } from "upath";
 
 /**
@@ -32,14 +32,14 @@ export class AppGenerator extends AppGeneratorBase
                     ProjectType.Module,
                     {
                         DisplayName: "NPM-Module",
-                        Path: join(__dirname, "..", "module")
+                        Path: join(__dirname, "..", GeneratorName.Module)
                     }
                 ],
                 [
                     ProjectType.Generator,
                     {
                         DisplayName: "Yeoman-Generator",
-                        Path: join(__dirname, "..", "generator")
+                        Path: join(__dirname, "..", GeneratorName.Generator)
                     }
                 ]
             ]);

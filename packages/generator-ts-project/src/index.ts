@@ -23,9 +23,11 @@ export { YAMLConverter } from "./Components/Transformation/Conversion/YAMLConver
 export { DumpFileMapping } from "./Components/Transformation/DumpFileMapping";
 export { JSONCTransformMapping } from "./Components/Transformation/JSONCTransformMapping";
 export { ParsedFileMapping } from "./Components/Transformation/ParsedFileMapping";
+export { TSConfigFileMapping } from "./Components/Transformation/TSConfigFileMapping";
 export { TypeScriptTransformMapping } from "./Components/Transformation/TypeScriptTransformMapping";
 export { YAMLTransformMapping } from "./Components/Transformation/YAMLTransformMapping";
 export { YAMLCreatorMapping } from "./Components/YAMLCreatorMapping";
+export { GeneratorName } from "./Core/GeneratorName";
 export { AppGenerator } from "./generators/app/AppGenerator";
 export { GeneratorLoader } from "./generators/app/GeneratorLoader";
 export { IProjectType } from "./generators/app/IProjectType";

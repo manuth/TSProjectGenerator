@@ -57,7 +57,7 @@ export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, 
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
+        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], Package.FileName), {});
         await npmPackage.Normalize();
         return npmPackage.Description;
     }

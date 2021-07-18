@@ -2,6 +2,7 @@ import { join } from "path";
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
 import camelCase = require("lodash.camelcase");
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
+import { GeneratorName } from "../../../Core/GeneratorName";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
@@ -60,7 +61,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             ID: TSGeneratorComponent.GeneratorExample,
             DisplayName: "Example Generator (recommended)",
             DefaultEnabled: true,
-            FileMappings: this.GetGeneratorFileMappings("app", this.Generator.Settings[TSProjectSettingKey.DisplayName])
+            FileMappings: this.GetGeneratorFileMappings(GeneratorName.Main, this.Generator.Settings[TSProjectSettingKey.DisplayName])
         };
     }
 

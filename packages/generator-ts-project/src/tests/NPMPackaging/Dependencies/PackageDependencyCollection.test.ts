@@ -1,5 +1,6 @@
 import { strictEqual } from "assert";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
 import { TestContext } from "../../TestContext";
@@ -21,7 +22,7 @@ export function PackageDependencyCollectionTests(context: TestContext<TestGenera
                 () =>
                 {
                     test(
-                        "Checking whether dependencies can be loaded from the `package.json` file…",
+                        `Checking whether dependencies can be loaded from the \`${Package.FileName}\` file…`,
                         function()
                         {
                             this.timeout(1 * 1000);

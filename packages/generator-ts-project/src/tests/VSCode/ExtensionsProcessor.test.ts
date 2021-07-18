@@ -2,6 +2,7 @@ import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
@@ -77,7 +78,7 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                         "Checking whether recommendations are only processed if existent…",
                         async () =>
                         {
-                            ok(!("recommendations" in await processor.Process({})));
+                            ok(!(nameof<IExtensionSettings>((e) => e.recommendations) in await processor.Process({})));
                         });
                 });
         });

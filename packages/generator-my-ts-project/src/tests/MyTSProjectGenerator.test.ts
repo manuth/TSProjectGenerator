@@ -1,5 +1,6 @@
 import { deepStrictEqual, ok } from "assert";
 import { TestContext } from "@manuth/extended-yo-generator-test";
+import { TSConfigFileMapping } from "@manuth/generator-ts-project";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 import type { MyTSProjectGenerator } from "../MyTSProjectGenerator";
 import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
@@ -17,7 +18,7 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
         () =>
         {
             let transformPluginName = "ts-nameof";
-            let tsconfigFileName = "tsconfig.base.json";
+            let tsconfigFileName = TSConfigFileMapping.GetFileName("base");
             let generator: TestTSModuleGenerator;
 
             suiteSetup(

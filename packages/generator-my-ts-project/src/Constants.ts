@@ -23,7 +23,7 @@ export class Constants
     {
         if (this.package === null)
         {
-            this.package = new Package(join(__dirname, "..", "package.json"));
+            this.package = new Package(join(__dirname, "..", Package.FileName));
         }
 
         return this.package;

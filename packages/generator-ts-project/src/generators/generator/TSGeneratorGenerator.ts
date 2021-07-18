@@ -5,6 +5,7 @@ import dedent = require("dedent");
 import { ensureDir } from "fs-extra";
 import yosay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
+import { GeneratorName } from "../../Core/GeneratorName";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -48,7 +49,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
      */
     public override get TemplateRoot(): string
     {
-        return "generator";
+        return GeneratorName.Generator;
     }
 
     /**
@@ -73,6 +74,10 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
+        let gettingStartedFileName = "GettingStarted.md";
+        let readmeFileName = "README.md";
+        let mainTestFileName = join("tests", "main.test.ts");
+        let generatorTestFileName = join("tests", "Generators", "index.ts");
 
         for (let fileMapping of super.FileMappings)
         {
@@ -89,8 +94,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
         return [
             ...result,
             {
-                Source: "GettingStarted.md.ejs",
-                Destination: "GettingStarted.md",
+                Source: `${gettingStartedFileName}.ejs`,
+                Destination: gettingStartedFileName,
                 Context: () =>
                 {
                     return {
@@ -113,8 +118,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: "README.md.ejs",
-                Destination: "README.md",
+                Source: `${readmeFileName}.ejs`,
+                Destination: readmeFileName,
                 Context: () =>
                 {
                     return {
@@ -125,8 +130,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: join("tests", "main.test.ts.ejs"),
-                Destination: join(this.SourceRoot, "tests", "main.test.ts"),
+                Source: `${mainTestFileName}.ejs`,
+                Destination: join(this.SourceRoot, mainTestFileName),
                 Context: () =>
                 {
                     return {
@@ -135,8 +140,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                 }
             },
             {
-                Source: join("tests", "Generators", "index.ts.ejs"),
-                Destination: join(this.SourceRoot, "tests", "Generators", "index.ts"),
+                Source: `${generatorTestFileName}.ejs`,
+                Destination: join(this.SourceRoot, generatorTestFileName),
                 Context: () =>
                 {
                     let names: string[] = [];

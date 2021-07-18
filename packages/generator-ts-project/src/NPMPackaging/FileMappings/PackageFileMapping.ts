@@ -116,7 +116,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public get Destination(): string
     {
-        return "package.json";
+        return Package.FileName;
     }
 
     /**

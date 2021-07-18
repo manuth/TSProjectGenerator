@@ -1,5 +1,5 @@
 import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IGenerator } from "@manuth/extended-yo-generator";
-import { JSONCCreatorMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
+import { JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { parse } from "comment-json";
 // eslint-disable-next-line node/no-unpublished-import
 import type { TSConfigJSON } from "types-tsconfig";
@@ -128,6 +128,8 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             public override get Components(): IComponentCollection<any, any>
             {
                 let components = super.Components;
+                let mergeWorkflowFileName = join(".github", "workflows", "auto-merge.yml");
+                let codeAnalysisWorkflowFileName = join(".github", "workflows", "codeql-analysis.yml");
 
                 for (let category of components.Categories)
                 {
@@ -163,8 +165,8 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                                 DefaultEnabled: true,
                                 FileMappings: [
                                     {
-                                        Source: this.commonTemplatePath(".github", "workflows", "auto-merge.yml"),
-                                        Destination: join(".github", "workflows", "auto-merge.yml")
+                                        Source: this.commonTemplatePath(mergeWorkflowFileName),
+                                        Destination: join(mergeWorkflowFileName)
                                     }
                                 ]
                             },
@@ -174,8 +176,8 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                                 DefaultEnabled: true,
                                 FileMappings: [
                                     {
-                                        Source: this.commonTemplatePath(".github", "workflows", "codeql-analysis.yml"),
-                                        Destination: join(".github", "workflows", "codeql-analysis.yml")
+                                        Source: this.commonTemplatePath(codeAnalysisWorkflowFileName),
+                                        Destination: join(codeAnalysisWorkflowFileName)
                                     }
                                 ]
                             }
@@ -220,7 +222,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             (fileMapping) => new MyTSProjectPackageFileMapping(generator, fileMapping.Object as TSProjectPackageFileMapping<any, any>));
 
         fileMappings.ReplaceObject(
-            (fileMapping: FileMapping<any, any>) => fileMapping.Destination === generator.destinationPath("tsconfig.base.json"),
+            (fileMapping: FileMapping<any, any>) => fileMapping.Destination === generator.destinationPath(TSConfigFileMapping.GetFileName("base")),
             (fileMapping) =>
             {
                 return {

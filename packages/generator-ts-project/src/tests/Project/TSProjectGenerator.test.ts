@@ -1,6 +1,7 @@
 import { strictEqual } from "assert";
 import dedent = require("dedent");
 import { readFile, writeFile } from "fs-extra";
+import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TestContext } from "../TestContext";
 
@@ -16,10 +17,10 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
         nameof(TSProjectGenerator),
         () =>
         {
-            let tsConfigFileName = "tsconfig.base.json";
+            let tsConfigFileName = TSConfigFileMapping.GetFileName("base");
             let transformName = "ts-nameof";
             let testCode: string;
-            let fileName: string;
+            let testFileName: string;
             let generator: TSProjectGenerator;
 
             suiteSetup(
@@ -31,7 +32,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                         `
                             console.log('hello world');`) + "\n";
 
-                    fileName = "src/test.ts";
+                    testFileName = "src/test.ts";
                     generator = await context.Generator;
                 });
 
@@ -40,7 +41,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                 () =>
                 {
                     // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    let tsConfig = require(generator.destinationPath("tsconfig.base.json"));
+                    let tsConfig = require(generator.destinationPath(tsConfigFileName));
 
                     strictEqual(
                         (tsConfig.compilerOptions.plugins as any[]).filter(
@@ -57,9 +58,9 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                 {
                     this.timeout(15 * 60 * 1000);
                     this.slow(7.5 * 60 * 1000);
-                    await writeFile(generator.destinationPath(fileName), testCode);
+                    await writeFile(generator.destinationPath(testFileName), testCode);
                     await generator.cleanup();
-                    strictEqual((await readFile(generator.destinationPath(fileName))).toString(), testCode.replace(/'/g, '"'));
+                    strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
                 });
         });
 }

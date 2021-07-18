@@ -5,6 +5,7 @@ import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-y
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { Project, SyntaxKind } from "ts-morph";
+import { GeneratorName } from "../../../Core/GeneratorName";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
@@ -112,7 +113,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         {
                             this.timeout(20 * 1000);
                             this.slow(10 * 1000);
-                            let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, "app"));
+                            let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, GeneratorName.Main));
                             return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
 
@@ -160,7 +161,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
                                 (functionCall) =>
                                 {
-                                    return functionCall.getExpression().getText() === "require";
+                                    return functionCall.getExpression().getText() === nameof(require);
                                 });
 
                             for (

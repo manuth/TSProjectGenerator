@@ -26,11 +26,35 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     }
 
     /**
+     * Gets the default file-name of `.npmignore`-files.
+     */
+    public static get DefaultBaseName(): string
+    {
+        return ".npmignore";
+    }
+
+    /**
+     * Gets the default base-name of the file.
+     */
+    public get DefaultBaseName(): string
+    {
+        return NPMIgnoreFileMapping.DefaultBaseName;
+    }
+
+    /**
+     * Gets the base-name of the file.
+     */
+    public get BaseName(): string
+    {
+        return this.DefaultBaseName;
+    }
+
+    /**
      * @inheritdoc
      */
     public override get Source(): string
     {
-        return this.Generator.modulePath(".npmignore");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -38,7 +62,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
      */
     public get Destination(): string
     {
-        return ".npmignore";
+        return this.BaseName;
     }
 
     /**

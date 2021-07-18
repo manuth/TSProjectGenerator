@@ -1,4 +1,5 @@
 import { TestContext } from "@manuth/extended-yo-generator-test";
+import { GeneratorName } from "@manuth/generator-ts-project";
 import { join } from "upath";
 import { DependabotFileMappingTests } from "./DependabotFileMapping.test";
 import { DroneFileMappingTests } from "./DroneFileMapping.test";
@@ -12,7 +13,7 @@ suite(
     () =>
     {
         let context = TestContext.Default;
-        let projectContext = new TestContext<TestTSModuleGenerator>(join(__dirname, "generators", "app"));
+        let projectContext = new TestContext<TestTSModuleGenerator>(join(__dirname, "generators", GeneratorName.Main));
 
         suiteTeardown(
             () =>

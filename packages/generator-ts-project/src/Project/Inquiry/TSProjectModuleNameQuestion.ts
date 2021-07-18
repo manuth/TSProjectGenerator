@@ -60,7 +60,7 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        let fileName = join(answers[TSProjectSettingKey.Destination], "package.json");
+        let fileName = join(answers[TSProjectSettingKey.Destination], Package.FileName);
         let originalName: string = null;
 
         if (await pathExists(fileName))

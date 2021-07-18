@@ -39,14 +39,15 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      */
     protected override async FilterTask(task: TaskDefinition): Promise<boolean>
     {
+        let bumpVersionTaskName = "bump version";
         let result = super.FilterTask(task);
 
         if (result)
         {
-            return `${task.label}`.toLowerCase() !== "bump version";
+            return `${task.label}`.toLowerCase() !== bumpVersionTaskName;
         }
 
-        return !result ? (`${task.label}`.toLowerCase() !== "bump version") : result;
+        return !result ? (`${task.label}`.toLowerCase() !== bumpVersionTaskName) : result;
     }
 
     /**

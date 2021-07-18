@@ -65,15 +65,17 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      */
     public override get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
+        let prepareScriptName = "prepare";
+
         return [
             ...this.GetBaseScripts(this.Base.MiscScripts).map(
                 (script) =>
                 {
                     let scriptMapping = new ScriptMapping(this.Generator, this.ScriptSource, script);
 
-                    if (scriptMapping.Destination === "prepare")
+                    if (scriptMapping.Destination === prepareScriptName)
                     {
-                        return "prepare";
+                        return prepareScriptName;
                     }
                     else
                     {

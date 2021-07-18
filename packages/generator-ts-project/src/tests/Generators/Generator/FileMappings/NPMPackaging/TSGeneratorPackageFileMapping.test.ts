@@ -18,12 +18,11 @@ import { TestContext } from "../../../../TestContext";
  */
 export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGeneratorGenerator>): void
 {
-    let yeomanKeyword = "yeoman-generator";
-
     suite(
         nameof(TSGeneratorPackageFileMapping),
         () =>
         {
+            let yeomanKeyword = "yeoman-generator";
             let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>;
             let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, GeneratorOptions, TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
 

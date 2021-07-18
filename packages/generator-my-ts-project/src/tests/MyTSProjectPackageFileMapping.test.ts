@@ -18,6 +18,8 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
         nameof(MyTSProjectPackageFileMapping),
         () =>
         {
+            let transformPlugin = "ts-nameof";
+            let patchPackageName = "ts-patch";
             let generator: TestTSModuleGenerator;
             let tester: FileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, TestMyTSProjectPackageFileMapping>;
             let npmPackage: Package;
@@ -88,7 +90,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                 () =>
                 {
                     test(
-                        "Checking whether all scripts for using `ts-patch` are present…",
+                        `Checking whether all scripts for using \`${patchPackageName}\` are present…`,
                         () =>
                         {
                             let prepareScriptName = "prepare";
@@ -109,14 +111,14 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                         () =>
                         {
                             dependencies = [
-                                "@types/ts-nameof",
-                                "ts-nameof",
-                                "ts-patch"
+                                `@types/${transformPlugin}`,
+                                transformPlugin,
+                                patchPackageName
                             ];
                         });
 
                     test(
-                        "Checking whether all required dependencies for using `ts-nameof` are present…",
+                        `Checking whether all required dependencies for using \`${transformPlugin}\` are present…`,
                         () =>
                         {
                             for (let dependency of dependencies)

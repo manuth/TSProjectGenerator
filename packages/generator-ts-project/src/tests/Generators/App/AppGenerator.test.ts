@@ -3,6 +3,7 @@ import { spawnSync } from "child_process";
 import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
+import { GeneratorName } from "../../../Core/GeneratorName";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { ProjectType } from "../../../generators/app/ProjectType";
 import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey";
@@ -125,7 +126,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 async () =>
                                 {
                                     return new GeneratorContext(
-                                        tempDir.MakePath("lib", "generators", "app")).ExecuteGenerator().inDir(
+                                        tempDir.MakePath("lib", "generators", GeneratorName.Main)).ExecuteGenerator().inDir(
                                             subGeneratorDir.FullName).toPromise();
                                 });
                         });

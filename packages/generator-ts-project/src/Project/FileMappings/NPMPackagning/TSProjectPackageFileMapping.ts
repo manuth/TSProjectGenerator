@@ -38,21 +38,30 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
+        let compileScriptName = "compile";
+        let buildScriptName = "build";
+        let cleanScriptName = "clean";
+
+        let compileScriptProcessor = (script: string): string =>
+        {
+            return script.replaceAll(compileScriptName, buildScriptName);
+        };
+
         return [
             {
-                Source: "compile",
-                Destination: "build"
+                Source: compileScriptName,
+                Destination: buildScriptName
             },
             "rebuild",
             {
                 Source: "watch-compile",
                 Destination: "watch",
-                Processor: async (script) => script.replace(/compile/g, "build")
+                Processor: async (script) => compileScriptProcessor(script)
             },
             {
-                Source: "clean",
-                Destination: "clean",
-                Processor: async (script) => script.replace(/compile/g, "build")
+                Source: cleanScriptName,
+                Destination: cleanScriptName,
+                Processor: async (script) => compileScriptProcessor(script)
             }
         ];
     }
@@ -62,20 +71,25 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
+        let oldLintBaseScriptName = "lint-code-base";
+        let lintBaseScriptName = "lint-base";
+        let oldLintScriptName = "lint-code";
+        let lintScriptName = "lint";
+
         return [
             {
-                Source: "lint-code-base",
-                Destination: "lint-base"
+                Source: oldLintBaseScriptName,
+                Destination: lintBaseScriptName
             },
             {
-                Source: "lint-code",
-                Destination: "lint",
-                Processor: async (script) => script.replace("lint-code-base", "lint-base")
+                Source: oldLintScriptName,
+                Destination: lintScriptName,
+                Processor: async (script) => script.replaceAll(oldLintBaseScriptName, lintBaseScriptName)
             },
             {
                 Source: "lint-code-ide",
                 Destination: "lint-ide",
-                Processor: async (script) => script.replace("lint-code", "lint")
+                Processor: async (script) => script.replaceAll(oldLintScriptName, lintScriptName)
             }
         ];
     }
@@ -85,11 +99,13 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
+        let prepareScriptName = "prepare";
+
         return [
             "test",
             {
-                Source: "prepare",
-                Destination: "prepare",
+                Source: prepareScriptName,
+                Destination: prepareScriptName,
                 Processor: async (script, target) =>
                 {
                     let separator = " && ";

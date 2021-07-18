@@ -5,6 +5,7 @@ import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-y
 import { TempDirectory } from "@manuth/temp-files";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
+import { GeneratorName } from "../../../../Core/GeneratorName";
 import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
@@ -152,7 +153,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                         {
                             this.timeout(20 * 1000);
                             this.slow(10 * 1000);
-                            let testContext = new GeneratorContext(GeneratorPath(runContext.generator, "app"));
+                            let testContext = new GeneratorContext(GeneratorPath(runContext.generator, GeneratorName.Main));
                             await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
                 });

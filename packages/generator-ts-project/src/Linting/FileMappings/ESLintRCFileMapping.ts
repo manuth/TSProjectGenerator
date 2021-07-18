@@ -1,6 +1,10 @@
 import ESLintPresets = require("@manuth/eslint-plugin-typescript");
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Linter } from "eslint";
 import { ExportAssignment, Node, SourceFile } from "ts-morph";
+import { fileName } from "types-eslintrc";
+import { changeExt } from "upath";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -29,11 +33,27 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     }
 
     /**
+     * Gets the default base-name of the file.
+     */
+    public get DefaultBaseName(): string
+    {
+        return fileName;
+    }
+
+    /**
+     * Gets the base-name of the file.
+     */
+    public get BaseName(): string
+    {
+        return changeExt(this.DefaultBaseName, ".js");
+    }
+
+    /**
      * @inheritdoc
      */
     public get Source(): string
     {
-        return this.Generator.modulePath(".eslintrc.js");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -41,7 +61,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public get Destination(): string
     {
-        return ".eslintrc.js";
+        return this.BaseName;
     }
 
     /**
@@ -77,7 +97,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
 
                     if (Node.isBinaryExpression(expression))
                     {
-                        return expression.getLeft().getText() === "module.exports";
+                        return expression.getLeft().getText() === `${nameof(module)}.${nameof(module.exports)}`;
                     }
                 }
 
@@ -92,8 +112,8 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
 
             if (Node.isObjectLiteralExpression(right))
             {
-                let extendsProperty = right.getProperty("extends");
-                right.getProperty("root").remove();
+                let extendsProperty = right.getProperty(nameof<Linter.Config>((config) => config.extends));
+                right.getProperty(nameof<Linter.Config>((config) => config.root)).remove();
 
                 if (Node.isPropertyAssignment(extendsProperty))
                 {

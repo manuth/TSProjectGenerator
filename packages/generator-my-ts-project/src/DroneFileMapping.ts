@@ -14,11 +14,19 @@ import { Document } from "yaml";
 export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
 {
     /**
+     * Gets the base name of the file.
+     */
+    public get BaseName(): string
+    {
+        return ".drone.yml";
+    }
+
+    /**
      * @inheritdoc
      */
     public get Source(): string
     {
-        return this.Generator.modulePath(".drone.yml");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -26,7 +34,7 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
      */
     public get Destination(): string
     {
-        return ".drone.yml";
+        return this.BaseName;
     }
 
     /**

@@ -3,6 +3,7 @@ import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import yosay = require("yosay");
+import { GeneratorName } from "../../Core/GeneratorName";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -39,7 +40,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
      */
     public override get TemplateRoot(): string
     {
-        return "module";
+        return GeneratorName.Module;
     }
 
     /**
@@ -48,6 +49,8 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
+        let indexFileName = "index.ts";
+        let readmeFileName = "README.md";
 
         for (let fileMapping of super.FileMappings)
         {
@@ -64,8 +67,8 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
         return [
             ...result,
             {
-                Source: "index.ts.ejs",
-                Destination: join(this.SourceRoot, "index.ts")
+                Source: `${indexFileName}.ejs`,
+                Destination: join(this.SourceRoot, indexFileName)
             },
             {
                 Source: this.commonTemplatePath("test.ts.ejs"),
@@ -78,8 +81,8 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 }
             },
             {
-                Source: "README.md",
-                Destination: "README.md",
+                Source: readmeFileName,
+                Destination: readmeFileName,
                 Context: () =>
                 {
                     return {

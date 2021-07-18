@@ -1,8 +1,10 @@
 import { strictEqual } from "assert";
 import { ensureDir, ensureFile, lstat, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
-import { resolve } from "upath";
-import type { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
+import { fileName as eslintFileName } from "types-eslintrc";
+import { fileName } from "types-tsconfig";
+import { changeExt, resolve } from "upath";
+import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
@@ -91,21 +93,22 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                         "Checking whether ignore-files are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(".npmignore");
+                            await AssertIgnored(NPMIgnoreFileMapping.DefaultBaseName);
                         });
 
                     test(
                         "Checking whether TypeScript-configurations are ignored…",
                         async () =>
                         {
-                            await AssertIgnored("tsconfig.json");
+                            await AssertIgnored(fileName);
                         });
 
                     test(
                         "Checking whether eslint-files are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(".eslintrc.js");
+                            await AssertIgnored(eslintFileName);
+                            await AssertIgnored(changeExt(eslintFileName, ".js"));
                         });
 
                     test(

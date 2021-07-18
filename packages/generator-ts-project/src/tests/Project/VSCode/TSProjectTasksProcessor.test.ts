@@ -19,6 +19,8 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
         nameof(TSProjectTasksProcessor),
         () =>
         {
+            let bumpVersionTaskName = "Bump Version";
+            let lintTaskName = "Lint";
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectTasksProcessor<ITSProjectSettings, GeneratorOptions>;
 
@@ -55,20 +57,20 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 () =>
                 {
                     test(
-                        "Checking whether the `Bump Version` task is skipped…",
+                        `Checking whether the \`${bumpVersionTaskName}\` task is skipped…`,
                         async () =>
                         {
                             strictEqual(
                                 await ProcessTask(
                                     {
                                         type: "",
-                                        label: "Bump Version"
+                                        label: bumpVersionTaskName
                                     }),
                                 undefined);
                         });
 
                     test(
-                        "Checking whether the problem-matcher of the `lint` task is correct…",
+                        `Checking whether the problem-matcher of the \`${lintTaskName}\` task is correct…`,
                         async () =>
                         {
                             let tasks = await processor.Process(await component.Source.TasksMetadata);
@@ -76,7 +78,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                             let lintTask = tasks.tasks.find(
                                 (task) =>
                                     typeof task.label === "string" &&
-                                    task.label.toLowerCase() === "lint");
+                                    task.label.toLowerCase() === lintTaskName.toLowerCase());
 
                             ok(
                                 typeof lintTask.problemMatcher === "string" &&

@@ -1,4 +1,5 @@
 import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
+import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { ESLintRCFileMapping } from "../FileMappings/ESLintRCFileMapping";
@@ -67,10 +68,24 @@ export class LintingComponent<TSettings extends ITSProjectSettings, TOptions ext
     {
         return [
             new ESLintRCFileMapping(this.Generator),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
             {
-                Source: this.Generator.modulePath("tsconfig.eslint.json"),
-                Destination: "tsconfig.eslint.json"
-            }
+                /**
+                 * @inheritdoc
+                 */
+                public override get MiddleExtension(): string
+                {
+                    return "eslint";
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+            }(this.Generator)
         ];
     }
 }

@@ -20,6 +20,7 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
         nameof(TSProjectDescriptionQuestion),
         () =>
         {
+            let readmeFileName = "README.md";
             let generator: TSProjectGenerator;
             let question: TSProjectDescriptionQuestion<ITSProjectSettings, GeneratorOptions>;
 
@@ -36,13 +37,13 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                 () =>
                 {
                     test(
-                        "Checking whether the description defaults to the contents of the `README` file…",
+                        `Checking whether the description defaults to the contents of the \`${readmeFileName}\` file…`,
                         async () =>
                         {
                             let randomDescription = context.RandomString;
 
                             await writeFile(
-                                generator.destinationPath("README.md"),
+                                generator.destinationPath(readmeFileName),
                                 dedent(
                                     `
                                         # This is a test

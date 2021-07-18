@@ -1,3 +1,4 @@
+export { GeneratorName } from "@manuth/generator-ts-project";
 export { DroneFileMapping } from "./DroneFileMapping";
 export { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 export { MyGeneratorComponent } from "./MyGeneratorComponent";

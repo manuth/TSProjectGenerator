@@ -1,6 +1,7 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { join, normalize } from "upath";
 import { DebugConfiguration } from "vscode";
+import { GeneratorName } from "../../../Core/GeneratorName";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
@@ -69,7 +70,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
         let generators: ISubGenerator[] = [
             {
                 [SubGeneratorSettingKey.DisplayName]: this.Generator.Settings[TSProjectSettingKey.DisplayName],
-                [SubGeneratorSettingKey.Name]: "app"
+                [SubGeneratorSettingKey.Name]: GeneratorName.Main
             }
         ];
 
@@ -86,7 +87,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
             let template = await this.TemplateMetadata;
             let displayName = generatorOptions[SubGeneratorSettingKey.DisplayName];
             let name = generatorOptions[SubGeneratorSettingKey.Name];
-            template.name = name === "app" ? "Launch Yeoman" : `Launch ${displayName} generator`;
+            template.name = name === GeneratorName.Main ? "Launch Yeoman" : `Launch ${displayName} generator`;
 
             template.args = [
                 `\${workspaceFolder}/lib/generators/${name}`
