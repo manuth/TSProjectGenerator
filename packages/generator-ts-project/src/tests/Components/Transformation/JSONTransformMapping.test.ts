@@ -28,7 +28,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             let addition: Record<string, any>;
 
             /**
-             * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
+             * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class for testing.
              */
             class TestJSONTransformMapping extends JSONCTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
             {
