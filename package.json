@@ -29,7 +29,7 @@
     "@types/gulp-rename": "^2.0.0",
     "@types/merge-stream": "^1.1.2",
     "@types/minimist": "^1.2.1",
-    "@types/node": "^15.6.1",
+    "@types/node": "^16.3.3",
     "@types/npm-which": "^3.0.0",
     "@types/through2": "^2.0.36",
     "@types/vinyl": "^2.0.4",
