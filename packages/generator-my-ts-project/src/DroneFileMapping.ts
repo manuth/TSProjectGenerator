@@ -1,4 +1,4 @@
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSProjectSettingKey, YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { Document } from "yaml";
 
@@ -13,6 +13,17 @@ import { Document } from "yaml";
  */
 export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
 {
+    /**
+     * Initializes a new instance of the {@link DroneFileMapping `DroneFileMapping<TSettings, TOptions>`} class.
+     *
+     * @param generator
+     * The generator of the file-mapping.
+     */
+    public constructor(generator: IGenerator<TSettings, TOptions>)
+    {
+        super(generator);
+    }
+
     /**
      * Gets the base name of the file.
      */

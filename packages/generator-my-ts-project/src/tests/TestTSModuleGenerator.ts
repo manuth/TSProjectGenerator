@@ -8,6 +8,20 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 export class TestTSModuleGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends MyTSModuleGenerator<TSettings, TOptions>
 {
     /**
+     * Initializes a new instance of the {@link TestTSModuleGenerator `TestTSModuleGenerator<TSettings, TOptions>`} class.
+     *
+     * @param args
+     * A set of arguments for the generator.
+     *
+     * @param options
+     * A set of options for the generator.
+     */
+    public constructor(args: string | string[], options: TOptions)
+    {
+        super(args, options);
+    }
+
+    /**
      * @inheritdoc
      */
     public override get Base(): TSModuleGenerator<TSettings, TOptions>

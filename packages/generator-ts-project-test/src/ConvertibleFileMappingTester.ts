@@ -23,6 +23,20 @@ import { ParsableFileMappingTester } from "./ParsableFileMappingTester";
 export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator<TSettings, TOptions>, TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TFileMapping extends IFileMapping<TSettings, TOptions>, TParsed> extends ParsableFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping, TParsed>
 {
     /**
+     * Initializes a new instance of the {@link ConvertibleFileMappingTester `ConvertibleFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping, TParsed>`} class.
+     *
+     * @param generator
+     * The generator of the file-mapping
+     *
+     * @param fileMapping
+     * The file-mapping to test.
+     */
+    public constructor(generator: TGenerator, fileMapping: TFileMapping)
+    {
+        super(generator, fileMapping);
+    }
+
+    /**
      * Gets a component for parsing and dumping the data of the file-mapping.
      */
     public abstract get Converter(): TextConverter<TParsed>;

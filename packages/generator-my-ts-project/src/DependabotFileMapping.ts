@@ -1,4 +1,4 @@
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { join } from "upath";
 import { Document } from "yaml";
@@ -18,6 +18,17 @@ export class DependabotFileMapping<TSettings extends IGeneratorSettings, TOption
      * The relative filename of the dependabot-configuration.
      */
     private relativeFileName: string = join(".github", "dependabot.yml");
+
+    /**
+     * Initializes a new instance of the {@link DependabotFileMapping `DependabotFileMapping<TSettings, TOptions>`} class.
+     *
+     * @param generator
+     * The generator of the file-mapping.
+     */
+    public constructor(generator: IGenerator<TSettings, TOptions>)
+    {
+        super(generator);
+    }
 
     /**
      * @inheritdoc
