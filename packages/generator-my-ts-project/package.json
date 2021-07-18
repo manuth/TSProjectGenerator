@@ -72,7 +72,7 @@
     "eslint-plugin-jsdoc": "^35.4.3",
     "eslint-plugin-node": "^11.1.0",
     "fs-extra": "^10.0.0",
-    "mocha": "^8.4.0",
+    "mocha": "^9.0.2",
     "rimraf": "^3.0.2",
     "shusher": "^0.1.1",
     "ts-nameof": "^5.0.0",
