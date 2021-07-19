@@ -10,7 +10,7 @@
         },
         "module": "CommonJS",
         "lib": [
-            "ES2021"
+            "ES2020"
         ],
         "plugins": [
             {
