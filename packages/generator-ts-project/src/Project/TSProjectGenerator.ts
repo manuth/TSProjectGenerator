@@ -145,7 +145,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
                 {
                     tsConfig = await super.Transform(tsConfig);
-                    let plugins: Plugin[];
+                    let plugins: Plugin[] = [];
 
                     for (let [i] of tsConfig.compilerOptions.plugins.entries())
                     {
