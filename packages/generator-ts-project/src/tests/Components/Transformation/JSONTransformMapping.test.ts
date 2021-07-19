@@ -9,7 +9,7 @@ import { JSONCTransformMapping } from "../../../Components/Transformation/JSONCT
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class.
+ * Registers tests for the {@link JSONCTransformMapping `JSONCTransformMapping<TSettings, TOptions, TData>`} class.
  *
  * @param context
  * The test-context.
