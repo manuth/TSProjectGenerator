@@ -44,7 +44,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
 
         let compileScriptProcessor = (script: string): string =>
         {
-            return script.replaceAll(compileScriptName, buildScriptName);
+            return script.replace(new RegExp(compileScriptName, "g"), buildScriptName);
         };
 
         return [
@@ -84,12 +84,12 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
             {
                 Source: oldLintScriptName,
                 Destination: lintScriptName,
-                Processor: async (script) => script.replaceAll(oldLintBaseScriptName, lintBaseScriptName)
+                Processor: async (script) => script.replace(new RegExp(oldLintBaseScriptName, "g"), lintBaseScriptName)
             },
             {
                 Source: "lint-code-ide",
                 Destination: "lint-ide",
-                Processor: async (script) => script.replaceAll(oldLintScriptName, lintScriptName)
+                Processor: async (script) => script.replace(new RegExp(oldLintScriptName, "g"), lintScriptName)
             }
         ];
     }
