@@ -128,8 +128,9 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             public override get Components(): IComponentCollection<any, any>
             {
                 let components = super.Components;
-                let mergeWorkflowFileName = join(".github", "workflows", "auto-merge.yml");
-                let codeAnalysisWorkflowFileName = join(".github", "workflows", "codeql-analysis.yml");
+                let workflowDirName = join(".github", "workflows");
+                let mergeWorkflowFileName = join(workflowDirName, "auto-merge.yml");
+                let codeAnalysisWorkflowFileName = join(workflowDirName, "codeql-analysis.yml");
 
                 for (let category of components.Categories)
                 {
