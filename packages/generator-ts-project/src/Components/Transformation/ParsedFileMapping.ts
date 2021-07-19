@@ -47,7 +47,7 @@ export abstract class ParsedFileMapping<TSettings extends IGeneratorSettings, TO
      */
     public get Dumper(): IDumper<TData>
     {
-        return this.Dumper;
+        return this.Converter;
     }
 
     /**
