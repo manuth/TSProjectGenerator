@@ -3,9 +3,10 @@ import { basename, dirname, resolve } from "path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory, TempFile } from "@manuth/temp-files";
+import rescape = require("@stdlib/utils-escape-regexp-string");
 import { lstat, pathExists, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
-import { normalize } from "upath";
+import { join, normalize } from "upath";
 
 /**
  * Provides the functionality to test `.npmignore` file-mappings.
@@ -79,7 +80,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
                         Prefix: "",
                         Suffix: "",
                         Directory: dirname(path),
-                        FileNamePattern: basename(path)
+                        FileNamePattern: rescape(basename(path))
                     });
             }
 
@@ -110,7 +111,8 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
     public async AssertDirectoryIgnored(path: string, ignored = true): Promise<void>
     {
         let tempDir: TempDirectory = null;
-        path = normalize(path);
+        let tempFile: TempFile = null;
+        path = normalize(join(dirname(this.FileMapping.Destination), path));
 
         try
         {
@@ -121,7 +123,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
                         Suffix: "",
                         Prefix: "",
                         Directory: dirname(path),
-                        FileNamePattern: basename(path)
+                        FileNamePattern: rescape(basename(path))
                     });
             }
 
@@ -129,13 +131,13 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
 
             if (files.length === 0)
             {
-                let testFile = new TempFile(
+                tempFile = new TempFile(
                     {
                         Directory: path
                     });
 
                 doesNotReject(
-                    () => this.AssertIgnored(testFile.FullName, ignored),
+                    () => this.AssertIgnored(tempFile.FullName, ignored),
                     `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""} ignored!`);
             }
             else
@@ -161,6 +163,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
         }
         finally
         {
+            tempFile?.Dispose();
             tempDir?.Dispose();
         }
     }
