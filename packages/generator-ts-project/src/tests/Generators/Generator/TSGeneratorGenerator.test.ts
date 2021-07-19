@@ -57,6 +57,26 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     mainContext = context.ExecuteGenerator();
                     mainContext.withPrompts(settings);
                     await mainContext.toPromise();
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: mainContext.generator.destinationPath()
+                        });
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: mainContext.generator.destinationPath()
+                        });
                 });
 
             suiteTeardown(

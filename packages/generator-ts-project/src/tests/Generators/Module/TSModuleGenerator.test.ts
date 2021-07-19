@@ -25,6 +25,26 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.timeout(5 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: runContext.generator.destinationPath()
+                        });
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: runContext.generator.destinationPath()
+                        });
                 });
 
             suiteTeardown(
