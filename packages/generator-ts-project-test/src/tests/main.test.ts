@@ -1,7 +1,7 @@
 import { strictEqual } from "assert";
 
 suite(
-    "generator-ts-project-test",
+    "TSProjectGeneratorTest",
     () =>
     {
         test(
