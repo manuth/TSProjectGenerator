@@ -1,5 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
@@ -7,7 +8,6 @@ import { TSGeneratorPackageFileMapping } from "../../../../../generators/generat
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../../TestContext";
 
 /**
@@ -71,23 +71,25 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                 {
                                     this.slow(1 * 1000);
 
-                                    await tester.WritePackage(
-                                        {
-                                            keywords: []
-                                        });
+                                    await tester.DumpOutput(
+                                        new Package(
+                                            {
+                                                keywords: []
+                                            }));
 
                                     await tester.Run();
-                                    ok((await tester.Package).Keywords.includes(yeomanKeyword));
+                                    ok((await tester.ParseOutput()).Keywords.includes(yeomanKeyword));
 
-                                    await tester.WritePackage(
-                                        {
-                                            keywords: [yeomanKeyword]
-                                        });
+                                    await tester.DumpOutput(
+                                        new Package(
+                                            {
+                                                keywords: [yeomanKeyword]
+                                            }));
 
                                     await tester.Run();
 
                                     strictEqual(
-                                        (await tester.Package).Keywords.filter(
+                                        (await tester.ParseOutput()).Keywords.filter(
                                             (keyword) =>
                                             {
                                                 return keyword === yeomanKeyword;

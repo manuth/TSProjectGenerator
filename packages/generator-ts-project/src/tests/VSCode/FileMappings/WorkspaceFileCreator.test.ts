@@ -1,6 +1,7 @@
 import { deepStrictEqual, ok } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { assign, parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { WorkspaceFileCreator } from "../../../VSCode/FileMappings/WorkspaceFileCreator";
@@ -26,7 +27,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
             let workspace: IWorkspaceMetadata;
             let tasksComment: string;
             let rootComment: string;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>, IWorkspaceMetadata>;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
             let source: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
             let fileMappingCreator: WorkspaceFileCreator<ITestGeneratorSettings, GeneratorOptions>;
@@ -42,7 +43,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                     component.Source = source;
                     fileMappingCreator = new WorkspaceFileCreator(component, fileName);
                     component.FileMappingCreator = fileMappingCreator;
-                    tester = new FileMappingTester(generator, { Destination: fileName });
+                    tester = new JSONCFileMappingTester(generator, { Destination: fileName });
                 });
 
             setup(
@@ -87,7 +88,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                         "Checking whether the metadata of the workspace-file is created correctly…",
                         async () =>
                         {
-                            deepStrictEqual(parse(await tester.Content, null, true), parse(stringify(workspace)));
+                            deepStrictEqual(await tester.ParseOutput(), parse(stringify(workspace)));
                         });
 
                     test(
@@ -96,7 +97,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                         {
                             ok(
                                 stringify(
-                                    (parse(await tester.Content) as IWorkspaceMetadata).tasks,
+                                    (await tester.ParseOutput()).tasks,
                                     null,
                                     4).includes(tasksComment));
                         });

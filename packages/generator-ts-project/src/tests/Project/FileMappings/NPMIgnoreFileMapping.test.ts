@@ -1,10 +1,11 @@
-import { strictEqual } from "assert";
-import { ensureDir, ensureFile, lstat, readdir } from "fs-extra";
-import packlist = require("npm-packlist");
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
+import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
 import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName } from "types-tsconfig";
-import { changeExt, resolve } from "upath";
+import { changeExt } from "upath";
 import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
@@ -20,70 +21,21 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
         nameof<NPMIgnoreFileMapping<any, any>>(),
         () =>
         {
-            let includedFiles: string[];
+            let generatorContext: IRunContext<TSProjectGenerator>;
+            let generator: TSProjectGenerator;
+            let fileMappingOptions: NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let tester: NPMIgnoreFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    includedFiles = await Promise.all((await packlist({ path: await DestinationPath() })).map((path) => DestinationPath(path)));
+                    generatorContext = context.ExecuteGenerator();
+                    await generatorContext;
+                    generator = generatorContext.generator;
+                    fileMappingOptions = new NPMIgnoreFileMapping(generator);
+                    tester = new NPMIgnoreFileMappingTester(generator, fileMappingOptions);
                 });
-
-            /**
-             * Resolves a path relative to the generated directory.
-             *
-             * @param path
-             * The path to resolve.
-             *
-             * @returns
-             * The resolved path.
-             */
-            async function DestinationPath(...path: string[]): Promise<string>
-            {
-                return resolve((await context.Generator).destinationPath(...path));
-            }
-
-            /**
-             * Asserts whether the file at the specified {@link path `path`} is {@link ignored `ignored`}.
-             *
-             * @param path
-             * The path to check.
-             *
-             * @param ignored
-             * A value indicating whether the {@link path `path`} is expected to be ignored.
-             */
-            async function AssertIgnored(path: string, ignored = true): Promise<void>
-            {
-                strictEqual(includedFiles.includes(await DestinationPath(path)), !ignored);
-            }
-
-            /**
-             * Asserts whether the directory at the specified {@link path `path`} is {@link ignored `ignored`}.
-             *
-             * @param path
-             * The path to check.
-             *
-             * @param ignored
-             * A value indicating whether the {@link path `path`} is expected to be ignored.
-             */
-            async function AssertDirectoryIgnored(path: string, ignored = true): Promise<void>
-            {
-                let fileEntries = await readdir(await DestinationPath(path));
-
-                for (let fileEntry of fileEntries)
-                {
-                    fileEntry = await DestinationPath(path, fileEntry);
-
-                    if ((await lstat(fileEntry)).isDirectory())
-                    {
-                        await AssertDirectoryIgnored(fileEntry, ignored);
-                    }
-                    else
-                    {
-                        await AssertIgnored(fileEntry, ignored);
-                    }
-                }
-            }
 
             suite(
                 nameof<NPMIgnoreFileMapping<any, any>>((fileMapping) => fileMapping.Processor),
@@ -93,47 +45,43 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                         "Checking whether ignore-files are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(NPMIgnoreFileMapping.DefaultBaseName);
+                            await tester.AssertIgnored(NPMIgnoreFileMapping.DefaultBaseName);
                         });
 
                     test(
                         "Checking whether TypeScript-configurations are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(fileName);
+                            await tester.AssertIgnored(fileName);
                         });
 
                     test(
                         "Checking whether eslint-files are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(eslintFileName);
-                            await AssertIgnored(changeExt(eslintFileName, ".js"));
+                            await tester.AssertIgnored(eslintFileName);
+                            await tester.AssertIgnored(changeExt(eslintFileName, ".js"));
                         });
 
                     test(
                         "Checking whether mocha-files are ignored…",
                         async () =>
                         {
-                            await AssertIgnored(".mocharc.json");
+                            await tester.AssertIgnored(".mocharc.json");
                         });
 
                     test(
                         "Checking whether vscode-files are ignored…",
                         async () =>
                         {
-                            await AssertDirectoryIgnored(".vscode");
+                            await tester.AssertDirectoryIgnored(".vscode");
                         });
 
                     test(
                         "Checking whether github-files are ignored…",
                         async () =>
                         {
-                            let testFile = context.RandomString;
-                            let dirName = ".github";
-                            await ensureDir(await DestinationPath(dirName));
-                            await ensureFile(await DestinationPath(dirName, testFile));
-                            await AssertDirectoryIgnored(dirName);
+                            await tester.AssertDirectoryIgnored(".github");
                         });
                 });
         });

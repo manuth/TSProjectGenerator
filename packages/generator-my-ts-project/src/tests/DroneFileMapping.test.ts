@@ -2,6 +2,7 @@ import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
+import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { DroneFileMapping } from "../DroneFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
@@ -17,7 +18,9 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
         nameof(DroneFileMapping),
         () =>
         {
+            let generator: MyTSModuleGenerator;
             let fileMappingOptions: DroneFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let tester: YAMLFileMappingTester<MyTSModuleGenerator, ITSProjectSettings, GeneratorOptions, DroneFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             /**
              * Represents a condition for commands.
@@ -28,7 +31,15 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    fileMappingOptions = new DroneFileMapping(await context.Generator);
+                    generator = await context.Generator;
+                    fileMappingOptions = new DroneFileMapping(generator);
+                    tester = new YAMLFileMappingTester(generator, fileMappingOptions);
+                });
+
+            setup(
+                async () =>
+                {
+                    await tester.Run();
                 });
 
             /**
@@ -45,7 +56,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
              */
             async function AssertCommand(condition: CommandCondition, all = false): Promise<boolean>
             {
-                let documents = await fileMappingOptions.Transform(await fileMappingOptions.SourceObject);
+                let documents = await tester.ParseOutput();
                 let filter = <T>(array: T[]) => (condition: (item: T) => boolean) => (all ? array.every(condition) : array.some(condition));
 
                 return filter(documents)(
@@ -95,7 +106,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                             this.timeout(20 * 1000);
 
                             ok(
-                                (await fileMappingOptions.Transform(await fileMappingOptions.SourceObject)).every(
+                                (await tester.ParseOutput()).every(
                                     (document) =>
                                     {
                                         let steps: any[] = document.toJSON().steps;
@@ -125,7 +136,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                             this.timeout(20 * 1000);
 
                             ok(
-                                (await fileMappingOptions.Transform(await fileMappingOptions.SourceObject)).every(
+                                (await tester.ParseOutput()).every(
                                     (document) =>
                                     {
                                         let steps: any[] = document.toJSON().steps;

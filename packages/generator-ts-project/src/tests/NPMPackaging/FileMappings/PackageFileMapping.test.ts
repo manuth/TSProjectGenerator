@@ -1,13 +1,13 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { createSandbox, SinonSandbox } from "sinon";
 import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
 import { ITestPackageOptions } from "./ITestPackageOptions";
-import { PackageFileMappingTester } from "./PackageFileMappingTester";
 import { TestPackageFileMapping } from "./TestPackageFileMapping";
 
 /**
@@ -92,7 +92,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.slow(4 * 1000);
                             options.ScriptMappings.push(randomSource);
                             await tester.Run();
-                            strictEqual((await tester.Package).Scripts.Get(randomSource), randomScript);
+                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomSource), randomScript);
                         });
 
                     test(
@@ -109,7 +109,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                                 });
 
                             await tester.Run();
-                            strictEqual((await tester.Package).Scripts.Get(randomDestination), randomScript);
+                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomDestination), randomScript);
                         });
 
                     test(
@@ -130,7 +130,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                                 });
 
                             await tester.Run();
-                            strictEqual((await tester.Package).Scripts.Get(randomDestination), transformer(randomScript));
+                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomDestination), transformer(randomScript));
                         });
                 });
 
@@ -146,13 +146,14 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.slow(2 * 1000);
                             let randomLicense = context.RandomString;
 
-                            await tester.WritePackage(
-                                {
-                                    license: randomLicense
-                                });
+                            await tester.DumpOutput(
+                                new Package(
+                                    {
+                                        license: randomLicense
+                                    }));
 
                             await tester.Run();
-                            strictEqual((await tester.Package).License, randomLicense);
+                            strictEqual((await tester.ParseOutput()).License, randomLicense);
                         });
 
                     test(
@@ -163,8 +164,8 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.slow(2 * 1000);
 
                             await tester.Run();
-                            strictEqual((await tester.Package).Author.Name, tester.Generator.user.git.name());
-                            strictEqual((await tester.Package).Author.EMail, tester.Generator.user.git.email());
+                            strictEqual((await tester.ParseOutput()).Author.Name, tester.Generator.user.git.name());
+                            strictEqual((await tester.ParseOutput()).Author.EMail, tester.Generator.user.git.email());
                         });
 
                     test(
@@ -174,7 +175,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
-                            strictEqual((await tester.Package).Version, defaultVersion);
+                            strictEqual((await tester.ParseOutput()).Version, defaultVersion);
                         });
                 });
         });

@@ -2,13 +2,13 @@ import { ok } from "assert";
 import { spawnSync } from "child_process";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
+import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { IPackageMetadata, Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
 import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
-import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../../TestContext";
 
 /**
@@ -81,6 +81,12 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                     runContext.cleanTestDirectory();
                 });
 
+            setup(
+                async () =>
+                {
+                    await tester.Run();
+                });
+
             suite(
                 nameof<TestTSModulePackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
@@ -90,7 +96,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         async function()
                         {
                             this.slow(2 * 1000);
-                            ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Main)));
+                            ok(await pathExists(tester.Generator.destinationPath((await tester.ParseOutput()).Main)));
                         });
 
                     test(
@@ -98,7 +104,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         async function()
                         {
                             this.slow(2 * 1000);
-                            ok(await pathExists(tester.Generator.destinationPath((await tester.Package).Types)));
+                            ok(await pathExists(tester.Generator.destinationPath((await tester.ParseOutput()).Types)));
                         });
                 });
         });

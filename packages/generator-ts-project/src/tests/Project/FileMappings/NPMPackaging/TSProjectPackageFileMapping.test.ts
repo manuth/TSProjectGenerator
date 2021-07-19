@@ -1,5 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
@@ -10,7 +11,6 @@ import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSetti
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
-import { PackageFileMappingTester } from "../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../TestContext";
 
 /**
@@ -65,21 +65,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
             async function AssertScriptCopy(source: string, destination?: string): Promise<void>
             {
                 destination = destination ?? source;
-                return AssertScript(destination, Constants.Package.Scripts.Get(source));
-            }
-
-            /**
-             * Asserts the contents of a script.
-             *
-             * @param name
-             * The name of the script.
-             *
-             * @param content
-             * The expected contents of the script.
-             */
-            async function AssertScript(name: string, content: string): Promise<void>
-            {
-                strictEqual((await tester.Package).Scripts.Get(name), content);
+                return tester.AssertScript(destination, Constants.Package.Scripts.Get(source));
             }
 
             suiteSetup(
@@ -111,8 +97,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
                             tester.Generator.Settings[TSProjectSettingKey.Description] = randomDescription;
                             await tester.Run();
-                            strictEqual((await tester.Package).Name, randomName);
-                            strictEqual((await tester.Package).Description, randomDescription);
+                            strictEqual((await tester.ParseOutput()).Name, randomName);
+                            strictEqual((await tester.ParseOutput()).Description, randomDescription);
                         });
                     test(
                         "Checking whether common dependencies are present…",
@@ -156,24 +142,31 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             await AssertScriptCopy("compile", "build");
                             await AssertScriptCopy("rebuild");
 
-                            await AssertScript(
+                            await tester.AssertScript(
                                 "watch",
                                 Constants.Package.Scripts.Get("watch-compile").replace("compile", "build"));
 
-                            await AssertScript("clean", Constants.Package.Scripts.Get("clean").replace("compile", "build"));
+                            await tester.AssertScript("clean", Constants.Package.Scripts.Get("clean").replace("compile", "build"));
                             await AssertScriptCopy("lint-code-base", "lint-base");
 
-                            await AssertScript(
+                            await tester.AssertScript(
                                 "lint",
                                 Constants.Package.Scripts.Get("lint-code").replace("lint-code-base", "lint-base"));
 
-                            await AssertScript(
+                            await tester.AssertScript(
                                 "lint-ide",
                                 Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
 
                             await AssertScriptCopy("test");
-                            ok(!(await tester.Package).Scripts.Get("prepare").includes(patchScriptName));
-                            ok(!(await tester.Package).Scripts.Has(patchScriptName));
+
+                            await tester.AssertScript(
+                                "prepare",
+                                (script) =>
+                                {
+                                    return !script.includes(patchScriptName);
+                                });
+
+                            ok(!(await tester.ParseOutput()).Scripts.Has(patchScriptName));
                         });
                 });
         });

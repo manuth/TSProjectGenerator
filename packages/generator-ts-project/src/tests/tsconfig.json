@@ -10,6 +10,9 @@
     "references": [
         {
             "path": "../.."
+        },
+        {
+            "path": "../../../generator-ts-project-test"
         }
     ]
 }

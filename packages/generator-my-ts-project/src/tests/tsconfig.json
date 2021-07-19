@@ -13,6 +13,9 @@
         },
         {
             "path": "../../../generator-ts-project"
+        },
+        {
+            "path": "../../../generator-ts-project-test"
         }
     ]
 }

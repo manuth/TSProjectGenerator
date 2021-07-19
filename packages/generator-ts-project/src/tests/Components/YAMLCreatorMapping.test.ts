@@ -1,9 +1,9 @@
 import { deepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { Document } from "yaml";
-import { YAMLTransformMapping } from "../../Components/Transformation/YAMLTransformMapping";
 import { YAMLCreatorMapping } from "../../Components/YAMLCreatorMapping";
 import { TestContext } from "../TestContext";
 
@@ -22,8 +22,7 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
             let generator: TestGenerator;
             let tempFile: TempFile;
             let fileMappingOptions: YAMLCreatorMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, YAMLCreatorMapping<ITestGeneratorSettings, GeneratorOptions>>;
-            let checker: YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: YAMLFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, YAMLCreatorMapping<ITestGeneratorSettings, GeneratorOptions>>;
             let randomObject: any;
 
             suiteSetup(
@@ -48,26 +47,7 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
                             document
                         ]);
 
-                    tester = new FileMappingTester(generator, fileMappingOptions);
-
-                    checker = new class extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return tempFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return null;
-                        }
-                    }(generator);
+                    tester = new YAMLFileMappingTester(generator, fileMappingOptions);
                 });
 
             suite(
@@ -81,7 +61,7 @@ export function YAMLCreatorMappingTests(context: TestContext<TestGenerator, ITes
                             this.timeout(1 * 1000);
                             this.slow(1 * 1000);
                             await tester.Run();
-                            let documents = await checker.SourceObject;
+                            let documents = await tester.ParseOutput();
                             strictEqual(documents.length, 1);
                             let document = documents[0];
                             deepStrictEqual(document.toJSON(), randomObject);

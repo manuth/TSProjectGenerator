@@ -2,7 +2,7 @@ import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
-import { Document } from "yaml";
+import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { DependabotFileMapping } from "../DependabotFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
@@ -20,8 +20,9 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
         {
             let updateKey: string;
             let directoryKey: string;
+            let generator: MyTSModuleGenerator;
             let fileMappingOptions: DependabotFileMapping<ITSProjectSettings, GeneratorOptions>;
-            let documents: Document.Parsed[];
+            let tester: YAMLFileMappingTester<MyTSModuleGenerator, ITSProjectSettings, GeneratorOptions, DependabotFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()
@@ -29,13 +30,15 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                     this.timeout(5 * 60 * 1000);
                     updateKey = "updates";
                     directoryKey = "directory";
-                    fileMappingOptions = new DependabotFileMapping(await context.Generator);
+                    generator = await context.Generator;
+                    fileMappingOptions = new DependabotFileMapping(generator);
+                    tester = new YAMLFileMappingTester(generator, fileMappingOptions);
                 });
 
             setup(
                 async () =>
                 {
-                    documents = await fileMappingOptions.Transform(await fileMappingOptions.SourceObject);
+                    await tester.Run();
                 });
 
             suite(
@@ -44,23 +47,23 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                 {
                     test(
                         "Checking whether only one document is present inside the file…",
-                        () =>
+                        async () =>
                         {
-                            strictEqual(documents.length, 1);
+                            strictEqual((await tester.ParseOutput()).length, 1);
                         });
 
                     test(
                         "Checking whether only one dependabot-configuration is present…",
-                        () =>
+                        async () =>
                         {
-                            strictEqual(documents[0].get(updateKey).toJSON().length, 1);
+                            strictEqual((await tester.ParseOutput())[0].get(updateKey).toJSON().length, 1);
                         });
 
                     test(
                         "Checking whether the dependabot-configuration directory points to the root of the project…",
-                        () =>
+                        async () =>
                         {
-                            strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
+                            strictEqual((await tester.ParseOutput())[0].getIn([updateKey, 0, directoryKey]), "/");
                         });
                 });
         });

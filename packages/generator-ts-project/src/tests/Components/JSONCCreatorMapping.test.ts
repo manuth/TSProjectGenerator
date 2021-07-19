@@ -1,6 +1,7 @@
 import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMappingTester, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
 
@@ -19,7 +20,7 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
             let generator: TestGenerator;
             let tempFile: TempFile;
             let fileMappingOptions: JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>;
-            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
+            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>>;
             let randomObject: any;
 
             suiteSetup(
@@ -35,7 +36,7 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                 {
                     randomObject = context.RandomObject;
                     fileMappingOptions = new JSONCCreatorMapping(generator, tempFile.FullName, randomObject);
-                    tester = new JSONFileMappingTester(generator, fileMappingOptions);
+                    tester = new JSONCFileMappingTester(generator, fileMappingOptions);
                 });
 
             suite(
@@ -47,7 +48,7 @@ export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITes
                         async () =>
                         {
                             await tester.Run();
-                            deepStrictEqual(await tester.Metadata, randomObject);
+                            deepStrictEqual(await tester.ParseOutput(), randomObject);
                         });
                 });
         });

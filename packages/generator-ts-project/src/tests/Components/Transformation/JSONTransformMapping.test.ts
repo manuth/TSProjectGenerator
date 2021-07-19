@@ -1,6 +1,7 @@
 import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, JSONFileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { assign } from "comment-json";
 import { writeFile } from "fs-extra";
@@ -23,7 +24,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
             let sourceFile: TempFile;
             let destinationFile: TempFile;
             let fileMappingOptions: TestJSONTransformMapping;
-            let tester: JSONFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
+            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
             let sourceData: any;
             let addition: Record<string, any>;
 
@@ -79,7 +80,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
                     fileMappingOptions = new TestJSONTransformMapping();
-                    tester = new JSONFileMappingTester(generator, fileMappingOptions);
+                    tester = new JSONCFileMappingTester(generator, fileMappingOptions);
                 });
 
             setup(
@@ -101,7 +102,7 @@ export function JSONTransformMappingTests(context: TestContext<TestGenerator, IT
                         {
                             for (let key in addition)
                             {
-                                deepStrictEqual((await tester.Metadata)[key], addition[key]);
+                                deepStrictEqual((await tester.ParseOutput())[key], addition[key]);
                             }
                         });
                 });
