@@ -55,16 +55,23 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
             async () =>
             {
                 let npmPackage: Package;
-                let fileName = this.Resolved.Destination;
+                let sourceFileName = this.Resolved.Source;
+                let outputFileName = this.Resolved.Destination;
 
-                if (await pathExists(fileName))
+                if (
+                    sourceFileName &&
+                    await pathExists(sourceFileName))
                 {
-                    npmPackage = new Package(fileName);
+                    npmPackage = new Package(sourceFileName);
+                }
+                else if (await pathExists(outputFileName))
+                {
+                    npmPackage = new Package(outputFileName);
                 }
                 else
                 {
                     npmPackage = new Package(
-                        fileName,
+                        outputFileName,
                         {
                             version: "0.0.0",
                             author: {
