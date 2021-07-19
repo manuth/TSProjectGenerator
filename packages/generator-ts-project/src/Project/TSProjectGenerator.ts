@@ -12,7 +12,7 @@ import npmWhich = require("npm-which");
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
 import { fileName as eslintFileName } from "types-eslintrc";
-import { fileName, Plugin, TSConfigJSON } from "types-tsconfig";
+import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
 import { changeExt, join, resolve } from "upath";
@@ -210,10 +210,50 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                     return this.Generator.modulePath(super.Source);
                 }
             }(this),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
             {
-                Source: this.modulePath("src", "tests", fileName),
-                Destination: this.destinationPath(this.SourceRoot, "tests", fileName)
-            }
+                /**
+                 * @inheritdoc
+                 */
+                public override get BaseName(): string
+                {
+                    return join("src", "tests", super.BaseName);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param tsConfig
+                 * The typescript-configuration to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
+                {
+                    let references: References[] = [];
+                    tsConfig = await super.Transform(tsConfig);
+
+                    for (let reference of tsConfig.references)
+                    {
+                        if (reference.path === join("..", ".."))
+                        {
+                            references.push(reference);
+                        }
+                    }
+
+                    tsConfig.references = references;
+                    return tsConfig;
+                }
+            }(this)
         ];
     }
 
