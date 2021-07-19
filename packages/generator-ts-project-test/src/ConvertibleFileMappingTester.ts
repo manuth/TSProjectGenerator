@@ -82,7 +82,7 @@ export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator
      */
     public async DumpFile(data: TParsed, fileName: string): Promise<void>
     {
-        super.WriteFile(this.Dump(data), fileName);
+        return super.WriteFile(this.Dump(data), fileName);
     }
 
     /**
@@ -93,7 +93,7 @@ export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator
      */
     public async DumpSource(data: TParsed): Promise<void>
     {
-        this.WriteSource(this.Dump(data));
+        return this.WriteSource(this.Dump(data));
     }
 
     /**
@@ -104,6 +104,6 @@ export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator
      */
     public async DumpOutput(data: TParsed): Promise<void>
     {
-        this.WriteDestination(this.Dump(data));
+        return this.WriteDestination(this.Dump(data));
     }
 }
