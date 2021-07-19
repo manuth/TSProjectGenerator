@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "assert";
-import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
@@ -27,7 +27,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
-            let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
             let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
@@ -37,15 +36,12 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     tempDir = new TempDirectory();
                     fileName = tempDir.MakePath("temp.txt");
                     generator = await context.Generator;
-                    fileMappingTester = new FileMappingTester(generator, { Destination: fileName });
                     workspaceProvider = new TestCodeWorkspaceProvider(new CodeWorkspaceComponent(generator));
                 });
 
             teardown(
                 async () =>
                 {
-                    await fileMappingTester.Clean();
-
                     if (await pathExists(fileName))
                     {
                         return remove(fileName);
@@ -107,8 +103,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         async () =>
                         {
                             await writeFile(fileName, JSON.stringify(randomData));
-                            await fileMappingTester.Commit();
-                            generator.fs.exists(fileName);
                             deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 
