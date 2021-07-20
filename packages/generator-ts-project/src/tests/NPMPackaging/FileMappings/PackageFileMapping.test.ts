@@ -135,7 +135,7 @@ export function PackageFileMappingTests(context: TestContext<TestGenerator, ITes
                 });
 
             suite(
-                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.Package),
+                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.GetPackage),
                 () =>
                 {
                     test(

@@ -41,7 +41,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      */
     public override get SourceObject(): Promise<Package>
     {
-        return this.Base.Package;
+        return this.Base.GetPackage();
     }
 
     /**

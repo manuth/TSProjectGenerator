@@ -87,9 +87,12 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     }
 
     /**
-     * Gets the package to write.
+     * Gets the {@link Package `Package`} to write.
+     *
+     * @returns
+     * The {@link Package `Package`} to write.
      */
-    public get Package(): Promise<Package>
+    public async GetPackage(): Promise<Package>
     {
         return (
             async () =>
@@ -178,7 +181,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     public override async Processor(): Promise<void>
     {
         this.Generator.fs.writeJSON(this.Resolved.Destination, {});
-        this.Generator.packageJson.merge((await this.Package).ToJSON());
+        this.Generator.packageJson.merge((await this.GetPackage()).ToJSON());
     }
 
     /**
