@@ -79,9 +79,15 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
         ];
 
         return files.map(
-            (fileEntry) =>
+            (fileEntry): IFileMapping<TSettings, TOptions> =>
             {
-                return new JSONCCreatorMapping(this.Generator, join(this.SettingsFolderName, fileEntry[0]), fileEntry[1]);
+                return {
+                    Destination: join(this.SettingsFolderName, fileEntry[0]),
+                    Processor: async (target) =>
+                    {
+                        return new JSONCCreatorMapping(this.Generator, target.Destination, await fileEntry[1]).Processor();
+                    }
+                };
             });
     }
 }
