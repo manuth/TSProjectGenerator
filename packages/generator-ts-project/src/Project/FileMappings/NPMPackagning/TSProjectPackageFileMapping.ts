@@ -141,13 +141,9 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected override get ScriptSource(): Promise<Package>
+    protected override get ScriptSource(): Package
     {
-        return (
-            async () =>
-            {
-                return Constants.Package;
-            })();
+        return Constants.Package;
     }
 
     /**

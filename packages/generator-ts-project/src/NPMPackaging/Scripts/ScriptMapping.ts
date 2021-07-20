@@ -17,7 +17,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     /**
      * The package to load the script-source from.
      */
-    private sourcePackage: Promise<Package>;
+    private sourcePackage: Package;
 
     /**
      * Initializes a new instance of the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
@@ -31,7 +31,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
      * @param scriptInfo
      * A component which provides information about the script.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>, sourcePackage: Promise<Package>, scriptInfo: string | IScriptMapping<TSettings, TOptions>)
+    public constructor(generator: IGenerator<TSettings, TOptions>, sourcePackage: Package, scriptInfo: string | IScriptMapping<TSettings, TOptions>)
     {
         super(
             generator,
@@ -48,7 +48,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     /**
      * Gets the package to load the script-source from.
      */
-    public get SourcePackage(): Promise<Package>
+    public get SourcePackage(): Package
     {
         return this.sourcePackage;
     }
@@ -96,7 +96,7 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
 
             if (this.Source)
             {
-                script = (await this.SourcePackage).Scripts.Get(this.Source);
+                script = this.SourcePackage.Scripts.Get(this.Source);
             }
             else
             {

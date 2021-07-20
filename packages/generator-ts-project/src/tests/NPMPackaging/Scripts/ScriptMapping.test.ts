@@ -37,7 +37,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
 
                     scriptMapping = new ScriptMapping(
                         await context.Generator,
-                        (async () => npmPackage)(),
+                        npmPackage,
                         {
                             Source: randomSource,
                             Destination: randomDestination
@@ -52,7 +52,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                         "Checking whether passing a string constructs a script-mapping for copying the specified script…",
                         async () =>
                         {
-                            scriptMapping = new ScriptMapping(await context.Generator, (async () => npmPackage)(), randomSource);
+                            scriptMapping = new ScriptMapping(await context.Generator, npmPackage, randomSource);
                             strictEqual(scriptMapping.Destination, scriptMapping.Source);
                             strictEqual(scriptMapping.Source, randomSource);
                         });
@@ -93,7 +93,7 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
 
                             scriptMapping = new ScriptMapping(
                                 await context.Generator,
-                                (async () => npmPackage)(),
+                                npmPackage,
                                 {
                                     Source: randomSource,
                                     Destination: randomDestination,

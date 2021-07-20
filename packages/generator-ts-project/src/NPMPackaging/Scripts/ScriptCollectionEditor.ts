@@ -11,7 +11,7 @@ export class ScriptCollectionEditor extends PropertyResolverCollectionEditor<ISc
     /**
      * The package to load the source-scripts from.
      */
-    private sourcePackage: Promise<Package>;
+    private sourcePackage: Package;
 
     /**
      * Initializes a new instance of the {@link ScriptCollectionEditor `ScriptCollectionEditor`} class.
@@ -25,7 +25,7 @@ export class ScriptCollectionEditor extends PropertyResolverCollectionEditor<ISc
      * @param items
      * The items to edit.
      */
-    public constructor(generator: IGenerator<any, any>, sourcePackage: Promise<Package>, items: Array<ScriptMapping<any, any>>);
+    public constructor(generator: IGenerator<any, any>, sourcePackage: Package, items: Array<ScriptMapping<any, any>>);
 
     /**
      * Initializes a new instance of the {@link ScriptCollectionEditor `ScriptCollectionEditor`} class.
@@ -39,7 +39,7 @@ export class ScriptCollectionEditor extends PropertyResolverCollectionEditor<ISc
      * @param itemProvider
      * A function for providing the items.
      */
-    public constructor(generator: IGenerator<any, any>, sourcePackage: Promise<Package>, itemProvider: () => Array<ScriptMapping<any, any>>);
+    public constructor(generator: IGenerator<any, any>, sourcePackage: Package, itemProvider: () => Array<ScriptMapping<any, any>>);
 
     /**
      * Initializes a new instance of the {@link ScriptCollectionEditor `ScriptCollectionEditor`} class.
@@ -53,7 +53,7 @@ export class ScriptCollectionEditor extends PropertyResolverCollectionEditor<ISc
      * @param items
      * The items to edit.
      */
-    public constructor(generator: IGenerator<any, any>, sourcePackage: Promise<Package>, items: any)
+    public constructor(generator: IGenerator<any, any>, sourcePackage: Package, items: any)
     {
         super(generator, items);
         this.sourcePackage = sourcePackage;
@@ -62,7 +62,7 @@ export class ScriptCollectionEditor extends PropertyResolverCollectionEditor<ISc
     /**
      * Gets the package to load the source-scripts from.
      */
-    public get SourcePackage(): Promise<Package>
+    public get SourcePackage(): Package
     {
         return this.sourcePackage;
     }

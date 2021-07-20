@@ -46,13 +46,9 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     /**
      * Gets the template package.
      */
-    public override get ScriptSource(): Promise<Package>
+    public override get ScriptSource(): Package
     {
-        return (
-            async () =>
-            {
-                return this.Options.Template;
-            })();
+        return this.Options.Template;
     }
 
     /**
