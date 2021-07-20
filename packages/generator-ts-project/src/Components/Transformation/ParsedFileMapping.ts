@@ -57,13 +57,12 @@ export abstract class ParsedFileMapping<TSettings extends IGeneratorSettings, TO
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The object to dump.
      */
-    public override get SourceObject(): Promise<TData>
+    public override async GetSourceObject(): Promise<TData>
     {
-        return (
-            async () =>
-            {
-                return this.Parser.Parse(await this.Content);
-            })();
+        return this.Parser.Parse(await this.Content);
     }
 }

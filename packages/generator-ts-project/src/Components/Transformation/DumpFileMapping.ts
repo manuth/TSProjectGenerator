@@ -27,21 +27,24 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
     }
 
     /**
-     * Gets the object to dump.
-     */
-    public abstract get SourceObject(): Promise<TData>;
-
-    /**
      * Gets a component for dumping {@link TData `TData`}-objects.
      */
     public abstract get Dumper(): IDumper<TData>;
+
+    /**
+     * Gets the object to dump.
+     *
+     * @returns
+     * The object to dump.
+     */
+    public abstract GetSourceObject(): Promise<TData>;
 
     /**
      * @inheritdoc
      */
     public override async Processor(): Promise<void>
     {
-        return this.WriteDestination(this.Dumper.Dump(await this.Transform(await this.SourceObject)));
+        return this.WriteDestination(this.Dumper.Dump(await this.Transform(await this.GetSourceObject())));
     }
 
     /**

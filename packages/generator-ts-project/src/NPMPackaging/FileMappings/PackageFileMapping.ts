@@ -48,42 +48,41 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The object to dump.
      */
-    public override get SourceObject(): Promise<Package>
+    public override async GetSourceObject(): Promise<Package>
     {
-        return (
-            async () =>
-            {
-                let npmPackage: Package;
-                let sourceFileName = this.Resolved.Source;
-                let outputFileName = this.Resolved.Destination;
+        let npmPackage: Package;
+        let sourceFileName = this.Resolved.Source;
+        let outputFileName = this.Resolved.Destination;
 
-                if (
-                    sourceFileName &&
-                    await pathExists(sourceFileName))
+        if (
+            sourceFileName &&
+            await pathExists(sourceFileName))
+        {
+            npmPackage = new Package(sourceFileName);
+        }
+        else if (await pathExists(outputFileName))
+        {
+            npmPackage = new Package(outputFileName);
+        }
+        else
+        {
+            npmPackage = new Package(
+                outputFileName,
                 {
-                    npmPackage = new Package(sourceFileName);
-                }
-                else if (await pathExists(outputFileName))
-                {
-                    npmPackage = new Package(outputFileName);
-                }
-                else
-                {
-                    npmPackage = new Package(
-                        outputFileName,
-                        {
-                            version: "0.0.0",
-                            author: {
-                                name: this.Generator.user.git.name(),
-                                email: this.Generator.user.git.email()
-                            }
-                        });
-                }
+                    version: "0.0.0",
+                    author: {
+                        name: this.Generator.user.git.name(),
+                        email: this.Generator.user.git.email()
+                    }
+                });
+        }
 
-                await npmPackage.Normalize();
-                return npmPackage;
-            })();
+        await npmPackage.Normalize();
+        return npmPackage;
     }
 
     /**
@@ -192,6 +191,6 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     protected async LoadPackage(): Promise<Package>
     {
-        return this.SourceObject;
+        return this.GetSourceObject();
     }
 }

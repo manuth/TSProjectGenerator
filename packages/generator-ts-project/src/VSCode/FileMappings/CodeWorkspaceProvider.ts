@@ -53,55 +53,54 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
 
     /**
      * Gets the meta-data of the workspace.
+     *
+     * @returns
+     * The meta-data of the workspace.
      */
-    public abstract get WorkspaceMetadata(): Promise<IWorkspaceMetadata>;
+    public abstract GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>;
 
     /**
      * Gets the meta-data of the extensions.
+     *
+     * @returns
+     * The meta-data of the extensions.
      */
-    public get ExtensionsMetadata(): Promise<IExtensionSettings>
+    public async GetExtensionsMetadata(): Promise<IExtensionSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).extensions;
-            })();
+        return (await this.GetWorkspaceMetadata()).extensions;
     }
 
     /**
      * Gets the meta-data of the debug-settings.
+     *
+     * @returns
+     * The meta-data of the debug-settings.
      */
-    public get LaunchMetadata(): Promise<ILaunchSettings>
+    public async GetLaunchMetadata(): Promise<ILaunchSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).launch;
-            })();
+        return (await this.GetWorkspaceMetadata()).launch;
     }
 
     /**
      * Gets the meta-data of the settings.
+     *
+     * @returns
+     * The meta-data of the settings.
      */
-    public get SettingsMetadata(): Promise<Record<string, any>>
+    public async GetSettingsMetadata(): Promise<Record<string, any>>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).settings;
-            })();
+        return (await this.GetWorkspaceMetadata()).settings;
     }
 
     /**
      * Gets the meta-data of the tasks.
+     *
+     * @returns
+     * The meta-data of the tasks.
      */
-    public get TasksMetadata(): Promise<ITaskSettings>
+    public async GetTasksMetadata(): Promise<ITaskSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).tasks;
-            })();
+        return (await this.GetWorkspaceMetadata()).tasks;
     }
 
     /**

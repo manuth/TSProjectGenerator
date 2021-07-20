@@ -37,23 +37,6 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
     }
 
     /**
-     * Gets a template-configuration for yeoman-tasks.
-     */
-    protected get TemplateMetadata(): Promise<DebugConfiguration>
-    {
-        return (
-            async () =>
-            {
-                return this.ProcessDebugConfig((await this.Component.Source.LaunchMetadata).configurations.find(
-                    (debugConfig) =>
-                    {
-                        return normalize(debugConfig.program ?? "").toLowerCase().endsWith(
-                            join("node_modules", "yo", "lib", "cli.js"));
-                    }));
-            })();
-    }
-
-    /**
      * @inheritdoc
      *
      * @param data
@@ -84,7 +67,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
 
         for (let generatorOptions of generators)
         {
-            let template = await this.TemplateMetadata;
+            let template = await this.GetTemplateMetadata();
             let displayName = generatorOptions[SubGeneratorSettingKey.DisplayName];
             let name = generatorOptions[SubGeneratorSettingKey.Name];
             template.name = name === GeneratorName.Main ? "Launch Yeoman" : `Launch ${displayName} generator`;
@@ -98,5 +81,25 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
 
         result.configurations.unshift(...configurations);
         return result;
+    }
+
+    /**
+     * Gets a template-configuration for yeoman-tasks.
+     *
+     * @returns
+     * A template-configuration for yeoman-tasks.
+     */
+    protected async GetTemplateMetadata(): Promise<DebugConfiguration>
+    {
+        return (
+            async () =>
+            {
+                return this.ProcessDebugConfig((await this.Component.Source.GetLaunchMetadata()).configurations.find(
+                    (debugConfig) =>
+                    {
+                        return normalize(debugConfig.program ?? "").toLowerCase().endsWith(
+                            join("node_modules", "yo", "lib", "cli.js"));
+                    }));
+            })();
     }
 }

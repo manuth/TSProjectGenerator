@@ -38,8 +38,11 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The object to dump.
      */
-    public override get SourceObject(): Promise<Package>
+    public override GetSourceObject(): Promise<Package>
     {
         return this.Base.GetPackage();
     }

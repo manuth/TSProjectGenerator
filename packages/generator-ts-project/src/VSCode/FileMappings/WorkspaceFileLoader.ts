@@ -44,13 +44,12 @@ export class WorkspaceFileLoader<TSettings extends IGeneratorSettings, TOptions 
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the workspace.
      */
-    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    public async GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>
     {
-        return (
-            async (): Promise<IWorkspaceMetadata> =>
-            {
-                return this.ReadJSON(this.WorkspaceFileName);
-            })();
+        return this.ReadJSON(this.WorkspaceFileName);
     }
 }

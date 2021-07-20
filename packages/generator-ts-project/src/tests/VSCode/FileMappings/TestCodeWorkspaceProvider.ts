@@ -20,13 +20,9 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * The workspace-metadata.
      */
-    private workspace: Promise<IWorkspaceMetadata> = (
-        async (): Promise<IWorkspaceMetadata> =>
-        {
-            return {
-                folders: []
-            };
-        })();
+    private workspace: IWorkspaceMetadata = {
+        folders: []
+    };
 
     /**
      * Initializes a new instance of the {@link TestCodeWorkspaceProvider `TestCodeWorkspaceProvider<TSettings, TOptions>`} class.
@@ -40,41 +36,9 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     }
 
     /**
-     * @inheritdoc
-     */
-    public override get ExtensionsMetadata(): Promise<IExtensionSettings>
-    {
-        return (async () => (await this.WorkspaceMetadata).extensions)();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override get LaunchMetadata(): Promise<ILaunchSettings>
-    {
-        return (async () => (await this.WorkspaceMetadata).launch)();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override get SettingsMetadata(): Promise<Record<string, any>>
-    {
-        return (async () => (await this.WorkspaceMetadata).settings)();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override get TasksMetadata(): Promise<ITaskSettings>
-    {
-        return (async () => (await this.WorkspaceMetadata).tasks)();
-    }
-
-    /**
      * Gets or sets the workspace-metadata.
      */
-    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    public get WorkspaceMetadata(): IWorkspaceMetadata
     {
         return this.workspace;
     }
@@ -82,9 +46,64 @@ export class TestCodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOp
     /**
      * @inheritdoc
      */
-    public set WorkspaceMetadata(value: Promise<IWorkspaceMetadata>)
+    public set WorkspaceMetadata(value: IWorkspaceMetadata)
     {
         this.workspace = value;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the extensions.
+     */
+    public override async GetExtensionsMetadata(): Promise<IExtensionSettings>
+    {
+        return (await this.GetWorkspaceMetadata()).extensions;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the debug-settings.
+     */
+    public override async GetLaunchMetadata(): Promise<ILaunchSettings>
+    {
+        return (await this.GetWorkspaceMetadata()).launch;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the settings.
+     */
+    public override async GetSettingsMetadata(): Promise<Record<string, any>>
+    {
+        return (await this.GetWorkspaceMetadata()).settings;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the tasks.
+     */
+    public override async GetTasksMetadata(): Promise<ITaskSettings>
+    {
+        return (await this.GetWorkspaceMetadata()).tasks;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the workspace.
+     */
+    public async GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    {
+        return this.WorkspaceMetadata;
     }
 
     /**

@@ -34,6 +34,55 @@ export class WorkspaceFolderLoader<TSettings extends IGeneratorSettings, TOption
     }
 
     /**
+     * Gets the name of the file containing extensions.
+     */
+    public get ExtensionsFileName(): string
+    {
+        return this.SettingsPath("extensions.json");
+    }
+
+    /**
+     * Gets the name of the file containing the launch-settings.
+     */
+    public get LaunchFileName(): string
+    {
+        return this.SettingsPath("launch.json");
+    }
+
+    /**
+     * Gets the name of the file containing settings.
+     */
+    public get SettingsFileName(): string
+    {
+        return this.SettingsPath("settings.json");
+    }
+
+    /**
+     * Gets the name of the file containing the tasks.
+     */
+    public get TasksFileName(): string
+    {
+        return this.SettingsPath("tasks.json");
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the workspace.
+     */
+    public async GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    {
+        return {
+            folders: [],
+            extensions: await this.ReadJSON(this.ExtensionsFileName),
+            launch: await this.ReadJSON(this.LaunchFileName),
+            settings: await this.ReadJSON(this.SettingsFileName),
+            tasks: await this.ReadJSON(this.TasksFileName)
+        };
+    }
+
+    /**
      * Creates a path relative to the settings folder.
      *
      * @param path
@@ -42,58 +91,8 @@ export class WorkspaceFolderLoader<TSettings extends IGeneratorSettings, TOption
      * @returns
      * The path relative to the settings folder.
      */
-    protected async SettingsPath(...path: string[]): Promise<string>
+    protected SettingsPath(...path: string[]): string
     {
         return this.Generator.modulePath(this.SettingsFolderName, ...path);
-    }
-
-    /**
-     * Gets the name of the file containing extensions.
-     */
-    public get ExtensionsFileName(): Promise<string>
-    {
-        return this.SettingsPath("extensions.json");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
-    {
-        return (
-            async (): Promise<IWorkspaceMetadata> =>
-            {
-                return {
-                    folders: [],
-                    extensions: await this.ReadJSON(await this.ExtensionsFileName),
-                    launch: await this.ReadJSON(await this.LaunchFileName),
-                    settings: await this.ReadJSON(await this.SettingsFileName),
-                    tasks: await this.ReadJSON(await this.TasksFileName)
-                };
-            })();
-    }
-
-    /**
-     * Gets the name of the file containing the launch-settings.
-     */
-    public get LaunchFileName(): Promise<string>
-    {
-        return this.SettingsPath("launch.json");
-    }
-
-    /**
-     * Gets the name of the file containing settings.
-     */
-    public get SettingsFileName(): Promise<string>
-    {
-        return this.SettingsPath("settings.json");
-    }
-
-    /**
-     * Gets the name of the file containing the tasks.
-     */
-    public get TasksFileName(): Promise<string>
-    {
-        return this.SettingsPath("tasks.json");
     }
 }
