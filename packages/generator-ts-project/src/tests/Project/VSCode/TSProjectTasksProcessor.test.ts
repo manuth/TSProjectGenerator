@@ -73,7 +73,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                         `Checking whether the problem-matcher of the \`${lintTaskName}\` task is correct…`,
                         async () =>
                         {
-                            let tasks = await processor.Process(await component.Source.TasksMetadata);
+                            let tasks = await processor.Process(await component.Source.GetTasksMetadata());
 
                             let lintTask = tasks.tasks.find(
                                 (task) =>

@@ -50,7 +50,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                 async function()
                 {
                     this.timeout(10 * 1000);
-                    workspace = await source.WorkspaceMetadata;
+                    workspace = await source.GetWorkspaceMetadata();
                     tasksComment = context.RandomString + "-comment";
                     rootComment = context.RandomString + "-comment-2";
                     workspace.extensions = context.RandomObject;

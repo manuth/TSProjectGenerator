@@ -57,7 +57,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                     randomTasks = context.RandomObject;
 
                     let component = new TestCodeWorkspaceComponent(generator);
-                    let workspace = await component.Source.WorkspaceMetadata;
+                    let workspace = await component.Source.GetWorkspaceMetadata();
                     workspace.extensions = randomExtensions;
                     workspace.launch = randomLaunchSettings;
                     workspace.settings = randomSettings;
@@ -70,7 +70,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                 });
 
             suite(
-                nameof<WorkspaceFolderLoader<any, any>>((loader) => loader.WorkspaceMetadata),
+                nameof<WorkspaceFolderLoader<any, any>>((loader) => loader.GetWorkspaceMetadata),
                 () =>
                 {
                     test(
@@ -80,10 +80,10 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
-                            deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
-                            deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
-                            deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
-                            deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).extensions, randomExtensions);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).launch, randomLaunchSettings);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).settings, randomSettings);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).tasks, randomTasks);
                         });
                 });
         });

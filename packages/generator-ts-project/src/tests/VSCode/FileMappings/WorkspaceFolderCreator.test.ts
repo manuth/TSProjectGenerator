@@ -65,7 +65,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 async function()
                 {
                     this.timeout(10 * 1000);
-                    let workspace = await source.WorkspaceMetadata;
+                    let workspace = await source.GetWorkspaceMetadata();
                     randomComment = context.RandomString;
                     workspace.extensions = context.RandomObject;
                     workspace.launch = context.RandomObject;
@@ -96,10 +96,10 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                             this.slow(0.5 * 1000);
 
                             let fileAssertions: Array<[string, Promise<any>]> = [
-                                [fileMappingCreator.ExtensionsFileName, component.Source.ExtensionsMetadata],
-                                [fileMappingCreator.LaunchFileName, component.Source.LaunchMetadata],
-                                [fileMappingCreator.SettingsFileName, component.Source.SettingsMetadata],
-                                [fileMappingCreator.TasksFileName, component.Source.TasksMetadata]
+                                [fileMappingCreator.ExtensionsFileName, component.Source.GetExtensionsMetadata()],
+                                [fileMappingCreator.LaunchFileName, component.Source.GetLaunchMetadata()],
+                                [fileMappingCreator.SettingsFileName, component.Source.GetSettingsMetadata()],
+                                [fileMappingCreator.TasksFileName, component.Source.GetTasksMetadata()]
                             ];
 
                             for (let fileAssertion of fileAssertions)

@@ -51,17 +51,17 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                         "Checking whether a custom workspace-processor can be injected…",
                         async () =>
                         {
-                            strictEqual(await component.WorkspaceMetadata, randomWorkspace);
+                            strictEqual(await component.GetWorkspaceMetadata(), randomWorkspace);
                         });
 
                     test(
                         "Checking whether the workspace-object is read correctly…",
                         async () =>
                         {
-                            strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
-                            strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
-                            strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
-                            strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
+                            strictEqual(await component.GetExtensionsMetadata(), randomWorkspace.extensions);
+                            strictEqual(await component.GetLaunchMetadata(), randomWorkspace.launch);
+                            strictEqual(await component.GetSettingsMetadata(), randomWorkspace.settings);
+                            strictEqual(await component.GetTasksMetadata(), randomWorkspace.tasks);
                         });
                 });
         });

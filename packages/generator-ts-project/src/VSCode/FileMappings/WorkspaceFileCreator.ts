@@ -48,7 +48,7 @@ export class WorkspaceFileCreator<TSettings extends IGeneratorSettings, TOptions
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         return [
-            new JSONCCreatorMapping(this.Generator, this.FileName, this.Component.WorkspaceMetadata)
+            new JSONCCreatorMapping(this.Generator, this.FileName, this.Component.GetWorkspaceMetadata())
         ];
     }
 }

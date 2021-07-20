@@ -47,7 +47,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                         "Checking whether `yeoman` debug-configurations are not present…",
                         async () =>
                         {
-                            let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
+                            let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
 
                             ok(
                                 launchSettings.configurations.every(
@@ -59,7 +59,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                         "Checking whether unnecessary settings are being removed…",
                         async () =>
                         {
-                            let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
+                            let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
 
                             ok(
                                 launchSettings.configurations.every(

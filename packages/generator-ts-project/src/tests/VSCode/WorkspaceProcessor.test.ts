@@ -55,7 +55,7 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                     let settingsProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomSettings);
                     let tasksProcessor = new TestJSONProcessor<ITestGeneratorSettings, GeneratorOptions>(randomTasks);
 
-                    let workspace = await workspaceLoader.WorkspaceMetadata;
+                    let workspace = await workspaceLoader.GetWorkspaceMetadata();
                     workspace.extensions = context.RandomObject;
                     workspace.launch = context.RandomObject;
                     workspace.settings = context.RandomObject;
@@ -74,20 +74,20 @@ export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITes
                         "Checking whether custom processors can be injected…",
                         async () =>
                         {
-                            strictEqual(await component.ExtensionsMetadata, randomExtensions);
-                            strictEqual(await component.LaunchMetadata, randomDebugSettings);
-                            strictEqual(await component.SettingsMetadata, randomSettings);
-                            strictEqual(await component.TasksMetadata, randomTasks);
+                            strictEqual(await component.GetExtensionsMetadata(), randomExtensions);
+                            strictEqual(await component.GetLaunchMetadata(), randomDebugSettings);
+                            strictEqual(await component.GetSettingsMetadata(), randomSettings);
+                            strictEqual(await component.GetTasksMetadata(), randomTasks);
                         });
 
                     test(
                         "Checking whether processors are executed only if the corresponding property exists…",
                         async () =>
                         {
-                            strictEqual(await component.ExtensionsMetadata, randomExtensions);
-                            delete (await workspaceLoader.WorkspaceMetadata).extensions;
-                            notStrictEqual(await component.ExtensionsMetadata, randomExtensions);
-                            ok(!await component.ExtensionsMetadata);
+                            strictEqual(await component.GetExtensionsMetadata(), randomExtensions);
+                            delete (await workspaceLoader.GetWorkspaceMetadata()).extensions;
+                            notStrictEqual(await component.GetExtensionsMetadata(), randomExtensions);
+                            ok(!await component.GetExtensionsMetadata());
                         });
                 });
         });

@@ -72,10 +72,10 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let files: Array<[string, Promise<any>]> = [
-            [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
-            [this.LaunchFileName, this.Component.LaunchMetadata],
-            [this.SettingsFileName, this.Component.SettingsMetadata],
-            [this.TasksFileName, this.Component.TasksMetadata]
+            [this.ExtensionsFileName, this.Component.GetExtensionsMetadata()],
+            [this.LaunchFileName, this.Component.GetLaunchMetadata()],
+            [this.SettingsFileName, this.Component.GetSettingsMetadata()],
+            [this.TasksFileName, this.Component.GetTasksMetadata()]
         ];
 
         return files.map(

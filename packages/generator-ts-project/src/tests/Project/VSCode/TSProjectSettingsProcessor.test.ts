@@ -40,7 +40,7 @@ export function TSProjectSettingsProcessorTests(context: TestContext<TSProjectGe
                             this.timeout(5 * 60 * 1000);
                             component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                             processor = new TSProjectSettingsProcessor(component);
-                            settings = processor.Process(await component.Source.LaunchMetadata);
+                            settings = processor.Process(await component.Source.GetLaunchMetadata());
                         });
 
                     for (let excludedSetting of excludedSettings)

@@ -70,7 +70,7 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
                         {
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
-                            let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
+                            let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
                             let debugConfigs = launchSettings.configurations ?? [];
 
                             ok(

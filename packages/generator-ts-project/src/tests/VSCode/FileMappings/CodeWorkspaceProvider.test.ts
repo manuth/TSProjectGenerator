@@ -49,7 +49,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                 });
 
             suite(
-                nameof<CodeWorkspaceProvider<any, any>>((provider) => provider.WorkspaceMetadata),
+                nameof<CodeWorkspaceProvider<any, any>>((provider) => provider.GetWorkspaceMetadata),
                 () =>
                 {
                     let randomExtensions: IExtensionSettings;
@@ -67,22 +67,21 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         });
 
                     test(
-                        `Checking whether the metadata of all components are loaded from \`${nameof<CodeWorkspaceProvider<any, any>>((p) => p.WorkspaceMetadata)}\`…`,
+                        `Checking whether the metadata of all components are loaded using \`${nameof<CodeWorkspaceProvider<any, any>>((p) => p.GetWorkspaceMetadata)}\`…`,
                         async () =>
                         {
-                            workspaceProvider.WorkspaceMetadata = context.CreatePromise(
-                                {
-                                    folders: [],
-                                    extensions: randomExtensions,
-                                    launch: randomLaunchData,
-                                    settings: randomSettings,
-                                    tasks: randomTasks
-                                });
+                            workspaceProvider.WorkspaceMetadata = {
+                                folders: [],
+                                extensions: randomExtensions,
+                                launch: randomLaunchData,
+                                settings: randomSettings,
+                                tasks: randomTasks
+                            };
 
-                            strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
-                            strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
-                            strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
-                            strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
+                            strictEqual(await workspaceProvider.GetExtensionsMetadata(), randomExtensions);
+                            strictEqual(await workspaceProvider.GetLaunchMetadata(), randomLaunchData);
+                            strictEqual(await workspaceProvider.GetSettingsMetadata(), randomSettings);
+                            strictEqual(await workspaceProvider.GetTasksMetadata(), randomTasks);
                         });
                 });
 
