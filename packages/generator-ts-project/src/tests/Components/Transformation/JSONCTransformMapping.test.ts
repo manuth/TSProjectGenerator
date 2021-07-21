@@ -14,7 +14,7 @@ import { TestContext } from "../../TestContext";
  * @param context
  * The test-context.
  */
-export function JSONTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function JSONCTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
         nameof(JSONCTransformMapping),

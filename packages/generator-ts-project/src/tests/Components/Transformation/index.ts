@@ -1,6 +1,6 @@
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
-import { JSONTransformMappingTests } from "./JSONTransformMapping.test";
+import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test";
 import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
 
@@ -16,7 +16,7 @@ export function TransformationTests(context: TestContext<TestGenerator, ITestGen
         "Transformation",
         () =>
         {
-            JSONTransformMappingTests(context);
+            JSONCTransformMappingTests(context);
             YAMLTransformMappingTests(context);
             TypeScriptTransformMappingTests(context);
         });
