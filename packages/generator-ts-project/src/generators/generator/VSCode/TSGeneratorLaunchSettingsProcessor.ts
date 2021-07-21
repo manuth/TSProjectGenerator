@@ -67,7 +67,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
 
         for (let generatorOptions of generators)
         {
-            let template = await this.GetTemplateMetadata();
+            let template = await this.GetYeomanTemplate();
             let displayName = generatorOptions[SubGeneratorSettingKey.DisplayName];
             let name = generatorOptions[SubGeneratorSettingKey.Name];
             template.name = name === GeneratorName.Main ? "Launch Yeoman" : `Launch ${displayName} generator`;
@@ -89,7 +89,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
      * @returns
      * A template-configuration for yeoman-tasks.
      */
-    protected async GetTemplateMetadata(): Promise<DebugConfiguration>
+    protected async GetYeomanTemplate(): Promise<DebugConfiguration>
     {
         return (
             async () =>
