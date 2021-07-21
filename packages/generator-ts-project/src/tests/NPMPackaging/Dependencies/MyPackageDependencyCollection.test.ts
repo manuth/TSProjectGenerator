@@ -2,23 +2,23 @@ import { strictEqual } from "assert";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
-import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the {@link PackageDependencyCollection `PackageDependencyCollection`} class.
+ * Registers tests for the {@link MyPackageDependencyCollection `MyPackageDependencyCollection`} class.
  *
  * @param context
  * The test-context.
  */
-export function PackageDependencyCollectionTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function MyPackageDependencyCollectionTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        nameof(PackageDependencyCollection),
+        nameof(MyPackageDependencyCollection),
         () =>
         {
             suite(
-                nameof(PackageDependencyCollection.constructor),
+                nameof(MyPackageDependencyCollection.constructor),
                 () =>
                 {
                     test(
@@ -30,7 +30,7 @@ export function PackageDependencyCollectionTests(context: TestContext<TestGenera
                             let dependency = context.Random.pick(Constants.Dependencies.Keys);
 
                             strictEqual(
-                                new PackageDependencyCollection(
+                                new MyPackageDependencyCollection(
                                     {
                                         dependencies: [
                                             dependency

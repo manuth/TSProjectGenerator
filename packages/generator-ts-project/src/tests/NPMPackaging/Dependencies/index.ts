@@ -1,6 +1,6 @@
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
-import { PackageDependencyCollectionTests } from "./PackageDependencyCollection.test";
+import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test";
 
 /**
  * Registers tests for npm-packaging dependencies.
@@ -14,6 +14,6 @@ export function DependencyTests(context: TestContext<TestGenerator, ITestGenerat
         "Dependencies",
         () =>
         {
-            PackageDependencyCollectionTests(context);
+            MyPackageDependencyCollectionTests(context);
         });
 }
