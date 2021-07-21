@@ -81,7 +81,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 }
             },
             {
-                Source: readmeFileName,
+                Source: `${readmeFileName}.ejs`,
                 Destination: readmeFileName,
                 Context: () =>
                 {
