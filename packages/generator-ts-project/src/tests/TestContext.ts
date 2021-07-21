@@ -1,5 +1,6 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { TasksProcessor } from "../VSCode/TasksProcessor";
 
 /**
  * Represents a context for testing.
@@ -16,6 +17,11 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      * A context for testing generators.
      */
     private generatorContext: GeneratorContext<TGenerator, TOptions>;
+
+    /**
+     * A component for processing tasks.
+     */
+    private tasksProcessor: TasksProcessor<any, any>;
 
     /**
      * Initializes a new instance of the {@link TestContext `TestContext<TGenerator, TOptions>`} class.
@@ -46,6 +52,19 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
+     * Gets a component for processing tasks.
+     */
+    protected get TasksProcessor(): TasksProcessor<any, any>
+    {
+        if (this.tasksProcessor === null)
+        {
+            this.tasksProcessor = new TasksProcessor(null);
+        }
+
+        return this.tasksProcessor;
+    }
+
+    /**
      * Gets a workspace-folder directive.
      */
     public get WorkspaceFolderDirective(): string
@@ -72,6 +91,6 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      */
     public GetWorkspaceFolderDirective(name?: string): string
     {
-        return `\${workspaceFolder${name ? `:${name}` : ""}}`;
+        return this.TasksProcessor.GetWorkspaceFolderDirective(name);
     }
 }

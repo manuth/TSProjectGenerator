@@ -27,6 +27,20 @@ export class TasksProcessor<TSettings extends IGeneratorSettings, TOptions exten
     }
 
     /**
+     * Creates a workspace-folder directive.
+     *
+     * @param name
+     * The name of the workspace-folder.
+     *
+     * @returns
+     * A normal workspace-folder directive or a named workspace-folder directive if a {@link name `name`} is passed.
+     */
+    public GetWorkspaceFolderDirective(name?: string): string
+    {
+        return `\${workspaceFolder${name ? `:${name}` : ""}}`;
+    }
+
+    /**
      * @inheritdoc
      *
      * @param data
