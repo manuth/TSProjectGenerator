@@ -1,9 +1,9 @@
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
 
 /**
  * Provides a set of all dependencies required for performing linting.
  */
-export class LintEssentials extends PackageDependencyCollection
+export class LintEssentials extends MyPackageDependencyCollection
 {
     /**
      * Initializes a new instance of the {@link LintEssentials `LintEssentials`} class.

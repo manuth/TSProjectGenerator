@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { IScriptMapping, ITSProjectSettings, ScriptMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
-import { Package } from "@manuth/package-json-editor";
+import { Package, PackageDependencyCollection } from "@manuth/package-json-editor";
 import { Constants } from "./Constants";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MyTSProjectGenerator } from "./MyTSProjectGenerator";
@@ -158,21 +158,17 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     {
         let result = await super.LoadPackage();
 
-        let dependencies = [
-            "@types/ts-nameof",
-            "ts-nameof",
-            "ts-patch"
-        ];
-
-        for (let dependency of dependencies)
-        {
-            if (result.DevelopmentDependencies.Has(dependency))
-            {
-                result.DevelopmentDependencies.Remove(dependency);
-            }
-
-            result.DevelopmentDependencies.Add(dependency, Constants.Dependencies.Get(dependency));
-        }
+        result.Register(
+            new PackageDependencyCollection(
+                Constants.Package,
+                {
+                    devDependencies: [
+                        "@types/ts-nameof",
+                        "ts-nameof",
+                        "ts-patch"
+                    ]
+                }),
+            true);
 
         return result;
     }

@@ -1,10 +1,10 @@
 import { BuildDependencies } from "./BuildDependencies";
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
 
 /**
  * Provides all common dependencies.
  */
-export class CommonDependencies extends PackageDependencyCollection
+export class CommonDependencies extends MyPackageDependencyCollection
 {
     /**
      * Initializes a new instance of the {@link CommonDependencies `CommonDependencies`} class.

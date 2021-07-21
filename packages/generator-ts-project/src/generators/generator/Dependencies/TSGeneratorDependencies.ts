@@ -1,11 +1,11 @@
-import { PackageDependencyCollection } from "../../../NPMPackaging/Dependencies/PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
 
 /**
  * Provides all common dependencies for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
  */
-export class TSGeneratorDependencies extends PackageDependencyCollection
+export class TSGeneratorDependencies extends MyPackageDependencyCollection
 {
     /**
      * Initializes a new instance of the {@link TSGeneratorDependencies `TSGeneratorDependencies`} class.

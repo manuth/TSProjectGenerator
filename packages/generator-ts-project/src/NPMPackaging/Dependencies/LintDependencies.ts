@@ -1,5 +1,5 @@
 import { LintEssentials } from "./LintEssentials";
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
 
 /**
  * Provides a set of all dependencies for performing linting.
@@ -14,7 +14,7 @@ export class LintDependencies extends LintEssentials
         super();
 
         this.Register(
-            new PackageDependencyCollection(
+            new MyPackageDependencyCollection(
                 {
                     devDependencies: [
                         "@manuth/typescript-eslint-plugin"
