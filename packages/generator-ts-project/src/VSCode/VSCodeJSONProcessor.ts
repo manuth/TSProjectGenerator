@@ -47,6 +47,20 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
     }
 
     /**
+     * Creates a workspace-folder directive.
+     *
+     * @param name
+     * The name of the workspace-folder.
+     *
+     * @returns
+     * A normal workspace-folder directive or a named workspace-folder directive if a {@link name `name`} is passed.
+     */
+    public GetWorkspaceFolderDirective(name?: string): string
+    {
+        return `\${workspaceFolder${name ? `:${name}` : ""}}`;
+    }
+
+    /**
      * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the specified {@link value `value`}.
      *
      * @param value
