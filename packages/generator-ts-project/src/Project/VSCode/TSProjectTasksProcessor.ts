@@ -61,6 +61,8 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      */
     protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
     {
+        let workspaceFolderDirective = this.GetWorkspaceFolderDirective();
+
         if (
             task.type === "shell" &&
             task.command === "npm" &&
@@ -102,7 +104,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
             {
                 task.options.cwd = this.StripWorkspaceFolder(task.options.cwd);
 
-                if (task.options.cwd === "${workspaceFolder}")
+                if (task.options.cwd === workspaceFolderDirective)
                 {
                     delete task.options.cwd;
                 }
@@ -124,7 +126,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
                         if (
                             Array.isArray(problemMatcher.fileLocation) &&
                             problemMatcher.fileLocation[0] === "relative" &&
-                            this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === "${workspaceFolder}")
+                            this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === workspaceFolderDirective)
                         {
                             delete problemMatcher.fileLocation;
                         }

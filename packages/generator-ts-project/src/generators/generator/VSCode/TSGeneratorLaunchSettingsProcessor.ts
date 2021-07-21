@@ -73,7 +73,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
             template.name = name === GeneratorName.Main ? "Launch Yeoman" : `Launch ${displayName} generator`;
 
             template.args = [
-                join("${workspaceFolder}", "lib", "generators", name)
+                join(this.GetWorkspaceFolderDirective(), "lib", "generators", name)
             ];
 
             configurations.push(template);

@@ -56,7 +56,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      */
     protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
-        return (debugConfig.program ?? "").includes("${workspaceFolder:TSProjectGenerator}") &&
+        return (debugConfig.program ?? "").includes(this.GetWorkspaceFolderDirective("TSProjectGenerator")) &&
             !(normalize(debugConfig.program ?? "").toLowerCase().endsWith(join("node_modules", "yo", "lib", "cli.js")));
     }
 
@@ -71,7 +71,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      */
     protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
     {
-        let workspaceDirective = "${workspaceFolder}";
+        let workspaceDirective = this.GetWorkspaceFolderDirective();
         let destinationSetting = "outFiles";
         debugConfig.name = debugConfig.name.replace(/(?<!\s)\s+TSProjectGenerator\s+/, " ");
         delete debugConfig.presentation;
