@@ -146,6 +146,8 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 {
                     tsConfig = await super.Transform(tsConfig);
                     let plugins: Plugin[] = [];
+                    delete tsConfig.compilerOptions.declarationMap;
+                    delete tsConfig.compilerOptions.paths;
 
                     for (let [i] of tsConfig.compilerOptions.plugins.entries())
                     {
