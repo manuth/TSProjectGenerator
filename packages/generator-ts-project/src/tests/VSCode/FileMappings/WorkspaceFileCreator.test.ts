@@ -106,7 +106,7 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                         "Checking whether root comments persist…",
                         async () =>
                         {
-                            ok((await tester.Content).includes(rootComment));
+                            ok((await tester.ReadSource()).includes(rootComment));
                         });
                 });
         });

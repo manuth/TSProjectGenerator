@@ -104,6 +104,6 @@ export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator
      */
     public async DumpOutput(data: TParsed): Promise<void>
     {
-        return this.WriteDestination(this.Dump(data));
+        return this.WriteOutput(this.Dump(data));
     }
 }

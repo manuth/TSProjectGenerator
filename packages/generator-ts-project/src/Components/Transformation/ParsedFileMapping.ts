@@ -63,6 +63,6 @@ export abstract class ParsedFileMapping<TSettings extends IGeneratorSettings, TO
      */
     public override async GetSourceObject(): Promise<TData>
     {
-        return this.Parser.Parse(await this.Content);
+        return this.Parser.Parse(await this.ReadSource());
     }
 }

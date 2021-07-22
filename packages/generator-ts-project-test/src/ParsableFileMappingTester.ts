@@ -64,7 +64,7 @@ export abstract class ParsableFileMappingTester<TGenerator extends IGenerator<TS
      */
     public async ParseSource(): Promise<TParsed>
     {
-        return this.Parse(await this.Content);
+        return this.Parse(await this.ReadSource());
     }
 
     /**

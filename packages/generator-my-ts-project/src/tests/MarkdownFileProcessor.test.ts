@@ -66,7 +66,7 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
-                            strictEqual(await tester.Content, expected);
+                            strictEqual(await tester.ReadSource(), expected);
                         });
                 });
         });
