@@ -35,7 +35,7 @@
     "lint-code-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint-code": "npm run lint-code-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
     "lint-code-ide": "npm run lint-code || exit 0",
-    "lint-docs": "markdownlint ./templates/**/*.md",
+    "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "lint": "npm run lint-code && npm run lint-docs",
     "lint-ide": "npm run lint-code-ide && npm run lint-docs || exit 0",
     "test": "mocha",
