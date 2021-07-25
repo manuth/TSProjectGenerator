@@ -21,6 +21,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
         nameof(TSProjectLaunchSettingsProcessor),
         () =>
         {
+            let generatorName = "TSProjectGenerator";
             let cwdOption: string;
             let programOption: string;
             let argsOption: string;
@@ -63,6 +64,45 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                     argsOption = "args";
                     component = new TSProjectCodeWorkspaceFolder(await context.Generator);
                     processor = new TestTSProjectLaunchSettingsProcessor(component);
+                });
+
+            suite(
+                nameof<TestTSProjectLaunchSettingsProcessor>((processor) => processor.FilterDebugConfig),
+                () =>
+                {
+                    test(
+                        `Checking whether only debug-configurations for the \`${generatorName}\` are included…`,
+                        async () =>
+                        {
+                            strictEqual(
+                                (await processor.Process(
+                                    {
+                                        version: "",
+                                        configurations: [
+                                            {
+                                                name: "",
+                                                request: "",
+                                                type: ""
+                                            }
+                                        ]
+                                    })).configurations.length,
+                                0);
+
+                            strictEqual(
+                                (await processor.Process(
+                                    {
+                                        version: "",
+                                        configurations: [
+                                            {
+                                                name: "",
+                                                request: "",
+                                                type: "",
+                                                program: processor.GetWorkspaceFolderDirective(generatorName)
+                                            }
+                                        ]
+                                    })).configurations.length,
+                                1);
+                        });
                 });
 
             suite(
