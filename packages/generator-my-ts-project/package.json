@@ -42,7 +42,7 @@
     "patchTypeScript": "ts-patch install && ts-patch --persist"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^10.0.0",
+    "@manuth/extended-yo-generator": "^11.0.0",
     "@manuth/generator-ts-project": "^2.0.4",
     "@manuth/package-json-editor": "2.2.2",
     "comment-json": "^4.1.0",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.4",
-    "@manuth/extended-yo-generator-test": "^10.0.0",
+    "@manuth/extended-yo-generator-test": "^11.0.0",
     "@manuth/generator-ts-project-test": "^0.0.0",
     "@manuth/temp-files": "^2.0.6",
     "@types/dedent": "^0.7.0",

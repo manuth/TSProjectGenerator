@@ -44,7 +44,7 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
      */
     public override async Processor(): Promise<void>
     {
-        return this.WriteDestination(this.Dumper.Dump(await this.Transform(await this.GetSourceObject())));
+        return this.WriteOutput(this.Dumper.Dump(await this.Transform(await this.GetSourceObject())));
     }
 
     /**

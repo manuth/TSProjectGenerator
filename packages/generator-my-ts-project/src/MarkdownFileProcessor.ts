@@ -110,6 +110,6 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
             }
         }
 
-        this.WriteDestination(result.join(eol));
+        this.WriteOutput(result.join(eol));
     }
 }

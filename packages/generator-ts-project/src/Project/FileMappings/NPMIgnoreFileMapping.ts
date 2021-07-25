@@ -78,7 +78,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
      */
     public override async Processor(): Promise<void>
     {
-        this.WriteDestination(
+        this.WriteOutput(
             applyPatch(
                 (await readFile(this.Resolved.Source)).toString(),
                 parsePatch(
