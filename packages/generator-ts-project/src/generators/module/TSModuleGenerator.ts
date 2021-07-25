@@ -5,7 +5,9 @@ import dedent = require("dedent");
 import yosay = require("yosay");
 import { GeneratorName } from "../../Core/GeneratorName";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { ISuiteContext } from "../../Project/FileMappings/TypeScript/ISuiteContext";
 import { ModuleIndexFileMapping } from "../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
+import { TestFileMapping } from "../../Project/FileMappings/TypeScript/TestFileMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
@@ -77,16 +79,29 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                     return join(self.SourceRoot, "index.ts");
                 }
             }(this),
+            new class extends TestFileMapping<TSettings, TOptions>
             {
-                Source: this.commonTemplatePath("test.ts.ejs"),
-                Destination: join(this.SourceRoot, "tests", "main.test.ts"),
-                Context: () =>
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return join(self.SourceRoot, "tests", "main.test.ts");
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * The context of the file-mapping.
+                 */
+                public override async Context(): Promise<ISuiteContext>
                 {
                     return {
-                        Name: this.Settings[TSProjectSettingKey.DisplayName]
+                        SuiteName: this.Generator.Settings[TSProjectSettingKey.DisplayName]
                     };
                 }
-            },
+            }(this),
             {
                 Source: `${readmeFileName}.ejs`,
                 Destination: readmeFileName,
