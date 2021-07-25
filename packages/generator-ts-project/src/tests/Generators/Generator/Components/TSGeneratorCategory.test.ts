@@ -123,10 +123,22 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                         });
                 });
 
+            suiteTeardown(
+                () =>
+                {
+                    runContext.cleanTestDirectory();
+                });
+
             setup(
                 () =>
                 {
                     tempDir = new TempDirectory();
+                });
+
+            teardown(
+                () =>
+                {
+                    tempDir.Dispose();
                 });
 
             suite(
