@@ -28,7 +28,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         () =>
         {
             let tempDir: TempDirectory;
-            let mainContext: IRunContext<TSGeneratorGenerator>;
+            let runContext: IRunContext<TSGeneratorGenerator>;
+            let generator: TSGeneratorGenerator;
             let settings: ITSGeneratorSettings;
 
             suiteSetup(
@@ -55,9 +56,10 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         ]
                     };
 
-                    mainContext = context.ExecuteGenerator();
-                    mainContext.withPrompts(settings);
-                    await mainContext.toPromise();
+                    runContext = context.ExecuteGenerator();
+                    runContext.withPrompts(settings);
+                    await runContext.toPromise();
+                    generator = runContext.generator;
 
                     spawnSync(
                         npmWhich(__dirname).sync("npm"),
@@ -66,7 +68,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "--silent"
                         ],
                         {
-                            cwd: mainContext.generator.destinationPath()
+                            cwd: generator.destinationPath()
                         });
 
                     spawnSync(
@@ -76,7 +78,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "build"
                         ],
                         {
-                            cwd: mainContext.generator.destinationPath()
+                            cwd: generator.destinationPath()
                         });
                 });
 
@@ -84,7 +86,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 function()
                 {
                     this.timeout(1 * 60 * 1000);
-                    mainContext.cleanTestDirectory();
+                    runContext.cleanTestDirectory();
                 });
 
             setup(
@@ -111,7 +113,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "--silent"
                                 ],
                                 {
-                                    cwd: mainContext.generator.destinationPath()
+                                    cwd: generator.destinationPath()
                                 });
 
                             let buildResult = spawnSync(
@@ -121,7 +123,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "build"
                                 ],
                                 {
-                                    cwd: mainContext.generator.destinationPath()
+                                    cwd: generator.destinationPath()
                                 });
 
                             strictEqual(installationResult.status, 0);
@@ -134,7 +136,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         {
                             this.timeout(20 * 1000);
                             this.slow(10 * 1000);
-                            let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, GeneratorName.Main));
+                            let testContext = new GeneratorContext(GeneratorPath(generator, GeneratorName.Main));
                             return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
 
@@ -147,7 +149,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
 
                             for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                             {
-                                let testContext = new GeneratorContext(GeneratorPath(mainContext.generator, subGeneratorOptions[SubGeneratorSettingKey.Name]));
+                                let testContext = new GeneratorContext(GeneratorPath(generator, subGeneratorOptions[SubGeneratorSettingKey.Name]));
                                 await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                             }
                         });
@@ -160,9 +162,9 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             this.slow(4 * 1000);
 
                             let result = spawnSync(
-                                npmWhich(mainContext.generator.destinationPath()).sync("mocha"),
+                                npmWhich(generator.destinationPath()).sync("mocha"),
                                 {
-                                    cwd: mainContext.generator.destinationPath()
+                                    cwd: generator.destinationPath()
                                 });
 
                             strictEqual(result.status, 0);
@@ -177,7 +179,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         "Checking whether all tests of the generated project are being included…",
                         () =>
                         {
-                            let sourceFile = new Project().addSourceFileAtPath(mainContext.generator.destinationPath("src", "tests", "Generators", "index.ts"));
+                            let sourceFile = new Project().addSourceFileAtPath(generator.destinationPath("src", "tests", "Generators", "index.ts"));
 
                             let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
                                 (functionCall) =>
@@ -189,7 +191,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                 let generatorName of
                                 [
                                     GeneratorName.Main,
-                                    ...mainContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
+                                    ...generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
                                         (subGenerator) =>
                                         {
                                             return subGenerator[SubGeneratorSettingKey.Name];
