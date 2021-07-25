@@ -1,6 +1,6 @@
 import { dirname, relative } from "path";
 import { Generator, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ArrowFunction, printNode, ts } from "ts-morph";
+import { ArrowFunction, printNode, StatementStructures, ts, WriterFunction } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
 import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase";
 import { GeneratorTestFileMapping } from "./GeneratorTestFileMapping";
@@ -69,12 +69,13 @@ export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     protected override async GetSuiteFunction(): Promise<ArrowFunction>
     {
         let result = await super.GetSuiteFunction();
+        let statements: Array<string | WriterFunction | StatementStructures> = [];
 
         for (let fileMapping of this.Generator.FileMappingCollection.Items)
         {
             if (fileMapping.Object instanceof GeneratorTestFileMapping)
             {
-                result.addStatements(
+                statements.push(
                     printNode(
                         ts.factory.createExpressionStatement(
                             ts.factory.createCallExpression(
@@ -90,6 +91,7 @@ export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOp
             }
         }
 
+        result.addStatements(statements);
         return result;
     }
 }
