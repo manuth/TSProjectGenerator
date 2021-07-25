@@ -26,7 +26,33 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
             let argsOption: string;
             let outFilesOption = "outFiles";
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
-            let processor: TSProjectLaunchSettingsProcessor<ITSProjectSettings, GeneratorOptions>;
+            let processor: TestTSProjectLaunchSettingsProcessor;
+
+            /**
+             * Provides an implementation of the {@link TSProjectLaunchSettingsProcessor `TSProjectLaunchSettingsProcessor<TSettings, TOptions>`} class for testing.
+             */
+            class TestTSProjectLaunchSettingsProcessor extends TSProjectLaunchSettingsProcessor<ITSProjectSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 *
+                 * @param debugConfig
+                 * The debug-configuration to filter.
+                 *
+                 * @returns
+                 * A value indicating whether the debug-configuration should be included.
+                 */
+                public override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+                {
+                    return [
+                        cwdOption,
+                        programOption,
+                        argsOption,
+                        outFilesOption
+                    ].includes(debugConfig.name) ||
+                        super.FilterDebugConfig(debugConfig);
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -36,7 +62,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                     programOption = "program";
                     argsOption = "args";
                     component = new TSProjectCodeWorkspaceFolder(await context.Generator);
-                    processor = new TSProjectLaunchSettingsProcessor(component);
+                    processor = new TestTSProjectLaunchSettingsProcessor(component);
                 });
 
             suite(
@@ -145,7 +171,6 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                         `Checking whether duplicate values inside the \`${outFilesOption}\`-option are stripped…`,
                         async () =>
                         {
-                            let testName = context.RandomString;
                             let workspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
                             let otherWorkspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
                             let namedPath = join(workspaceDirective, "**", "*.js");
@@ -160,7 +185,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                             ];
 
                             let configuration: DebugConfiguration = {
-                                name: testName,
+                                name: outFilesOption,
                                 request: "",
                                 type: "",
                                 [outFilesOption]: outFiles

@@ -7,6 +7,7 @@ import { pathExists } from "fs-extra";
 import npmWhich = require("npm-which");
 import { GeneratorName } from "../../../../Core/GeneratorName";
 import { TSGeneratorCategory } from "../../../../generators/generator/Components/TSGeneratorCategory";
+import { NamingContext } from "../../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
@@ -189,15 +190,16 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                             for (
                                 let generatorName of
                                 [
-                                    runContext.generator.Settings[TSProjectSettingKey.DisplayName],
+                                    GeneratorName.Main,
                                     ...runContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
                                         (subGenerator) =>
                                         {
-                                            return subGenerator[SubGeneratorSettingKey.DisplayName];
+                                            return subGenerator[SubGeneratorSettingKey.Name];
                                         })
                                 ])
                             {
-                                ok(await pathExists(runContext.generator.destinationPath("src", "tests", "Generators", `${generatorName}.test.ts`)));
+                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
+                                ok(await pathExists(generator.destinationPath("src", "tests", "Generators", `${namingContext.GeneratorClassName}.test.ts`)));
                             }
                         });
                 });

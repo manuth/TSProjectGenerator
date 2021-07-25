@@ -108,7 +108,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                             this.timeout(1 * 1000);
                             this.slow(0.5 * 1000);
                             await tester.Run();
-                            strictEqual((await tester.ReadSource()).trimEnd(), sourceCode.replace(/var/g, "const").trimEnd());
+                            strictEqual((await tester.ReadOutput()).trimEnd(), sourceCode.replace(/var/g, "const").trimEnd());
                         });
                 });
         });

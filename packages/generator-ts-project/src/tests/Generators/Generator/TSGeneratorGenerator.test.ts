@@ -6,6 +6,7 @@ import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { Project, SyntaxKind } from "ts-morph";
 import { GeneratorName } from "../../../Core/GeneratorName";
+import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
@@ -187,11 +188,11 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             for (
                                 let generatorName of
                                 [
-                                    mainContext.generator.Settings[TSProjectSettingKey.DisplayName],
+                                    GeneratorName.Main,
                                     ...mainContext.generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
                                         (subGenerator) =>
                                         {
-                                            return subGenerator[SubGeneratorSettingKey.DisplayName];
+                                            return subGenerator[SubGeneratorSettingKey.Name];
                                         })
                                 ])
                             {
@@ -199,10 +200,11 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     functionCalls.filter(
                                         (functionCall) =>
                                         {
+                                            let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
                                             let argument = functionCall.getArguments()[0];
 
                                             return argument.getKind() === SyntaxKind.StringLiteral &&
-                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`/${generatorName}.test`);
+                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`/${namingContext.GeneratorClassName}.test`);
                                         }).length,
                                     1);
                             }
