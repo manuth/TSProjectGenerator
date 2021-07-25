@@ -1,5 +1,6 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
 
 /**
@@ -21,7 +22,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     /**
      * A component for processing tasks.
      */
-    private tasksProcessor: TasksProcessor<any, any>;
+    private tasksProcessor: TasksProcessor<any, any> = null;
 
     /**
      * Initializes a new instance of the {@link TestContext `TestContext<TGenerator, TOptions>`} class.
@@ -58,7 +59,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     {
         if (this.tasksProcessor === null)
         {
-            this.tasksProcessor = new TasksProcessor(null);
+            this.tasksProcessor = new TasksProcessor(new CodeWorkspaceComponent(this.CreateGenerator(TestGenerator)));
         }
 
         return this.tasksProcessor;
