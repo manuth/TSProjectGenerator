@@ -5,6 +5,7 @@ import dedent = require("dedent");
 import yosay = require("yosay");
 import { GeneratorName } from "../../Core/GeneratorName";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { ModuleIndexFileMapping } from "../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
@@ -48,8 +49,8 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
      */
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
+        let self = this;
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
-        let indexFileName = "index.ts";
         let readmeFileName = "README.md";
 
         for (let fileMapping of super.FileMappings)
@@ -66,10 +67,16 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
 
         return [
             ...result,
+            new class extends ModuleIndexFileMapping<TSettings, TOptions>
             {
-                Source: `${indexFileName}.ejs`,
-                Destination: join(this.SourceRoot, indexFileName)
-            },
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return join(self.SourceRoot, "index.ts");
+                }
+            }(this),
             {
                 Source: this.commonTemplatePath("test.ts.ejs"),
                 Destination: join(this.SourceRoot, "tests", "main.test.ts"),
