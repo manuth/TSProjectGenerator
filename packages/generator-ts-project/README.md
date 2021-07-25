@@ -20,7 +20,7 @@ It is recommended to use a code-editor which provides TypeScript-support (like, 
 
 ## Generator Output
   - A basic folder-structure for keeping `TypeScript`-code and `JavaScript`-builds separate
-  - Linting-rules (optional)
+  - Linting-rules _(optional)_
     - Either weak rules…
     - …or strong rules
   - A node-package with required dependencies
