@@ -92,6 +92,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
      */
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
+        let self = this;
         let changeLogFileName = "CHANGELOG.md";
         let gitIgnoreFileName = ".gitignore";
         let mochaConfigFileName = ".mocharc.jsonc";
@@ -219,7 +220,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                  */
                 public override get BaseName(): string
                 {
-                    return join("src", "tests", super.BaseName);
+                    return join(self.SourceRoot, "tests", super.BaseName);
                 }
 
                 /**
