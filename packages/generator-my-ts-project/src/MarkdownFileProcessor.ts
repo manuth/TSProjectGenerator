@@ -77,9 +77,10 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
         let lines = split(content);
         result = [...lines];
 
-        for (let i = lines.length - 3; i >= 0; i--)
+        for (let i = lines.length - 1; i >= 0; i--)
         {
             if (
+                (i + 2) < lines.length &&
                 lines[i].startsWith("#") &&
                 (lines[i + 1] === ""))
             {
@@ -93,7 +94,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
 
                 do
                 {
-                    if (result[j].length === 0)
+                    if (result[j].length > 0)
                     {
                         result[j] = "  " + result[j];
                     }
@@ -101,12 +102,10 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
                     j++;
                 }
                 while (
-                    j < result.length &&
-                    /^(\s*)$/.test(result[j]) ||
-                    (
-                        !/^\s*- [^\s]/.test(result[j]) &&
-                        result[j].startsWith(indent)
-                    ));
+                    j < result.length && (
+                        /^(\s*)$/.test(result[j]) || (
+                            !/^\s*- [^\s]/.test(result[j]) &&
+                            result[j].startsWith(indent))));
             }
         }
 
