@@ -1,9 +1,16 @@
 import { join } from "path";
-import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import camelCase = require("lodash.camelcase");
+import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { GeneratorName } from "../../../Core/GeneratorName";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
+import { GeneratorClassFileMapping } from "../FileMappings/TypeScript/GeneratorClassFileMapping";
+import { GeneratorIndexFileMapping } from "../FileMappings/TypeScript/GeneratorIndexFileMapping";
+import { GeneratorTestFileMapping } from "../FileMappings/TypeScript/GeneratorTestFileMapping";
+import { LicenseTypeFileMapping } from "../FileMappings/TypeScript/LicenseTypeFileMapping";
+import { NamingContext } from "../FileMappings/TypeScript/NamingContext";
+import { SettingKeyFileMapping } from "../FileMappings/TypeScript/SettingKeyFileMapping";
+import { SettingsInterfaceFileMapping } from "../FileMappings/TypeScript/SettingsInterfaceFileMapping";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
@@ -28,9 +35,17 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
      * @param generator
      * The generator of the category.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>)
+    public constructor(generator: TSProjectGenerator<TSettings, TOptions>)
     {
         super(generator);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get Generator(): TSProjectGenerator<TSettings, TOptions>
+    {
+        return super.Generator as TSProjectGenerator<TSettings, TOptions>;
     }
 
     /**
@@ -108,72 +123,16 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
      */
     protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<TSettings, TOptions>>
     {
-        let name = (id.charAt(0).toUpperCase() + camelCase(id).slice(1));
+        let namingContext = new NamingContext(id, displayName, this.Generator.SourceRoot);
         let source = "generator";
-        let destination = `src/generators/${id}`;
-        let generatorName = `${name}Generator`;
-        let identities = `${name}SettingKey`;
-        let settings = `I${name}Settings`;
 
         return [
-            {
-                Source: join(source, "LicenseType.ts.ejs"),
-                Destination: join(destination, "LicenseType.ts")
-            },
-            {
-                Source: join(source, "Setting.ts.ejs"),
-                Context: () =>
-                {
-                    return { Name: identities };
-                },
-                Destination: join(destination, `${identities}.ts`)
-            },
-            {
-                Source: join(source, "ISettings.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities
-                    };
-                },
-                Destination: join(destination, `${settings}.ts`)
-            },
-            {
-                Source: join(source, "Generator.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName,
-                        SettingsInterface: settings,
-                        Identities: identities,
-                        ID: id,
-                        DisplayName: displayName
-                    };
-                },
-                Destination: join(destination, `${generatorName}.ts`)
-            },
-            {
-                Source: join(source, "index.ts.ejs"),
-                Context: () =>
-                {
-                    return {
-                        Name: generatorName
-                    };
-                },
-                Destination: join(destination, "index.ts")
-            },
-            {
-                Source: this.Generator.commonTemplatePath("test.ts.ejs"),
-                Context: (target, generator) =>
-                {
-                    return {
-                        Name: displayName
-                    };
-                },
-                Destination: join("src", "tests", "Generators", `${displayName}.test.ts`)
-            },
+            new LicenseTypeFileMapping<TSettings, TOptions>(this.Generator, namingContext),
+            new SettingKeyFileMapping<TSettings, TOptions>(this.Generator, namingContext),
+            new SettingsInterfaceFileMapping<TSettings, TOptions>(this.Generator, namingContext),
+            new GeneratorClassFileMapping<TSettings, TOptions>(this.Generator, namingContext),
+            new GeneratorIndexFileMapping<TSettings, TOptions>(this.Generator, namingContext),
+            new GeneratorTestFileMapping<TSettings, TOptions>(this.Generator, namingContext),
             {
                 Source: join(source, "templates"),
                 Destination: join("templates", id)

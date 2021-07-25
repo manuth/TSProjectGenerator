@@ -1,5 +1,6 @@
-import { GeneratorOptions, IComponentCategory, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IComponentCategory } from "@manuth/extended-yo-generator";
 import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
@@ -23,9 +24,17 @@ export class TSGeneratorComponentCollection<TSettings extends ITSGeneratorSettin
      * @param generator
      * The generator of the collection.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>)
+    public constructor(generator: TSProjectGenerator<TSettings, TOptions>)
     {
         super(generator);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get Generator(): TSProjectGenerator<TSettings, TOptions>
+    {
+        return super.Generator as TSProjectGenerator<TSettings, TOptions>;
     }
 
     /**

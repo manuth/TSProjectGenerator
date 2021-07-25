@@ -12,6 +12,9 @@ import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey"
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection";
 import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
+import { GeneratorMainTestFileMapping } from "./FileMappings/TypeScript/GeneratorMainTestFileMapping";
+import { GeneratorSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorSuiteFileMapping";
+import { NamingContext } from "./FileMappings/TypeScript/NamingContext";
 import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
@@ -83,8 +86,11 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
         let readmeFileName = "README.md";
-        let mainTestFileName = join("tests", "main.test.ts");
-        let generatorTestFileName = join("tests", "Generators", "index.ts");
+
+        let namingContext = new NamingContext(
+            GeneratorName.Main,
+            this.Settings[TSProjectSettingKey.DisplayName],
+            this.SourceRoot);
 
         for (let fileMapping of super.FileMappings)
         {
@@ -136,38 +142,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                     };
                 }
             },
-            {
-                Source: `${mainTestFileName}.ejs`,
-                Destination: join(this.SourceRoot, mainTestFileName),
-                Context: () =>
-                {
-                    return {
-                        Name: this.Settings[TSProjectSettingKey.DisplayName]
-                    };
-                }
-            },
-            {
-                Source: `${generatorTestFileName}.ejs`,
-                Destination: join(this.SourceRoot, generatorTestFileName),
-                Context: () =>
-                {
-                    let names: string[] = [];
-
-                    if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample))
-                    {
-                        names.push(this.Settings[TSProjectSettingKey.DisplayName]);
-                    }
-
-                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
-                    {
-                        names.push(subGenerator[SubGeneratorSettingKey.DisplayName]);
-                    }
-
-                    return {
-                        Names: names
-                    };
-                }
-            },
+            new GeneratorMainTestFileMapping<TSettings, TOptions>(this, namingContext),
+            new GeneratorSuiteFileMapping<TSettings, TOptions>(this, namingContext),
             {
                 Destination: join(this.SourceRoot, "generators"),
                 Processor: (target) =>
