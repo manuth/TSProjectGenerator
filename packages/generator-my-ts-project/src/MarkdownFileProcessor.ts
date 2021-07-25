@@ -85,6 +85,29 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
             {
                 result.splice(i + 1, 1);
             }
+            else if (
+                /^\s*- [^\s]/.test(lines[i]))
+            {
+                let indent = "  " + lines[i].match(/^(\s*)-/)[1];
+                let j = i;
+
+                do
+                {
+                    if (result[j].length === 0)
+                    {
+                        result[j] = "  " + result[j];
+                    }
+
+                    j++;
+                }
+                while (
+                    j < result.length &&
+                    /^(\s*)$/.test(result[j]) ||
+                    (
+                        !/^\s*- [^\s]/.test(result[j]) &&
+                        result[j].startsWith(indent)
+                    ));
+            }
         }
 
         this.WriteDestination(result.join(eol));
