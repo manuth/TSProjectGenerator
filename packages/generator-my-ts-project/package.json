@@ -44,7 +44,7 @@
   "dependencies": {
     "@manuth/extended-yo-generator": "^10.0.0",
     "@manuth/generator-ts-project": "^2.0.4",
-    "@manuth/package-json-editor": "2.2.1",
+    "@manuth/package-json-editor": "2.2.2",
     "comment-json": "^4.1.0",
     "detect-newline": "^3.1.0",
     "eol": "^0.9.1",

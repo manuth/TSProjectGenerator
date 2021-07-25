@@ -45,7 +45,7 @@
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.4",
     "@manuth/extended-yo-generator": "^10.0.0",
-    "@manuth/package-json-editor": "^2.2.1",
+    "@manuth/package-json-editor": "^2.2.2",
     "@manuth/temp-files": "^2.0.6",
     "@types/vscode": "^1.58.1",
     "chalk": "^4.1.1",
