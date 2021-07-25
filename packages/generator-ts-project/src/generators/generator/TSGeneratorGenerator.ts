@@ -1,8 +1,8 @@
-import { join } from "path";
 import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import { ensureDir } from "fs-extra";
+import { join } from "upath";
 import yosay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
 import { GeneratorName } from "../../Core/GeneratorName";
