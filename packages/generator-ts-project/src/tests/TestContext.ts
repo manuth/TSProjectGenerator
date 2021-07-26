@@ -132,7 +132,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      * @returns
      * The result of the prompts.
      */
-    public async MockPrompts(promptModule: PromptModule, questions: DistinctQuestion[], answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<unknown>
+    public async MockPrompts<T>(promptModule: PromptModule, questions: Array<DistinctQuestion<T>>, answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<T>
     {
         let generatedMock = null;
 
