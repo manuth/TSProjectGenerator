@@ -85,7 +85,6 @@ export function NestedPromptTests(): void
                             this.slow(5 * 1000);
                             await SpawnTestScript(false);
                             ok(!messageReceived);
-                            strictEqual(exitCode, 1);
                         });
 
                     test(
