@@ -1,5 +1,7 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { DistinctQuestion, PromptModule } from "inquirer";
+import { stdin } from "mock-stdin";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
 
@@ -61,19 +63,6 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
-     * Gets a component for processing tasks.
-     */
-    protected get TasksProcessor(): TasksProcessor<any, any>
-    {
-        if (this.tasksProcessor === null)
-        {
-            this.tasksProcessor = new TasksProcessor(new CodeWorkspaceComponent(this.CreateGenerator(TestGenerator)));
-        }
-
-        return this.tasksProcessor;
-    }
-
-    /**
      * Gets a workspace-folder directive.
      */
     public get WorkspaceFolderDirective(): string
@@ -90,6 +79,19 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
+     * Gets a component for processing tasks.
+     */
+    protected get TasksProcessor(): TasksProcessor<any, any>
+    {
+        if (this.tasksProcessor === null)
+        {
+            this.tasksProcessor = new TasksProcessor(new CodeWorkspaceComponent(this.CreateGenerator(TestGenerator)));
+        }
+
+        return this.tasksProcessor;
+    }
+
+    /**
      * Creates a workspace-folder directive.
      *
      * @param name
@@ -101,5 +103,74 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     public GetWorkspaceFolderDirective(name?: string): string
     {
         return this.TasksProcessor.GetWorkspaceFolderDirective(name);
+    }
+
+    /**
+     * Prompts the specified {@link questions `questions`} and mocks the specified {@link answers `answers`} to the {@link process.stdin `process.stdin`}.
+     *
+     * @param promptModule
+     * The component for prompting the questions.
+     *
+     * @param questions
+     * The questions to prompt.
+     *
+     * @param answers
+     * The answers to mock.
+     *
+     * @returns
+     * The result of the prompts.
+     */
+    public async MockPrompts(promptModule: PromptModule, questions: DistinctQuestion[], answers: string[][]): Promise<unknown>
+    {
+        let mockedStdin = stdin();
+
+        /**
+         * Sends the specified {@link input `input`} to the {@link process.stdin `process.stdin`}.
+         *
+         * @param input
+         * The input to send to the {@link process.stdin `process.stdin`}.
+         */
+        function SendInput(input: string[]): void
+        {
+            for (let line of input)
+            {
+                mockedStdin.send(line);
+            }
+        }
+
+        try
+        {
+            let index = 0;
+            let result = promptModule(questions);
+
+            process.nextTick(
+                () =>
+                {
+                    SendInput(answers[index++]);
+                });
+
+            result.ui.process.subscribe(
+                {
+                    next: (answerHash) =>
+                    {
+                        process.nextTick(
+                            () =>
+                            {
+                                SendInput(answers[index++] ?? []);
+                            });
+                    }
+                });
+
+            await result;
+            return result;
+        }
+        catch (exception)
+        {
+            throw exception;
+        }
+        finally
+        {
+            mockedStdin.restore();
+        }
     }
 }
