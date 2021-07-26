@@ -1,6 +1,5 @@
 import { Interface } from "readline";
 import { Answers, Question } from "inquirer";
-import { PromptCallback } from "./PromptCallback";
 import { SuspendablePrompt } from "./SuspendablePrompt";
 
 /**
@@ -26,21 +25,6 @@ export abstract class NestedPrompt<T extends Question> extends SuspendablePrompt
     public constructor(question: T, readLine: Interface, answers: Answers)
     {
         super(question, readLine, answers);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param resolve
-     * The callback for resolving the result.
-     */
-    protected override _run(resolve: PromptCallback): void
-    {
-        (
-            async () =>
-            {
-                resolve(await this.Run());
-            })();
     }
 
     /**
