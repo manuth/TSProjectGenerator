@@ -1,10 +1,11 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { DistinctQuestion, PromptModule } from "inquirer";
+import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
 import { IMockedAnswer } from "./IMockedAnswer";
+import { TestPrompt } from "./TestPrompt";
 
 /**
  * Represents a context for testing.
@@ -211,5 +212,19 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
         {
             generatedMock?.restore();
         }
+    }
+
+    /**
+     * Registers the {@link TestPrompt `TestPrompt`}.
+     *
+     * @param promptModule
+     * The prompt-module to register the {@link TestPrompt `TestPrompt`}.
+     *
+     * @param type
+     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
+     */
+    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
+    {
+        promptModule.registerPrompt(type, TestPrompt);
     }
 }
