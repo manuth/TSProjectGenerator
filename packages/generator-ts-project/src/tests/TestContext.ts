@@ -80,6 +80,14 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
+     * Gets an argument indicating whether a managed version of the nested prompt should be tested.
+     */
+    public get ManagedArgument(): string
+    {
+        return "managed";
+    }
+
+    /**
      * Gets a component for processing tasks.
      */
     protected get TasksProcessor(): TasksProcessor<any, any>
