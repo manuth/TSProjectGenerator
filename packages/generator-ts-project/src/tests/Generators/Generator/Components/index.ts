@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../TestContext";
 import { TSGeneratorCategoryTests } from "./TSGeneratorCategory.test";
@@ -13,7 +14,7 @@ import { TSGeneratorGeneralCategoryTests } from "./TSGeneratorGeneralCategory.te
 export function ComponentTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "Components",
+        basename(__dirname),
         () =>
         {
             TSGeneratorGeneralCategoryTests(context);

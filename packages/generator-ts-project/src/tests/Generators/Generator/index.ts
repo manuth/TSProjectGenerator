@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../TestContext";
 import { ComponentTests } from "./Components";
@@ -15,7 +16,7 @@ import { VSCodeTests } from "./VSCode";
 export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "Generator",
+        basename(__dirname),
         () =>
         {
             FileMappingTests(context);

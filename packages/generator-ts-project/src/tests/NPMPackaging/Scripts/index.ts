@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
 import { ScriptMappingTests } from "./ScriptMapping.test";
@@ -11,7 +12,7 @@ import { ScriptMappingTests } from "./ScriptMapping.test";
 export function ScriptTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "Scripts",
+        basename(__dirname),
         () =>
         {
             ScriptMappingTests(context);

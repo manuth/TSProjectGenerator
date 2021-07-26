@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
 import { JSONCreatorMappingTests } from "./JSONCCreatorMapping.test";
@@ -13,7 +14,7 @@ import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
 export function ComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "Components",
+        basename(__dirname),
         () =>
         {
             TransformationTests(context);

@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
 import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test";
@@ -11,7 +12,7 @@ import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollect
 export function DependencyTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "Dependencies",
+        basename(__dirname),
         () =>
         {
             MyPackageDependencyCollectionTests(context);

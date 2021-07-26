@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../TestContext";
 import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSettingsProcessor.test";
@@ -11,7 +12,7 @@ import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSett
 export function VSCodeTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "VSCode",
+        basename(__dirname),
         () =>
         {
             TSGeneratorLaunchSettingsProcessorTests(context);

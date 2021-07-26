@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../TestContext";
 import { TSGeneratorModuleNameQuestionTests } from "./TSGeneratorModuleNameQuestion.test";
@@ -12,7 +13,7 @@ import { TSGeneratorQuestionCollectionTests } from "./TSGeneratorQuestionCollect
 export function InquiryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "Inquiry",
+        basename(__dirname),
         () =>
         {
             TSGeneratorModuleNameQuestionTests(context);

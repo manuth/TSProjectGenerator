@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { AppGenerator } from "../../../generators/app/AppGenerator";
 import { TestContext } from "../../TestContext";
 import { AppGeneratorTests } from "./AppGenerator.test";
@@ -11,7 +12,7 @@ import { AppGeneratorTests } from "./AppGenerator.test";
 export function AppTests(context: TestContext<AppGenerator>): void
 {
     suite(
-        "App",
+        basename(__dirname),
         () =>
         {
             AppGeneratorTests(context);

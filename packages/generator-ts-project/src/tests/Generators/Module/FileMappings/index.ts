@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator";
 import { TestContext } from "../../../TestContext";
 import { NPMPackagingTests } from "./NPMPackaging";
@@ -11,7 +12,7 @@ import { NPMPackagingTests } from "./NPMPackaging";
 export function FileMappingTests(context: TestContext<TSModuleGenerator>): void
 {
     suite(
-        "FileMappings",
+        basename(__dirname),
         () =>
         {
             NPMPackagingTests(context);

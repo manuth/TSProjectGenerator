@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
 import { ComponentTests } from "./Components";
@@ -18,7 +19,7 @@ import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test";
 export function VSCodeTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "VSCode",
+        basename(__dirname),
         () =>
         {
             VSCodeJSONProcessorTests(context);

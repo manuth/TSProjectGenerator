@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../TestContext";
 import { DependencyTests } from "./Dependencies";
@@ -13,7 +14,7 @@ import { ScriptMappingTests } from "./Scripts/ScriptMapping.test";
 export function NPMPackagingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "NPMPackaging",
+        basename(__dirname),
         () =>
         {
             DependencyTests(context);

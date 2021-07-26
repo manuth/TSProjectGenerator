@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TestContext } from "../../TestContext";
 import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test";
@@ -11,7 +12,7 @@ import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test";
 export function ComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
 {
     suite(
-        "Components",
+        basename(__dirname),
         () =>
         {
             CodeWorkspaceComponentTests(context);

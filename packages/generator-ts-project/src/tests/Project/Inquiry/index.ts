@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { TSProjectDescriptionQuestionTests } from "./TSProjectDescriptionQuestion.test";
@@ -15,7 +16,7 @@ import { TSProjectQuestionCollectionTests } from "./TSProjectQuestionCollection.
 export function InquiryTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "Inquiry",
+        basename(__dirname),
         () =>
         {
             TSProjectDestinationQuestionTests(context);
