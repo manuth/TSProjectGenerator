@@ -1,9 +1,10 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DistinctQuestion, PromptModule } from "inquirer";
-import { stdin } from "mock-stdin";
+import { MockSTDIN, stdin } from "mock-stdin";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
+import { IMockedAnswer } from "./IMockedAnswer";
 
 /**
  * Represents a context for testing.
@@ -117,12 +118,21 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      * @param answers
      * The answers to mock.
      *
+     * @param mockedStdin
+     * The {@link MockSTDIN `MockSTDIN`}-instance to use.
+     *
      * @returns
      * The result of the prompts.
      */
-    public async MockPrompts(promptModule: PromptModule, questions: DistinctQuestion[], answers: string[][]): Promise<unknown>
+    public async MockPrompts(promptModule: PromptModule, questions: DistinctQuestion[], answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<unknown>
     {
-        let mockedStdin = stdin();
+        let generatedMock = null;
+
+        if (!mockedStdin)
+        {
+            generatedMock = stdin();
+            mockedStdin = generatedMock;
+        }
 
         /**
          * Sends the specified {@link input `input`} to the {@link process.stdin `process.stdin`}.
@@ -138,26 +148,47 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
             }
         }
 
-        try
+        /**
+         * Processes the specified {@link mockedAnswer `mockedAnswer`}.
+         *
+         * @param mockedAnswer
+         * The mocked answer to process.
+         */
+        function ProcessMockedAnswer(mockedAnswer: IMockedAnswer | string[]): void
         {
-            let index = 0;
-            let result = promptModule(questions);
+            let answer: IMockedAnswer;
+
+            if (Array.isArray(mockedAnswer))
+            {
+                answer = {
+                    input: mockedAnswer
+                };
+            }
+            else
+            {
+                answer = mockedAnswer;
+            }
 
             process.nextTick(
                 () =>
                 {
-                    SendInput(answers[index++]);
+                    answer?.preprocess?.(mockedStdin);
+                    SendInput(answer?.input ?? []);
+                    answer?.callback?.(mockedStdin);
                 });
+        }
+
+        try
+        {
+            let index = 0;
+            let result = promptModule(questions);
+            ProcessMockedAnswer(answers[index++]);
 
             result.ui.process.subscribe(
                 {
                     next: (answerHash) =>
                     {
-                        process.nextTick(
-                            () =>
-                            {
-                                SendInput(answers[index++] ?? []);
-                            });
+                        ProcessMockedAnswer(answers[index++]);
                     }
                 });
 
@@ -170,7 +201,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
         }
         finally
         {
-            mockedStdin.restore();
+            generatedMock?.restore();
         }
     }
 }
