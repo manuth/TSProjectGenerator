@@ -1,5 +1,6 @@
 import { basename } from "path";
 import { NestedPromptTests } from "./NestedPrompt.test";
+import { PromptBaseTests } from "./PromptBase.test";
 import { SuspendablePromptTests } from "./SuspendablePrompt.test";
 
 /**
@@ -11,6 +12,7 @@ export function PromptTests(): void
         basename(__dirname),
         () =>
         {
+            PromptBaseTests();
             SuspendablePromptTests();
             NestedPromptTests();
         });
