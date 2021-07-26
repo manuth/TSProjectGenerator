@@ -126,8 +126,9 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                 });
 
             suiteTeardown(
-                () =>
+                function()
                 {
+                    this.timeout(1 * 60 * 1000);
                     runContext.cleanTestDirectory();
                 });
 
