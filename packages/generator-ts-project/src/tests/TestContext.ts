@@ -1,5 +1,5 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
 
@@ -34,6 +34,14 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     {
         super(generatorContext.GeneratorDirectory);
         this.generatorContext = generatorContext;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static override get Default(): TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>
+    {
+        return new TestContext(GeneratorContext.Default);
     }
 
     /**
