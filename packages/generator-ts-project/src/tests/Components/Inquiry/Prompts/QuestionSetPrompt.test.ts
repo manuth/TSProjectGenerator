@@ -51,7 +51,7 @@ export function QuestionSetPromptTests(): void
                 {
                     promptModule = createPromptModule();
                     promptModule.registerPrompt(QuestionSetPrompt.TypeName, QuestionSetPrompt);
-                    TestContext.Default.RegisterTestPrompt(promptModule);
+                    TestContext.Default.RegisterTestPrompt("input", promptModule);
                     name = TestContext.Default.RandomString;
                     message = TestContext.Default.RandomString;
 
