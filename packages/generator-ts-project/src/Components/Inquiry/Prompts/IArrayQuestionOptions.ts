@@ -1,4 +1,4 @@
-import { Answers, Question } from "inquirer";
+import { Answers, AsyncDynamicQuestionProperty, Question } from "inquirer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArrayPrompt } from "./ArrayPrompt";
 
@@ -18,5 +18,5 @@ export interface IArrayQuestionOptions<T extends Answers = Answers> extends Ques
     /**
      * Gets or sets a value indicating whether the prompt to repeat the questions should be answered with `yes` by default.
      */
-    defaultRepeat?: boolean;
+    defaultRepeat?: AsyncDynamicQuestionProperty<boolean, T>;
 }
