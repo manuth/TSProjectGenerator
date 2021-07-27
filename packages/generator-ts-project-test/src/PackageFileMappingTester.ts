@@ -1,7 +1,7 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings, Predicate } from "@manuth/extended-yo-generator";
 import { PackageJSONConverter, TextConverter } from "@manuth/generator-ts-project";
-import { DependencyCollection, Package } from "@manuth/package-json-editor";
+import { DependencyCollection, IDependencyCollectionOptions, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
 
 /**
@@ -124,6 +124,29 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
                 npmPackage.BundledDependencies.Contains(dependency) === present,
                 `The package ${present ? "doesn't include" : "includes"} the${present ? "" : " unwanted"} dependency \`${dependency[0]}\`!`);
         }
+    }
+
+    /**
+     * Asserts the existence of the dependencies with the specified {@link dependencyNames `dependencyNames`}.
+     *
+     * @param dependencyNames
+     * The names of the dependencies to check.
+     *
+     * @param present
+     * A value indicating whether the names with the specified {@link dependencyNames `dependencyNames`} are expected to be present.
+     */
+    public async AssertDependencyNames(dependencyNames: PackageDependencyCollectionOptions, present = true): Promise<void>
+    {
+        let collectionOptions: IDependencyCollectionOptions = {};
+
+        for (let key of Object.keys(dependencyNames) as Array<keyof PackageDependencyCollectionOptions>)
+        {
+            collectionOptions[key] = Object.fromEntries(
+                dependencyNames[key].map(
+                    (dependency) => [dependency, ""]));
+        }
+
+        return this.AssertDependencies(new DependencyCollection(collectionOptions), present as true, false);
     }
 
     /**
