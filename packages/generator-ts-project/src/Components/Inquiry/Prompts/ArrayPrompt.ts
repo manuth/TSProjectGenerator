@@ -99,6 +99,10 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
         return prompt(
             [
                 await this.GetRepetitionQuestion(items)
-            ]);
+            ],
+            {
+                ...this.answers,
+                [this.opt.name]: items
+            });
     }
 }
