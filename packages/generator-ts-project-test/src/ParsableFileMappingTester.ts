@@ -1,7 +1,6 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { IParser } from "@manuth/generator-ts-project";
-import { readFile } from "fs-extra";
 
 /**
  * Provides the functionality to test a parsable file-mapping.
@@ -75,6 +74,6 @@ export abstract class ParsableFileMappingTester<TGenerator extends IGenerator<TS
      */
     public async ParseOutput(): Promise<TParsed>
     {
-        return this.Parse((await readFile(this.FileMapping.Destination)).toString());
+        return this.Parse(await this.ReadOutput());
     }
 }

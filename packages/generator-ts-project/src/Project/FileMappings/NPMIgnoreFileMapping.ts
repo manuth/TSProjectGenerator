@@ -1,6 +1,5 @@
 import { FileMappingOptions, GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
-import { readFile } from "fs-extra";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
@@ -80,9 +79,9 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     {
         this.WriteOutput(
             applyPatch(
-                (await readFile(this.Resolved.Source)).toString(),
+                await this.ReadFile(this.Source),
                 parsePatch(
-                    (await readFile(this.PatchFileName)).toString()
+                    await this.ReadFile(this.PatchFileName)
                 )[0]));
     }
 }
