@@ -1,6 +1,6 @@
 import { deepStrictEqual, ok } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { assign, parse, stringify } from "comment-json";
 import dedent = require("dedent");
@@ -12,16 +12,14 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
  * Registers tests for the {@link WorkspaceFileCreator `WorkspaceFileCreator<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceFileCreatorTests(): void
 {
     suite(
         nameof(WorkspaceFileCreator),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let fileName: string;
             let workspace: IWorkspaceMetadata;

@@ -1,5 +1,4 @@
 import { strictEqual } from "assert";
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection";
@@ -7,16 +6,15 @@ import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the {@link MyPackageDependencyCollection `MyPackageDependencyCollection`} class.
- *
- * @param context
- * The test-context.
  */
-export function MyPackageDependencyCollectionTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function MyPackageDependencyCollectionTests(): void
 {
     suite(
         nameof(MyPackageDependencyCollection),
         () =>
         {
+            let context = TestContext.Default;
+
             suite(
                 nameof(MyPackageDependencyCollection.constructor),
                 () =>

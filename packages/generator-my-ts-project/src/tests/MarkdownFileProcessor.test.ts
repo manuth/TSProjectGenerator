@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorSettings, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { writeFile } from "fs-extra";
@@ -8,16 +8,14 @@ import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 
 /**
  * Registers tests for the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function MarkdownFileProcessorTests(): void
 {
     suite(
         nameof(MarkdownFileProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
             let fileMappingOptions: MarkdownFileProcessor<ITestGeneratorSettings, GeneratorOptions>;

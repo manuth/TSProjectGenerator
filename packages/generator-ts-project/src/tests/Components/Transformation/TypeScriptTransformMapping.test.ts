@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
@@ -11,16 +11,14 @@ import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function TypeScriptTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function TypeScriptTransformMappingTests(): void
 {
     suite(
         nameof(TypeScriptTransformMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let outputFile: TempFile;

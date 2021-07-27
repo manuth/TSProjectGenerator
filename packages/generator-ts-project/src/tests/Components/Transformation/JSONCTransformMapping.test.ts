@@ -1,6 +1,6 @@
 import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { assign } from "comment-json";
@@ -10,16 +10,14 @@ import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the {@link JSONCTransformMapping `JSONCTransformMapping<TSettings, TOptions, TData>`} class.
- *
- * @param context
- * The test-context.
  */
-export function JSONCTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function JSONCTransformMappingTests(): void
 {
     suite(
         nameof(JSONCTransformMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let destinationFile: TempFile;

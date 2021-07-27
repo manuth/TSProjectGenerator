@@ -1,5 +1,5 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { join } from "upath";
 import { GeneratorName } from "../Core/GeneratorName";
 import { AppGenerator } from "../generators/app/AppGenerator";
@@ -28,7 +28,6 @@ suite(
             contextMap.set(namespace, [new GeneratorContext(join(generatorRoot, namespace)), null]);
         }
 
-        let defaultContext = new TestContext(contextMap.get(defaultContextName)[0] as GeneratorContext<TestGenerator>);
         let appContext = new TestContext(contextMap.get(GeneratorName.Main)[0] as GeneratorContext<AppGenerator>);
         let moduleContext = new TestContext(contextMap.get(GeneratorName.Module)[0] as GeneratorContext<TSModuleGenerator>);
         let generatorContext = new TestContext(contextMap.get(GeneratorName.Generator)[0] as GeneratorContext<TSGeneratorGenerator>);
@@ -61,9 +60,9 @@ suite(
                 }
             });
 
-        ComponentTests(defaultContext);
-        NPMPackagingTests(defaultContext);
-        VSCodeTests(defaultContext);
+        ComponentTests();
+        NPMPackagingTests();
+        VSCodeTests();
         LintingTests(moduleContext);
         ProjectTests(moduleContext);
 

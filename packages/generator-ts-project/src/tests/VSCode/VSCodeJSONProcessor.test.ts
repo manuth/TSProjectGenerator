@@ -1,22 +1,20 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
  * Registers tests for the {@link VSCodeJSONProcessor `VSCodeJSONProcessor<TSettings, TOptions, TData>`} class.
- *
- * @param context
- * The test-context.
  */
-export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function VSCodeJSONProcessorTests(): void
 {
     suite(
         nameof(VSCodeJSONProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
             let processor: VSCodeJSONProcessor<ITestGeneratorSettings, GeneratorOptions, any>;
 

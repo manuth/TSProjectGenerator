@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { createSandbox, SinonSandbox } from "sinon";
@@ -12,16 +12,14 @@ import { TestPackageFileMapping } from "./TestPackageFileMapping";
 
 /**
  * Registers tests for the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function PackageFileMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function PackageFileMappingTests(): void
 {
     suite(
         nameof<PackageFileMapping<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let sinon: SinonSandbox;
             let defaultVersion = "0.0.0";
             let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;

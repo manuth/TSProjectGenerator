@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
@@ -9,16 +9,14 @@ import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
 
 /**
  * Registers tests for the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function CodeWorkspaceComponentTests(): void
 {
     suite(
         nameof<CodeWorkspaceComponent<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let randomWorkspace: IWorkspaceMetadata;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
 

@@ -1,6 +1,6 @@
 import { notStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
@@ -13,16 +13,14 @@ import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvi
 
 /**
  * Registers tests for the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function WorkspaceProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceProcessorTests(): void
 {
     suite(
         nameof<WorkspaceProcessor<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
             let workspaceProcessor: TestWorkspaceProcessor<ITestGeneratorSettings, GeneratorOptions>;
             let randomExtensions: IExtensionSettings;

@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
@@ -9,16 +9,14 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 
 /**
  * Registers tests for the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function LaunchSettingsProcessorTests(): void
 {
     suite(
         nameof(LaunchSettingsProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let launchSettings: ILaunchSettings;
             let includedDebugConfig: DebugConfiguration;
             let excludedDebugConfig: DebugConfiguration;

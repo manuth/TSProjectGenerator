@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -9,16 +9,14 @@ import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceCompon
 
 /**
  * Registers tests for the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function TasksProcessorTests(): void
 {
     suite(
         nameof(TasksProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let includedTask: TaskDefinition;
             let excludedTask: TaskDefinition;
             let mutatedTask: TaskDefinition;

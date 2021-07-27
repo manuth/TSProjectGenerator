@@ -1,5 +1,5 @@
 import { deepStrictEqual } from "assert";
-import { FileMappingTester, ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
@@ -10,16 +10,14 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 
 /**
  * Registers tests for the {@link WorkspaceFolderLoader `WorkspaceFolderLoader<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceFolderLoaderTests(): void
 {
     suite(
         nameof(WorkspaceFolderLoader),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let moduleRoot: string;
             let destinationRoot: string;

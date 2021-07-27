@@ -25,7 +25,7 @@ suite(
             });
 
         MyTSProjectGeneratorTests(projectContext);
-        MarkdownFileProcessorTests(context);
+        MarkdownFileProcessorTests();
         DroneFileMappingTests(projectContext);
         DependabotFileMappingTests(projectContext);
         MyTSProjectPackageFileMappingTests(projectContext);

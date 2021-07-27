@@ -1,6 +1,4 @@
 import { basename } from "path";
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../../TestContext";
 import { CodeWorkspaceProviderTests } from "./CodeWorkspaceProvider.test";
 import { WorkspaceFileCreatorTests } from "./WorkspaceFileCreator.test";
 import { WorkspaceFolderCreatorTest } from "./WorkspaceFolderCreator.test";
@@ -12,15 +10,15 @@ import { WorkspaceFolderLoaderTests } from "./WorkspaceFolderLoader.test";
  * @param context
  * The test-context.
  */
-export function FileMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function FileMappingTests(): void
 {
     suite(
         basename(__dirname),
         () =>
         {
-            CodeWorkspaceProviderTests(context);
-            WorkspaceFolderLoaderTests(context);
-            WorkspaceFolderCreatorTest(context);
-            WorkspaceFileCreatorTests(context);
+            CodeWorkspaceProviderTests();
+            WorkspaceFolderLoaderTests();
+            WorkspaceFolderCreatorTest();
+            WorkspaceFileCreatorTests();
         });
 }

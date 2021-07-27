@@ -1,22 +1,20 @@
 import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
  * Registers tests for the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function SettingsProcessorTest(): void
 {
     suite(
         nameof(SettingsProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let includedSetting: string;
             let excludedSetting: string;
             let mutatedSetting: string;

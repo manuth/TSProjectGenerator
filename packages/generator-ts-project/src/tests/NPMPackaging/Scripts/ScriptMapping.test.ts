@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { Package } from "@manuth/package-json-editor";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
@@ -8,16 +8,14 @@ import { TestScriptTransformer } from "./TestScriptTransformer";
 
 /**
  * Registers tests for the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function ScriptMappingTests(): void
 {
     suite(
         nameof(ScriptMapping),
         () =>
         {
+            let context = TestContext.Default;
             let npmPackage: Package;
             let scriptMapping: ScriptMapping<ITestGeneratorSettings, GeneratorOptions>;
             let randomSource: string;

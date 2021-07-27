@@ -1,6 +1,6 @@
 import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
@@ -10,16 +10,14 @@ import { TestContext } from "../../TestContext";
 
 /**
  * Registers tests for the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.
- *
- * @param context
- * The text-context.
  */
-export function YAMLTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function YAMLTransformMappingTests(): void
 {
     suite(
         nameof(YAMLTransformMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let sourceFile: TempFile;
             let outputFile: TempFile;

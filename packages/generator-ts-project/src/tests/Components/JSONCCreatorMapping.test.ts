@@ -1,22 +1,20 @@
 import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
 
 /**
  * Registers tests for the {@link JSONCreatorMapping `JSONCreatorMapping<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function JSONCreatorMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function JSONCreatorMappingTests(): void
 {
     suite(
         nameof(JSONCCreatorMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let tempFile: TempFile;
             let fileMappingOptions: JSONCCreatorMapping<ITestGeneratorSettings, GeneratorOptions, any>;

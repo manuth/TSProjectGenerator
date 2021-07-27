@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
@@ -14,16 +14,14 @@ import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
  * Registers tests for the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.
- *
- * @param context
- * The test-context.
  */
-export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function CodeWorkspaceProviderTests(): void
 {
     suite(
         nameof<CodeWorkspaceProvider<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
