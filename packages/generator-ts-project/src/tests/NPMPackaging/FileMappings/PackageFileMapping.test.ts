@@ -5,6 +5,8 @@ import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { createSandbox, SinonSandbox } from "sinon";
 import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
+import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
 import { ITestPackageOptions } from "./ITestPackageOptions";
@@ -20,6 +22,7 @@ export function PackageFileMappingTests(): void
         () =>
         {
             let context = TestContext.Default;
+            let generator: TestGenerator;
             let sinon: SinonSandbox;
             let defaultVersion = "0.0.0";
             let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
@@ -30,20 +33,12 @@ export function PackageFileMappingTests(): void
                 async function()
                 {
                     this.timeout(30 * 1000);
-                    sinon = createSandbox();
-                    let generator = await context.Generator;
                     let randomName = context.RandomString;
                     let randomMail = context.RandomString;
+                    sinon = createSandbox();
+                    generator = await context.Generator;
                     sinon.replace(generator.user.git, "name", () => randomName);
                     sinon.replace(generator.user.git, "email", () => randomMail);
-
-                    options = {
-                        ScriptMappings: null,
-                        ScriptSource: null
-                    };
-
-                    fileMapping = new TestPackageFileMapping(generator, options);
-                    tester = new PackageFileMappingTester(generator, fileMapping);
                 });
 
             suiteTeardown(
@@ -55,8 +50,15 @@ export function PackageFileMappingTests(): void
             setup(
                 () =>
                 {
+                    options = {
+                        ScriptMappings: null,
+                        ScriptSource: null
+                    };
+
                     options.ScriptMappings = [];
                     options.ScriptSource = new Package();
+                    fileMapping = new TestPackageFileMapping(generator, options);
+                    tester = new PackageFileMappingTester(generator, fileMapping);
                 });
 
             teardown(
@@ -66,12 +68,38 @@ export function PackageFileMappingTests(): void
                 });
 
             suite(
-                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.ScriptMappings),
+                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.ScriptMappingCollection),
                 () =>
                 {
                     let randomSource: string;
                     let randomDestination: string;
                     let randomScript: string;
+                    let scriptMappingOptions: IScriptMapping<any, any> | string;
+
+                    /**
+                     * Gets the script-mapping which belongs to the {@link scriptMappingOptions `scriptMappingOptions`}.
+                     *
+                     * @returns
+                     * The script-mapping which belongs to the {@link scriptMappingOptions `scriptMappingOptions`}.
+                     */
+                    function GetScriptMapping(): ScriptMapping<any, any>
+                    {
+                        return fileMapping.ScriptMappingCollection.Items[fileMapping.ScriptMappings.indexOf(scriptMappingOptions)];
+                    }
+
+                    /**
+                     * Loads the script with the specified {@link scriptName `scriptName`} from the package.
+                     *
+                     * @param scriptName
+                     * The name of the script to load.
+                     *
+                     * @returns
+                     * The content of the script with the specified {@link scriptName `scriptName`}.
+                     */
+                    async function GetPackageScript(scriptName: string): Promise<string>
+                    {
+                        return (await tester.ParseOutput()).Scripts.Get(scriptName);
+                    }
 
                     setup(
                         async () =>
@@ -79,7 +107,38 @@ export function PackageFileMappingTests(): void
                             randomSource = context.RandomString;
                             randomDestination = context.RandomString;
                             randomScript = context.RandomString;
+
+                            options = {
+                                ScriptSource: new Package(),
+                                get ScriptMappings(): Array<string | IScriptMapping<any, any>>
+                                {
+                                    return [
+                                        scriptMappingOptions
+                                    ];
+                                }
+                            };
+
                             options.ScriptSource.Scripts.Add(randomSource, randomScript);
+
+                            scriptMappingOptions = {
+                                Destination: null
+                            };
+
+                            fileMapping = new TestPackageFileMapping(generator, options);
+                            tester = new PackageFileMappingTester(generator, fileMapping);
+                        });
+
+                    test(
+                        `Checking whether the scripts are loaded from the \`${nameof<TestPackageFileMapping<any, any>>((pkg) => pkg.ScriptSource)}\`…`,
+                        async function()
+                        {
+                            this.timeout(8 * 1000);
+                            this.slow(4 * 1000);
+                            scriptMappingOptions = randomSource;
+
+                            strictEqual(
+                                await GetScriptMapping().Processor(),
+                                fileMapping.ScriptSource.Scripts.Get(randomSource));
                         });
 
                     test(
@@ -88,9 +147,16 @@ export function PackageFileMappingTests(): void
                         {
                             this.timeout(8 * 1000);
                             this.slow(4 * 1000);
-                            options.ScriptMappings.push(randomSource);
+                            scriptMappingOptions = randomSource;
                             await tester.Run();
-                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomSource), randomScript);
+
+                            strictEqual(
+                                await GetPackageScript(randomSource),
+                                randomScript);
+
+                            strictEqual(
+                                await GetScriptMapping().Processor(),
+                                randomScript);
                         });
 
                     test(
@@ -100,14 +166,14 @@ export function PackageFileMappingTests(): void
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
 
-                            options.ScriptMappings.push(
-                                {
-                                    Source: randomSource,
-                                    Destination: randomDestination
-                                });
+                            scriptMappingOptions = {
+                                Source: randomSource,
+                                Destination: randomDestination
+                            };
 
                             await tester.Run();
-                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomDestination), randomScript);
+                            strictEqual(await GetPackageScript(randomDestination), randomScript);
+                            strictEqual(await GetScriptMapping().Processor(), randomScript);
                         });
 
                     test(
@@ -117,18 +183,17 @@ export function PackageFileMappingTests(): void
                             this.timeout(8 * 1000);
                             this.slow(4 * 1000);
                             let index = context.Random.integer(1, randomScript.length - 1);
-
                             let transformer: TestScriptTransformer = (script: string): string => script.substring(index);
 
-                            options.ScriptMappings.push(
-                                {
-                                    Source: randomSource,
-                                    Destination: randomDestination,
-                                    Processor: async (script) => transformer(script)
-                                });
+                            scriptMappingOptions = {
+                                Source: randomSource,
+                                Destination: randomDestination,
+                                Processor: async (script) => transformer(script)
+                            };
 
                             await tester.Run();
-                            strictEqual((await tester.ParseOutput()).Scripts.Get(randomDestination), transformer(randomScript));
+                            strictEqual(await GetScriptMapping().Processor(), transformer(randomScript));
+                            strictEqual(await GetPackageScript(randomDestination), transformer(randomScript));
                         });
                 });
 
