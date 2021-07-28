@@ -1,8 +1,15 @@
-import { deepStrictEqual, ok } from "assert";
+import { ok } from "assert";
+import { extname } from "path";
+import { FileMapping, GeneratorOptions, IComponent, IComponentCategory, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
-import { TSConfigFileMapping } from "@manuth/generator-ts-project";
+import { ITSProjectSettings, Predicate, TSConfigFileMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
+import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
+import { TSConfigJSON } from "types-tsconfig";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
+import { MyGeneratorComponent } from "../MyGeneratorComponent";
 import type { MyTSProjectGenerator } from "../MyTSProjectGenerator";
+import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
 import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
 
 /**
@@ -29,20 +36,111 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
                 });
 
             suite(
-                nameof<MyTSModuleGenerator>((generator) => generator.FileMappings),
+                nameof<MyTSModuleGenerator>((generator) => generator.Components),
+                () =>
+                {
+                    /**
+                     * Asserts that the specified {@link predicate `predicate`} applies to at least one category.
+                     *
+                     * @param predicate
+                     * The predicate which is expected to apply to at least one category.
+                     */
+                    function AssertCategory(predicate: Predicate<IComponentCategory<any, any>>): void
+                    {
+                        ok(generator.Components.Categories.some(predicate));
+                    }
+
+                    /**
+                     * Asserts that a component with the specified {@link id `id`} exists.
+                     *
+                     * @param id
+                     * The id of the component whose existence to assert.
+                     */
+                    function AssertComponentExists(id: string): void
+                    {
+                        AssertComponent((component) => component.ID === id);
+                    }
+
+                    /**
+                     * Asserts that a component which applies to the specified {@link predicate `predicate`} exists.
+                     *
+                     * @param predicate
+                     * The predicate which is expected to apply to at least one component.
+                     */
+                    function AssertComponent(predicate: Predicate<IComponent<any, any>>): void
+                    {
+                        AssertCategory((category) => category.Components.some(predicate));
+                    }
+
+                    test(
+                        "Checking whether all expected categories are present…",
+                        () =>
+                        {
+                            AssertCategory((category) => category.DisplayName === "Workflows");
+                        });
+
+                    test(
+                        "Checking whether all expected components are present…",
+                        () =>
+                        {
+                            AssertComponentExists(MyGeneratorComponent.AutoMergeWorkflow);
+                            AssertComponentExists(MyGeneratorComponent.CodeQLAnalysisWorkflow);
+                        });
+                });
+
+            suite(
+                nameof<MyTSModuleGenerator>((generator) => generator.BaseFileMappings),
                 () =>
                 {
                     test(
-                        `Checking whether the \`${transformPluginName}\`-plugin is configured in \`${tsconfigFileName}\`…`,
+                        `Checking whether all markdown-files from the \`${nameof<TestTSModuleGenerator>((g) => g.Base)}\` are wrapped in a \`${nameof(MarkdownFileProcessor)}\`…`,
                         () =>
                         {
-                            // eslint-disable-next-line @typescript-eslint/no-var-requires
-                            let originalTSConfig = require(generator.Base.modulePath(tsconfigFileName));
-                            // eslint-disable-next-line @typescript-eslint/no-var-requires
-                            let tsConfig = require(generator.destinationPath(tsconfigFileName));
+                            for (let fileMapping of generator.BaseFileMappings.Items)
+                            {
+                                if (extname(fileMapping.Destination) === ".md")
+                                {
+                                    ok(fileMapping.Object instanceof MarkdownFileProcessor);
+                                }
+                            }
+                        });
 
-                            deepStrictEqual(originalTSConfig.compilerOptions.plugins, tsConfig.compilerOptions.plugins);
-                            ok(tsConfig.compilerOptions.plugins.some((plugin: any) => plugin.transform === transformPluginName));
+                    test(
+                        `Checking whether all \`${nameof(TSProjectPackageFileMapping)}\`s are replaced with \`${nameof(MyTSProjectPackageFileMapping)}\`s…`,
+                        async () =>
+                        {
+                            for (let baseFileMapping of generator.BaseFileMappings.Items)
+                            {
+                                if (baseFileMapping.Object instanceof TSProjectPackageFileMapping)
+                                {
+                                    let fileMapping = generator.FileMappingCollection.Get(
+                                        (fileMapping: FileMapping<any, any>) =>
+                                        {
+                                            return fileMapping.Destination === baseFileMapping.Destination;
+                                        });
+
+                                    while (nameof<FileMapping<any, any>>((fm) => fm.Object) in fileMapping.Object)
+                                    {
+                                        fileMapping = fileMapping.Object as FileMapping<any, any>;
+                                    }
+
+                                    ok(fileMapping.Object instanceof MyTSProjectPackageFileMapping);
+                                }
+                            }
+                        });
+
+                    test(
+                        `Checking whether the \`${transformPluginName}\`-plugin is configured in \`${tsconfigFileName}\`…`,
+                        async () =>
+                        {
+                            let fileMapping = generator.BaseFileMappings.Get(
+                                (fileMapping: FileMapping<any, any>) => fileMapping.Object.Destination === tsconfigFileName);
+
+                            let tester = new JSONCFileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, IFileMapping<ITSProjectSettings, GeneratorOptions>, TSConfigJSON>(generator, fileMapping);
+
+                            ok(
+                                (await tester.ParseOutput()).compilerOptions.plugins.some(
+                                    (plugin: any) => plugin.transform === transformPluginName));
                         });
                 });
         });
