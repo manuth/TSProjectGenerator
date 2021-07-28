@@ -48,7 +48,7 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
      */
     public override get ScriptSource(): Package
     {
-        return this.Options.Template;
+        return this.Options.ScriptSource;
     }
 
     /**

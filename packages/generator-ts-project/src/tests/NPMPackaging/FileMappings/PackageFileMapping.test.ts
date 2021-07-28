@@ -39,7 +39,7 @@ export function PackageFileMappingTests(): void
 
                     options = {
                         ScriptMappings: null,
-                        Template: null
+                        ScriptSource: null
                     };
 
                     fileMapping = new TestPackageFileMapping(generator, options);
@@ -56,7 +56,7 @@ export function PackageFileMappingTests(): void
                 () =>
                 {
                     options.ScriptMappings = [];
-                    options.Template = new Package();
+                    options.ScriptSource = new Package();
                 });
 
             teardown(
@@ -79,7 +79,7 @@ export function PackageFileMappingTests(): void
                             randomSource = context.RandomString;
                             randomDestination = context.RandomString;
                             randomScript = context.RandomString;
-                            options.Template.Scripts.Add(randomSource, randomScript);
+                            options.ScriptSource.Scripts.Add(randomSource, randomScript);
                         });
 
                     test(
