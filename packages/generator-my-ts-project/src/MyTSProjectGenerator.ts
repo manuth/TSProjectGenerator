@@ -90,7 +90,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             /**
              * @inheritdoc
              */
-            public override get BaseComponents(): ComponentCollection<any, any>
+            protected override get BaseComponents(): ComponentCollection<any, any>
             {
                 let components = super.BaseComponents;
 
@@ -115,7 +115,7 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             /**
              * @inheritdoc
              */
-            public override get BaseFileMappings(): FileMappingCollectionEditor
+            protected override get BaseFileMappings(): FileMappingCollectionEditor
             {
                 let result = super.BaseFileMappings;
                 self.ProcessFileMappings(this, result);
