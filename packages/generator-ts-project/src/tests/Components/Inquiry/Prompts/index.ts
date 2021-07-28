@@ -3,6 +3,7 @@ import { ArrayPromptTests } from "./ArrayPrompt.test";
 import { NestedPromptTests } from "./NestedPrompt.test";
 import { PromptBaseTests } from "./PromptBase.test";
 import { QuestionSetPromptTests } from "./QuestionSetPrompt.test";
+import { SubGeneratorPromptTests } from "./SubGeneratorPrompt.test";
 import { SuspendablePromptTests } from "./SuspendablePrompt.test";
 
 /**
@@ -19,5 +20,6 @@ export function PromptTests(): void
             NestedPromptTests();
             QuestionSetPromptTests();
             ArrayPromptTests();
+            SubGeneratorPromptTests();
         });
 }
