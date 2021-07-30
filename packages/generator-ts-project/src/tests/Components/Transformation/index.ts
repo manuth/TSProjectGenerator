@@ -1,4 +1,5 @@
 import { basename } from "path";
+import { ConversionTests } from "./Conversion";
 import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test";
 import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
@@ -12,6 +13,7 @@ export function TransformationTests(): void
         basename(__dirname),
         () =>
         {
+            ConversionTests();
             JSONCTransformMappingTests();
             YAMLTransformMappingTests();
             TypeScriptTransformMappingTests();
