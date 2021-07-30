@@ -23,7 +23,7 @@ export class TypeScriptConverter extends TextConverter<SourceFile>
      * @param destinationPath
      * The path the resulting code is supposed to be saved to.
      */
-    public constructor(destinationPath: string)
+    public constructor(destinationPath?: string)
     {
         super();
 

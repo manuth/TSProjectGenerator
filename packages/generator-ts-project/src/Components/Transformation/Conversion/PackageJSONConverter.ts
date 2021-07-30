@@ -23,7 +23,7 @@ export class PackageJSONConverter extends TextConverter<Package>
      * @param destinationPath
      * The path the resulting code is supposed to be saved to.
      */
-    public constructor(destinationPath: string)
+    public constructor(destinationPath?: string)
     {
         super();
         this.destinationPath = destinationPath;
@@ -65,7 +65,16 @@ export class PackageJSONConverter extends TextConverter<Package>
      */
     public override Parse(text: string): Package
     {
-        return new Package(this.DestinationPath, this.InnerConverter.Parse(text));
+        let metadata = this.InnerConverter.Parse(text);
+
+        if (this.DestinationPath)
+        {
+            return new Package(this.DestinationPath, metadata);
+        }
+        else
+        {
+            return new Package(metadata);
+        }
     }
 
     /**
