@@ -53,7 +53,7 @@ export class JSONCConverter<T> extends TextConverter<T>
     /**
      * @inheritdoc
      */
-    protected set EOLLast(value: boolean)
+    public set EOLLast(value: boolean)
     {
         this.eolLast = value;
     }
