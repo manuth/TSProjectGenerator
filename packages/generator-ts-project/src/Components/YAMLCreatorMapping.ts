@@ -13,7 +13,7 @@ import { YAMLConverter } from "./Transformation/Conversion/YAMLConverter";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends DumpCreatorFileMapping<TSettings, TOptions, Document.Parsed[]>
+export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends DumpCreatorFileMapping<TSettings, TOptions, Array<Document | Document.Parsed>>
 {
     /**
      * Initializes a new instance of the {@link YAMLCreatorMapping `YAMLCreatorMapping<TSettings, TOptions>`} class.
@@ -27,7 +27,7 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
      * @param data
      * The data to write to the file.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: Document[])
+    public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: Array<Document | Document.Parsed>)
     {
         super(
             generator,
@@ -42,7 +42,7 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * @inheritdoc
      */
-    public get Dumper(): IDumper<Document.Parsed[]>
+    public get Dumper(): IDumper<Array<Document | Document.Parsed>>
     {
         return new YAMLConverter();
     }

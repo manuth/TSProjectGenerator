@@ -1,12 +1,13 @@
 import { EOL } from "os";
 import { split } from "eol";
 import { Document, parseAllDocuments, scalarOptions } from "yaml";
+import { IDumper } from "./IDumper";
 import { TextConverter } from "./TextConverter";
 
 /**
  * Provides the functionality to parse and dump `.yaml`-code.
  */
-export class YAMLConverter extends TextConverter<Document.Parsed[]>
+export class YAMLConverter extends TextConverter<Document.Parsed[]> implements IDumper<Array<Document | Document.Parsed>>
 {
     /**
      * The new-line character to use.
@@ -60,7 +61,7 @@ export class YAMLConverter extends TextConverter<Document.Parsed[]>
      * @returns
      * A {@link String `string`} representing the specified {@link data `data`}.
      */
-    public Dump(data: Document.Parsed[]): string
+    public Dump(data: Array<Document | Document.Parsed>): string
     {
         return split(
             data.map(

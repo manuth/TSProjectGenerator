@@ -1,6 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Document } from "yaml";
-import { TextConverter } from "./Conversion/TextConverter";
 import { YAMLConverter } from "./Conversion/YAMLConverter";
 import { ParsedFileMapping } from "./ParsedFileMapping";
 
@@ -29,7 +28,7 @@ export abstract class YAMLTransformMapping<TSettings extends IGeneratorSettings,
     /**
      * @inheritdoc
      */
-    public get Converter(): TextConverter<Document.Parsed[]>
+    public get Converter(): YAMLConverter
     {
         return new YAMLConverter();
     }
