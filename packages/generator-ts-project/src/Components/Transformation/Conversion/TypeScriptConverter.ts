@@ -26,7 +26,6 @@ export class TypeScriptConverter extends TextConverter<SourceFile>
     public constructor(destinationPath?: string)
     {
         super();
-
         this.destinationPath = destinationPath;
 
         this.formatSettings = {
