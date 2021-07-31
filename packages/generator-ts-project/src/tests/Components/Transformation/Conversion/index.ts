@@ -1,5 +1,6 @@
 import { basename } from "path";
 import { JSONCConverterTests } from "./JSONCConverter.test";
+import { YAMLConverterTests } from "./YAMLConverter.test";
 
 /**
  * Registers tests for the conversion-components.
@@ -11,5 +12,6 @@ export function ConversionTests(): void
         () =>
         {
             JSONCConverterTests();
+            YAMLConverterTests();
         });
 }
