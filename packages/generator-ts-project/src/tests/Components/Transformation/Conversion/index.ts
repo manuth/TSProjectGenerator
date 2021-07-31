@@ -1,5 +1,6 @@
 import { basename } from "path";
 import { JSONCConverterTests } from "./JSONCConverter.test";
+import { PackageJSONConverterTests } from "./PackageJSONConverter.test";
 import { TypeScriptConverterTests } from "./TypeScriptConverter.test";
 import { YAMLConverterTests } from "./YAMLConverter.test";
 
@@ -15,5 +16,6 @@ export function ConversionTests(): void
             JSONCConverterTests();
             YAMLConverterTests();
             TypeScriptConverterTests();
+            PackageJSONConverterTests();
         });
 }
