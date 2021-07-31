@@ -55,7 +55,7 @@ export function YAMLConverterTests(): void
                         {
                             deepStrictEqual(
                                 converter.Parse(multiDocumentText).map((document) => document.toJSON()),
-                                multiDocuments);
+                                multiDocuments.map((document) => document.toJSON()));
                         });
                 });
 
