@@ -89,11 +89,10 @@ export class JSONCConverter<T> extends TextConverter<T>
                     data,
                     null,
                     4)),
-            ...[
+            ...(
                 this.EOLLast ?
                     [""] :
-                    []
-            ]
+                    [])
         ].join(this.NewLineCharacter);
     }
 }
