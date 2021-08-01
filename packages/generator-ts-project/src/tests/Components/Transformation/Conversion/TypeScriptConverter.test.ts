@@ -1,6 +1,8 @@
-import { doesNotThrow } from "assert";
+import { doesNotThrow, strictEqual } from "assert";
+import { EOL } from "os";
 import { TempFileSystem } from "@manuth/temp-files";
-import { NodeFlags, printNode, Project, SourceFile, ts } from "ts-morph";
+import detectNewLine = require("detect-newline");
+import { FormatCodeSettings, NodeFlags, printNode, Project, SourceFile, ts } from "ts-morph";
 import { TypeScriptConverter } from "../../../../Components/Transformation/Conversion/TypeScriptConverter";
 import { TestContext } from "../../../TestContext";
 
@@ -92,6 +94,17 @@ export function TypeScriptConverterTests(): void
                                 {
                                     sourceFile.getVariableDeclarationOrThrow(testVariableName);
                                 });
+                        });
+
+                    test(
+                        `Checking whether the \`${nameof<FormatCodeSettings>()}\` can be adjusted…`,
+                        () =>
+                        {
+                            for (let nlc of [EOL, "\n", "\r\n"])
+                            {
+                                converter.FormatSettings.newLineCharacter = nlc;
+                                strictEqual(detectNewLine(converter.Dump(testSourceFile)), nlc);
+                            }
                         });
                 });
         });
