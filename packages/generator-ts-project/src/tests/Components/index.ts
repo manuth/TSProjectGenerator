@@ -1,4 +1,5 @@
 import { basename } from "path";
+import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test";
 import { InquiryTests } from "./Inquiry";
 import { JSONCreatorMappingTests } from "./JSONCCreatorMapping.test";
 import { TransformationTests } from "./Transformation";
@@ -15,6 +16,7 @@ export function ComponentTests(): void
         {
             InquiryTests();
             TransformationTests();
+            DumpCreatorFileMappingTests();
             JSONCreatorMappingTests();
             YAMLCreatorMappingTests();
         });
