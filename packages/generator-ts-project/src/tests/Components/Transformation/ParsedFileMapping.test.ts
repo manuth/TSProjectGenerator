@@ -56,6 +56,7 @@ export function ParsedFileMappingTests(): void
             suiteSetup(
                 async function()
                 {
+                    this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
                 });
