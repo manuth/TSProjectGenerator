@@ -2,6 +2,7 @@ import { basename } from "path";
 import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test";
 import { InquiryTests } from "./Inquiry";
 import { TransformationTests } from "./Transformation";
+import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test";
 
 /**
  * Registers tests for components.
@@ -15,5 +16,6 @@ export function ComponentTests(): void
             InquiryTests();
             TransformationTests();
             DumpCreatorFileMappingTests();
+            TypeScriptCreatorMappingTests();
         });
 }
