@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Document, parseDocument } from "yaml";
+import { Document } from "yaml";
 import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
 import { IDumper } from "./Transformation/Conversion/IDumper";
 import { YAMLConverter } from "./Transformation/Conversion/YAMLConverter";
@@ -29,14 +29,7 @@ export class YAMLCreatorMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: Array<Document | Document.Parsed>)
     {
-        super(
-            generator,
-            fileName,
-            data.map(
-                (document) =>
-                {
-                    return parseDocument(document.toString());
-                }));
+        super(generator, fileName, data);
     }
 
     /**
