@@ -1,13 +1,8 @@
-import { strictEqual } from "assert";
+import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTester.test";
 
 suite(
     "TSProjectGeneratorTest",
     () =>
     {
-        test(
-            "Example…",
-            () =>
-            {
-                strictEqual(1, 1);
-            });
+        ConvertibleFileMappingTesterTests();
     });
