@@ -96,8 +96,10 @@ export function CommonDependencyTests(): void
                 {
                     test(
                         "Checking whether all required dependencies are present…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertDependencies(new BuildDependencies());
                             await tester.AssertDependencyNames(expectedDependencies);
                         });

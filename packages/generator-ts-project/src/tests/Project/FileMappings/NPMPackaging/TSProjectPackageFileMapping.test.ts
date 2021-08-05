@@ -104,8 +104,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether common dependencies are present…",
                         async function()
                         {
-                            this.timeout(1 * 1000);
-                            this.slow(0.5 * 1000);
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.Run();
                             await tester.AssertDependencies(new CommonDependencies());
                         });
@@ -114,8 +114,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether lint-dependencies are present if linting is enabled…",
                         async function()
                         {
-                            this.timeout(2 * 1000);
-                            this.slow(1 * 1000);
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
 
                             for (let lintingEnabled of [true, false])
                             {
@@ -136,8 +136,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         async function()
                         {
                             let patchScriptName = "patchTypeScript";
-                            this.timeout(1 * 1000);
-                            this.slow(0.5 * 1000);
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.Run();
                             await AssertScriptCopy("compile", "build");
                             await AssertScriptCopy("rebuild");

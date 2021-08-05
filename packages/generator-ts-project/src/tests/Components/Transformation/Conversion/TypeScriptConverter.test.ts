@@ -80,8 +80,11 @@ export function TypeScriptConverterTests(): void
                 {
                     test(
                         `Checking whether \`${nameof<SourceFile>()}\`s are dumped correctly…`,
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             let sourceFile = new Project().createSourceFile(
                                 TempFileSystem.TempName(),
                                 converter.Dump(testSourceFile),

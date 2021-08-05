@@ -27,8 +27,11 @@ export function BuildDependencyTests(): void
                 {
                     test(
                         "Checking whether all required dependencies are present…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             await tester.AssertDependencyNames(
                                 {
                                     devDependencies: [
