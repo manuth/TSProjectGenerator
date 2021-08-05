@@ -1,5 +1,5 @@
 import { ok } from "assert";
-import { extname } from "path";
+import { extname, isAbsolute, relative } from "path";
 import { FileMapping, GeneratorOptions, IComponent, IComponentCategory, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, Predicate, TSConfigFileMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
@@ -134,7 +134,10 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
                         async () =>
                         {
                             let fileMapping = generator.BaseFileMappings.Get(
-                                (fileMapping: FileMapping<any, any>) => fileMapping.Object.Destination === tsconfigFileName);
+                                (fileMapping: FileMapping<any, any>) => (
+                                    isAbsolute(fileMapping.Destination) ?
+                                        relative(fileMapping.Generator.destinationPath(), fileMapping.Destination) :
+                                        fileMapping.Destination) === tsconfigFileName);
 
                             let tester = new JSONCFileMappingTester<TestTSModuleGenerator, ITSProjectSettings, GeneratorOptions, IFileMapping<ITSProjectSettings, GeneratorOptions>, TSConfigJSON>(generator, fileMapping);
 
