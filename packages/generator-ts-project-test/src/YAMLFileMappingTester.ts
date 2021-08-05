@@ -67,15 +67,15 @@ export class YAMLFileMappingTester<TGenerator extends IGenerator<TSettings, TOpt
     /**
      * @inheritdoc
      *
-     * @param data
-     * The data to dump to the file with the specified {@link fileName `fileName`}.
-     *
      * @param fileName
      * The name of the file to dump the specified {@link data `data`} to.
+     *
+     * @param data
+     * The data to dump to the file with the specified {@link fileName `fileName`}.
      */
-    public override async DumpFile(data: Array<Document | Document.Parsed>, fileName: string): Promise<void>
+    public override async DumpFile(fileName: string, data: Array<Document | Document.Parsed>): Promise<void>
     {
-        return super.WriteFile(this.Dump(data), fileName);
+        return super.WriteFile(fileName, this.Dump(data));
     }
 
     /**
