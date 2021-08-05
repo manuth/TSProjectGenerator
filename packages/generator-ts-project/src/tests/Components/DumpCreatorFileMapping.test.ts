@@ -45,10 +45,10 @@ export function DumpCreatorFileMappingTests(): void
                 {
                     test(
                         `Checking whether the source-object is loaded from the parameter passed to the \`${nameof(DumpCreatorFileMapping.constructor)}\`…`,
-                        () =>
+                        async () =>
                         {
                             let testObject = context.RandomObject;
-                            deepStrictEqual(new TestDumpCreatorFileMapping(generator, null, testObject), testObject);
+                            deepStrictEqual(await new TestDumpCreatorFileMapping(generator, null, testObject).GetSourceObject(), testObject);
                         });
                 });
         });
