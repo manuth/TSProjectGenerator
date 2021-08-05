@@ -74,15 +74,15 @@ export abstract class ConvertibleFileMappingTester<TGenerator extends IGenerator
     /**
      * Dumps the specified {@link data `data`} to the file with the specified {@link fileName `fileName`}.
      *
-     * @param data
-     * The data to dump to the file with the specified {@link fileName `fileName`}.
-     *
      * @param fileName
      * The name of the file to dump the specified {@link data `data`} to.
+     *
+     * @param data
+     * The data to dump to the file with the specified {@link fileName `fileName`}.
      */
-    public async DumpFile(data: TParsed, fileName: string): Promise<void>
+    public async DumpFile(fileName: string, data: TParsed): Promise<void>
     {
-        return super.WriteFile(this.Dump(data), fileName);
+        return super.WriteFile(fileName, this.Dump(data));
     }
 
     /**
