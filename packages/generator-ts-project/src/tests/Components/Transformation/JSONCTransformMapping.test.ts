@@ -95,7 +95,7 @@ export function JSONCTransformMappingTests(): void
                 () =>
                 {
                     test(
-                        "Checking whether the data can be transformed",
+                        "Checking whether the data can be transformed…",
                         async () =>
                         {
                             for (let key in addition)
