@@ -87,7 +87,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
             strictEqual(
                 (await this.GetFileList()).includes(path),
                 !ignored,
-                `The file \`${path}\` unexpectedly is ${ignored ? "not " : ""} ignored!`);
+                `The file \`${path}\` unexpectedly is ${ignored ? "not " : ""}ignored!`);
         }
         catch (e)
         {
@@ -138,7 +138,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
 
                 await doesNotReject(
                     () => this.AssertIgnored(tempFile.FullName, ignored),
-                    `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""} ignored!`);
+                    `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""}ignored!`);
             }
             else
             {
