@@ -112,7 +112,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
     {
         let tempDir: TempDirectory = null;
         let tempFile: TempFile = null;
-        path = normalize(join(dirname(this.FileMapping.Destination), path));
+        path = normalize(resolve(dirname(this.FileMapping.Destination), path));
 
         try
         {
