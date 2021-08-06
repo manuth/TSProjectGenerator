@@ -33,11 +33,19 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     }
 
     /**
+     * Gets the default name of the file.
+     */
+    public static get FileName(): string
+    {
+        return changeExt(fileName, ".js");
+    }
+
+    /**
      * Gets the default base-name of the file.
      */
     public get DefaultBaseName(): string
     {
-        return fileName;
+        return ESLintRCFileMapping.FileName;
     }
 
     /**
@@ -45,7 +53,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public get BaseName(): string
     {
-        return changeExt(this.DefaultBaseName, ".js");
+        return this.DefaultBaseName;
     }
 
     /**

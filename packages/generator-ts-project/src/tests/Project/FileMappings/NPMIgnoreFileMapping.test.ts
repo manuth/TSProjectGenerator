@@ -45,7 +45,7 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                         "Checking whether ignore-files are ignored…",
                         async () =>
                         {
-                            await tester.AssertIgnored(NPMIgnoreFileMapping.DefaultBaseName);
+                            await tester.AssertIgnored(NPMIgnoreFileMapping.FileName);
                         });
 
                     test(

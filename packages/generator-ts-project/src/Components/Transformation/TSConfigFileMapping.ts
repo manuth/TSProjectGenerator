@@ -20,9 +20,9 @@ export class TSConfigFileMapping<TSettings extends IGeneratorSettings, TOptions 
     }
 
     /**
-     * Gets the default base-name of `tsconfig.json`-files.
+     * Gets the default file-name of `tsconfig.json`-files.
      */
-    public static get BaseName(): string
+    public static get FileName(): string
     {
         return fileName;
     }
@@ -32,7 +32,7 @@ export class TSConfigFileMapping<TSettings extends IGeneratorSettings, TOptions 
      */
     public get DefaultBaseName(): string
     {
-        return TSConfigFileMapping.BaseName;
+        return TSConfigFileMapping.FileName;
     }
 
     /**
@@ -81,7 +81,7 @@ export class TSConfigFileMapping<TSettings extends IGeneratorSettings, TOptions 
      */
     public static GetFileName(middleExtension?: string, baseName?: string): string
     {
-        baseName = baseName ?? this.BaseName;
+        baseName = baseName ?? this.FileName;
 
         if ((middleExtension ?? "").length > 0)
         {

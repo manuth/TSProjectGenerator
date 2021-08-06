@@ -27,7 +27,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     /**
      * Gets the default file-name of `.npmignore`-files.
      */
-    public static get DefaultBaseName(): string
+    public static get FileName(): string
     {
         return ".npmignore";
     }
@@ -37,7 +37,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
      */
     public get DefaultBaseName(): string
     {
-        return NPMIgnoreFileMapping.DefaultBaseName;
+        return NPMIgnoreFileMapping.FileName;
     }
 
     /**
