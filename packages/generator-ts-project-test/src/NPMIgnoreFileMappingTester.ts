@@ -136,7 +136,7 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
                         Directory: path
                     });
 
-                doesNotReject(
+                await doesNotReject(
                     () => this.AssertIgnored(tempFile.FullName, ignored),
                     `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""} ignored!`);
             }

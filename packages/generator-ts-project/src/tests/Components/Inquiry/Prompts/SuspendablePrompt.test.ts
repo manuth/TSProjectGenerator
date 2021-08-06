@@ -73,7 +73,7 @@ export function SuspendablePromptTests(): void
                                     }
                                 });
 
-                            doesNotReject(
+                            await doesNotReject(
                                 async () =>
                                 {
                                     await promptModule(

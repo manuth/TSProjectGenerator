@@ -108,7 +108,7 @@ export function TypeScriptCreatorMappingTests(): void
                                     ]
                                 });
 
-                            doesNotReject(
+                            await doesNotReject(
                                 async () =>
                                 {
                                     (await new TestTypeScriptCreatorMapping(generator).GetSourceObject()).getVariableDeclarationOrThrow(variableName);
