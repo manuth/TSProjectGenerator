@@ -6,7 +6,7 @@ import { TempDirectory, TempFile } from "@manuth/temp-files";
 import rescape = require("@stdlib/utils-escape-regexp-string");
 import { lstat, pathExists, readdir } from "fs-extra";
 import packlist = require("npm-packlist");
-import { join, normalize } from "upath";
+import { normalize } from "upath";
 
 /**
  * Provides the functionality to test `.npmignore` file-mappings.
