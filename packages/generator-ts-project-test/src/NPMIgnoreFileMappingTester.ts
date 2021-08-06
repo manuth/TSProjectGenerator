@@ -129,33 +129,36 @@ export class NPMIgnoreFileMappingTester<TGenerator extends IGenerator<TSettings,
 
             let files = await readdir(path);
 
-            if (files.length === 0)
-            {
-                tempFile = new TempFile(
-                    {
-                        Directory: path
-                    });
-
-                await doesNotReject(
-                    () => this.AssertIgnored(tempFile.FullName, ignored),
-                    `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""}ignored!`);
-            }
-            else
-            {
-                for (let file of files)
+            await doesNotReject(
+                async () =>
                 {
-                    let fileEntryName = resolve(dirname(this.FileMapping.Destination), path, file);
-
-                    if ((await lstat(fileEntryName)).isDirectory())
+                    if (files.length === 0)
                     {
-                        await this.AssertDirectoryIgnored(fileEntryName, ignored);
+                        tempFile = new TempFile(
+                            {
+                                Directory: path
+                            });
+
+                        await doesNotReject(() => this.AssertIgnored(tempFile.FullName, ignored));
                     }
                     else
                     {
-                        await this.AssertIgnored(fileEntryName, ignored);
+                        for (let file of files)
+                        {
+                            let fileEntryName = resolve(dirname(this.FileMapping.Destination), path, file);
+
+                            if ((await lstat(fileEntryName)).isDirectory())
+                            {
+                                await this.AssertDirectoryIgnored(fileEntryName, ignored);
+                            }
+                            else
+                            {
+                                await this.AssertIgnored(fileEntryName, ignored);
+                            }
+                        }
                     }
-                }
-            }
+                },
+                `The directory \`${path}\` unexpectedly is ${ignored ? "not " : ""}ignored!`);
         }
         catch (e)
         {
