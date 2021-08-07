@@ -110,5 +110,60 @@ export function TypeScriptConverterTests(): void
                             }
                         });
                 });
+
+            suite(
+                nameof<TypeScriptConverter>((converter) => converter.WrapNode),
+                () =>
+                {
+                    test(
+                        "Checking whether nodes can be added to a source-file correctly…",
+                        () =>
+                        {
+                            let node = converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
+
+                            doesNotThrow(
+                                () =>
+                                {
+                                    node.addParameter(
+                                        {
+                                            name: "test"
+                                        });
+                                });
+                        });
+
+                    test(
+                        "Checking whether nodes which already belong to a file are treated correctly…",
+                        () =>
+                        {
+                            let testClass = testSourceFile.addClass(
+                                {
+                                    name: "Test"
+                                });
+
+                            strictEqual(converter.WrapNode(testClass.compilerNode).getSourceFile().compilerNode, testSourceFile.compilerNode);
+                        });
+                });
+
+            suite(
+                nameof<TypeScriptConverter>((converter) => converter.WrapExpression),
+                () =>
+                {
+                    test(
+                        "Checking whether expressions can be wrapped into extension-statements…",
+                        () =>
+                        {
+                            let callExpression = converter.WrapNode(
+                                ts.factory.createCallExpression(
+                                    ts.factory.createPropertyAccessExpression(
+                                        ts.factory.createIdentifier(nameof(console)),
+                                        nameof(console.log)),
+                                    [],
+                                    [
+                                        ts.factory.createStringLiteral("hello world")
+                                    ]));
+
+                            strictEqual(converter.WrapExpression(callExpression).getExpression().getFullText(), callExpression.getFullText());
+                        });
+                });
         });
 }
