@@ -10,6 +10,11 @@ import type { TestPackageFileMapping } from "./TestPackageFileMapping";
 export interface ITestPackageOptions<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions>
 {
     /**
+     * Gets or sets the name of the file to load the package from.
+     */
+    Source?: string;
+
+    /**
      * Gets or sets the scripts to copy from the template-package.
      */
     ScriptMappings: Array<IScriptMapping<TSettings, TOptions> | string>;

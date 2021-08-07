@@ -38,6 +38,22 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     /**
      * @inheritdoc
      */
+    public override get Source(): string
+    {
+        return this.Options.Source ?? super.Source;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override set Source(value: string)
+    {
+        this.Options.Source = value;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public override get Keywords(): string[]
     {
         return this.Options.Keywords ?? [];

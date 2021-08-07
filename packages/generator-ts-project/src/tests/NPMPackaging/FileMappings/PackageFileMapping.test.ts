@@ -3,6 +3,8 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
+import { TempFile } from "@manuth/temp-files";
+import { remove } from "fs-extra";
 import { createSandbox, SinonSandbox } from "sinon";
 import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
@@ -29,6 +31,7 @@ export function PackageFileMappingTests(): void
             let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
             let testKeyWord: string;
             let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let tempFile: TempFile;
 
             suiteSetup(
                 async function()
@@ -62,12 +65,14 @@ export function PackageFileMappingTests(): void
                     options.Keywords = [testKeyWord];
                     fileMapping = new TestPackageFileMapping(generator, options);
                     tester = new PackageFileMappingTester(generator, fileMapping);
+                    tempFile = new TempFile();
                 });
 
             teardown(
                 async () =>
                 {
                     await tester.Clean();
+                    tempFile.Dispose();
                 });
 
             suite(
@@ -197,6 +202,61 @@ export function PackageFileMappingTests(): void
                             await tester.Run();
                             strictEqual(await GetScriptMapping().Processor(), transformer(randomScript));
                             strictEqual(await GetPackageScript(randomDestination), transformer(randomScript));
+                        });
+                });
+
+            suite(
+                nameof<TestPackageFileMapping<any, any>>((fileMapping) => fileMapping.GetSourceObject),
+                () =>
+                {
+                    let name: string;
+
+                    setup(
+                        () =>
+                        {
+                            name = context.RandomString;
+                        });
+
+                    test(
+                        "Checking whether the source-object is loaded from the source-file, if specified and existent…",
+                        async () =>
+                        {
+                            options.Source = tempFile.FullName;
+
+                            await tester.DumpSource(
+                                new Package(
+                                    {
+                                        name
+                                    }));
+
+                            strictEqual((await fileMapping.GetSourceObject()).Name, name);
+                            strictEqual((await fileMapping.GetSourceObject()).FileName, fileMapping.Resolved.Destination);
+                        });
+
+                    test(
+                        "Checking whether the source-object is loaded from the output-file if no source-file is found…",
+                        async () =>
+                        {
+                            options.Source = null;
+
+                            await tester.DumpOutput(
+                                new Package(
+                                    {
+                                        name
+                                    }));
+
+                            strictEqual((await fileMapping.GetSourceObject()).Name, name);
+                            strictEqual((await fileMapping.GetSourceObject()).FileName, fileMapping.Resolved.Destination);
+                        });
+
+                    test(
+                        "Checking whether a default package is created if neither a source-file nor an output-file is found…",
+                        async () =>
+                        {
+                            options.Source = null;
+                            await remove(fileMapping.Resolved.Destination);
+                            strictEqual((await fileMapping.GetSourceObject()).Version, defaultVersion);
+                            strictEqual((await fileMapping.GetSourceObject()).FileName, fileMapping.Resolved.Destination);
                         });
                 });
 
