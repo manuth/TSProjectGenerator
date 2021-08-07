@@ -18,4 +18,9 @@ export interface ITestPackageOptions<TSettings extends IGeneratorSettings, TOpti
      * Gets or sets the template package.
      */
     ScriptSource: Package;
+
+    /**
+     * Gets or sets the keywords to add to the package.
+     */
+    Keywords?: string[];
 }

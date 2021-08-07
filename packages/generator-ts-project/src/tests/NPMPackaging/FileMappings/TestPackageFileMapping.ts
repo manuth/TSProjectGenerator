@@ -36,6 +36,14 @@ export class TestPackageFileMapping<TSettings extends IGeneratorSettings, TOptio
     }
 
     /**
+     * @inheritdoc
+     */
+    public override get Keywords(): string[]
+    {
+        return this.Options.Keywords ?? [];
+    }
+
+    /**
      * Gets the scripts to copy from the template-package.
      */
     public override get ScriptMappings(): Array<IScriptMapping<TSettings, TOptions> | string>

@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
@@ -27,6 +27,7 @@ export function PackageFileMappingTests(): void
             let defaultVersion = "0.0.0";
             let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
             let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let testKeyWord: string;
             let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
 
             suiteSetup(
@@ -55,8 +56,10 @@ export function PackageFileMappingTests(): void
                         ScriptSource: null
                     };
 
+                    testKeyWord = context.RandomString;
                     options.ScriptMappings = [];
                     options.ScriptSource = new Package();
+                    options.Keywords = [testKeyWord];
                     fileMapping = new TestPackageFileMapping(generator, options);
                     tester = new PackageFileMappingTester(generator, fileMapping);
                 });
@@ -239,6 +242,16 @@ export function PackageFileMappingTests(): void
                             this.slow(0.5 * 1000);
                             await tester.Run();
                             strictEqual((await tester.ParseOutput()).Version, defaultVersion);
+                        });
+
+                    test(
+                        "Checking whether keywords are added to the resulting package…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            ok((await tester.ParseOutput()).Keywords.includes(testKeyWord));
                         });
                 });
         });
