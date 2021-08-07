@@ -27,6 +27,19 @@ export function VSCodeJSONProcessorTests(): void
                 });
 
             suite(
+                nameof<VSCodeJSONProcessor<any, any, any>>((processor) => processor.GetWorkspaceFolderDirective),
+                () =>
+                {
+                    test(
+                        "Checking whether workspace-folder directives are created correctly…",
+                        () =>
+                        {
+                            strictEqual(processor.GetWorkspaceFolderDirective(), "${workspaceFolder}");
+                            strictEqual(processor.GetWorkspaceFolderDirective("Test"), "${workspaceFolder:Test}");
+                        });
+                });
+
+            suite(
                 nameof<VSCodeJSONProcessor<any, any, any>>((processor) => processor.StripWorkspaceFolder),
                 () =>
                 {
