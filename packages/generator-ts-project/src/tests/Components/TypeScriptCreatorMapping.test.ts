@@ -111,7 +111,7 @@ export function TypeScriptCreatorMappingTests(): void
                             await doesNotReject(
                                 async () =>
                                 {
-                                    (await new TestTypeScriptCreatorMapping(generator).GetSourceObject()).getVariableDeclarationOrThrow(variableName);
+                                    (await new TestTypeScriptCreatorMapping(generator, sourceFile).GetSourceObject()).getVariableDeclarationOrThrow(variableName);
                                 });
                         });
                 });
