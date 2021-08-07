@@ -194,6 +194,8 @@ export class PackageFileMappingTester<TGenerator extends IGenerator<TSettings, T
             innerPredicate = predicate;
         }
 
-        ok(innerPredicate(script));
+        ok(
+            innerPredicate(script),
+            `The content of the \`${name}\`-script doesn't apply to the specified predicate \`${predicate}\`!`);
     }
 }
