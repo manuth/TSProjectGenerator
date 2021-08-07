@@ -3,6 +3,7 @@ import { ConversionTests } from "./Conversion";
 import { DumpFileMappingTests } from "./DumpFileMapping.test";
 import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test";
 import { ParsedFileMappingTests } from "./ParsedFileMapping.test";
+import { TSConfigFileMappingTests } from "./TSConfigFileMapping.test";
 import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
 
@@ -21,5 +22,6 @@ export function TransformationTests(): void
             JSONCTransformMappingTests();
             YAMLTransformMappingTests();
             TypeScriptTransformMappingTests();
+            TSConfigFileMappingTests();
         });
 }
