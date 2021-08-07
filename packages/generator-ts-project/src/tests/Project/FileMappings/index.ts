@@ -3,6 +3,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test";
 import { NPMPackagingTests } from "./NPMPackaging";
+import { TypeScriptTests } from "./TypeScript";
 
 /**
  * Registers tests for file-mappings for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}.
@@ -18,5 +19,6 @@ export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
         {
             NPMIgnoreFileMappingTests(context);
             NPMPackagingTests(context);
+            TypeScriptTests();
         });
 }
