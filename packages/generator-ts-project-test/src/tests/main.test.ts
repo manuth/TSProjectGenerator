@@ -2,6 +2,7 @@ import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTeste
 import { NPMIgnoreFileMappingTesterTests } from "./NPMIgnoreFileMappingTester.test";
 import { ParsableFileMappingTesterTests } from "./ParsableFileMappingTester.test";
 import { ParsedFileMappingTesterTests } from "./ParsedFileMappingTester.test";
+import { TypeScriptFileMappingTesterTests } from "./TypeScriptFileMappingTester.test";
 
 suite(
     "TSProjectGeneratorTest",
@@ -11,4 +12,5 @@ suite(
         ConvertibleFileMappingTesterTests();
         ParsedFileMappingTesterTests();
         NPMIgnoreFileMappingTesterTests();
+        TypeScriptFileMappingTesterTests();
     });
