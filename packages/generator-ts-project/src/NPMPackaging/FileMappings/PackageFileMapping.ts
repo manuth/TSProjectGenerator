@@ -81,6 +81,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
                 });
         }
 
+        npmPackage.FileName = outputFileName;
         await npmPackage.Normalize();
         return npmPackage;
     }
