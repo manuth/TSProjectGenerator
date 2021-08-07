@@ -1,5 +1,5 @@
 import { TempFileSystem } from "@manuth/temp-files";
-import { CompilerNodeToWrappedType, Expression, ExpressionStatement, FormatCodeSettings, printNode, Project, SourceFile, ts } from "ts-morph";
+import { CompilerNodeToWrappedType, createWrappedNode, Expression, ExpressionStatement, FormatCodeSettings, printNode, Project, SourceFile, ts } from "ts-morph";
 import { TextConverter } from "./TextConverter";
 
 /**
@@ -120,11 +120,18 @@ export class TypeScriptConverter extends TextConverter<SourceFile>
      */
     public WrapNode<TNode extends ts.Node>(node: TNode): CompilerNodeToWrappedType<TNode>
     {
-        let file = new Project().createSourceFile(TempFileSystem.TempName(), null, { overwrite: true });
-        file.addStatements(printNode(node));
-        let result = file.getFirstDescendantByKind(node.kind) as CompilerNodeToWrappedType<TNode>;
-        result.formatText(this.FormatSettings);
-        return result;
+        if (!node.getSourceFile())
+        {
+            let file = new Project().createSourceFile(TempFileSystem.TempName(), null, { overwrite: true });
+            file.addStatements(printNode(node));
+            let result = file.getFirstDescendantByKind(node.kind) as CompilerNodeToWrappedType<TNode>;
+            result.formatText(this.FormatSettings);
+            return result;
+        }
+        else
+        {
+            return createWrappedNode(node);
+        }
     }
 
     /**
