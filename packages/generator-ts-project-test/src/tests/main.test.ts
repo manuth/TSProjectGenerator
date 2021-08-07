@@ -1,5 +1,6 @@
 import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTester.test";
 import { NPMIgnoreFileMappingTesterTests } from "./NPMIgnoreFileMappingTester.test";
+import { PackageFileMappingTesterTests } from "./PackageFileMappingTester.test";
 import { ParsableFileMappingTesterTests } from "./ParsableFileMappingTester.test";
 import { ParsedFileMappingTesterTests } from "./ParsedFileMappingTester.test";
 import { TypeScriptFileMappingTesterTests } from "./TypeScriptFileMappingTester.test";
@@ -13,4 +14,5 @@ suite(
         ParsedFileMappingTesterTests();
         NPMIgnoreFileMappingTesterTests();
         TypeScriptFileMappingTesterTests();
+        PackageFileMappingTesterTests();
     });
