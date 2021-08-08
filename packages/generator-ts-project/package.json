@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.4",
-    "@manuth/extended-yo-generator": "^11.0.0",
+    "@manuth/extended-yo-generator": "^11.0.1",
     "@manuth/package-json-editor": "^2.2.2",
     "@manuth/temp-files": "^2.0.6",
     "@types/vscode": "^1.58.1",
@@ -68,7 +68,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/extended-yo-generator-test": "^11.0.0",
+    "@manuth/extended-yo-generator-test": "^11.0.1",
     "@manuth/generator-ts-project-test": "^0.0.0",
     "@manuth/tsconfig": "^2.0.2",
     "@manuth/typescript-eslint-plugin": "^1.4.1",
