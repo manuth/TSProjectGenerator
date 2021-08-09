@@ -2,7 +2,7 @@ import { parse } from "path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
 import { TempDirectory } from "@manuth/temp-files";
-import { SourceFile } from "ts-morph";
+import { ModuleKind, ScriptTarget, SourceFile } from "ts-morph";
 import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
 
 /**
@@ -58,7 +58,9 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
 
         sourceFile.getProject().compilerOptions.set(
             {
-                outDir: tempDir.FullName
+                outDir: tempDir.FullName,
+                target: ScriptTarget.ES2015,
+                module: ModuleKind.CommonJS
             });
 
         project.resolveSourceFileDependencies();
