@@ -38,8 +38,10 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                 {
                     test(
                         `Checking whether the description defaults to the contents of the \`${readmeFileName}\` file…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let randomDescription = context.RandomString;
 
                             await writeFile(

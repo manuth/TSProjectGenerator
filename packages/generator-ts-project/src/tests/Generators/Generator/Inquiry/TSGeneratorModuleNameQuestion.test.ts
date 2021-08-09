@@ -56,8 +56,10 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
 
                     test(
                         "Checking whether names of existing packages are preserved…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(10 * 1000);
+                            this.slow(5 * 1000);
                             let npmPackage = new Package(tempDir.MakePath(Package.FileName), { name: "this-is-a-test" });
                             await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
                             strictEqual(await question.default(settings), npmPackage.Name);

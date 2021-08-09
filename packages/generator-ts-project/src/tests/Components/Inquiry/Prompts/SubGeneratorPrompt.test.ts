@@ -70,8 +70,10 @@ export function SubGeneratorPromptTests(): void
                 {
                     test(
                         "Checking whether sub-generators can be prompted…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let result = await prompt(questions);
                             let value = result[testKey] as ISubGenerator[];
                             ok(nameof<ISubGenerator>((g) => g.name) in value[0]);
@@ -80,8 +82,10 @@ export function SubGeneratorPromptTests(): void
 
                     test(
                         "Checking whether any number of sub-generators can be prompted…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let result = await prompt(questions);
                             let value = result[testKey] as ISubGenerator[];
                             strictEqual(value.length, length);

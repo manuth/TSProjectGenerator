@@ -72,8 +72,11 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 {
                     test(
                         `Checking whether only debug-configurations for the \`${generatorName}\` are included…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             strictEqual(
                                 (await processor.Process(
                                     {
@@ -111,8 +114,11 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                 {
                     test(
                         "Checking whether `yeoman` debug-configurations are not present…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
 
                             ok(
@@ -123,8 +129,10 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
 
                     test(
                         "Checking whether unnecessary settings are being removed…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
 
                             ok(
@@ -140,8 +148,10 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
 
                     test(
                         "Checking whether named workspace-directives are stripped properly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let folderName = context.RandomString;
                             let namedPath = join(context.NamedWorkspaceFolderDirective, folderName);
                             let path = join(context.WorkspaceFolderDirective, folderName);
@@ -209,8 +219,10 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
 
                     test(
                         `Checking whether duplicate values inside the \`${outFilesOption}\`-option are stripped…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let workspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
                             let otherWorkspaceDirective = context.GetWorkspaceFolderDirective(context.RandomString);
                             let namedPath = join(workspaceDirective, "**", "*.js");

@@ -78,8 +78,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         `Checking whether the \`${nameof<Linter.Config>((config) => config.root)}\` property is not present…`,
                         async function()
                         {
-                            this.timeout(10 * 1000);
-                            this.slow(5 * 1000);
+                            this.timeout(15 * 1000);
+                            this.slow(7.5 * 1000);
                             await tester.Run();
                             ok(!(nameof<Linter.Config>((config) => config.root) in await tester.Require()));
                         });

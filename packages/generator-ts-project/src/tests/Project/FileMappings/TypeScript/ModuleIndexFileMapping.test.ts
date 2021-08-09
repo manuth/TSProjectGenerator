@@ -81,8 +81,10 @@ export function ModuleIndexFileMappingTests(): void
                 {
                     test(
                         "Checking whether the expected content is added to the file…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
                             let file = await fileMapping.Transform(await fileMapping.GetSourceObject());
                             let messages: string[] = [];
 

@@ -140,8 +140,10 @@ export function ArrayPromptTests(): void
                 {
                     test(
                         `Checking whether the answer-hash with the current array is passed to the \`${nameof<IArrayQuestionOptions>((o) => o.defaultRepeat)}\`-option…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let length = context.Random.integer(11, 15);
 
                             repeat = (answers) =>

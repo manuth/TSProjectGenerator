@@ -37,8 +37,11 @@ export function SuspendablePromptTests(): void
                 {
                     test(
                         "Checking whether prompts can be suspended and resumed without an error…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             promptModule.registerPrompt(
                                 type,
                                 class extends SuspendablePrompt<any>

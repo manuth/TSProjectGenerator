@@ -117,8 +117,10 @@ export function TypeScriptConverterTests(): void
                 {
                     test(
                         "Checking whether nodes can be added to a source-file correctly…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let node = converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
 
                             doesNotThrow(
@@ -133,8 +135,11 @@ export function TypeScriptConverterTests(): void
 
                     test(
                         "Checking whether nodes which already belong to a file are treated correctly…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             let testClass = testSourceFile.addClass(
                                 {
                                     name: "Test"
@@ -150,8 +155,11 @@ export function TypeScriptConverterTests(): void
                 {
                     test(
                         "Checking whether expressions can be wrapped into extension-statements…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             let callExpression = converter.WrapNode(
                                 ts.factory.createCallExpression(
                                     ts.factory.createPropertyAccessExpression(

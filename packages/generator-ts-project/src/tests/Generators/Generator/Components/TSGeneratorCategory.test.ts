@@ -167,8 +167,8 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                         "Checking whether the generator is created correctly…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
-                            this.slow(10 * 1000);
+                            this.timeout(45 * 1000);
+                            this.slow(22.5 * 1000);
                             let testContext = new GeneratorContext(GeneratorPath(generator, GeneratorName.Main));
                             await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });

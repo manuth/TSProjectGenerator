@@ -43,44 +43,56 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 {
                     test(
                         "Checking whether ignore-files are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertIgnored(NPMIgnoreFileMapping.FileName);
                         });
 
                     test(
                         "Checking whether TypeScript-configurations are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertIgnored(fileName);
                         });
 
                     test(
                         "Checking whether eslint-files are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertIgnored(eslintFileName);
                             await tester.AssertIgnored(changeExt(eslintFileName, ".js"));
                         });
 
                     test(
                         "Checking whether mocha-files are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertIgnored(".mocharc.json");
                         });
 
                     test(
                         "Checking whether vscode-files are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertDirectoryIgnored(".vscode");
                         });
 
                     test(
                         "Checking whether github-files are ignored…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await tester.AssertDirectoryIgnored(".github");
                         });
                 });

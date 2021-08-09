@@ -37,8 +37,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         "Checking whether the generator can be executed…",
                         async function()
                         {
-                            this.timeout(5 * 60 * 1000);
-                            this.slow(2.5 * 60 * 1000);
+                            this.timeout(6 * 60 * 1000);
+                            this.slow(3 * 60 * 1000);
                             await doesNotReject(async () => context.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
 

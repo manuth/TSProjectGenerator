@@ -61,8 +61,10 @@ export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectG
 
                     test(
                         `Checking whether the package-name is preserved if a \`${Package.FileName}\` already exists…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let npmPackage = new Package(tempDir.MakePath(Package.FileName), { name: "this is a test" });
                             await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
                             strictEqual(await question.default(settings), npmPackage.Name);
