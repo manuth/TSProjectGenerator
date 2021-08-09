@@ -219,8 +219,10 @@ export function PackageFileMappingTests(): void
 
                     test(
                         "Checking whether the source-object is loaded from the source-file, if specified and existent…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             options.Source = tempFile.FullName;
 
                             await tester.DumpSource(

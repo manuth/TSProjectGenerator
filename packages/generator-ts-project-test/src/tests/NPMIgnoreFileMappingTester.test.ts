@@ -147,8 +147,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
                 {
                     test(
                         "Checking whether the included files are determined correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             ok((await tester.GetFileList()).includes(normalize(includedFile.FullName)));
                             ok(!(await tester.GetFileList()).includes(normalize(excludedFile.FullName)));
                             ok((await tester.GetFileList()).includes(normalize(includedDirFileName)));
@@ -162,8 +164,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
                 {
                     test(
                         "Checking whether the inclusion of files can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await AssertBehavior(excludedFile.FullName, true);
                             await AssertBehavior(includedFile.FullName, true, true, true);
                             await AssertBehavior(includedFile.FullName, true, false, false);
@@ -172,8 +176,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the inclusion of files in sub-directories can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await AssertBehavior(excludedDirFileName, true);
                             await AssertBehavior(includedDirFileName, true, true, true);
                             await AssertBehavior(includedDirFileName, true, false, false);
@@ -182,8 +188,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the inclusion of inexistent files can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             excludedFile.Dispose();
                             ok(!await pathExists(excludedFile.FullName));
                             await AssertBehavior(excludedFile.FullName, true);
@@ -192,8 +200,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the inclusion of existent files can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             let content = context.RandomString;
                             await writeFile(includedFile.FullName, content);
                             await writeFile(excludedFile.FullName, content);
@@ -210,8 +220,10 @@ export function NPMIgnoreFileMappingTesterTests(): void
                 {
                     test(
                         "Checking whether the inclusion of directories can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await AssertBehavior(excludedDir.FullName, false);
                             await AssertBehavior(includedDir.FullName, false, true, true);
                             await AssertBehavior(includedDir.FullName, false, false, false);

@@ -106,8 +106,10 @@ export function PackageFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the existence dependencies can be asserted correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await doesNotReject(() => tester.AssertDependencies(correctVersionCollection));
                             await doesNotReject(() => tester.AssertDependencies(correctVersionCollection, true));
 
@@ -128,8 +130,10 @@ export function PackageFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the versioning of dependencies can be asserted as expected…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await doesNotReject(() => tester.AssertDependencies(correctVersionCollection, true, true));
 
                             await rejects(
@@ -166,8 +170,10 @@ export function PackageFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the inclusion of dependencies with specified names works correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await doesNotReject(() => tester.AssertDependencyNames(includedCollection));
                             await rejects(() => tester.AssertDependencyNames(excludedCollection));
                             await doesNotReject(() => tester.AssertDependencyNames(includedCollection, true));
@@ -183,8 +189,11 @@ export function PackageFileMappingTesterTests(): void
                 {
                     test(
                         "Checking whether the content of a script can be asserted using a predicate…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             try
                             {
                                 await tester.AssertScript(scriptName, (content) => content === script);
@@ -200,8 +209,10 @@ export function PackageFileMappingTesterTests(): void
 
                     test(
                         "Checking whether the content of a script can be asserted…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             await doesNotReject(() => tester.AssertScript(scriptName, script));
                             await rejects(() => tester.AssertScript(scriptName, `_${script}`));
                         });
