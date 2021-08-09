@@ -23,7 +23,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
         {
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
-            let prefix: string;
+            let prefix = "generator-";
             let expectedID: string;
             let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings, GeneratorOptions>;
 
@@ -39,7 +39,6 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         [TSProjectSettingKey.DisplayName]: "ThisIsATestGenerator"
                     };
 
-                    prefix = "generator-";
                     expectedID = `${prefix}this-is-a-test`;
                     question = new TSGeneratorModuleNameQuestion(await context.Generator);
                 });
