@@ -95,7 +95,7 @@ export function ModuleIndexFileMappingTests(): void
                                 });
 
                             await tester.DumpOutput(file);
-                            (await tester.Require() as () => Promise<void>)();
+                            await (await tester.Require() as () => Promise<void>)();
                             strictEqual(messages.length, 1);
                         });
                 });
