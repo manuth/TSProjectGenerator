@@ -124,7 +124,6 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
     protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<TSettings, TOptions>>
     {
         let namingContext = new NamingContext(id, displayName, this.Generator.SourceRoot);
-        let source = "generator";
 
         return [
             new LicenseTypeFileMapping<TSettings, TOptions>(this.Generator, namingContext),
@@ -134,7 +133,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             new GeneratorIndexFileMapping<TSettings, TOptions>(this.Generator, namingContext),
             new GeneratorTestFileMapping<TSettings, TOptions>(this.Generator, namingContext),
             {
-                Source: join(source, "templates"),
+                Source: join("generator", "templates"),
                 Destination: join("templates", id)
             }
         ];
