@@ -12,7 +12,7 @@ import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey"
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection";
 import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
-import { GeneratorMainTestFileMapping } from "./FileMappings/TypeScript/GeneratorMainTestFileMapping";
+import { GeneratorMainSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorMainSuiteFileMapping";
 import { GeneratorSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorSuiteFileMapping";
 import { NamingContext } from "./FileMappings/TypeScript/NamingContext";
 import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
@@ -142,7 +142,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                     };
                 }
             },
-            new GeneratorMainTestFileMapping<TSettings, TOptions>(this, namingContext),
+            new GeneratorMainSuiteFileMapping<TSettings, TOptions>(this, namingContext),
             new GeneratorSuiteFileMapping<TSettings, TOptions>(this, namingContext),
             {
                 Destination: join(this.SourceRoot, "generators"),

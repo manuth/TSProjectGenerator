@@ -16,10 +16,10 @@ import { NamingContext } from "./NamingContext";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class GeneratorMainTestFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorSuiteFileMappingBase<TSettings, TOptions>
+export class GeneratorMainSuiteFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorSuiteFileMappingBase<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the {@link GeneratorMainTestFileMapping `GeneratorMainTestFileMapping<TSettings, TOptions>`} class.
+     * Initializes a new instance of the {@link GeneratorMainSuiteFileMapping `GeneratorMainTestFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of this file-mapping.

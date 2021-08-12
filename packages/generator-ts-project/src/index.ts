@@ -48,7 +48,7 @@ export { TSGeneratorExampleDependencies } from "./generators/generator/Dependenc
 export { TSGeneratorPackageFileMapping } from "./generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
 export { GeneratorClassFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
 export { GeneratorIndexFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorIndexFileMapping";
-export { GeneratorMainTestFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorMainTestFileMapping";
+export { GeneratorMainSuiteFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorMainSuiteFileMapping";
 export { GeneratorSuiteFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping";
 export { GeneratorSuiteFileMappingBase } from "./generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMappingBase";
 export { GeneratorTestFileMapping } from "./generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping";
