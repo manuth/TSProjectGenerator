@@ -2,6 +2,7 @@ import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../TestContext";
 import { NPMPackagingFileMappingTests } from "./NPMPackaging";
+import { TypeScriptTests } from "./TypeScript";
 
 /**
  * Registers tests for the file-mappings.
@@ -16,5 +17,6 @@ export function FileMappingTests(context: TestContext<TSGeneratorGenerator>): vo
         () =>
         {
             NPMPackagingFileMappingTests(context);
+            TypeScriptTests(context);
         });
 }

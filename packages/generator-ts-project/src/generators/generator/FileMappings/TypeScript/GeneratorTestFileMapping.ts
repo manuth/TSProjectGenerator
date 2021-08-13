@@ -62,15 +62,4 @@ export class GeneratorTestFileMapping<TSettings extends IGeneratorSettings, TOpt
             SuiteName: this.NamingContext.GeneratorClassName
         };
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @returns
-     * The name of the suite.
-     */
-    public override async GetSuiteName(): Promise<string>
-    {
-        return this.NamingContext.GeneratorClassName;
-    }
 }
