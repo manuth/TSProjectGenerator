@@ -1,3 +1,4 @@
+import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
@@ -23,7 +24,7 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
         {
             let generatorContext: IRunContext<TSProjectGenerator>;
             let generator: TSProjectGenerator;
-            let fileMappingOptions: NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let fileMapping: NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>;
             let tester: NPMIgnoreFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
@@ -33,8 +34,44 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                     generatorContext = context.ExecuteGenerator();
                     await generatorContext;
                     generator = generatorContext.generator;
-                    fileMappingOptions = new NPMIgnoreFileMapping(generator);
-                    tester = new NPMIgnoreFileMappingTester(generator, fileMappingOptions);
+                    fileMapping = new NPMIgnoreFileMapping(generator);
+                    tester = new NPMIgnoreFileMappingTester(generator, fileMapping);
+                });
+
+            suite(
+                nameof(NPMIgnoreFileMapping.FileName),
+                () =>
+                {
+                    test(
+                        "Checking whether the proper file-name is returned…",
+                        () =>
+                        {
+                            strictEqual(NPMIgnoreFileMapping.FileName, ".npmignore");
+                        });
+                });
+
+            suite(
+                nameof<NPMIgnoreFileMapping<any, any>>((fileMapping) => fileMapping.DefaultBaseName),
+                () =>
+                {
+                    test(
+                        `Checking whether the default base-name equals \`${nameof(NPMIgnoreFileMapping)}.${nameof(NPMIgnoreFileMapping.FileName)}\`…`,
+                        () =>
+                        {
+                            strictEqual(fileMapping.DefaultBaseName, NPMIgnoreFileMapping.FileName);
+                        });
+                });
+
+            suite(
+                nameof<NPMIgnoreFileMapping<any, any>>((fileMapping) => fileMapping.BaseName),
+                () =>
+                {
+                    test(
+                        `Checking whether the \`${nameof<NPMIgnoreFileMapping<any, any>>((fm) => fm.BaseName)}\` equals the \`${nameof<NPMIgnoreFileMapping<any, any>>((fm) => fm.DefaultBaseName)}\`…`,
+                        () =>
+                        {
+                            strictEqual(fileMapping.BaseName, fileMapping.DefaultBaseName);
+                        });
                 });
 
             suite(

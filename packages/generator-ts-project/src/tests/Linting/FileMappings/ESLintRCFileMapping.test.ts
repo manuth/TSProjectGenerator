@@ -71,6 +71,42 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 });
 
             suite(
+                nameof(ESLintRCFileMapping.FileName),
+                () =>
+                {
+                    test(
+                        "Checking whether the proper file-name is returned…",
+                        () =>
+                        {
+                            strictEqual(ESLintRCFileMapping.FileName, ".eslintrc.js");
+                        });
+                });
+
+            suite(
+                nameof<ESLintRCFileMapping<any, any>>((fileMapping) => fileMapping.DefaultBaseName),
+                () =>
+                {
+                    test(
+                        `Checking whether the default base-name equals \`${nameof(ESLintRCFileMapping)}.${nameof(ESLintRCFileMapping.FileName)}\`…`,
+                        () =>
+                        {
+                            strictEqual(fileMapping.DefaultBaseName, ESLintRCFileMapping.FileName);
+                        });
+                });
+
+            suite(
+                nameof<ESLintRCFileMapping<any, any>>((fileMapping) => fileMapping.BaseName),
+                () =>
+                {
+                    test(
+                        `Checking whether the \`${nameof<ESLintRCFileMapping<any, any>>((fm) => fm.BaseName)}\` equals the \`${nameof<ESLintRCFileMapping<any, any>>((fm) => fm.DefaultBaseName)}\`…`,
+                        () =>
+                        {
+                            strictEqual(fileMapping.BaseName, fileMapping.DefaultBaseName);
+                        });
+                });
+
+            suite(
                 nameof<ESLintRCFileMapping<any, any>>((fileMapping) => fileMapping.Processor),
                 () =>
                 {
