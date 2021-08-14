@@ -1,7 +1,8 @@
 import { resolve } from "path";
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
-import { InputQuestionOptions } from "inquirer";
 import { isAbsolute } from "upath";
+import { IPathQuestionOptions } from "../../Components/Inquiry/Prompts/IPathQuestionOptions";
+import { PathPrompt } from "../../Components/Inquiry/Prompts/PathPrompt";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
@@ -14,8 +15,13 @@ import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
+export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements IPathQuestionOptions<TSettings>
 {
+    /**
+     * @inheritdoc
+     */
+    public type = PathPrompt.TypeName;
+
     /**
      * @inheritdoc
      */
@@ -57,7 +63,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        return "./";
+        return ".";
     }
 
     /**

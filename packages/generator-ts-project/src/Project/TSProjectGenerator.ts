@@ -16,6 +16,7 @@ import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
 import { changeExt, join, resolve } from "upath";
+import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt";
 import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
@@ -61,6 +62,8 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                     }
                 ]
             });
+
+        this.env.adapter.promptModule.registerPrompt(PathPrompt.TypeName, PathPrompt);
     }
 
     /**
