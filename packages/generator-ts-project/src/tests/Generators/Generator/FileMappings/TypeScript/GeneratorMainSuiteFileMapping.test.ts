@@ -82,8 +82,10 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                 {
                     test(
                         `Checking whether the file providing the generator test-suites is being \`${nameof(require)}\`d…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(1.5 * 60 * 1000);
+                            this.slow(45 * 1000);
                             let suiteFunction = await fileMapping.GetSuiteFunction();
                             let moduleSpecifier = (await fileMapping.GetSourceObject()).getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), namingContext.GeneratorSuiteFileName));
 
