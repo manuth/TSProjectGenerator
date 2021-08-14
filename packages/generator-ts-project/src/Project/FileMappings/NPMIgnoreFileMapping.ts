@@ -79,7 +79,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     {
         this.WriteOutput(
             applyPatch(
-                await this.ReadFile(this.Source),
+                await this.ReadSource(),
                 parsePatch(
                     await this.ReadFile(this.PatchFileName)
                 )[0]));
