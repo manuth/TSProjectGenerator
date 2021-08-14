@@ -3,7 +3,6 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, ITestGeneratorSettings, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { writeFile } from "fs-extra";
 import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 
 /**
@@ -30,19 +29,6 @@ export function MarkdownFileProcessorTests(): void
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
 
-                    source = dedent(
-                        `
-                            ### Hello World
-
-                            This is a test.`);
-
-                    expected = dedent(
-                        `
-                            ### Hello World
-                            This is a test.`);
-
-                    await writeFile(sourceFile.FullName, source);
-
                     fileMappingOptions = new MarkdownFileProcessor(
                         await context.Generator,
                         {
@@ -61,8 +47,45 @@ export function MarkdownFileProcessorTests(): void
                         "Checking whether unnecessary new-lines are stripped correctly…",
                         async function()
                         {
-                            this.timeout(1 * 1000);
-                            this.slow(0.5 * 1000);
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            source = dedent(
+                                `
+                                    ### Hello World
+        
+                                    This is a test.`);
+
+                            expected = dedent(
+                                `
+                                    ### Hello World
+                                    This is a test.`);
+
+                            await tester.WriteSource(source);
+                            await tester.Run();
+                            strictEqual(await tester.ReadOutput(), expected);
+                        });
+
+                    test(
+                        "Checking whether lists are indented correctly…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            source = dedent(
+                                `
+                                    # Test
+                                    - Hello
+                                      - World`);
+
+                            expected = dedent(
+                                `
+                                    # Test
+                                      - Hello
+                                        - World`);
+
+                            await tester.WriteSource(source);
                             await tester.Run();
                             strictEqual(await tester.ReadOutput(), expected);
                         });
