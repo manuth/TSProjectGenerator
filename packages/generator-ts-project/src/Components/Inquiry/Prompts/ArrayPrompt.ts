@@ -102,7 +102,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
             ],
             {
                 ...this.answers,
-                [this.opt.name]: items
+                [this.opt.name]: [...items]
             });
     }
 }
