@@ -89,7 +89,7 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
                 });
 
             suite(
-                nameof<MyTSModuleGenerator>((generator) => generator.BaseFileMappings),
+                nameof<TestTSModuleGenerator>((generator) => generator.BaseFileMappings),
                 () =>
                 {
                     test(

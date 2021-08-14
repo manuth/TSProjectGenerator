@@ -1,4 +1,4 @@
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { FileMappingCollectionEditor, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
@@ -27,6 +27,14 @@ export class TestTSModuleGenerator<TSettings extends ITSProjectSettings = ITSPro
     public override get Base(): TSModuleGenerator<TSettings, TOptions>
     {
         return super.Base as TSModuleGenerator<TSettings, TOptions>;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get BaseFileMappings(): FileMappingCollectionEditor
+    {
+        return super.BaseFileMappings;
     }
 
     /**
