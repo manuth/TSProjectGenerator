@@ -20,7 +20,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
     /**
      * @inheritdoc
      */
-    public type = PathPrompt.TypeName;
+    public type = PathPrompt.TypeName as typeof PathPrompt.TypeName;
 
     /**
      * @inheritdoc
