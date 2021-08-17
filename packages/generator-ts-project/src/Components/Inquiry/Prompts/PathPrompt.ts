@@ -312,7 +312,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      * The path to validate.
      *
      * @returns
-     * Either a {@link Boolean `boolean`} indicating whether an error occured or a {@link String `string`} describing an error.
+     * Either a {@link Boolean `boolean`} indicating whether an error occurred or a {@link String `string`} describing an error.
      */
     protected ValidatePath(path: string): boolean | string
     {

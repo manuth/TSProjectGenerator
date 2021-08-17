@@ -7,7 +7,7 @@ import { IArrayQuestionOptions } from "../../../../Components/Inquiry/Prompts/IA
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the {@link ArrayPrompt `ArrayPrompt<`}
+ * Registers tests for the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`}
  */
 export function ArrayPromptTests(): void
 {
