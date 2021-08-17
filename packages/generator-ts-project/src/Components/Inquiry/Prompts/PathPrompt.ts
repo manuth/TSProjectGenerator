@@ -34,7 +34,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     /**
      * The name of this prompt-type.
      */
-    public static readonly TypeName = "wcf-path";
+    public static readonly TypeName = "project-path";
 
     /**
      * A value indicating whether the prompt has been initialized.
