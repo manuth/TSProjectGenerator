@@ -110,6 +110,38 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
+     * Gets or sets the directory used to resolve relative paths for the {@link IPathQuestionOptions.default `default`} value and the answer.
+     */
+    protected get RootDir(): string
+    {
+        return this.rootDir;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected set RootDir(value: string)
+    {
+        this.rootDir = value;
+    }
+
+    /**
+     * Gets or sets a value indicating whether paths outside the {@link PathPrompt.RootDir `RootDir`} are allowed.
+     */
+    protected get AllowOutside(): boolean
+    {
+        return this.allowOutside;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected set AllowOutside(value: boolean)
+    {
+        this.allowOutside = value;
+    }
+
+    /**
      * @inheritdoc
      *
      * @returns
@@ -132,15 +164,15 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         {
             if (typeof rootDir === "string")
             {
-                this.rootDir = rootDir;
+                this.RootDir = rootDir;
             }
             else
             {
-                this.rootDir = rootDir.path;
-                this.allowOutside = rootDir.allowOutside ?? true;
+                this.RootDir = rootDir.path;
+                this.AllowOutside = rootDir.allowOutside ?? true;
             }
 
-            this.rootDir = normalize(this.rootDir);
+            this.RootDir = normalize(this.RootDir);
         }
 
         return super.run();
@@ -222,9 +254,9 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
 
             if (
                 this.InitialInput &&
-                this.rootDir)
+                this.RootDir)
             {
-                pathTree.push(legacyNormalize(this.rootDir));
+                pathTree.push(legacyNormalize(this.RootDir));
             }
             else if (/^\.[/\\]/.test(answer))
             {
@@ -284,21 +316,21 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      */
     protected ValidatePath(path: string): boolean | string
     {
-        if (this.allowOutside)
+        if (this.AllowOutside)
         {
             return true;
         }
         else
         {
-            let relativePath = relative(this.rootDir, path);
+            let relativePath = relative(this.RootDir, path);
 
             return (
-                    normalize(path).startsWith(join(this.rootDir, "./")) &&
-                    !relativePath.startsWith("../") &&
-                    relativePath !== ".." &&
-                    relativePath.length > 0) ?
-                    true :
-                    `Paths outside of \`${legacyNormalize(this.rootDir)}\` are not allowed!`;
+                normalize(path).startsWith(join(this.RootDir, "./")) &&
+                !relativePath.startsWith("../") &&
+                relativePath !== ".." &&
+                relativePath.length > 0) ?
+                true :
+                `Paths outside of \`${legacyNormalize(this.RootDir)}\` are not allowed!`;
         }
     }
 
@@ -312,9 +344,9 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         let message = super.getQuestion();
 
-        if (!this.Initialized && this.rootDir)
+        if (!this.Initialized && this.RootDir)
         {
-            message += `${dim(legacyNormalize(join(this.rootDir, "./")))}`;
+            message += `${dim(legacyNormalize(join(this.RootDir, "./")))}`;
         }
 
         return message;
