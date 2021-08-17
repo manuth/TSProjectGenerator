@@ -94,19 +94,11 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
-     * Gets or sets a value indicating whether the prompt has been initialized.
+     * Gets a value indicating whether the prompt has been initialized.
      */
     protected get Initialized(): boolean
     {
         return this.initialized;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected set Initialized(value: boolean)
-    {
-        this.initialized = value;
     }
 
     /**
@@ -164,7 +156,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         super.render(error);
         this.Render(error);
-        this.Initialized = true;
+        this.initialized = true;
     }
 
     /**
