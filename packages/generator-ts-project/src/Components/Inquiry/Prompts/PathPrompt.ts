@@ -142,12 +142,12 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
-     * @inheritdoc
+     * Initializes the prompt.
      *
-     * @returns
-     * The result of the prompt.
+     * @param error
+     * The error to display.
      */
-    public override async run(): Promise<any>
+    protected async Initialize(error: any): Promise<void>
     {
         let rootDir: IPathPromptRootDescriptor | string;
 
@@ -175,17 +175,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             this.RootDir = normalize(this.RootDir);
         }
 
-        return super.run();
-    }
-
-    /**
-     * Initializes the prompt.
-     *
-     * @param error
-     * The error to display.
-     */
-    protected Initialize(error: any): void
-    {
         super.render(error);
         this.Render(error);
         this.initialized = true;
@@ -358,11 +347,11 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      * @param error
      * The last error that occurred.
      */
-    protected override render(error: any): void
+    protected override async render(error: any): Promise<void>
     {
         if (!this.Initialized)
         {
-            this.Initialize(error);
+            await this.Initialize(error);
         }
         else if (this.InitialInput)
         {
