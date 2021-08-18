@@ -174,7 +174,10 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
 
             this.RootDir = normalize(this.RootDir);
 
-            if (!isAbsolute(this.opt.default))
+            if (
+                this.RootDir &&
+                this.opt.default &&
+                !isAbsolute(this.opt.default))
             {
                 this.opt.default = legacyNormalize(join(this.RootDir, this.opt.default));
             }
