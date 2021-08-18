@@ -1,4 +1,4 @@
-import { normalize as legacyNormalize, parse as legacyParse, sep } from "path";
+import { isAbsolute, normalize as legacyNormalize, parse as legacyParse, sep } from "path";
 import { ReadLine } from "readline";
 import { dim } from "chalk";
 import inquirer = require("inquirer");
@@ -173,6 +173,11 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             }
 
             this.RootDir = normalize(this.RootDir);
+
+            if (!isAbsolute(this.opt.default))
+            {
+                this.opt.default = legacyNormalize(join(this.RootDir, this.opt.default));
+            }
         }
 
         this.Render(error);
