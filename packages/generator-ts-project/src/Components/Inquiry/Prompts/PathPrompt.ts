@@ -175,7 +175,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             this.RootDir = normalize(this.RootDir);
         }
 
-        super.render(error);
         this.Render(error);
         this.initialized = true;
     }
@@ -203,30 +202,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
-     * Renders the prompt before any user-input has been performed.
-     *
-     * @param error
-     * The error to display.
-     */
-    protected RenderPreInput(error: any): void
-    {
-        super.render(error);
-    }
-
-    /**
-     * Renders the prompt on the very first user-input.
-     *
-     * @param error
-     * The error to display.
-     */
-    protected RenderInitialInput(error: any): void
-    {
-        super.render(error);
-        this.Render(error);
-        this.initialInput = false;
-    }
-
-    /**
      * Renders the prompt.
      *
      * @param error
@@ -246,6 +221,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 this.RootDir)
             {
                 pathTree.push(legacyNormalize(this.RootDir));
+                this.initialInput = false;
             }
             else if (/^\.[/\\]/.test(answer))
             {
@@ -352,10 +328,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         if (!this.Initialized)
         {
             await this.Initialize(error);
-        }
-        else if (this.InitialInput)
-        {
-            this.RenderInitialInput(error);
         }
         else
         {
