@@ -361,16 +361,4 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 `Paths outside of \`${legacyNormalize(this.RootDir)}\` are not allowed!`;
         }
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @param eventArgs
-     * An object which contains event-data.
-     */
-    protected override onEnd(eventArgs: inquirer.prompts.SuccessfulPromptStateData): void
-    {
-        super.onEnd(eventArgs);
-        this.ClearLine();
-    }
 }
