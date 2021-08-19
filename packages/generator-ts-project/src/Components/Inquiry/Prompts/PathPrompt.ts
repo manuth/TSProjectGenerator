@@ -202,28 +202,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
-     * Clears the content of the current line.
-     */
-    protected ClearLine(): void
-    {
-        this.rl.write(
-            "",
-            {
-                ctrl: true,
-                shift: true,
-                name: "backspace"
-            });
-
-        this.rl.write(
-            "",
-            {
-                ctrl: true,
-                shift: true,
-                name: "delete"
-            });
-    }
-
-    /**
      * Renders the prompt.
      *
      * @param error
@@ -237,6 +215,24 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         }
 
         super.render(error);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The question-string.
+     */
+    protected override getQuestion(): string
+    {
+        let message = super.getQuestion();
+
+        if (!this.Initialized && this.RootDir)
+        {
+            message += `${dim(legacyNormalize(join(this.RootDir, "./")))}`;
+        }
+
+        return message;
     }
 
     /**
@@ -301,6 +297,43 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
+     * Clears the content of the current line.
+     */
+    protected ClearLine(): void
+    {
+        this.rl.write(
+            "",
+            {
+                ctrl: true,
+                shift: true,
+                name: "backspace"
+            });
+
+        this.rl.write(
+            "",
+            {
+                ctrl: true,
+                shift: true,
+                name: "delete"
+            });
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param input
+     * The input to filter.
+     *
+     * @returns
+     * The filtered input.
+     */
+    protected override filterInput(input: string): string
+    {
+        this.render(undefined);
+        return super.filterInput(input);
+    }
+
+    /**
      * Validates the specified {@link path `path`}.
      *
      * @param path
@@ -327,39 +360,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 true :
                 `Paths outside of \`${legacyNormalize(this.RootDir)}\` are not allowed!`;
         }
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @returns
-     * The question-string.
-     */
-    protected override getQuestion(): string
-    {
-        let message = super.getQuestion();
-
-        if (!this.Initialized && this.RootDir)
-        {
-            message += `${dim(legacyNormalize(join(this.RootDir, "./")))}`;
-        }
-
-        return message;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param input
-     * The input to filter.
-     *
-     * @returns
-     * The filtered input.
-     */
-    protected override filterInput(input: string): string
-    {
-        this.render(undefined);
-        return super.filterInput(input);
     }
 
     /**
