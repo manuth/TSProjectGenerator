@@ -233,63 +233,71 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         if (this.Initialized)
         {
-            let result: string;
-            let answer = this.rl.line;
-            let parsedPath = parse(answer);
-            let pathTree: string[] = [];
-
-            if (
-                this.InitialInput &&
-                this.RootDir)
-            {
-                pathTree.push(legacyNormalize(this.RootDir));
-                this.initialInput = false;
-            }
-            else if (/^\.[/\\]/.test(answer))
-            {
-                pathTree.push(".");
-            }
-
-            if (/[/\\]$/.test(answer))
-            {
-                parsedPath = parse(answer + ".");
-                parsedPath.base = "";
-                parsedPath.name = "";
-            }
-
-            if (legacyNormalize(parsedPath.dir) !== ".")
-            {
-                pathTree.push(legacyNormalize(parsedPath.dir));
-            }
-
-            if (
-                parsedPath.root.length > 0 &&
-                (
-                    parsedPath.root === parsedPath.dir ||
-                    parsedPath.root === normalize(parsedPath.dir)))
-            {
-                if (parsedPath.base.length === 0)
-                {
-                    result = legacyParse(legacyNormalize(parsedPath.root)).root;
-                }
-                else
-                {
-                    result = [legacyNormalize(parsedPath.root), parsedPath.base].join("");
-                }
-            }
-            else
-            {
-                result = [...pathTree, parsedPath.base].join(sep);
-            }
-
-            if (answer !== result)
-            {
-                this.ClearLine();
-                this.rl.write(result);
-            }
+            this.ProcessAnswer();
         }
 
         super.render(error);
+    }
+
+    /**
+     * Processes the answer provided by the user.
+     */
+    protected ProcessAnswer(): void
+    {
+        let result: string;
+        let answer = this.rl.line;
+        let parsedPath = parse(answer);
+        let pathTree: string[] = [];
+
+        if (
+            this.InitialInput &&
+            this.RootDir)
+        {
+            pathTree.push(legacyNormalize(this.RootDir));
+            this.initialInput = false;
+        }
+        else if (/^\.[/\\]/.test(answer))
+        {
+            pathTree.push(".");
+        }
+
+        if (/[/\\]$/.test(answer))
+        {
+            parsedPath = parse(answer + ".");
+            parsedPath.base = "";
+            parsedPath.name = "";
+        }
+
+        if (legacyNormalize(parsedPath.dir) !== ".")
+        {
+            pathTree.push(legacyNormalize(parsedPath.dir));
+        }
+
+        if (
+            parsedPath.root.length > 0 &&
+            (
+                parsedPath.root === parsedPath.dir ||
+                parsedPath.root === normalize(parsedPath.dir)))
+        {
+            if (parsedPath.base.length === 0)
+            {
+                result = legacyParse(legacyNormalize(parsedPath.root)).root;
+            }
+            else
+            {
+                result = [legacyNormalize(parsedPath.root), parsedPath.base].join("");
+            }
+        }
+        else
+        {
+            result = [...pathTree, parsedPath.base].join(sep);
+        }
+
+        if (answer !== result)
+        {
+            this.ClearLine();
+            this.rl.write(result);
+        }
     }
 
     /**
