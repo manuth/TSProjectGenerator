@@ -152,7 +152,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         super._run(callback);
         await this.Initialize();
-        this.render(undefined);
     }
 
     /**
@@ -198,6 +197,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             this.opt.default = legacyNormalize(this.opt.default);
         }
 
+        this.render(undefined);
         this.initialized = true;
     }
 
