@@ -207,7 +207,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      * @param error
      * The last error that occurred.
      */
-    protected override render(error: any): void
+    protected override render(error?: any): void
     {
         if (this.Initialized)
         {
