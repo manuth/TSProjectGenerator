@@ -7,6 +7,7 @@ import { join, normalize, parse, relative } from "upath";
 import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor";
 import { IPathQuestion } from "./IPathQuestion";
 import { IPathQuestionOptions } from "./IPathQuestionOptions";
+import { PromptCallback } from "./PromptCallback";
 
 declare module "inquirer"
 {
@@ -142,12 +143,22 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     }
 
     /**
-     * Initializes the prompt.
+     * Runs the prompt.
      *
-     * @param error
-     * The error to display.
+     * @param callback
+     * The callback for resolving the result.
      */
-    protected async Initialize(error: any): Promise<void>
+    protected override async _run(callback: PromptCallback): Promise<void>
+    {
+        super._run(callback);
+        await this.Initialize();
+        this.Render(undefined);
+    }
+
+    /**
+     * Initializes the prompt.
+     */
+    protected async Initialize(): Promise<void>
     {
         let rootDir: IPathPromptRootDescriptor | string;
 
@@ -183,7 +194,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             }
         }
 
-        this.Render(error);
         this.initialized = true;
     }
 
@@ -333,11 +343,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      */
     protected override async render(error: any): Promise<void>
     {
-        if (!this.Initialized)
-        {
-            await this.Initialize(error);
-        }
-        else
+        if (this.Initialized)
         {
             this.Render(error);
         }
