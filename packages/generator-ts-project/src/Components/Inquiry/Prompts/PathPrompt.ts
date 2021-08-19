@@ -337,7 +337,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      */
     protected override filterInput(input: string): string
     {
-        this.render(undefined);
+        this.OnInitialInputPerformed();
         return super.filterInput(input);
     }
 
