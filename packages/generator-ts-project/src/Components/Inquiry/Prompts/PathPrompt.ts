@@ -43,6 +43,16 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     private initialized = false;
 
     /**
+     * Resolves the initialization-process.
+     */
+    private initializationResolver: () => void;
+
+    /**
+     * Represents the initialization-process.
+     */
+    private initialization: Promise<void>;
+
+    /**
      * A value indicating whether the initial user-input is being performed.
      */
     private initialInput = true;
@@ -92,6 +102,16 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             },
             readLine,
             answers);
+
+        this.initialization = new Promise((resolve) => this.initializationResolver = resolve);
+    }
+
+    /**
+     * Gets a {@link Promise `Promise`} which represents the initialization-process.
+     */
+    public get Initialization(): Promise<void>
+    {
+        return this.initialization;
     }
 
     /**
@@ -198,7 +218,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         }
 
         this.render(undefined);
-        this.initialized = true;
+        this.OnInitialized();
     }
 
     /**
@@ -316,6 +336,15 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 shift: true,
                 name: "delete"
             });
+    }
+
+    /**
+     * Handles the initialization of the prompt.
+     */
+    protected OnInitialized(): void
+    {
+        this.initialized = true;
+        this.initializationResolver();
     }
 
     /**
