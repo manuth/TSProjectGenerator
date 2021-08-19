@@ -250,7 +250,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             this.RootDir)
         {
             pathTree.push(legacyNormalize(this.RootDir));
-            this.initialInput = false;
+            this.OnInitialInputPerformed();
         }
         else if (/^\.[/\\]/.test(answer))
         {
@@ -316,6 +316,14 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 shift: true,
                 name: "delete"
             });
+    }
+
+    /**
+     * Handles the initial input made to the prompt.
+     */
+    protected OnInitialInputPerformed(): void
+    {
+        this.initialInput = false;
     }
 
     /**
