@@ -152,7 +152,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         super._run(callback);
         await this.Initialize();
-        this.Render(undefined);
+        this.render(undefined);
     }
 
     /**
@@ -227,9 +227,9 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      * Renders the prompt.
      *
      * @param error
-     * The error to display.
+     * The last error that occurred.
      */
-    protected Render(error: any): void
+    protected override render(error: any): void
     {
         if (this.Initialized)
         {
@@ -337,20 +337,6 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         }
 
         return message;
-    }
-
-    /**
-     * Renders the prompt.
-     *
-     * @param error
-     * The last error that occurred.
-     */
-    protected override async render(error: any): Promise<void>
-    {
-        if (this.Initialized)
-        {
-            this.Render(error);
-        }
     }
 
     /**
