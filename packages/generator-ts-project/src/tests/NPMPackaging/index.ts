@@ -1,7 +1,7 @@
 import { basename } from "path";
 import { DependencyTests } from "./Dependencies";
 import { FileMappingTests } from "./FileMappings";
-import { ScriptMappingTests } from "./Scripts/ScriptMapping.test";
+import { ScriptTests } from "./Scripts";
 
 /**
  * Registers tests for npm-packaging components.
@@ -13,7 +13,7 @@ export function NPMPackagingTests(): void
         () =>
         {
             DependencyTests();
-            ScriptMappingTests();
+            ScriptTests();
             FileMappingTests();
         });
 }
