@@ -1,4 +1,4 @@
-import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings, Predicate } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { TempFileSystem } from "@manuth/temp-files";
 import { PackageFileMappingTester } from "./PackageFileMappingTester";
@@ -146,41 +146,5 @@ export class DependencyCollectionTester
     public async AssertDependencyNames(dependencyNames: PackageDependencyCollectionOptions, present = true): Promise<void>
     {
         return this.DependencyPackageTester.AssertDependencyNames(dependencyNames, present);
-    }
-
-    /**
-     * Asserts the truthiness of the {@link predicate `predicate`} on the script with the specified {@link name `name`}.
-     *
-     * @param name
-     * The name of the script to check.
-     *
-     * @param predicate
-     * The predicate to check the script with the specified {@link name `name`} for.
-     */
-    public async AssertScript(name: string, predicate: Predicate<string>): Promise<void>;
-
-    /**
-     * Asserts the content of the script with the specified {@link name `name`}.
-     *
-     * @param name
-     * The name of the script to check.
-     *
-     * @param content
-     * The expected content.
-     */
-    public async AssertScript(name: string, content: string): Promise<void>;
-
-    /**
-     * Asserts the truthiness of the {@link predicate `predicate`} on the script with the specified {@link name `name`}.
-     *
-     * @param name
-     * The name of the script to check.
-     *
-     * @param predicate
-     * The predicate to check the script with the specified {@link name `name`} for.
-     */
-    public async AssertScript(name: string, predicate: Predicate<string> | string): Promise<void>
-    {
-        return this.DependencyPackageTester.AssertScript(name, predicate as any);
     }
 }
