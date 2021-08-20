@@ -1,11 +1,11 @@
 import { doesNotReject, rejects } from "assert";
-import { join } from "path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
 import rescape = require("@stdlib/utils-escape-regexp-string");
 import { PackageFileMappingTester } from "../PackageFileMappingTester";
+import { TestConstants } from "./TestConstants";
 
 /**
  * Registers tests for the {@link PackageFileMappingTester `PackageFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class.
@@ -41,7 +41,7 @@ export function PackageFileMappingTesterTests(): void
             setup(
                 async () =>
                 {
-                    let dependencies = context.Random.sample(new Package(join(__dirname, "..", "..", Package.FileName)).AllDependencies.Entries, 2);
+                    let dependencies = context.Random.sample(TestConstants.Package.AllDependencies.Entries, 2);
                     includedDependency = dependencies[0];
                     excludedDependency = dependencies[1];
                     scriptName = context.RandomString;
