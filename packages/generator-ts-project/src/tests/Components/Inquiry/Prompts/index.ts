@@ -1,6 +1,7 @@
 import { basename } from "path";
 import { ArrayPromptTests } from "./ArrayPrompt.test";
 import { NestedPromptTests } from "./NestedPrompt.test";
+import { PathPromptTests } from "./PathPrompt.test";
 import { PromptBaseTests } from "./PromptBase.test";
 import { QuestionSetPromptTests } from "./QuestionSetPrompt.test";
 import { SubGeneratorPromptTests } from "./SubGeneratorPrompt.test";
@@ -21,5 +22,6 @@ export function PromptTests(): void
             QuestionSetPromptTests();
             ArrayPromptTests();
             SubGeneratorPromptTests();
+            PathPromptTests();
         });
 }
