@@ -63,7 +63,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        return ".";
+        return "./";
     }
 
     /**
