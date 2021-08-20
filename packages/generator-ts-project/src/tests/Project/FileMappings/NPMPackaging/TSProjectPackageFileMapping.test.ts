@@ -90,8 +90,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether the name and the description are loaded from the prompts…",
                         async function()
                         {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
+                            this.timeout(10 * 1000);
+                            this.slow(5 * 1000);
                             let randomName = context.RandomString;
                             let randomDescription = context.RandomString;
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
@@ -104,8 +104,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether common dependencies are present…",
                         async function()
                         {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
+                            this.timeout(10 * 1000);
+                            this.slow(5 * 1000);
                             await tester.Run();
                             await tester.AssertDependencies(new CommonDependencies());
                         });
@@ -114,8 +114,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether lint-dependencies are present if linting is enabled…",
                         async function()
                         {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
+                            this.timeout(10 * 1000);
+                            this.slow(5 * 1000);
 
                             for (let lintingEnabled of [true, false])
                             {
