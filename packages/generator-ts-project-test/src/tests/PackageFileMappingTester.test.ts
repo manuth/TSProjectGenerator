@@ -106,7 +106,7 @@ export function PackageFileMappingTesterTests(): void
                         });
 
                     test(
-                        "Checking whether the existence dependencies can be asserted correctly…",
+                        "Checking whether the existence of dependencies can be asserted correctly…",
                         async function()
                         {
                             this.timeout(4 * 1000);
@@ -170,7 +170,7 @@ export function PackageFileMappingTesterTests(): void
                         });
 
                     test(
-                        "Checking whether the inclusion of dependencies with specified names works correctly…",
+                        "Checking whether asserting the inclusion of dependencies with specified names works correctly…",
                         async function()
                         {
                             this.timeout(4 * 1000);
