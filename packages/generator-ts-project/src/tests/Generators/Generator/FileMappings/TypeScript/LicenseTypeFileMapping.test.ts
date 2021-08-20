@@ -71,8 +71,9 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
                 () =>
                 {
                     suiteSetup(
-                        async () =>
+                        async function()
                         {
+                            this.timeout(5 * 1000);
                             await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
                         });
 
