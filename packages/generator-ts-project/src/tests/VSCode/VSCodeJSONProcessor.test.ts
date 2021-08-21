@@ -45,8 +45,11 @@ export function VSCodeJSONProcessorTests(): void
                 {
                     test(
                         "Checking whether a single named workspace is stripped…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);
@@ -54,8 +57,11 @@ export function VSCodeJSONProcessorTests(): void
 
                     test(
                         "Checking whether multiple named workspaces are stripped…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             /**
                              * Processes the specified {@link text `text`}.
                              *
@@ -77,8 +83,11 @@ export function VSCodeJSONProcessorTests(): void
 
                     test(
                         "Checking whether normal workspace-directives are left untouched…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);

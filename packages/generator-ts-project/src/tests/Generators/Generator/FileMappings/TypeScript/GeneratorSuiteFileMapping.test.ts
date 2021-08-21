@@ -105,8 +105,8 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                         `Checking whether the unit-tests for all sub-generators are \`${nameof(require)}\`d…`,
                         async function()
                         {
-                            this.timeout(1.5 * 60 * 1000);
-                            this.slow(45 * 1000);
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
 
                             let mainGenerator: ISubGenerator = {
                                 [SubGeneratorSettingKey.Name]: generator.Settings[TSProjectSettingKey.Name],

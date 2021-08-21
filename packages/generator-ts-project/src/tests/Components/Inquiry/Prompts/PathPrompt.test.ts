@@ -570,8 +570,11 @@ export function PathPromptTests(): void
 
                     test(
                         "Checking whether the input is normalized correctly…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             for (let slash of ["/", "\\", sep])
                             {
                                 let path = ["This", "Is", "A", "Test"];

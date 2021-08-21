@@ -118,8 +118,10 @@ export function ArrayPromptTests(): void
 
                     test(
                         "Checking whether additional items can be added to the array…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             testLength = context.Random.integer(2, 10);
                             let value = (await prompt(questions))[testKey];
                             ok(Array.isArray(value));

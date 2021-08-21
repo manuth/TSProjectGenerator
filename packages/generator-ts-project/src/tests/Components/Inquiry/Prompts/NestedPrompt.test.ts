@@ -81,8 +81,8 @@ export function NestedPromptTests(): void
                         `Checking whether running nested prompts in an ordinary \`${nameof<Prompt>()}\` causes an error…`,
                         async function()
                         {
-                            this.timeout(15 * 1000);
-                            this.slow(7.5 * 1000);
+                            this.timeout(30 * 1000);
+                            this.slow(15 * 1000);
                             await SpawnTestScript(false);
                             ok(!messageReceived);
                         });
@@ -91,8 +91,8 @@ export function NestedPromptTests(): void
                         `Checking whether nested prompts can be executed in the \`${nameof(NestedPrompt)}\` class…`,
                         async function()
                         {
-                            this.timeout(15 * 1000);
-                            this.slow(7.5 * 1000);
+                            this.timeout(30 * 1000);
+                            this.slow(15 * 1000);
                             await SpawnTestScript(true);
                             ok(messageReceived);
                             strictEqual(exitCode, 0);

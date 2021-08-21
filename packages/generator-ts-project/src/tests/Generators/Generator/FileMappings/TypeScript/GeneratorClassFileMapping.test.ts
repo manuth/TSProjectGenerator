@@ -181,8 +181,8 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 "Checking whether the resulting typescript-code is valid…",
                                 async function()
                                 {
-                                    this.timeout(1 * 60 * 1000);
-                                    this.slow(30 * 1000);
+                                    this.timeout(1.5 * 60 * 1000);
+                                    this.slow(45 * 1000);
 
                                     await doesNotReject(
                                         async () =>

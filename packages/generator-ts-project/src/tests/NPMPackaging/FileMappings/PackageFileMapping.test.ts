@@ -237,8 +237,10 @@ export function PackageFileMappingTests(): void
 
                     test(
                         "Checking whether the source-object is loaded from the output-file if no source-file is found…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             options.Source = null;
 
                             await tester.DumpOutput(
@@ -253,8 +255,10 @@ export function PackageFileMappingTests(): void
 
                     test(
                         "Checking whether a default package is created if neither a source-file nor an output-file is found…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
                             options.Source = null;
                             await remove(fileMapping.Resolved.Destination);
                             strictEqual((await fileMapping.GetSourceObject()).Version, defaultVersion);
