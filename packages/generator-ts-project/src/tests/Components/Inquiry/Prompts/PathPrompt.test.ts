@@ -323,7 +323,6 @@ export function PathPromptTests(): void
                     teardown(
                         () =>
                         {
-                            mockedPrompt.restore();
                             sandbox.restore();
                         });
 
@@ -488,6 +487,7 @@ export function PathPromptTests(): void
                             sandbox.replaceGetter(prompt, "Initialized", () => false);
                             prompt.RootDir = "./this/is/a/test";
                             ok(prompt.getQuestion().includes(normalize(join(prompt.RootDir, "./"))));
+                            sandbox.restore();
                         });
                 });
 
@@ -555,7 +555,8 @@ export function PathPromptTests(): void
                         "Checking whether windows drive-letters are treated correctly…",
                         async () =>
                         {
-                            mock("path", require.resolve("path/win32"));
+                            let pathModuleName = "path";
+                            mock(pathModuleName, require.resolve("path/win32"));
 
                             for (let value of ["C:", "C:\\", "C:\\Test"])
                             {
@@ -565,7 +566,7 @@ export function PathPromptTests(): void
                                 prompt.ClearLine();
                             }
 
-                            mock.stopAll();
+                            mock.stop(pathModuleName);
                         });
 
                     test(
@@ -710,6 +711,12 @@ export function PathPromptTests(): void
                             prompt = GetPrompt();
                             sandbox.replaceGetter(prompt, "AllowOutside", () => allowOutside);
                             sandbox.replaceGetter(prompt, "RootDir", () => rootDir);
+                        });
+
+                    teardown(
+                        () =>
+                        {
+                            sandbox.restore();
                         });
 
                     test(

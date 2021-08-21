@@ -24,17 +24,18 @@ export function TypeScriptTests(context: TestContext<TSGeneratorGenerator>): voi
         basename(__dirname),
         () =>
         {
+            let mockedModules = [
+                "chalk",
+                "dedent",
+                "path",
+                "yosay",
+                "@manuth/extended-yo-generator"
+            ];
+
             suiteSetup(
                 () =>
                 {
-                    for (
-                        let moduleName of [
-                            "chalk",
-                            "dedent",
-                            "path",
-                            "yosay",
-                            "@manuth/extended-yo-generator"
-                        ])
+                    for (let moduleName of mockedModules)
                     {
                         // eslint-disable-next-line @typescript-eslint/no-var-requires
                         mock(moduleName, require(moduleName));
@@ -44,7 +45,10 @@ export function TypeScriptTests(context: TestContext<TSGeneratorGenerator>): voi
             suiteTeardown(
                 () =>
                 {
-                    mock.stopAll();
+                    for (let moduleName of mockedModules)
+                    {
+                        mock.stop(moduleName);
+                    }
                 });
 
             NamingContextTests(context);

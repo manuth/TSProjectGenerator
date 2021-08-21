@@ -3,7 +3,7 @@ import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
-import { replace } from "sinon";
+import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
 import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
 import { TestContext } from "../../../TestContext";
@@ -19,6 +19,7 @@ export function ModuleIndexFileMappingTests(): void
         {
             let context = TestContext.Default;
             let generator: TestGenerator;
+            let sandbox: SinonSandbox;
             let outputFile: TempFile;
             let fileMapping: TestModuleIndexFileMapping;
             let tester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, IFileMapping<IGeneratorSettings, GeneratorOptions>>;
@@ -60,6 +61,8 @@ export function ModuleIndexFileMappingTests(): void
             setup(
                 () =>
                 {
+                    sandbox = createSandbox();
+
                     outputFile = new TempFile(
                         {
                             Suffix: ".ts"
@@ -72,6 +75,7 @@ export function ModuleIndexFileMappingTests(): void
             teardown(
                 () =>
                 {
+                    sandbox.restore();
                     outputFile.Dispose();
                 });
 
@@ -88,7 +92,7 @@ export function ModuleIndexFileMappingTests(): void
                             let file = await fileMapping.Transform(await fileMapping.GetSourceObject());
                             let messages: string[] = [];
 
-                            replace(
+                            sandbox.replace(
                                 console,
                                 "log",
                                 (message) =>
