@@ -86,7 +86,8 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         "Checking whether `publish` commands are replaced correctly…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
                             ok(await AssertCommand((command) => command.startsWith("npm publish")));
                             ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
                         });
@@ -95,7 +96,8 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         "Checking whether `lerna exec` commands are replaced correctly…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
                             ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
                         });
 
@@ -103,7 +105,8 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         "Checking whether github-releases are adjusted correctly…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
 
                             ok(
                                 (await tester.ParseOutput()).every(
@@ -133,7 +136,8 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         "Checking whether the `test`-step is adjusted correctly…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
 
                             ok(
                                 (await tester.ParseOutput()).every(
