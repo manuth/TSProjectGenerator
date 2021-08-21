@@ -22,7 +22,18 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
      */
     public constructor(args: string | string[], options: GeneratorOptions)
     {
-        super(args, options);
+        super(
+            args,
+            {
+                ...options,
+                customPriorities: [
+                    ...(options.customPriorities as any[] ?? []),
+                    {
+                        before: "initializing",
+                        priorityName: "projectTypeSelection"
+                    }
+                ]
+            });
     }
 
     /**
@@ -58,7 +69,7 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
     /**
      * @inheritdoc
      */
-    public override async initializing(): Promise<void>
+    public async projectTypeSelection(): Promise<void>
     {
         await this.prompting();
         return this.LoadGenerator(this.Settings[ProjectSelectorSettingKey.ProjectType]);

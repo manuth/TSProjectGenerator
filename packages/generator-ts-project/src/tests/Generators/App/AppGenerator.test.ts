@@ -84,7 +84,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 });
 
             suite(
-                nameof<AppGenerator>((generator) => generator.initializing),
+                nameof<AppGenerator>((generator) => generator.projectTypeSelection),
                 () =>
                 {
                     test(

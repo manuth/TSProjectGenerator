@@ -59,8 +59,8 @@ export class AppGenerator extends ProjectTypeSelector<ProjectType>
     /**
      * @inheritdoc
      */
-    public override async initializing(): Promise<void>
+    public override async projectTypeSelection(): Promise<void>
     {
-        return super.initializing();
+        return super.projectTypeSelection();
     }
 }
