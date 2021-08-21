@@ -143,8 +143,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         "Checking whether generators can be generated…",
                         async function()
                         {
-                            this.timeout(15 * 60 * 1000);
-                            this.slow(7.5 * 60 * 1000);
+                            this.timeout(20 * 60 * 1000);
+                            this.slow(10 * 60 * 1000);
                             let subGeneratorDir = new TempDirectory();
 
                             await doesNotReject(

@@ -107,8 +107,11 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
 
                     test(
                         `Checking whether all \`${nameof(TSProjectPackageFileMapping)}\`s are replaced with \`${nameof(MyTSProjectPackageFileMapping)}\`s…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             for (let baseFileMapping of generator.BaseFileMappings.Items)
                             {
                                 if (baseFileMapping.Object instanceof TSProjectPackageFileMapping)

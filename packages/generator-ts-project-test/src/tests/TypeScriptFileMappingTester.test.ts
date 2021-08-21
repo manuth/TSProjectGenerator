@@ -99,8 +99,8 @@ export function TypeScriptFileMappingTesterTests(): void
                         "Checking whether typescript-files can be required…",
                         async function()
                         {
-                            this.timeout(20 * 1000);
-                            this.slow(10 * 1000);
+                            this.timeout(30 * 1000);
+                            this.slow(15 * 1000);
                             strictEqual(await tester.Require(), testValue);
                         });
                 });
