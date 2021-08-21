@@ -406,6 +406,7 @@ export function PathPromptTests(): void
                                     question.rootDir = option;
                                     prompt = GetPrompt();
                                     await prompt.Initialize();
+                                    console.log();
                                     strictEqual(prompt.RootDir, path);
                                     strictEqual(prompt.AllowOutside, allowOutside ?? true);
                                 }
@@ -424,6 +425,7 @@ export function PathPromptTests(): void
                                 question.default = path;
                                 prompt = GetPrompt();
                                 await prompt.Initialize();
+                                console.log();
 
                                 if (isAbsolute(path))
                                 {
@@ -472,6 +474,7 @@ export function PathPromptTests(): void
                             initialized = true;
                             prompt.render(undefined);
                             ok(mockedProcessor.calledOnce);
+                            console.log();
                         });
                 });
 
@@ -528,6 +531,7 @@ export function PathPromptTests(): void
                             initialInput = false;
                             await Type(value);
                             prompt.ProcessAnswer();
+                            console.log();
                             strictEqual(prompt.rl.line, value);
                         });
 
@@ -538,6 +542,7 @@ export function PathPromptTests(): void
                             let path = [".", "Test"].join(sep);
                             await Type(path);
                             prompt.ProcessAnswer();
+                            console.log();
                             strictEqual(prompt.rl.line, path);
                         });
 
@@ -548,6 +553,7 @@ export function PathPromptTests(): void
                             let value = `${context.RandomString}${sep}`;
                             await Type(value);
                             prompt.ProcessAnswer();
+                            console.log();
                             strictEqual(prompt.rl.line, value);
                         });
 
@@ -566,6 +572,7 @@ export function PathPromptTests(): void
                                 prompt.ClearLine();
                             }
 
+                            console.log();
                             mock.stop(pathModuleName);
                         });
 
@@ -589,6 +596,7 @@ export function PathPromptTests(): void
                             let value = "This/Is/Not/../A/Test";
                             await Type(value);
                             prompt.ProcessAnswer();
+                            console.log();
                             strictEqual(prompt.rl.line, normalize(value));
                         });
                 });
@@ -606,6 +614,7 @@ export function PathPromptTests(): void
                             await Type(value);
                             strictEqual(prompt.rl.line, value);
                             prompt.ClearLine();
+                            console.log();
                             strictEqual(prompt.rl.line, "");
                         });
                 });
@@ -690,6 +699,7 @@ export function PathPromptTests(): void
                             await Enter();
                             await resolver;
                             prompt.render();
+                            console.log();
                             strictEqual(prompt.rl.line, prompt.opt.default);
                         });
                 });

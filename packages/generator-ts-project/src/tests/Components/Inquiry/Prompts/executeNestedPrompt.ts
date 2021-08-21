@@ -64,6 +64,13 @@ import { TestContext } from "../../../TestContext";
                     return runSubPrompt();
                 }
             };
+
+            process.on(
+                "exit",
+                () =>
+                {
+                    console.log();
+                });
         }
 
         promptModule.registerPrompt(type, promptConstructor);
