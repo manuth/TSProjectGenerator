@@ -1,9 +1,8 @@
 import { notStrictEqual, ok, strictEqual } from "assert";
 import { EOL } from "os";
-import { isAbsolute, join, normalize, sep } from "path";
+import { isAbsolute, join, normalize, posix, sep, win32 } from "path";
 import { createInterface, Interface, ReadLine } from "readline";
 import inquirer = require("inquirer");
-import mock = require("mock-require");
 import { MockSTDIN, stdin } from "mock-stdin";
 import MuteStream = require("mute-stream");
 import { createSandbox, SinonExpectation, SinonMock, SinonSandbox, stub } from "sinon";
@@ -561,8 +560,7 @@ export function PathPromptTests(): void
                         "Checking whether windows drive-letters are treated correctly…",
                         async () =>
                         {
-                            let pathModuleName = "path";
-                            mock(pathModuleName, require.resolve("path/win32"));
+                            sandbox.replace(posix, "normalize", (...args) => win32.normalize(...args));
 
                             for (let value of ["C:", "C:\\", "C:\\Test"])
                             {
@@ -573,7 +571,6 @@ export function PathPromptTests(): void
                             }
 
                             console.log();
-                            mock.stop(pathModuleName);
                         });
 
                     test(
