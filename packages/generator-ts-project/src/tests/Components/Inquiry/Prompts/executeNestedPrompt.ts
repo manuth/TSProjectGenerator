@@ -69,6 +69,7 @@ import { TestContext } from "../../../TestContext";
                 "exit",
                 () =>
                 {
+                    mockedStdin.restore();
                     console.log();
                 });
         }
