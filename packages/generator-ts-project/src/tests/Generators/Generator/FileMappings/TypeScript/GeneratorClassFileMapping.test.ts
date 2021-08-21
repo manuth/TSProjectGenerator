@@ -225,7 +225,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 });
 
                             test(
-                                `Checking whether the destination is resolved to the \`${nameof(process)}.\`${nameof(process.cwd)}\` if the path isn't absolute…`,
+                                `Checking whether the destination is resolved to the \`${nameof(process)}.${nameof(process.cwd)}\` if the path isn't absolute…`,
                                 async () =>
                                 {
                                     let destinationQuestion = GetQuestion(settingKeyEnum[namingContext.DestinationMember]);
