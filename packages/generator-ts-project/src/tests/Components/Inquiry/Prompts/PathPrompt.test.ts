@@ -561,6 +561,8 @@ export function PathPromptTests(): void
                         async () =>
                         {
                             sandbox.replace(posix, "normalize", (...args) => win32.normalize(...args));
+                            sandbox.replace(posix, "parse", (...args) => win32.parse(...args));
+                            sandbox.replace(posix, "sep", win32.sep);
 
                             for (let value of ["C:", "C:\\", "C:\\Test"])
                             {
