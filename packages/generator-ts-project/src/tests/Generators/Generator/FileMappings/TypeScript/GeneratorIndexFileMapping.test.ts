@@ -90,8 +90,8 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         `Checking whether \`${nameof(module)}.${nameof(module.exports)}\` is a yeoman-generator…`,
                         async function()
                         {
-                            this.timeout(1 * 60 * 1000);
-                            this.slow(30 * 1000);
+                            this.timeout(1.5 * 60 * 1000);
+                            this.slow(45 * 1000);
                             ok(context.CreateGenerator(await tester.Require()) instanceof Generator);
                         });
                 });

@@ -80,14 +80,16 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                     suiteSetup(
                         async function()
                         {
-                            this.timeout(5 * 1000);
+                            this.timeout(10 * 1000);
                             sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         });
 
                     test(
                         "Checking whether an interface with the expected name is present…",
-                        () =>
+                        function()
                         {
+                            this.timeout(8 * 1000);
+                            this.slow(4 * 1000);
                             doesNotThrow(() => sourceFile.getExportedDeclarations().get(namingContext.SettingsInterfaceName)[0].asKindOrThrow(SyntaxKind.InterfaceDeclaration));
                         });
 
