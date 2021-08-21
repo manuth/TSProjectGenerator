@@ -1,6 +1,5 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
 import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName } from "types-tsconfig";
@@ -22,7 +21,6 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
         nameof<NPMIgnoreFileMapping<any, any>>(),
         () =>
         {
-            let generatorContext: IRunContext<TSProjectGenerator>;
             let generator: TSProjectGenerator;
             let fileMapping: NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>;
             let tester: NPMIgnoreFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, NPMIgnoreFileMapping<ITSProjectSettings, GeneratorOptions>>;
@@ -31,11 +29,15 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    generatorContext = context.ExecuteGenerator();
-                    await generatorContext;
-                    generator = generatorContext.generator;
+                    generator = await context.Generator;
                     fileMapping = new NPMIgnoreFileMapping(generator);
                     tester = new NPMIgnoreFileMappingTester(generator, fileMapping);
+                });
+
+            setup(
+                async () =>
+                {
+                    await tester.Run();
                 });
 
             suite(
