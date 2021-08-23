@@ -26,7 +26,7 @@ export class JSONCCreatorMapping<TSettings extends IGeneratorSettings, TOptions 
      * @param data
      * The data to write to the file.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: any)
+    public constructor(generator: IGenerator<TSettings, TOptions>, fileName: string, data: TData)
     {
         super(generator, fileName, data);
     }

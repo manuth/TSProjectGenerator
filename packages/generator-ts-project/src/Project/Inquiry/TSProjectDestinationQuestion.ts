@@ -78,7 +78,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The filtered value.
      */
-    public override async Filter(input: any, answers: TSettings): Promise<string>
+    public override async Filter(input: string, answers: TSettings): Promise<string>
     {
         return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
     }
