@@ -44,7 +44,7 @@
     "@manuth/generator-ts-project": "^2.0.4",
     "@manuth/package-json-editor": "^2.2.2",
     "@manuth/temp-files": "^2.0.6",
-    "@stdlib/utils-escape-regexp-string": "^0.0.6",
+    "@stdlib/utils-escape-regexp-string": "^0.0.7",
     "fs-extra": "^10.0.0",
     "npm-packlist": "^2.2.2",
     "ts-morph": "^11.0.3",
