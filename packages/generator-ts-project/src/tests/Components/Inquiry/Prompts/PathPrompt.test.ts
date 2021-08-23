@@ -1,6 +1,6 @@
 import { notStrictEqual, ok, strictEqual } from "assert";
 import { EOL } from "os";
-import { isAbsolute, join, normalize, posix, sep, win32 } from "path";
+import path = require("path");
 import { createInterface, Interface, ReadLine } from "readline";
 import inquirer = require("inquirer");
 import { MockSTDIN, stdin } from "mock-stdin";
@@ -35,6 +35,14 @@ export function PathPromptTests(): void
                  * @inheritdoc
                  */
                 public override opt: inquirer.prompts.PromptOptions<IPathQuestion>;
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get Path(): path.PlatformPath
+                {
+                    return this.opt.path ?? path;
+                }
 
                 /**
                  * @inheritdoc
@@ -370,6 +378,29 @@ export function PathPromptTests(): void
                 });
 
             suite(
+                nameof<TestPathPrompt>((prompt) => prompt.Path),
+                () =>
+                {
+                    test(
+                        `Checking whether the proper \`${nameof(path)}\`-instance is used, if no specific implementation was specified…`,
+                        () =>
+                        {
+                            prompt.opt.path = null;
+                            strictEqual(prompt.Path, path);
+                        });
+
+                    test(
+                        `Checking whether a custom \`${nameof(path)}\`-implementation can be specified…`,
+                        () =>
+                        {
+                            prompt.opt.path = path.posix;
+                            strictEqual(prompt.Path, path.posix);
+                            prompt.opt.path = path.win32;
+                            strictEqual(prompt.Path, path.win32);
+                        });
+                });
+
+            suite(
                 nameof<TestPathPrompt>((prompt) => prompt.Initialize),
                 () =>
                 {
@@ -419,20 +450,20 @@ export function PathPromptTests(): void
                             let rootDir = context.RandomString;
                             question.rootDir = rootDir;
 
-                            for (let path of ["/test", "C:/test", "test"])
+                            for (let testPath of ["/test", "C:/test", "test"])
                             {
-                                question.default = path;
+                                question.default = testPath;
                                 prompt = GetPrompt();
                                 await prompt.Initialize();
                                 console.log();
 
-                                if (isAbsolute(path))
+                                if (path.isAbsolute(testPath))
                                 {
-                                    strictEqual(prompt.opt.default, normalize(path));
+                                    strictEqual(prompt.opt.default, path.normalize(testPath));
                                 }
                                 else
                                 {
-                                    strictEqual(prompt.opt.default, normalize(join(rootDir, path)));
+                                    strictEqual(prompt.opt.default, path.normalize(path.join(rootDir, testPath)));
                                 }
                             }
                         });
@@ -488,7 +519,7 @@ export function PathPromptTests(): void
                             let sandbox = createSandbox();
                             sandbox.replaceGetter(prompt, "Initialized", () => false);
                             prompt.RootDir = "./this/is/a/test";
-                            ok(prompt.getQuestion().includes(normalize(join(prompt.RootDir, "./"))));
+                            ok(prompt.getQuestion().includes(path.normalize(path.join(prompt.RootDir, "./"))));
                             sandbox.restore();
                         });
                 });
@@ -518,13 +549,13 @@ export function PathPromptTests(): void
                         `Checking whether the \`${nameof<TestPathPrompt>((p) => p.RootDir)}\` is appended during the initial input…`,
                         async () =>
                         {
-                            let path = join("this", "is", "a", "test");
+                            let testPath = path.join("this", "is", "a", "test");
                             let value = "Hello";
                             initialInput = true;
-                            prompt.RootDir = path;
+                            prompt.RootDir = testPath;
                             await Type(value);
                             prompt.ProcessAnswer();
-                            strictEqual(prompt.rl.line, join(path, value));
+                            strictEqual(prompt.rl.line, path.join(testPath, value));
                             prompt.ClearLine();
 
                             initialInput = false;
@@ -538,18 +569,18 @@ export function PathPromptTests(): void
                         "Checking whether leading dots are preserved…",
                         async () =>
                         {
-                            let path = [".", "Test"].join(sep);
-                            await Type(path);
+                            let testPath = [".", "Test"].join(path.sep);
+                            await Type(testPath);
                             prompt.ProcessAnswer();
                             console.log();
-                            strictEqual(prompt.rl.line, path);
+                            strictEqual(prompt.rl.line, testPath);
                         });
 
                     test(
                         "Checking whether trailing slashes are preserved…",
                         async () =>
                         {
-                            let value = `${context.RandomString}${sep}`;
+                            let value = `${context.RandomString}${path.sep}`;
                             await Type(value);
                             prompt.ProcessAnswer();
                             console.log();
@@ -560,9 +591,7 @@ export function PathPromptTests(): void
                         "Checking whether windows drive-letters are treated correctly…",
                         async () =>
                         {
-                            sandbox.replace(posix, "normalize", (...args) => win32.normalize(...args));
-                            sandbox.replace(posix, "parse", (...args) => win32.parse(...args));
-                            sandbox.replace(posix, "sep", win32.sep);
+                            prompt.opt.path = path.win32;
 
                             for (let value of ["C:", "C:\\", "C:\\Test"])
                             {
@@ -582,13 +611,13 @@ export function PathPromptTests(): void
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
 
-                            for (let slash of ["/", "\\", sep])
+                            for (let slash of ["/", "\\", path.sep])
                             {
-                                let path = ["This", "Is", "A", "Test"];
-                                let value = path.join(slash);
+                                let testPath = ["This", "Is", "A", "Test"];
+                                let value = testPath.join(slash);
                                 await Type(value);
                                 prompt.ProcessAnswer();
-                                strictEqual(prompt.rl.line, path.join(sep));
+                                strictEqual(prompt.rl.line, testPath.join(path.sep));
                                 prompt.ClearLine();
                             }
 
@@ -596,7 +625,7 @@ export function PathPromptTests(): void
                             await Type(value);
                             prompt.ProcessAnswer();
                             console.log();
-                            strictEqual(prompt.rl.line, normalize(value));
+                            strictEqual(prompt.rl.line, path.normalize(value));
                         });
                 });
 
@@ -648,7 +677,7 @@ export function PathPromptTests(): void
                         () =>
                         {
                             sandbox = createSandbox();
-                            rootDir = join("hello", "world");
+                            rootDir = path.join("hello", "world");
                             defaultValue = context.RandomString;
                             question.rootDir = rootDir;
                             question.default = defaultValue;
@@ -715,7 +744,7 @@ export function PathPromptTests(): void
                         () =>
                         {
                             sandbox = createSandbox();
-                            rootDir = join("this", "is", "a", "test");
+                            rootDir = path.join("this", "is", "a", "test");
                             allowOutside = true;
                             prompt = GetPrompt();
                             sandbox.replaceGetter(prompt, "AllowOutside", () => allowOutside);
@@ -735,8 +764,8 @@ export function PathPromptTests(): void
                             allowOutside = true;
                             ok(prompt.ValidatePath("test"));
                             ok(prompt.ValidatePath(rootDir));
-                            ok(prompt.ValidatePath(`${rootDir}${sep}`));
-                            ok(prompt.ValidatePath(join(rootDir, "test")));
+                            ok(prompt.ValidatePath(`${rootDir}${path.sep}`));
+                            ok(prompt.ValidatePath(path.join(rootDir, "test")));
                         });
 
                     test(
@@ -749,27 +778,27 @@ export function PathPromptTests(): void
                                 let invalidPath of [
                                     "test",
                                     rootDir,
-                                    `${rootDir}${sep}`,
-                                    join(rootDir, "test", "..", "..", "test")
+                                    `${rootDir}${path.sep}`,
+                                    path.join(rootDir, "test", "..", "..", "test")
                                 ])
                             {
                                 notStrictEqual(prompt.ValidatePath(invalidPath), true);
                             }
 
-                            ok(prompt.ValidatePath(join(rootDir, "test")));
+                            ok(prompt.ValidatePath(path.join(rootDir, "test")));
 
                             rootDir = ".";
 
                             for (
                                 let invalidPath of [
                                     ".",
-                                    join("..", "test")
+                                    path.join("..", "test")
                                 ])
                             {
                                 notStrictEqual(prompt.ValidatePath(invalidPath), true);
                             }
 
-                            ok(prompt.ValidatePath(join(".", "test")));
+                            ok(prompt.ValidatePath(path.join(".", "test")));
                             ok(prompt.ValidatePath("test"));
                         });
                 });
