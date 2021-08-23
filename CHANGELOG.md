@@ -5,6 +5,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Breaking
+  - Replaced the `PackageFileMapping.Template`-property with `PackageFileMapping.SourcePackage` for loading scripts and `PackageFileMapping.GetSourceObject` for loading the source-object of the `PackageFileMapping`
+  - Replaced the `PackageFileMapping.Package`-property with a `PackageFileMapping.GetPackage`-method
+  - Made the `PackageFileMapping.ScriptMappings`-property synchronous
+  - Changed `ScriptCollectionEditor`-constructor to require passing a `Package`
+  - Changed `ScriptMapping`-constructor to require passing a `Package`
+  - Refactored `MyTSProjectPackageFileMapping`
+    - The `MyTSProjectPackageFileMapping` now can extend any `TSProjectPackageFileMapping`
+    - The `MyTSProjectPackageFileMapping`-constructor now requires passing a `TSProjectPackageFileMapping`
+  - Removed `QuestionBase`, `ComponentBase`, `ComponentCategoryBase`, `ComponentCollectionBase` and `FileMappingBase` in favor of `@manuth/extended-yo-generator`s corresponding classes
+  - Replaced the `TransformFileMapping`-class with `Converter`s such as the `JSONCConverter`, the `YAMLConverter` or the `TypeScriptConverter`
+  - Replaced the `Metadata`-property of `DumpFileMapping`s with `GetSourceObject`
+  - Renamed `JSONCreatorMapping` to `JSONCCreatorMapping`
+  - Renamed `JSONTransformMapping` to `JSONCTransformMapping`
+  - Changed `PackageFileMapping` to load the source-object from the `PackageFileMapping.Source` if it exists
+  - Replaced the `CodeWorkspaceComponent.WorkspaceMetadata`-property with the `CodeWorkspaceComponent.GetWorkspaceMetadata`-method
+  - Replaced the `CodeWorkspaceProvider.WorkspaceMetadata`-property with the `CodeWorkspaceProvider.GetWorkspaceMetadata`-method
+  - Rename the `TSGeneratorLaunchSettingsProcessor`s `GetTemplateMetadata`-method to `GetYeomanTemplate`
+
+### Fixed
+  - Vulnerabilities in dependencies
+  - Drone-pipelines by preventing publish-scripts from interrupting each other
+  - Broken release-notes script in drone-pipelines
+
+### Added
+  - A new package `@manuth/generator-ts-project-test` which provides components for testing the generators
+    - This new packages provides components for testing file-mappings
+    - Also provides components for testing `DependencyCollection`s and their content
+  - Support for the Test Explorer UI
+  - Support for `ts-nameof`
+  - A `NestedPrompt` class for asking nested questions
+  - A class `SuspendablePrompt` for temporarily releasing the `ReadLine`-instance while asking questions
+  - A class `QuestionSetPrompt` for asking a set of questions
+  - A class `ArrayPrompt` for asking for an array of values
+  - A class `PathPrompt` for asking for a file-system path
+  - A new property `PackageFileMapping.Keywords` for adding keywords to the generated file
+
+### Updated
+  - All dependencies
+  - `TypeScriptTransformMapping` to format the code after transforming the content
+  - TypeScript-`FileMapping`s for dynamically generating the TypeScript-files instead of using `EJS`-templates
+    - This change has a big performance cost and might cause the generator to be stuck for a few settings before actually writing the files to the file-system
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.4...dev)
 
