@@ -79,7 +79,7 @@ export class DependencyCollectionTester
     /**
      * Gets a component for testing the dependencies.
      */
-    public get DependencyPackageTester(): PackageFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, IFileMapping<IGeneratorSettings, GeneratorOptions>>
+    protected get DependencyPackageTester(): PackageFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, IFileMapping<IGeneratorSettings, GeneratorOptions>>
     {
         return this.dependencyPackageTester;
     }
