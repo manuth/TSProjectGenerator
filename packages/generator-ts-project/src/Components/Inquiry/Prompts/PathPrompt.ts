@@ -1,9 +1,9 @@
-import { isAbsolute, normalize as legacyNormalize, parse as legacyParse, sep } from "path";
+import path = require("path");
 import { ReadLine } from "readline";
 import { dim } from "chalk";
 import inquirer = require("inquirer");
 import InputPrompt = require("inquirer/lib/prompts/input");
-import { join, normalize, parse, relative } from "upath";
+import { join, normalize, relative } from "upath";
 import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor";
 import { IPathQuestion } from "./IPathQuestion";
 import { IPathQuestionOptions } from "./IPathQuestionOptions";
@@ -104,6 +104,14 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             answers);
 
         this.initialization = new Promise((resolve) => this.initializationResolver = resolve);
+    }
+
+    /**
+     * Gets a component for handling file-system paths.
+     */
+    protected get Path(): path.PlatformPath
+    {
+        return this.opt.path ?? path;
     }
 
     /**
@@ -209,12 +217,12 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         {
             if (
                 this.RootDir &&
-                !isAbsolute(this.opt.default))
+                !this.Path.isAbsolute(this.opt.default))
             {
                 this.opt.default = join(this.RootDir, this.opt.default);
             }
 
-            this.opt.default = legacyNormalize(this.opt.default);
+            this.opt.default = this.Path.normalize(this.opt.default);
         }
 
         this.render(undefined);
@@ -249,7 +257,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
 
         if (!this.Initialized && this.RootDir)
         {
-            message += `${dim(legacyNormalize(join(this.RootDir, "./")))}`;
+            message += `${dim(this.Path.normalize(join(this.RootDir, "./")))}`;
         }
 
         return message;
@@ -262,14 +270,14 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
     {
         let result: string;
         let answer = this.rl.line;
-        let parsedPath = parse(answer);
+        let parsedPath = this.Path.parse(answer);
         let pathTree: string[] = [];
 
         if (
             this.InitialInput &&
             this.RootDir)
         {
-            pathTree.push(legacyNormalize(this.RootDir));
+            pathTree.push(this.Path.normalize(this.RootDir));
             this.OnInitialInputPerformed();
         }
         else if (/^\.[/\\]/.test(answer))
@@ -279,14 +287,14 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
 
         if (/[/\\]$/.test(answer))
         {
-            parsedPath = parse(answer + ".");
+            parsedPath = this.Path.parse(answer + ".");
             parsedPath.base = "";
             parsedPath.name = "";
         }
 
-        if (legacyNormalize(parsedPath.dir) !== ".")
+        if (this.Path.normalize(parsedPath.dir) !== ".")
         {
-            pathTree.push(legacyNormalize(parsedPath.dir));
+            pathTree.push(this.Path.normalize(parsedPath.dir));
         }
 
         if (
@@ -297,16 +305,16 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         {
             if (parsedPath.base.length === 0)
             {
-                result = legacyParse(legacyNormalize(parsedPath.root)).root;
+                result = this.Path.parse(this.Path.normalize(parsedPath.root)).root;
             }
             else
             {
-                result = [legacyNormalize(parsedPath.root), parsedPath.base].join("");
+                result = [this.Path.normalize(parsedPath.root), parsedPath.base].join("");
             }
         }
         else
         {
-            result = [...pathTree, parsedPath.base].join(sep);
+            result = [...pathTree, parsedPath.base].join(this.Path.sep);
         }
 
         if (answer !== result)
@@ -395,7 +403,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
                 relativePath !== ".." &&
                 relativePath.length > 0) ?
                 true :
-                `Paths outside of \`${legacyNormalize(this.RootDir)}\` are not allowed!`;
+                `Paths outside of \`${this.Path.normalize(this.RootDir)}\` are not allowed!`;
         }
     }
 }
