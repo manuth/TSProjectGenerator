@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Updated
   - All dependencies
   - `TypeScriptTransformMapping` to format the code after transforming the content
-  - TypeScript-`FileMapping`s for dynamically generating the TypeScript-files instead of using `EJS`-templates
+  - TypeScript-`FileMapping`s in order to dynamically generate TypeScript-files instead of using `EJS`-templates
     - This change has a big performance cost and might cause the generator to be stuck for a few settings before actually writing the files to the file-system
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.4...dev)
