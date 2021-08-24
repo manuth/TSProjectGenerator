@@ -588,6 +588,17 @@ export function PathPromptTests(): void
                         });
 
                     test(
+                        "Checking whether trailing dots are preserved…",
+                        async () =>
+                        {
+                            let value = `${context.RandomString}${path.sep}.`;
+                            await Type(value);
+                            prompt.ProcessAnswer();
+                            console.log();
+                            strictEqual(prompt.rl.line, value);
+                        });
+
+                    test(
                         "Checking whether windows drive-letters are treated correctly…",
                         async () =>
                         {
