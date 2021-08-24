@@ -277,7 +277,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             this.InitialInput &&
             this.RootDir)
         {
-            pathTree.push(this.Path.normalize(this.RootDir));
+            pathTree.push(this.Path.normalize(normalize(this.RootDir)));
             this.OnInitialInputPerformed();
         }
         else if (/^\.[/\\]/.test(answer))
@@ -292,9 +292,14 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
             parsedPath.name = "";
         }
 
-        if (this.Path.normalize(parsedPath.dir) !== ".")
+        if (normalize(parsedPath.dir) !== ".")
         {
-            pathTree.push(this.Path.normalize(parsedPath.dir));
+            pathTree.push(this.Path.normalize(normalize(parsedPath.dir)));
+        }
+
+        if (normalize(parsedPath.base) !== ".")
+        {
+            parsedPath.base = this.Path.normalize(normalize(parsedPath.base));
         }
 
         if (
@@ -305,11 +310,11 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
         {
             if (parsedPath.base.length === 0)
             {
-                result = this.Path.parse(this.Path.normalize(parsedPath.root)).root;
+                result = this.Path.parse(this.Path.normalize(normalize(parsedPath.root))).root;
             }
             else
             {
-                result = [this.Path.normalize(parsedPath.root), parsedPath.base].join("");
+                result = [this.Path.normalize(normalize(parsedPath.root)), parsedPath.base].join("");
             }
         }
         else
