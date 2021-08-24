@@ -41,7 +41,7 @@ export function PathPromptTests(): void
                  */
                 public override get Path(): path.PlatformPath
                 {
-                    return this.opt.path ?? path;
+                    return super.Path;
                 }
 
                 /**
