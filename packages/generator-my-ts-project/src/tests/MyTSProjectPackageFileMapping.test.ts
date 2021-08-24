@@ -113,6 +113,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                             dependencies = [
                                 `@types/${transformPlugin}`,
                                 transformPlugin,
+                                "ts-node",
                                 patchPackageName
                             ];
                         });
