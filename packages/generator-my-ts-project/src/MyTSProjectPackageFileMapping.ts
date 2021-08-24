@@ -165,6 +165,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                     devDependencies: [
                         "@types/ts-nameof",
                         "ts-nameof",
+                        "ts-node",
                         "ts-patch"
                     ]
                 }),

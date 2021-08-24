@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.0...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.1...dev)
+
+## TSProjectGenerator v3.0.1
+### Added
+  - Missing dependency to `@manuth/generator-my-ts-project` for the use of `ts-patch`
+
+### Updated
+  - All dependencies
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.0...v3.0.1)
 
 ## TSProjectGenerator v3.0.0
 ### Breaking
