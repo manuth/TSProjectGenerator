@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.0...dev)
+
+## TSProjectGenerator v3.0.0
 ### Breaking
   - Replaced the `PackageFileMapping.Template`-property with `PackageFileMapping.SourcePackage` for loading scripts and `PackageFileMapping.GetSourceObject` for loading the source-object of the `PackageFileMapping`
   - Replaced the `PackageFileMapping.Package`-property with a `PackageFileMapping.GetPackage`-method
@@ -48,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - TypeScript-`FileMapping`s in order to dynamically generate TypeScript-files instead of using `EJS`-templates
     - This change has a big performance cost and might cause the generator to be stuck for a few settings before actually writing the files to the file-system
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.4...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v2.0.4...v3.0.0)
 
 ## TSProjectGenerator v2.0.4
 ### Added
