@@ -4,11 +4,17 @@ import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings
 
 /**
  * Provides a question for asking for description of a generator.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorDescriptionQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectDescriptionQuestion<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorDescriptionQuestion` class.
+     * Initializes a new instance of the {@link TSGeneratorDescriptionQuestion `TSGeneratorDescriptionQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.

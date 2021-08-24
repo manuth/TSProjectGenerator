@@ -8,14 +8,22 @@ import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSProjectGenerator } from "../../TSProjectGenerator";
 
 /**
- * Represents a file-mapping for the `package.json` file of `TSProject`s.
+ * Represents a file-mapping for the `package.json` file of {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends PackageFileMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectPackageFileMapping` class.
+     * Initializes a new instance of the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -28,99 +36,114 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * Gets all `npm`-scripts which are related to `TypeScript`.
      */
-    protected get TypeScriptScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        let compileScriptName = "compile";
+        let buildScriptName = "build";
+        let cleanScriptName = "clean";
+
+        let compileScriptProcessor = (script: string): string =>
+        {
+            return script.replace(new RegExp(compileScriptName, "g"), buildScriptName);
+        };
+
+        return [
             {
-                return [
-                    {
-                        Source: "compile",
-                        Destination: "build"
-                    },
-                    "rebuild",
-                    {
-                        Source: "watch-compile",
-                        Destination: "watch",
-                        Processor: async (script) => script.replace(/compile/g, "build")
-                    },
-                    {
-                        Source: "clean",
-                        Destination: "clean",
-                        Processor: async (script) => script.replace(/compile/g, "build")
-                    }
-                ];
-            })();
+                Source: compileScriptName,
+                Destination: buildScriptName
+            },
+            "rebuild",
+            {
+                Source: "watch-compile",
+                Destination: "watch",
+                Processor: async (script) => compileScriptProcessor(script)
+            },
+            {
+                Source: cleanScriptName,
+                Destination: cleanScriptName,
+                Processor: async (script) => compileScriptProcessor(script)
+            }
+        ];
     }
 
     /**
      * Gets all `npm`-scripts which are related to linting.
      */
-    protected get LintScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    public get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
+        let oldLintBaseScriptName = "lint-code-base";
+        let lintBaseScriptName = "lint-base";
+        let oldLintScriptName = "lint-code";
+        let lintScriptName = "lint";
+
+        return [
             {
-                return [
-                    {
-                        Source: "lint-code-base",
-                        Destination: "lint-base"
-                    },
-                    {
-                        Source: "lint-code",
-                        Destination: "lint",
-                        Processor: async (script) => script.replace("lint-code-base", "lint-base")
-                    },
-                    {
-                        Source: "lint-code-ide",
-                        Destination: "lint-ide",
-                        Processor: async (script) => script.replace("lint-code", "lint")
-                    }
-                ];
-            })();
+                Source: oldLintBaseScriptName,
+                Destination: lintBaseScriptName
+            },
+            {
+                Source: oldLintScriptName,
+                Destination: lintScriptName,
+                Processor: async (script) => script.replace(new RegExp(oldLintBaseScriptName, "g"), lintBaseScriptName)
+            },
+            {
+                Source: "lint-code-ide",
+                Destination: "lint-ide",
+                Processor: async (script) => script.replace(new RegExp(oldLintScriptName, "g"), lintScriptName)
+            }
+        ];
     }
 
     /**
      * Gets additional `npm`-scripts.
      */
-    protected get MiscScripts(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    public get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async () =>
+        let prepareScriptName = "prepare";
+
+        return [
+            "test",
             {
-                return [
-                    "test",
-                    "prepare"
-                ];
-            })();
+                Source: prepareScriptName,
+                Destination: prepareScriptName,
+                Processor: async (script, target) =>
+                {
+                    let separator = " && ";
+                    let commands = script.split(separator);
+                    let filtered: string[] = [];
+
+                    for (let command of commands)
+                    {
+                        if (!command.includes("patchTypeScript"))
+                        {
+                            filtered.push(command);
+                        }
+                    }
+
+                    return filtered.join(separator);
+                }
+            }
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    protected override get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected override get ScriptMappings(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async () =>
-            {
-                return [
-                    ...await this.TypeScriptScripts,
-                    ...await this.LintScripts,
-                    ...await this.MiscScripts
-                ];
-            })();
+        return [
+            ...this.TypeScriptScripts,
+            ...this.LintScripts,
+            ...this.MiscScripts
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    protected override get Template(): Promise<Package>
+    protected override get ScriptSource(): Package
     {
-        return (
-            async () =>
-            {
-                return Constants.Package;
-            })();
+        return Constants.Package;
     }
 
     /**

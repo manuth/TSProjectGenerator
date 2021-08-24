@@ -1,6 +1,7 @@
 import { deepStrictEqual, ok } from "assert";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { assign, parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { WorkspaceFileCreator } from "../../../VSCode/FileMappings/WorkspaceFileCreator";
@@ -10,23 +11,21 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `WorkspaceFileCreator` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link WorkspaceFileCreator `WorkspaceFileCreator<TSettings, TOptions>`} class.
  */
-export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceFileCreatorTests(): void
 {
     suite(
-        "WorkspaceFileCreator",
+        nameof(WorkspaceFileCreator),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let fileName: string;
             let workspace: IWorkspaceMetadata;
             let tasksComment: string;
             let rootComment: string;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>, IWorkspaceMetadata>;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
             let source: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
             let fileMappingCreator: WorkspaceFileCreator<ITestGeneratorSettings, GeneratorOptions>;
@@ -42,14 +41,14 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                     component.Source = source;
                     fileMappingCreator = new WorkspaceFileCreator(component, fileName);
                     component.FileMappingCreator = fileMappingCreator;
-                    tester = new FileMappingTester(generator, { Destination: fileName });
+                    tester = new JSONCFileMappingTester(generator, { Destination: fileName });
                 });
 
             setup(
                 async function()
                 {
                     this.timeout(10 * 1000);
-                    workspace = await source.WorkspaceMetadata;
+                    workspace = await source.GetWorkspaceMetadata();
                     tasksComment = context.RandomString + "-comment";
                     rootComment = context.RandomString + "-comment-2";
                     workspace.extensions = context.RandomObject;
@@ -79,29 +78,34 @@ export function WorkspaceFileCreatorTests(context: TestContext<TestGenerator, IT
                     }
                 });
 
-            test(
-                "Checking whether the metadata of the workspace-file is created correctly…",
-                async () =>
+            suite(
+                nameof<WorkspaceFileCreator<any, any>>((creator) => creator.FileMappings),
+                () =>
                 {
-                    deepStrictEqual(parse(await tester.Content, null, true), parse(stringify(workspace)));
-                });
+                    test(
+                        "Checking whether the metadata of the workspace-file is created correctly…",
+                        async () =>
+                        {
+                            deepStrictEqual(await tester.ParseOutput(), parse(stringify(workspace)));
+                        });
 
-            test(
-                "Checking whether comments inside nested objects persist…",
-                async () =>
-                {
-                    ok(
-                        stringify(
-                            (parse(await tester.Content) as IWorkspaceMetadata).tasks,
-                            null,
-                            4).includes(tasksComment));
-                });
+                    test(
+                        "Checking whether comments inside nested objects persist…",
+                        async () =>
+                        {
+                            ok(
+                                stringify(
+                                    (await tester.ParseOutput()).tasks,
+                                    null,
+                                    4).includes(tasksComment));
+                        });
 
-            test(
-                "Checking whether root comments persist…",
-                async () =>
-                {
-                    ok((await tester.Content).includes(rootComment));
+                    test(
+                        "Checking whether root comments persist…",
+                        async () =>
+                        {
+                            ok((await tester.ReadOutput()).includes(rootComment));
+                        });
                 });
         });
 }

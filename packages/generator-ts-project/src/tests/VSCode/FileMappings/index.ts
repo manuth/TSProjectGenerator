@@ -1,25 +1,21 @@
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../../TestContext";
+import { basename } from "path";
 import { CodeWorkspaceProviderTests } from "./CodeWorkspaceProvider.test";
 import { WorkspaceFileCreatorTests } from "./WorkspaceFileCreator.test";
 import { WorkspaceFolderCreatorTest } from "./WorkspaceFolderCreator.test";
 import { WorkspaceFolderLoaderTests } from "./WorkspaceFolderLoader.test";
 
 /**
- * Registers tests for vscode-filemappings.
- *
- * @param context
- * The test-context.
+ * Registers tests for vscode file-mappings.
  */
-export function FileMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function FileMappingTests(): void
 {
     suite(
-        "FileMappings",
+        basename(__dirname),
         () =>
         {
-            CodeWorkspaceProviderTests(context);
-            WorkspaceFolderLoaderTests(context);
-            WorkspaceFolderCreatorTest(context);
-            WorkspaceFileCreatorTests(context);
+            CodeWorkspaceProviderTests();
+            WorkspaceFolderLoaderTests();
+            WorkspaceFolderCreatorTest();
+            WorkspaceFileCreatorTests();
         });
 }

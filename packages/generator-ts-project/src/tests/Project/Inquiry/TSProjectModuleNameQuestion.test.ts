@@ -11,7 +11,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectModuleNameQuestion` class.
+ * Registers tests for the {@link TSProjectModuleNameQuestion `TSProjectModuleNameQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -19,7 +19,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectModuleNameQuestion",
+        nameof(TSProjectModuleNameQuestion),
         () =>
         {
             let tempDir: TempDirectory;
@@ -42,26 +42,33 @@ export function TSProjectModuleNameQuestionTests(context: TestContext<TSProjectG
                     question = new TSProjectModuleNameQuestion(await context.Generator);
                 });
 
-            test(
-                "Checking whether the default module-name equals the kebab-cased display-name…",
-                async () =>
+            suite(
+                nameof<TSProjectModuleNameQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    strictEqual(
-                        await question.default(
-                            {
-                                ...settings,
-                                [TSProjectSettingKey.DisplayName]: testName
-                            }),
-                        kebabCase(testName));
-                });
+                    test(
+                        "Checking whether the default module-name equals the kebab-cased display-name…",
+                        async () =>
+                        {
+                            strictEqual(
+                                await question.default(
+                                    {
+                                        ...settings,
+                                        [TSProjectSettingKey.DisplayName]: testName
+                                    }),
+                                kebabCase(testName));
+                        });
 
-            test(
-                "Checking whether the package-name is preserved if a `package.json` already exists…",
-                async () =>
-                {
-                    let npmPackage = new Package(tempDir.MakePath("package.json"), { name: "this is a test" });
-                    await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
-                    strictEqual(await question.default(settings), npmPackage.Name);
+                    test(
+                        `Checking whether the package-name is preserved if a \`${Package.FileName}\` already exists…`,
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            let npmPackage = new Package(tempDir.MakePath(Package.FileName), { name: "this is a test" });
+                            await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
+                            strictEqual(await question.default(settings), npmPackage.Name);
+                        });
                 });
         });
 }

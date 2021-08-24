@@ -4,15 +4,20 @@ import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection,
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
 import chalk = require("chalk");
-import { parse } from "comment-json";
 import dedent = require("dedent");
-import { ESLint } from "eslint";
+// eslint-disable-next-line node/no-unpublished-import
+import type { ESLint } from "eslint";
 import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
 import npmWhich = require("npm-which");
-import { Linter } from "tslint";
-import { Program } from "typescript";
-import { join, resolve } from "upath";
-import { JSONCreatorMapping } from "../Components/JSONCreatorMapping";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Linter } from "tslint";
+import { fileName as eslintFileName } from "types-eslintrc";
+import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Program } from "typescript";
+import { changeExt, join, resolve } from "upath";
+import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt";
+import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
@@ -24,12 +29,18 @@ import { TSProjectComponent } from "./Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
 
 /**
- * Provides the functionality to generate a project writtein in TypeScript.
+ * Provides the functionality to generate a project written in in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectGenerator<T>` class.
+     * Initializes a new instance of the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -51,6 +62,8 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                     }
                 ]
             });
+
+        this.env.adapter.promptModule.registerPrompt(PathPrompt.TypeName, PathPrompt);
     }
 
     /**
@@ -82,10 +95,15 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
      */
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
+        let self = this;
+        let changeLogFileName = "CHANGELOG.md";
+        let gitIgnoreFileName = ".gitignore";
+        let mochaConfigFileName = ".mocharc.jsonc";
+
         return [
             {
-                Source: this.commonTemplatePath("CHANGELOG.md.ejs"),
-                Destination: "CHANGELOG.md",
+                Source: this.commonTemplatePath(`${changeLogFileName}.ejs`),
+                Destination: changeLogFileName,
                 Context: () => (
                     {
                         Name: this.Settings[TSProjectSettingKey.DisplayName]
@@ -93,48 +111,155 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
             },
             new TSProjectPackageFileMapping(this),
             {
-                Source: this.commonTemplatePath(".gitignore.ejs"),
-                Destination: ".gitignore"
+                Source: this.commonTemplatePath(`${gitIgnoreFileName}.ejs`),
+                Destination: gitIgnoreFileName
             },
             new NPMIgnoreFileMapping(this),
             {
-                Source: this.modulePath(".mocharc.jsonc"),
-                Destination: ".mocharc.jsonc"
+                Source: this.modulePath(mochaConfigFileName),
+                Destination: mochaConfigFileName
             },
+            new class extends TSConfigFileMapping<TSettings, TOptions>
             {
-                Source: this.modulePath("tsconfig.base.json"),
-                Destination: "tsconfig.base.json",
-                Processor: async (fileMapping, generator) =>
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
                 {
-                    let tsConfig = parse((await readFile(fileMapping.Source)).toString());
+                    return this.Generator.modulePath(super.Source);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get MiddleExtension(): string
+                {
+                    return "base";
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param tsConfig
+                 * The typescript-configuration to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
+                {
+                    tsConfig = await super.Transform(tsConfig);
+                    let plugins: Plugin[] = [];
                     delete tsConfig.compilerOptions.declarationMap;
                     delete tsConfig.compilerOptions.paths;
-                    return new JSONCreatorMapping(generator, fileMapping.Destination, tsConfig).Processor();
-                }
-            },
-            {
-                Source: this.modulePath("tsconfig.json"),
-                Destination: "tsconfig.json",
-                Processor: async (target, generator) =>
-                {
-                    let tsConfig = parse((await readFile(target.Source)).toString());
 
-                    if (!this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
+                    for (let [i] of tsConfig.compilerOptions.plugins.entries())
+                    {
+                        let plugin = tsConfig.compilerOptions.plugins[i];
+
+                        if (plugin.transform !== "ts-nameof")
+                        {
+                            plugins.push(plugin);
+                        }
+                    }
+
+                    tsConfig.compilerOptions.plugins = plugins;
+                    return tsConfig;
+                }
+            }(this),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param tsConfig
+                 * The typescript-configuration to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
+                {
+                    tsConfig = await super.Transform(tsConfig);
+
+                    if (!this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
                     {
                         delete tsConfig.references;
                     }
 
-                    return new JSONCreatorMapping(generator, target.Destination, tsConfig).Processor();
+                    return tsConfig;
                 }
-            },
+            }(this),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
             {
-                Source: this.modulePath("tsconfig.build.json"),
-                Destination: "tsconfig.build.json"
-            },
+                /**
+                 * @inheritdoc
+                 */
+                public override get MiddleExtension(): string
+                {
+                    return "build";
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+            }(this),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
             {
-                Source: this.modulePath("src", "tests", "tsconfig.json"),
-                Destination: this.destinationPath(this.SourceRoot, "tests", "tsconfig.json")
-            }
+                /**
+                 * @inheritdoc
+                 */
+                public override get BaseName(): string
+                {
+                    return join(self.SourceRoot, "tests", super.BaseName);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param tsConfig
+                 * The typescript-configuration to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
+                {
+                    let references: References[] = [];
+                    tsConfig = await super.Transform(tsConfig);
+
+                    for (let reference of tsConfig.references)
+                    {
+                        if (reference.path === join("..", ".."))
+                        {
+                            references.push(reference);
+                        }
+                    }
+
+                    tsConfig.references = references;
+                    return tsConfig;
+                }
+            }(this)
         ];
     }
 
@@ -171,14 +296,15 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     public async cleanup(): Promise<void>
     {
         let tempDir = new TempDirectory();
-        let lintPackage = new Package(tempDir.MakePath("package.json"), {});
+        let esLintJSFileName = changeExt(eslintFileName, ".js");
+        let lintPackage = new Package(tempDir.MakePath(Package.FileName), {});
         let workspaceRequire: NodeRequire;
         let linterConstructor: typeof Linter;
         let eslintConstructor: typeof ESLint;
         let program: Program;
         let linter: ESLint;
-        let tsConfigFile = tempDir.MakePath("tsconfig.json");
-        let tsConfig = await readJSON(this.destinationPath("tsconfig.json"));
+        let tsConfigFile = tempDir.MakePath(fileName);
+        let tsConfig = await readJSON(this.destinationPath(fileName));
         this.log("");
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
@@ -186,7 +312,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
         tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
         await writeJSON(tsConfigFile, tsConfig);
-        await writeFile(tempDir.MakePath(".eslintrc.js"), await readFile(this.modulePath(".eslintrc.js")));
+        await writeFile(tempDir.MakePath(esLintJSFileName), await readFile(this.modulePath(esLintJSFileName)));
         lintPackage.Register(new BuildDependencies());
         lintPackage.Register(new LintEssentials());
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
@@ -211,7 +337,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 cwd: tempDir.FullName,
                 fix: true,
                 useEslintrc: false,
-                overrideConfigFile: tempDir.MakePath(".eslintrc.js"),
+                overrideConfigFile: tempDir.MakePath(esLintJSFileName),
                 overrideConfig: {
                     parserOptions: {
                         project: tsConfigFile

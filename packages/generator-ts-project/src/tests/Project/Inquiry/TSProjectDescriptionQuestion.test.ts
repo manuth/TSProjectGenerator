@@ -9,7 +9,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectDescriptionQuestion` class.
+ * Registers tests for the {@link TSProjectDescriptionQuestion `TSProjectDescriptionQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -17,9 +17,10 @@ import { TestContext } from "../../TestContext";
 export function TSProjectDescriptionQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectDescriptionQuestion",
+        nameof(TSProjectDescriptionQuestion),
         () =>
         {
+            let readmeFileName = "README.md";
             let generator: TSProjectGenerator;
             let question: TSProjectDescriptionQuestion<ITSProjectSettings, GeneratorOptions>;
 
@@ -31,26 +32,33 @@ export function TSProjectDescriptionQuestionTests(context: TestContext<TSProject
                     question = new TSProjectDescriptionQuestion(generator);
                 });
 
-            test(
-                "Checking whether the description defaults to the contents of the `README` file…",
-                async () =>
+            suite(
+                nameof<TSProjectDescriptionQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    let randomDescription = context.RandomString;
+                    test(
+                        `Checking whether the description defaults to the contents of the \`${readmeFileName}\` file…`,
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            let randomDescription = context.RandomString;
 
-                    await writeFile(
-                        generator.destinationPath("README.md"),
-                        dedent(
-                            `
-                                # This is a test
-                                ${randomDescription}`));
+                            await writeFile(
+                                generator.destinationPath(readmeFileName),
+                                dedent(
+                                    `
+                                        # This is a test
+                                        ${randomDescription}`));
 
-                    strictEqual(
-                        await question.default(
-                            {
-                                ...generator.Settings,
-                                [TSProjectSettingKey.Destination]: generator.destinationPath()
-                            }),
-                        randomDescription);
+                            strictEqual(
+                                await question.default(
+                                    {
+                                        ...generator.Settings,
+                                        [TSProjectSettingKey.Destination]: generator.destinationPath()
+                                    }),
+                                randomDescription);
+                        });
                 });
         });
 }

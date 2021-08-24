@@ -1,5 +1,5 @@
 import { deepStrictEqual } from "assert";
-import { FileMappingTester, ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
@@ -9,17 +9,15 @@ import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `WorkspaceFolderLoader` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link WorkspaceFolderLoader `WorkspaceFolderLoader<TSettings, TOptions>`} class.
  */
-export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceFolderLoaderTests(): void
 {
     suite(
-        "WorkspaceFolderLoader",
+        nameof(WorkspaceFolderLoader),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let moduleRoot: string;
             let destinationRoot: string;
@@ -57,7 +55,7 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                     randomTasks = context.RandomObject;
 
                     let component = new TestCodeWorkspaceComponent(generator);
-                    let workspace = await component.Source.WorkspaceMetadata;
+                    let workspace = await component.Source.GetWorkspaceMetadata();
                     workspace.extensions = randomExtensions;
                     workspace.launch = randomLaunchSettings;
                     workspace.settings = randomSettings;
@@ -69,17 +67,22 @@ export function WorkspaceFolderLoaderTests(context: TestContext<TestGenerator, I
                     }
                 });
 
-            test(
-                "Checking whether files are read correctly…",
-                async function()
+            suite(
+                nameof<WorkspaceFolderLoader<any, any>>((loader) => loader.GetWorkspaceMetadata),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
-                    deepStrictEqual(await folderLoader.ExtensionsMetadata, randomExtensions);
-                    deepStrictEqual(await folderLoader.LaunchMetadata, randomLaunchSettings);
-                    deepStrictEqual(await folderLoader.SettingsMetadata, randomSettings);
-                    deepStrictEqual(await folderLoader.TasksMetadata, randomTasks);
+                    test(
+                        "Checking whether files are read correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            let folderLoader = new WorkspaceFolderLoader(new TestCodeWorkspaceComponent(generator));
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).extensions, randomExtensions);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).launch, randomLaunchSettings);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).settings, randomSettings);
+                            deepStrictEqual((await folderLoader.GetWorkspaceMetadata()).tasks, randomTasks);
+                        });
                 });
         });
 }

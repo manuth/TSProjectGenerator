@@ -1,21 +1,55 @@
-import { Component, CompositeConstructor, FileMapping, Generator, GeneratorConstructor, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator } from "@manuth/extended-yo-generator";
-import { TSProjectGenerator } from "@manuth/generator-ts-project";
+import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IGenerator } from "@manuth/extended-yo-generator";
+import { JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
+import { parse } from "comment-json";
+// eslint-disable-next-line node/no-unpublished-import
+import type { TSConfigJSON } from "types-tsconfig";
 import { join } from "upath";
 import { DependabotFileMapping } from "./DependabotFileMapping";
 import { DroneFileMapping } from "./DroneFileMapping";
 import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
 import { MyGeneratorComponent } from "./MyGeneratorComponent";
+import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
 
 /**
  * Provides the functionality to create base-constructors.
  */
-export abstract class MyTSProjectGenerator
+export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenerator<any, any>>> extends BaseGeneratorFactory<T>
 {
     /**
-     * Initializes a new instance of the `MyTSProjectGenerator` class.
+     * Initializes a new instance of the {@link MyTSProjectGenerator `MyTSProjectGenerator`} class.
      */
-    private constructor()
-    { }
+    protected constructor()
+    {
+        super();
+    }
+
+    /**
+     * Gets the default instance of the {@link MyTSProjectGenerator `MyTSProjectGenerator<T>`} class.
+     */
+    protected static override get Default(): MyTSProjectGenerator<any>
+    {
+        return new MyTSProjectGenerator();
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @template TBase
+     * The type of the constructor of the base generator.
+     *
+     * @param base
+     * The constructor the generated constructor should be based on.
+     *
+     * @param namespaceOrPath
+     * The namespace or path to the generator with the specified {@link base `base`}-constructor.
+     *
+     * @returns
+     * The generated constructor.
+     */
+    public static override Create<TBase extends GeneratorConstructor>(base: TBase, namespaceOrPath?: string): GeneratorExtensionConstructor<TBase>
+    {
+        return this.Default.Create(base, namespaceOrPath);
+    }
 
     /**
      * Creates a new base-constructor.
@@ -24,71 +58,68 @@ export abstract class MyTSProjectGenerator
      * The constructor the generated constructor should be based on.
      *
      * @param namespaceOrPath
-     * The namespace or path to the generator with the specified `base`-constructor.
+     * The namespace or path to the generator with the specified {@link base `base`}-constructor.
      *
      * @returns
      * The generated constructor.
      */
-    public static Create<T extends GeneratorConstructor<TSProjectGenerator>>(base: T, namespaceOrPath?: string): CompositeConstructor<T>
+    public override Create(base: T, namespaceOrPath?: string): GeneratorExtensionConstructor<T>
     {
-        let baseClass = Generator.ComposeWith(base, namespaceOrPath);
+        let baseClass = super.Create(base, namespaceOrPath);
+        let self = this;
 
         /**
-         * Represents a base-generator iheriting the specified base.
+         * Represents a base-generator inheriting the specified base.
          */
         class BaseGenerator extends baseClass
         {
             /**
-             * Initializes a new instance of the `BaseGenerator` class.
+             * Initializes a new instance of the {@link BaseGenerator `BaseGenerator`} class.
              *
-             * @param params
-             * The arguments of the constructor.
+             * @param args
+             * The arguments for creating the base generator.
+             *
+             * @param options
+             * A set of options for the generator.
              */
-            public constructor(...params: any[])
+            public constructor(args: string | string[], options: GeneratorOptions)
             {
-                super(...params);
+                super(args, options);
             }
 
             /**
              * @inheritdoc
              */
-            public override get BaseComponents(): IComponentCollection<any, any>
+            protected override get BaseComponents(): ComponentCollection<any, any>
             {
                 let components = super.BaseComponents;
 
-                return {
-                    Question: components.Question,
-                    Categories: components.Categories.map(
-                        (category): IComponentCategory<any, any> =>
-                        {
-                            return {
-                                DisplayName: category.DisplayName,
-                                Components: category.Components.map(
-                                    (componentOptions): IComponent<any, any> =>
-                                    {
-                                        return {
-                                            ID: componentOptions.ID,
-                                            DisplayName: componentOptions.DisplayName,
-                                            DefaultEnabled: componentOptions.DefaultEnabled,
-                                            Questions: componentOptions.Questions,
-                                            FileMappings: (component, generator) =>
-                                            {
-                                                let fileMappings = new Component(generator, componentOptions).FileMappings;
-                                                return MyTSProjectGenerator.ProcessFileMappings(this.Base, fileMappings);
-                                            }
-                                        };
-                                    })
-                            };
-                        })
-                };
+                components.Categories.Replace(
+                    () => true,
+                    (item) =>
+                    {
+                        item.Components.Replace(
+                            () => true,
+                            (item) =>
+                            {
+                                self.ProcessFileMappings(this, item.FileMappings);
+                                return item;
+                            });
+
+                        return item;
+                    });
+
+                return components;
             }
 
             /**
              * @inheritdoc
              */
-            public override get BaseFileMappings(): Array<IFileMapping<any, any>>
+            protected override get BaseFileMappings(): FileMappingCollectionEditor
             {
-                return MyTSProjectGenerator.ProcessFileMappings(this.Base, super.BaseFileMappings);
+                let result = super.BaseFileMappings;
+                self.ProcessFileMappings(this, result);
+                return result;
             }
 
             /**
@@ -97,6 +128,9 @@ export abstract class MyTSProjectGenerator
             public override get Components(): IComponentCollection<any, any>
             {
                 let components = super.Components;
+                let workflowDirName = join(".github", "workflows");
+                let mergeWorkflowFileName = join(workflowDirName, "auto-merge.yml");
+                let codeAnalysisWorkflowFileName = join(workflowDirName, "codeql-analysis.yml");
 
                 for (let category of components.Categories)
                 {
@@ -132,8 +166,8 @@ export abstract class MyTSProjectGenerator
                                 DefaultEnabled: true,
                                 FileMappings: [
                                     {
-                                        Source: this.commonTemplatePath(".github", "workflows", "auto-merge.yml"),
-                                        Destination: join(".github", "workflows", "auto-merge.yml")
+                                        Source: this.commonTemplatePath(mergeWorkflowFileName),
+                                        Destination: join(mergeWorkflowFileName)
                                     }
                                 ]
                             },
@@ -143,8 +177,8 @@ export abstract class MyTSProjectGenerator
                                 DefaultEnabled: true,
                                 FileMappings: [
                                     {
-                                        Source: this.commonTemplatePath(".github", "workflows", "codeql-analysis.yml"),
-                                        Destination: join(".github", "workflows", "codeql-analysis.yml")
+                                        Source: this.commonTemplatePath(codeAnalysisWorkflowFileName),
+                                        Destination: join(codeAnalysisWorkflowFileName)
                                     }
                                 ]
                             }
@@ -170,7 +204,7 @@ export abstract class MyTSProjectGenerator
      * Processes the file-mappings.
      *
      * @param generator
-     * The generator of the file-mappings.
+     * The generator to process the file-mappings for.
      *
      * @param fileMappings
      * The file-mappings to process.
@@ -178,19 +212,32 @@ export abstract class MyTSProjectGenerator
      * @returns
      * The processed file-mappings.
      */
-    protected static ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: Array<IFileMapping<any, any>>): Array<IFileMapping<any, any>>
+    protected ProcessFileMappings(generator: IGenerator<any, any>, fileMappings: FileMappingCollectionEditor): void
     {
-        for (let i = 0; i < fileMappings.length; i++)
-        {
-            let fileMappingOptions = fileMappings[i];
-            let fileMapping = new FileMapping(generator, fileMappingOptions);
+        fileMappings.ReplaceObject(
+            (fileMapping: FileMapping<any, any>) => fileMapping.Destination.endsWith(".md"),
+            (fileMapping) => new MarkdownFileProcessor(generator, fileMapping.Result));
 
-            if (fileMapping.Destination.endsWith(".md"))
+        fileMappings.ReplaceObject(
+            TSProjectPackageFileMapping,
+            (fileMapping) => new MyTSProjectPackageFileMapping(generator, fileMapping.Object as TSProjectPackageFileMapping<any, any>));
+
+        fileMappings.ReplaceObject(
+            (fileMapping: FileMapping<any, any>) => fileMapping.Destination === generator.destinationPath(TSConfigFileMapping.GetFileName("base")),
+            (fileMapping) =>
             {
-                fileMappings[i] = new MarkdownFileProcessor(generator, fileMapping);
-            }
-        }
-
-        return fileMappings;
+                return {
+                    Source: fileMapping.Source,
+                    Destination: fileMapping.Destination,
+                    Processor: async (target, generator) =>
+                    {
+                        let originalConfig: TSConfigJSON = parse(generator.fs.read(target.Source));
+                        await fileMapping.Processor();
+                        let tsConfig: TSConfigJSON = parse(generator.fs.read(target.Destination));
+                        tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
+                        return new JSONCCreatorMapping(generator, target.Destination, tsConfig).Processor();
+                    }
+                };
+            });
     }
 }

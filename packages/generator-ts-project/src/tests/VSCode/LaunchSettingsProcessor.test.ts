@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
@@ -8,17 +8,15 @@ import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `LaunchSettingsProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class.
  */
-export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function LaunchSettingsProcessorTests(): void
 {
     suite(
-        "LaunchSettingsProcessor",
+        nameof(LaunchSettingsProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let launchSettings: ILaunchSettings;
             let includedDebugConfig: DebugConfiguration;
             let excludedDebugConfig: DebugConfiguration;
@@ -27,7 +25,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
             let processor: LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `LaunchSettingsProcessor`class for testing.
+             * Provides an implementation of the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestLaunchSettingsProcessor extends LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
@@ -40,7 +38,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * A value indicating whether the debug-configuration should be included.
                  */
-                protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
+                public override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
                 {
                     return debugConfig !== excludedDebugConfig;
                 }
@@ -54,7 +52,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                  * @returns
                  * The processed debug-configuration.
                  */
-                protected override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
+                public override async ProcessDebugConfig(debugConfig: DebugConfiguration): Promise<DebugConfiguration>
                 {
                     if (debugConfig === mutatedDebugConfig)
                     {
@@ -106,7 +104,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "Process",
+                nameof<LaunchSettingsProcessor<any, any>>((processor) => processor.Process),
                 () =>
                 {
                     test(
@@ -120,7 +118,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "FilterDebugConfig",
+                nameof<TestLaunchSettingsProcessor>((processor) => processor.FilterDebugConfig),
                 () =>
                 {
                     test(
@@ -133,7 +131,7 @@ export function LaunchSettingsProcessorTests(context: TestContext<TestGenerator,
                 });
 
             suite(
-                "ProcessDebugConfig",
+                nameof<TestLaunchSettingsProcessor>((processor) => processor.ProcessDebugConfig),
                 () =>
                 {
                     test(

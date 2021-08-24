@@ -1,22 +1,20 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `VSCodeJSONProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link VSCodeJSONProcessor `VSCodeJSONProcessor<TSettings, TOptions, TData>`} class.
  */
-export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function VSCodeJSONProcessorTests(): void
 {
     suite(
-        "VSCodeJSONProcessor",
+        nameof(VSCodeJSONProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
             let processor: VSCodeJSONProcessor<ITestGeneratorSettings, GeneratorOptions, any>;
 
@@ -29,13 +27,29 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                 });
 
             suite(
-                "StripWorkspaceFolder",
+                nameof<VSCodeJSONProcessor<any, any, any>>((processor) => processor.GetWorkspaceFolderDirective),
+                () =>
+                {
+                    test(
+                        "Checking whether workspace-folder directives are created correctly…",
+                        () =>
+                        {
+                            strictEqual(processor.GetWorkspaceFolderDirective(), "${workspaceFolder}");
+                            strictEqual(processor.GetWorkspaceFolderDirective("Test"), "${workspaceFolder:Test}");
+                        });
+                });
+
+            suite(
+                nameof<VSCodeJSONProcessor<any, any, any>>((processor) => processor.StripWorkspaceFolder),
                 () =>
                 {
                     test(
                         "Checking whether a single named workspace is stripped…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);
@@ -43,20 +57,23 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
 
                     test(
                         "Checking whether multiple named workspaces are stripped…",
-                        () =>
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             /**
-                             * Processes the specified `text`.
+                             * Processes the specified {@link text `text`}.
                              *
                              * @param text
                              * The text to process.
                              *
                              * @returns
-                             * A string containing the specified `text` at least two times.
+                             * A string containing the specified {@link text `text`} at least two times.
                              */
                             function StringProcessor(text: string): string
                             {
-                                return `--filemapping=${text}:${text}`;
+                                return `--fileMapping=${text}:${text}`;
                             }
 
                             strictEqual(
@@ -65,9 +82,12 @@ export function VSCodeJSONProcessorTests(context: TestContext<TestGenerator, ITe
                         });
 
                     test(
-                        "Checking whether normal workspace-directives are left ountouched…",
-                        () =>
+                        "Checking whether normal workspace-directives are left untouched…",
+                        function()
                         {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
                             strictEqual(
                                 processor.StripWorkspaceFolder(context.NamedWorkspaceFolderDirective),
                                 context.WorkspaceFolderDirective);

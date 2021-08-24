@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { TaskDefinition } from "vscode";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -8,17 +8,15 @@ import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `TasksProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class.
  */
-export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function TasksProcessorTests(): void
 {
     suite(
-        "TasksProcessor",
+        nameof(TasksProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let includedTask: TaskDefinition;
             let excludedTask: TaskDefinition;
             let mutatedTask: TaskDefinition;
@@ -27,7 +25,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
             let processor: TasksProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `TasksProcessor` class for testing.
+             * Provides an implementation of the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestTasksProcessor extends TasksProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
@@ -40,7 +38,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * A value indicating whether the task should be included.
                  */
-                protected override async FilterTask(task: TaskDefinition): Promise<boolean>
+                public override async FilterTask(task: TaskDefinition): Promise<boolean>
                 {
                     return task !== excludedTask;
                 }
@@ -54,7 +52,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                  * @returns
                  * The processed task.
                  */
-                protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
+                public override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
                 {
                     if (task === mutatedTask)
                     {
@@ -104,7 +102,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "Process",
+                nameof<TasksProcessor<any, any>>((processor) => processor.Process),
                 () =>
                 {
                     test(
@@ -118,7 +116,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "FilterTask",
+                nameof<TestTasksProcessor>((processor) => processor.FilterTask),
                 () =>
                 {
                     test(
@@ -132,7 +130,7 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                 });
 
             suite(
-                "ProcessTask",
+                nameof<TestTasksProcessor>((processor) => processor.ProcessTask),
                 () =>
                 {
                     test(
@@ -140,18 +138,18 @@ export function TasksProcessorTests(context: TestContext<TestGenerator, ITestGen
                         async () =>
                         {
                             /**
-                             * Checks whether the specified `taskMeta` contains the predefined mutation.
+                             * Checks whether the specified {@link taskMeta `taskMetadata`} contains the predefined mutation.
                              *
-                             * @param taskMeta
+                             * @param taskMetadata
                              * The task-metadata.
                              *
                              * @param expected
                              * A value indicating whether a mutation is expected to exist.
                              */
-                            function AssertMutation(taskMeta: ITaskSettings, expected = true): void
+                            function AssertMutation(taskMetadata: ITaskSettings, expected = true): void
                             {
                                 strictEqual(
-                                    taskMeta.tasks.some(
+                                    taskMetadata.tasks.some(
                                         (task) => task.type === newType), expected);
                             }
 

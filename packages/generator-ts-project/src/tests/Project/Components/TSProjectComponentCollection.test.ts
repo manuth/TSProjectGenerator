@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectComponentCollection` class.
+ * Registers tests for the {@link TSProjectComponentCollection `TSProjectComponentCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectComponentCollectionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectComponentCollection",
+        nameof(TSProjectComponentCollection),
         () =>
         {
             let collection: TSProjectComponentCollection<ITSProjectSettings, GeneratorOptions>;
@@ -27,14 +27,19 @@ export function TSProjectComponentCollectionTests(context: TestContext<TSProject
                     collection = new TSProjectComponentCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all categories for `TSProject`s are present…",
+            suite(
+                nameof<TSProjectComponentCollection<any, any>>((collection) => collection.Categories),
                 () =>
                 {
-                    for (let categoryType of [TSProjectGeneralCategory])
-                    {
-                        ok(collection.Categories.some((category) => category instanceof categoryType));
-                    }
+                    test(
+                        `Checking whether all categories for the \`${nameof(TSProjectGenerator)}\` are present…`,
+                        () =>
+                        {
+                            for (let categoryType of [TSProjectGeneralCategory])
+                            {
+                                ok(collection.Categories.some((category) => category instanceof categoryType));
+                            }
+                        });
                 });
         });
 }

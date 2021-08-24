@@ -1,25 +1,21 @@
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../TestContext";
-import { FileMappingBaseTests } from "./FileMappingBase.test";
-import { JSONCreatorMappingTests } from "./JSONCreatorMapping.test";
+import { basename } from "path";
+import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test";
+import { InquiryTests } from "./Inquiry";
 import { TransformationTests } from "./Transformation";
-import { YAMLCreatorMappingTests } from "./YAMLCreatorMapping.test";
+import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test";
 
 /**
- * Registers tests for `Components`.
- *
- * @param context
- * The test-context.
+ * Registers tests for components.
  */
-export function ComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function ComponentTests(): void
 {
     suite(
-        "Components",
+        basename(__dirname),
         () =>
         {
-            FileMappingBaseTests(context);
-            TransformationTests(context);
-            JSONCreatorMappingTests(context);
-            YAMLCreatorMappingTests(context);
+            InquiryTests();
+            TransformationTests();
+            DumpCreatorFileMappingTests();
+            TypeScriptCreatorMappingTests();
         });
 }

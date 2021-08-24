@@ -1,18 +1,43 @@
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSProjectSettingKey, YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { Document } from "yaml";
 
 /**
  * Provides the functionality to create a `drone.yml` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends YAMLTransformMapping<TSettings, TOptions>
 {
+    /**
+     * Initializes a new instance of the {@link DroneFileMapping `DroneFileMapping<TSettings, TOptions>`} class.
+     *
+     * @param generator
+     * The generator of the file-mapping.
+     */
+    public constructor(generator: IGenerator<TSettings, TOptions>)
+    {
+        super(generator);
+    }
+
+    /**
+     * Gets the base name of the file.
+     */
+    public get BaseName(): string
+    {
+        return ".drone.yml";
+    }
+
     /**
      * @inheritdoc
      */
     public get Source(): string
     {
-        return this.Generator.modulePath(".drone.yml");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -20,7 +45,7 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
      */
     public get Destination(): string
     {
-        return ".drone.yml";
+        return this.BaseName;
     }
 
     /**

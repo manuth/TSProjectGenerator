@@ -4,27 +4,27 @@
 export enum TSProjectSettingKey
 {
     /**
-     * Indicates the `Destination` setting.
+     * Indicates the {@link Destination `Destination`} setting.
      */
     Destination = "destination",
 
     /**
-     * Indicates the `DisplayName` setting.
+     * Indicates the {@link DisplayName `DisplayName`} setting.
      */
     DisplayName = "displayName",
 
     /**
-     * Indicates the `Name` setting.
+     * Indicates the {@link Name `Name`} setting.
      */
     Name = "name",
 
     /**
-     * Indicates the `Description` setting.
+     * Indicates the {@link Description `Description`} setting.
      */
     Description = "description",
 
     /**
-     * Indicates the `LintRuleset`-setting.
+     * Indicates the {@link LintRuleset `LintRuleset`}-setting.
      */
     LintRuleset = "lintRuleset"
 }

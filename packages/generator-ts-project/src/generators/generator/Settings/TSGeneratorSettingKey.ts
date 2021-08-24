@@ -1,10 +1,10 @@
 /**
- * Specifies the key of an app-setting.
+ * Specifies the key of a generator-setting.
  */
 export enum TSGeneratorSettingKey
 {
     /**
-     * Indicates the `SubGenerators`-setting.
+     * Indicates the {@link SubGenerators `SubGenerators`}-setting.
      */
     SubGenerators = "subGenerators"
 }

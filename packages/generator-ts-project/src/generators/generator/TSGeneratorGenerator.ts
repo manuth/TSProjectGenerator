@@ -1,16 +1,20 @@
-import Path = require("path");
 import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
-import chalk = require("chalk");
+import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import { ensureDir } from "fs-extra";
+import { join } from "upath";
 import yosay = require("yosay");
 import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
+import { GeneratorName } from "../../Core/GeneratorName";
 import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection";
 import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
+import { GeneratorMainSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorMainSuiteFileMapping";
+import { GeneratorSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorSuiteFileMapping";
+import { NamingContext } from "./FileMappings/TypeScript/NamingContext";
 import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
 import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
@@ -19,11 +23,17 @@ import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends TSProjectGenerator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorGenerator` class.
+     * Initializes a new instance of the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -38,11 +48,19 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     }
 
     /**
+     * Gets the name of the `GettingStarted`-file.
+     */
+    protected get GettingStartedFileName(): string
+    {
+        return "GettingStarted.md";
+    }
+
+    /**
      * @inheritdoc
      */
     public override get TemplateRoot(): string
     {
-        return "generator";
+        return GeneratorName.Generator;
     }
 
     /**
@@ -67,6 +85,12 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
     public override get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let result: Array<IFileMapping<TSettings, TOptions>> = [];
+        let readmeFileName = "README.md";
+
+        let namingContext = new NamingContext(
+            GeneratorName.Main,
+            this.Settings[TSProjectSettingKey.DisplayName],
+            this.SourceRoot);
 
         for (let fileMapping of super.FileMappings)
         {
@@ -84,7 +108,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
             ...result,
             {
                 Source: "GettingStarted.md.ejs",
-                Destination: "GettingStarted.md",
+                Destination: this.GettingStartedFileName,
                 Context: () =>
                 {
                     return {
@@ -100,15 +124,15 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
 
                                 return {
                                     Name: name,
-                                    Path: Path.join(this.SourceRoot, "generators", name)
+                                    Path: join(this.SourceRoot, "generators", name)
                                 };
                             })
                     };
                 }
             },
             {
-                Source: "README.md.ejs",
-                Destination: "README.md",
+                Source: `${readmeFileName}.ejs`,
+                Destination: readmeFileName,
                 Context: () =>
                 {
                     return {
@@ -118,40 +142,10 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                     };
                 }
             },
+            new GeneratorMainSuiteFileMapping<TSettings, TOptions>(this, namingContext),
+            new GeneratorSuiteFileMapping<TSettings, TOptions>(this, namingContext),
             {
-                Source: Path.join("tests", "main.test.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "main.test.ts"),
-                Context: () =>
-                {
-                    return {
-                        Name: this.Settings[TSProjectSettingKey.DisplayName]
-                    };
-                }
-            },
-            {
-                Source: Path.join("tests", "Generators", "index.ts.ejs"),
-                Destination: Path.join(this.SourceRoot, "tests", "Generators", "index.ts"),
-                Context: () =>
-                {
-                    let names: string[] = [];
-
-                    if (this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample))
-                    {
-                        names.push(this.Settings[TSProjectSettingKey.DisplayName]);
-                    }
-
-                    for (let subGenerator of this.Settings[TSGeneratorSettingKey.SubGenerators] ?? [])
-                    {
-                        names.push(subGenerator[SubGeneratorSettingKey.DisplayName]);
-                    }
-
-                    return {
-                        Names: names
-                    };
-                }
-            },
-            {
-                Destination: Path.join(this.SourceRoot, "generators"),
+                Destination: join(this.SourceRoot, "generators"),
                 Processor: (target) =>
                 {
                     return ensureDir(target.Destination);
@@ -172,7 +166,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
      */
     public override async prompting(): Promise<void>
     {
-        this.log(yosay(`Welcome to the ${chalk.whiteBright.bold("TypeScript Generator")} generator!`));
+        this.log(yosay(`Welcome to the ${whiteBright.bold("TypeScript Generator")} generator!`));
         return super.prompting();
     }
 
@@ -212,7 +206,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
         this.log(
             dedent(
                 `
-                    Open "GettingStarted.md" in order to learn more about how to create your very own generator.
+                    Open "${this.GettingStartedFileName}" in order to learn more about how to create your very own generator.
                     Thanks for using TSGeneratorGenerator!`));
     }
 }

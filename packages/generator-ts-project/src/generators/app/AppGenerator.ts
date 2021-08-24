@@ -1,5 +1,6 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { join } from "upath";
+import { GeneratorName } from "../../Core/GeneratorName";
 import { IProjectType } from "./IProjectType";
 import { ProjectType } from "./ProjectType";
 import { ProjectTypeSelector } from "./ProjectTypeSelector";
@@ -10,7 +11,7 @@ import { ProjectTypeSelector } from "./ProjectTypeSelector";
 export class AppGenerator extends ProjectTypeSelector<ProjectType>
 {
     /**
-     * Initializes a new instance of the `AppGenerator` class.
+     * Initializes a new instance of the {@link AppGenerator `AppGenerator`} class.
      *
      * @param args
      * A set of arguments for the generator.
@@ -34,14 +35,14 @@ export class AppGenerator extends ProjectTypeSelector<ProjectType>
                     ProjectType.Module,
                     {
                         DisplayName: "NPM-Module",
-                        Path: join(__dirname, "..", "module")
+                        Path: join(__dirname, "..", GeneratorName.Module)
                     }
                 ],
                 [
                     ProjectType.Generator,
                     {
                         DisplayName: "Yeoman-Generator",
-                        Path: join(__dirname, "..", "generator")
+                        Path: join(__dirname, "..", GeneratorName.Generator)
                     }
                 ]
             ]);
@@ -58,8 +59,8 @@ export class AppGenerator extends ProjectTypeSelector<ProjectType>
     /**
      * @inheritdoc
      */
-    public override async initializing(): Promise<void>
+    public override async projectTypeSelection(): Promise<void>
     {
-        return super.initializing();
+        return super.projectTypeSelection();
     }
 }

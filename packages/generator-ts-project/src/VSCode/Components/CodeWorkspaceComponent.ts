@@ -1,5 +1,4 @@
-import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ComponentBase } from "../../Components/ComponentBase";
+import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../Components/JSONProcessor";
 import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
@@ -14,11 +13,17 @@ import { WorkspaceProcessor } from "../WorkspaceProcessor";
 
 /**
  * Provides a component for creating a vscode-workspace.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentBase<TSettings, TOptions>
+export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ComponentOptions<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `CodeWorkspaceComponent<T>` class.
+     * Initializes a new instance of the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.
@@ -70,62 +75,57 @@ export class CodeWorkspaceComponent<TSettings extends IGeneratorSettings, TOptio
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the workspace.
      */
-    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    public async GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>
     {
-        return (
-            async () =>
-            {
-                return this.WorkspaceProcessor.Process(await this.Source.WorkspaceMetadata);
-            })();
+        return this.WorkspaceProcessor.Process(await this.Source.GetWorkspaceMetadata());
     }
 
     /**
      * Gets the meta-data of the extensions to write.
+     *
+     * @returns
+     * The meta-data of the extensions.
      */
-    public get ExtensionsMetadata(): Promise<IExtensionSettings>
+    public async GetExtensionsMetadata(): Promise<IExtensionSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).extensions;
-            })();
+        return (await this.GetWorkspaceMetadata()).extensions;
     }
 
     /**
      * Gets the meta-data of the debug-settings to write.
+     *
+     * @returns
+     * The meta-data of the debug-settings.
      */
-    public get LaunchMetadata(): Promise<ILaunchSettings>
+    public async GetLaunchMetadata(): Promise<ILaunchSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).launch;
-            })();
+        return (await this.GetWorkspaceMetadata()).launch;
     }
 
     /**
      * Gets the metadata of the settings to write.
+     *
+     * @returns
+     * The meta-data of the settings.
      */
-    public get SettingsMetadata(): Promise<Record<string, any>>
+    public async GetSettingsMetadata(): Promise<Record<string, any>>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).settings;
-            })();
+        return (await this.GetWorkspaceMetadata()).settings;
     }
 
     /**
      * Gets the metadata of the tasks to write.
+     *
+     * @returns
+     * The meta-data of the tasks.
      */
-    public get TasksMetadata(): Promise<ITaskSettings>
+    public async GetTasksMetadata(): Promise<ITaskSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).tasks;
-            })();
+        return (await this.GetWorkspaceMetadata()).tasks;
     }
 
     /**

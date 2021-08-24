@@ -1,31 +1,56 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver, Resolvable } from "@manuth/extended-yo-generator";
+import { Package } from "@manuth/package-json-editor";
 import { IScriptMapping } from "./IScriptMapping";
 import { ScriptProcessor } from "./ScriptProcessor";
 
 /**
  * Represents a script-mapping for copying npm-scripts.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions>
+export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends PropertyResolver<IScriptMapping<TSettings, TOptions>, ScriptMapping<TSettings, TOptions>, TSettings, TOptions> implements IScriptMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ScriptMapping` class.
+     * The package to load the script-source from.
+     */
+    private sourcePackage: Package;
+
+    /**
+     * Initializes a new instance of the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the script-mapping
      *
+     * @param sourcePackage
+     * The package to load the script-source from.
+     *
      * @param scriptInfo
      * A component which provides information about the script.
      */
-    public constructor(generator: IGenerator<TSettings, TOptions>, scriptInfo: string | IScriptMapping<TSettings, TOptions>)
+    public constructor(generator: IGenerator<TSettings, TOptions>, sourcePackage: Package, scriptInfo: string | IScriptMapping<TSettings, TOptions>)
     {
         super(
             generator,
             typeof scriptInfo === "string" ?
-            {
-                Source: scriptInfo,
-                Destination: scriptInfo
-            } :
-            scriptInfo);
+                {
+                    Source: scriptInfo,
+                    Destination: scriptInfo
+                } :
+                scriptInfo);
+
+        this.sourcePackage = sourcePackage;
+    }
+
+    /**
+     * Gets the package to load the script-source from.
+     */
+    public get SourcePackage(): Package
+    {
+        return this.sourcePackage;
     }
 
     /**
@@ -37,6 +62,14 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     }
 
     /**
+     * @inheritdoc
+     */
+    public set Source(value: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>)
+    {
+        this.Object.Source = value;
+    }
+
+    /**
      * Gets the name of the destination-script.
      */
     public get Destination(): string
@@ -45,27 +78,48 @@ export class ScriptMapping<TSettings extends IGeneratorSettings, TOptions extend
     }
 
     /**
+     * @inheritdoc
+     */
+    public set Destination(value: Resolvable<ScriptMapping<TSettings, TOptions>, TSettings, TOptions, string>)
+    {
+        this.Object.Destination = value;
+    }
+
+    /**
      * Gets a component for manipulating the script.
      */
-    protected get Processor(): ScriptProcessor<TSettings, TOptions>
+    public get Processor(): () => Promise<string>
     {
-        return async (script, target, generator) =>
+        return async () =>
         {
-            return this.Object.Processor?.(script, target, generator) ?? script;
+            let script;
+
+            if (this.Source)
+            {
+                script = this.SourcePackage.Scripts.Get(this.Source);
+            }
+            else
+            {
+                script = null;
+            }
+
+            return this.Object.Processor?.(script, this, this.Generator) ?? script;
         };
     }
 
     /**
-     * Manipulates the script accordingly.
-     *
-     * @param script
-     * The script to process.
-     *
-     * @returns
-     * The manipulated script.
+     * @inheritdoc
      */
-    public Process(script: string): Promise<string>
+    public set Processor(value: ScriptProcessor<TSettings, TOptions>)
     {
-        return this.Processor(script, this, this.Generator);
+        this.Object.Processor = value;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Result(): IScriptMapping<TSettings, TOptions>
+    {
+        return this;
     }
 }

@@ -1,16 +1,22 @@
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { join } from "upath";
-import { JSONCreatorMapping } from "../../Components/JSONCreatorMapping";
+import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
 
 /**
  * Provides the functionality to create file-mappings for a workspace-folder.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeFileMappingCreator<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `WorkspaceFolderCreator` class.
+     * Initializes a new instance of the {@link WorkspaceFolderCreator `WorkspaceFolderCreator<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the file-mapping creator.
@@ -66,16 +72,22 @@ export class WorkspaceFolderCreator<TSettings extends IGeneratorSettings, TOptio
     public get FileMappings(): Array<IFileMapping<TSettings, TOptions>>
     {
         let files: Array<[string, Promise<any>]> = [
-            [this.ExtensionsFileName, this.Component.ExtensionsMetadata],
-            [this.LaunchFileName, this.Component.LaunchMetadata],
-            [this.SettingsFileName, this.Component.SettingsMetadata],
-            [this.TasksFileName, this.Component.TasksMetadata]
+            [this.ExtensionsFileName, this.Component.GetExtensionsMetadata()],
+            [this.LaunchFileName, this.Component.GetLaunchMetadata()],
+            [this.SettingsFileName, this.Component.GetSettingsMetadata()],
+            [this.TasksFileName, this.Component.GetTasksMetadata()]
         ];
 
         return files.map(
-            (fileEntry) =>
+            (fileEntry): IFileMapping<TSettings, TOptions> =>
             {
-                return new JSONCreatorMapping(this.Generator, join(this.SettingsFolderName, fileEntry[0]), fileEntry[1]);
+                return {
+                    Destination: join(this.SettingsFolderName, fileEntry[0]),
+                    Processor: async (target) =>
+                    {
+                        return new JSONCCreatorMapping(this.Generator, target.Destination, await fileEntry[1]).Processor();
+                    }
+                };
             });
     }
 }

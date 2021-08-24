@@ -1,14 +1,22 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Project, SourceFile } from "ts-morph";
-import { TransformFileMapping } from "./TransformFileMapping";
+import { SourceFile } from "ts-morph";
+import { TextConverter } from "./Conversion/TextConverter";
+import { TypeScriptConverter } from "./Conversion/TypeScriptConverter";
+import { ParsedFileMapping } from "./ParsedFileMapping";
 
 /**
  * Provides the functionality to transform and copy typescript-files.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TransformFileMapping<TSettings, TOptions, SourceFile>
+export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ParsedFileMapping<TSettings, TOptions, SourceFile>
 {
     /**
-     * Initializes a new instance of the `TypeScriptTransformMapping` class.
+     * Initializes a new instance of the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -19,37 +27,10 @@ export abstract class TypeScriptTransformMapping<TSettings extends IGeneratorSet
     }
 
     /**
-     * Loads the meta-data from the `text`.
-     *
-     * @param text
-     * The text representing the meta-data.
-     *
-     * @returns
-     * An object loaded from the `text`.
+     * @inheritdoc
      */
-    protected async Parse(text: string): Promise<SourceFile>
+    public get Converter(): TextConverter<SourceFile>
     {
-        let project = new Project();
-
-        return project.createSourceFile(
-            this.Resolved.Source,
-            text,
-            {
-                overwrite: true
-            });
-    }
-
-    /**
-     * Dumps the `data` as a text representing the object.
-     *
-     * @param sourceFile
-     * The source-file to dump.
-     *
-     * @returns
-     * A text representing the `data`.
-     */
-    protected async Dump(sourceFile: SourceFile): Promise<string>
-    {
-        return sourceFile.getFullText();
+        return new TypeScriptConverter(this.Resolved.Destination);
     }
 }

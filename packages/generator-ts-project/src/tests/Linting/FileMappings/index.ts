@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { ESLintRCFileMappingTests } from "./ESLintRCFileMapping.test";
@@ -11,7 +12,7 @@ import { ESLintRCFileMappingTests } from "./ESLintRCFileMapping.test";
 export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "FileMappings",
+        basename(__dirname),
         () =>
         {
             ESLintRCFileMappingTests(context);

@@ -1,34 +1,80 @@
-import { deepStrictEqual, ok, strictEqual } from "assert";
-import { EOL } from "os";
+import { deepStrictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
-import dedent = require("dedent");
-import { split } from "eol";
 import { writeFile } from "fs-extra";
-import { Document, parse, parseAllDocuments, stringify } from "yaml";
+import { Document, stringify } from "yaml";
 import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTransformMapping";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `YAMLTransformMapping` class.
- *
- * @param context
- * The text-context.
+ * Registers tests for the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.
  */
-export function YAMLTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function YAMLTransformMappingTests(): void
 {
     suite(
-        "YAMLTransformMapping",
+        nameof(YAMLTransformMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let sourceFile: TempFile;
-            let destinationFile: TempFile;
-            let fileMappingOptions: YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let outputFile: TempFile;
+            let fileMappingOptions: TestYAMLTransformMapping;
+            let tester: YAMLFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestYAMLTransformMapping>;
             let sourceData: any;
             let randomData: any;
+
+            /**
+             * Provides an implementation of the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestYAMLTransformMapping extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return sourceFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return outputFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
+                {
+                    data.map(
+                        (document) =>
+                        {
+                            document.contents = randomData;
+                        });
+
+                    return data;
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -36,56 +82,9 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                     this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
-                    destinationFile = new TempFile();
-
-                    fileMappingOptions = new class extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return sourceFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return destinationFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        public override async Transform(data: Document.Parsed[]): Promise<Document.Parsed[]>
-                        {
-                            data.map(
-                                (document) =>
-                                {
-                                    document.contents = randomData;
-                                });
-
-                            return data;
-                        }
-                    }();
-
-                    tester = new FileMappingTester(generator, fileMappingOptions);
+                    outputFile = new TempFile();
+                    fileMappingOptions = new TestYAMLTransformMapping();
+                    tester = new YAMLFileMappingTester(generator, fileMappingOptions);
                 });
 
             setup(
@@ -97,73 +96,19 @@ export function YAMLTransformMappingTests(context: TestContext<TestGenerator, IT
                 });
 
             suite(
-                "General",
+                nameof<TestYAMLTransformMapping>((mapping) => mapping.Transform),
                 () =>
                 {
                     test(
-                        "Checking whether the content is parsed correctly…",
-                        async () =>
-                        {
-                            deepStrictEqual(
-                                parse((await fileMappingOptions.Metadata).map(
-                                    (document) =>
-                                    {
-                                        return document.toString();
-                                    }).join("---\n")),
-                                sourceData);
-                        });
-
-                    test(
-                        "Checking whether the content is transformed correctly…",
+                        "Checking whether the content can be transformed correctly…",
                         async () =>
                         {
                             await tester.Run();
-                            await tester.AssertContent(split(stringify(randomData)).join(EOL));
-                        });
-                });
 
-            suite(
-                "Multi-Document Handling",
-                () =>
-                {
-                    test(
-                        "Checking whether multi-document files are processed correctly…",
-                        async function()
-                        {
-                            this.timeout(1 * 1000);
-                            this.slow(0.5 * 1000);
-
-                            await writeFile(sourceFile.FullName,
-                                dedent(
-                                    `
-                                        ---
-                                        ---`));
-
-                            await tester.Run();
-                            let documents = parseAllDocuments(await tester.Content);
-                            strictEqual(documents.length, 2);
-
-                            for (let document of documents)
+                            for (let document of await tester.ParseOutput())
                             {
-                                deepStrictEqual(parse(document.toString()), randomData);
+                                deepStrictEqual(document.toJSON(), randomData);
                             }
-                        });
-
-                    test(
-                        "Checking whether leading `---` are skipped if not present in the source…",
-                        async () =>
-                        {
-                            await writeFile(sourceFile.FullName,
-                                dedent(
-                                    `
-                                        hello: world
-                                        ---
-                                        hello: world`));
-
-                            await tester.Run();
-                            let documents = parseAllDocuments(await tester.Content);
-                            strictEqual(documents.length, 2);
-                            ok(!(await tester.Content).startsWith("---"));
                         });
                 });
         });

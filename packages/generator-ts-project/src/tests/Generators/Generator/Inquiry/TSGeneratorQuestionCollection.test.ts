@@ -7,7 +7,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorQuestionCollection` class.
+ * Registers tests for the {@link TSGeneratorQuestionCollection `TSGeneratorQuestionCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The text-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorQuestionCollection",
+        nameof(TSGeneratorQuestionCollection),
         () =>
         {
             let collection: TSGeneratorQuestionCollection<ITSGeneratorSettings, GeneratorOptions>;
@@ -27,18 +27,23 @@ export function TSGeneratorQuestionCollectionTests(context: TestContext<TSGenera
                     collection = new TSGeneratorQuestionCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary questions are present…",
+            suite(
+                nameof<TSGeneratorQuestionCollection<any, any>>((collection) => collection.Questions),
                 () =>
                 {
-                    for (let questionType of [TSGeneratorModuleNameQuestion, TSGeneratorDescriptionQuestion])
-                    {
-                        collection.Questions.some(
-                            (question) =>
+                    test(
+                        "Checking whether all necessary questions are present…",
+                        () =>
+                        {
+                            for (let questionType of [TSGeneratorModuleNameQuestion, TSGeneratorDescriptionQuestion])
                             {
-                                return question instanceof questionType;
-                            });
-                    }
+                                collection.Questions.some(
+                                    (question) =>
+                                    {
+                                        return question instanceof questionType;
+                                    });
+                            }
+                        });
                 });
         });
 }

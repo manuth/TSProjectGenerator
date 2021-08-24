@@ -5,6 +5,12 @@ import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
 
 /**
  * Provides the functionality to load workspace-settings from a `.code-workspace` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class WorkspaceFileLoader<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends CodeWorkspaceProvider<TSettings, TOptions>
 {
@@ -14,7 +20,7 @@ export class WorkspaceFileLoader<TSettings extends IGeneratorSettings, TOptions 
     private workspaceFileName: string;
 
     /**
-     * Initializes a new instance of the `WorkspaceFolderLoader` class.
+     * Initializes a new instance of the {@link WorkspaceFileLoader `WorkspaceFileLoader<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the file-mapping creator.
@@ -38,13 +44,12 @@ export class WorkspaceFileLoader<TSettings extends IGeneratorSettings, TOptions 
 
     /**
      * @inheritdoc
+     *
+     * @returns
+     * The meta-data of the workspace.
      */
-    public get WorkspaceMetadata(): Promise<IWorkspaceMetadata>
+    public async GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>
     {
-        return (
-            async (): Promise<IWorkspaceMetadata> =>
-            {
-                return this.ReadJSON(this.WorkspaceFileName);
-            })();
+        return this.ReadJSON(this.WorkspaceFileName);
     }
 }

@@ -4,6 +4,12 @@ import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
 
 /**
  * Provides the functionality to process json objects related to vscode.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TData> extends JSONProcessor<TSettings, TOptions, TData>
 {
@@ -13,7 +19,7 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
     private component: CodeWorkspaceComponent<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `CodeFileProcessor` class.
+     * Initializes a new instance of the {@link VSCodeJSONProcessor `VSCodeJSONProcessor<TSettings, TOptions, TData>`} class.
      *
      * @param component
      * The component of the processor.
@@ -41,7 +47,21 @@ export class VSCodeJSONProcessor<TSettings extends IGeneratorSettings, TOptions 
     }
 
     /**
-     * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the given `value`.
+     * Creates a workspace-folder directive.
+     *
+     * @param name
+     * The name of the workspace-folder.
+     *
+     * @returns
+     * A normal workspace-folder directive or a named workspace-folder directive if a {@link name `name`} is passed.
+     */
+    public GetWorkspaceFolderDirective(name?: string): string
+    {
+        return `\${workspaceFolder${name ? `:${name}` : ""}}`;
+    }
+
+    /**
+     * Strips named workspace-folders (such as `${workspaceFolder:Example}`) from the specified {@link value `value`}.
      *
      * @param value
      * The value containing the workspace-folder references to strip.

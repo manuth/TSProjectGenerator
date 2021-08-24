@@ -1,13 +1,20 @@
-# Welcome to your TypeScript Generator
+<%
+// <!-- markdownlint-disable-file first-line-heading -->
+// <!-- markdownlint-disable blanks-around-headings -->
+// <!-- markdownlint-capture -->
+%># Welcome to your TypeScript Generator
 
 This workspace allows you to easilly create yeoman generators written in TypeScript.
 
 ## What's in the folder?
 <%
+// <!-- markdownlint-disable blanks-around-lists -->
     if (HasCodeWorkspace) { %>
 - `.vscode`  
   This folder contains settings and build-task configurations for VSCode.<%
-    } %>
+    }
+// <!-- markdownlint-restore -->
+%>
 - `src`  
   This is where you program your module in TypeScript.  
   The TypeScript-Compiler is configured to use this folder as the root of your source-code.
@@ -35,6 +42,7 @@ and let it export a class which inherits the `Generator` class
 which you can import from the `@manuth/extended-yo-generator` module.
 
 ***Example:***
+
 ```ts
 import { Generator } from "@manuth/extended-yo-generator";
 
@@ -45,21 +53,29 @@ export = class MyGenerator extends Generator
 ```
 
 You can invoke your newly created generator by specifying its name as a sub-command:
-
-```
+<%
+// <!-- markdownlint-disable blanks-around-fences -->
+%>
+```plaintext
 yo <%- ID %>:test
 ```
 <%
+// <!-- markdownlint-restore -->
     if (SubGenerators.length > 0) {
         if (SubGenerators.length > 1) {
             let generators = Array.from(SubGenerators).map(generator => `\`${generator.Path}\``);
             let last = generators.splice(generators.length - 1);
 %>
-There are example sub-generators located at <%- generators.join(", ") %> and <%- last %>, btw.
+There are example sub-generators located at
+<%- generators.join(", ") %> and
+<%- last %>, btw.
 <%
-        } else { %>
+        } else {
+// <!-- markdownlint-disable no-space-in-code -->
+%>
 There is an example sub-generator located at `<%- SubGenerators[0].Path %>`, btw.
 <%
+// <!-- markdownlint-restore -->
         }
     }
 
@@ -67,7 +83,8 @@ There is an example sub-generator located at `<%- SubGenerators[0].Path %>`, btw
 ### Checking out the Example Generator
 
 In your `src/generators/app` directory you can find an example generator.
-Check it out in order to learn how to make use of the `@manuth/extended-yo-generator` module.
+Check it out in order to learn how to make
+use of the `@manuth/extended-yo-generator` module.
 <%
     } else { %>
 ### Creating a Main Generator
@@ -84,7 +101,9 @@ The generator is created as explained in the
 
 Use the IntelliSense of your TypeScript-editor for getting
 more information about the different useful class members such as following:
-
+<%
+// <!-- markdownlint-disable blanks-around-lists -->
+%>
 - The `TemplateRoot`-member allows you to specify
   a path to the templates relative to the `templates/`-directory
 - The `Components`-member allows you to specify
@@ -94,6 +113,7 @@ more information about the different useful class members such as following:
 
 ### Testing the Generator
 <%
+// <!-- markdownlint-restore -->
     if (HasCodeWorkspace) { %>
 #### Using Visual Studio Code
 
@@ -134,17 +154,16 @@ npm run rebuild
 ```
 
 You can then run your generator by invoking<%
-    if (SubGenerators.length > 0) { %><%
+    if (SubGenerators.length > 0) {
 %> either one of these commands:
 
 ```bash
 npx yo <%- ID %><%
-%><%
         for (let subGenerator of SubGenerators) { %>
 npx yo <%- ID %>:<%- subGenerator.Name %><%
         } %>
 ```<%
-    } else { %><%
+    } else {
 %> following command:
 
 ```bash

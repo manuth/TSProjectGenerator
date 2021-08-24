@@ -1,25 +1,27 @@
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../../TestContext";
-import { JSONTransformMappingTests } from "./JSONTransformMapping.test";
-import { TransformFileMappingTests } from "./TransformFileMapping.test";
+import { basename } from "path";
+import { ConversionTests } from "./Conversion";
+import { DumpFileMappingTests } from "./DumpFileMapping.test";
+import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test";
+import { ParsedFileMappingTests } from "./ParsedFileMapping.test";
+import { TSConfigFileMappingTests } from "./TSConfigFileMapping.test";
 import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
 import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
 
 /**
  * Registers tests for the transformation-components.
- *
- * @param context
- * The test-context.
  */
-export function TransformationTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function TransformationTests(): void
 {
     suite(
-        "Transformation",
+        basename(__dirname),
         () =>
         {
-            TransformFileMappingTests(context);
-            JSONTransformMappingTests(context);
-            YAMLTransformMappingTests(context);
-            TypeScriptTransformMappingTests(context);
+            ConversionTests();
+            DumpFileMappingTests();
+            ParsedFileMappingTests();
+            JSONCTransformMappingTests();
+            YAMLTransformMappingTests();
+            TypeScriptTransformMappingTests();
+            TSConfigFileMappingTests();
         });
 }

@@ -1,12 +1,12 @@
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
 
 /**
  * Provides all dependencies which are required for building.
  */
-export class BuildDependencies extends PackageDependencyCollection
+export class BuildDependencies extends MyPackageDependencyCollection
 {
     /**
-     * Initializes a new instance of the `CommonDependencies` class.
+     * Initializes a new instance of the {@link BuildDependencies `BuildDependencies`} class.
      */
     public constructor()
     {

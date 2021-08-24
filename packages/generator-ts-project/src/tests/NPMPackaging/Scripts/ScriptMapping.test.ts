@@ -1,22 +1,22 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { Package } from "@manuth/package-json-editor";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
 import { TestScriptTransformer } from "./TestScriptTransformer";
 
 /**
- * Registers tests for the `ScriptMapping` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.
  */
-export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function ScriptMappingTests(): void
 {
     suite(
-        "ScriptMapping",
+        nameof(ScriptMapping),
         () =>
         {
+            let context = TestContext.Default;
+            let npmPackage: Package;
             let scriptMapping: ScriptMapping<ITestGeneratorSettings, GeneratorOptions>;
             let randomSource: string;
             let randomDestination: string;
@@ -26,58 +26,80 @@ export function ScriptMappingTests(context: TestContext<TestGenerator, ITestGene
                 async function()
                 {
                     this.timeout(30 * 1000);
+                    npmPackage = new Package();
                     randomSource = context.RandomString;
                     randomDestination = context.RandomString;
                     randomScript = context.RandomString;
 
+                    npmPackage.Scripts.Add(randomSource, randomScript);
+
                     scriptMapping = new ScriptMapping(
                         await context.Generator,
+                        npmPackage,
                         {
                             Source: randomSource,
                             Destination: randomDestination
                         });
                 });
 
-            test(
-                "Checking whether passing a string constructs a script-mapping for copying the specified script…",
-                async () =>
+            suite(
+                nameof(ScriptMapping.constructor),
+                () =>
                 {
-                    scriptMapping = new ScriptMapping(await context.Generator, randomSource);
-                    strictEqual(scriptMapping.Destination, scriptMapping.Source);
-                    strictEqual(scriptMapping.Source, randomSource);
-                });
-
-            test(
-                "Checking whether passing options constructs a proper script-mapping…",
-                async () =>
-                {
-                    strictEqual(scriptMapping.Source, randomSource);
-                    strictEqual(scriptMapping.Destination, randomDestination);
-                });
-
-            test(
-                "Checking whether sciprts are not being transformed by default…",
-                async () =>
-                {
-                    strictEqual(await scriptMapping.Process(randomScript), randomScript);
-                });
-
-            test(
-                "Checking whether custom transformers can be passed…",
-                async () =>
-                {
-                    let index = context.Random.integer(1, randomScript.length - 1);
-                    let transformer: TestScriptTransformer = (script: string): string => script.substring(index);
-
-                    scriptMapping = new ScriptMapping(
-                        await context.Generator,
+                    test(
+                        "Checking whether passing a string constructs a script-mapping for copying the specified script…",
+                        async () =>
                         {
-                            Source: randomSource,
-                            Destination: randomDestination,
-                            Processor: async (script) => transformer(script)
+                            scriptMapping = new ScriptMapping(await context.Generator, npmPackage, randomSource);
+                            strictEqual(scriptMapping.Destination, scriptMapping.Source);
+                            strictEqual(scriptMapping.Source, randomSource);
                         });
 
-                    strictEqual(await scriptMapping.Process(randomScript), transformer(randomScript));
+                    test(
+                        "Checking whether passing options constructs a proper script-mapping…",
+                        async () =>
+                        {
+                            strictEqual(scriptMapping.Source, randomSource);
+                            strictEqual(scriptMapping.Destination, randomDestination);
+                        });
+                });
+
+            suite(
+                nameof<ScriptMapping<any, any>>((scriptMapping) => scriptMapping.Processor),
+                () =>
+                {
+                    test(
+                        "Checking whether scripts are loaded from the source-package correctly…",
+                        async () =>
+                        {
+                            strictEqual(await scriptMapping.Processor(), randomScript);
+                        });
+
+                    test(
+                        "Checking whether scripts are not being transformed by default…",
+                        async () =>
+                        {
+                            strictEqual(await scriptMapping.Processor(), randomScript);
+                        });
+
+                    test(
+                        "Checking whether custom transformers can be passed…",
+                        async () =>
+                        {
+                            let index = context.Random.integer(1, randomScript.length - 1);
+                            let transformer: TestScriptTransformer = (script: string): string => script.substring(index);
+
+                            scriptMapping = new ScriptMapping(
+                                await context.Generator,
+                                npmPackage,
+                                {
+                                    Source: randomSource,
+                                    Destination: randomDestination,
+                                    Processor: async (script) => transformer(script)
+                                });
+
+                            strictEqual(await scriptMapping.Processor(), transformer(randomScript));
+                        });
                 });
         });
 }

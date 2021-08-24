@@ -1,19 +1,15 @@
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../../TestContext";
+import { basename } from "path";
 import { ScriptMappingTests } from "./ScriptMapping.test";
 
 /**
  * Registers tests for npm-packaging scripts.
- *
- * @param context
- * The test-context.
  */
-export function ScriptTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function ScriptTests(): void
 {
     suite(
-        "Scripts",
+        basename(__dirname),
         () =>
         {
-            ScriptMappingTests(context);
+            ScriptMappingTests();
         });
 }

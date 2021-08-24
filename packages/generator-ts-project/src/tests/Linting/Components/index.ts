@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { LintingComponentTests } from "./LintingComponent.test";
@@ -11,7 +12,7 @@ import { LintingComponentTests } from "./LintingComponent.test";
 export function ComponentTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "Components",
+        basename(__dirname),
         () =>
         {
             LintingComponentTests(context);

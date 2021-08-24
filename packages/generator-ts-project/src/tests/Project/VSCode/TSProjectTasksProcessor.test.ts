@@ -8,7 +8,7 @@ import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksP
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectTasksProcessor` class.
+ * Registers tests for the {@link TSProjectTasksProcessor `TSProjectTasksProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -16,9 +16,11 @@ import { TestContext } from "../../TestContext";
 export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectTasksProcessor",
+        nameof(TSProjectTasksProcessor),
         () =>
         {
+            let bumpVersionTaskName = "Bump Version";
+            let lintTaskName = "Lint";
             let component: TSProjectCodeWorkspaceFolder<ITSProjectSettings, GeneratorOptions>;
             let processor: TSProjectTasksProcessor<ITSProjectSettings, GeneratorOptions>;
 
@@ -31,7 +33,7 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                 });
 
             /**
-             * Processes the specified `task`.
+             * Processes the specified {@link task `task`}.
              *
              * @param task
              * The task to process.
@@ -50,239 +52,244 @@ export function TSProjectTasksProcessorTests(context: TestContext<TSProjectGener
                     })).tasks[0];
             }
 
-            test(
-                "Checking whether the `Bump Version` task is skipped…",
-                async () =>
+            suite(
+                nameof<TSProjectTasksProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    strictEqual(
-                        await ProcessTask(
-                            {
-                                type: "",
-                                label: "Bump Version"
-                            }),
-                            undefined);
-                });
+                    test(
+                        `Checking whether the \`${bumpVersionTaskName}\` task is skipped…`,
+                        async () =>
+                        {
+                            strictEqual(
+                                await ProcessTask(
+                                    {
+                                        type: "",
+                                        label: bumpVersionTaskName
+                                    }),
+                                undefined);
+                        });
 
-            test(
-                "Checking whether the problem-matcher of the `lint` task is correct…",
-                async () =>
-                {
-                    let tasks = await processor.Process(await component.Source.TasksMetadata);
+                    test(
+                        `Checking whether the problem-matcher of the \`${lintTaskName}\` task is correct…`,
+                        async () =>
+                        {
+                            let tasks = await processor.Process(await component.Source.GetTasksMetadata());
 
-                    let lintTask = tasks.tasks.find(
-                        (task) =>
-                            typeof task.label === "string" &&
-                            task.label.toLowerCase() === "lint");
+                            let lintTask = tasks.tasks.find(
+                                (task) =>
+                                    typeof task.label === "string" &&
+                                    task.label.toLowerCase() === lintTaskName.toLowerCase());
 
-                    ok(
-                        typeof lintTask.problemMatcher === "string" &&
-                        lintTask.problemMatcher.startsWith("$eslint"));
-                });
+                            ok(
+                                typeof lintTask.problemMatcher === "string" &&
+                                lintTask.problemMatcher.startsWith("$eslint"));
+                        });
 
-            test(
-                "Checking whether shell-scripts are converted to npm-scripts…",
-                async () =>
-                {
-                    deepStrictEqual(
-                        await ProcessTask(
-                            {
+                    test(
+                        "Checking whether shell-scripts are converted to npm-scripts…",
+                        async () =>
+                        {
+                            deepStrictEqual(
+                                await ProcessTask(
+                                    {
+                                        type: "shell",
+                                        command: "npm",
+                                        args: [
+                                            "run",
+                                            "lint"
+                                        ]
+                                    }),
+                                {
+                                    type: "npm",
+                                    script: "lint"
+                                });
+                        });
+
+                    test(
+                        "Checking whether shell-scripts with unspecified npm-script names aren't converted…",
+                        async () =>
+                        {
+                            let task = {
+                                type: "shell",
+                                command: "npm",
+                                args: [
+                                    "run"
+                                ]
+                            };
+
+                            deepStrictEqual(await ProcessTask(task), task);
+                        });
+
+                    test(
+                        "Checking whether arguments for the npm-scripts are preserved…",
+                        async () =>
+                        {
+                            let args = [
+                                "--target",
+                                "Release"
+                            ];
+
+                            deepStrictEqual(
+                                await ProcessTask(
+                                    {
+                                        type: "shell",
+                                        command: "npm",
+                                        args: [
+                                            "run",
+                                            "build",
+                                            ...args
+                                        ]
+                                    }),
+                                {
+                                    type: "npm",
+                                    script: "build",
+                                    args
+                                });
+                        });
+
+                    test(
+                        "Checking whether inexistent properties aren't added to the task…",
+                        async () =>
+                        {
+                            let task = {
                                 type: "shell",
                                 command: "npm",
                                 args: [
                                     "run",
-                                    "lint"
+                                    "build"
                                 ]
-                            }),
-                        {
-                            type: "npm",
-                            script: "lint"
+                            };
+
+                            ok(!("label" in await ProcessTask(task)));
                         });
-                });
 
-            test(
-                "Checking whether shell-scripts with unspecified npm-script names aren't converted…",
-                async () =>
-                {
-                    let task = {
-                        type: "shell",
-                        command: "npm",
-                        args: [
-                            "run"
-                        ]
-                    };
-
-                    deepStrictEqual(await ProcessTask(task), task);
-                });
-
-            test(
-                "Checking whether arguments for the npm-scripts are preserved…",
-                async () =>
-                {
-                    let args = [
-                        "--target",
-                        "Release"
-                    ];
-
-                    deepStrictEqual(
-                        await ProcessTask(
-                            {
-                                type: "shell",
-                                command: "npm",
-                                args: [
-                                    "run",
-                                    "build",
-                                    ...args
-                                ]
-                            }),
+                    test(
+                        "Checking whether named workspace-folder directives are stripped from `options.cwd`…",
+                        async () =>
                         {
-                            type: "npm",
-                            script: "build",
-                            args
+                            /**
+                             * Creates a new cwd-path.
+                             *
+                             * @param root
+                             * The root of the cwd.
+                             *
+                             * @returns
+                             * A new cwd-path.
+                             */
+                            let cwdCreator = (root: string): string => `${root}/src?`;
+
+                            strictEqual(
+                                (await ProcessTask(
+                                    {
+                                        type: "",
+                                        options: {
+                                            cwd: cwdCreator(context.NamedWorkspaceFolderDirective)
+                                        }
+                                    })).options.cwd,
+                                cwdCreator(context.WorkspaceFolderDirective));
                         });
-                });
 
-            test(
-                "Checking whether inexistent properties aren't added to the task…",
-                async () =>
-                {
-                    let task = {
-                        type: "shell",
-                        command: "npm",
-                        args: [
-                            "run",
-                            "build"
-                        ]
-                    };
+                    test(
+                        "Checking whether `cwd`s pointing to the workspace-folder are removed…",
+                        async () =>
+                        {
+                            ok(
+                                !("cwd" in (await ProcessTask(
+                                    {
+                                        type: "",
+                                        options: {
+                                            cwd: context.NamedWorkspaceFolderDirective,
+                                            test: {}
+                                        }
+                                    })).options));
+                        });
 
-                    ok(!("label" in await ProcessTask(task)));
-                });
+                    test(
+                        "Checking whether `options` are deleted if left empty…",
+                        async () =>
+                        {
+                            ok(
+                                !("options" in (await ProcessTask(
+                                    {
+                                        type: "",
+                                        options: {}
+                                    }))));
 
-            test(
-                "Checking whether named workspace-folder directives are stripped from `options.cwd`…",
-                async () =>
-                {
-                    /**
-                     * Creates a new cwd-path.
-                     *
-                     * @param root
-                     * The root of the cwd.
-                     *
-                     * @returns
-                     * A new cwd-path.
-                     */
-                    let cwdCreator = (root: string): string => `${root}/src?`;
+                            ok(
+                                !("options" in (await ProcessTask(
+                                    {
+                                        type: "",
+                                        options: {
+                                            cwd: context.NamedWorkspaceFolderDirective
+                                        }
+                                    }))));
+                        });
 
-                    strictEqual(
-                        (await ProcessTask(
-                            {
-                                type: "",
-                                options: {
-                                    cwd: cwdCreator(context.NamedWorkspaceFolderDirective)
-                                }
-                            })).options.cwd,
-                        cwdCreator(context.WorkspaceFolderDirective));
-                });
+                    test(
+                        "Checking whether unnecessary `fileLocation` options are deleted…",
+                        async () =>
+                        {
+                            ok(
+                                !("fileLocation" in (await ProcessTask(
+                                    {
+                                        type: "",
+                                        problemMatcher: {
+                                            test: "",
+                                            fileLocation: [
+                                                "relative",
+                                                context.NamedWorkspaceFolderDirective
+                                            ]
+                                        }
+                                    })).problemMatcher));
+                        });
 
-            test(
-                "Checking whether `cwd`s pointing to the workspace-folder are removed…",
-                async () =>
-                {
-                    ok(
-                        !("cwd" in (await ProcessTask(
-                            {
-                                type: "",
-                                options: {
-                                    cwd: context.NamedWorkspaceFolderDirective,
-                                    test: {}
-                                }
-                            })).options));
-                });
+                    test(
+                        "Checking whether problem-matchers only containing a `base` are processed correctly…",
+                        async () =>
+                        {
+                            let base = "$eslint-compact";
 
-            test(
-                "Checking whether `options` are deleted if left empty…",
-                async () =>
-                {
-                    ok(
-                        !("options" in (await ProcessTask(
-                            {
-                                type: "",
-                                options: {}
-                            }))));
+                            strictEqual(
+                                (await ProcessTask(
+                                    {
+                                        type: "",
+                                        problemMatcher: {
+                                            base
+                                        }
+                                    })).problemMatcher,
+                                base);
 
-                    ok(
-                        !("options" in (await ProcessTask(
-                            {
-                                type: "",
-                                options: {
-                                    cwd: context.NamedWorkspaceFolderDirective
-                                }
-                            }))));
-                });
+                            strictEqual(
+                                (await ProcessTask(
+                                    {
+                                        type: "",
+                                        problemMatcher: {
+                                            fileLocation: [
+                                                "relative",
+                                                context.NamedWorkspaceFolderDirective
+                                            ],
+                                            base
+                                        }
+                                    })).problemMatcher,
+                                base);
+                        });
 
-            test(
-                "Checking whether unnecessary `fileLocation` options are deleted…",
-                async () =>
-                {
-                    ok(
-                        !("fileLocation" in (await ProcessTask(
-                            {
-                                type: "",
-                                problemMatcher: {
-                                    test: "",
-                                    fileLocation: [
-                                        "relative",
-                                        context.NamedWorkspaceFolderDirective
-                                    ]
-                                }
-                            })).problemMatcher));
-                });
+                    test(
+                        "Checking whether unnecessary problemMatcher-arrays are simplified…",
+                        async () =>
+                        {
+                            let problemMatcher = "$eslint-compact";
 
-            test(
-                "Checking whether problem-matchers only containing a `base` are processed correctly…",
-                async () =>
-                {
-                    let base = "$eslint-compact";
-
-                    strictEqual(
-                        (await ProcessTask(
-                            {
-                                type: "",
-                                problemMatcher: {
-                                    base
-                                }
-                            })).problemMatcher,
-                        base);
-
-                    strictEqual(
-                        (await ProcessTask(
-                            {
-                                type: "",
-                                problemMatcher: {
-                                    fileLocation: [
-                                        "relative",
-                                        context.NamedWorkspaceFolderDirective
-                                    ],
-                                    base
-                                }
-                            })).problemMatcher,
-                        base);
-                });
-
-            test(
-                "Checking whether unnecessary problemMatcher-arrays are simplified…",
-                async () =>
-                {
-                    let problemMatcher = "$eslint-compact";
-
-                    strictEqual(
-                        (await ProcessTask(
-                            {
-                                type: "",
-                                problemMatcher: [
-                                    problemMatcher
-                                ]
-                            })).problemMatcher,
-                        problemMatcher);
+                            strictEqual(
+                                (await ProcessTask(
+                                    {
+                                        type: "",
+                                        problemMatcher: [
+                                            problemMatcher
+                                        ]
+                                    })).problemMatcher,
+                                problemMatcher);
+                        });
                 });
         });
 }

@@ -1,30 +1,47 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
+import { Package } from "@manuth/package-json-editor";
 import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
 import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { PackageFileMappingTester } from "../../../../NPMPackaging/FileMappings/PackageFileMappingTester";
 import { TestContext } from "../../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorPackageFileMapping` class.
+ * Registers tests for the {@link TSGeneratorPackageFileMapping `TSGeneratorPackageFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
  */
 export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGeneratorGenerator>): void
 {
-    let yeomanKeyword = "yeoman-generator";
-
     suite(
-        "TSGeneratorPackageFileMapping",
+        nameof(TSGeneratorPackageFileMapping),
         () =>
         {
+            let yeomanKeyword = "yeoman-generator";
             let fileMappingOptions: TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>;
             let tester: PackageFileMappingTester<TSGeneratorGenerator, ITSGeneratorSettings, GeneratorOptions, TSGeneratorPackageFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
+
+            /**
+             * Provides an implementation of the {@link TSGeneratorPackageFileMapping `TSGeneratorPackageFileMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestTSGeneratorPackageFileMapping extends TSGeneratorPackageFileMapping<any, any>
+            {
+                /**
+                 * @inheritdoc
+                 *
+                 * @returns
+                 * The loaded package.
+                 */
+                public override async LoadPackage(): Promise<Package>
+                {
+                    return super.LoadPackage();
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -41,122 +58,120 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                 });
 
             suite(
-                "Keywords",
-                () =>
-                {
-                    test(
-                        `Checking whether the \`${yeomanKeyword}\`-keyword is added if it doesn't exist…`,
-                        async function()
-                        {
-                            this.slow(1 * 1000);
-
-                            await tester.WritePackage(
-                                {
-                                    keywords: []
-                                });
-
-                            await tester.Run();
-                            ok((await tester.Package).Keywords.includes(yeomanKeyword));
-                        });
-
-                    test(
-                        `Checking whether the \`${yeomanKeyword}\`-keyword is not added if it already exists…`,
-                        async function()
-                        {
-                            this.slow(1 * 1000);
-
-                            await tester.WritePackage(
-                                {
-                                    keywords: [
-                                        yeomanKeyword
-                                    ]
-                                });
-
-                            await tester.Run();
-
-                            strictEqual(
-                                (await tester.Package).Keywords.filter(
-                                    (keyword) =>
-                                    {
-                                        return keyword === yeomanKeyword;
-                                    }).length,
-                                1);
-                        });
-                });
-
-            suite(
-                "Dependencies",
+                nameof<TestTSGeneratorPackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
                 {
                     suite(
-                        "TSGeneratorDependencies",
+                        nameof<Package>((pkg) => pkg.Keywords),
                         () =>
                         {
                             test(
-                                "Checking whether common dependencies for `TSGenerator`s are present…",
+                                `Checking whether the \`${yeomanKeyword}\`-keyword is added if it doesn't exist…`,
                                 async function()
                                 {
                                     this.slow(1 * 1000);
+
+                                    await tester.DumpOutput(
+                                        new Package(
+                                            {
+                                                keywords: []
+                                            }));
+
                                     await tester.Run();
-                                    tester.AssertDependencies(new TSGeneratorDependencies());
+                                    ok((await tester.ParseOutput()).Keywords.includes(yeomanKeyword));
+
+                                    await tester.DumpOutput(
+                                        new Package(
+                                            {
+                                                keywords: [yeomanKeyword]
+                                            }));
+
+                                    await tester.Run();
+
+                                    strictEqual(
+                                        (await tester.ParseOutput()).Keywords.filter(
+                                            (keyword) =>
+                                            {
+                                                return keyword === yeomanKeyword;
+                                            }).length,
+                                        1);
                                 });
                         });
 
                     suite(
-                        "TSGeneratorExampleDependencies",
+                        nameof<Package>((pkg) => pkg.Dependencies),
                         () =>
                         {
-                            test(
-                                "Checking whether the dependencies are present if a `GeneratorExample` is being created…",
-                                async function()
+                            suite(
+                                nameof(TSGeneratorDependencies),
+                                () =>
                                 {
-                                    this.slow(1 * 1000);
-
-                                    tester.Generator.Settings[GeneratorSettingKey.Components] = [
-                                        TSGeneratorComponent.GeneratorExample
-                                    ];
-
-                                    await tester.Run();
-                                    await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                    test(
+                                        `Checking whether common dependencies for \`${nameof(TSGeneratorGenerator)}\`s are present…`,
+                                        async function()
+                                        {
+                                            this.slow(1 * 1000);
+                                            await tester.Run();
+                                            tester.AssertDependencies(new TSGeneratorDependencies());
+                                        });
                                 });
 
-                            test(
-                                "Checking whether the dependencies are present if `SubGeneratorExample`s are being created…",
-                                async function()
+                            suite(
+                                nameof(TSGeneratorExampleDependencies),
+                                () =>
                                 {
-                                    this.slow(1 * 1000);
+                                    test(
+                                        `Checking whether the dependencies are present if a \`${nameof(TSGeneratorComponent.GeneratorExample)}\` is being created…`,
+                                        async function()
+                                        {
+                                            this.slow(1 * 1000);
 
-                                    tester.Generator.Settings[GeneratorSettingKey.Components] = [
-                                        TSGeneratorComponent.SubGeneratorExample
-                                    ];
+                                            tester.Generator.Settings[GeneratorSettingKey.Components] = [
+                                                TSGeneratorComponent.GeneratorExample
+                                            ];
 
-                                    await tester.Run();
-                                    await tester.AssertDependencies(new TSGeneratorExampleDependencies());
-                                });
+                                            await tester.Run();
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                        });
 
-                            test(
-                                "Checking whether the dependencies are present if both a `GeneratorExample` and `SubGeneratorExample`s are being created…",
-                                async function()
-                                {
-                                    this.slow(1 * 1000);
+                                    test(
+                                        `Checking whether the dependencies are present if \`${nameof(TSGeneratorComponent.SubGeneratorExample)}\`s are being created…`,
+                                        async function()
+                                        {
+                                            this.slow(1 * 1000);
 
-                                    tester.Generator.Settings[GeneratorSettingKey.Components] = [
-                                        TSGeneratorComponent.GeneratorExample,
-                                        TSGeneratorComponent.SubGeneratorExample
-                                    ];
+                                            tester.Generator.Settings[GeneratorSettingKey.Components] = [
+                                                TSGeneratorComponent.SubGeneratorExample
+                                            ];
 
-                                    await tester.Run();
-                                    await tester.AssertDependencies(new TSGeneratorExampleDependencies());
-                                });
+                                            await tester.Run();
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                        });
 
-                            test(
-                                "Checking whether the dependencies are not present if no generator-example is being created…",
-                                async function()
-                                {
-                                    this.slow(1 * 1000);
-                                    tester.Generator.Settings[GeneratorSettingKey.Components] = [];
-                                    await tester.Run();
-                                    await tester.AssertDependencies(new TSGeneratorExampleDependencies(), false);
+                                    test(
+                                        `Checking whether the dependencies are present if both a \`${nameof(TSGeneratorComponent.GeneratorExample)}\` and \`${nameof(TSGeneratorComponent.SubGeneratorExample)}\`s are being created…`,
+                                        async function()
+                                        {
+                                            this.slow(1 * 1000);
+
+                                            tester.Generator.Settings[GeneratorSettingKey.Components] = [
+                                                TSGeneratorComponent.GeneratorExample,
+                                                TSGeneratorComponent.SubGeneratorExample
+                                            ];
+
+                                            await tester.Run();
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                        });
+
+                                    test(
+                                        "Checking whether the dependencies are not present if no generator-example is being created…",
+                                        async function()
+                                        {
+                                            this.slow(1 * 1000);
+                                            tester.Generator.Settings[GeneratorSettingKey.Components] = [];
+                                            await tester.Run();
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(), false);
+                                        });
                                 });
                         });
                 });

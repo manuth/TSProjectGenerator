@@ -10,7 +10,7 @@ import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSetti
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorModuleNameQuestion` class.
+ * Registers tests for the {@link TSGeneratorModuleNameQuestion `TSGeneratorModuleNameQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -18,11 +18,13 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorModuleNameQuestion",
+        nameof(TSGeneratorModuleNameQuestion),
         () =>
         {
             let tempDir: TempDirectory;
             let settings: ITSGeneratorSettings;
+            let prefix = "generator-";
+            let expectedID: string;
             let question: TSGeneratorModuleNameQuestion<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
@@ -37,36 +39,39 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         [TSProjectSettingKey.DisplayName]: "ThisIsATestGenerator"
                     };
 
+                    expectedID = `${prefix}this-is-a-test`;
                     question = new TSGeneratorModuleNameQuestion(await context.Generator);
                 });
 
             suite(
-                "default",
+                nameof<TSGeneratorModuleNameQuestion<any, any>>((question) => question.default),
                 () =>
                 {
                     test(
                         "Checking whether the default value is applied correctly…",
                         async () =>
                         {
-                            strictEqual(await question.default(settings), "generator-this-is-a-test");
+                            strictEqual(await question.default(settings), expectedID);
                         });
 
                     test(
                         "Checking whether names of existing packages are preserved…",
-                        async () =>
+                        async function()
                         {
-                            let npmPackage = new Package(tempDir.MakePath("package.json"), { name: "this-is-a-test" });
+                            this.timeout(10 * 1000);
+                            this.slow(5 * 1000);
+                            let npmPackage = new Package(tempDir.MakePath(Package.FileName), { name: "this-is-a-test" });
                             await writeJSON(npmPackage.FileName, npmPackage.ToJSON());
                             strictEqual(await question.default(settings), npmPackage.Name);
                         });
                 });
 
             suite(
-                "validate",
+                nameof<TSGeneratorModuleNameQuestion<any, any>>((question) => question.validate),
                 () =>
                 {
                     test(
-                        "Checking whether module-names are only valid if they start with `generator-`…",
+                        `Checking whether module-names are only valid if they start with \`${prefix}\`…`,
                         async () =>
                         {
                             notStrictEqual(await question.validate("lol", settings), true);
@@ -74,7 +79,7 @@ export function TSGeneratorModuleNameQuestionTests(context: TestContext<TSGenera
                         });
 
                     test(
-                        "Checking whether scoped module-names are only valid if they start with `generator-`…",
+                        `Checking whether scoped module-names are only valid if they start with \`${prefix}\`…`,
                         async () =>
                         {
                             notStrictEqual(await question.validate("@me/lol", settings), true);

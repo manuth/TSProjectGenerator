@@ -4,12 +4,12 @@
 export enum SubGeneratorSettingKey
 {
     /**
-     * Indicates the `Name`-setting.
+     * Indicates the {@link Name `Name`}-setting.
      */
     Name = "name",
 
     /**
-     * Indicates the `DisplayName`-setting.
+     * Indicates the {@link DisplayName `DisplayName`}-setting.
      */
     DisplayName = "displayName"
 }

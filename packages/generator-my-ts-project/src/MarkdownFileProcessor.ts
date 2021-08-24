@@ -1,12 +1,17 @@
-import { FileMapping, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { FileMappingBase } from "@manuth/generator-ts-project";
+import { FileMapping, FileMappingOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import detectNewLine = require("detect-newline");
 import { split } from "eol";
 
 /**
  * Provides the functionality to remove unnecessary blank lines from markdown-files.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
      * The file-mapping wrapped by this generator.
@@ -14,7 +19,7 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
     private fileMapping: IFileMapping<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `MarkdownFileProcessor` class.
+     * Initializes a new instance of the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -72,16 +77,38 @@ export class MarkdownFileProcessor<TSettings extends IGeneratorSettings, TOption
         let lines = split(content);
         result = [...lines];
 
-        for (let i = lines.length - 3; i >= 0; i--)
+        for (let i = lines.length - 1; i >= 0; i--)
         {
             if (
+                (i + 2) < lines.length &&
                 lines[i].startsWith("#") &&
                 (lines[i + 1] === ""))
             {
                 result.splice(i + 1, 1);
             }
+            else if (
+                /^\s*- [^\s]/.test(lines[i]))
+            {
+                let indent = "  " + lines[i].match(/^(\s*)-/)[1];
+                let j = i;
+
+                do
+                {
+                    if (result[j].length > 0)
+                    {
+                        result[j] = "  " + result[j];
+                    }
+
+                    j++;
+                }
+                while (
+                    j < result.length && (
+                        /^(\s*)$/.test(result[j]) || (
+                            !/^\s*- [^\s]/.test(result[j]) &&
+                            result[j].startsWith(indent))));
+            }
         }
 
-        this.WriteDestination(result.join(eol));
+        this.WriteOutput(result.join(eol));
     }
 }

@@ -9,7 +9,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectDestinationQuestion` class.
+ * Registers tests for the {@link TSProjectDestinationQuestion `TSProjectDestinationQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -17,7 +17,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectDestinationQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectDestinationQuestion",
+        nameof(TSProjectDestinationQuestion),
         () =>
         {
             let tempDir: TempDirectory;
@@ -33,23 +33,33 @@ export function TSProjectDestinationQuestionTests(context: TestContext<TSProject
                     question = new TSProjectDestinationQuestion(generator);
                 });
 
-            test(
-                "Checking whether the question default to the generator-destinationpath…",
-                async () =>
+            suite(
+                nameof<TSProjectDestinationQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    strictEqual(await question.default(generator.Settings), "./");
+                    test(
+                        "Checking whether the question defaults to the generator's destination-path…",
+                        async () =>
+                        {
+                            strictEqual(await question.default(generator.Settings), "./");
+                        });
                 });
 
-            test(
-                "Checking whether the filtered value isn't affected by the current working-directory…",
-                async () =>
+            suite(
+                nameof<TSProjectDestinationQuestion<any, any>>((question) => question.filter),
+                () =>
                 {
-                    let path = ".";
-                    let expected = resolve(generator.destinationPath(path));
-                    strictEqual(await question.filter(path, generator.Settings), expected);
-                    pushd(tempDir.FullName);
-                    strictEqual(await question.filter(path, generator.Settings), expected);
-                    popd();
+                    test(
+                        "Checking whether the filtered value isn't affected by the current working-directory…",
+                        async () =>
+                        {
+                            let path = ".";
+                            let expected = resolve(generator.destinationPath(path));
+                            strictEqual(await question.filter(path, generator.Settings), expected);
+                            pushd(tempDir.FullName);
+                            strictEqual(await question.filter(path, generator.Settings), expected);
+                            popd();
+                        });
                 });
         });
 }

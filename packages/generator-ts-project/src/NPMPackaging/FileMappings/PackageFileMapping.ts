@@ -1,22 +1,26 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
-import { FileMappingBase } from "../../Components/FileMappingBase";
+import { TextConverter } from "../..";
+import { PackageJSONConverter } from "../../Components/Transformation/Conversion/PackageJSONConverter";
+import { ParsedFileMapping } from "../../Components/Transformation/ParsedFileMapping";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
+import { ScriptCollectionEditor } from "../Scripts/ScriptCollectionEditor";
 import { ScriptMapping } from "../Scripts/ScriptMapping";
 
 /**
  * Represents a file-mapping for a `package.json` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends ParsedFileMapping<TSettings, TOptions, Package>
 {
     /**
-     * The package to write.
-     */
-    private package: Package = null;
-
-    /**
-     * Initializes a new instance of the `PackageFileMapping<T>` class.
+     * Initializes a new instance of the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -27,23 +31,90 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     }
 
     /**
-     * Gets the package to write.
+     * @inheritdoc
      */
-    public get Package(): Promise<Package>
+    public get Converter(): TextConverter<Package>
+    {
+        return new PackageJSONConverter(this.Resolved.Destination);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get Source(): string
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @returns
+     * The object to dump.
+     */
+    public override async GetSourceObject(): Promise<Package>
+    {
+        let npmPackage: Package;
+        let sourceFileName = this.Resolved.Source;
+        let outputFileName = this.Resolved.Destination;
+
+        if (
+            sourceFileName &&
+            await pathExists(sourceFileName))
+        {
+            npmPackage = new Package(sourceFileName);
+        }
+        else if (await pathExists(outputFileName))
+        {
+            npmPackage = new Package(outputFileName);
+        }
+        else
+        {
+            npmPackage = new Package(
+                outputFileName,
+                {
+                    version: "0.0.0",
+                    author: {
+                        name: this.Generator.user.git.name(),
+                        email: this.Generator.user.git.email()
+                    }
+                });
+        }
+
+        npmPackage.FileName = outputFileName;
+        await npmPackage.Normalize();
+        return npmPackage;
+    }
+
+    /**
+     * Gets the {@link Package `Package`} to write.
+     *
+     * @returns
+     * The {@link Package `Package`} to write.
+     */
+    public async GetPackage(): Promise<Package>
     {
         return (
             async () =>
             {
                 let result = await this.LoadPackage();
 
-                for (let scriptMapping of await this.ScriptMappingCollection)
+                for (let keyword of this.Keywords)
+                {
+                    if (!result.Keywords.includes(keyword))
+                    {
+                        result.Keywords.push(keyword);
+                    }
+                }
+
+                for (let scriptMapping of this.ScriptMappingCollection.Items)
                 {
                     if (result.Scripts.Has(scriptMapping.Destination))
                     {
                         result.Scripts.Remove(scriptMapping.Destination);
                     }
 
-                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Process((await this.Template).Scripts.Get(scriptMapping.Source)));
+                    result.Scripts.Add(scriptMapping.Destination, await scriptMapping.Processor());
                 }
 
                 return result;
@@ -55,47 +126,49 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     public get Destination(): string
     {
-        return "package.json";
+        return Package.FileName;
+    }
+
+    /**
+     * Gets the keywords to add to the package.
+     */
+    public get Keywords(): string[]
+    {
+        return [];
     }
 
     /**
      * Gets the scripts to copy from the template-package.
      */
-    protected get ScriptMappings(): Promise<Array<IScriptMapping<TSettings, TOptions> | string>>
+    protected get ScriptMappings(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        return (
-            async (): Promise<Array<IScriptMapping<TSettings, TOptions> | string>> =>
-            {
-                return [];
-            })();
+        return [];
     }
 
     /**
      * Gets the resolved representations of the scripts to copy from the template-package.
      */
-    protected get ScriptMappingCollection(): Promise<Array<ScriptMapping<TSettings, TOptions>>>
+    public get ScriptMappingCollection(): ScriptCollectionEditor
     {
-        return (
-            async () =>
+        return new ScriptCollectionEditor(
+            this.Generator,
+            this.ScriptSource,
+            () =>
             {
-                return (await this.ScriptMappings).map(
+                return this.ScriptMappings.map(
                     (scriptMapping) =>
                     {
-                        return new ScriptMapping(this.Generator, scriptMapping);
+                        return new ScriptMapping(this.Generator, this.ScriptSource, scriptMapping);
                     });
-            })();
+            });
     }
 
     /**
-     * Gets the template package.
+     * Gets the package to load scripts from.
      */
-    protected get Template(): Promise<Package>
+    protected get ScriptSource(): Package
     {
-        return (
-            async () =>
-            {
-                return new Package();
-            })();
+        return new Package();
     }
 
     /**
@@ -104,15 +177,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     public override async Processor(): Promise<void>
     {
         this.Generator.fs.writeJSON(this.Resolved.Destination, {});
-        this.Generator.packageJson.merge((await this.Package).ToJSON());
-    }
-
-    /**
-     * Clears the cached package.
-     */
-    public async Clear(): Promise<void>
-    {
-        this.package = null;
+        this.Generator.packageJson.merge((await this.GetPackage()).ToJSON());
     }
 
     /**
@@ -123,30 +188,6 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
      */
     protected async LoadPackage(): Promise<Package>
     {
-        let fileName = this.Resolved.Destination;
-
-        if (this.package === null)
-        {
-            if (await pathExists(fileName))
-            {
-                this.package = new Package(fileName);
-            }
-            else
-            {
-                this.package = new Package(
-                    fileName,
-                    {
-                        version: "0.0.0",
-                        author: {
-                            name: this.Generator.user.git.name(),
-                            email: this.Generator.user.git.email()
-                        }
-                    });
-            }
-
-            await this.package.Normalize();
-        }
-
-        return this.package;
+        return this.GetSourceObject();
     }
 }

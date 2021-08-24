@@ -9,14 +9,20 @@
             "name": "MyTSProjectGenerator"
         },
         {
+            "path": "../generator-ts-project-test",
+            "name": "TSProjectGeneratorTest"
+        },
+        {
             "path": "../..",
             "name": "Solution Items"
         }
     ],
     "extensions": {
         "recommendations": [
-            "manuth.eslint-language-service",
-            "digitalbrainstem.javascript-ejs-support"
+            "digitalbrainstem.javascript-ejs-support",
+            "hbenl.vscode-mocha-test-adapter",
+            "hbenl.vscode-test-explorer",
+            "manuth.eslint-language-service"
         ]
     },
     "launch": {
@@ -54,28 +60,6 @@
             {
                 "type": "pwa-node",
                 "request": "launch",
-                "name": "Launch TSProjectGenerator Tests",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
-                "cwd": "${workspaceFolder:TSProjectGenerator}",
-                "skipFiles": [
-                    "<node_internals>/**",
-                    "**/node_modules/typescript/**"
-                ],
-                "internalConsoleOptions": "openOnSessionStart",
-                "preLaunchTask": "Build",
-                "sourceMaps": true,
-                "autoAttachChildProcesses": false,
-                "presentation": {
-                    "order": 3
-                },
-                "outFiles": [
-                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
-                    "!**/node_modules/**"
-                ]
-            },
-            {
-                "type": "pwa-node",
-                "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
                 "args": [
@@ -92,7 +76,7 @@
                 "sourceMaps": true,
                 "autoAttachChildProcesses": false,
                 "presentation": {
-                    "order": 4
+                    "order": 3
                 },
                 "outFiles": [
                     "${workspaceFolder:TSProjectGenerator}/**/*.js",
@@ -103,8 +87,38 @@
             {
                 "type": "pwa-node",
                 "request": "launch",
+                "name": "Launch TSProjectGenerator Tests",
+                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "args": [
+                    "--timeout",
+                    "0"
+                ],
+                "cwd": "${workspaceFolder:TSProjectGenerator}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 4
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "!**/node_modules/**"
+                ]
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
                 "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "args": [
+                    "--timeout",
+                    "0"
+                ],
                 "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "skipFiles": [
                     "<node_internals>/**",
@@ -122,6 +136,33 @@
                     "${workspaceFolder:MyTSProjectGenerator}/**/*.js",
                     "!**/node_modules/**"
                 ]
+            },
+            {
+                "type": "pwa-node",
+                "request": "launch",
+                "name": "Launch TSProjectGeneratorTest Tests",
+                "program": "${workspaceFolder:TSProjectGeneratorTest}/node_modules/mocha/bin/mocha",
+                "args": [
+                    "--timeout",
+                    "0"
+                ],
+                "cwd": "${workspaceFolder:TSProjectGeneratorTest}",
+                "skipFiles": [
+                    "<node_internals>/**",
+                    "**/node_modules/typescript/**"
+                ],
+                "internalConsoleOptions": "openOnSessionStart",
+                "preLaunchTask": "Build",
+                "sourceMaps": true,
+                "autoAttachChildProcesses": false,
+                "presentation": {
+                    "order": 6
+                },
+                "outFiles": [
+                    "${workspaceFolder:TSProjectGenerator}/**/*.js",
+                    "${workspaceFolder:TSProjectGeneratorTest}/**/*.js",
+                    "!**/node_modules/**"
+                ]
             }
         ],
         "compounds": [
@@ -129,7 +170,8 @@
                 "name": "Launch All Tests",
                 "configurations": [
                     "Launch TSProjectGenerator Tests",
-                    "Launch MyTSProjectGenerator Tests"
+                    "Launch MyTSProjectGenerator Tests",
+                    "Launch TSProjectGeneratorTest Tests"
                 ],
                 "presentation": {
                     "order": 1
@@ -144,7 +186,9 @@
         "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
         "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
         "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
-        "typescript.tsdk": "./Solution Items/node_modules/typescript/lib",
+        "mochaExplorer.require": "source-map-support/register",
+        "mochaExplorer.debuggerConfig": "Debug Mocha Tests",
+        "mochaExplorer.timeout": 0,
         "files.associations": {
             ".gitignore.ejs": "ignore",
             ".npmignore.ejs": "ignore"

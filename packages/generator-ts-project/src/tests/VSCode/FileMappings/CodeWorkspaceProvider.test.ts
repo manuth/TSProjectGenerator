@@ -1,10 +1,11 @@
 import { deepStrictEqual, strictEqual } from "assert";
-import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
+import type { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../../VSCode/ITaskSettings";
@@ -12,21 +13,18 @@ import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `CodeWorkspaceProvider` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.
  */
-export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function CodeWorkspaceProviderTests(): void
 {
     suite(
-        "CodeWorkspaceProvider",
+        nameof<CodeWorkspaceProvider<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
-            let fileMappingTester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
             let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
@@ -36,15 +34,12 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                     tempDir = new TempDirectory();
                     fileName = tempDir.MakePath("temp.txt");
                     generator = await context.Generator;
-                    fileMappingTester = new FileMappingTester(generator, { Destination: fileName });
                     workspaceProvider = new TestCodeWorkspaceProvider(new CodeWorkspaceComponent(generator));
                 });
 
             teardown(
                 async () =>
                 {
-                    await fileMappingTester.Clean();
-
                     if (await pathExists(fileName))
                     {
                         return remove(fileName);
@@ -52,7 +47,7 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                 });
 
             suite(
-                "General",
+                nameof<CodeWorkspaceProvider<any, any>>((provider) => provider.GetWorkspaceMetadata),
                 () =>
                 {
                     let randomExtensions: IExtensionSettings;
@@ -70,27 +65,26 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         });
 
                     test(
-                        "Checking whether the metadata of all components are loaded from `WorkspaceMetadata…",
+                        `Checking whether the metadata of all components are loaded using \`${nameof<CodeWorkspaceProvider<any, any>>((p) => p.GetWorkspaceMetadata)}\`…`,
                         async () =>
                         {
-                            workspaceProvider.WorkspaceMetadata = context.CreatePromise(
-                                {
-                                    folders: [],
-                                    extensions: randomExtensions,
-                                    launch: randomLaunchData,
-                                    settings: randomSettings,
-                                    tasks: randomTasks
-                                });
+                            workspaceProvider.WorkspaceMetadata = {
+                                folders: [],
+                                extensions: randomExtensions,
+                                launch: randomLaunchData,
+                                settings: randomSettings,
+                                tasks: randomTasks
+                            };
 
-                            strictEqual(await workspaceProvider.ExtensionsMetadata, randomExtensions);
-                            strictEqual(await workspaceProvider.LaunchMetadata, randomLaunchData);
-                            strictEqual(await workspaceProvider.SettingsMetadata, randomSettings);
-                            strictEqual(await workspaceProvider.TasksMetadata, randomTasks);
+                            strictEqual(await workspaceProvider.GetExtensionsMetadata(), randomExtensions);
+                            strictEqual(await workspaceProvider.GetLaunchMetadata(), randomLaunchData);
+                            strictEqual(await workspaceProvider.GetSettingsMetadata(), randomSettings);
+                            strictEqual(await workspaceProvider.GetTasksMetadata(), randomTasks);
                         });
                 });
 
             suite(
-                "ReadJSON",
+                nameof<TestCodeWorkspaceProvider<any, any>>((provider) => provider.ReadJSON),
                 () =>
                 {
                     let randomData: any;
@@ -106,8 +100,6 @@ export function CodeWorkspaceProviderTests(context: TestContext<TestGenerator, I
                         async () =>
                         {
                             await writeFile(fileName, JSON.stringify(randomData));
-                            await fileMappingTester.Commit();
-                            generator.fs.exists(fileName);
                             deepStrictEqual(await workspaceProvider.ReadJSON(fileName), randomData);
                         });
 

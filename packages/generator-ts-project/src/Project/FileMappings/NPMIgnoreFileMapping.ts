@@ -1,16 +1,20 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { FileMappingOptions, GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
-import { readFile } from "fs-extra";
-import { FileMappingBase } from "../../Components/FileMappingBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 
 /**
  * Provides the functionality to copy the `.npmignore` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingBase<TSettings, TOptions>
+export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends FileMappingOptions<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `NPMIgnoreFileMapping` class.
+     * Initializes a new instance of the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -21,11 +25,35 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
     }
 
     /**
+     * Gets the default file-name of `.npmignore`-files.
+     */
+    public static get FileName(): string
+    {
+        return ".npmignore";
+    }
+
+    /**
+     * Gets the default base-name of the file.
+     */
+    public get DefaultBaseName(): string
+    {
+        return NPMIgnoreFileMapping.FileName;
+    }
+
+    /**
+     * Gets the base-name of the file.
+     */
+    public get BaseName(): string
+    {
+        return this.DefaultBaseName;
+    }
+
+    /**
      * @inheritdoc
      */
     public override get Source(): string
     {
-        return this.Generator.modulePath(".npmignore");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -33,7 +61,7 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
      */
     public get Destination(): string
     {
-        return ".npmignore";
+        return this.BaseName;
     }
 
     /**
@@ -49,11 +77,11 @@ export class NPMIgnoreFileMapping<TSettings extends ITSProjectSettings, TOptions
      */
     public override async Processor(): Promise<void>
     {
-        this.WriteDestination(
+        this.WriteOutput(
             applyPatch(
-                (await readFile(this.Resolved.Source)).toString(),
+                await this.ReadSource(),
                 parsePatch(
-                    (await readFile(this.PatchFileName)).toString()
+                    await this.ReadFile(this.PatchFileName)
                 )[0]));
     }
 }

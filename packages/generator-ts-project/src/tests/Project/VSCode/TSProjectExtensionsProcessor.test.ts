@@ -7,7 +7,7 @@ import { TSProjectExtensionsProcessor } from "../../../Project/VSCode/TSProjectE
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectExtensionsProcessor` class.
+ * Registers tests for the {@link TSProjectExtensionsProcessor `TSProjectExtensionsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectExtensionsProcessorTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectExtensionsProcessor",
+        nameof(TSProjectExtensionsProcessor),
         () =>
         {
             let excludedExtension = "digitalbrainstem.javascript-ejs-support";
@@ -30,15 +30,20 @@ export function TSProjectExtensionsProcessorTests(context: TestContext<TSProject
                     processor = new TSProjectExtensionsProcessor(component);
                 });
 
-            test(
-                `Checking whether the \`${excludedExtension}\` is excluded…`,
-                async () =>
+            suite(
+                nameof<TSProjectExtensionsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    ok(
-                        !(await processor.Process(
-                            {
-                                recommendations: [excludedExtension]
-                            })).recommendations.includes(excludedExtension));
+                    test(
+                        `Checking whether the \`${excludedExtension}\` is excluded…`,
+                        async () =>
+                        {
+                            ok(
+                                !(await processor.Process(
+                                    {
+                                        recommendations: [excludedExtension]
+                                    })).recommendations.includes(excludedExtension));
+                        });
                 });
         });
 }

@@ -10,7 +10,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectQuestionCollection` class.
+ * Registers tests for the {@link TSProjectQuestionCollection `TSProjectQuestionCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -18,7 +18,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectQuestionCollection",
+        nameof(TSProjectQuestionCollection),
         () =>
         {
             let questionCollection: TSProjectQuestionCollection<ITSProjectSettings, GeneratorOptions>;
@@ -30,23 +30,28 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
                     questionCollection = new TSProjectQuestionCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary questions are present…",
+            suite(
+                nameof<TSProjectQuestionCollection<any, any>>((question) => question.Questions),
                 () =>
                 {
-                    let questionTypes = [
-                        TSProjectDestinationQuestion,
-                        TSProjectDisplayNameQuestion,
-                        TSProjectModuleNameQuestion,
-                        TSProjectDescriptionQuestion
-                    ];
+                    test(
+                        "Checking whether all necessary questions are present…",
+                        () =>
+                        {
+                            let questionTypes = [
+                                TSProjectDestinationQuestion,
+                                TSProjectDisplayNameQuestion,
+                                TSProjectModuleNameQuestion,
+                                TSProjectDescriptionQuestion
+                            ];
 
-                    for (let questionType of questionTypes)
-                    {
-                        ok(
-                            questionCollection.Questions.some(
-                                (question) => question instanceof questionType));
-                    }
+                            for (let questionType of questionTypes)
+                            {
+                                ok(
+                                    questionCollection.Questions.some(
+                                        (question) => question instanceof questionType));
+                            }
+                        });
                 });
         });
 }

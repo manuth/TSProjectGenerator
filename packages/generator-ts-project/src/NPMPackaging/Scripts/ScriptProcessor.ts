@@ -3,6 +3,12 @@ import { ScriptMapping } from "./ScriptMapping";
 
 /**
  * Provides the functionality to process scripts.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export type ScriptProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> =
     /**

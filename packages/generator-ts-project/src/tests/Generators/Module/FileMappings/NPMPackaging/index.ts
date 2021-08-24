@@ -1,9 +1,10 @@
+import { basename } from "path";
 import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
 import { TestContext } from "../../../../TestContext";
 import { TSModulePackageFileMappingTests } from "./TSModulePackageFileMapping.test";
 
 /**
- * Registers tests for npm-packaging file-mappings for the `TSModule` generator.
+ * Registers tests for npm-packaging file-mappings for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.
@@ -11,7 +12,7 @@ import { TSModulePackageFileMappingTests } from "./TSModulePackageFileMapping.te
 export function NPMPackagingTests(context: TestContext<TSModuleGenerator>): void
 {
     suite(
-        "NPMPackaging",
+        basename(__dirname),
         () =>
         {
             TSModulePackageFileMappingTests(context);

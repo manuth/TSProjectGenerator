@@ -1,7 +1,7 @@
 import { applyPatch, parsePatch } from "diff";
 import { readFile } from "fs-extra";
 import { obj } from "through2";
-import File = require("vinyl");
+import type File = require("vinyl");
 
 /**
  * Applies a patch to the stream.

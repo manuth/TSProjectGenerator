@@ -2,6 +2,12 @@ import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extend
 
 /**
  * Represents a component which belongs to a generator.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class GeneratorComponent<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TResolved>
 {
@@ -11,7 +17,7 @@ export abstract class GeneratorComponent<TSettings extends IGeneratorSettings, T
     private generator: IGenerator<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `GeneratorComponent` class.
+     * Initializes a new instance of the {@link GeneratorComponent `GeneratorComponent<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the component.

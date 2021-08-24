@@ -1,5 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ProjectTypeSelector } from "../ProjectTypeSelector";
+
 /**
- * Represents a setting of the `AppGenerator` settings.
+ * Represents a setting of the {@link ProjectTypeSelector `ProjectTypeSelector<T>`} settings.
  */
 export enum ProjectSelectorSettingKey
 {

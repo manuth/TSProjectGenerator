@@ -9,7 +9,7 @@ export interface IProjectType
     DisplayName: string;
 
     /**
-     * The path to the propper generator.
+     * The path to the proper generator.
      */
     Path: string;
 }

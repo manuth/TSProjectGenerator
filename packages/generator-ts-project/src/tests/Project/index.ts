@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
 import { TestContext } from "../TestContext";
 import { ComponentTests } from "./Components";
@@ -15,7 +16,7 @@ import { VSCodeTests } from "./VSCode";
 export function ProjectTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "Project",
+        basename(__dirname),
         () =>
         {
             InquiryTests(context);

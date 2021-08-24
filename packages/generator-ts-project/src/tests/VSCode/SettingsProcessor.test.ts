@@ -1,22 +1,20 @@
 import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `SettingsProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class.
  */
-export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function SettingsProcessorTest(): void
 {
     suite(
-        "SettingsProcessor",
+        nameof(SettingsProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let includedSetting: string;
             let excludedSetting: string;
             let mutatedSetting: string;
@@ -25,7 +23,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
             let processor: SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `SettingsProcessor` class for testing.
+             * Provides an implementation of the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestSettingsProcessor extends SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
@@ -41,7 +39,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * A value indicating whether the setting with the specified key should be included.
                  */
-                protected override async FilterSetting(key: string, value: any): Promise<boolean>
+                public override async FilterSetting(key: string, value: any): Promise<boolean>
                 {
                     return key !== excludedSetting;
                 }
@@ -58,7 +56,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                  * @returns
                  * The processed setting.
                  */
-                protected override async ProcessSetting(key: string, value: any): Promise<any>
+                public override async ProcessSetting(key: string, value: any): Promise<any>
                 {
                     if (key === mutatedSetting)
                     {
@@ -97,7 +95,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                 });
 
             suite(
-                "FilterSettingKey",
+                nameof<TestSettingsProcessor>((processor) => processor.FilterSetting),
                 () =>
                 {
                     test(
@@ -111,7 +109,7 @@ export function SettingsProcessorTest(context: TestContext<TestGenerator, ITestG
                 });
 
             suite(
-                "ProcessSetting",
+                nameof<TestSettingsProcessor>((processor) => processor.ProcessSetting),
                 () =>
                 {
                     test(

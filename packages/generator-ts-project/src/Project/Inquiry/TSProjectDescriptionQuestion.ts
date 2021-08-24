@@ -1,28 +1,28 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
 import { join } from "upath";
-import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for the module-name of a project.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
-
-    /**
-     * @inheritdoc
-     */
     public name = TSProjectSettingKey.Description;
 
     /**
-     * Initializes a new instance of the `TSProjectDescriptionQuestion` class.
+     * Initializes a new instance of the {@link TSProjectDescriptionQuestion `TSProjectDescriptionQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.
@@ -57,7 +57,7 @@ export class TSProjectDescriptionQuestion<TSettings extends ITSProjectSettings, 
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], ".json"), {});
+        let npmPackage = new Package(join(answers[TSProjectSettingKey.Destination], Package.FileName), {});
         await npmPackage.Normalize();
         return npmPackage.Description;
     }

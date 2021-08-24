@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectDisplayNameQuestion` class.
+ * Registers tests for the {@link TSProjectDisplayNameQuestion `TSProjectDisplayNameQuestion<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectDisplayNameQuestion",
+        nameof(TSProjectDisplayNameQuestion),
         () =>
         {
             let randomName: string;
@@ -36,17 +36,22 @@ export function TSProjectDisplayNameQuestionTests(context: TestContext<TSProject
                     randomName = context.RandomString;
                 });
 
-            test(
-                "Checking whether the name is taken from the destination-directory…",
-                async () =>
+            suite(
+                nameof<TSProjectDisplayNameQuestion<any, any>>((question) => question.default),
+                () =>
                 {
-                    strictEqual(
-                        await question.Default(
-                            {
-                                ...generator.Settings,
-                                [TSProjectSettingKey.Destination]: generator.destinationPath(randomName)
-                            }),
-                        randomName);
+                    test(
+                        "Checking whether the name is taken from the destination-directory…",
+                        async () =>
+                        {
+                            strictEqual(
+                                await question.Default(
+                                    {
+                                        ...generator.Settings,
+                                        [TSProjectSettingKey.Destination]: generator.destinationPath(randomName)
+                                    }),
+                                randomName);
+                        });
                 });
         });
 }

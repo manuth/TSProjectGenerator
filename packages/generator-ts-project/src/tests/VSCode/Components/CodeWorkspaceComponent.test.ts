@@ -1,23 +1,22 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
 import { TestContext } from "../../TestContext";
 import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `CodeWorkspaceComponent` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.
  */
-export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function CodeWorkspaceComponentTests(): void
 {
     suite(
-        "CodeWorkspaceComponent",
+        nameof<CodeWorkspaceComponent<any, any>>(),
         () =>
         {
+            let context = TestContext.Default;
             let randomWorkspace: IWorkspaceMetadata;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
 
@@ -42,21 +41,26 @@ export function CodeWorkspaceComponentTests(context: TestContext<TestGenerator, 
                     component.WorkspaceProcessor = new TestJSONProcessor(randomWorkspace);
                 });
 
-            test(
-                "Checking whether a custom workspace-processor can be injected…",
-                async () =>
+            suite(
+                nameof<TestCodeWorkspaceComponent<any, any>>((component) => component.WorkspaceProcessor),
+                () =>
                 {
-                    strictEqual(await component.WorkspaceMetadata, randomWorkspace);
-                });
+                    test(
+                        "Checking whether a custom workspace-processor can be injected…",
+                        async () =>
+                        {
+                            strictEqual(await component.GetWorkspaceMetadata(), randomWorkspace);
+                        });
 
-            test(
-                "Checking whether the workspace-object is read correctly…",
-                async () =>
-                {
-                    strictEqual(await component.ExtensionsMetadata, randomWorkspace.extensions);
-                    strictEqual(await component.LaunchMetadata, randomWorkspace.launch);
-                    strictEqual(await component.SettingsMetadata, randomWorkspace.settings);
-                    strictEqual(await component.TasksMetadata, randomWorkspace.tasks);
+                    test(
+                        "Checking whether the workspace-object is read correctly…",
+                        async () =>
+                        {
+                            strictEqual(await component.GetExtensionsMetadata(), randomWorkspace.extensions);
+                            strictEqual(await component.GetLaunchMetadata(), randomWorkspace.launch);
+                            strictEqual(await component.GetSettingsMetadata(), randomWorkspace.settings);
+                            strictEqual(await component.GetTasksMetadata(), randomWorkspace.tasks);
+                        });
                 });
         });
 }

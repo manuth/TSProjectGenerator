@@ -1,20 +1,26 @@
 import { resolve } from "path";
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { InputQuestionOptions } from "inquirer";
+import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { isAbsolute } from "upath";
-import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
+import { IPathQuestionOptions } from "../../Components/Inquiry/Prompts/IPathQuestionOptions";
+import { PathPrompt } from "../../Components/Inquiry/Prompts/PathPrompt";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for the destination-path of a project.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
-export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
+export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements IPathQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
+    public type = PathPrompt.TypeName as typeof PathPrompt.TypeName;
 
     /**
      * @inheritdoc
@@ -22,7 +28,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
     public name = TSProjectSettingKey.Destination;
 
     /**
-     * Initializes a new instance of the `TSProjectDestinationQuestion` class.
+     * Initializes a new instance of the {@link TSProjectDestinationQuestion `TSProjectDestinationQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.
@@ -72,7 +78,7 @@ export class TSProjectDestinationQuestion<TSettings extends ITSProjectSettings, 
      * @returns
      * The filtered value.
      */
-    public override async Filter(input: any, answers: TSettings): Promise<string>
+    public override async Filter(input: string, answers: TSettings): Promise<string>
     {
         return isAbsolute(input) ? input : resolve(this.Generator.destinationPath(input));
     }

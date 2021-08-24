@@ -1,23 +1,20 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorSettings, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { writeFile } from "fs-extra";
 import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
 
 /**
- * Registers tests for the `MarkdownFileProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.
  */
-export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function MarkdownFileProcessorTests(): void
 {
     suite(
-        "MarkdownFileProcessor",
+        nameof(MarkdownFileProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
             let fileMappingOptions: MarkdownFileProcessor<ITestGeneratorSettings, GeneratorOptions>;
@@ -32,19 +29,6 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                     sourceFile = new TempFile();
                     destinationFile = new TempFile();
 
-                    source = dedent(
-                        `
-                            ### Hello World
-
-                            This is a test.`);
-
-                    expected = dedent(
-                        `
-                            ### Hello World
-                            This is a test.`);
-
-                    await writeFile(sourceFile.FullName, source);
-
                     fileMappingOptions = new MarkdownFileProcessor(
                         await context.Generator,
                         {
@@ -55,14 +39,56 @@ export function MarkdownFileProcessorTests(context: TestContext<TestGenerator, I
                     tester = new FileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            test(
-                "Checking whether unnecessary new-lines are stripped correctly…",
-                async function()
+            suite(
+                nameof<MarkdownFileProcessor<any, any>>((processor) => processor.Processor),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    strictEqual(await tester.Content, expected);
+                    test(
+                        "Checking whether unnecessary new-lines are stripped correctly…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            source = dedent(
+                                `
+                                    ### Hello World
+        
+                                    This is a test.`);
+
+                            expected = dedent(
+                                `
+                                    ### Hello World
+                                    This is a test.`);
+
+                            await tester.WriteSource(source);
+                            await tester.Run();
+                            strictEqual(await tester.ReadOutput(), expected);
+                        });
+
+                    test(
+                        "Checking whether lists are indented correctly…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            source = dedent(
+                                `
+                                    # Test
+                                    - Hello
+                                      - World`);
+
+                            expected = dedent(
+                                `
+                                    # Test
+                                      - Hello
+                                        - World`);
+
+                            await tester.WriteSource(source);
+                            await tester.Run();
+                            strictEqual(await tester.ReadOutput(), expected);
+                        });
                 });
         });
 }

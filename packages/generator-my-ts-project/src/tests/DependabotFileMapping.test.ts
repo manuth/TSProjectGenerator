@@ -2,12 +2,12 @@ import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
-import { Document } from "yaml";
+import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { DependabotFileMapping } from "../DependabotFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
 /**
- * Registers tests for the `DependabotFileMapping` class.
+ * Registers tests for the {@link DependabotFileMapping `DependabotFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,13 +15,14 @@ import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenerator>): void
 {
     suite(
-        "DependabotFileMapping",
+        nameof(DependabotFileMapping),
         () =>
         {
             let updateKey: string;
             let directoryKey: string;
+            let generator: MyTSModuleGenerator;
             let fileMappingOptions: DependabotFileMapping<ITSProjectSettings, GeneratorOptions>;
-            let documents: Document.Parsed[];
+            let tester: YAMLFileMappingTester<MyTSModuleGenerator, ITSProjectSettings, GeneratorOptions, DependabotFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             suiteSetup(
                 async function()
@@ -29,34 +30,41 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                     this.timeout(5 * 60 * 1000);
                     updateKey = "updates";
                     directoryKey = "directory";
-                    fileMappingOptions = new DependabotFileMapping(await context.Generator);
+                    generator = await context.Generator;
+                    fileMappingOptions = new DependabotFileMapping(generator);
+                    tester = new YAMLFileMappingTester(generator, fileMappingOptions);
                 });
 
             setup(
                 async () =>
                 {
-                    documents = await fileMappingOptions.Transform(await fileMappingOptions.Metadata);
+                    await tester.Run();
                 });
 
-            test(
-                "Checking whether only one document is present inside the file…",
+            suite(
+                nameof<DependabotFileMapping<any, any>>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
-                    strictEqual(documents.length, 1);
-                });
+                    test(
+                        "Checking whether only one document is present inside the file…",
+                        async () =>
+                        {
+                            strictEqual((await tester.ParseOutput()).length, 1);
+                        });
 
-            test(
-                "Checking whether only one dependabot-configuration is present…",
-                () =>
-                {
-                    strictEqual(documents[0].get(updateKey).toJSON().length, 1);
-                });
+                    test(
+                        "Checking whether only one dependabot-configuration is present…",
+                        async () =>
+                        {
+                            strictEqual((await tester.ParseOutput())[0].get(updateKey).toJSON().length, 1);
+                        });
 
-            test(
-                "Checking whether the dependabot-configuration directory points to the root of the project…",
-                () =>
-                {
-                    strictEqual(documents[0].getIn([updateKey, 0, directoryKey]), "/");
+                    test(
+                        "Checking whether the dependabot-configuration directory points to the root of the project…",
+                        async () =>
+                        {
+                            strictEqual((await tester.ParseOutput())[0].getIn([updateKey, 0, directoryKey]), "/");
+                        });
                 });
         });
 }

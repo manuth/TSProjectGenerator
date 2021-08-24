@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `LintingComponent` class.
+ * Registers tests for the {@link LintingComponent `LintingComponent<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -23,18 +23,28 @@ export function LintingComponentTests(context: TestContext<TSProjectGenerator>):
             component = new LintingComponent(await context.Generator);
         });
 
-    test(
-        "Checking whether all necessary file-mappings are present…",
-        async () =>
+    suite(
+        nameof(LintingComponent),
+        () =>
         {
-            for (let fileMappingType of [ESLintRCFileMapping])
-            {
-                ok(
-                    component.FileMappings.some(
-                        (fileMapping) =>
+            suite(
+                nameof<LintingComponent<any, any>>((component) => component.FileMappings),
+                () =>
+                {
+                    test(
+                        "Checking whether all necessary file-mappings are present…",
+                        async () =>
                         {
-                            return fileMapping instanceof fileMappingType;
-                        }));
-            }
+                            for (let fileMappingType of [ESLintRCFileMapping])
+                            {
+                                ok(
+                                    component.FileMappings.some(
+                                        (fileMapping) =>
+                                        {
+                                            return fileMapping instanceof fileMappingType;
+                                        }));
+                            }
+                        });
+                });
         });
 }

@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../TestContext";
 import { ComponentTests } from "./Components";
@@ -7,7 +8,7 @@ import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test";
 import { VSCodeTests } from "./VSCode";
 
 /**
- * Registers tests for the `Generator`-generator.
+ * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.
@@ -15,7 +16,7 @@ import { VSCodeTests } from "./VSCode";
 export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "Generator",
+        basename(__dirname),
         () =>
         {
             FileMappingTests(context);

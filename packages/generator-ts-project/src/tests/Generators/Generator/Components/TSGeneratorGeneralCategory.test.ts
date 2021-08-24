@@ -7,7 +7,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorGeneralCategory` class.
+ * Registers tests for the {@link TSGeneratorGeneralCategory `TSGeneratorGeneralCategory<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorGeneralCategory",
+        nameof(TSGeneratorGeneralCategory),
         () =>
         {
             let collection: TSGeneratorGeneralCategory<ITSGeneratorSettings, GeneratorOptions>;
@@ -27,14 +27,19 @@ export function TSGeneratorGeneralCategoryTests(context: TestContext<TSGenerator
                     collection = new TSGeneratorGeneralCategory(await context.Generator);
                 });
 
-            test(
-                "Checking whether all components for `TSGenerator`s are present…",
-                async () =>
+            suite(
+                nameof<TSGeneratorGeneralCategory<any, any>>((category) => category.Components),
+                () =>
                 {
-                    for (let componentType of [TSGeneratorCodeWorkspaceFolder])
-                    {
-                        ok(collection.Components.some((component) => component instanceof componentType));
-                    }
+                    test(
+                        `Checking whether all components for the \`${nameof(TSGeneratorGenerator)}\` are present…`,
+                        async () =>
+                        {
+                            for (let componentType of [TSGeneratorCodeWorkspaceFolder])
+                            {
+                                ok(collection.Components.some((component) => component instanceof componentType));
+                            }
+                        });
                 });
         });
 }

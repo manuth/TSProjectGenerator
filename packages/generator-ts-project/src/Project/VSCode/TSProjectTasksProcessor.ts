@@ -3,14 +3,22 @@ import { TaskDefinition } from "vscode";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSProjectGenerator } from "../TSProjectGenerator";
 
 /**
- * Provides the functionality to process tasks for `TSProject`s.
+ * Provides the functionality to process tasks for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TasksProcessor<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ExtensionsProcessor` class.
+     * Initializes a new instance of the {@link TSProjectTasksProcessor `TSProjectTasksProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.
@@ -31,14 +39,15 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      */
     protected override async FilterTask(task: TaskDefinition): Promise<boolean>
     {
+        let bumpVersionTaskName = "bump version";
         let result = super.FilterTask(task);
 
         if (result)
         {
-            return `${task.label}`.toLowerCase() !== "bump version";
+            return `${task.label}`.toLowerCase() !== bumpVersionTaskName;
         }
 
-        return !result ? (`${task.label}`.toLowerCase() !== "bump version") : result;
+        return !result ? (`${task.label}`.toLowerCase() !== bumpVersionTaskName) : result;
     }
 
     /**
@@ -52,6 +61,8 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
      */
     protected override async ProcessTask(task: TaskDefinition): Promise<TaskDefinition>
     {
+        let workspaceFolderDirective = this.GetWorkspaceFolderDirective();
+
         if (
             task.type === "shell" &&
             task.command === "npm" &&
@@ -93,7 +104,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
             {
                 task.options.cwd = this.StripWorkspaceFolder(task.options.cwd);
 
-                if (task.options.cwd === "${workspaceFolder}")
+                if (task.options.cwd === workspaceFolderDirective)
                 {
                     delete task.options.cwd;
                 }
@@ -115,7 +126,7 @@ export class TSProjectTasksProcessor<TSettings extends ITSProjectSettings, TOpti
                         if (
                             Array.isArray(problemMatcher.fileLocation) &&
                             problemMatcher.fileLocation[0] === "relative" &&
-                            this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === "${workspaceFolder}")
+                            this.StripWorkspaceFolder(problemMatcher.fileLocation[1]) === workspaceFolderDirective)
                         {
                             delete problemMatcher.fileLocation;
                         }

@@ -1,0 +1,81 @@
+{
+  "name": "@manuth/generator-ts-project-test",
+  "version": "3.0.0",
+  "description": "Provides the functionality to test `TSProjectGenerator`-components",
+  "author": "Manuel Thalmann <m@nuth.ch>",
+  "license": "MIT",
+  "keywords": [
+    "TSProjectGenerator",
+    "Unit-Tests",
+    "Testing"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/manuth/TSProjectGenerator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuth/TSProjectGenerator.git",
+    "directory": "packages/generator-ts-project-test"
+  },
+  "bugs": {
+    "url": "https://github.com/manuth/TSProjectGenerator/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run copy-files && npm run compile",
+    "copy-files": "cd ../.. && npm run copy-files",
+    "compile": "tsc -b tsconfig.build.json",
+    "watch-compile": "npm run compile -- --watch",
+    "rebuild": "npm run clean && npm run build",
+    "watch": "concurrently --raw \"npm run copy-files -- -- --watch | shusher\" \"npm run watch-compile\"",
+    "clean": "npm run compile -- --clean && rimraf ./lib",
+    "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
+    "lint": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
+    "lint-ide": "npm run lint || exit 0",
+    "test": "mocha",
+    "prepare": "npm run patchTypeScript && npm run rebuild",
+    "patchTypeScript": "ts-patch install && ts-patch --persist"
+  },
+  "dependencies": {
+    "@manuth/extended-yo-generator": "^11.0.2",
+    "@manuth/extended-yo-generator-test": "^11.0.2",
+    "@manuth/generator-ts-project": "^3.0.0",
+    "@manuth/package-json-editor": "^2.2.3",
+    "@manuth/temp-files": "^2.0.7",
+    "@stdlib/utils-escape-regexp-string": "^0.0.7",
+    "fs-extra": "^10.0.0",
+    "npm-packlist": "^3.0.0",
+    "ts-morph": "^11.0.3",
+    "upath": "^2.0.1",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@manuth/eslint-plugin-typescript": "^3.2.5",
+    "@manuth/typescript-eslint-plugin": "^1.4.2",
+    "@types/dedent": "^0.7.0",
+    "@types/fs-extra": "^9.0.12",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.7.1",
+    "@types/npm-packlist": "^1.1.2",
+    "@types/ts-nameof": "^4.2.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "concurrently": "^6.2.1",
+    "dedent": "^0.7.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-deprecation": "^1.2.1",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-jsdoc": "^36.0.7",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^9.1.0",
+    "rimraf": "^3.0.2",
+    "shusher": "^0.1.1",
+    "ts-nameof": "^5.0.0",
+    "ts-patch": "^1.4.3",
+    "tslint": "^6.1.3",
+    "typescript": "^4.3.5"
+  }
+}

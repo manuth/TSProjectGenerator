@@ -1,31 +1,31 @@
-import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
 import { InputQuestionOptions } from "inquirer";
 import kebabCase = require("lodash.kebabcase");
 import { join } from "upath";
 import validate = require("validate-npm-package-name");
-import { QuestionBase } from "../../Components/Inquiry/QuestionBase";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
 
 /**
  * Provides a question for asking for the module-name of a project.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends QuestionBase<TSettings, TOptions> implements InputQuestionOptions<TSettings>
 {
     /**
      * @inheritdoc
      */
-    public type = "input" as const;
-
-    /**
-     * @inheritdoc
-     */
     public name = TSProjectSettingKey.Name;
 
     /**
-     * Initializes a new instance of the `TSProjectModuleNameQuestion` class.
+     * Initializes a new instance of the {@link TSProjectModuleNameQuestion `TSProjectModuleNameQuestion<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the question.
@@ -60,7 +60,7 @@ export class TSProjectModuleNameQuestion<TSettings extends ITSProjectSettings, T
      */
     public override async Default(answers: TSettings): Promise<string>
     {
-        let fileName = join(answers[TSProjectSettingKey.Destination], "package.json");
+        let fileName = join(answers[TSProjectSettingKey.Destination], Package.FileName);
         let originalName: string = null;
 
         if (await pathExists(fileName))

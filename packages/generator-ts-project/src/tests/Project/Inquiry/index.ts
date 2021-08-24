@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 import { TSProjectDescriptionQuestionTests } from "./TSProjectDescriptionQuestion.test";
@@ -7,7 +8,7 @@ import { TSProjectModuleNameQuestionTests } from "./TSProjectModuleNameQuestion.
 import { TSProjectQuestionCollectionTests } from "./TSProjectQuestionCollection.test";
 
 /**
- * Registers tests for inquiry-components for `TSProject`s.
+ * Registers tests for inquiry-components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
  *
  * @param context
  * The test-context.
@@ -15,7 +16,7 @@ import { TSProjectQuestionCollectionTests } from "./TSProjectQuestionCollection.
 export function InquiryTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "Inquiry",
+        basename(__dirname),
         () =>
         {
             TSProjectDestinationQuestionTests(context);

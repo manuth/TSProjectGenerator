@@ -1,28 +1,27 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
 
 /**
- * Registers tests for the `ExtensionsProcessor` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link ExtensionsProcessor `ExtensionsProcessor<TSettings, TOptions>`} class.
  */
-export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function ExtensionsProcessorTests(): void
 {
     suite(
-        "ExtensionsProcessor",
+        nameof(ExtensionsProcessor),
         () =>
         {
+            let context = TestContext.Default;
             let includedExtension: string;
             let excludedExtension: string;
             let processor: ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Provides an implementation of the `ExtensionsProcessor` class for testing.
+             * Provides an implementation of the {@link ExtensionsProcessor `ExtensionsProcessor<TSettings, TOptions>`} class for testing.
              */
             class TestExtensionsProcessor extends ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>
             {
@@ -55,25 +54,30 @@ export function ExtensionsProcessorTests(context: TestContext<TestGenerator, ITe
                     excludedExtension = context.RandomString;
                 });
 
-            test(
-                "Checking whether recommendations can be filtered…",
-                async () =>
+            suite(
+                nameof<ExtensionsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    ok(!(
-                        await processor.Process(
-                            {
-                                recommendations: [
-                                    includedExtension,
-                                    excludedExtension
-                                ]
-                            })).recommendations.includes(excludedExtension));
-                });
+                    test(
+                        "Checking whether recommendations can be filtered…",
+                        async () =>
+                        {
+                            ok(!(
+                                await processor.Process(
+                                    {
+                                        recommendations: [
+                                            includedExtension,
+                                            excludedExtension
+                                        ]
+                                    })).recommendations.includes(excludedExtension));
+                        });
 
-            test(
-                "Checking whether recommendations are only processed if existent…",
-                async () =>
-                {
-                    ok(!("recommendations" in await processor.Process({})));
+                    test(
+                        "Checking whether recommendations are only processed if existent…",
+                        async () =>
+                        {
+                            ok(!(nameof<IExtensionSettings>((e) => e.recommendations) in await processor.Process({})));
+                        });
                 });
         });
 }

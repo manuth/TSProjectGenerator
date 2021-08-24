@@ -1,6 +1,7 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { join, normalize } from "upath";
 import { DebugConfiguration } from "vscode";
+import { GeneratorName } from "../../../Core/GeneratorName";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
 import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor";
 import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
@@ -10,14 +11,22 @@ import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
 import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
 import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
 
 /**
- * Provides the functionality to process vscode debug configurations for `TSGenerator`s.
+ * Provides the functionality to process vscode debug configurations for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSettings, TOptions extends GeneratorOptions> extends TSProjectLaunchSettingsProcessor<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSGeneratorLaunchSettingsProcessor` class.
+     * Initializes a new instance of the {@link TSGeneratorLaunchSettingsProcessor `TSGeneratorLaunchSettingsProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.
@@ -25,23 +34,6 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
     public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
     {
         super(component);
-    }
-
-    /**
-     * Gets a template-configuration for yeoman-tasks.
-     */
-    protected get TemplateMetadata(): Promise<DebugConfiguration>
-    {
-        return (
-            async () =>
-            {
-                return this.ProcessDebugConfig((await this.Component.Source.LaunchMetadata).configurations.find(
-                    (debugConfig) =>
-                    {
-                        return normalize(debugConfig.program ?? "").toLowerCase().endsWith(
-                            join("node_modules", "yo", "lib", "cli.js"));
-                    }));
-            })();
     }
 
     /**
@@ -61,7 +53,7 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
         let generators: ISubGenerator[] = [
             {
                 [SubGeneratorSettingKey.DisplayName]: this.Generator.Settings[TSProjectSettingKey.DisplayName],
-                [SubGeneratorSettingKey.Name]: "app"
+                [SubGeneratorSettingKey.Name]: GeneratorName.Main
             }
         ];
 
@@ -75,13 +67,13 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
 
         for (let generatorOptions of generators)
         {
-            let template = await this.TemplateMetadata;
+            let template = await this.GetYeomanTemplate();
             let displayName = generatorOptions[SubGeneratorSettingKey.DisplayName];
             let name = generatorOptions[SubGeneratorSettingKey.Name];
-            template.name = name === "app" ? "Launch Yeoman" : `Launch ${displayName} generator`;
+            template.name = name === GeneratorName.Main ? "Launch Yeoman" : `Launch ${displayName} generator`;
 
             template.args = [
-                `\${workspaceFolder}/lib/generators/${name}`
+                join(this.GetWorkspaceFolderDirective(), "lib", "generators", name)
             ];
 
             configurations.push(template);
@@ -89,5 +81,25 @@ export class TSGeneratorLaunchSettingsProcessor<TSettings extends ITSGeneratorSe
 
         result.configurations.unshift(...configurations);
         return result;
+    }
+
+    /**
+     * Gets a template-configuration for yeoman-tasks.
+     *
+     * @returns
+     * A template-configuration for yeoman-tasks.
+     */
+    protected async GetYeomanTemplate(): Promise<DebugConfiguration>
+    {
+        return (
+            async () =>
+            {
+                return this.ProcessDebugConfig((await this.Component.Source.GetLaunchMetadata()).configurations.find(
+                    (debugConfig) =>
+                    {
+                        return normalize(debugConfig.program ?? "").toLowerCase().endsWith(
+                            join("node_modules", "yo", "lib", "cli.js"));
+                    }));
+            })();
     }
 }

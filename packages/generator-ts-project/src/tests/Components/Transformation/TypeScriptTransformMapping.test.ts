@@ -1,31 +1,80 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
-import { readFile, writeFile } from "fs-extra";
+import { writeFile } from "fs-extra";
 import { SourceFile, VariableDeclarationKind } from "ts-morph";
 import { TypeScriptTransformMapping } from "../../../Components/Transformation/TypeScriptTransformMapping";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TypeScriptTransformMapping` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.
  */
-export function TypeScriptTransformMappingTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function TypeScriptTransformMappingTests(): void
 {
     suite(
-        "TypeScriptTransformMapping",
+        nameof(TypeScriptTransformMapping),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let sourceFile: TempFile;
-            let destinationFile: TempFile;
-            let fileMappingOptions: TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let outputFile: TempFile;
+            let fileMappingOptions: TestTypeScriptTransformMapping;
+            let tester: TypeScriptFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestTypeScriptTransformMapping>;
             let sourceCode: string;
+
+            /**
+             * Provides an implementation of the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class for testing.
+             */
+            class TestTypeScriptTransformMapping extends TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public constructor()
+                {
+                    super(generator);
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Source(): string
+                {
+                    return sourceFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 */
+                public get Destination(): string
+                {
+                    return outputFile.FullName;
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param data
+                 * The data to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(data: SourceFile): Promise<SourceFile>
+                {
+                    data.getVariableStatements().forEach(
+                        (variableStatement) =>
+                        {
+                            variableStatement.setDeclarationKind(VariableDeclarationKind.Const);
+                        });
+
+                    return data;
+                }
+            }
 
             suiteSetup(
                 async function()
@@ -33,7 +82,7 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                     this.timeout(30 * 1000);
                     generator = await context.Generator;
                     sourceFile = new TempFile();
-                    destinationFile = new TempFile();
+                    outputFile = new TempFile();
 
                     sourceCode = dedent(
                         `
@@ -42,74 +91,23 @@ export function TypeScriptTransformMappingTests(context: TestContext<TestGenerat
                             var b = 13;`);
 
                     await writeFile(sourceFile.FullName, sourceCode);
-
-                    fileMappingOptions = new class extends TypeScriptTransformMapping<ITestGeneratorSettings, GeneratorOptions>
-                    {
-                        /**
-                         * @inheritdoc
-                         */
-                        public constructor()
-                        {
-                            super(generator);
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Source(): string
-                        {
-                            return sourceFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         */
-                        public get Destination(): string
-                        {
-                            return destinationFile.FullName;
-                        }
-
-                        /**
-                         * @inheritdoc
-                         *
-                         * @param data
-                         * The data to process.
-                         *
-                         * @returns
-                         * The processed data.
-                         */
-                        public override async Transform(data: SourceFile): Promise<SourceFile>
-                        {
-                            data.getVariableStatements().forEach(
-                                (variableStatement) =>
-                                {
-                                    variableStatement.setDeclarationKind(VariableDeclarationKind.Const);
-                                });
-
-                            return data;
-                        }
-                    }();
-
-                    tester = new FileMappingTester(generator, fileMappingOptions);
+                    fileMappingOptions = new TestTypeScriptTransformMapping();
+                    tester = new TypeScriptFileMappingTester(generator, fileMappingOptions);
                 });
 
-            test(
-                "Checking whether the file is parsed correctly…",
-                async function()
+            suite(
+                nameof<TestTypeScriptTransformMapping>((mapping) => mapping.Transform),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    strictEqual((await fileMappingOptions.Metadata).getFullText(), sourceCode);
-                });
-
-            test(
-                "Checking whether the code can be transformed as expected…",
-                async function()
-                {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    await tester.Run();
-                    strictEqual((await readFile(destinationFile.FullName)).toString(), sourceCode.replace(/var/g, "const"));
+                    test(
+                        "Checking whether the code is transformed correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            await tester.Run();
+                            strictEqual((await tester.ReadOutput()).trimEnd(), sourceCode.replace(/var/g, "const").trimEnd());
+                        });
                 });
         });
 }

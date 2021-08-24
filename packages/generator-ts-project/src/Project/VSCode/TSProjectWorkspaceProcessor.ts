@@ -6,18 +6,26 @@ import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { TSProjectGenerator } from "../TSProjectGenerator";
 import { TSProjectExtensionsProcessor } from "./TSProjectExtensionsProcessor";
 import { TSProjectLaunchSettingsProcessor } from "./TSProjectLaunchSettingsProcessor";
 import { TSProjectSettingsProcessor } from "./TSProjectSettingsProcessor";
 import { TSProjectTasksProcessor } from "./TSProjectTasksProcessor";
 
 /**
- * Provides the functionality to process workspaces for `TSProject`s.
+ * Provides the functionality to process workspaces for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TSProjectWorkspaceProcessor<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends WorkspaceProcessor<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `TSProjectWorkspaceProcessor` class.
+     * Initializes a new instance of the {@link TSProjectWorkspaceProcessor `TSProjectWorkspaceProcessor<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of the processor.

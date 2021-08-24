@@ -1,5 +1,10 @@
+import ESLintPresets = require("@manuth/eslint-plugin-typescript");
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+// eslint-disable-next-line node/no-unpublished-import
+import type { Linter } from "eslint";
 import { ExportAssignment, Node, SourceFile } from "ts-morph";
+import { fileName } from "types-eslintrc";
+import { changeExt } from "upath";
 import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
 import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
@@ -7,11 +12,17 @@ import { LintRuleset } from "../LintRuleset";
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TypeScriptTransformMapping<TSettings, TOptions>
 {
     /**
-     * Initializes a new instance of the `ESLintRCFileMapping` class.
+     * Initializes a new instance of the {@link ESLintRCFileMapping `ESLintRCFileMapping<TSettings, TOptions>`} class.
      *
      * @param generator
      * The generator of the file-mapping.
@@ -22,11 +33,27 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
     }
 
     /**
-     * Gets the prefix of the rule-sets.
+     * Gets the default name of the file.
      */
-    protected get RulesetPrefix(): string
+    public static get FileName(): string
     {
-        return "plugin:@manuth/typescript/";
+        return changeExt(fileName, ".js");
+    }
+
+    /**
+     * Gets the default base-name of the file.
+     */
+    public get DefaultBaseName(): string
+    {
+        return ESLintRCFileMapping.FileName;
+    }
+
+    /**
+     * Gets the base-name of the file.
+     */
+    public get BaseName(): string
+    {
+        return this.DefaultBaseName;
     }
 
     /**
@@ -34,7 +61,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public get Source(): string
     {
-        return this.Generator.modulePath(".eslintrc.js");
+        return this.Generator.modulePath(this.BaseName);
     }
 
     /**
@@ -42,17 +69,17 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public get Destination(): string
     {
-        return ".eslintrc.js";
+        return this.BaseName;
     }
 
     /**
-     * Processes the specified `data`.
+     * Processes the specified {@link sourceFile `sourceFile`}.
      *
      * @param sourceFile
      * The source-file to process.
      *
      * @returns
-     * The processed data.
+     * The processed source-file.
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
@@ -61,11 +88,11 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
         switch (this.Generator.Settings[TSProjectSettingKey.LintRuleset])
         {
             case LintRuleset.Weak:
-                preset = "weak-requiring-type-checking";
+                preset = nameof(ESLintPresets.PresetName.WeakWithTypeChecking);
                 break;
             case LintRuleset.Recommended:
             default:
-                preset = "recommended-requiring-type-checking";
+                preset = nameof(ESLintPresets.PresetName.RecommendedWithTypeChecking);
                 break;
         }
 
@@ -78,7 +105,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
 
                     if (Node.isBinaryExpression(expression))
                     {
-                        return expression.getLeft().getText() === "module.exports";
+                        return expression.getLeft().getText() === `${nameof(module)}.${nameof(module.exports)}`;
                     }
                 }
 
@@ -93,8 +120,8 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
 
             if (Node.isObjectLiteralExpression(right))
             {
-                let extendsProperty = right.getProperty("extends");
-                right.getProperty("root").remove();
+                let extendsProperty = right.getProperty(nameof<Linter.Config>((config) => config.extends));
+                right.getProperty(nameof<Linter.Config>((config) => config.root)).remove();
 
                 if (Node.isPropertyAssignment(extendsProperty))
                 {
@@ -104,11 +131,24 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                     {
                         for (let item of extendsValue.getElements())
                         {
-                            if (
-                                Node.isStringLiteral(item) &&
-                                item.getLiteralValue().startsWith(this.RulesetPrefix))
+                            if (Node.isTemplateExpression(item))
                             {
-                                item.setLiteralValue(this.RulesetPrefix + preset);
+                                for (let templateSpan of item.getTemplateSpans())
+                                {
+                                    let outerProperty = templateSpan.getExpression();
+
+                                    if (Node.isPropertyAccessExpression(outerProperty))
+                                    {
+                                        let presetNameProperty = outerProperty.getExpression();
+
+                                        if (
+                                            Node.isPropertyAccessExpression(presetNameProperty) &&
+                                            presetNameProperty.getName() === nameof(ESLintPresets.PresetName))
+                                        {
+                                            outerProperty.getNameNode().replaceWithText(preset);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

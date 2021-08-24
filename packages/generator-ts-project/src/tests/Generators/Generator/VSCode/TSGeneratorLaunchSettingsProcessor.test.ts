@@ -12,7 +12,7 @@ import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorksp
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorLaunchSettingsProcessor` class.
+ * Registers tests for the {@link TSGeneratorLaunchSettingsProcessor `TSGeneratorLaunchSettingsProcessor<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -20,7 +20,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorLaunchSettingsProcessor",
+        nameof(TSGeneratorLaunchSettingsProcessor),
         () =>
         {
             let settings: Partial<ITSGeneratorSettings>;
@@ -60,32 +60,37 @@ export function TSGeneratorLaunchSettingsProcessorTests(context: TestContext<TSG
                     Object.assign(processor.Generator.Settings, settings);
                 });
 
-            test(
-                "Checking whether a launch-configuration for each generator is present…",
-                async function()
+            suite(
+                nameof<TSGeneratorLaunchSettingsProcessor<any, any>>((processor) => processor.Process),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
-                    let launchSettings = await processor.Process(await component.Source.LaunchMetadata);
-                    let debugConfigs = launchSettings.configurations ?? [];
+                    test(
+                        "Checking whether a launch-configuration for each generator is present…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
+                            let launchSettings = await processor.Process(await component.Source.GetLaunchMetadata());
+                            let debugConfigs = launchSettings.configurations ?? [];
 
-                    ok(
-                        debugConfigs.some(
-                            (debugConfig) =>
-                            {
-                                return debugConfig.name === "Launch Yeoman";
-                            }));
-
-                    ok(
-                        settings[TSGeneratorSettingKey.SubGenerators].every(
-                            (subGeneratorOptions) =>
-                            {
-                                return debugConfigs.some(
+                            ok(
+                                debugConfigs.some(
                                     (debugConfig) =>
                                     {
-                                        return debugConfig.name.includes(`${subGeneratorOptions[SubGeneratorSettingKey.DisplayName]} generator`);
-                                    });
-                            }));
+                                        return debugConfig.name === "Launch Yeoman";
+                                    }));
+
+                            ok(
+                                settings[TSGeneratorSettingKey.SubGenerators].every(
+                                    (subGeneratorOptions) =>
+                                    {
+                                        return debugConfigs.some(
+                                            (debugConfig) =>
+                                            {
+                                                return debugConfig.name.includes(`${subGeneratorOptions[SubGeneratorSettingKey.DisplayName]} generator`);
+                                            });
+                                    }));
+                        });
                 });
         });
 }

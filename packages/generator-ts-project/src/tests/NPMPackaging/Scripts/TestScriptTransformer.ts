@@ -3,7 +3,7 @@
  */
 export type TestScriptTransformer =
     /**
-     * Trnasforms a script.
+     * Transforms a script.
      *
      * @param script
      * The script to transform.

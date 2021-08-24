@@ -7,7 +7,7 @@ import { TSGeneratorGenerator } from "../../../../generators/generator/TSGenerat
 import { TestContext } from "../../../TestContext";
 
 /**
- * Registers tests for the `TSGeneratorComponentCollection` class.
+ * Registers tests for the {@link TSGeneratorComponentCollection `TSGeneratorComponentCollection<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../../TestContext";
 export function TSGeneratorComponentCollectionTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        "TSGeneratorComponentCollection",
+        nameof(TSGeneratorComponentCollection),
         () =>
         {
             let collection: TSGeneratorComponentCollection<ITSGeneratorSettings, GeneratorOptions>;
@@ -27,14 +27,19 @@ export function TSGeneratorComponentCollectionTests(context: TestContext<TSGener
                     collection = new TSGeneratorComponentCollection(await context.Generator);
                 });
 
-            test(
-                "Checking whether all categories for `TSGenerator`s are present…",
-                async () =>
+            suite(
+                nameof<TSGeneratorComponentCollection<any, any>>((collection) => collection.Categories),
+                () =>
                 {
-                    for (let categoryType of [TSGeneratorCategory])
-                    {
-                        ok(collection.Categories.some((category) => category instanceof categoryType));
-                    }
+                    test(
+                        `Checking whether all categories for \`${nameof(TSGeneratorGenerator)}\`s are present…`,
+                        async () =>
+                        {
+                            for (let categoryType of [TSGeneratorCategory])
+                            {
+                                ok(collection.Categories.some((category) => category instanceof categoryType));
+                            }
+                        });
                 });
         });
 }

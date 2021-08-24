@@ -1,6 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { parse } from "comment-json";
 import { readFile } from "fs-extra";
+import { IParser } from "../../Components/Transformation/Conversion/IParser";
+import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
 import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../IExtensionSettings";
 import { ILaunchSettings } from "../ILaunchSettings";
@@ -9,6 +10,12 @@ import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
 
 /**
  * Provides the functionality to load a vscode-workspace.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions>
 {
@@ -18,7 +25,7 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
     private component: CodeWorkspaceComponent<TSettings, TOptions>;
 
     /**
-     * Initializes a new instance of the `CodeWorkspaceProvider` class.
+     * Initializes a new instance of the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.
      *
      * @param component
      * The component of this code-workspace provider.
@@ -46,68 +53,75 @@ export abstract class CodeWorkspaceProvider<TSettings extends IGeneratorSettings
 
     /**
      * Gets the meta-data of the workspace.
+     *
+     * @returns
+     * The meta-data of the workspace.
      */
-    public abstract get WorkspaceMetadata(): Promise<IWorkspaceMetadata>;
+    public abstract GetWorkspaceMetadata(): Promise<IWorkspaceMetadata>;
 
     /**
      * Gets the meta-data of the extensions.
+     *
+     * @returns
+     * The meta-data of the extensions.
      */
-    public get ExtensionsMetadata(): Promise<IExtensionSettings>
+    public async GetExtensionsMetadata(): Promise<IExtensionSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).extensions;
-            })();
+        return (await this.GetWorkspaceMetadata()).extensions;
     }
 
     /**
      * Gets the meta-data of the debug-settings.
+     *
+     * @returns
+     * The meta-data of the debug-settings.
      */
-    public get LaunchMetadata(): Promise<ILaunchSettings>
+    public async GetLaunchMetadata(): Promise<ILaunchSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).launch;
-            })();
+        return (await this.GetWorkspaceMetadata()).launch;
     }
 
     /**
      * Gets the meta-data of the settings.
+     *
+     * @returns
+     * The meta-data of the settings.
      */
-    public get SettingsMetadata(): Promise<Record<string, any>>
+    public async GetSettingsMetadata(): Promise<Record<string, any>>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).settings;
-            })();
+        return (await this.GetWorkspaceMetadata()).settings;
     }
 
     /**
      * Gets the meta-data of the tasks.
+     *
+     * @returns
+     * The meta-data of the tasks.
      */
-    public get TasksMetadata(): Promise<ITaskSettings>
+    public async GetTasksMetadata(): Promise<ITaskSettings>
     {
-        return (
-            async () =>
-            {
-                return (await this.WorkspaceMetadata).tasks;
-            })();
+        return (await this.GetWorkspaceMetadata()).tasks;
     }
 
     /**
-     * Reads json from the specified `path`.
+     * Gets a component for dumping json-code.
+     */
+    protected get Parser(): IParser<any>
+    {
+        return new JSONCConverter();
+    }
+
+    /**
+     * Reads json from the specified {@link path `path`}.
      *
      * @param path
      * The path to the JSON file to read.
      *
      * @returns
-     * The JSON read from the `path`.
+     * The JSON read from the specified {@link path `path`}.
      */
     protected async ReadJSON(path: string): Promise<any>
     {
-        return parse((await readFile(path)).toString());
+        return this.Parser.Parse((await readFile(path)).toString());
     }
 }

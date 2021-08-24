@@ -6,7 +6,7 @@ import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator"
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSModuleGenerator`.
+ * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
  *
  * @param context
  * The test-context.
@@ -14,7 +14,7 @@ import { TestContext } from "../../TestContext";
 export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>): void
 {
     suite(
-        "TSModuleGenerator",
+        nameof(TSModuleGenerator),
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;
@@ -25,6 +25,26 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.timeout(5 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: runContext.generator.destinationPath()
+                        });
+
+                    spawnSync(
+                        npmWhich(__dirname).sync("npm"),
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: runContext.generator.destinationPath()
+                        });
                 });
 
             suiteTeardown(

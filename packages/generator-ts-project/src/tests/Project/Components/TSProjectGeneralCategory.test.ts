@@ -7,7 +7,7 @@ import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
 import { TestContext } from "../../TestContext";
 
 /**
- * Registers tests for the `TSProjectGeneralCategory` class.
+ * Registers tests for the {@link TSProjectGeneralCategory `TSProjectGeneralCategory<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -15,7 +15,7 @@ import { TestContext } from "../../TestContext";
 export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        "TSProjectGeneralCategory",
+        nameof(TSProjectGeneralCategory),
         () =>
         {
             let category: TSProjectGeneralCategory<ITSProjectSettings, GeneratorOptions>;
@@ -27,19 +27,24 @@ export function TSProjectGeneralCategoryTests(context: TestContext<TSProjectGene
                     category = new TSProjectGeneralCategory(await context.Generator);
                 });
 
-            test(
-                "Checking whether all necessary components are present…",
+            suite(
+                nameof<TSProjectGeneralCategory<any, any>>((category) => category.Components),
                 () =>
                 {
-                    for (let componentType of [TSProjectCodeWorkspaceFolder])
-                    {
-                        ok(
-                            category.Components.some(
-                                (component) =>
-                                {
-                                    return component instanceof componentType;
-                                }));
-                    }
+                    test(
+                        "Checking whether all necessary components are present…",
+                        () =>
+                        {
+                            for (let componentType of [TSProjectCodeWorkspaceFolder])
+                            {
+                                ok(
+                                    category.Components.some(
+                                        (component) =>
+                                        {
+                                            return component instanceof componentType;
+                                        }));
+                            }
+                        });
                 });
         });
 }

@@ -1,5 +1,4 @@
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TestContext } from "../TestContext";
+import { basename } from "path";
 import { ComponentTests } from "./Components";
 import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test";
 import { FileMappingTests } from "./FileMappings";
@@ -11,23 +10,20 @@ import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test";
 
 /**
  * Registers tests for `VSCode` components.
- *
- * @param context
- * The test-context.
  */
-export function VSCodeTests(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function VSCodeTests(): void
 {
     suite(
-        "VSCode",
+        basename(__dirname),
         () =>
         {
-            VSCodeJSONProcessorTests(context);
-            ExtensionsProcessorTests(context);
-            LaunchSettingsProcessorTests(context);
-            SettingsProcessorTest(context);
-            TasksProcessorTests(context);
-            WorkspaceProcessorTests(context);
-            FileMappingTests(context);
-            ComponentTests(context);
+            VSCodeJSONProcessorTests();
+            ExtensionsProcessorTests();
+            LaunchSettingsProcessorTests();
+            SettingsProcessorTest();
+            TasksProcessorTests();
+            WorkspaceProcessorTests();
+            FileMappingTests();
+            ComponentTests();
         });
 }

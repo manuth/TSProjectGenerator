@@ -1,6 +1,6 @@
 import { deepStrictEqual, ok } from "assert";
 import { FileMapping, GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorOptions, ITestGeneratorSettings, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { join } from "upath";
@@ -10,17 +10,15 @@ import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceCompo
 import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
 
 /**
- * Registers tests for the `WorkspaceFolderCreator` class.
- *
- * @param context
- * The test-context.
+ * Registers tests for the {@link WorkspaceFolderCreator `WorkspaceFolderCreator<TSettings, TOptions>`} class.
  */
-export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, ITestGeneratorOptions<ITestOptions>>): void
+export function WorkspaceFolderCreatorTest(): void
 {
     suite(
-        "WorkspaceFolderCreator",
+        nameof(WorkspaceFolderCreator),
         () =>
         {
+            let context = TestContext.Default;
             let generator: TestGenerator;
             let randomComment: string;
             let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
@@ -28,7 +26,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
             let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings, GeneratorOptions>;
 
             /**
-             * Asserts the content of the file located at the `path`.
+             * Asserts the content of the file located at the specified {@link path `path`}.
              *
              * @param path
              * The path whose contents to assert.
@@ -65,7 +63,7 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                 async function()
                 {
                     this.timeout(10 * 1000);
-                    let workspace = await source.WorkspaceMetadata;
+                    let workspace = await source.GetWorkspaceMetadata();
                     randomComment = context.RandomString;
                     workspace.extensions = context.RandomObject;
                     workspace.launch = context.RandomObject;
@@ -84,43 +82,48 @@ export function WorkspaceFolderCreatorTest(context: TestContext<TestGenerator, I
                     }
                 });
 
-            test(
-                "Checking whether the workspace-files are created correctly…",
-                async function()
+            suite(
+                nameof<WorkspaceFolderCreator<any, any>>((creator) => creator.FileMappings),
+                () =>
                 {
-                    this.timeout(1 * 1000);
-                    this.slow(0.5 * 1000);
+                    test(
+                        "Checking whether the workspace-files are created correctly…",
+                        async function()
+                        {
+                            this.timeout(1 * 1000);
+                            this.slow(0.5 * 1000);
 
-                    let fileAssertions: Array<[string, Promise<any>]> = [
-                        [fileMappingCreator.ExtensionsFileName, component.Source.ExtensionsMetadata],
-                        [fileMappingCreator.LaunchFileName, component.Source.LaunchMetadata],
-                        [fileMappingCreator.SettingsFileName, component.Source.SettingsMetadata],
-                        [fileMappingCreator.TasksFileName, component.Source.TasksMetadata]
-                    ];
+                            let fileAssertions: Array<[string, Promise<any>]> = [
+                                [fileMappingCreator.ExtensionsFileName, component.Source.GetExtensionsMetadata()],
+                                [fileMappingCreator.LaunchFileName, component.Source.GetLaunchMetadata()],
+                                [fileMappingCreator.SettingsFileName, component.Source.GetSettingsMetadata()],
+                                [fileMappingCreator.TasksFileName, component.Source.GetTasksMetadata()]
+                            ];
 
-                    for (let fileAssertion of fileAssertions)
-                    {
-                        let path = join(fileMappingCreator.SettingsFolderName, fileAssertion[0]);
-                        await AssertContent(path, await fileAssertion[1]);
-                    }
-                });
+                            for (let fileAssertion of fileAssertions)
+                            {
+                                let path = join(fileMappingCreator.SettingsFolderName, fileAssertion[0]);
+                                await AssertContent(path, await fileAssertion[1]);
+                            }
+                        });
 
-            test(
-                "Checking whether comments persist in the workspace-files…",
-                async () =>
-                {
-                    ok(
-                        stringify(
-                            await source.ReadJSON(
-                                new FileMapping(
-                                    generator,
-                                    {
-                                        Destination: join(
-                                            fileMappingCreator.SettingsFolderName,
-                                            fileMappingCreator.TasksFileName)
-                                    }).Destination),
-                            null,
-                            4).includes(randomComment));
+                    test(
+                        "Checking whether comments persist in the workspace-files…",
+                        async () =>
+                        {
+                            ok(
+                                stringify(
+                                    await source.ReadJSON(
+                                        new FileMapping(
+                                            generator,
+                                            {
+                                                Destination: join(
+                                                    fileMappingCreator.SettingsFolderName,
+                                                    fileMappingCreator.TasksFileName)
+                                            }).Destination),
+                                    null,
+                                    4).includes(randomComment));
+                        });
                 });
         });
 }

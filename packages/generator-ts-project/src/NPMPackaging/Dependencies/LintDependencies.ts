@@ -1,5 +1,5 @@
+import { PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { LintEssentials } from "./LintEssentials";
-import { PackageDependencyCollection } from "./PackageDependencyCollection";
 
 /**
  * Provides a set of all dependencies for performing linting.
@@ -7,18 +7,26 @@ import { PackageDependencyCollection } from "./PackageDependencyCollection";
 export class LintDependencies extends LintEssentials
 {
     /**
-     * Initializes a new instance of the `LintDependencies` class.
+     * Initializes a new instance of the {@link LintDependencies `LintDependencies`} class.
      */
     public constructor()
     {
         super();
+    }
 
-        this.Register(
-            new PackageDependencyCollection(
-                {
-                    devDependencies: [
-                        "@manuth/typescript-eslint-plugin"
-                    ]
-                }));
+    /**
+     * @inheritdoc
+     */
+    protected override get DependencyNames(): PackageDependencyCollectionOptions
+    {
+        let result = super.DependencyNames;
+
+        return {
+            ...result,
+            devDependencies: [
+                ...(result.devDependencies ?? []),
+                "@manuth/typescript-eslint-plugin"
+            ]
+        };
     }
 }

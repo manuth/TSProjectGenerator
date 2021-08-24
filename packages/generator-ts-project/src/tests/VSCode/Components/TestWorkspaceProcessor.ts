@@ -1,12 +1,19 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONProcessor } from "../../../Components/JSONProcessor";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
 import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
 import { ITaskSettings } from "../../../VSCode/ITaskSettings";
 import { WorkspaceProcessor } from "../../../VSCode/WorkspaceProcessor";
 
 /**
- * Provides an implementation of the `WorkspaceProcessor` class for testing.
+ * Provides an implementation of the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class for testing.
+ *
+ * @template TSettings
+ * The type of the settings of the generator.
+ *
+ * @template TOptions
+ * The type of the options of the generator.
  */
 export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends WorkspaceProcessor<TSettings, TOptions>
 {
@@ -29,6 +36,17 @@ export class TestWorkspaceProcessor<TSettings extends IGeneratorSettings, TOptio
      * A component for processing tasks.
      */
     private tasksProcessor: JSONProcessor<TSettings, TOptions, ITaskSettings> = new JSONProcessor(this.Generator);
+
+    /**
+     * Initializes a new instance of the {@link TestWorkspaceProcessor `TestWorkspaceProcessor<TSettings, TOptions>`} class.
+     *
+     * @param component
+     * The component of the processor.
+     */
+    public constructor(component: CodeWorkspaceComponent<TSettings, TOptions>)
+    {
+        super(component);
+    }
 
     /**
      * Gets or sets a component for processing the extensions.

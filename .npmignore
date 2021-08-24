@@ -121,3 +121,8 @@ dist
 
 # Drone configuration
 .drone.yml
+
+# Temporary release-assets
+.tagName.txt
+.releaseNotes.md
+.releaseTitle.md
