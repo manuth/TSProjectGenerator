@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.2...dev)
+
+## TSProjectGenerator v3.0.2
+### Updated
+  - Broken dependency
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.1...v3.0.2)
 
 ## TSProjectGenerator v3.0.1
 ### Added

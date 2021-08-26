@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project-test",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Provides the functionality to test `TSProjectGenerator`-components",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -39,9 +39,9 @@
     "patchTypeScript": "ts-patch install && ts-patch --persist"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^11.0.2",
-    "@manuth/extended-yo-generator-test": "^11.0.2",
-    "@manuth/generator-ts-project": "^3.0.1",
+    "@manuth/extended-yo-generator": "^11.0.3",
+    "@manuth/extended-yo-generator-test": "^11.0.3",
+    "@manuth/generator-ts-project": "^3.0.2",
     "@manuth/package-json-editor": "^2.2.3",
     "@manuth/temp-files": "^2.0.7",
     "@stdlib/utils-escape-regexp-string": "^0.0.7",
@@ -57,25 +57,17 @@
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.7.1",
+    "@types/node": "^16.7.2",
     "@types/npm-packlist": "^1.1.2",
     "@types/ts-nameof": "^4.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
     "concurrently": "^6.2.1",
     "dedent": "^0.7.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-deprecation": "^1.2.1",
-    "eslint-plugin-import": "^2.24.1",
-    "eslint-plugin-jsdoc": "^36.0.7",
-    "eslint-plugin-node": "^11.1.0",
     "mocha": "^9.1.0",
     "rimraf": "^3.0.2",
     "shusher": "^0.1.1",
     "ts-nameof": "^5.0.0",
     "ts-patch": "^1.4.3",
-    "tslint": "^6.1.3",
     "typescript": "^4.3.5"
   }
 }
