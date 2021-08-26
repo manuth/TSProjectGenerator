@@ -39,8 +39,8 @@
     "patchTypeScript": "ts-patch install && ts-patch --persist"
   },
   "dependencies": {
-    "@manuth/extended-yo-generator": "^11.0.2",
-    "@manuth/extended-yo-generator-test": "^11.0.2",
+    "@manuth/extended-yo-generator": "^11.0.3",
+    "@manuth/extended-yo-generator-test": "^11.0.3",
     "@manuth/generator-ts-project": "^3.0.1",
     "@manuth/package-json-editor": "^2.2.3",
     "@manuth/temp-files": "^2.0.7",
@@ -57,7 +57,7 @@
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.7.1",
+    "@types/node": "^16.7.2",
     "@types/npm-packlist": "^1.1.2",
     "@types/ts-nameof": "^4.2.1",
     "concurrently": "^6.2.1",
