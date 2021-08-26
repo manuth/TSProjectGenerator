@@ -5,10 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.2...dev)
+
+## TSProjectGenerator v3.0.2
 ### Updated
   - Broken dependency
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.1...v3.0.2)
 
 ## TSProjectGenerator v3.0.1
 ### Added
