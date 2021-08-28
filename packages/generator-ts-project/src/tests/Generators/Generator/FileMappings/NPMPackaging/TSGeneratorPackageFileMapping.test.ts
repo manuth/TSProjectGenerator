@@ -51,7 +51,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                     tester = new PackageFileMappingTester(await context.Generator, fileMappingOptions);
                 });
 
-            teardown(
+            setup(
                 async () =>
                 {
                     await tester.Clean();

@@ -73,7 +73,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                         () =>
                         {
                             ok(
-                                tester.FileMappingOptions.ScriptMappingCollection.Items.every(
+                                tester.FileMappingOptions.Base.ScriptMappingCollection.Items.every(
                                     (scriptMapping) =>
                                     {
                                         return tester.FileMappingOptions.ScriptMappingCollection.Items.some(

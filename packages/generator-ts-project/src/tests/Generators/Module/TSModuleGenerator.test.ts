@@ -18,6 +18,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         () =>
         {
             let runContext: IRunContext<TSModuleGenerator>;
+            let generator: TSModuleGenerator;
+            let testContext: IRunContext<TSModuleGenerator>;
 
             suiteSetup(
                 async function()
@@ -25,6 +27,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.timeout(5 * 60 * 1000);
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
+                    generator = runContext.generator;
 
                     spawnSync(
                         npmWhich(__dirname).sync("npm"),
@@ -33,7 +36,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: generator.destinationPath()
                         });
 
                     spawnSync(
@@ -43,7 +46,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: generator.destinationPath()
                         });
                 });
 
@@ -52,6 +55,21 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(1 * 60 * 1000);
                     runContext.cleanTestDirectory();
+                });
+
+            setup(
+                async function()
+                {
+                    this.timeout(5 * 60 * 1000);
+                    testContext = context.ExecuteGenerator();
+                    await testContext.toPromise();
+                });
+
+            teardown(
+                function()
+                {
+                    this.timeout(1 * 60 * 1000);
+                    testContext.cleanTestDirectory();
                 });
 
             test(
@@ -68,7 +86,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: testContext.generator.destinationPath()
                         });
 
                     let buildResult = spawnSync(
@@ -78,7 +96,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: testContext.generator.destinationPath()
                         });
 
                     strictEqual(installationResult.status, 0);
@@ -92,7 +110,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     doesNotThrow(
                         () =>
                         {
-                            require(runContext.generator.destinationPath());
+                            require(generator.destinationPath());
                         });
                 });
 
@@ -104,9 +122,9 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.slow(4 * 1000);
 
                     let result = spawnSync(
-                        npmWhich(runContext.generator.destinationPath()).sync("mocha"),
+                        npmWhich(generator.destinationPath()).sync("mocha"),
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: generator.destinationPath()
                         });
 
                     strictEqual(result.status, 0);
