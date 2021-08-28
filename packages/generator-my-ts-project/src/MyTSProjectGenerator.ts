@@ -1,6 +1,5 @@
 import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingCollectionEditor, GeneratorConstructor, GeneratorExtensionConstructor, GeneratorOptions, IComponentCollection, IGenerator } from "@manuth/extended-yo-generator";
-import { JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
-import { parse } from "comment-json";
+import { JSONCConverter, JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 // eslint-disable-next-line node/no-unpublished-import
 import type { TSConfigJSON } from "types-tsconfig";
 import { join } from "upath";
@@ -231,9 +230,9 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                     Destination: fileMapping.Destination,
                     Processor: async (target, generator) =>
                     {
-                        let originalConfig: TSConfigJSON = parse(generator.fs.read(target.Source));
+                        let originalConfig: TSConfigJSON = new JSONCConverter().Parse(generator.fs.read(target.Source));
                         await fileMapping.Processor();
-                        let tsConfig: TSConfigJSON = parse(generator.fs.read(target.Destination));
+                        let tsConfig: TSConfigJSON = new JSONCConverter().Parse(generator.fs.read(target.Destination));
                         tsConfig.compilerOptions.plugins = originalConfig.compilerOptions.plugins;
                         return new JSONCCreatorMapping(generator, target.Destination, tsConfig).Processor();
                     }

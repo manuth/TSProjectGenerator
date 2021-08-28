@@ -29,6 +29,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         {
             let tempDir: TempDirectory;
             let runContext: IRunContext<TSGeneratorGenerator>;
+            let testContext: IRunContext<TSGeneratorGenerator>;
             let generator: TSGeneratorGenerator;
             let settings: ITSGeneratorSettings;
 
@@ -90,9 +91,19 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 });
 
             setup(
-                () =>
+                async function()
                 {
+                    this.timeout(5 * 60 * 1000);
                     tempDir = new TempDirectory();
+                    testContext = context.ExecuteGenerator();
+                    await testContext.toPromise();
+                });
+
+            teardown(
+                function()
+                {
+                    this.timeout(1 * 60 * 1000);
+                    testContext.cleanTestDirectory();
                 });
 
             suite(
@@ -113,7 +124,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "--silent"
                                 ],
                                 {
-                                    cwd: generator.destinationPath()
+                                    cwd: testContext.generator.destinationPath()
                                 });
 
                             let buildResult = spawnSync(
@@ -123,7 +134,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "build"
                                 ],
                                 {
-                                    cwd: generator.destinationPath()
+                                    cwd: testContext.generator.destinationPath()
                                 });
 
                             strictEqual(installationResult.status, 0);
