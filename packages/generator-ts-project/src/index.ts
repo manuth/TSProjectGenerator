@@ -7,6 +7,7 @@ export { IArrayQuestionOptions } from "./Components/Inquiry/Prompts/IArrayQuesti
 export { IPathPromptRootDescriptor } from "./Components/Inquiry/Prompts/IPathPromptRootDescriptor";
 export { IPathQuestion } from "./Components/Inquiry/Prompts/IPathQuestion";
 export { IPathQuestionOptions } from "./Components/Inquiry/Prompts/IPathQuestionOptions";
+export { IQuestionSetExtension } from "./Components/Inquiry/Prompts/IQuestionSetExtension";
 export { IQuestionSetQuestion } from "./Components/Inquiry/Prompts/IQuestionSetQuestion";
 export { IQuestionSetQuestionOptions } from "./Components/Inquiry/Prompts/IQuestionSetQuestionOptions";
 export { ISubGeneratorQuestion } from "./Components/Inquiry/Prompts/ISubGeneratorQuestion";
@@ -15,6 +16,8 @@ export { PathPrompt } from "./Components/Inquiry/Prompts/PathPrompt";
 export { PromptBase } from "./Components/Inquiry/Prompts/PromptBase";
 export { PromptCallback } from "./Components/Inquiry/Prompts/PromptCallback";
 export { QuestionSetPrompt } from "./Components/Inquiry/Prompts/QuestionSetPrompt";
+export { QuestionSetProperty } from "./Components/Inquiry/Prompts/QuestionSetProperty";
+export { SetQuestion } from "./Components/Inquiry/Prompts/SetQuestion";
 export { SubGeneratorPrompt } from "./Components/Inquiry/Prompts/SubGeneratorPrompt";
 export { SuspendablePrompt } from "./Components/Inquiry/Prompts/SuspendablePrompt";
 export { JSONCCreatorMapping } from "./Components/JSONCCreatorMapping";

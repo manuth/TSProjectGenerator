@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.6...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.7...dev)
+
+## TSProjectGenerator v3.0.7
+### Added
+  - Missing components to the export-list of the `@manuth/generator-ts-project`-module
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.6...v3.0.7)
 
 ## TSProjectGenerator v3.0.6
 ### Fixed
