@@ -6,6 +6,7 @@ import inquirer = require("inquirer");
 import { MockSTDIN, stdin } from "mock-stdin";
 import MuteStream = require("mute-stream");
 import { createSandbox, SinonExpectation, SinonMock, SinonSandbox, stub } from "sinon";
+import { normalize } from "upath";
 import { IPathPromptRootDescriptor } from "../../../../Components/Inquiry/Prompts/IPathPromptRootDescriptor";
 import { IPathQuestion } from "../../../../Components/Inquiry/Prompts/IPathQuestion";
 import { PathPrompt } from "../../../../Components/Inquiry/Prompts/PathPrompt";
@@ -650,7 +651,7 @@ export function PathPromptTests(): void
                             await Type(value);
                             prompt.ProcessAnswer();
                             console.log();
-                            strictEqual(path.normalize(prompt.rl.line), path.normalize(value));
+                            strictEqual(normalize(prompt.rl.line), normalize(value));
                         });
                 });
 
