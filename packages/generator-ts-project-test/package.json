@@ -57,7 +57,7 @@
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.7.4",
+    "@types/node": "^16.7.5",
     "@types/npm-packlist": "^1.1.2",
     "@types/ts-nameof": "^4.2.1",
     "concurrently": "^6.2.1",
