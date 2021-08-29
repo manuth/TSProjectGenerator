@@ -6,6 +6,7 @@ import inquirer = require("inquirer");
 import { MockSTDIN, stdin } from "mock-stdin";
 import MuteStream = require("mute-stream");
 import { createSandbox, SinonExpectation, SinonMock, SinonSandbox, stub } from "sinon";
+import { normalize } from "upath";
 import { IPathPromptRootDescriptor } from "../../../../Components/Inquiry/Prompts/IPathPromptRootDescriptor";
 import { IPathQuestion } from "../../../../Components/Inquiry/Prompts/IPathQuestion";
 import { PathPrompt } from "../../../../Components/Inquiry/Prompts/PathPrompt";
@@ -637,6 +638,20 @@ export function PathPromptTests(): void
                             prompt.ProcessAnswer();
                             console.log();
                             strictEqual(prompt.rl.line, path.normalize(value));
+                        });
+
+                    test(
+                        "Checking whether inputs with a trailing backslash are normalized correctly on linux-systems…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            let value = "./hello/world\\";
+                            prompt.opt.path = path.posix;
+                            await Type(value);
+                            prompt.ProcessAnswer();
+                            console.log();
+                            strictEqual(normalize(prompt.rl.line), normalize(value));
                         });
                 });
 

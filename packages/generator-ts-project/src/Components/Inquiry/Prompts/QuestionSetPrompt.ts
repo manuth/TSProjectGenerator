@@ -1,8 +1,9 @@
 import { Interface } from "readline";
-import { Answers, createPromptModule, DistinctQuestion } from "inquirer";
+import { Answers, createPromptModule, DistinctQuestion, Question } from "inquirer";
 import { IQuestionSetQuestion } from "./IQuestionSetQuestion";
 import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions";
 import { NestedPrompt } from "./NestedPrompt";
+import { SetQuestion } from "./SetQuestion";
 
 /**
  * Represents an answer-hash.
@@ -65,7 +66,8 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
      */
     protected async Prompt(): Promise<unknown>
     {
-        let questions: Array<DistinctQuestion<TAnswers>>;
+        let questions: Array<SetQuestion<TAnswers, unknown>>;
+        let processedQuestions: Array<Question<TAnswers>> = [];
         let promptModule = createPromptModule();
 
         if (this.opt.promptTypes)
@@ -85,6 +87,56 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
             questions = await this.opt.questions;
         }
 
-        return promptModule(questions);
+        for (let question of questions)
+        {
+            let overrides: Partial<DistinctQuestion<TAnswers>> = {};
+
+            for (
+                let key of [
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.message),
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.default),
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.when)
+                ] as Array<keyof DistinctQuestion<TAnswers>>)
+            {
+                let base = question[key];
+
+                if (typeof base === "function")
+                {
+                    overrides[key] = async (answers: TAnswers) =>
+                    {
+                        return question[key](
+                            answers,
+                            {
+                                ...this.answers,
+                                [question.name]: answers
+                            });
+                    };
+                }
+            }
+
+            if (typeof question.filter === "function")
+            {
+                overrides.filter = (input, answers) =>
+                {
+                    return question.filter(input, answers, this.answers);
+                };
+            }
+
+            if (typeof question.validate === "function")
+            {
+                overrides.validate = (input, answers) =>
+                {
+                    return question.validate(input, answers, this.answers);
+                };
+            }
+
+            processedQuestions.push(
+                {
+                    ...question,
+                    ...overrides
+                });
+        }
+
+        return promptModule(processedQuestions);
     }
 }

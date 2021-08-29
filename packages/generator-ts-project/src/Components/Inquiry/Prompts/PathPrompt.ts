@@ -287,7 +287,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
 
         if (/[/\\]$/.test(answer))
         {
-            parsedPath = this.Path.parse(answer + ".");
+            parsedPath = this.Path.parse(normalize(answer) + ".");
             parsedPath.base = "";
             parsedPath.name = "";
         }

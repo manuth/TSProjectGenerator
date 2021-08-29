@@ -1,6 +1,7 @@
 import inquirer = require("inquirer");
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { QuestionSetPrompt } from "./QuestionSetPrompt";
+import { SetQuestion } from "./SetQuestion";
 
 /**
  * Provides options for the {@link QuestionSetPrompt `QuestionSetPrompt<TAnswers, TQuestion>`}.
@@ -21,5 +22,5 @@ export interface IQuestionSetQuestionOptions<TResult extends inquirer.Answers = 
     /**
      * The questions to ask.
      */
-    questions: inquirer.AsyncDynamicQuestionProperty<Array<inquirer.DistinctQuestion<TResult>>>;
+    questions: inquirer.AsyncDynamicQuestionProperty<Array<SetQuestion<TResult, TAnswers>>>;
 }
