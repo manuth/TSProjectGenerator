@@ -122,7 +122,7 @@ export function NPMIgnoreFileMappingTesterTests(): void
                     await ensureFile(includedDirFileName);
                     await ensureFile(excludedDirFileName);
 
-                    tester.WriteOutput(
+                    await tester.WriteOutput(
                         dedent(
                             `
                                 ${basename(excludedFile.FullName)}
