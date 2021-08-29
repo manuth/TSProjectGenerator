@@ -638,6 +638,20 @@ export function PathPromptTests(): void
                             console.log();
                             strictEqual(prompt.rl.line, path.normalize(value));
                         });
+
+                    test(
+                        "Checking whether inputs with a trailing backslash are normalized correctly on linux-systems…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            let value = "./hello/world\\";
+                            prompt.opt.path = path.posix;
+                            await Type(value);
+                            prompt.ProcessAnswer();
+                            console.log();
+                            strictEqual(path.normalize(prompt.rl.line), path.normalize(value));
+                        });
                 });
 
             suite(
