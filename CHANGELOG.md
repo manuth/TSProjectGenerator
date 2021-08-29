@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## TSProjectGenerator [Unreleased]
 ### Fixed
   - The `PathPrompt`s treatment of trailing backslashes on linux
+  - Broken unit-tests
 
 ### Added
   - Support for getting all answers from within a `QuestionSetPrompt`
