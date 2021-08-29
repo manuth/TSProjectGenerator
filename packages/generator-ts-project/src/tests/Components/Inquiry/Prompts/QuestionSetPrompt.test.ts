@@ -1,5 +1,6 @@
 import { ok, strictEqual } from "assert";
-import { createPromptModule, DistinctQuestion, PromptModule, Question } from "inquirer";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { Answers, createPromptModule, DistinctQuestion, PromptModule, Question } from "inquirer";
 import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt";
 import { TestContext } from "../../../TestContext";
 
@@ -12,6 +13,7 @@ export function QuestionSetPromptTests(): void
         nameof<QuestionSetPrompt<any>>(),
         () =>
         {
+            let context: TestContext<TestGenerator>;
             let promptModule: PromptModule;
             let testKey = "test" as const;
             let name: string;
@@ -46,12 +48,18 @@ export function QuestionSetPromptTests(): void
                 }
             }
 
+            suiteSetup(
+                () =>
+                {
+                    context = TestContext.Default;
+                });
+
             setup(
                 () =>
                 {
                     promptModule = createPromptModule();
                     promptModule.registerPrompt(QuestionSetPrompt.TypeName, QuestionSetPrompt);
-                    TestContext.Default.RegisterTestPrompt("input", promptModule);
+                    context.RegisterTestPrompt("input", promptModule);
                     name = TestContext.Default.RandomString;
                     message = TestContext.Default.RandomString;
 
@@ -88,6 +96,42 @@ export function QuestionSetPromptTests(): void
                             ok(typeof result[testKey] === "object");
                             strictEqual(result[testKey].name, name);
                             strictEqual(result[testKey].message, message);
+                        });
+
+                    test(
+                        "Checking whether all answes are passed to the question-properties…",
+                        async () =>
+                        {
+                            let value = context.RandomString;
+                            let key = `${testKey}2`;
+                            let testValue: string;
+
+                            let result = await promptModule<IAnswerHash>(
+                                [
+                                    {
+                                        name: key,
+                                        default: value
+                                    },
+                                    {
+                                        type: QuestionSetPrompt.TypeName,
+                                        name: testKey,
+                                        promptTypes: promptModule.prompts,
+                                        questions: [
+                                            {
+                                                ...questions[0],
+                                                default: (result: Answers, answers: IAnswerHash) =>
+                                                {
+                                                    testValue = (answers as any)[key];
+                                                    return testValue;
+                                                }
+                                            },
+                                            ...questions.slice(1)
+                                        ]
+                                    }
+                                ]);
+
+                            strictEqual(testValue, value);
+                            strictEqual(result[testKey].name, value);
                         });
                 });
         });
