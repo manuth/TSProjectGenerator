@@ -16,5 +16,8 @@ module.exports = {
             join(__dirname, "tsconfig.eslint.json"),
             join(__dirname, "src", "tests", "tsconfig.json")
         ]
-    }
+    },
+    ignorePatterns: [
+        "**/*.test-d.ts"
+    ]
 };
