@@ -10,4 +10,4 @@
  * @template TAnswers
  * The type of the answers.
  */
-export type QuestionSetProperty<T, TResult, TAnswers> = T | ((result: TResult, answers?: TAnswers) => (T | Promise<T>));
+export type QuestionSetProperty<T, TResult, TAnswers> = T | Promise<T> | ((result: TResult, answers?: TAnswers) => (T | Promise<T>));
