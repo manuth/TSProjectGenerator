@@ -3,6 +3,12 @@ import { QuestionSetProperty } from "./QuestionSetProperty";
 
 /**
  * Represents an extension for question-set questions.
+ *
+ * @template TResult
+ * The type of the answer-hash of the inner questions.
+ *
+ * @template TAnswers
+ * The type of the answers.
  */
 export interface IQuestionSetExtension<TResult, TAnswers extends Answers = Answers> extends Question<TResult>
 {
