@@ -75,7 +75,7 @@ export function ArrayPromptTests(): void
                     let i = 0;
                     testLength = 1;
                     testValue = context.RandomObject;
-                    context.RegisterTestPrompt("confirm");
+                    context.RegisterTestPrompt(prompt, "confirm");
                     mock(inquirerModuleName, require.resolve(inquirerModuleName));
                     registerPrompt(type, TestArrayPrompt);
                     repeat = () => ++i < testLength;

@@ -1,11 +1,10 @@
 import { Generator } from "@manuth/extended-yo-generator";
 import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
-import inquirer = require("inquirer");
-import { MockSTDIN, stdin } from "mock-stdin";
+import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
+import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
+import { MockSTDIN } from "mock-stdin";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
-import { IMockedAnswer } from "./IMockedAnswer";
-import { TestPrompt } from "./TestPrompt";
 
 /**
  * Represents a context for testing.
@@ -18,6 +17,11 @@ import { TestPrompt } from "./TestPrompt";
  */
 export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
 {
+    /**
+     * A context for testing project-generators.
+     */
+    private projectTestContext: ProjectContext = null;
+
     /**
      * A context for testing generators.
      */
@@ -102,6 +106,19 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
+     * Gets a context for testing project-generators.
+     */
+    protected get ProjectContext(): ProjectContext
+    {
+        if (this.projectTestContext === null)
+        {
+            this.projectTestContext = new ProjectContext();
+        }
+
+        return this.projectTestContext;
+    }
+
+    /**
      * Creates a workspace-folder directive.
      *
      * @param name
@@ -133,103 +150,22 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      * @returns
      * The result of the prompts.
      */
-    public async MockPrompts<T>(promptModule: inquirer.PromptModule, questions: Array<inquirer.DistinctQuestion<T>>, answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<T>
+    public async MockPrompts<T>(promptModule: PromptModule, questions: Array<DistinctQuestion<T>>, answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<T>
     {
-        let generatedMock = null;
-
-        if (!mockedStdin)
-        {
-            generatedMock = stdin();
-            mockedStdin = generatedMock;
-        }
-
-        /**
-         * Sends the specified {@link input `input`} to the {@link process.stdin `process.stdin`}.
-         *
-         * @param input
-         * The input to send to the {@link process.stdin `process.stdin`}.
-         */
-        function SendInput(input: string[]): void
-        {
-            for (let line of input)
-            {
-                mockedStdin.send(line);
-            }
-        }
-
-        /**
-         * Processes the specified {@link mockedAnswer `mockedAnswer`}.
-         *
-         * @param mockedAnswer
-         * The mocked answer to process.
-         */
-        function ProcessMockedAnswer(mockedAnswer: IMockedAnswer | string[]): void
-        {
-            let answer: IMockedAnswer;
-
-            if (Array.isArray(mockedAnswer))
-            {
-                answer = {
-                    input: mockedAnswer
-                };
-            }
-            else
-            {
-                answer = mockedAnswer;
-            }
-
-            process.nextTick(
-                () =>
-                {
-                    answer?.preprocess?.(mockedStdin);
-                    SendInput(answer?.input ?? []);
-                    answer?.callback?.(mockedStdin);
-                });
-        }
-
-        try
-        {
-            let index = 0;
-            let result = promptModule(questions);
-            ProcessMockedAnswer(answers[index++]);
-
-            result.ui.process.subscribe(
-                {
-                    next: (answerHash) =>
-                    {
-                        ProcessMockedAnswer(answers[index++]);
-                    }
-                });
-
-            await result;
-            return result;
-        }
-        catch (exception)
-        {
-            throw exception;
-        }
-        finally
-        {
-            generatedMock?.restore();
-        }
+        return this.ProjectContext.MockPrompts(promptModule, questions, answers, mockedStdin);
     }
 
     /**
      * Registers the {@link TestPrompt `TestPrompt`}.
      *
-     * @param type
-     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
-     *
      * @param promptModule
      * The prompt-module to register the {@link TestPrompt `TestPrompt`}.
+     *
+     * @param type
+     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
      */
-    public RegisterTestPrompt(type: inquirer.QuestionTypeName = "input", promptModule?: inquirer.PromptModule | inquirer.Inquirer): void
+    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
     {
-        if (!promptModule)
-        {
-            promptModule = inquirer;
-        }
-
-        promptModule.registerPrompt(type, TestPrompt);
+        this.ProjectContext.RegisterTestPrompt(promptModule, type);
     }
 }
