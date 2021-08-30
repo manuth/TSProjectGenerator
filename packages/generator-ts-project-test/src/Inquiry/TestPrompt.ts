@@ -1,6 +1,6 @@
 import { Interface } from "readline";
+import { PromptBase } from "@manuth/generator-ts-project";
 import { InputQuestionOptions } from "inquirer";
-import { PromptBase } from "../Components/Inquiry/Prompts/PromptBase";
 
 /**
  * Provides a prompt for testing.
