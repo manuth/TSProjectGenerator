@@ -168,24 +168,15 @@ export function TestContextTests(): void
                         () =>
                         {
                             let type: QuestionTypeName = "input";
-                            context.RegisterTestPrompt(type, promptModule);
+                            context.RegisterTestPrompt(promptModule, type);
                             strictEqual(promptModule.prompts[type], TestPrompt);
-                        });
-
-                    test(
-                        `Checking whether the \`${nameof(TestPrompt)}\` is registered to the root prompt-module by default…`,
-                        () =>
-                        {
-                            let type: QuestionTypeName = "checkbox";
-                            context.RegisterTestPrompt(type);
-                            strictEqual(prompt.prompts[type], TestPrompt);
                         });
 
                     test(
                         `Checking whether the \`${nameof(TestPrompt)}\`-prompt is registered to the \`${defaultTypeName}\`-type by default…`,
                         () =>
                         {
-                            context.RegisterTestPrompt();
+                            context.RegisterTestPrompt(prompt);
                             strictEqual(prompt.prompts[defaultTypeName], TestPrompt);
                         });
                 });

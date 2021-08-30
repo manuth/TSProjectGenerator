@@ -158,14 +158,14 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     /**
      * Registers the {@link TestPrompt `TestPrompt`}.
      *
-     * @param type
-     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
-     *
      * @param promptModule
      * The prompt-module to register the {@link TestPrompt `TestPrompt`}.
+     *
+     * @param type
+     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
      */
-    public RegisterTestPrompt(type: QuestionTypeName = "input", promptModule?: PromptModule | Inquirer): void
+    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
     {
-        this.ProjectContext.RegisterTestPrompt(type, promptModule);
+        this.ProjectContext.RegisterTestPrompt(promptModule, type);
     }
 }

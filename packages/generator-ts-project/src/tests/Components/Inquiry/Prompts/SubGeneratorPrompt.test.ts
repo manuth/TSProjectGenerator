@@ -42,8 +42,8 @@ export function SubGeneratorPromptTests(): void
                 () =>
                 {
                     length = context.Random.integer(1, 10);
-                    context.RegisterTestPrompt();
-                    context.RegisterTestPrompt("confirm");
+                    context.RegisterTestPrompt(prompt);
+                    context.RegisterTestPrompt(prompt, "confirm");
                     mock(inquirerModuleName, require.resolve(inquirerModuleName));
                     registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
                     repeat = (answers) => (answers[testKey] as ISubGenerator[]).length < length;

@@ -1,4 +1,4 @@
-import inquirer = require("inquirer");
+import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { IMockedAnswer } from "./Inquiry/IMockedAnswer";
 import { TestPrompt } from "./Inquiry/TestPrompt";
@@ -40,7 +40,7 @@ export class TestContext
      * @returns
      * The result of the prompts.
      */
-    public async MockPrompts<T>(promptModule: inquirer.PromptModule, questions: Array<inquirer.DistinctQuestion<T>>, answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<T>
+    public async MockPrompts<T>(promptModule: PromptModule, questions: Array<DistinctQuestion<T>>, answers: Array<string[] | IMockedAnswer>, mockedStdin?: MockSTDIN): Promise<T>
     {
         let generatedMock = null;
 
@@ -124,19 +124,14 @@ export class TestContext
     /**
      * Registers the {@link TestPrompt `TestPrompt`}.
      *
-     * @param type
-     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
-     *
      * @param promptModule
      * The prompt-module to register the {@link TestPrompt `TestPrompt`}.
+     *
+     * @param type
+     * The name of the type to register the {@link TestPrompt `TestPrompt`}.
      */
-    public RegisterTestPrompt(type: inquirer.QuestionTypeName = "input", promptModule?: inquirer.PromptModule | inquirer.Inquirer): void
+    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
     {
-        if (!promptModule)
-        {
-            promptModule = inquirer;
-        }
-
         promptModule.registerPrompt(type, TestPrompt);
     }
 }
