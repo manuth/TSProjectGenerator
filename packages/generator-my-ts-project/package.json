@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-my-ts-project",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "Generates TypeScript-Projects with custom additions",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^11.0.4",
-    "@manuth/generator-ts-project": "^3.0.8",
+    "@manuth/generator-ts-project": "^3.0.9",
     "@manuth/package-json-editor": "2.2.3",
     "comment-json": "^4.1.1",
     "detect-newline": "^3.1.0",
@@ -54,12 +54,12 @@
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.5",
     "@manuth/extended-yo-generator-test": "^11.0.4",
-    "@manuth/generator-ts-project-test": "^3.0.8",
+    "@manuth/generator-ts-project-test": "^3.0.9",
     "@manuth/temp-files": "^2.0.7",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.7.7",
+    "@types/node": "^16.7.8",
     "@types/ts-nameof": "^4.2.1",
     "@types/yaml": "^1.9.7",
     "concurrently": "^6.2.1",
