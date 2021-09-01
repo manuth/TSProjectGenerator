@@ -121,6 +121,16 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         });
 
                     test(
+                        `Checking whether the \`${nameof<Linter.Config>((config) => config.ignorePatterns)}\` property is not present…`,
+                        async function()
+                        {
+                            this.timeout(15 * 1000);
+                            this.slow(7.5 * 1000);
+                            await tester.Run();
+                            ok(!(nameof<Linter.Config>((config) => config.ignorePatterns) in await tester.Require()));
+                        });
+
+                    test(
                         `Checking whether the \`${nameof<Linter.Config>((config) => config.extends)}\`-property of the eslint-config is applied correctly…`,
                         async function()
                         {
