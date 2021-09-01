@@ -116,12 +116,13 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
 
         if (Node.isBinaryExpression(expression))
         {
-            let right = expression.getRight();
+            let eslintConfig = expression.getRight();
 
-            if (Node.isObjectLiteralExpression(right))
+            if (Node.isObjectLiteralExpression(eslintConfig))
             {
-                let extendsProperty = right.getProperty(nameof<Linter.Config>((config) => config.extends));
-                right.getProperty(nameof<Linter.Config>((config) => config.root)).remove();
+                let extendsProperty = eslintConfig.getProperty(nameof<Linter.Config>((config) => config.extends));
+                eslintConfig.getProperty(nameof<Linter.Config>((config) => config.root)).remove();
+                eslintConfig.getProperty(nameof<Linter.Config>((config) => config.ignorePatterns)).remove();
 
                 if (Node.isPropertyAssignment(extendsProperty))
                 {

@@ -6,7 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.9...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.10...dev)
+
+## TSProjectGenerator v3.0.10
+### Updated
+  - All dependencies
+  - The `.eslintrc.js`-file creation to strip the unwanted `ignorePatterns`-setting
+  - Broken `@manuth/extended-yo-generator`-dependency
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.9...v3.0.10)
 
 ## TSProjectGenerator v3.0.9
 ### Added

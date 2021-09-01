@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "A Set of Generators for Creating Projects Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.5",
-    "@manuth/extended-yo-generator": "^11.0.4",
+    "@manuth/extended-yo-generator": "^11.0.5",
     "@manuth/package-json-editor": "^2.2.3",
     "@manuth/temp-files": "^2.0.7",
     "@types/mute-stream": "^0.0.1",
@@ -70,8 +70,8 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/extended-yo-generator-test": "^11.0.4",
-    "@manuth/generator-ts-project-test": "^3.0.9",
+    "@manuth/extended-yo-generator-test": "^11.0.5",
+    "@manuth/generator-ts-project-test": "^3.0.10",
     "@manuth/tsconfig": "^2.0.3",
     "@manuth/typescript-eslint-plugin": "^1.4.2",
     "@types/dedent": "^0.7.0",
@@ -83,7 +83,7 @@
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/mocha": "^9.0.0",
     "@types/mock-require": "^2.0.0",
-    "@types/node": "^16.7.8",
+    "@types/node": "^16.7.10",
     "@types/npm-packlist": "^1.1.2",
     "@types/npm-which": "^3.0.1",
     "@types/sinon": "^10.0.2",
