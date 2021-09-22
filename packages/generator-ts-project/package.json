@@ -78,7 +78,7 @@
     "@types/diff": "^5.0.1",
     "@types/eslint": "^7.28.0",
     "@types/fs-extra": "^9.0.12",
-    "@types/inquirer": "^7.3.3",
+    "@types/inquirer": "^8.1.2",
     "@types/lodash.camelcase": "^4.3.6",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/mocha": "^9.0.0",
