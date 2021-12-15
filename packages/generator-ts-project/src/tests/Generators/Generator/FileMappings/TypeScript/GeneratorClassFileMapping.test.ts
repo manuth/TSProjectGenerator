@@ -75,10 +75,10 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestGeneratorClassFileMapping;
-            let tester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, TestGeneratorClassFileMapping>;
-            let settingKeyTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, SettingKeyFileMapping<IGeneratorSettings, GeneratorOptions>>;
-            let settingsInterfaceTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, SettingsInterfaceFileMapping<IGeneratorSettings, GeneratorOptions>>;
-            let licenseTypeTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, LicenseTypeFileMapping<IGeneratorSettings, GeneratorOptions>>;
+            let tester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, TestGeneratorClassFileMapping>;
+            let settingKeyTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, SettingKeyFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
+            let settingsInterfaceTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, SettingsInterfaceFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
+            let licenseTypeTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, LicenseTypeFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
             let settingKeyEnum: Record<string, string>;
             let licenseTypeEnum: Record<string, string>;
 
