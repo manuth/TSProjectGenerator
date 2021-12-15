@@ -2,22 +2,27 @@
   "name": "ts-project-generator",
   "private": true,
   "files": [],
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  },
   "scripts": {
     "build": "npm run copy-files && npm run compile",
     "copy-files": "gulp CopyFiles",
     "compile": "tsc -b tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
     "watch": "concurrently --raw \"npm run copy-files -- --watch | shusher\" \"npm run compile -- --watch\"",
-    "clean": "npm run compile -- --clean && lerna run clean",
+    "clean": "npm run compile -- --clean && npm run --workspaces clean",
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint-local": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./scripts .eslintrc.js gulpfile.ts ./gulp",
     "lint-local-ide": "npm run lint-local || exit 0",
-    "lint": "npm run lint-local && lerna run lint",
-    "lint-ide": "npm run lint-local-ide && lerna run lint-ide",
-    "test": "lerna run test",
+    "lint": "npm run lint-local && npm run --workspaces lint",
+    "lint-ide": "npm run lint-local-ide && npm run --workspaces lint-ide",
+    "test": "npm run --workspaces test",
     "version": "ts-node ./scripts/bumpVersion.ts",
-    "prepare": "lerna bootstrap --ignore-scripts && npm run patchTypeScript && npm run rebuild",
-    "patchTypeScript": "ts-patch install && ts-patch --persist && lerna run patchTypeScript"
+    "prepare": "npm run patchTypeScript && npm run rebuild",
+    "patchTypeScript": "ts-patch install && ts-patch --persist && npm run --workspaces patchTypeScript"
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.5",

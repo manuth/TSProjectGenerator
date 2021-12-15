@@ -1,6 +1,6 @@
 import { deepStrictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { assign } from "comment-json";
@@ -22,14 +22,14 @@ export function JSONCTransformMappingTests(): void
             let sourceFile: TempFile;
             let destinationFile: TempFile;
             let fileMappingOptions: TestJSONTransformMapping;
-            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
+            let tester: JSONCFileMappingTester<TestGenerator, IGeneratorSettings, GeneratorOptions, TestJSONTransformMapping>;
             let sourceData: any;
             let addition: Record<string, any>;
 
             /**
              * Provides an implementation of the {@link JSONTransformMapping `JSONTransformMapping<TSettings, TOptions, TData>`} class for testing.
              */
-            class TestJSONTransformMapping extends JSONCTransformMapping<ITestGeneratorSettings, GeneratorOptions, any>
+            class TestJSONTransformMapping extends JSONCTransformMapping<IGeneratorSettings, GeneratorOptions, any>
             {
                 /**
                  * @inheritdoc

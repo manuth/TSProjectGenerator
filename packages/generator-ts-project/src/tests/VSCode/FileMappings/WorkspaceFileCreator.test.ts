@@ -1,6 +1,6 @@
 import { deepStrictEqual, ok } from "assert";
-import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { assign, parse, stringify } from "comment-json";
 import dedent = require("dedent");
@@ -25,10 +25,10 @@ export function WorkspaceFileCreatorTests(): void
             let workspace: IWorkspaceMetadata;
             let tasksComment: string;
             let rootComment: string;
-            let tester: JSONCFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, IFileMapping<ITestGeneratorSettings, GeneratorOptions>, IWorkspaceMetadata>;
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
-            let source: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
-            let fileMappingCreator: WorkspaceFileCreator<ITestGeneratorSettings, GeneratorOptions>;
+            let tester: JSONCFileMappingTester<TestGenerator, IGeneratorSettings, GeneratorOptions, IFileMapping<IGeneratorSettings, GeneratorOptions>, IWorkspaceMetadata>;
+            let component: TestCodeWorkspaceComponent<IGeneratorSettings, GeneratorOptions>;
+            let source: TestCodeWorkspaceProvider<IGeneratorSettings, GeneratorOptions>;
+            let fileMappingCreator: WorkspaceFileCreator<IGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

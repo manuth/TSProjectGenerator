@@ -1,6 +1,6 @@
 import { deepStrictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { writeFile } from "fs-extra";
@@ -22,14 +22,14 @@ export function YAMLTransformMappingTests(): void
             let sourceFile: TempFile;
             let outputFile: TempFile;
             let fileMappingOptions: TestYAMLTransformMapping;
-            let tester: YAMLFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestYAMLTransformMapping>;
+            let tester: YAMLFileMappingTester<TestGenerator, IGeneratorSettings, GeneratorOptions, TestYAMLTransformMapping>;
             let sourceData: any;
             let randomData: any;
 
             /**
              * Provides an implementation of the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestYAMLTransformMapping extends YAMLTransformMapping<ITestGeneratorSettings, GeneratorOptions>
+            class TestYAMLTransformMapping extends YAMLTransformMapping<IGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

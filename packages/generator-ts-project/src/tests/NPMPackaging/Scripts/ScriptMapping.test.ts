@@ -1,6 +1,5 @@
 import { strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
 import { TestContext } from "../../TestContext";
@@ -17,7 +16,7 @@ export function ScriptMappingTests(): void
         {
             let context = TestContext.Default;
             let npmPackage: Package;
-            let scriptMapping: ScriptMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let scriptMapping: ScriptMapping<IGeneratorSettings, GeneratorOptions>;
             let randomSource: string;
             let randomDestination: string;
             let randomScript: string;

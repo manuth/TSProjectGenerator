@@ -1,6 +1,5 @@
 import { ok, strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
 import { ITaskSettings } from "../../VSCode/ITaskSettings";
 import { TasksProcessor } from "../../VSCode/TasksProcessor";
@@ -22,12 +21,12 @@ export function TasksProcessorTests(): void
             let mutatedTask: TaskDefinition;
             let newType: string;
             let taskMeta: ITaskSettings;
-            let processor: TasksProcessor<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: TasksProcessor<IGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class for testing.
              */
-            class TestTasksProcessor extends TasksProcessor<ITestGeneratorSettings, GeneratorOptions>
+            class TestTasksProcessor extends TasksProcessor<IGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

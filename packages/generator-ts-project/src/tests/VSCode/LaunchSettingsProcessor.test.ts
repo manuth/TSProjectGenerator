@@ -1,6 +1,5 @@
 import { ok, strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
 import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
@@ -22,12 +21,12 @@ export function LaunchSettingsProcessorTests(): void
             let excludedDebugConfig: DebugConfiguration;
             let mutatedDebugConfig: DebugConfiguration;
             let newName: string;
-            let processor: LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: LaunchSettingsProcessor<IGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class for testing.
              */
-            class TestLaunchSettingsProcessor extends LaunchSettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
+            class TestLaunchSettingsProcessor extends LaunchSettingsProcessor<IGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

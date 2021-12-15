@@ -1,6 +1,5 @@
 import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -20,12 +19,12 @@ export function SettingsProcessorTest(): void
             let mutatedSetting: string;
             let newSetting: any;
             let settings: Record<string, any>;
-            let processor: SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: SettingsProcessor<IGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class for testing.
              */
-            class TestSettingsProcessor extends SettingsProcessor<ITestGeneratorSettings, GeneratorOptions>
+            class TestSettingsProcessor extends SettingsProcessor<IGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
