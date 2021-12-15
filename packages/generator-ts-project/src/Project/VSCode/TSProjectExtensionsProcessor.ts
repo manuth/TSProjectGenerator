@@ -1,5 +1,5 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TSProjectComponent } from "../..";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";

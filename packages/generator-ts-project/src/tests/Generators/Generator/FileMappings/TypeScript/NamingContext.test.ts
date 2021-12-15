@@ -1,7 +1,7 @@
 import { strictEqual } from "assert";
 import { join, normalize } from "upath";
-import { TSGeneratorGenerator } from "../../../../..";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../../TestContext";
 
 /**

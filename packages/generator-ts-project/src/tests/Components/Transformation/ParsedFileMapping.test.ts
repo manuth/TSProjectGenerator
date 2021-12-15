@@ -2,8 +2,8 @@ import { deepStrictEqual } from "assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
-import { TextConverter } from "../../..";
 import { JSONCConverter } from "../../../Components/Transformation/Conversion/JSONCConverter";
+import { TextConverter } from "../../../Components/Transformation/Conversion/TextConverter";
 import { ParsedFileMapping } from "../../../Components/Transformation/ParsedFileMapping";
 import { TestContext } from "../../TestContext";
 
