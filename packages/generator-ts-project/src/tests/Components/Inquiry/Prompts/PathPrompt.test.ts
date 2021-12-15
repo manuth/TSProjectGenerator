@@ -579,8 +579,10 @@ export function PathPromptTests(): void
 
                     test(
                         "Checking whether trailing slashes are preserved…",
-                        async () =>
+                        async function()
                         {
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
                             let value = `${context.RandomString}${path.sep}`;
                             await Type(value);
                             prompt.ProcessAnswer();
