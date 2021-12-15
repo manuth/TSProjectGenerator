@@ -85,7 +85,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                         return script;
                     }
                 }),
-            "patchTypeScript"
+            "patch-ts"
         ];
     }
 

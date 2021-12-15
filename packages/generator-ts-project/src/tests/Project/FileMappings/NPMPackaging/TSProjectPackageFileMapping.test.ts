@@ -135,7 +135,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether all expected scripts are present…",
                         async function()
                         {
-                            let patchScriptName = "patchTypeScript";
+                            let patchScriptName = "patch-ts";
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();

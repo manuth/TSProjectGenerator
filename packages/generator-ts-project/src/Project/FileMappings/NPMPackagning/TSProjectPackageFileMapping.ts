@@ -114,7 +114,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
 
                     for (let command of commands)
                     {
-                        if (!command.includes("patchTypeScript"))
+                        if (!command.includes("patch-ts"))
                         {
                             filtered.push(command);
                         }
