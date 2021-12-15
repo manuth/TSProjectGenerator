@@ -35,7 +35,6 @@
     "lint": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
     "lint-ide": "npm run lint || exit 0",
     "test": "mocha",
-    "prepare": "npm run patchTypeScript && npm run rebuild",
     "patchTypeScript": "ts-patch install && ts-patch --persist"
   },
   "dependencies": {
