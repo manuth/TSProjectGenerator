@@ -51,7 +51,6 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^3.2.6",
     "@manuth/extended-yo-generator-test": "^11.0.6",
     "@manuth/generator-ts-project-test": "^3.0.10",
     "@manuth/temp-files": "^2.0.8",

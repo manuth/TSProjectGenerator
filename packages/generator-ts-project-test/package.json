@@ -53,7 +53,6 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^3.2.6",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.0.0",
