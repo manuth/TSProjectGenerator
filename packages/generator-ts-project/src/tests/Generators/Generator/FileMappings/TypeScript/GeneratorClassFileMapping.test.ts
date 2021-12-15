@@ -124,8 +124,8 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                 () =>
                 {
                     let testGenerator: Generator<IGeneratorSettings, GeneratorOptions>;
-                    let cwd: string;
                     let tempDir: TempDirectory;
+                    context.RegisterWorkingDirRestorer();
 
                     /**
                      * Gets the question with the specified {@link name `name`}.
@@ -163,13 +163,11 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                         () =>
                         {
                             tempDir = new TempDirectory();
-                            cwd = process.cwd();
                         });
 
                     teardown(
                         () =>
                         {
-                            process.chdir(cwd);
                             tempDir.Dispose();
                         });
 

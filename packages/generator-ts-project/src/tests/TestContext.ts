@@ -168,4 +168,12 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     {
         this.ProjectContext.RegisterTestPrompt(promptModule, type);
     }
+
+    /**
+     * Registers mocha tasks for restoring the working directory.
+     */
+    public RegisterWorkingDirRestorer(): void
+    {
+        this.ProjectContext.RegisterWorkingDirRestorer();
+    }
 }
