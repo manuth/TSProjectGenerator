@@ -20,7 +20,7 @@ suite(
         let defaultContextName = "default";
         let workingDirectory: string;
         let generatorRoot = join(__dirname, "..", "generators");
-        let contextMap: Map<string, [GeneratorContext, IGeneratorSettings]> = new Map();
+        let contextMap: Map<string, [GeneratorContext<any>, IGeneratorSettings]> = new Map();
         contextMap.set(defaultContextName, [GeneratorContext.Default, null]);
 
         for (let namespace of [GeneratorName.Main, GeneratorName.Module, GeneratorName.Generator])

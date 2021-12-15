@@ -100,7 +100,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
 
                     for (let fileMapping of new TestTSGeneratorCategory(generator).GetGeneratorFileMappings(namingContext.GeneratorID, namingContext.GeneratorDisplayName))
                     {
-                        await new FileMappingTester(generator, fileMapping).Run();
+                        await new FileMappingTester(generator, fileMapping as IFileMapping<IGeneratorSettings, GeneratorOptions>).Run();
                     }
 
                     settingKeyEnum = (await settingKeyTester.Require())[namingContext.SettingKeyEnumName];
@@ -142,7 +142,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                             (question) =>
                             {
                                 return question.name === name;
-                            });
+                            }) as DistinctQuestion;
                     }
 
                     suiteSetup(

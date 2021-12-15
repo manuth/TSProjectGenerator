@@ -24,9 +24,9 @@ export class TestTSModuleGenerator<TSettings extends ITSProjectSettings = ITSPro
     /**
      * @inheritdoc
      */
-    public override get Base(): TSModuleGenerator<TSettings, TOptions>
+    public override get Base(): TSModuleGenerator
     {
-        return super.Base as TSModuleGenerator<TSettings, TOptions>;
+        return super.Base;
     }
 
     /**
