@@ -88,7 +88,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Tests",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"
@@ -114,7 +114,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
-                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"
@@ -141,7 +141,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGeneratorTest Tests",
-                "program": "${workspaceFolder:TSProjectGeneratorTest}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"
