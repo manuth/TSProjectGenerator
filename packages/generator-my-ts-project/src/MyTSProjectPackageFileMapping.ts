@@ -90,19 +90,19 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     }
 
     /**
+     * @inheritdoc
+     */
+    public override get ScriptSource(): Package
+    {
+        return Constants.Package;
+    }
+
+    /**
      * Gets the base of the file-mapping.
      */
     protected get Base(): TSProjectPackageFileMapping<TSettings, TOptions>
     {
         return this.baseFileMapping;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected override get ScriptSource(): Package
-    {
-        return Constants.Package;
     }
 
     /**

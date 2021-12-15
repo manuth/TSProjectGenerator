@@ -166,7 +166,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the package to load scripts from.
      */
-    protected get ScriptSource(): Package
+    public get ScriptSource(): Package
     {
         return new Package();
     }

@@ -141,7 +141,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected override get ScriptSource(): Package
+    public override get ScriptSource(): Package
     {
         return Constants.Package;
     }
