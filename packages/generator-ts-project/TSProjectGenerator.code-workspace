@@ -35,7 +35,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Yeoman",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
                 "args": [
                     "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
                 ],
@@ -61,7 +61,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
-                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
                 "args": [
                     "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
                 ],

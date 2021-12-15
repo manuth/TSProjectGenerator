@@ -71,7 +71,6 @@
     "ts-node": "^10.4.0",
     "ts-patch": "^2.0.1",
     "types-tsconfig": "^1.2.1",
-    "typescript": "^4.5.4",
-    "yo": "^4.3.0"
+    "typescript": "^4.5.4"
   }
 }
