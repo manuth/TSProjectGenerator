@@ -12,12 +12,21 @@ suite(
     "MyTSProjectGenerator",
     () =>
     {
+        let workingDir: string;
         let context = TestContext.Default;
         let projectContext = new TestContext<TestTSModuleGenerator>(join(__dirname, "generators", GeneratorName.Main));
+
+        suiteSetup(
+            () =>
+            {
+                workingDir = process.cwd();
+            });
 
         suiteTeardown(
             () =>
             {
+                process.chdir(workingDir);
+
                 for (let testContext of [context, projectContext])
                 {
                     testContext.Dispose();

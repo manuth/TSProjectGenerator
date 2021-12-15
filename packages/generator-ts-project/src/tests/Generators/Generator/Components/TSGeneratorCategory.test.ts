@@ -29,6 +29,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
         nameof(TSGeneratorCategory),
         () =>
         {
+            let workingDir: string;
             let generator: TSGeneratorGenerator;
             let runContext: IRunContext<TSGeneratorGenerator>;
             let tempDir: TempDirectory;
@@ -135,12 +136,14 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
             setup(
                 () =>
                 {
+                    workingDir = process.cwd();
                     tempDir = new TempDirectory();
                 });
 
             teardown(
                 () =>
                 {
+                    process.chdir(workingDir);
                     tempDir.Dispose();
                 });
 

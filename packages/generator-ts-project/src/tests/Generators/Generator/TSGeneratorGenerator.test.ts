@@ -27,6 +27,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         nameof(TSGeneratorGenerator),
         () =>
         {
+            let workingDir: string;
             let tempDir: TempDirectory;
             let runContext: IRunContext<TSGeneratorGenerator>;
             let testContext: IRunContext<TSGeneratorGenerator>;
@@ -94,6 +95,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    workingDir = process.cwd();
                     tempDir = new TempDirectory();
                     testContext = context.ExecuteGenerator();
                     await testContext.toPromise();
@@ -103,6 +105,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 function()
                 {
                     this.timeout(1 * 60 * 1000);
+                    process.chdir(workingDir);
                     testContext.cleanTestDirectory();
                 });
 

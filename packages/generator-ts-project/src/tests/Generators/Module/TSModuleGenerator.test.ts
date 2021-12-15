@@ -17,6 +17,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         nameof(TSModuleGenerator),
         () =>
         {
+            let workingDir: string;
             let runContext: IRunContext<TSModuleGenerator>;
             let generator: TSModuleGenerator;
             let testContext: IRunContext<TSModuleGenerator>;
@@ -61,6 +62,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    workingDir = process.cwd();
                     testContext = context.ExecuteGenerator();
                     await testContext.toPromise();
                 });
@@ -69,6 +71,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 function()
                 {
                     this.timeout(1 * 60 * 1000);
+                    process.chdir(workingDir);
                     testContext.cleanTestDirectory();
                 });
 
