@@ -1,7 +1,6 @@
 import { basename } from "path";
 import { BuildDependencyTests } from "./BuildDependencies.test";
 import { CommonDependencyTests } from "./CommonDependencies.test";
-import { LintDependencyTests } from "./LintDependencies.test";
 import { LintEssentialTests } from "./LintEssentials.test";
 import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test";
 
@@ -18,6 +17,5 @@ export function DependencyTests(): void
             BuildDependencyTests();
             CommonDependencyTests();
             LintEssentialTests();
-            LintDependencyTests();
         });
 }

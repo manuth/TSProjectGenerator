@@ -73,7 +73,6 @@
     "@manuth/extended-yo-generator-test": "^11.0.6",
     "@manuth/generator-ts-project-test": "^3.0.10",
     "@manuth/tsconfig": "^3.0.0",
-    "@manuth/typescript-eslint-plugin": "^1.4.2",
     "@types/dedent": "^0.7.0",
     "@types/diff": "^5.0.1",
     "@types/eslint": "^8.2.1",

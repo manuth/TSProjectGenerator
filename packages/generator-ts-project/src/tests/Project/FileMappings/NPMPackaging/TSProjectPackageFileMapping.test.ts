@@ -4,7 +4,7 @@ import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../../Core/Constants";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintDependencies } from "../../../../NPMPackaging/Dependencies/LintDependencies";
+import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
 import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
@@ -122,7 +122,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 await tester.Clean();
                                 tester.Generator.Settings[GeneratorSettingKey.Components] = lintingEnabled ? [TSProjectComponent.Linting] : [];
                                 await tester.Run();
-                                await tester.AssertDependencies(new LintDependencies(), lintingEnabled);
+                                await tester.AssertDependencies(new LintEssentials(), lintingEnabled);
                             }
                         });
                 });

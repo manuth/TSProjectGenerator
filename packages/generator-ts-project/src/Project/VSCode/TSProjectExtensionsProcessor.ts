@@ -1,4 +1,5 @@
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
+import { TSProjectComponent } from "../..";
 import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
@@ -41,7 +42,10 @@ export class TSProjectExtensionsProcessor<TSettings extends ITSProjectSettings, 
         return recommendations.filter(
             (extension) =>
             {
-                return extension !== "digitalbrainstem.javascript-ejs-support";
+                return extension !== "digitalbrainstem.javascript-ejs-support" &&
+                    (
+                        extension !== "dbaeumer.vscode-eslint" ||
+                        this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting));
             });
     }
 }

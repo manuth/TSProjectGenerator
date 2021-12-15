@@ -2,7 +2,7 @@ import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/exten
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
+import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
@@ -166,7 +166,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
 
         if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {
-            result.Register(new LintDependencies(), true);
+            result.Register(new LintEssentials(), true);
         }
 
         return result;

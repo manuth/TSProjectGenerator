@@ -54,7 +54,6 @@
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.6",
-    "@manuth/typescript-eslint-plugin": "^1.4.2",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.0.0",

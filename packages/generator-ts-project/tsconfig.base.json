@@ -14,9 +14,6 @@
         ],
         "plugins": [
             {
-                "name": "@manuth/typescript-eslint-plugin"
-            },
-            {
                 "transform": "ts-nameof",
                 "type": "raw"
             }
