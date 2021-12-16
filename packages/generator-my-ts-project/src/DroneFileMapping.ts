@@ -62,8 +62,6 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
         let document = documents[0];
         let stepsKey = "steps";
         let commandsKey = "commands";
-        let stepNameKey = "name";
-        let imageKey = "image";
         let steps: any[] = document.get(stepsKey).toJSON();
         document.set("name", this.Generator.Settings[TSProjectSettingKey.DisplayName]);
 
@@ -82,13 +80,6 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
                         [stepsKey, i, commandsKey, j],
                         command.replace(/\b--workspaces\b/, ""));
                 }
-            }
-
-            if (step[stepNameKey] === "test")
-            {
-                document.setIn(
-                    [stepsKey, i, imageKey],
-                    (step[imageKey] as string).replace(/:lts$/, ""));
             }
 
             if (step.image === "plugins/github-release")
