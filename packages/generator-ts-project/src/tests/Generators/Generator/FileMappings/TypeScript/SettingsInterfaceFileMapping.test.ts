@@ -84,6 +84,12 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                             sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         });
 
+                    suiteTeardown(
+                        () =>
+                        {
+                            sourceFile.forget();
+                        });
+
                     test(
                         "Checking whether an interface with the expected name is present…",
                         function()

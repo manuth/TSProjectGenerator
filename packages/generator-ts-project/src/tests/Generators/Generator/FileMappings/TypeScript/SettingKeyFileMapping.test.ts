@@ -74,7 +74,9 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                         async function()
                         {
                             this.timeout(5 * 1000);
-                            await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            await tester.DumpOutput(sourceFile);
+                            sourceFile.forget();
                         });
 
                     test(

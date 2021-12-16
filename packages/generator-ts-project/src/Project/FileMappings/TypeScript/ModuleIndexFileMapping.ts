@@ -29,7 +29,7 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
      */
     protected async GetModuleExportValue(): Promise<Expression>
     {
-        let result = this.Converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
+        let result = this.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
         result.setIsAsync(true);
 
         result.setReturnType(
@@ -41,8 +41,8 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
                     ])));
 
         result.addStatements(
-            this.Converter.WrapExpression(
-                this.Converter.WrapNode(
+            this.WrapExpression(
+                this.WrapNode(
                     ts.factory.createCallExpression(
                         ts.factory.createPropertyAccessExpression(
                             ts.factory.createIdentifier(nameof(console)),

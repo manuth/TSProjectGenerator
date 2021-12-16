@@ -44,7 +44,7 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
      */
     public override async Processor(): Promise<void>
     {
-        return this.WriteOutput(this.Dumper.Dump(await this.Transform(await this.GetSourceObject())));
+        return this.WriteOutput(this.Dump(await this.GetOutputObject()));
     }
 
     /**
@@ -59,5 +59,30 @@ export abstract class DumpFileMapping<TSettings extends IGeneratorSettings, TOpt
     protected async Transform(data: TData): Promise<TData>
     {
         return data;
+    }
+
+    /**
+     * Gets the object to write to the output file.
+     *
+     * @returns
+     * The object to write to the output file.
+     */
+    protected async GetOutputObject(): Promise<TData>
+    {
+        return this.Transform(await this.GetSourceObject());
+    }
+
+    /**
+     * Dumps the specified {@link data `data`}.
+     *
+     * @param data
+     * The data to dump.
+     *
+     * @returns
+     * A {@link String `string`} representing the specified {@link data `data`}.
+     */
+    protected Dump(data: TData): string
+    {
+        return this.Dumper.Dump(data);
     }
 }

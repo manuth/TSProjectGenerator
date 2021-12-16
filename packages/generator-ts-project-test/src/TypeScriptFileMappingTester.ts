@@ -73,6 +73,11 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
                 return parse(file.getFilePath()).name === parse(this.FileMapping.Destination).name;
             }).getFilePath();
 
+        for (let sourceFile of project.getSourceFiles())
+        {
+            sourceFile.forget();
+        }
+
         if (fileName in require.cache)
         {
             delete require.cache[fileName];

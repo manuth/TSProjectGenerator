@@ -83,7 +83,9 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         async function()
                         {
                             this.timeout(20 * 1000);
-                            await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            await tester.DumpOutput(sourceFile);
+                            sourceFile.forget();
                         });
 
                     test(

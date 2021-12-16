@@ -222,6 +222,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                         }).length,
                                     1);
                             }
+
+                            sourceFile.forget();
                         });
                 });
         });

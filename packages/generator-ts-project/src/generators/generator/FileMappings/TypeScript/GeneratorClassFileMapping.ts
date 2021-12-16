@@ -651,7 +651,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                 }
             ]);
 
-        let logCall = this.Converter.WrapNode(
+        let logCall = this.WrapNode(
             ts.factory.createCallExpression(
                 ts.factory.createPropertyAccessExpression(
                     ts.factory.createThis(),
@@ -698,7 +698,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                             [
                                 ts.factory.createKeywordTypeNode(SyntaxKind.VoidKeyword)
                             ])),
-                    statements: this.Converter.WrapExpression(logCall).getFullText()
+                    statements: this.WrapExpression(logCall).getFullText()
                 }));
 
         for (let member of [...getAccessors, ...methods])

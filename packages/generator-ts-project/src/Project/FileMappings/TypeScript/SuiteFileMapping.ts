@@ -47,7 +47,7 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected async GetSuiteFunction(): Promise<ArrowFunction>
     {
-        return this.Converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
+        return this.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
     }
 
     /**
@@ -58,8 +58,8 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected async GetSuiteCall(): Promise<CallExpression>
     {
-        let suiteCall = this.Converter.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(suite)), [], []));
-        let suiteNameNode = this.Converter.WrapNode(ts.factory.createStringLiteral(""));
+        let suiteCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(suite)), [], []));
+        let suiteNameNode = this.WrapNode(ts.factory.createStringLiteral(""));
         suiteNameNode.setLiteralValue(await this.GetSuiteName());
 
         suiteCall.addArguments(
@@ -83,7 +83,7 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
         sourceFile = await super.Transform(sourceFile);
-        sourceFile.addStatements(this.Converter.WrapExpression(await this.GetSuiteCall()).getFullText());
+        sourceFile.addStatements(this.WrapExpression(await this.GetSuiteCall()).getFullText());
         return sourceFile;
     }
 }

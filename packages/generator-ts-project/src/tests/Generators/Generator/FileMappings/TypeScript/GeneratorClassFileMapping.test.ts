@@ -149,7 +149,9 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
-                            await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            await tester.DumpOutput(sourceFile);
+                            sourceFile.forget();
 
                             testGenerator = context.CreateGenerator(
                                 (await tester.Require())[namingContext.GeneratorClassName],

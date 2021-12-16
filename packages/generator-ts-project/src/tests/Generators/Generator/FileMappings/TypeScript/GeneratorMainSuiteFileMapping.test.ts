@@ -87,7 +87,12 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
                             let suiteFunction = await fileMapping.GetSuiteFunction();
-                            let moduleSpecifier = (await fileMapping.GetSourceObject()).getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), namingContext.GeneratorSuiteFileName));
+                            let sourceFile = await fileMapping.GetSourceObject();
+
+                            let moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(
+                                relative(dirname(fileMapping.Destination), namingContext.GeneratorSuiteFileName));
+
+                            sourceFile.forget();
 
                             ok(
                                 suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(

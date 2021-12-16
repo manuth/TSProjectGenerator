@@ -101,6 +101,7 @@ export function ModuleIndexFileMappingTests(): void
                                 });
 
                             await tester.DumpOutput(file);
+                            file.forget();
                             await (await tester.Require() as () => Promise<void>)();
                             strictEqual(messages.length, 1);
                         });
