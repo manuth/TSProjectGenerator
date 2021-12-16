@@ -38,31 +38,11 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        let compileScriptName = "compile";
-        let buildScriptName = "build";
-        let cleanScriptName = "clean";
-
-        let compileScriptProcessor = (script: string): string =>
-        {
-            return script.replace(new RegExp(compileScriptName, "g"), buildScriptName);
-        };
-
         return [
-            {
-                Source: compileScriptName,
-                Destination: buildScriptName
-            },
+            "build",
             "rebuild",
-            {
-                Source: "watch-compile",
-                Destination: "watch",
-                Processor: async (script) => compileScriptProcessor(script)
-            },
-            {
-                Source: cleanScriptName,
-                Destination: cleanScriptName,
-                Processor: async (script) => compileScriptProcessor(script)
-            }
+            "watch",
+            "clean"
         ];
     }
 

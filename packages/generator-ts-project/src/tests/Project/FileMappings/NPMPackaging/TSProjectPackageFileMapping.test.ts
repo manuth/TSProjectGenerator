@@ -139,14 +139,10 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
-                            await AssertScriptCopy("compile", "build");
+                            await AssertScriptCopy("build");
                             await AssertScriptCopy("rebuild");
-
-                            await tester.AssertScript(
-                                "watch",
-                                Constants.Package.Scripts.Get("watch-compile").replace("compile", "build"));
-
-                            await tester.AssertScript("clean", Constants.Package.Scripts.Get("clean").replace("compile", "build"));
+                            await AssertScriptCopy("watch");
+                            await AssertScriptCopy("clean");
                             await AssertScriptCopy("lint-code-base", "lint-base");
 
                             await tester.AssertScript(

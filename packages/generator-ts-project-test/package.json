@@ -24,18 +24,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run copy-files && npm run compile",
-    "copy-files": "cd ../.. && npm run copy-files",
-    "compile": "tsc -b tsconfig.build.json",
-    "watch-compile": "npm run compile -- --watch",
-    "rebuild": "npm run clean && npm run build",
-    "watch": "concurrently --raw \"npm run copy-files -- -- --watch | shusher\" \"npm run watch-compile\"",
-    "clean": "npm run compile -- --clean && rimraf ./lib",
+    "clean": "tsc -b tsconfig.build.json --clean && rimraf ./lib",
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
     "lint-ide": "npm run lint || exit 0",
-    "test": "mocha",
-    "patch-ts": "ts-patch install && ts-patch --persist"
+    "test": "mocha"
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^11.0.6",
@@ -61,13 +54,11 @@
     "@types/npm-packlist": "^1.1.2",
     "@types/sinon": "^10.0.6",
     "@types/ts-nameof": "^4.2.1",
-    "concurrently": "^6.4.0",
     "dedent": "^0.7.0",
     "eslint": "^8.4.1",
     "mute-stream": "^0.0.8",
     "random-js": "^2.1.0",
     "rimraf": "^3.0.2",
-    "shusher": "^0.1.1",
     "sinon": "^12.0.1",
     "ts-nameof": "^5.0.0",
     "ts-patch": "^2.0.1",
