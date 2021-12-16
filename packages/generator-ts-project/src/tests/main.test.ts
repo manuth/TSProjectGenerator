@@ -14,7 +14,7 @@ import { TestContext } from "./TestContext";
 import { VSCodeTests } from "./VSCode";
 
 suite(
-    "TSGeneratorGenerator",
+    "TSProjectGenerator",
     () =>
     {
         let defaultContextName = "default";
