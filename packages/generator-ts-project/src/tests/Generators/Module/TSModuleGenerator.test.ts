@@ -71,6 +71,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(1 * 60 * 1000);
                     testContext.cleanTestDirectory();
+                    context.InvalidateRequireCache();
                 });
 
             test(

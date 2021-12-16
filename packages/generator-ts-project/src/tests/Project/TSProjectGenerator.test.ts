@@ -60,6 +60,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                     this.slow(7.5 * 60 * 1000);
                     await writeFile(generator.destinationPath(testFileName), testCode);
                     await generator.cleanup();
+                    context.InvalidateRequireCache();
                     strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
                 });
         });

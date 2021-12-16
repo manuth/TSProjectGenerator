@@ -170,7 +170,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                         {
                             this.timeout(45 * 1000);
                             this.slow(22.5 * 1000);
-                            let testContext = new GeneratorContext(GeneratorPath(generator, GeneratorName.Main));
+                            let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, GeneratorName.Main)));
                             await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
                 });
@@ -189,7 +189,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                             for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                             {
                                 let name = subGeneratorOptions[SubGeneratorSettingKey.Name];
-                                let testContext = new GeneratorContext(GeneratorPath(generator, name));
+                                let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, name)));
                                 await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                             }
                         });

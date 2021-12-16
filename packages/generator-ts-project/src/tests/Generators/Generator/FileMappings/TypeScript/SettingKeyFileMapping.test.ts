@@ -79,6 +79,12 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                             sourceFile.forget();
                         });
 
+                    teardown(
+                        () =>
+                        {
+                            context.InvalidateRequireCache();
+                        });
+
                     test(
                         "Checking whether the expected export-member is present…",
                         async function()

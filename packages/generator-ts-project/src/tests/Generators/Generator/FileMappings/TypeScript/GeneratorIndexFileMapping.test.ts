@@ -88,6 +88,12 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                             sourceFile.forget();
                         });
 
+                    teardown(
+                        () =>
+                        {
+                            context.InvalidateRequireCache();
+                        });
+
                     test(
                         `Checking whether \`${nameof(module)}.${nameof(module.exports)}\` is a yeoman-generator…`,
                         async function()

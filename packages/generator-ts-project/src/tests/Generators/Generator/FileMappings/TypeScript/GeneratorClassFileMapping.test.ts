@@ -107,6 +107,12 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                     licenseTypeEnum = (await licenseTypeTester.Require())[namingContext.LicenseTypeEnumName];
                 });
 
+            suiteTeardown(
+                () =>
+                {
+                    context.InvalidateRequireCache();
+                });
+
             suite(
                 nameof<TestGeneratorClassFileMapping>((fileMapping) => fileMapping.Destination),
                 () =>

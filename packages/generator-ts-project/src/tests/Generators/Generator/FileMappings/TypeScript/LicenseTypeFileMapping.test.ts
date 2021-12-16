@@ -1,11 +1,11 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
+import { TestContext } from "../../../../TestContext";
 
 /**
  * Registers tests for the {@link LicenseTypeFileMapping `LicenseTypeFileMapping<TSettings, TOptions>`} class.
@@ -77,6 +77,12 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
                             let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                             await tester.DumpOutput(sourceFile);
                             sourceFile.forget();
+                        });
+
+                    teardown(
+                        () =>
+                        {
+                            context.InvalidateRequireCache();
                         });
 
                     test(
