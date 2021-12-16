@@ -135,24 +135,32 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         "Checking whether all expected scripts are present…",
                         async function()
                         {
-                            let patchScriptName = "patch-ts";
-                            let rebuildScriptName = "rebuild";
+                            let patchScript = "patch-ts";
+                            let rebuildScript = "rebuild";
+                            let lintScript = "lint";
+                            let lintCodeScript = "lint-code";
+                            let lintBaseScript = "lint-base";
+                            let lintCodeBaseScript = "lint-code-base";
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
                             await AssertScriptCopy("build");
-                            await AssertScriptCopy(rebuildScriptName);
+                            await AssertScriptCopy(rebuildScript);
                             await AssertScriptCopy("watch");
                             await AssertScriptCopy("clean");
-                            await AssertScriptCopy("lint-code-base", "lint-base");
+                            await AssertScriptCopy(lintCodeBaseScript, lintBaseScript);
 
                             await tester.AssertScript(
-                                "lint",
-                                Constants.Package.Scripts.Get("lint-code").replace("lint-code-base", "lint-base"));
+                                lintScript,
+                                Constants.Package.Scripts.Get(lintCodeScript).replace(
+                                    lintCodeBaseScript,
+                                    lintBaseScript));
 
                             await tester.AssertScript(
                                 "lint-ide",
-                                Constants.Package.Scripts.Get("lint-code-ide").replace("lint-code", "lint"));
+                                Constants.Package.Scripts.Get("lint-code-ide").replace(
+                                    lintCodeScript,
+                                    lintScript));
 
                             await AssertScriptCopy("test");
 
@@ -160,11 +168,11 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 "prepare",
                                 (script) =>
                                 {
-                                    return !script.includes(patchScriptName) &&
-                                        script.includes(rebuildScriptName);
+                                    return !script.includes(patchScript) &&
+                                        script.includes(rebuildScript);
                                 });
 
-                            ok(!(await tester.ParseOutput()).Scripts.Has(patchScriptName));
+                            ok(!(await tester.ParseOutput()).Scripts.Has(patchScript));
                         });
                 });
         });
