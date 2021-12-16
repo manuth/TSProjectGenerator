@@ -76,17 +76,11 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
             {
                 let command = commands[j];
 
-                if (command.startsWith("npx lerna publish"))
+                if (/\b--workspaces\b/.test(command))
                 {
                     document.setIn(
                         [stepsKey, i, commandsKey, j],
-                        command.replace(/^npx lerna (publish) from-package -y/, "npm $1"));
-                }
-                else if (command.startsWith("npx lerna exec"))
-                {
-                    document.setIn(
-                        [stepsKey, i, commandsKey, j],
-                        command.replace(/^npx lerna exec .* --[\s]*(.*)$/, "$1"));
+                        command.replace(/\b--workspaces\b/, ""));
                 }
             }
 
