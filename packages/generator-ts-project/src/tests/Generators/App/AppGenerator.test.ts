@@ -81,6 +81,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 () =>
                 {
                     sandbox.restore();
+                    generatorContext.removeAllListeners();
                 });
 
             suite(
