@@ -69,6 +69,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     public override get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         let prepareScriptName = "prepare";
+        let patchScriptName = "patch-ts";
 
         return [
             ...this.GetBaseScripts(this.Base.MiscScripts).map(
@@ -80,7 +81,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                     {
                         return {
                             Destination: prepareScriptName,
-                            Processor: async () => this.Base.ScriptSource.Scripts.Get("initialize")
+                            Processor: async () => `npm run ${patchScriptName} && ${await scriptMapping.Processor()}`
                         } as IScriptMapping<TSettings, TOptions>;
                     }
                     else
@@ -88,7 +89,10 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                         return script;
                     }
                 }),
-            "patch-ts"
+            {
+                Destination: patchScriptName,
+                Processor: async () => "ts-patch install"
+            }
         ];
     }
 
@@ -117,7 +121,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      * @returns
      * The scripts retrieved from the base file-mapping.
      */
-    protected GetBaseScripts(scriptMappings: Array<IScriptMapping<TSettings, TOptions> | string>): Array<IScriptMapping<TSettings, TOptions> | string>
+    protected GetBaseScripts(scriptMappings: Array<IScriptMapping<TSettings, TOptions> | string>): Array<IScriptMapping<TSettings, TOptions>>
     {
         return scriptMappings.map(
             (script) =>
@@ -135,7 +139,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      * @returns
      * The script retrieved from the base file-mapping.
      */
-    protected GetBaseScript(scriptMapping: IScriptMapping<TSettings, TOptions> | string): IScriptMapping<TSettings, TOptions> | string
+    protected GetBaseScript(scriptMapping: IScriptMapping<TSettings, TOptions> | string): IScriptMapping<TSettings, TOptions>
     {
         let result: IScriptMapping<TSettings, TOptions>;
 

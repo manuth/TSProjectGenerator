@@ -85,23 +85,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
             "test",
             {
                 Source: "initialize",
-                Destination: prepareScriptName,
-                Processor: async (script, target) =>
-                {
-                    let separator = " && ";
-                    let commands = script.split(separator);
-                    let filtered: string[] = [];
-
-                    for (let command of commands)
-                    {
-                        if (!command.includes("patch-ts"))
-                        {
-                            filtered.push(command);
-                        }
-                    }
-
-                    return filtered.join(separator);
-                }
+                Destination: prepareScriptName
             }
         ];
     }
