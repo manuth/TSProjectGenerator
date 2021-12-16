@@ -37,7 +37,7 @@
     "lint-ide": "npm run lint-code-ide && npm run lint-docs || exit 0",
     "test": "mocha && tsd",
     "prepare": "npm run patch-ts && npm run rebuild",
-    "patch-ts": "ts-patch install && ts-patch --persist"
+    "patch-ts": "ts-patch install"
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.6",

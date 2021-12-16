@@ -22,7 +22,7 @@
     "test": "npm run --workspaces test",
     "version": "ts-node ./scripts/bumpVersion.ts",
     "prepare": "npm run patch-ts && npm run rebuild",
-    "patch-ts": "ts-patch install && ts-patch --persist && npm run --workspaces patch-ts"
+    "patch-ts": "ts-patch install"
   },
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.6",
