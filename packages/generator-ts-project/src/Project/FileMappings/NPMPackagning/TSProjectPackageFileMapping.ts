@@ -84,7 +84,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
         return [
             "test",
             {
-                Source: prepareScriptName,
+                Source: "initialize",
                 Destination: prepareScriptName,
                 Processor: async (script, target) =>
                 {

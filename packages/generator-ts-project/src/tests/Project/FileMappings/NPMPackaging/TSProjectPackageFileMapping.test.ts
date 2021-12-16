@@ -136,11 +136,12 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         async function()
                         {
                             let patchScriptName = "patch-ts";
+                            let rebuildScriptName = "rebuild";
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
                             await AssertScriptCopy("build");
-                            await AssertScriptCopy("rebuild");
+                            await AssertScriptCopy(rebuildScriptName);
                             await AssertScriptCopy("watch");
                             await AssertScriptCopy("clean");
                             await AssertScriptCopy("lint-code-base", "lint-base");
@@ -159,7 +160,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 "prepare",
                                 (script) =>
                                 {
-                                    return !script.includes(patchScriptName);
+                                    return !script.includes(patchScriptName) &&
+                                        script.includes(rebuildScriptName);
                                 });
 
                             ok(!(await tester.ParseOutput()).Scripts.Has(patchScriptName));
