@@ -210,6 +210,7 @@ export function PathPromptTests(): void
             }
 
             let context = TestContext.Default;
+            let muteStream: MuteStream;
             let mockedInput: MockSTDIN;
             let readLine: ReadLine;
             let question: IPathQuestion;
@@ -285,7 +286,7 @@ export function PathPromptTests(): void
             setup(
                 () =>
                 {
-                    let muteStream = new MuteStream();
+                    muteStream = new MuteStream();
                     muteStream.pipe(process.stdout);
                     mockedInput = stdin();
 
@@ -310,6 +311,7 @@ export function PathPromptTests(): void
                     await EndPrompt();
                     readLine.close();
                     mockedInput.restore();
+                    muteStream.destroy();
                 });
 
             suite(
