@@ -80,7 +80,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                     {
                         return {
                             Destination: prepareScriptName,
-                            Processor: async () => this.Base.ScriptSource.Scripts.Get(prepareScriptName)
+                            Processor: async () => this.Base.ScriptSource.Scripts.Get("initialize")
                         } as IScriptMapping<TSettings, TOptions>;
                     }
                     else
