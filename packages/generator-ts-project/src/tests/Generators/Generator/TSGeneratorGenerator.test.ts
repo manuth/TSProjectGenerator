@@ -32,6 +32,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
             let testContext: IRunContext<TSGeneratorGenerator>;
             let generator: TSGeneratorGenerator;
             let settings: ITSGeneratorSettings;
+            context.RegisterWorkingDirRestorer();
 
             suiteSetup(
                 async function()
@@ -147,7 +148,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         {
                             this.timeout(1 * 60 * 1000);
                             this.slow(30 * 1000);
-                            let testContext = new GeneratorContext(GeneratorPath(generator, GeneratorName.Main));
+                            let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, GeneratorName.Main)));
                             return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                         });
 
@@ -160,7 +161,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
 
                             for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                             {
-                                let testContext = new GeneratorContext(GeneratorPath(generator, subGeneratorOptions[SubGeneratorSettingKey.Name]));
+                                let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, subGeneratorOptions[SubGeneratorSettingKey.Name])));
                                 await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
                             }
                         });
@@ -221,6 +222,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                         }).length,
                                     1);
                             }
+
+                            sourceFile.forget();
                         });
                 });
         });

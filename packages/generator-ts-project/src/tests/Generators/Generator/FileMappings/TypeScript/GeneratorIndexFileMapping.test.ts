@@ -3,13 +3,13 @@ import { Generator, GeneratorOptions, IGenerator, IGeneratorSettings } from "@ma
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";
-import { TSGeneratorGenerator } from "../../../../..";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
 import { GeneratorIndexFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorIndexFileMapping";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../../TestContext";
 
 /**
@@ -83,7 +83,15 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         async function()
                         {
                             this.timeout(20 * 1000);
-                            await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            await tester.DumpOutput(sourceFile);
+                            sourceFile.forget();
+                        });
+
+                    teardown(
+                        () =>
+                        {
+                            context.InvalidateRequireCache();
                         });
 
                     test(

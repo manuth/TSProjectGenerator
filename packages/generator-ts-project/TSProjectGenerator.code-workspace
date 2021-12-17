@@ -19,10 +19,10 @@
     ],
     "extensions": {
         "recommendations": [
+            "dbaeumer.vscode-eslint",
             "digitalbrainstem.javascript-ejs-support",
             "hbenl.vscode-mocha-test-adapter",
-            "hbenl.vscode-test-explorer",
-            "manuth.eslint-language-service"
+            "hbenl.vscode-test-explorer"
         ]
     },
     "launch": {
@@ -35,7 +35,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Yeoman",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
                 "args": [
                     "${workspaceFolder:TSProjectGenerator}/lib/generators/app"
                 ],
@@ -61,7 +61,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
-                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/yo/lib/cli.js",
+                "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
                 "args": [
                     "${workspaceFolder:MyTSProjectGenerator}/lib/generators/app"
                 ],
@@ -88,7 +88,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Tests",
-                "program": "${workspaceFolder:TSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"
@@ -114,7 +114,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
-                "program": "${workspaceFolder:MyTSProjectGenerator}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"
@@ -141,7 +141,7 @@
                 "type": "pwa-node",
                 "request": "launch",
                 "name": "Launch TSProjectGeneratorTest Tests",
-                "program": "${workspaceFolder:TSProjectGeneratorTest}/node_modules/mocha/bin/mocha",
+                "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
                 "args": [
                     "--timeout",
                     "0"

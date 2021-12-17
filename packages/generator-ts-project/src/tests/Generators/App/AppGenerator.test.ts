@@ -25,6 +25,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
         () =>
         {
             let sandbox: SinonSandbox;
+            let workingDirectory: string;
             let tempDir: TempDirectory;
             let generatorContext: IRunContext<AppGenerator>;
 
@@ -32,6 +33,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 () =>
                 {
                     sandbox = createSandbox();
+                    workingDirectory = process.cwd();
                     tempDir = new TempDirectory();
                     generatorContext = context.ExecuteGenerator();
 
@@ -78,9 +80,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 });
 
             teardown(
-                () =>
+                function()
                 {
+                    this.timeout(45 * 1000);
                     sandbox.restore();
+                    generatorContext.removeAllListeners();
+                    process.chdir(workingDirectory);
+                    tempDir.Dispose();
                 });
 
             suite(

@@ -1,8 +1,10 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { IRunContext, ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
+import { pathExists } from "fs-extra";
 import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
 import { MockSTDIN } from "mock-stdin";
+import { RunContextSettings } from "yeoman-test";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
 import { TasksProcessor } from "../VSCode/TasksProcessor";
 
@@ -167,5 +169,67 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
     {
         this.ProjectContext.RegisterTestPrompt(promptModule, type);
+    }
+
+    /**
+     * Registers mocha tasks for restoring the working directory.
+     */
+    public RegisterWorkingDirRestorer(): void
+    {
+        this.ProjectContext.RegisterWorkingDirRestorer();
+    }
+
+    /**
+     * Executes the generator.
+     *
+     * @param options
+     * The options for the generator.
+     *
+     * @param runSettings
+     * The settings for executing the generator.
+     *
+     * @returns
+     * The execution-context of the generator.
+     */
+    public override ExecuteGenerator(options?: TOptions, runSettings?: RunContextSettings): IRunContext<TGenerator>
+    {
+        let cacheSnapshot: string[];
+        let result = super.ExecuteGenerator(options, runSettings);
+
+        result.on(
+            "ready",
+            () =>
+            {
+                cacheSnapshot = Object.keys(require.cache);
+            });
+
+        result.on(
+            "end",
+            () =>
+            {
+                for (let fileName of Object.keys(require.cache))
+                {
+                    if (!cacheSnapshot.includes(fileName))
+                    {
+                        delete require.cache[fileName];
+                    }
+                }
+            });
+
+        return result;
+    }
+
+    /**
+     * Removes inexistent files from {@link require.cache `require.cache`}.
+     */
+    public async InvalidateRequireCache(): Promise<void>
+    {
+        for (let fileName of Object.keys(require.cache))
+        {
+            if (!await pathExists(fileName))
+            {
+                delete require.cache[fileName];
+            }
+        }
     }
 }

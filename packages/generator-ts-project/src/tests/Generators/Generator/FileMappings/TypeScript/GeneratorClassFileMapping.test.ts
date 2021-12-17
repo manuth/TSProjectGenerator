@@ -75,10 +75,10 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestGeneratorClassFileMapping;
-            let tester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, TestGeneratorClassFileMapping>;
-            let settingKeyTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, SettingKeyFileMapping<IGeneratorSettings, GeneratorOptions>>;
-            let settingsInterfaceTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, SettingsInterfaceFileMapping<IGeneratorSettings, GeneratorOptions>>;
-            let licenseTypeTester: TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, LicenseTypeFileMapping<IGeneratorSettings, GeneratorOptions>>;
+            let tester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, TestGeneratorClassFileMapping>;
+            let settingKeyTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, SettingKeyFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
+            let settingsInterfaceTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, SettingsInterfaceFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
+            let licenseTypeTester: TypeScriptFileMappingTester<IGenerator<ITSGeneratorSettings, GeneratorOptions>, ITSGeneratorSettings, GeneratorOptions, LicenseTypeFileMapping<ITSGeneratorSettings, GeneratorOptions>>;
             let settingKeyEnum: Record<string, string>;
             let licenseTypeEnum: Record<string, string>;
 
@@ -100,11 +100,17 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
 
                     for (let fileMapping of new TestTSGeneratorCategory(generator).GetGeneratorFileMappings(namingContext.GeneratorID, namingContext.GeneratorDisplayName))
                     {
-                        await new FileMappingTester(generator, fileMapping).Run();
+                        await new FileMappingTester(generator, fileMapping as IFileMapping<IGeneratorSettings, GeneratorOptions>).Run();
                     }
 
                     settingKeyEnum = (await settingKeyTester.Require())[namingContext.SettingKeyEnumName];
                     licenseTypeEnum = (await licenseTypeTester.Require())[namingContext.LicenseTypeEnumName];
+                });
+
+            suiteTeardown(
+                () =>
+                {
+                    context.InvalidateRequireCache();
                 });
 
             suite(
@@ -124,8 +130,8 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                 () =>
                 {
                     let testGenerator: Generator<IGeneratorSettings, GeneratorOptions>;
-                    let cwd: string;
                     let tempDir: TempDirectory;
+                    context.RegisterWorkingDirRestorer();
 
                     /**
                      * Gets the question with the specified {@link name `name`}.
@@ -142,14 +148,16 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                             (question) =>
                             {
                                 return question.name === name;
-                            });
+                            }) as DistinctQuestion;
                     }
 
                     suiteSetup(
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
-                            await tester.DumpOutput(await fileMapping.Transform(await fileMapping.GetSourceObject()));
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            await tester.DumpOutput(sourceFile);
+                            sourceFile.forget();
 
                             testGenerator = context.CreateGenerator(
                                 (await tester.Require())[namingContext.GeneratorClassName],
@@ -163,13 +171,11 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                         () =>
                         {
                             tempDir = new TempDirectory();
-                            cwd = process.cwd();
                         });
 
                     teardown(
                         () =>
                         {
-                            process.chdir(cwd);
                             tempDir.Dispose();
                         });
 

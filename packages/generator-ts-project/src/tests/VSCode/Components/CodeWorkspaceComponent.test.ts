@@ -1,6 +1,5 @@
 import { strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
 import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
@@ -18,7 +17,7 @@ export function CodeWorkspaceComponentTests(): void
         {
             let context = TestContext.Default;
             let randomWorkspace: IWorkspaceMetadata;
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
+            let component: TestCodeWorkspaceComponent<IGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

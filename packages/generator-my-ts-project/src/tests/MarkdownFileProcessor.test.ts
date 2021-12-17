@@ -1,6 +1,6 @@
 import { strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorSettings, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMappingTester, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
@@ -17,8 +17,8 @@ export function MarkdownFileProcessorTests(): void
             let context = TestContext.Default;
             let sourceFile: TempFile;
             let destinationFile: TempFile;
-            let fileMappingOptions: MarkdownFileProcessor<ITestGeneratorSettings, GeneratorOptions>;
-            let tester: FileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, MarkdownFileProcessor<ITestGeneratorSettings, GeneratorOptions>>;
+            let fileMappingOptions: MarkdownFileProcessor<IGeneratorSettings, GeneratorOptions>;
+            let tester: FileMappingTester<TestGenerator, IGeneratorSettings, GeneratorOptions, MarkdownFileProcessor<IGeneratorSettings, GeneratorOptions>>;
             let source: string;
             let expected: string;
 

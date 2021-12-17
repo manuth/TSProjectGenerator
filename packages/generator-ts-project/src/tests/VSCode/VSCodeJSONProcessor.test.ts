@@ -1,6 +1,5 @@
 import { strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
 import { TestContext } from "../TestContext";
 import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
@@ -15,8 +14,8 @@ export function VSCodeJSONProcessorTests(): void
         () =>
         {
             let context = TestContext.Default;
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
-            let processor: VSCodeJSONProcessor<ITestGeneratorSettings, GeneratorOptions, any>;
+            let component: TestCodeWorkspaceComponent<IGeneratorSettings, GeneratorOptions>;
+            let processor: VSCodeJSONProcessor<IGeneratorSettings, GeneratorOptions, any>;
 
             suiteSetup(
                 async function()

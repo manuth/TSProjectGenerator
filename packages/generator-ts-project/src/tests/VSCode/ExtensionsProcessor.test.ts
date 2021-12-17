@@ -1,6 +1,5 @@
 import { ok } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
 import { TestContext } from "../TestContext";
@@ -18,12 +17,12 @@ export function ExtensionsProcessorTests(): void
             let context = TestContext.Default;
             let includedExtension: string;
             let excludedExtension: string;
-            let processor: ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>;
+            let processor: ExtensionsProcessor<IGeneratorSettings, GeneratorOptions>;
 
             /**
              * Provides an implementation of the {@link ExtensionsProcessor `ExtensionsProcessor<TSettings, TOptions>`} class for testing.
              */
-            class TestExtensionsProcessor extends ExtensionsProcessor<ITestGeneratorSettings, GeneratorOptions>
+            class TestExtensionsProcessor extends ExtensionsProcessor<IGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

@@ -3,7 +3,7 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { ArrowFunction, CallExpression, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { ISuiteContext } from "../../../..";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
 import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping";
 import { TestContext } from "../../../TestContext";
 
@@ -53,8 +53,8 @@ export function SuiteFileMappingTests(): void
                     let result = await super.GetSuiteFunction();
 
                     result.addStatements(
-                        this.Converter.WrapExpression(
-                            this.Converter.WrapNode(ts.factory.createStringLiteral(testValue))).getFullText());
+                        this.WrapExpression(
+                            this.WrapNode(ts.factory.createStringLiteral(testValue))).getFullText());
 
                     return result;
                 }
@@ -112,6 +112,23 @@ export function SuiteFileMappingTests(): void
                 nameof<TestSuiteFileMapping>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
+                    let files: SourceFile[];
+
+                    setup(
+                        () =>
+                        {
+                            files = [];
+                        });
+
+                    teardown(
+                        () =>
+                        {
+                            for (let file of files)
+                            {
+                                file.forget();
+                            }
+                        });
+
                     /**
                      * Gets all calls to the {@link suite `suite`}-method.
                      *
@@ -120,7 +137,10 @@ export function SuiteFileMappingTests(): void
                      */
                     async function GetSuiteCalls(): Promise<CallExpression[]>
                     {
-                        return (await fileMapping.Transform(await fileMapping.GetSourceObject())).getDescendantsOfKind(
+                        let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                        files.push(sourceFile);
+
+                        return sourceFile.getDescendantsOfKind(
                             SyntaxKind.CallExpression).filter(
                                 (callExpression) =>
                                 {

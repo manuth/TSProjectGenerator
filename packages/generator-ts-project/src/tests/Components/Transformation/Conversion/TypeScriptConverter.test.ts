@@ -97,6 +97,8 @@ export function TypeScriptConverterTests(): void
                                 {
                                     sourceFile.getVariableDeclarationOrThrow(testVariableName);
                                 });
+
+                            sourceFile.forget();
                         });
 
                     test(
@@ -108,69 +110,6 @@ export function TypeScriptConverterTests(): void
                                 converter.FormatSettings.newLineCharacter = nlc;
                                 strictEqual(detectNewLine(converter.Dump(testSourceFile)), nlc);
                             }
-                        });
-                });
-
-            suite(
-                nameof<TypeScriptConverter>((converter) => converter.WrapNode),
-                () =>
-                {
-                    test(
-                        "Checking whether nodes can be added to a source-file correctly…",
-                        function()
-                        {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
-                            let node = converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
-
-                            doesNotThrow(
-                                () =>
-                                {
-                                    node.addParameter(
-                                        {
-                                            name: "test"
-                                        });
-                                });
-                        });
-
-                    test(
-                        "Checking whether nodes which already belong to a file are treated correctly…",
-                        function()
-                        {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
-
-                            let testClass = testSourceFile.addClass(
-                                {
-                                    name: "Test"
-                                });
-
-                            strictEqual(converter.WrapNode(testClass.compilerNode).getSourceFile().compilerNode, testSourceFile.compilerNode);
-                        });
-                });
-
-            suite(
-                nameof<TypeScriptConverter>((converter) => converter.WrapExpression),
-                () =>
-                {
-                    test(
-                        "Checking whether expressions can be wrapped into extension-statements…",
-                        function()
-                        {
-                            this.timeout(4 * 1000);
-                            this.slow(2 * 1000);
-
-                            let callExpression = converter.WrapNode(
-                                ts.factory.createCallExpression(
-                                    ts.factory.createPropertyAccessExpression(
-                                        ts.factory.createIdentifier(nameof(console)),
-                                        nameof(console.log)),
-                                    [],
-                                    [
-                                        ts.factory.createStringLiteral("hello world")
-                                    ]));
-
-                            strictEqual(converter.WrapExpression(callExpression).getExpression().getFullText(), callExpression.getFullText());
                         });
                 });
         });

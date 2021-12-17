@@ -2,7 +2,7 @@ import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/exten
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintDependencies } from "../../../NPMPackaging/Dependencies/LintDependencies";
+import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
@@ -38,31 +38,11 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        let compileScriptName = "compile";
-        let buildScriptName = "build";
-        let cleanScriptName = "clean";
-
-        let compileScriptProcessor = (script: string): string =>
-        {
-            return script.replace(new RegExp(compileScriptName, "g"), buildScriptName);
-        };
-
         return [
-            {
-                Source: compileScriptName,
-                Destination: buildScriptName
-            },
+            "build",
             "rebuild",
-            {
-                Source: "watch-compile",
-                Destination: "watch",
-                Processor: async (script) => compileScriptProcessor(script)
-            },
-            {
-                Source: cleanScriptName,
-                Destination: cleanScriptName,
-                Processor: async (script) => compileScriptProcessor(script)
-            }
+            "watch",
+            "clean"
         ];
     }
 
@@ -104,24 +84,8 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
         return [
             "test",
             {
-                Source: prepareScriptName,
-                Destination: prepareScriptName,
-                Processor: async (script, target) =>
-                {
-                    let separator = " && ";
-                    let commands = script.split(separator);
-                    let filtered: string[] = [];
-
-                    for (let command of commands)
-                    {
-                        if (!command.includes("patchTypeScript"))
-                        {
-                            filtered.push(command);
-                        }
-                    }
-
-                    return filtered.join(separator);
-                }
+                Source: "initialize",
+                Destination: prepareScriptName
             }
         ];
     }
@@ -141,7 +105,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     /**
      * @inheritdoc
      */
-    protected override get ScriptSource(): Package
+    public override get ScriptSource(): Package
     {
         return Constants.Package;
     }
@@ -166,7 +130,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
 
         if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
         {
-            result.Register(new LintDependencies(), true);
+            result.Register(new LintEssentials(), true);
         }
 
         return result;

@@ -31,7 +31,7 @@ steps:
       - lint
       - test
     commands:
-      - npx lerna exec --no-private -- npm pack
+      - npm pack --workspaces
     when:
       event:
         - tag
@@ -44,7 +44,7 @@ steps:
         from_secret: npm_token
     commands:
       - echo "//registry.npmjs.org/:_authToken=$${NPM_TOKEN}" > ~/.npmrc
-      - npx lerna publish from-package -y
+      - npm publish --workspaces
     when:
       event:
         - tag
@@ -60,7 +60,7 @@ steps:
     commands:
       - echo "//npm.pkg.github.com/:_authToken=$${GITHUB_TOKEN}" > ~/.npmrc
       - echo "registry=https://npm.pkg.github.com" >> ~/.npmrc
-      - npx lerna publish from-package -y
+      - npm publish --workspaces
     when:
       event:
         - tag
@@ -100,7 +100,7 @@ steps:
       api_key:
         from_secret: github_publish_token
       files:
-        - "./packages/*/*.tgz"
+        - "./*.tgz"
       title: .releaseTitle.md
       note: .releaseNotes.md
     when:

@@ -69,6 +69,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     public override get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         let prepareScriptName = "prepare";
+        let patchScriptName = "patch-ts";
 
         return [
             ...this.GetBaseScripts(this.Base.MiscScripts).map(
@@ -78,15 +79,29 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
                     if (scriptMapping.Destination === prepareScriptName)
                     {
-                        return prepareScriptName;
+                        return {
+                            Destination: prepareScriptName,
+                            Processor: async () => `npm run ${patchScriptName} && ${await scriptMapping.Processor()}`
+                        } as IScriptMapping<TSettings, TOptions>;
                     }
                     else
                     {
                         return script;
                     }
                 }),
-            "patchTypeScript"
+            {
+                Destination: patchScriptName,
+                Processor: async () => "ts-patch install"
+            }
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get ScriptSource(): Package
+    {
+        return Constants.Package;
     }
 
     /**
@@ -98,14 +113,6 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     }
 
     /**
-     * @inheritdoc
-     */
-    protected override get ScriptSource(): Package
-    {
-        return Constants.Package;
-    }
-
-    /**
      * Gets scripts from the base file-mapping.
      *
      * @param scriptMappings
@@ -114,38 +121,52 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      * @returns
      * The scripts retrieved from the base file-mapping.
      */
-    protected GetBaseScripts(scriptMappings: Array<IScriptMapping<TSettings, TOptions> | string>): Array<IScriptMapping<TSettings, TOptions> | string>
+    protected GetBaseScripts(scriptMappings: Array<IScriptMapping<TSettings, TOptions> | string>): Array<IScriptMapping<TSettings, TOptions>>
     {
         return scriptMappings.map(
             (script) =>
             {
-                let scriptMapping: IScriptMapping<TSettings, TOptions>;
-
-                if (typeof script === "string")
-                {
-                    scriptMapping = {
-                        Destination: script
-                    };
-                }
-                else
-                {
-                    scriptMapping = {
-                        ID: script.ID,
-                        Destination: script.Destination
-                    };
-                }
-
-                scriptMapping.Processor = async (script, scriptMapping) =>
-                {
-                    return this.Base.ScriptMappingCollection.Get(
-                        (baseScriptMapping: ScriptMapping<TSettings, TOptions>) =>
-                        {
-                            return baseScriptMapping.Destination === scriptMapping.Destination;
-                        }).Processor();
-                };
-
-                return scriptMapping;
+                return this.GetBaseScript(script);
             });
+    }
+
+    /**
+     * Gets a script from the base file-mapping.
+     *
+     * @param scriptMapping
+     * The script to retrieve from the base file-mapping.
+     *
+     * @returns
+     * The script retrieved from the base file-mapping.
+     */
+    protected GetBaseScript(scriptMapping: IScriptMapping<TSettings, TOptions> | string): IScriptMapping<TSettings, TOptions>
+    {
+        let result: IScriptMapping<TSettings, TOptions>;
+
+        if (typeof scriptMapping === "string")
+        {
+            result = {
+                Destination: scriptMapping
+            };
+        }
+        else
+        {
+            result = {
+                ID: scriptMapping.ID,
+                Destination: scriptMapping.Destination
+            };
+        }
+
+        result.Processor = async (script, scriptMapping) =>
+        {
+            return this.Base.ScriptMappingCollection.Get(
+                (baseScriptMapping: ScriptMapping<TSettings, TOptions>) =>
+                {
+                    return baseScriptMapping.Destination === result.Destination;
+                }).Processor();
+        };
+
+        return result;
     }
 
     /**

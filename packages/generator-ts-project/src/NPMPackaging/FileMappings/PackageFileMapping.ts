@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { pathExists } from "fs-extra";
-import { TextConverter } from "../..";
 import { PackageJSONConverter } from "../../Components/Transformation/Conversion/PackageJSONConverter";
+import { TextConverter } from "../../Components/Transformation/Conversion/TextConverter";
 import { ParsedFileMapping } from "../../Components/Transformation/ParsedFileMapping";
 import { IScriptMapping } from "../Scripts/IScriptMapping";
 import { ScriptCollectionEditor } from "../Scripts/ScriptCollectionEditor";
@@ -166,7 +166,7 @@ export class PackageFileMapping<TSettings extends IGeneratorSettings, TOptions e
     /**
      * Gets the package to load scripts from.
      */
-    protected get ScriptSource(): Package
+    public get ScriptSource(): Package
     {
         return new Package();
     }

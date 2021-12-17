@@ -3,7 +3,7 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { CallExpression, SourceFile, SyntaxKind } from "ts-morph";
-import { ISuiteContext } from "../../../..";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
 import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping";
 
 /**
@@ -93,6 +93,23 @@ export function TestFileMappingTests(): void
                 nameof<TestTestFileMapping>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
+                    let files: SourceFile[];
+
+                    setup(
+                        () =>
+                        {
+                            files = [];
+                        });
+
+                    teardown(
+                        () =>
+                        {
+                            for (let file of files)
+                            {
+                                file.forget();
+                            }
+                        });
+
                     /**
                      * Gets all calls to mocha's {@link test `test`}-method.
                      *
@@ -102,6 +119,7 @@ export function TestFileMappingTests(): void
                     async function GetTestCalls(): Promise<CallExpression[]>
                     {
                         let file = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                        files.push(file);
 
                         let suiteCalls = file.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
                             (callExpression) =>

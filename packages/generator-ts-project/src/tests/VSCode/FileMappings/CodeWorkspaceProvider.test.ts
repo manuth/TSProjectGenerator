@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import dedent = require("dedent");
 import { pathExists, remove, writeFile } from "fs-extra";
@@ -25,7 +25,7 @@ export function CodeWorkspaceProviderTests(): void
             let tempDir: TempDirectory;
             let fileName: string;
             let generator: TestGenerator;
-            let workspaceProvider: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
+            let workspaceProvider: TestCodeWorkspaceProvider<IGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

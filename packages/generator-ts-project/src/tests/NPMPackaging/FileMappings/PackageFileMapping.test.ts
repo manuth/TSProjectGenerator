@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
@@ -27,10 +27,10 @@ export function PackageFileMappingTests(): void
             let generator: TestGenerator;
             let sinon: SinonSandbox;
             let defaultVersion = "0.0.0";
-            let options: ITestPackageOptions<ITestGeneratorSettings, GeneratorOptions>;
-            let fileMapping: TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>;
+            let options: ITestPackageOptions<IGeneratorSettings, GeneratorOptions>;
+            let fileMapping: TestPackageFileMapping<IGeneratorSettings, GeneratorOptions>;
             let testKeyWord: string;
-            let tester: PackageFileMappingTester<TestGenerator, ITestGeneratorSettings, GeneratorOptions, TestPackageFileMapping<ITestGeneratorSettings, GeneratorOptions>>;
+            let tester: PackageFileMappingTester<TestGenerator, IGeneratorSettings, GeneratorOptions, TestPackageFileMapping<IGeneratorSettings, GeneratorOptions>>;
             let tempFile: TempFile;
 
             suiteSetup(

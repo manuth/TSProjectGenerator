@@ -5,10 +5,10 @@ import { dirname, relative } from "upath";
 import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { ISubGenerator } from "../../../../../generators/generator/Settings/ISubGenerator";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { SubGeneratorSettingKey } from "../../../../../generators/generator/Settings/SubGeneratorSettingKey";
 import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey";
 import { TestContext } from "../../../../TestContext";
 
@@ -27,7 +27,7 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
             /**
              * Provides an implementation of the {@link GeneratorSuiteFileMapping `GeneratorSuiteFileMapping<TSettings, TOptions>`} for testing.
              */
-            class TestGeneratorSuiteFileMapping extends GeneratorSuiteFileMapping<ITSProjectSettings, GeneratorOptions>
+            class TestGeneratorSuiteFileMapping extends GeneratorSuiteFileMapping<ITSGeneratorSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -118,7 +118,8 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                             for (let subGenerator of [mainGenerator, ...generator.Settings[TSGeneratorSettingKey.SubGenerators]])
                             {
                                 let subNamingContext = new NamingContext(subGenerator[SubGeneratorSettingKey.Name], subGenerator[SubGeneratorSettingKey.DisplayName], generator.SourceRoot);
-                                let moduleSpecifier = (await fileMapping.GetSourceObject()).getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), subNamingContext.GeneratorTestFileName));
+                                let sourceFile = await fileMapping.GetSourceObject();
+                                let moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), subNamingContext.GeneratorTestFileName));
 
                                 suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(
                                     (callExpression) =>

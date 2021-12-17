@@ -1,5 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { Project, SourceFile } from "ts-morph";
+import { TempFileSystem } from "@manuth/temp-files";
+import { CompilerNodeToWrappedType, createWrappedNode, Expression, ExpressionStatement, printNode, Project, SourceFile, ts } from "ts-morph";
 import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
 import { IDumper } from "./Transformation/Conversion/IDumper";
 import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConverter";
@@ -15,6 +16,11 @@ import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConve
  */
 export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends DumpCreatorFileMapping<TSettings, TOptions, SourceFile>
 {
+    /**
+     * The cached projects of this mapping.
+     */
+    private projects: Project[] = [];
+
     /**
      * Initializes a new instance of the {@link TypeScriptCreatorMapping `TypeScriptCreatorMapping<TSettings, TOptions>`} class.
      *
@@ -51,6 +57,14 @@ export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSetti
     }
 
     /**
+     * Gets the cached projects of this mapping.
+     */
+    protected get Projects(): Project[]
+    {
+        return this.projects;
+    }
+
+    /**
      * @inheritdoc
      *
      * @returns
@@ -65,6 +79,17 @@ export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSetti
     }
 
     /**
+     * @inheritdoc
+     */
+    public override async Processor(): Promise<void>
+    {
+        let data = await this.GetOutputObject();
+        let result = this.WriteOutput(this.Dump(data));
+        data.forget();
+        return result;
+    }
+
+    /**
      * Processes the specified {@link sourceFile `sourceFile`}.
      *
      * @param sourceFile
@@ -75,6 +100,71 @@ export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSetti
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
-        return super.Transform(sourceFile);
+        let result = await super.Transform(sourceFile);
+        this.Dispose();
+        return result;
+    }
+
+    /**
+     * Wraps the specified {@link node `node`} in a file.
+     *
+     * @template TNode
+     * The type of the node to wrap.
+     *
+     * @param node
+     * The node to wrap into a file.
+     *
+     * @returns
+     * The wrapped node.
+     */
+    protected WrapNode<TNode extends ts.Node>(node: TNode): CompilerNodeToWrappedType<TNode>
+    {
+        if (!node.getSourceFile())
+        {
+            let project = new Project();
+            let file = project.createSourceFile(TempFileSystem.TempName(), null, { overwrite: true });
+            this.projects.push(project);
+            file.addStatements(printNode(node));
+            let result = file.getFirstDescendantByKind(node.kind) as CompilerNodeToWrappedType<TNode>;
+            result.formatText(this.Converter.FormatSettings);
+            return result;
+        }
+        else
+        {
+            return createWrappedNode(node);
+        }
+    }
+
+    /**
+     * Wraps the specified {@link expression `expression`} into an {@link ExpressionStatement `ExpressionStatement`}.
+     *
+     * @template TExpression
+     * The type of the expression to wrap.
+     *
+     * @param expression
+     * The expression to wrap into an {@link ExpressionStatement `ExpressionStatement`}.
+     *
+     * @returns
+     * The wrapped {@link expression `expression`}.
+     */
+    protected WrapExpression<TExpression extends Expression>(expression: TExpression): ExpressionStatement
+    {
+        let result = this.WrapNode(ts.factory.createExpressionStatement(ts.factory.createStringLiteral("")));
+        result.setExpression(expression.getFullText());
+        return result;
+    }
+
+    /**
+     * Releases all resources used by this file-mapping.
+     */
+    protected Dispose(): void
+    {
+        for (let project of this.Projects)
+        {
+            for (let file of project.getSourceFiles())
+            {
+                file.forget();
+            }
+        }
     }
 }

@@ -94,7 +94,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                         () =>
                         {
                             let prepareScriptName = "prepare";
-                            let patchScriptName = "patchTypeScript";
+                            let patchScriptName = "patch-ts";
 
                             ok(npmPackage.Scripts.Get(prepareScriptName).includes(patchScriptName));
                             ok(npmPackage.Scripts.Has(patchScriptName));

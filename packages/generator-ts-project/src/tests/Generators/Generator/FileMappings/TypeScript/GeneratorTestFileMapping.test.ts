@@ -2,6 +2,7 @@ import { strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../../TestContext";
 
@@ -19,7 +20,7 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
         {
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
-            let fileMapping: GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>;
+            let fileMapping: GeneratorTestFileMapping<ITSGeneratorSettings, GeneratorOptions>;
 
             suiteSetup(
                 async function()

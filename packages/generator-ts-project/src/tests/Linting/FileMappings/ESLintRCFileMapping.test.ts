@@ -64,6 +64,13 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                     tester = new JavaScriptFileMappingTester(generator, fileMapping);
                 });
 
+            suiteTeardown(
+                () =>
+                {
+                    tempDir.Dispose();
+                    context.InvalidateRequireCache();
+                });
+
             setup(
                 () =>
                 {

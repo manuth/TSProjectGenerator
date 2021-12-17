@@ -1,5 +1,5 @@
 import { TempFileSystem } from "@manuth/temp-files";
-import { CompilerNodeToWrappedType, createWrappedNode, Expression, ExpressionStatement, FormatCodeSettings, printNode, Project, SourceFile, ts } from "ts-morph";
+import { FormatCodeSettings, Project, SourceFile } from "ts-morph";
 import { TextConverter } from "./TextConverter";
 
 /**
@@ -104,52 +104,5 @@ export class TypeScriptConverter extends TextConverter<SourceFile>
     {
         sourceFile.formatText(this.FormatSettings);
         return sourceFile.getFullText();
-    }
-
-    /**
-     * Wraps the specified {@link node `node`} in a file.
-     *
-     * @template TNode
-     * The type of the node to wrap.
-     *
-     * @param node
-     * The node to wrap into a file.
-     *
-     * @returns
-     * The wrapped node.
-     */
-    public WrapNode<TNode extends ts.Node>(node: TNode): CompilerNodeToWrappedType<TNode>
-    {
-        if (!node.getSourceFile())
-        {
-            let file = new Project().createSourceFile(TempFileSystem.TempName(), null, { overwrite: true });
-            file.addStatements(printNode(node));
-            let result = file.getFirstDescendantByKind(node.kind) as CompilerNodeToWrappedType<TNode>;
-            result.formatText(this.FormatSettings);
-            return result;
-        }
-        else
-        {
-            return createWrappedNode(node);
-        }
-    }
-
-    /**
-     * Wraps the specified {@link expression `expression`} into an {@link ExpressionStatement `ExpressionStatement`}.
-     *
-     * @template TExpression
-     * The type of the expression to wrap.
-     *
-     * @param expression
-     * The expression to wrap into an {@link ExpressionStatement `ExpressionStatement`}.
-     *
-     * @returns
-     * The wrapped {@link expression `expression`}.
-     */
-    public WrapExpression<TExpression extends Expression>(expression: TExpression): ExpressionStatement
-    {
-        let result = this.WrapNode(ts.factory.createExpressionStatement(ts.factory.createStringLiteral("")));
-        result.setExpression(expression.getFullText());
-        return result;
     }
 }

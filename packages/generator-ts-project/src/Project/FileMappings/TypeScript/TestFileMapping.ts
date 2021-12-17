@@ -28,8 +28,8 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
      */
     protected async GetTestExecutor(): Promise<ArrowFunction>
     {
-        let executor = this.Converter.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
-        let assertion = this.Converter.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(strictEqual)), [], []));
+        let executor = this.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
+        let assertion = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(strictEqual)), [], []));
 
         assertion.addArguments(
             [
@@ -37,7 +37,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
                 printNode(ts.factory.createNumericLiteral(1))
             ]);
 
-        executor.addStatements(this.Converter.WrapExpression(assertion).getFullText());
+        executor.addStatements(this.WrapExpression(assertion).getFullText());
         return executor;
     }
 
@@ -49,8 +49,8 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
      */
     protected async GetTestCall(): Promise<CallExpression>
     {
-        let testCall = this.Converter.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(test)), [], []));
-        let testNameNode = this.Converter.WrapNode(ts.factory.createStringLiteral(""));
+        let testCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(test)), [], []));
+        let testNameNode = this.WrapNode(ts.factory.createStringLiteral(""));
         testNameNode.setLiteralValue("Example…");
 
         testCall.addArguments(
@@ -74,7 +74,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
 
         result.addStatements(
             [
-                this.Converter.WrapExpression(await this.GetTestCall()).getFullText()
+                this.WrapExpression(await this.GetTestCall()).getFullText()
             ]);
 
         return result;

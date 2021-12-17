@@ -83,7 +83,6 @@ export { LintingQuestion } from "./Linting/Inquiry/LintingQuestion";
 export { LintRuleset } from "./Linting/LintRuleset";
 export { BuildDependencies } from "./NPMPackaging/Dependencies/BuildDependencies";
 export { CommonDependencies } from "./NPMPackaging/Dependencies/CommonDependencies";
-export { LintDependencies } from "./NPMPackaging/Dependencies/LintDependencies";
 export { LintEssentials } from "./NPMPackaging/Dependencies/LintEssentials";
 export { PackageFileMapping } from "./NPMPackaging/FileMappings/PackageFileMapping";
 export { IScriptMapping } from "./NPMPackaging/Scripts/IScriptMapping";

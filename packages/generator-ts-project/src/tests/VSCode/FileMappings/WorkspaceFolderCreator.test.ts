@@ -1,6 +1,6 @@
 import { deepStrictEqual, ok } from "assert";
-import { FileMapping, GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester, ITestGeneratorSettings, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { FileMapping, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { parse, stringify } from "comment-json";
 import dedent = require("dedent");
 import { join } from "upath";
@@ -21,9 +21,9 @@ export function WorkspaceFolderCreatorTest(): void
             let context = TestContext.Default;
             let generator: TestGenerator;
             let randomComment: string;
-            let component: TestCodeWorkspaceComponent<ITestGeneratorSettings, GeneratorOptions>;
-            let source: TestCodeWorkspaceProvider<ITestGeneratorSettings, GeneratorOptions>;
-            let fileMappingCreator: WorkspaceFolderCreator<ITestGeneratorSettings, GeneratorOptions>;
+            let component: TestCodeWorkspaceComponent<IGeneratorSettings, GeneratorOptions>;
+            let source: TestCodeWorkspaceProvider<IGeneratorSettings, GeneratorOptions>;
+            let fileMappingCreator: WorkspaceFolderCreator<IGeneratorSettings, GeneratorOptions>;
 
             /**
              * Asserts the content of the file located at the specified {@link path `path`}.

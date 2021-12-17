@@ -1,8 +1,8 @@
 import { doesNotReject, doesNotThrow, strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
-import { TempFile } from "@manuth/temp-files";
-import { Project, SourceFile } from "ts-morph";
+import { TempFile, TempFileSystem } from "@manuth/temp-files";
+import { CompilerNodeToWrappedType, Expression, ExpressionStatement, Project, SourceFile, ts } from "ts-morph";
 import { TypeScriptCreatorMapping } from "../../Components/TypeScriptCreatorMapping";
 import { TestContext } from "../TestContext";
 
@@ -27,11 +27,40 @@ export function TypeScriptCreatorMappingTests(): void
                 {
                     return tempFile.FullName;
                 }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param node
+                 * The node to wrap into a file.
+                 *
+                 * @returns
+                 * The wrapped node.
+                 */
+                public override WrapNode<TNode extends ts.Node>(node: TNode): CompilerNodeToWrappedType<TNode>
+                {
+                    return super.WrapNode(node);
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param expression
+                 * The expression to wrap into an {@link ExpressionStatement `ExpressionStatement`}.
+                 *
+                 * @returns
+                 * The wrapped {@link expression `expression`}.
+                 */
+                public override WrapExpression<TExpression extends Expression>(expression: TExpression): ExpressionStatement
+                {
+                    return super.WrapExpression(expression);
+                }
             }
 
             let context = TestContext.Default;
             let generator: TestGenerator;
             let tempFile: TempFile;
+            let fileMapping: TestTypeScriptCreatorMapping;
 
             suiteSetup(
                 async function()
@@ -44,6 +73,7 @@ export function TypeScriptCreatorMappingTests(): void
                 () =>
                 {
                     tempFile = new TempFile();
+                    fileMapping = new TestTypeScriptCreatorMapping(generator);
                 });
 
             teardown(
@@ -80,7 +110,7 @@ export function TypeScriptCreatorMappingTests(): void
                 });
 
             suite(
-                nameof<TypeScriptCreatorMapping<any, any>>((fileMapping) => fileMapping.GetSourceObject),
+                nameof<TestTypeScriptCreatorMapping>((fileMapping) => fileMapping.GetSourceObject),
                 () =>
                 {
                     test(
@@ -113,6 +143,72 @@ export function TypeScriptCreatorMappingTests(): void
                                 {
                                     (await new TestTypeScriptCreatorMapping(generator, sourceFile).GetSourceObject()).getVariableDeclarationOrThrow(variableName);
                                 });
+                        });
+                });
+
+            suite(
+                nameof<TestTypeScriptCreatorMapping>((fileMapping) => fileMapping.WrapNode),
+                () =>
+                {
+                    test(
+                        "Checking whether nodes can be added to a source-file correctly…",
+                        function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            let node = fileMapping.WrapNode(ts.factory.createArrowFunction([], [], [], null, null, ts.factory.createBlock([])));
+
+                            doesNotThrow(
+                                () =>
+                                {
+                                    node.addParameter(
+                                        {
+                                            name: "test"
+                                        });
+                                });
+                        });
+
+                    test(
+                        "Checking whether nodes which already belong to a file are treated correctly…",
+                        function()
+                        {
+                            let project = new Project();
+                            let sourceFile = project.createSourceFile(TempFileSystem.TempName());
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            let testClass = sourceFile.addClass(
+                                {
+                                    name: "Test"
+                                });
+
+                            strictEqual(fileMapping.WrapNode(testClass.compilerNode).getSourceFile().compilerNode, sourceFile.compilerNode);
+                            sourceFile.forget();
+                        });
+                });
+
+            suite(
+                nameof<TestTypeScriptCreatorMapping>((converter) => converter.WrapExpression),
+                () =>
+                {
+                    test(
+                        "Checking whether expressions can be wrapped into extension-statements…",
+                        function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            let callExpression = fileMapping.WrapNode(
+                                ts.factory.createCallExpression(
+                                    ts.factory.createPropertyAccessExpression(
+                                        ts.factory.createIdentifier(nameof(console)),
+                                        nameof(console.log)),
+                                    [],
+                                    [
+                                        ts.factory.createStringLiteral("hello world")
+                                    ]));
+
+                            strictEqual(fileMapping.WrapExpression(callExpression).getExpression().getFullText(), callExpression.getFullText());
                         });
                 });
         });

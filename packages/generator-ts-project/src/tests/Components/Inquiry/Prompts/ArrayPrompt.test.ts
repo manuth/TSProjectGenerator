@@ -102,8 +102,10 @@ export function ArrayPromptTests(): void
                 {
                     test(
                         `Checking whether the result of the \`${nameof(ArrayPrompt)}\` is an array…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(2 * 1000);
+                            this.slow(1 * 1000);
                             let result = await prompt(questions);
                             let value = result[testKey];
                             ok(Array.isArray(value));

@@ -20,6 +20,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
             let runContext: IRunContext<TSModuleGenerator>;
             let generator: TSModuleGenerator;
             let testContext: IRunContext<TSModuleGenerator>;
+            context.RegisterWorkingDirRestorer();
 
             suiteSetup(
                 async function()
@@ -70,6 +71,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(1 * 60 * 1000);
                     testContext.cleanTestDirectory();
+                    context.InvalidateRequireCache();
                 });
 
             test(

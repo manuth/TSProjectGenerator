@@ -122,6 +122,26 @@ export class TestContext
     }
 
     /**
+     * Registers mocha tasks for restoring the working directory.
+     */
+    public RegisterWorkingDirRestorer(): void
+    {
+        let workingDir: string;
+
+        setup(
+            () =>
+            {
+                workingDir = process.cwd();
+            });
+
+        teardown(
+            () =>
+            {
+                process.chdir(workingDir);
+            });
+    }
+
+    /**
      * Registers the {@link TestPrompt `TestPrompt`}.
      *
      * @param promptModule

@@ -2,12 +2,12 @@ import { doesNotThrow, ok, strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { SourceFile, SyntaxKind } from "ts-morph";
-import { TSGeneratorGenerator } from "../../../../..";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
 import { TestContext } from "../../../../TestContext";
 
 /**
@@ -82,6 +82,12 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                         {
                             this.timeout(10 * 1000);
                             sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                        });
+
+                    suiteTeardown(
+                        () =>
+                        {
+                            sourceFile.forget();
                         });
 
                     test(
