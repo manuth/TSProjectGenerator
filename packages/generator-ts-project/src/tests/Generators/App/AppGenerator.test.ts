@@ -80,8 +80,9 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 });
 
             teardown(
-                () =>
+                function()
                 {
+                    this.timeout(4 * 1000);
                     sandbox.restore();
                     generatorContext.removeAllListeners();
                     process.chdir(workingDirectory);
