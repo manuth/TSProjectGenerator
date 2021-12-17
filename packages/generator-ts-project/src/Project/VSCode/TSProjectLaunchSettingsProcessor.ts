@@ -56,7 +56,7 @@ export class TSProjectLaunchSettingsProcessor<TSettings extends ITSProjectSettin
      */
     protected override async FilterDebugConfig(debugConfig: DebugConfiguration): Promise<boolean>
     {
-        return (debugConfig.program ?? "").includes(this.GetWorkspaceFolderDirective("TSProjectGenerator")) &&
+        return /\bTSProjectGenerator\b/.test(debugConfig.name ?? "") &&
             !(normalize(debugConfig.program ?? "").toLowerCase().endsWith(join("node_modules", "yo", "lib", "cli.js")));
     }
 
