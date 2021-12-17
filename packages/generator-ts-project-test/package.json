@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project-test",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "Provides the functionality to test `TSProjectGenerator`-components",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",

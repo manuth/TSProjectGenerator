@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "A Set of Generators for Creating Projects Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
