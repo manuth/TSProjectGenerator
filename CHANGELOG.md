@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Fixed
+  - Broken drone pipeline creation
+  - Incorrect `test` npm script
+  - Creation of vscode debug settings
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.11...dev)
 
