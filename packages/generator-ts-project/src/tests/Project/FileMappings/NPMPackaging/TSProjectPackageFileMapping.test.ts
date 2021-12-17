@@ -162,7 +162,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                     lintCodeScript,
                                     lintScript));
 
-                            await AssertScriptCopy("test");
+                            await tester.AssertScript("test", (script) => !script.includes("tsd"));
 
                             await tester.AssertScript(
                                 "prepare",
