@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Fixed
+  - Vulnerabilities in dependencies
+  - Settings disallowing the use of vscode's integrated terminal
+
+### Updated
+  - All dependencies
+  - Linting environment
+  - Unit tests for lowering the memory consumption
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.10...dev)
 
