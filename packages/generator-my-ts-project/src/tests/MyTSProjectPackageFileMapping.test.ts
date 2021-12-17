@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
@@ -97,7 +97,7 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                             let patchScriptName = "patch-ts";
 
                             ok(npmPackage.Scripts.Get(prepareScriptName).includes(patchScriptName));
-                            ok(npmPackage.Scripts.Has(patchScriptName));
+                            strictEqual(npmPackage.Scripts.Get(patchScriptName), "ts-patch install");
                         });
                 });
 

@@ -76,6 +76,7 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
+                            let workspaceDirective = processor.GetWorkspaceFolderDirective(generatorName);
 
                             strictEqual(
                                 (await processor.Process(
@@ -100,7 +101,24 @@ export function TSProjectLaunchSettingsProcessorTests(context: TestContext<TSPro
                                                 name: "",
                                                 request: "",
                                                 type: "",
-                                                program: processor.GetWorkspaceFolderDirective(generatorName)
+                                                cwd: workspaceDirective
+                                            }
+                                        ]
+                                    })).configurations.length,
+                                1);
+
+                            strictEqual(
+                                (await processor.Process(
+                                    {
+                                        version: "",
+                                        configurations: [
+                                            {
+                                                name: "",
+                                                request: "",
+                                                type: "",
+                                                args: [
+                                                    workspaceDirective
+                                                ]
                                             }
                                         ]
                                     })).configurations.length,

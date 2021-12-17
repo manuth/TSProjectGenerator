@@ -100,7 +100,7 @@ steps:
       api_key:
         from_secret: github_publish_token
       files:
-        - "./*.tgz"
+        - "*.tgz"
       title: .releaseTitle.md
       note: .releaseNotes.md
     when:

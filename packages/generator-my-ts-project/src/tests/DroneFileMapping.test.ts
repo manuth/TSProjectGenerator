@@ -82,23 +82,15 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                 nameof<DroneFileMapping<any, any>>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
-                    test(
-                        "Checking whether `publish` commands are replaced correctly…",
-                        async function()
-                        {
-                            this.timeout(2 * 1000);
-                            this.slow(1 * 1000);
-                            ok(await AssertCommand((command) => command.startsWith("npm publish")));
-                            ok(await AssertCommand((command) => !command.startsWith("npx lerna publish"), true));
-                        });
+                    let workspaceArg = "--workspaces";
 
                     test(
-                        "Checking whether `lerna exec` commands are replaced correctly…",
+                        `Checking whether \`${workspaceArg}\` arguments of commands are stripped away…`,
                         async function()
                         {
                             this.timeout(2 * 1000);
                             this.slow(1 * 1000);
-                            ok(await AssertCommand((command) => !command.startsWith("npx lerna exec"), true));
+                            ok(await AssertCommand((command) => !command.includes(workspaceArg)));
                         });
 
                     test(
@@ -123,34 +115,6 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
 
                                                     return (files.length === 1) &&
                                                         (files[0] === "*.tgz");
-                                                }
-                                                else
-                                                {
-                                                    return true;
-                                                }
-                                            });
-                                    }));
-                        });
-
-                    test(
-                        "Checking whether the `test`-step is adjusted correctly…",
-                        async function()
-                        {
-                            this.timeout(2 * 1000);
-                            this.slow(1 * 1000);
-
-                            ok(
-                                (await tester.ParseOutput()).every(
-                                    (document) =>
-                                    {
-                                        let steps: any[] = document.toJSON().steps;
-
-                                        return steps.every(
-                                            (step) =>
-                                            {
-                                                if (step.name === "test")
-                                                {
-                                                    return !(step.image as string).endsWith(":lts");
                                                 }
                                                 else
                                                 {

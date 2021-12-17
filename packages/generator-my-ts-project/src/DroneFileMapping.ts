@@ -74,17 +74,12 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
             {
                 let command = commands[j];
 
-                if (/\b--workspaces\b/.test(command))
+                if (/\s+--workspaces\b/.test(command))
                 {
                     document.setIn(
                         [stepsKey, i, commandsKey, j],
-                        command.replace(/\b--workspaces\b/, ""));
+                        command.replace(/\s+--workspaces\b/, ""));
                 }
-            }
-
-            if (step.image === "plugins/github-release")
-            {
-                document.setIn([stepsKey, i, "settings", "files", "0"], "*.tgz");
             }
         }
 

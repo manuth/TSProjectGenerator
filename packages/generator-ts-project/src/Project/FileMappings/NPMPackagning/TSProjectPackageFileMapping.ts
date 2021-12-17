@@ -79,10 +79,30 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
+        let testScriptName = "test";
         let prepareScriptName = "prepare";
 
         return [
-            "test",
+            {
+                Source: testScriptName,
+                Destination: testScriptName,
+                Processor: async (script) =>
+                {
+                    let separator = " && ";
+                    let commands = script.split(separator);
+                    let filtered: string[] = [];
+
+                    for (let command of commands)
+                    {
+                        if (command !== "tsd")
+                        {
+                            filtered.push(command);
+                        }
+                    }
+
+                    return filtered.join(separator);
+                }
+            },
             {
                 Source: "initialize",
                 Destination: prepareScriptName
