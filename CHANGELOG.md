@@ -359,7 +359,7 @@ Initial release
 
 ### Added
   - A package for generating generators and modules written in TypeScript
-  - A set of generators with custom additions (such as custom markdown-codestyle and drone-configuration)
+  - A set of generators with custom additions (such as custom markdown code style and drone-configuration)
   - Components for creating a similar generator
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/generator-ts-genmerator-v1.4.7...v1.0.0)
