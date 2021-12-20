@@ -40,7 +40,7 @@
     "@types/npm-which": "^3.0.1",
     "@types/through2": "^2.0.36",
     "@types/vinyl": "^2.0.6",
-    "concurrently": "^6.5.0",
+    "concurrently": "^6.5.1",
     "copy-and-watch": "^0.1.6",
     "diff": "^5.0.0",
     "eslint": "^8.4.1",
