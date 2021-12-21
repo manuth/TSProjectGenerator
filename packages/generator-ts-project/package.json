@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "description": "A Set of Generators for Creating Projects Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -69,7 +69,7 @@
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.2.6",
     "@manuth/extended-yo-generator-test": "^11.0.6",
-    "@manuth/generator-ts-project-test": "^3.0.12",
+    "@manuth/generator-ts-project-test": "^3.0.13",
     "@manuth/tsconfig": "^3.0.0",
     "@types/dedent": "^0.7.0",
     "@types/diff": "^5.0.1",
