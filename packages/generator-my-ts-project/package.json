@@ -31,8 +31,7 @@
     "lint-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
     "lint": "npm run lint-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
     "lint-ide": "npm run lint || exit 0",
-    "test": "mocha",
-    "prepare": "cd ../.. && npm run prepare"
+    "test": "mocha"
   },
   "dependencies": {
     "@manuth/extended-yo-generator": "^11.0.6",
