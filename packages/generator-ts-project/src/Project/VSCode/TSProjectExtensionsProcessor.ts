@@ -45,7 +45,7 @@ export class TSProjectExtensionsProcessor<TSettings extends ITSProjectSettings, 
                 return extension !== "digitalbrainstem.javascript-ejs-support" &&
                     (
                         extension !== "dbaeumer.vscode-eslint" ||
-                        this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting));
+                        (this.Generator.Settings?.[GeneratorSettingKey.Components]?.includes(TSProjectComponent.Linting) ?? false));
             });
     }
 }

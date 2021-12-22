@@ -1,5 +1,5 @@
-import { ok } from "assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { doesNotReject, ok } from "assert";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
@@ -43,6 +43,14 @@ export function TSProjectExtensionsProcessorTests(context: TestContext<TSProject
                                     {
                                         recommendations: [excludedExtension]
                                     })).recommendations.includes(excludedExtension));
+                        });
+
+                    test(
+                        `Checking whether the extension file can be processed if the \`${nameof(GeneratorSettingKey.Components)}\`-setting is not specified…`,
+                        async () =>
+                        {
+                            delete component.Generator.Settings[GeneratorSettingKey.Components];
+                            await doesNotReject(async () => processor.Process(await component.Source.GetExtensionsMetadata()));
                         });
                 });
         });

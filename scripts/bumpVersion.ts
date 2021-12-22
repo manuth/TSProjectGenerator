@@ -84,6 +84,13 @@ import npmWhich = require("npm-which");
             }
 
             spawnSync(
+                npmWhich(__dirname).sync("npm"),
+                [
+                    "install",
+                    "--ignore-scripts"
+                ]);
+
+            spawnSync(
                 npmWhich(__dirname).sync("git"),
                 [
                     "commit",

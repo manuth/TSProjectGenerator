@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.12...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.12...v3.0.13)
+
+## TSProjectGenerator v3.0.13
+### Fixed
+  - Broken creation of the `extensions.json` file
+
+### Updated
+  - All dependencies
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.12...v3.0.13)
 
 ## TSProjectGenerator v3.0.12
 ### Fixed
@@ -359,7 +368,7 @@ Initial release
 
 ### Added
   - A package for generating generators and modules written in TypeScript
-  - A set of generators with custom additions (such as custom markdown-codestyle and drone-configuration)
+  - A set of generators with custom additions (such as custom markdown code style and drone-configuration)
   - Components for creating a similar generator
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/generator-ts-genmerator-v1.4.7...v1.0.0)
