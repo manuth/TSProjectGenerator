@@ -30,7 +30,7 @@
     "@tsd/typescript": "npm:nop@^1.0.0",
     "@types/diff": "^5.0.1",
     "@types/fs-extra": "^9.0.13",
-    "@types/git-branch": "^2.0.1",
+    "@types/git-branch": "^2.0.2",
     "@types/glob": "^7.2.0",
     "@types/gulp": "^4.0.9",
     "@types/gulp-rename": "^2.0.1",
