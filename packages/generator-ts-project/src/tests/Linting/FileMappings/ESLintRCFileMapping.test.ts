@@ -65,8 +65,9 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 });
 
             suiteTeardown(
-                () =>
+                function()
                 {
+                    this.timeout(10 * 1000);
                     tempDir.Dispose();
                     context.InvalidateRequireCache();
                 });
