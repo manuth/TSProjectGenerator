@@ -99,7 +99,7 @@ export function QuestionSetPromptTests(): void
                         });
 
                     test(
-                        "Checking whether all answes are passed to the question-properties…",
+                        "Checking whether all answers are passed to the question-properties…",
                         async () =>
                         {
                             let value = context.RandomString;
