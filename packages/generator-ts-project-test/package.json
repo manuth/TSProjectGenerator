@@ -37,6 +37,7 @@
     "@manuth/package-json-editor": "^2.2.6",
     "@manuth/temp-files": "^2.0.9",
     "@stdlib/utils-escape-regexp-string": "^0.0.9",
+    "@types/inquirer": "^8.2.3",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4",
     "mock-stdin": "^1.0.0",
