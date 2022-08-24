@@ -2,6 +2,7 @@ import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extend
 import { YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { join } from "upath";
 import { Document } from "yaml";
+import { toJS } from "yaml/util";
 
 /**
  * Provides the functionality to create a dependabot configuration.
@@ -67,7 +68,7 @@ export class DependabotFileMapping<TSettings extends IGeneratorSettings, TOption
     {
         let document = documents[0];
         let updateKey = "updates";
-        let configurations: any[] = document.get(updateKey).toJSON();
+        let configurations: any[] = toJS(document.get(updateKey), null);
 
         for (let i = configurations.length - 1; i > 0; i--)
         {

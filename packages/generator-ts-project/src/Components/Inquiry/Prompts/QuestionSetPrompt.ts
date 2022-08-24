@@ -102,7 +102,7 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
 
                 if (typeof base === "function")
                 {
-                    overrides[key] = async (answers: TAnswers) =>
+                    (overrides as any)[key] = async (answers: TAnswers) =>
                     {
                         return question[key](
                             answers,

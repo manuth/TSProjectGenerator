@@ -1,6 +1,7 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSProjectSettingKey, YAMLTransformMapping } from "@manuth/generator-ts-project";
 import { Document } from "yaml";
+import { toJS } from "yaml/util";
 
 /**
  * Provides the functionality to create a `drone.yml` file.
@@ -62,7 +63,7 @@ export class DroneFileMapping<TSettings extends ITSProjectSettings, TOptions ext
         let document = documents[0];
         let stepsKey = "steps";
         let commandsKey = "commands";
-        let steps: any[] = document.get(stepsKey).toJSON();
+        let steps: any[] = toJS(document.get(stepsKey), null);
         document.set("name", this.Generator.Settings[TSProjectSettingKey.DisplayName]);
 
         for (let i = 0; i < steps.length; i++)

@@ -1,6 +1,6 @@
 import { EOL } from "os";
 import { split } from "eol";
-import { Document, parseAllDocuments, scalarOptions } from "yaml";
+import { Document, parseAllDocuments } from "yaml";
 import { IDumper } from "./IDumper";
 import { TextConverter } from "./TextConverter";
 
@@ -63,26 +63,18 @@ export class YAMLConverter extends TextConverter<Document.Parsed[]> implements I
      */
     public Dump(data: Array<Document | Document.Parsed>): string
     {
-        return split(
+        let result = split(
             data.map(
                 (document, index) =>
                 {
-                    let initialWidth = scalarOptions.str.fold.lineWidth;
-                    scalarOptions.str.fold.lineWidth = 0;
+                    document.directives.docStart = (index > 0) ? true : document.directives.docStart;
 
-                    try
-                    {
-                        document.directivesEndMarker = (index > 0) || document.directivesEndMarker;
-                        return document.toString();
-                    }
-                    catch (e)
-                    {
-                        throw e;
-                    }
-                    finally
-                    {
-                        scalarOptions.str.fold.lineWidth = initialWidth;
-                    }
+                    return document.toString(
+                        {
+                            lineWidth: 0
+                        });
                 }).join("")).join(this.NewLineCharacter);
+
+            return result;
     }
 }
