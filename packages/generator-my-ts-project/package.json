@@ -48,7 +48,7 @@
     "@manuth/temp-files": "^2.0.9",
     "@types/dedent": "^0.7.0",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.6",
+    "@types/node": "^18.7.13",
     "@types/ts-nameof": "^4.2.1",
     "dedent": "^0.7.0",
     "eslint": "^8.22.0",
