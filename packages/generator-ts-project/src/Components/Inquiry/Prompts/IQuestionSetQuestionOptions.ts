@@ -17,6 +17,7 @@ export interface IQuestionSetQuestionOptions<TResult extends inquirer.Answers = 
     /**
      * The prompt-types to register.
      */
+    // eslint-disable-next-line @delagen/deprecation/deprecation
     promptTypes?: Record<string, inquirer.prompts.PromptConstructor>;
 
     /**
