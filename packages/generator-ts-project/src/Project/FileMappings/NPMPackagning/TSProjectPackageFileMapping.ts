@@ -51,20 +51,13 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        let oldLintBaseScriptName = "lint-code-base";
-        let lintBaseScriptName = "lint-base";
         let oldLintScriptName = "lint-code";
         let lintScriptName = "lint";
 
         return [
             {
-                Source: oldLintBaseScriptName,
-                Destination: lintBaseScriptName
-            },
-            {
                 Source: oldLintScriptName,
-                Destination: lintScriptName,
-                Processor: async (script) => script.replace(new RegExp(oldLintBaseScriptName, "g"), lintBaseScriptName)
+                Destination: lintScriptName
             },
             {
                 Source: "lint-code-ide",

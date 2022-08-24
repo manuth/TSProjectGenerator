@@ -139,8 +139,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             let rebuildScript = "rebuild";
                             let lintScript = "lint";
                             let lintCodeScript = "lint-code";
-                            let lintBaseScript = "lint-base";
-                            let lintCodeBaseScript = "lint-code-base";
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
@@ -148,13 +146,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             await AssertScriptCopy(rebuildScript);
                             await AssertScriptCopy("watch");
                             await AssertScriptCopy("clean");
-                            await AssertScriptCopy(lintCodeBaseScript, lintBaseScript);
-
-                            await tester.AssertScript(
-                                lintScript,
-                                Constants.Package.Scripts.Get(lintCodeScript).replace(
-                                    lintCodeBaseScript,
-                                    lintBaseScript));
+                            await AssertScriptCopy(lintCodeScript, lintScript);
 
                             await tester.AssertScript(
                                 "lint-ide",

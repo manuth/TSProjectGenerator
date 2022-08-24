@@ -25,8 +25,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint-code-base": "eslint --max-warnings 0 --ignore-pattern \"!.eslintrc.js\"",
-    "lint-code": "npm run lint-code-base -- --ext .js,.jsx,.ts,.tsx ./src .eslintrc.js",
+    "lint-code": "eslint --max-warnings 0 ./src .eslintrc.js",
     "lint-code-ide": "npm run lint-code || exit 0",
     "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "initialize": "npm run rebuild",
