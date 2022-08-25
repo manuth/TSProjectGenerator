@@ -37,7 +37,8 @@
     "lint": "npm run lint-code && npm run lint-docs",
     "lint-ide": "npm run lint || exit 0",
     "test": "mocha && tsd",
-    "initialize": "npm run patch-ts && npm run rebuild",
+    "initialize": "npm run patch-ts && npm run setup",
+    "setup": "npm run rebuild",
     "patch-ts": "ts-patch install"
   },
   "dependencies": {
