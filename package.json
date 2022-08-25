@@ -12,7 +12,7 @@
     "copy-files": "gulp CopyFiles",
     "compile": "cd packages/generator-ts-project && npm run build",
     "rebuild": "npm run clean && npm run build",
-    "watch": "concurrently --raw \"npm run copy-files -- --watch | shusher\" \"npm run compile -- -- --watch\"",
+    "watch": "concurrently --raw \"npm run copy-files -- --watch | shusher\" \"cd packages/generator-ts-project && npm run watch\"",
     "clean": "cd packages/generator-ts-project && npm run clean",
     "lint-local": "eslint --max-warnings 0 ./scripts .eslintrc.js gulpfile.ts ./gulp",
     "lint-local-ide": "npm run lint-local || exit 0",
