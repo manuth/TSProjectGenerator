@@ -48,7 +48,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
             "rebuild",
             "watch",
             {
-                Source: "clean",
+                Source: "clean-base",
                 Destination: "clean",
                 Processor: async (script) => `${script} ./lib`
             }
