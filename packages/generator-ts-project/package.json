@@ -43,6 +43,7 @@
     "@manuth/extended-yo-generator": "^11.0.7",
     "@manuth/package-json-editor": "^2.2.6",
     "@manuth/temp-files": "^2.0.9",
+    "@tsd/typescript": "npm:nop@^1.0.0",
     "@types/inquirer": "^8.2.3",
     "@types/node": "^18.7.13",
     "@types/vscode": "^1.70.0",

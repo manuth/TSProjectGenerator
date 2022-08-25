@@ -26,7 +26,6 @@
   "devDependencies": {
     "@manuth/eslint-plugin-typescript": "^3.3.2",
     "@manuth/package-json-editor": "^2.2.6",
-    "@tsd/typescript": "npm:nop@^1.0.0",
     "@types/diff": "^5.0.2",
     "@types/fs-extra": "^9.0.13",
     "@types/git-branch": "^2.0.2",
