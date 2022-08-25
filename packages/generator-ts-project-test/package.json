@@ -52,7 +52,6 @@
     "@types/node": "^18.7.13",
     "@types/npm-packlist": "^3.0.0",
     "@types/sinon": "^10.0.13",
-    "@types/ts-nameof": "^4.2.1",
     "dedent": "^0.7.0",
     "eslint": "^8.22.0",
     "mocha": "^10.0.0",
@@ -60,8 +59,6 @@
     "random-js": "^2.1.0",
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
-    "ts-nameof": "^5.0.0",
-    "ts-patch": "^2.0.2",
     "typescript": "^4.7.4"
   }
 }

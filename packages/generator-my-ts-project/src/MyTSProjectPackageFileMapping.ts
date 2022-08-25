@@ -181,12 +181,11 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
         result.Register(
             new PackageDependencyCollection(
-                Constants.Package,
+                this.Base.ScriptSource,
                 {
                     devDependencies: [
                         "@types/ts-nameof",
                         "ts-nameof",
-                        "ts-node",
                         "ts-patch"
                     ]
                 }),
