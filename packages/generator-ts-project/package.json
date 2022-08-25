@@ -36,7 +36,9 @@
     "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "lint": "npm run lint-code && npm run lint-docs",
     "lint-ide": "npm run lint || exit 0",
-    "test": "mocha && tsd"
+    "test": "mocha && tsd",
+    "initialize": "npm run patch-ts && npm run rebuild",
+    "patch-ts": "ts-patch install"
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.3.2",
