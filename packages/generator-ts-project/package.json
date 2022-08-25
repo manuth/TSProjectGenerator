@@ -25,14 +25,14 @@
     "access": "public"
   },
   "scripts": {
-    "lint-code": "eslint --max-warnings 0 ./src .eslintrc.js",
-    "lint-code-ide": "npm run lint-code || exit 0",
-    "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "initialize": "npm run rebuild",
     "build": "tsc -b tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
     "watch": "npm run build -- --watch",
     "clean": "npm run build -- --clean && rimraf ./lib",
+    "lint-code": "eslint --max-warnings 0 ./src .eslintrc.js",
+    "lint-code-ide": "npm run lint-code || exit 0",
+    "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "lint": "npm run lint-code && npm run lint-docs",
     "lint-ide": "npm run lint || exit 0",
     "test": "mocha && tsd"
