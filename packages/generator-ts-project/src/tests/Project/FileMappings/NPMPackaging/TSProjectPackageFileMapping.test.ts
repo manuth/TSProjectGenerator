@@ -3,6 +3,7 @@ import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-gener
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../../Core/Constants";
+import { TSConfigFileMapping } from "../../../../index";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
 import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
@@ -142,10 +143,19 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
-                            await AssertScriptCopy("build");
+
+                            await tester.AssertScript(
+                                "build",
+                                Constants.Package.Scripts.Get("build-base") + " " +
+                                TSConfigFileMapping.GetFileName("build"));
+
                             await AssertScriptCopy(rebuildScript);
                             await AssertScriptCopy("watch");
-                            await AssertScriptCopy("clean");
+
+                            await tester.AssertScript(
+                                "clean",
+                                Constants.Package.Scripts.Get("clean-base") + " ./lib");
+
                             await AssertScriptCopy(lintCodeScript, lintScript);
 
                             await tester.AssertScript(
