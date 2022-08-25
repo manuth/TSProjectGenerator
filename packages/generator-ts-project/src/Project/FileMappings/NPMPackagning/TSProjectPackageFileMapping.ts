@@ -1,6 +1,7 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
+import { TSConfigFileMapping } from "../../../index";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
@@ -39,7 +40,11 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return [
-            "build",
+            {
+                Source: "build-base",
+                Destination: "build",
+                Processor: async (script) => `${script} ${TSConfigFileMapping.GetFileName("build")}`
+            },
             "rebuild",
             "watch",
             "clean"
