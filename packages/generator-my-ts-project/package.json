@@ -27,7 +27,6 @@
     "access": "public"
   },
   "scripts": {
-    "clean": "tsc -b tsconfig.build.json --clean && rimraf ./lib",
     "lint": "eslint --max-warnings 0 ./src .eslintrc.js",
     "lint-ide": "npm run lint || exit 0",
     "test": "mocha"

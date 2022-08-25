@@ -25,10 +25,12 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build-base": "tsc -b",
+    "build": "npm run build-base -- ../../tsconfig.build.json",
     "rebuild": "npm run clean && npm run build",
     "watch": "npm run build -- --watch",
-    "clean": "npm run build -- --clean && rimraf ./lib",
+    "clean-base": "npm run build -- --clean && rimraf",
+    "clean": "npm run clean-base -- ../*/lib",
     "lint-code": "eslint --max-warnings 0 ./src .eslintrc.js",
     "lint-code-ide": "npm run lint-code || exit 0",
     "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
