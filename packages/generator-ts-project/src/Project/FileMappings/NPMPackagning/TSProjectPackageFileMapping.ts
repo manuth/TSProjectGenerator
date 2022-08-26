@@ -120,8 +120,9 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
                 Processor: filtered((command) => command !== "tsd")
             },
             {
-                Source: "setup",
-                Destination: prepareScriptName
+                Source: "initialize",
+                Destination: prepareScriptName,
+                Processor: filtered((command) => !command.includes("ts-patch"))
             }
         ];
     }
