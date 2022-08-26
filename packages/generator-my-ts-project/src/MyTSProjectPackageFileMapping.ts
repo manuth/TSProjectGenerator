@@ -90,8 +90,11 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
                     }
                 }),
             {
-                Destination: patchScriptName,
-                Processor: async () => "ts-patch install"
+                Destination: "patch-ts",
+                Processor: async (_, target) =>
+                {
+                    return this.Base.ScriptSource.Scripts.Get(target.Destination);
+                }
             }
         ];
     }
