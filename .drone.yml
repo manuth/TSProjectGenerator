@@ -62,6 +62,9 @@ steps:
       - testNPM $NPM_TOKEN || { echo "The NPM Access Token is invalid!" && false; }
       - testGitHub $GITHUB_PACKAGE_TOKEN || { echo "The GitHub Package Token is invalid!" && false; }
       - testGitHub $GITHUB_PUBLISH_TOKEN || { echo "The GitHub Publish Token is invalid!" && false; }
+    when:
+      event:
+        - tag
   - name: create package
     image: node
     depends_on:
