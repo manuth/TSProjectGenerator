@@ -40,7 +40,7 @@
     "concurrently": "^7.3.0",
     "copy-and-watch": "^0.1.6",
     "diff": "^5.1.0",
-    "eslint": "^8.22.0",
+    "eslint": "^8.23.0",
     "fs-extra": "^10.1.0",
     "git-branch": "^2.0.1",
     "glob": "^8.0.3",
