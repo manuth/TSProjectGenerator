@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### Updated
+  - All dependencies
+
+### Fixed
+  - A few typos
+  - Formatting issues in `@manuth/generator-ts-project`s markdown files
+
+### Added
+  - Steps to the drone-pipeline for verifying the `CHANGELOG.md` file and all access tokens
+  - The `DependabotFileMapping` to the exported classes of `@manuth/generator-my-ts-project`
+
+### Removed
+  - Unnecessary dependencies
+  - Unnecessary npm scripts
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.12...v3.0.13)
 
