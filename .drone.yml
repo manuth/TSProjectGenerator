@@ -39,6 +39,13 @@ steps:
     image: node
     depends_on:
       - prepare release
+    environment:
+      NPM_TOKEN:
+        from_secret: npm_token
+      GITHUB_PACKAGE_TOKEN:
+        from_secret: github_packages_token
+      GITHUB_PUBLISH_TOKEN:
+        from_secret: github_publish_token
     commands:
       - >
           testNPM() {
@@ -54,13 +61,6 @@ steps:
       - testNPM $NPM_TOKEN || { echo "The NPM Access Token is invalid!" && false; }
       - testGitHub $GITHUB_PACKAGE_TOKEN || { echo "The GitHub Package Token is invalid!" && false; }
       - testGitHub $GITHUB_PUBLISH_TOKEN || { echo "The GitHub Publish Token is invalid!" && false; }
-    environment:
-      NPM_TOKEN:
-        from_secret: npm_token
-      GITHUB_PACKAGE_TOKEN:
-        from_secret: github_packages_token
-      GITHUB_PUBLISH_TOKEN:
-        from_secret: github_publish_token
   - name: create package
     image: node
     depends_on:
