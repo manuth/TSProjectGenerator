@@ -6,7 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.12...v3.0.13)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.1.0...dev)
+
+## TSProjectGenerator v3.1.0
+### Updated
+  - All dependencies
+
+### Fixed
+  - A few typos
+  - Formatting issues in `@manuth/generator-ts-project`s markdown files
+
+### Added
+  - Steps to the drone-pipeline for verifying the `CHANGELOG.md` file and all access tokens
+  - The `DependabotFileMapping` to the exported classes of `@manuth/generator-my-ts-project`
+
+### Removed
+  - Unnecessary dependencies
+  - Unnecessary npm scripts
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.0.13...v3.1.0)
 
 ## TSProjectGenerator v3.0.13
 ### Fixed
@@ -338,7 +356,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Errors due to incorrect imports
   - Errors due to the `cleanup` task being scoped incorrectly
 
-## Updated
+### Updated
   - All packages
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.2...v1.0.3)

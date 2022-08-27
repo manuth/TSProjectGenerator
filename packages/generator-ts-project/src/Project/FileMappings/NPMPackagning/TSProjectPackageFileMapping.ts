@@ -1,10 +1,12 @@
-import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey, IGenerator, Predicate } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../Core/Constants";
+import { TSConfigFileMapping } from "../../../index";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
 import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
 import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
+import { ScriptProcessor } from "../../../NPMPackaging/Scripts/ScriptProcessor";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
@@ -39,10 +41,18 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     public get TypeScriptScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         return [
-            "build",
+            {
+                Source: "build-base",
+                Destination: "build",
+                Processor: async (script) => `${script} ${TSConfigFileMapping.GetFileName("build")}`
+            },
             "rebuild",
             "watch",
-            "clean"
+            {
+                Source: "clean-base",
+                Destination: "clean",
+                Processor: async (script) => `${script} ./lib`
+            }
         ];
     }
 
@@ -51,20 +61,13 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
      */
     public get LintScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
-        let oldLintBaseScriptName = "lint-code-base";
-        let lintBaseScriptName = "lint-base";
         let oldLintScriptName = "lint-code";
         let lintScriptName = "lint";
 
         return [
             {
-                Source: oldLintBaseScriptName,
-                Destination: lintBaseScriptName
-            },
-            {
                 Source: oldLintScriptName,
-                Destination: lintScriptName,
-                Processor: async (script) => script.replace(new RegExp(oldLintBaseScriptName, "g"), lintBaseScriptName)
+                Destination: lintScriptName
             },
             {
                 Source: "lint-code-ide",
@@ -82,30 +85,44 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
         let testScriptName = "test";
         let prepareScriptName = "prepare";
 
+        /**
+         * Creates a method for filtering command-sets.
+         *
+         * @param filter
+         * A predicate for deciding whether to include a command.
+         *
+         * @returns A method for filtering commands which apply to the specified {@see filter `filter`}.
+         */
+        function filtered(filter: Predicate<string>): ScriptProcessor<TSettings, TOptions>
+        {
+            return async (script) =>
+            {
+                let separator = " && ";
+                let commands = script.split(separator);
+                let filtered: string[] = [];
+
+                for (let command of commands)
+                {
+                    if (filter(command))
+                    {
+                        filtered.push(command);
+                    }
+                }
+
+                return filtered.join(separator);
+            };
+        }
+
         return [
             {
                 Source: testScriptName,
                 Destination: testScriptName,
-                Processor: async (script) =>
-                {
-                    let separator = " && ";
-                    let commands = script.split(separator);
-                    let filtered: string[] = [];
-
-                    for (let command of commands)
-                    {
-                        if (command !== "tsd")
-                        {
-                            filtered.push(command);
-                        }
-                    }
-
-                    return filtered.join(separator);
-                }
+                Processor: filtered((command) => command !== "tsd")
             },
             {
                 Source: "initialize",
-                Destination: prepareScriptName
+                Destination: prepareScriptName,
+                Processor: filtered((command) => !command.includes("patch-ts"))
             }
         ];
     }

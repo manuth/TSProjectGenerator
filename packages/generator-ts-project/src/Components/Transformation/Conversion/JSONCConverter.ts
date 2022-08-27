@@ -69,7 +69,7 @@ export class JSONCConverter<T> extends TextConverter<T>
      */
     public Parse(text: string): T
     {
-        return parse(text);
+        return parse(text) as any;
     }
 
     /**

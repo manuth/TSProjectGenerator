@@ -3,6 +3,7 @@ import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-gener
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { Constants } from "../../../../Core/Constants";
+import { TSConfigFileMapping } from "../../../../index";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
 import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
@@ -139,22 +140,23 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             let rebuildScript = "rebuild";
                             let lintScript = "lint";
                             let lintCodeScript = "lint-code";
-                            let lintBaseScript = "lint-base";
-                            let lintCodeBaseScript = "lint-code-base";
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.Run();
-                            await AssertScriptCopy("build");
-                            await AssertScriptCopy(rebuildScript);
-                            await AssertScriptCopy("watch");
-                            await AssertScriptCopy("clean");
-                            await AssertScriptCopy(lintCodeBaseScript, lintBaseScript);
 
                             await tester.AssertScript(
-                                lintScript,
-                                Constants.Package.Scripts.Get(lintCodeScript).replace(
-                                    lintCodeBaseScript,
-                                    lintBaseScript));
+                                "build",
+                                Constants.Package.Scripts.Get("build-base") + " " +
+                                TSConfigFileMapping.GetFileName("build"));
+
+                            await AssertScriptCopy(rebuildScript);
+                            await AssertScriptCopy("watch");
+
+                            await tester.AssertScript(
+                                "clean",
+                                Constants.Package.Scripts.Get("clean-base") + " ./lib");
+
+                            await AssertScriptCopy(lintCodeScript, lintScript);
 
                             await tester.AssertScript(
                                 "lint-ide",

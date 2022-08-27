@@ -73,7 +73,7 @@ export function WorkspaceFolderCreatorTest(): void
                         dedent(
                             `
                                 /* ${randomComment} */
-                                ${stringify(context.RandomObject)}`));
+                                ${stringify(context.RandomObject)}`)) as any;
 
                     for (let fileMappingOptions of component.FileMappings)
                     {

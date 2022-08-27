@@ -129,7 +129,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                 nameof<TestGeneratorClassFileMapping>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
-                    let testGenerator: Generator<IGeneratorSettings, GeneratorOptions>;
+                    let testGenerator: Generator;
                     let tempDir: TempDirectory;
                     context.RegisterWorkingDirRestorer();
 

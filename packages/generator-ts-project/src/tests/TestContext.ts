@@ -2,7 +2,7 @@ import { Generator } from "@manuth/extended-yo-generator";
 import { IRunContext, ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
 import { pathExists } from "fs-extra";
-import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
+import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN } from "mock-stdin";
 import { RunContextSettings } from "yeoman-test";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent";
@@ -166,7 +166,7 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
      * @param type
      * The name of the type to register the {@link TestPrompt `TestPrompt`}.
      */
-    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
+    public RegisterTestPrompt(promptModule: PromptModuleBase, type: QuestionTypeName = "input"): void
     {
         this.ProjectContext.RegisterTestPrompt(promptModule, type);
     }

@@ -69,29 +69,31 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
     public override get MiscScripts(): Array<IScriptMapping<TSettings, TOptions> | string>
     {
         let prepareScriptName = "prepare";
-        let patchScriptName = "patch-ts";
 
         return [
-            ...this.GetBaseScripts(this.Base.MiscScripts).map(
+            ...this.Base.MiscScripts.flatMap(
                 (script) =>
                 {
-                    let scriptMapping = new ScriptMapping(this.Generator, this.ScriptSource, script);
+                    let scriptMapping = new ScriptMapping(this.Generator, this.Base.ScriptSource, script);
 
                     if (scriptMapping.Destination === prepareScriptName)
                     {
                         return {
-                            Destination: prepareScriptName,
-                            Processor: async () => `npm run ${patchScriptName} && ${await scriptMapping.Processor()}`
-                        } as IScriptMapping<TSettings, TOptions>;
+                            Destination: scriptMapping.Destination,
+                            Processor: async () => scriptMapping.SourcePackage.Scripts.Get(scriptMapping.Source)
+                        };
                     }
                     else
                     {
-                        return script;
+                        return this.GetBaseScript(script);
                     }
                 }),
             {
-                Destination: patchScriptName,
-                Processor: async () => "ts-patch install"
+                Destination: "patch-ts",
+                Processor: async (_, target) =>
+                {
+                    return this.Base.ScriptSource.Scripts.Get(target.Destination);
+                }
             }
         ];
     }
@@ -181,12 +183,11 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
 
         result.Register(
             new PackageDependencyCollection(
-                Constants.Package,
+                this.Base.ScriptSource,
                 {
                     devDependencies: [
                         "@types/ts-nameof",
                         "ts-nameof",
-                        "ts-node",
                         "ts-patch"
                     ]
                 }),

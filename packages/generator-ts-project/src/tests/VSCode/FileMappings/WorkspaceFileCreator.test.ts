@@ -61,7 +61,7 @@ export function WorkspaceFileCreatorTests(): void
                                 {
                                     /* ${tasksComment} */
                                     "random": ${stringify(context.RandomObject)}
-                                }`));
+                                }`)) as any;
 
                     assign(
                         workspace,

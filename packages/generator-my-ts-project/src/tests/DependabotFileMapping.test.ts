@@ -3,6 +3,7 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
+import { toJS } from "yaml/util";
 import { DependabotFileMapping } from "../DependabotFileMapping";
 import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
 
@@ -56,7 +57,7 @@ export function DependabotFileMappingTests(context: TestContext<MyTSModuleGenera
                         "Checking whether only one dependabot-configuration is present…",
                         async () =>
                         {
-                            strictEqual((await tester.ParseOutput())[0].get(updateKey).toJSON().length, 1);
+                            strictEqual((toJS((await tester.ParseOutput())[0].get(updateKey), null) as unknown[]).length, 1);
                         });
 
                     test(

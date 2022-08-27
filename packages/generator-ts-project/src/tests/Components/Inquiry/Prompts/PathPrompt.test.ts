@@ -35,6 +35,7 @@ export function PathPromptTests(): void
                 /**
                  * @inheritdoc
                  */
+                // eslint-disable-next-line @delagen/deprecation/deprecation
                 public override opt: inquirer.prompts.PromptOptions<IPathQuestion>;
 
                 /**
@@ -192,6 +193,7 @@ export function PathPromptTests(): void
                  * @param eventArgs
                  * An object which contains event-data.
                  */
+                // eslint-disable-next-line @delagen/deprecation/deprecation
                 public override onError(eventArgs: inquirer.prompts.FailedPromptStateData): void
                 {
                     super.onError(eventArgs);
@@ -203,6 +205,7 @@ export function PathPromptTests(): void
                  * @param eventArgs
                  * An object which contains event-data.
                  */
+                // eslint-disable-next-line @delagen/deprecation/deprecation
                 public override onEnd(eventArgs: inquirer.prompts.SuccessfulPromptStateData): void
                 {
                     super.onEnd(eventArgs);

@@ -1,4 +1,4 @@
-import { DistinctQuestion, Inquirer, PromptModule, QuestionTypeName } from "inquirer";
+import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { IMockedAnswer } from "./Inquiry/IMockedAnswer";
 import { TestPrompt } from "./Inquiry/TestPrompt";
@@ -150,7 +150,7 @@ export class TestContext
      * @param type
      * The name of the type to register the {@link TestPrompt `TestPrompt`}.
      */
-    public RegisterTestPrompt(promptModule: PromptModule | Inquirer, type: QuestionTypeName = "input"): void
+    public RegisterTestPrompt(promptModule: PromptModuleBase, type: QuestionTypeName = "input"): void
     {
         promptModule.registerPrompt(type, TestPrompt);
     }

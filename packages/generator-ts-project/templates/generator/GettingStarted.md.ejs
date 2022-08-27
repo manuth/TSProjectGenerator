@@ -4,7 +4,7 @@
 // <!-- markdownlint-capture -->
 %># Welcome to your TypeScript Generator
 
-This workspace allows you to easilly create yeoman generators written in TypeScript.
+This workspace allows you to easily create yeoman generators written in TypeScript.
 
 ## What's in the folder?
 <%
@@ -162,15 +162,19 @@ npx yo <%- ID %><%
         for (let subGenerator of SubGenerators) { %>
 npx yo <%- ID %>:<%- subGenerator.Name %><%
         } %>
-```<%
+// <!-- markdownlint-disable blanks-around-fences -->
+```
+<%
     } else {
 %> following command:
 
 ```bash
 npx yo <%- ID %>
-```<%
-    } %>
-
+```
+<%
+    }
+// <!-- markdownlint-restore -->
+%>
 <!--- References -->
 [TypeScriptConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html<%
     if (HasLinting) { %>
