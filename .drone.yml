@@ -72,6 +72,21 @@ steps:
     when:
       event:
         - tag
+  - name: prepare release notes
+    image: alpine
+    depends_on:
+      - check release prerequisites
+    commands:
+      - export TagName=$$(cat .tagName.txt)
+      - export TagHeading=$$(cat .tagHeading.txt)
+      - export HeadingPattern='/## \(.* \(v[0-9.]*\|\[.*\]\)\)/'
+      - cp -f CHANGELOG.md .releaseNotes.md
+      - sed -i "1,$${TagHeading}{ $${TagHeading}P ; d } ; $${HeadingPattern},\$d" .releaseNotes.md
+      - cp -f .releaseNotes.md .releaseTitle.md
+      - sed -i "2,\$d ; s$${HeadingPattern}\\\\1/" .releaseTitle.md
+    when:
+      event:
+        - tag
   - name: publish package to npm
     image: node
     depends_on:
@@ -103,21 +118,6 @@ steps:
         - tag
       ref:
         - refs/tags/v[0-9]*.[0-9]*.[0-9]*
-  - name: prepare release notes
-    image: alpine
-    depends_on:
-      - check release prerequisites
-    commands:
-      - export TagName=$$(cat .tagName.txt)
-      - export TagHeading=$$(cat .tagHeading.txt)
-      - export HeadingPattern='/## \(.* \(v[0-9.]*\|\[.*\]\)\)/'
-      - cp -f CHANGELOG.md .releaseNotes.md
-      - sed -i "1,$${TagHeading}{ $${TagHeading}P ; d } ; $${HeadingPattern},\$d" .releaseNotes.md
-      - cp -f .releaseNotes.md .releaseTitle.md
-      - sed -i "2,\$d ; s$${HeadingPattern}\\\\1/" .releaseTitle.md
-    when:
-      event:
-        - tag
   - name: publish release
     image: plugins/github-release
     depends_on:
