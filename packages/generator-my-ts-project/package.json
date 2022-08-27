@@ -35,7 +35,7 @@
     "@manuth/extended-yo-generator": "^11.0.7",
     "@manuth/generator-ts-project": "^3.1.0",
     "@manuth/package-json-editor": "2.2.6",
-    "detect-newline": "^3.1.0",
+    "detect-newline": "^4.0.0",
     "eol": "^0.9.1",
     "upath": "^2.0.1",
     "yaml": "^2.1.1"
