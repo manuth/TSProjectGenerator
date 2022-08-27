@@ -47,6 +47,7 @@ steps:
       GITHUB_PUBLISH_TOKEN:
         from_secret: github_publish_token
     commands:
+      - npm i --no-save @octokit/rest
       - >
           testNPM() {
             echo "//registry.npmjs.org/:_authToken=$1" > ~/.npmrc
