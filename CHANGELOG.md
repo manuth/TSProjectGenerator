@@ -338,7 +338,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Errors due to incorrect imports
   - Errors due to the `cleanup` task being scoped incorrectly
 
-## Updated
+### Updated
   - All packages
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v1.0.2...v1.0.3)
