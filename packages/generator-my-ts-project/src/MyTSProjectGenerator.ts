@@ -189,6 +189,48 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
 
             /**
              * @inheritdoc
+             *
+             * @param args
+             * The arguments for creating the base generator.
+             *
+             * @param options
+             * A set of options for the generator.
+             */
+            public override Initialize(args: string[] | string, options: GeneratorOptions): void
+            {
+                let event = "unhandledRejection";
+
+                /**
+                 * Handles the rejection of a {@link Promise `Promise<T>`}.
+                 *
+                 * @param reason
+                 * The reason for the rejection.
+                 *
+                 * @param promise
+                 * The {@link Promise `Promise<T>`} which has been rejected.
+                 */
+                function rejectionHandler(reason: any, promise: Promise<any>): void
+                {
+                    promise.catch(
+                        () =>
+                        {
+                            return undefined;
+                        });
+                }
+
+                process.on(event, rejectionHandler);
+                super.Initialize(args, options);
+
+                setTimeout(
+                    () =>
+                    {
+                        process.off(event, rejectionHandler);
+                    },
+                    1);
+            }
+
+            /**
+             * @inheritdoc
              */
             public override async cleanup(): Promise<void>
             {

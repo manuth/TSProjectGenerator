@@ -2,6 +2,7 @@ export { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
 export { DependencyCollectionTester } from "./DependencyCollectionTester";
 export { IMockedAnswer } from "./Inquiry/IMockedAnswer";
 export { TestPrompt } from "./Inquiry/TestPrompt";
+export { GeneratorContext } from "./GeneratorContext";
 export { JSONCFileMappingTester } from "./JSONCFileMappingTester";
 export { NPMIgnoreFileMappingTester } from "./NPMIgnoreFileMappingTester";
 export { PackageFileMappingTester } from "./PackageFileMappingTester";

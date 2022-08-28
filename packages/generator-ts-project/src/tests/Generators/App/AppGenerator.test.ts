@@ -1,6 +1,7 @@
 import { doesNotReject, doesNotThrow } from "assert";
 import { spawnSync } from "child_process";
-import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
+import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { PromptModule } from "inquirer";
 import npmWhich = require("npm-which");

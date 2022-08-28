@@ -1,6 +1,6 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { IRunContext, ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
+import { IRunContext, ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorContext, IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
 import { pathExists } from "fs-extra";
 import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN } from "mock-stdin";

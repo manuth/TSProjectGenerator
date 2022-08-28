@@ -1,5 +1,5 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import { join } from "upath";
 import { GeneratorName } from "../Core/GeneratorName";
 import { AppGenerator } from "../generators/app/AppGenerator";

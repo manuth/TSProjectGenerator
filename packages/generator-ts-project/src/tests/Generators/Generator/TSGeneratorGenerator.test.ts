@@ -1,7 +1,8 @@
 import { doesNotReject, strictEqual } from "assert";
 import { spawnSync } from "child_process";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
+import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich = require("npm-which");
 import { Project, SyntaxKind } from "ts-morph";
