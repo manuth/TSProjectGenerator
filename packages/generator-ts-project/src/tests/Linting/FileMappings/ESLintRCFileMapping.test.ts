@@ -86,7 +86,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         "Checking whether the proper file-name is returned…",
                         () =>
                         {
-                            strictEqual(ESLintRCFileMapping.FileName, ".eslintrc.js");
+                            strictEqual(ESLintRCFileMapping.FileName, ".eslintrc.cjs");
                         });
                 });
 

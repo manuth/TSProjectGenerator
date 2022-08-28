@@ -1,5 +1,6 @@
 import { doesNotReject, doesNotThrow } from "assert";
 import { spawnSync } from "child_process";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { GeneratorContext } from "@manuth/generator-ts-project-test";
@@ -152,7 +153,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             doesNotThrow(
                                 () =>
                                 {
-                                    require(tempDir.FullName);
+                                    createRequire(import.meta.url)(tempDir.FullName);
                                 });
                         });
 

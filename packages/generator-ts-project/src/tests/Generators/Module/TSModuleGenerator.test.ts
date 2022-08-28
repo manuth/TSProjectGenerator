@@ -1,5 +1,6 @@
 import { doesNotThrow, strictEqual } from "assert";
 import { spawnSync } from "child_process";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich from "npm-which";
@@ -114,7 +115,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     doesNotThrow(
                         () =>
                         {
-                            require(generator.destinationPath());
+                            createRequire(import.meta.url)(generator.destinationPath());
                         });
                 });
 
