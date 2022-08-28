@@ -1,6 +1,6 @@
 import { doesNotReject, ok, strictEqual } from "assert";
 import { spawnSync } from "child_process";
-import ESLintPresets = require("@manuth/eslint-plugin-typescript");
+import { PluginName, PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
@@ -158,11 +158,11 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                 switch (ruleset)
                                 {
                                     case LintRuleset.Weak:
-                                        configName = ESLintPresets.PresetName.WeakWithTypeChecking;
+                                        configName = PresetName.WeakWithTypeChecking;
                                         break;
                                     case LintRuleset.Recommended:
                                     default:
-                                        configName = ESLintPresets.PresetName.RecommendedWithTypeChecking;
+                                        configName = PresetName.RecommendedWithTypeChecking;
                                         break;
                                 }
 
@@ -170,7 +170,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                     baseConfigs.some(
                                         (baseConfig) =>
                                         {
-                                            return baseConfig === `plugin:${ESLintPresets.PluginName}/${configName}`;
+                                            return baseConfig === `plugin:${PluginName}/${configName}`;
                                         }));
                             }
                         });
