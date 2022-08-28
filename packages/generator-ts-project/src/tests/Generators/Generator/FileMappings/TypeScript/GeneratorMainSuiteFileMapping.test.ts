@@ -10,7 +10,7 @@ import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSe
 import { TestContext } from "../../../../TestContext";
 
 /**
- * Registers the tests for the {@link GeneratorMainTestFileMapping `GeneratorMainTestFileMapping<TSettings, TOptions>`} class.
+ * Registers the tests for the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class.
  *
  * @param context
  * The test-context.
@@ -22,9 +22,9 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
         () =>
         {
             /**
-             * Provides an implementation of the {@link GeneratorMainTestFileMapping `GeneratorMainTestFileMapping<TSettings, TOptions>`} class for testing.
+             * Provides an implementation of the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestGeneratorMainTestFileMapping extends GeneratorMainSuiteFileMapping<ITSProjectSettings, GeneratorOptions>
+            class TestGeneratorMainSuiteFileMapping extends GeneratorMainSuiteFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -40,7 +40,7 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
 
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
-            let fileMapping: TestGeneratorMainTestFileMapping;
+            let fileMapping: TestGeneratorMainSuiteFileMapping;
 
             suiteSetup(
                 async function()
@@ -48,15 +48,15 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot);
-                    fileMapping = new TestGeneratorMainTestFileMapping(generator, namingContext);
+                    fileMapping = new TestGeneratorMainSuiteFileMapping(generator, namingContext);
                 });
 
             suite(
-                nameof<TestGeneratorMainTestFileMapping>((fileMapping) => fileMapping.Destination),
+                nameof<TestGeneratorMainSuiteFileMapping>((fileMapping) => fileMapping.Destination),
                 () =>
                 {
                     test(
-                        `Checking whether the \`${nameof<TestGeneratorMainTestFileMapping>((fm) => fm.Destination)}\` points to the proper location…`,
+                        `Checking whether the \`${nameof<TestGeneratorMainSuiteFileMapping>((fm) => fm.Destination)}\` points to the proper location…`,
                         () =>
                         {
                             strictEqual(fileMapping.Destination, namingContext.MainSuiteFileName);
@@ -64,7 +64,7 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                 });
 
             suite(
-                nameof<TestGeneratorMainTestFileMapping>((fileMapping) => fileMapping.Context),
+                nameof<TestGeneratorMainSuiteFileMapping>((fileMapping) => fileMapping.Context),
                 () =>
                 {
                     test(
@@ -77,7 +77,7 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                 });
 
             suite(
-                nameof<TestGeneratorMainTestFileMapping>((fileMapping) => fileMapping.GetSuiteFunction),
+                nameof<TestGeneratorMainSuiteFileMapping>((fileMapping) => fileMapping.GetSuiteFunction),
                 () =>
                 {
                     test(

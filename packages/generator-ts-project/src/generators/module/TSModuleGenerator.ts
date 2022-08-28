@@ -4,7 +4,7 @@ import { whiteBright } from "chalk";
 import dedent = require("dedent");
 import yosay = require("yosay");
 import { GeneratorName } from "../../Core/GeneratorName";
-import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 import { ISuiteContext } from "../../Project/FileMappings/TypeScript/ISuiteContext";
 import { ModuleIndexFileMapping } from "../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
 import { TestFileMapping } from "../../Project/FileMappings/TypeScript/TestFileMapping";

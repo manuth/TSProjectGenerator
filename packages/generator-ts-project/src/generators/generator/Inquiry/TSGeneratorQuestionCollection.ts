@@ -7,7 +7,7 @@ import { TSGeneratorDescriptionQuestion } from "./TSGeneratorDescriptionQuestion
 import { TSGeneratorModuleNameQuestion } from "./TSGeneratorModuleNameQuestion";
 
 /**
- * Provides questions for asking for the {@link TSGeneratorGenerator {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}}-creation.
+ * Provides questions for asking for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}-creation.
  *
  * @template TSettings
  * The type of the settings of the generator.

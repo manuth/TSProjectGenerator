@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSModuleGenerator } from "../../TSModuleGenerator";

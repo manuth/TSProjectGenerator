@@ -22,7 +22,7 @@ import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencie
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
 import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping";
-import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
 import { ITSProjectSettings } from "./Settings/ITSProjectSettings";
 import { TSProjectComponent } from "./Settings/TSProjectComponent";

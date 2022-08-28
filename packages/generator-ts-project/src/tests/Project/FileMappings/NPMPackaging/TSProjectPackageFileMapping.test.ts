@@ -7,7 +7,7 @@ import { TSConfigFileMapping } from "../../../../index";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
 import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
 import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
 import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";

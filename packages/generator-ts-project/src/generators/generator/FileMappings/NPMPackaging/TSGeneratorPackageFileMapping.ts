@@ -1,6 +1,6 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 import { TSGeneratorDependencies } from "../../Dependencies/TSGeneratorDependencies";
 import { TSGeneratorExampleDependencies } from "../../Dependencies/TSGeneratorExampleDependencies";
 import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings";
