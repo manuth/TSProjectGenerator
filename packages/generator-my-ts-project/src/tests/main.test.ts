@@ -1,3 +1,4 @@
+import { fileURLToPath } from "url";
 import { GeneratorName } from "@manuth/generator-ts-project";
 import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import upath from "upath";
@@ -17,7 +18,7 @@ suite(
         let workingDir: string;
         let context = GeneratorContext.Default;
 
-        let projectContext = new GeneratorContext<TestTSModuleGenerator>(join(__dirname, "generators", GeneratorName.Main));
+        let projectContext = new GeneratorContext<TestTSModuleGenerator>(join(fileURLToPath(new URL(".", import.meta.url)), "generators", GeneratorName.Main));
 
         suiteSetup(
             () =>
