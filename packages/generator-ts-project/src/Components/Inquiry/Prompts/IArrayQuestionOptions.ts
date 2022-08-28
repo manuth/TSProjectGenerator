@@ -1,6 +1,6 @@
 import { Answers, AsyncDynamicQuestionProperty, Question } from "inquirer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ArrayPrompt } from "./ArrayPrompt";
+import type { ArrayPrompt } from "./ArrayPrompt.js";
 
 /**
  * Provides options for the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`}.

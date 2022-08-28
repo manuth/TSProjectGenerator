@@ -1,8 +1,8 @@
 import { ok, strictEqual } from "assert";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
-import { Answers, createPromptModule, DistinctQuestion, PromptModule, Question } from "inquirer";
-import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt";
-import { TestContext } from "../../../TestContext";
+import inquirer from "inquirer";
+import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link QuestionSetPrompt `QuestionSetPrompt<T>`} class.
@@ -14,11 +14,11 @@ export function QuestionSetPromptTests(): void
         () =>
         {
             let context: TestContext<TestGenerator>;
-            let promptModule: PromptModule;
+            let promptModule: inquirer.PromptModule;
             let testKey = "test" as const;
             let name: string;
             let message: string;
-            let questions: DistinctQuestion[];
+            let questions: inquirer.DistinctQuestion[];
 
             /**
              * Represents the answer-hash.
@@ -28,7 +28,7 @@ export function QuestionSetPromptTests(): void
                 /**
                  * Provides properties for a question.
                  */
-                [testKey]: Question;
+                [testKey]: inquirer.Question;
             }
 
             /**
@@ -57,7 +57,7 @@ export function QuestionSetPromptTests(): void
             setup(
                 () =>
                 {
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     promptModule.registerPrompt(QuestionSetPrompt.TypeName, QuestionSetPrompt);
                     context.RegisterTestPrompt(promptModule, "input");
                     name = TestContext.Default.RandomString;
@@ -65,11 +65,11 @@ export function QuestionSetPromptTests(): void
 
                     questions = [
                         {
-                            name: nameof<Question>((question) => question.name),
+                            name: nameof<inquirer.Question>((question) => question.name),
                             default: name
                         },
                         {
-                            name: nameof<Question>((question) => question.message),
+                            name: nameof<inquirer.Question>((question) => question.message),
                             default: message
                         }
                     ];
@@ -119,7 +119,7 @@ export function QuestionSetPromptTests(): void
                                         questions: [
                                             {
                                                 ...questions[0],
-                                                default: (result: Answers, answers: IAnswerHash) =>
+                                                default: (result: inquirer.Answers, answers: IAnswerHash) =>
                                                 {
                                                     testValue = (answers as any)[key];
                                                     return testValue;

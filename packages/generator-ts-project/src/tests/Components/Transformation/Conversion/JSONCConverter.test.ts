@@ -1,9 +1,9 @@
 import { deepStrictEqual, ok, strictEqual } from "assert";
 import { EOL } from "os";
 import { stringify } from "comment-json";
-import detectNewline = require("detect-newline");
-import { JSONCConverter } from "../../../../Components/Transformation/Conversion/JSONCConverter";
-import { TestContext } from "../../../TestContext";
+import detectNewline from "detect-newline";
+import { JSONCConverter } from "../../../../Components/Transformation/Conversion/JSONCConverter.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link JSONCConverter `JSONCConverter<T>`} class.

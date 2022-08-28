@@ -1,4 +1,5 @@
 import { join } from "path";
+import { fileURLToPath } from "url";
 import { Package } from "@manuth/package-json-editor";
 
 /**
@@ -18,7 +19,7 @@ export class TestConstants
     {
         if (!this.package)
         {
-            this.package = new Package(join(__dirname, "..", "..", Package.FileName));
+            this.package = new Package(join(fileURLToPath(new URL(".", import.meta.url)), "..", "..", Package.FileName));
         }
 
         return this.package;

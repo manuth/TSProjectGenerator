@@ -1,8 +1,8 @@
 import { Interface } from "readline";
-import { Answers, DistinctQuestion, prompt } from "inquirer";
-import { IArrayPromptHash } from "./IArrayPromptHash";
-import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
-import { SuspendablePrompt } from "./SuspendablePrompt";
+import inquirer from "inquirer";
+import { IArrayPromptHash } from "./IArrayPromptHash.js";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
+import { SuspendablePrompt } from "./SuspendablePrompt.js";
 
 /**
  * Provides the functionality to prompt for an array of objects.
@@ -27,7 +27,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      * @param answers
      * The answer-hash.
      */
-    public constructor(question: TQuestion, readLine: Interface, answers: Answers)
+    public constructor(question: TQuestion, readLine: Interface, answers: inquirer.Answers)
     {
         super(question, readLine, answers);
     }
@@ -75,7 +75,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      * @returns
      * A question for asking the user whether another item should be added.
      */
-    protected async GetRepetitionQuestion(items: readonly TItem[]): Promise<DistinctQuestion<IArrayPromptHash>>
+    protected async GetRepetitionQuestion(items: readonly TItem[]): Promise<inquirer.DistinctQuestion<IArrayPromptHash>>
     {
         return {
             type: "confirm",
@@ -96,7 +96,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      */
     protected async PromptAdd(items: readonly TItem[]): Promise<IArrayPromptHash>
     {
-        return prompt(
+        return inquirer.prompt(
             [
                 await this.GetRepetitionQuestion(items)
             ],

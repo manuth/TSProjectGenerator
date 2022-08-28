@@ -1,11 +1,11 @@
 import { deepStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
-import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksProcessor";
-import { TestContext } from "../../TestContext";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TSProjectTasksProcessor } from "../../../Project/VSCode/TSProjectTasksProcessor.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSProjectTasksProcessor `TSProjectTasksProcessor<TSettings, TOptions>`} class.

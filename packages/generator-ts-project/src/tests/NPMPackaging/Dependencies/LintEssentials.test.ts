@@ -1,5 +1,5 @@
 import { DependencyCollectionTester } from "@manuth/generator-ts-project-test";
-import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
+import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials.js";
 
 /**
  * Registers tests for the {@link LintEssentials `LintEssentials`} class.

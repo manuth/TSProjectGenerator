@@ -1,5 +1,5 @@
 import { join } from "path";
-import camelCase = require("lodash.camelcase");
+import camelCase from "lodash.camelcase";
 
 /**
  * Provides constants for naming generated files and components.

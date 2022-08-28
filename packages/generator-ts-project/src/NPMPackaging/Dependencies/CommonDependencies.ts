@@ -1,5 +1,5 @@
 import { PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
-import { BuildDependencies } from "./BuildDependencies";
+import { BuildDependencies } from "./BuildDependencies.js";
 
 /**
  * Provides all common dependencies.

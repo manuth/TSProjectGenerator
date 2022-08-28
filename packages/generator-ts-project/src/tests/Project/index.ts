@@ -1,11 +1,11 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TestContext } from "../TestContext";
-import { ComponentTests } from "./Components";
-import { FileMappingTests } from "./FileMappings";
-import { InquiryTests } from "./Inquiry";
-import { TSProjectGeneratorTests } from "./TSProjectGenerator.test";
-import { VSCodeTests } from "./VSCode";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
+import { TestContext } from "../TestContext.js";
+import { ComponentTests } from "./Components/index.js";
+import { FileMappingTests } from "./FileMappings/index.js";
+import { InquiryTests } from "./Inquiry/index.js";
+import { TSProjectGeneratorTests } from "./TSProjectGenerator.test.js";
+import { VSCodeTests } from "./VSCode/index.js";
 
 /**
  * Registers tests for project-components.
@@ -16,7 +16,7 @@ import { VSCodeTests } from "./VSCode";
 export function ProjectTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             InquiryTests(context);

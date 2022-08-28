@@ -1,7 +1,7 @@
 import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
-import { IMockedAnswer } from "./Inquiry/IMockedAnswer";
-import { TestPrompt } from "./Inquiry/TestPrompt";
+import { IMockedAnswer } from "./Inquiry/IMockedAnswer.js";
+import { TestPrompt } from "./Inquiry/TestPrompt.js";
 
 /**
  * Represents a context for testing.

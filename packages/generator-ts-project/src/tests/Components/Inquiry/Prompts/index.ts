@@ -1,11 +1,11 @@
 import { basename } from "path";
-import { ArrayPromptTests } from "./ArrayPrompt.test";
-import { NestedPromptTests } from "./NestedPrompt.test";
-import { PathPromptTests } from "./PathPrompt.test";
-import { PromptBaseTests } from "./PromptBase.test";
-import { QuestionSetPromptTests } from "./QuestionSetPrompt.test";
-import { SubGeneratorPromptTests } from "./SubGeneratorPrompt.test";
-import { SuspendablePromptTests } from "./SuspendablePrompt.test";
+import { ArrayPromptTests } from "./ArrayPrompt.test.js";
+import { NestedPromptTests } from "./NestedPrompt.test.js";
+import { PathPromptTests } from "./PathPrompt.test.js";
+import { PromptBaseTests } from "./PromptBase.test.js";
+import { QuestionSetPromptTests } from "./QuestionSetPrompt.test.js";
+import { SubGeneratorPromptTests } from "./SubGeneratorPrompt.test.js";
+import { SuspendablePromptTests } from "./SuspendablePrompt.test.js";
 
 /**
  * Registers tests for prompts.
@@ -13,7 +13,7 @@ import { SuspendablePromptTests } from "./SuspendablePrompt.test";
 export function PromptTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             PromptBaseTests();

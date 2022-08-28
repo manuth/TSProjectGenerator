@@ -1,15 +1,18 @@
 import { ok } from "assert";
 import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { IPackageMetadata, Package } from "@manuth/package-json-editor";
-import { pathExists } from "fs-extra";
-import npmWhich = require("npm-which");
-import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping";
-import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator";
-import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
-import { TestContext } from "../../../../TestContext";
+import fs from "fs-extra";
+import npmWhich from "npm-which";
+import { TSModulePackageFileMapping } from "../../../../../generators/module/FileMappings/NPMPackaging/TSModulePackageFileMapping.js";
+import { TSModuleGenerator } from "../../../../../generators/module/TSModuleGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TestContext } from "../../../../TestContext.js";
+
+const { pathExists } = fs;
 
 /**
  * Registers tests for the {@link TSModulePackageFileMapping `TSModulePackageFileMapping<TSettings, TOptions>`}.
@@ -48,13 +51,14 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    let npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
                     fileMapping = new TestTSModulePackageFileMapping(runContext.generator);
                     tester = new PackageFileMappingTester(runContext.generator, fileMapping);
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
@@ -64,7 +68,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         });
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"

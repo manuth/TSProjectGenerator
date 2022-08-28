@@ -1,7 +1,7 @@
 import { IGenerator, PropertyResolverCollectionEditor } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { IScriptMapping } from "./IScriptMapping";
-import { ScriptMapping } from "./ScriptMapping";
+import { IScriptMapping } from "./IScriptMapping.js";
+import { ScriptMapping } from "./ScriptMapping.js";
 
 /**
  * Represents a set of script-mappings.

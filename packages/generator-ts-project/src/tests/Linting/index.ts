@@ -1,8 +1,8 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TestContext } from "../TestContext";
-import { ComponentTests } from "./Components";
-import { FileMappingTests } from "./FileMappings";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
+import { TestContext } from "../TestContext.js";
+import { ComponentTests } from "./Components/index.js";
+import { FileMappingTests } from "./FileMappings/index.js";
 
 /**
  * Registers tests for linting-components.
@@ -13,7 +13,7 @@ import { FileMappingTests } from "./FileMappings";
 export function LintingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             FileMappingTests(context);

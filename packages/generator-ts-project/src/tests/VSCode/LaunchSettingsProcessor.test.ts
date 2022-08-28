@@ -1,10 +1,10 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
-import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings.js";
+import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link LaunchSettingsProcessor `LaunchSettingsProcessor<TSettings, TOptions>`} class.

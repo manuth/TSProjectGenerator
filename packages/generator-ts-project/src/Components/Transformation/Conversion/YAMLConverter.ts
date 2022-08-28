@@ -1,8 +1,10 @@
 import { EOL } from "os";
-import { split } from "eol";
+import eol from "eol";
 import { Document, parseAllDocuments } from "yaml";
-import { IDumper } from "./IDumper";
-import { TextConverter } from "./TextConverter";
+import { IDumper } from "./IDumper.js";
+import { TextConverter } from "./TextConverter.js";
+
+const { split } = eol;
 
 /**
  * Provides the functionality to parse and dump `.yaml`-code.

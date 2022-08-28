@@ -1,24 +1,28 @@
 import { spawnSync } from "child_process";
 import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { Dictionary, Package } from "@manuth/package-json-editor";
-import { pathExists } from "fs-extra";
-import GitBranch = require("git-branch");
+import fs from "fs-extra";
+import GitBranch from "git-branch";
 import { glob } from "glob";
-import npmWhich = require("npm-which");
+import npmWhich from "npm-which";
+
+const { pathExists } = fs;
 
 (
     async () =>
     {
-        let npmPackage = new Package(join(__dirname, "..", Package.FileName));
+        let dirName = fileURLToPath(new URL(".", import.meta.url));
+        let npmPackage = new Package(join(dirName, "..", Package.FileName));
         let workspacePaths: string[];
         let workspacePackages: Package[] = [];
-        let branchName = await GitBranch(__dirname);
+        let branchName = await GitBranch(dirName);
         let releaseName = branchName.replace(/^release\/(.*)/, "$1");
 
         if (releaseName.length > 0)
         {
             spawnSync(
-                npmWhich(__dirname).sync("npm"),
+                npmWhich(dirName).sync("npm"),
                 [
                     "--no-git-tag-version",
                     "version",
@@ -67,7 +71,7 @@ import npmWhich = require("npm-which");
                             if (entry[0].Has(dependencyCandidate.Name))
                             {
                                 spawnSync(
-                                    npmWhich(__dirname).sync("npm"),
+                                    npmWhich(dirName).sync("npm"),
                                     [
                                         "install",
                                         "--ignore-scripts",
@@ -84,14 +88,14 @@ import npmWhich = require("npm-which");
             }
 
             spawnSync(
-                npmWhich(__dirname).sync("npm"),
+                npmWhich(dirName).sync("npm"),
                 [
                     "install",
                     "--ignore-scripts"
                 ]);
 
             spawnSync(
-                npmWhich(__dirname).sync("git"),
+                npmWhich(dirName).sync("git"),
                 [
                     "commit",
                     "-a",

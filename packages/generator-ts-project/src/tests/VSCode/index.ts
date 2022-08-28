@@ -1,12 +1,12 @@
 import { basename } from "path";
-import { ComponentTests } from "./Components";
-import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test";
-import { FileMappingTests } from "./FileMappings";
-import { LaunchSettingsProcessorTests } from "./LaunchSettingsProcessor.test";
-import { SettingsProcessorTest } from "./SettingsProcessor.test";
-import { TasksProcessorTests } from "./TasksProcessor.test";
-import { VSCodeJSONProcessorTests } from "./VSCodeJSONProcessor.test";
-import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test";
+import { ComponentTests } from "./Components/index.js";
+import { ExtensionsProcessorTests } from "./ExtensionsProcessor.test.js";
+import { FileMappingTests } from "./FileMappings/index.js";
+import { LaunchSettingsProcessorTests } from "./LaunchSettingsProcessor.test.js";
+import { SettingsProcessorTest } from "./SettingsProcessor.test.js";
+import { TasksProcessorTests } from "./TasksProcessor.test.js";
+import { VSCodeJSONProcessorTests } from "./VSCodeJSONProcessor.test.js";
+import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test.js";
 
 /**
  * Registers tests for `VSCode` components.
@@ -14,7 +14,7 @@ import { WorkspaceProcessorTests } from "./WorkspaceProcessor.test";
 export function VSCodeTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             VSCodeJSONProcessorTests();

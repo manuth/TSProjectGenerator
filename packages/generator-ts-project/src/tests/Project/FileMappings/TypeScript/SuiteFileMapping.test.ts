@@ -3,9 +3,9 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { ArrowFunction, CallExpression, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping";
-import { TestContext } from "../../../TestContext";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class.

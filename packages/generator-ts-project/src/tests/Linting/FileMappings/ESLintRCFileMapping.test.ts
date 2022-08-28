@@ -1,18 +1,19 @@
 import { doesNotReject, ok, strictEqual } from "assert";
 import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 import { PluginName, PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { Linter } from "eslint";
-import npmWhich = require("npm-which");
-import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
-import { LintRuleset } from "../../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import npmWhich from "npm-which";
+import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping.js";
+import { LintRuleset } from "../../../Linting/LintRuleset.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the  {@link ESLintRCFileMapping `ESLintRCFileMapping<TSettings, TOptions>`} class.
@@ -50,7 +51,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                     generator = generatorContext.generator;
 
                     let installationResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
                         [
                             "install",
                             "--silent"
@@ -69,7 +70,6 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 {
                     this.timeout(10 * 1000);
                     tempDir.Dispose();
-                    context.InvalidateRequireCache();
                 });
 
             setup(

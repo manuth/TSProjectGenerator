@@ -1,11 +1,11 @@
 import { ok, strictEqual } from "assert";
 import { EOL } from "os";
-import { createPromptModule, prompt, PromptModule, QuestionTypeName } from "inquirer";
+import inquirer from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { Random } from "random-js";
 import { stub } from "sinon";
-import { TestPrompt } from "../Inquiry/TestPrompt";
-import { TestContext } from "../TestContext";
+import { TestPrompt } from "../Inquiry/TestPrompt.js";
+import { TestContext } from "../TestContext.js";
 
 /**
  * Registers tests for the {@link TestContext `TestContext`} class.
@@ -18,8 +18,8 @@ export function TestContextTests(): void
         {
             let random: Random;
             let context: TestContext;
-            let promptModule: PromptModule;
-            let defaultTypeName: QuestionTypeName;
+            let promptModule: inquirer.PromptModule;
+            let defaultTypeName: inquirer.QuestionTypeName;
             let firstQuestionName: string;
             let secondQuestionName: string;
             let firstAnswer: string;
@@ -30,7 +30,7 @@ export function TestContextTests(): void
                 {
                     random = new Random();
                     context = new TestContext();
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     defaultTypeName = "input";
                     firstQuestionName = "first";
                     secondQuestionName = "second";
@@ -41,7 +41,7 @@ export function TestContextTests(): void
             setup(
                 () =>
                 {
-                    prompt.restoreDefaultPrompts();
+                    inquirer.prompt.restoreDefaultPrompts();
                     promptModule.restoreDefaultPrompts();
                 });
 
@@ -167,7 +167,7 @@ export function TestContextTests(): void
                         `Checking whether the \`${nameof(TestPrompt)}\` can be registered…`,
                         () =>
                         {
-                            let type: QuestionTypeName = "input";
+                            let type: inquirer.QuestionTypeName = "input";
                             context.RegisterTestPrompt(promptModule, type);
                             strictEqual(promptModule.prompts[type], TestPrompt);
                         });
@@ -176,8 +176,8 @@ export function TestContextTests(): void
                         `Checking whether the \`${nameof(TestPrompt)}\`-prompt is registered to the \`${defaultTypeName}\`-type by default…`,
                         () =>
                         {
-                            context.RegisterTestPrompt(prompt);
-                            strictEqual(prompt.prompts[defaultTypeName], TestPrompt);
+                            context.RegisterTestPrompt(inquirer.prompt);
+                            strictEqual(inquirer.prompt.prompts[defaultTypeName], TestPrompt);
                         });
                 });
         });

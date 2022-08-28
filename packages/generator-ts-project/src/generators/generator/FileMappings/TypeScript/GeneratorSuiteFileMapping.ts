@@ -1,10 +1,10 @@
 import { dirname, relative } from "path";
 import { Generator, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, printNode, StatementStructures, ts, WriterFunction } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase";
-import { GeneratorTestFileMapping } from "./GeneratorTestFileMapping";
-import { NamingContext } from "./NamingContext";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase.js";
+import { GeneratorTestFileMapping } from "./GeneratorTestFileMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file which contains test-suites for generators.

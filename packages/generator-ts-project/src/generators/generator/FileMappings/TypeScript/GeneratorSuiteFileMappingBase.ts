@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping";
-import { NamingContext } from "./NamingContext";
+import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a test-suite for a generator.

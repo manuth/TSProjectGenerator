@@ -1,10 +1,11 @@
 import { ok, strictEqual } from "assert";
-import { DistinctQuestion, prompt, registerPrompt, restoreDefaultPrompts } from "inquirer";
-import mock = require("mock-require");
-import { ArrayPrompt } from "../../../../Components/Inquiry/Prompts/ArrayPrompt";
-import { IArrayPromptHash } from "../../../../Components/Inquiry/Prompts/IArrayPromptHash";
-import { IArrayQuestionOptions } from "../../../../Components/Inquiry/Prompts/IArrayQuestionOptions";
-import { TestContext } from "../../../TestContext";
+import { createRequire } from "module";
+import inquirer from "inquirer";
+import mock from "mock-require";
+import { ArrayPrompt } from "../../../../Components/Inquiry/Prompts/ArrayPrompt.js";
+import { IArrayPromptHash } from "../../../../Components/Inquiry/Prompts/IArrayPromptHash.js";
+import { IArrayQuestionOptions } from "../../../../Components/Inquiry/Prompts/IArrayQuestionOptions.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`}
@@ -21,7 +22,7 @@ export function ArrayPromptTests(): void
             let type = "test" as undefined;
             let testLength: number;
             let testValue: string;
-            let questions: DistinctQuestion[];
+            let questions: inquirer.DistinctQuestion[];
             let testKey = "test" as const;
 
             /**
@@ -75,9 +76,9 @@ export function ArrayPromptTests(): void
                     let i = 0;
                     testLength = 1;
                     testValue = context.RandomObject;
-                    context.RegisterTestPrompt(prompt, "confirm");
-                    mock(inquirerModuleName, require.resolve(inquirerModuleName));
-                    registerPrompt(type, TestArrayPrompt);
+                    context.RegisterTestPrompt(inquirer.prompt, "confirm");
+                    mock(inquirerModuleName, createRequire(import.meta.url).resolve(inquirerModuleName));
+                    inquirer.registerPrompt(type, TestArrayPrompt);
                     repeat = () => ++i < testLength;
 
                     questions = [
@@ -92,7 +93,7 @@ export function ArrayPromptTests(): void
             teardown(
                 () =>
                 {
-                    restoreDefaultPrompts();
+                    inquirer.restoreDefaultPrompts();
                     mock.stop(inquirerModuleName);
                 });
 
@@ -106,7 +107,7 @@ export function ArrayPromptTests(): void
                         {
                             this.timeout(2 * 1000);
                             this.slow(1 * 1000);
-                            let result = await prompt(questions);
+                            let result = await inquirer.prompt(questions);
                             let value = result[testKey];
                             ok(Array.isArray(value));
 
@@ -125,7 +126,7 @@ export function ArrayPromptTests(): void
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             testLength = context.Random.integer(2, 10);
-                            let value = (await prompt(questions))[testKey];
+                            let value = (await inquirer.prompt(questions))[testKey];
                             ok(Array.isArray(value));
                             strictEqual(value.length, testLength);
 
@@ -155,7 +156,7 @@ export function ArrayPromptTests(): void
                                 return (answers[testKey] as string[]).length < length;
                             };
 
-                            let result = await prompt(questions);
+                            let result = await inquirer.prompt(questions);
                             strictEqual((result[testKey] as string[]).length, length);
                         });
                 });

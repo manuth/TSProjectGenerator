@@ -1,5 +1,5 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent.js";
 
 /**
  * Provides the functionality to create file-mappings for a code workspace.

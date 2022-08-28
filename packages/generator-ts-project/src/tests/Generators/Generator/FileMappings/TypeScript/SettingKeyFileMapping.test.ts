@@ -2,10 +2,10 @@ import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SettingKeyFileMapping `SettingKeyFileMapping<TSettings, TOptions>`} class.
@@ -77,12 +77,6 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                             let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                             await tester.DumpOutput(sourceFile);
                             sourceFile.forget();
-                        });
-
-                    teardown(
-                        () =>
-                        {
-                            context.InvalidateRequireCache();
                         });
 
                     test(

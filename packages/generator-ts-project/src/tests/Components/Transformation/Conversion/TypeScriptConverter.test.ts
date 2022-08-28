@@ -1,10 +1,10 @@
 import { doesNotThrow, strictEqual } from "assert";
 import { EOL } from "os";
 import { TempFileSystem } from "@manuth/temp-files";
-import detectNewLine = require("detect-newline");
+import detectNewline from "detect-newline";
 import { FormatCodeSettings, NodeFlags, printNode, Project, SourceFile, ts } from "ts-morph";
-import { TypeScriptConverter } from "../../../../Components/Transformation/Conversion/TypeScriptConverter";
-import { TestContext } from "../../../TestContext";
+import { TypeScriptConverter } from "../../../../Components/Transformation/Conversion/TypeScriptConverter.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link TypeScriptConverter `TypeScriptConverter`} class.
@@ -108,7 +108,7 @@ export function TypeScriptConverterTests(): void
                             for (let nlc of [EOL, "\n", "\r\n"])
                             {
                                 converter.FormatSettings.newLineCharacter = nlc;
-                                strictEqual(detectNewLine(converter.Dump(testSourceFile)), nlc);
+                                strictEqual(detectNewline(converter.Dump(testSourceFile)), nlc);
                             }
                         });
                 });

@@ -3,10 +3,10 @@ import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extend
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
-import { IDumper } from "../../../Components/Transformation/Conversion/IDumper";
-import { JSONCConverter } from "../../../Components/Transformation/Conversion/JSONCConverter";
-import { DumpFileMapping } from "../../../Components/Transformation/DumpFileMapping";
-import { TestContext } from "../../TestContext";
+import { IDumper } from "../../../Components/Transformation/Conversion/IDumper.js";
+import { JSONCConverter } from "../../../Components/Transformation/Conversion/JSONCConverter.js";
+import { DumpFileMapping } from "../../../Components/Transformation/DumpFileMapping.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link DumpFileMapping `DumpFileMapping<TSettings, TOptions, TData>`} class.

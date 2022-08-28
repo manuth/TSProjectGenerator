@@ -3,14 +3,14 @@ import { Generator, GeneratorOptions, IGenerator, IGeneratorSettings } from "@ma
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";
-import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
-import { GeneratorIndexFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorIndexFileMapping";
-import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { GeneratorIndexFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorIndexFileMapping.js";
+import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link GeneratorIndexFileMapping `GeneratorIndexFileMapping<TSettings, TOptions>`} class.
@@ -86,12 +86,6 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                             let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                             await tester.DumpOutput(sourceFile);
                             sourceFile.forget();
-                        });
-
-                    teardown(
-                        () =>
-                        {
-                            context.InvalidateRequireCache();
                         });
 
                     test(

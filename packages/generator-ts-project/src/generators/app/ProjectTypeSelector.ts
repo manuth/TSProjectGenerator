@@ -1,7 +1,7 @@
 import { Generator, GeneratorOptions, Question } from "@manuth/extended-yo-generator";
-import { IProjectType } from "./IProjectType";
-import { IProjectSelectorSettings } from "./Settings/IProjectSelectorSettings";
-import { ProjectSelectorSettingKey } from "./Settings/ProjectSelectorSettingKey";
+import { IProjectType } from "./IProjectType.js";
+import { IProjectSelectorSettings } from "./Settings/IProjectSelectorSettings.js";
+import { ProjectSelectorSettingKey } from "./Settings/ProjectSelectorSettingKey.js";
 
 /**
  * Provides the functionality to choose from a set of generators.
@@ -88,6 +88,6 @@ export abstract class ProjectTypeSelector<T extends string | number> extends Gen
             projectType = this.DefaultType;
         }
 
-        this.composeWith(this.ProjectTypes.get(projectType).Path, this.options);
+        await (this.composeWith(this.ProjectTypes.get(projectType).Path, this.options) as any);
     }
 }

@@ -1,5 +1,5 @@
 import { Answers, DistinctQuestion } from "inquirer";
-import { IQuestionSetExtension } from "./IQuestionSetExtension";
+import { IQuestionSetExtension } from "./IQuestionSetExtension.js";
 
 /**
  * Represents a question which is part of a question-set.

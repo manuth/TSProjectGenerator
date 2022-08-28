@@ -1,12 +1,15 @@
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { pathExists } from "fs-extra";
+import fs from "fs-extra";
 import { InputQuestionOptions } from "inquirer";
-import kebabCase = require("lodash.kebabcase");
-import { join } from "upath";
-import validate = require("validate-npm-package-name");
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
+import kebabCase from "lodash.kebabcase";
+import upath from "upath";
+import validate from "validate-npm-package-name";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
+
+const { pathExists } = fs;
+const { join } = upath;
 
 /**
  * Provides a question for asking for the module-name of a project.

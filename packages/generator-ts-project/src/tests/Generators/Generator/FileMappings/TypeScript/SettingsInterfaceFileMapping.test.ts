@@ -2,13 +2,13 @@ import { doesNotThrow, ok, strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { SourceFile, SyntaxKind } from "ts-morph";
-import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
-import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class.

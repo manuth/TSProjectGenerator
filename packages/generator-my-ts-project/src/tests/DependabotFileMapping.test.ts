@@ -4,8 +4,8 @@ import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { toJS } from "yaml/util";
-import { DependabotFileMapping } from "../DependabotFileMapping";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { DependabotFileMapping } from "../DependabotFileMapping.js";
+import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator.js";
 
 /**
  * Registers tests for the {@link DependabotFileMapping `DependabotFileMapping<TSettings, TOptions>`} class.

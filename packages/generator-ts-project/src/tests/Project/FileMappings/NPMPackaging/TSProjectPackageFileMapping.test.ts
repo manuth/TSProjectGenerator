@@ -2,17 +2,17 @@ import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
-import { Constants } from "../../../../Core/Constants";
-import { TSConfigFileMapping } from "../../../../index";
-import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
-import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
-import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
-import { TestContext } from "../../../TestContext";
+import { TSConfigFileMapping } from "../../../../Components/Transformation/TSConfigFileMapping.js";
+import { Constants } from "../../../../Core/Constants.js";
+import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies.js";
+import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials.js";
+import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping.js";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.

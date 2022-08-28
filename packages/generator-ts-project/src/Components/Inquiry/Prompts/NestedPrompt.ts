@@ -1,6 +1,6 @@
 import { Interface } from "readline";
 import { Answers, Question } from "inquirer";
-import { SuspendablePrompt } from "./SuspendablePrompt";
+import { SuspendablePrompt } from "./SuspendablePrompt.js";
 
 /**
  * Provides the functionality to display nested prompts.

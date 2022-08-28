@@ -1,16 +1,18 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
-import { dirname, relative } from "upath";
-import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { ISubGenerator } from "../../../../../generators/generator/Settings/ISubGenerator";
-import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey";
-import { TestContext } from "../../../../TestContext";
+import upath from "upath";
+import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { ISubGenerator } from "../../../../../generators/generator/Settings/ISubGenerator.js";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
+import { TestContext } from "../../../../TestContext.js";
+
+const { dirname, relative } = upath;
 
 /**
  * Registers tests for the {@link GeneratorSuiteFileMapping `GeneratorSuiteFileMapping<TSettings, TOptions>`} class.

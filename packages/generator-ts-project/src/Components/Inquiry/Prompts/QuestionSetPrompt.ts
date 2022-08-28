@@ -1,14 +1,14 @@
 import { Interface } from "readline";
-import { Answers, createPromptModule, DistinctQuestion, Question } from "inquirer";
-import { IQuestionSetQuestion } from "./IQuestionSetQuestion";
-import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions";
-import { NestedPrompt } from "./NestedPrompt";
-import { SetQuestion } from "./SetQuestion";
+import inquirer from "inquirer";
+import { IQuestionSetQuestion } from "./IQuestionSetQuestion.js";
+import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions.js";
+import { NestedPrompt } from "./NestedPrompt.js";
+import { SetQuestion } from "./SetQuestion.js";
 
 /**
  * Represents an answer-hash.
  */
-type AnswerHash = Answers;
+type Answers = inquirer.Answers;
 
 declare module "inquirer"
 {
@@ -21,7 +21,7 @@ declare module "inquirer"
         /**
          * Represents the question-collection prompt.
          */
-        [QuestionSetPrompt.TypeName]: IQuestionSetQuestion<AnswerHash, T>;
+        [QuestionSetPrompt.TypeName]: IQuestionSetQuestion<Answers, T>;
     }
 }
 
@@ -67,8 +67,8 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
     protected async Prompt(): Promise<unknown>
     {
         let questions: Array<SetQuestion<TAnswers, unknown>>;
-        let processedQuestions: Array<Question<TAnswers>> = [];
-        let promptModule = createPromptModule();
+        let processedQuestions: Array<inquirer.Question<TAnswers>> = [];
+        let promptModule = inquirer.createPromptModule();
 
         if (this.opt.promptTypes)
         {
@@ -89,14 +89,14 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
 
         for (let question of questions)
         {
-            let overrides: Partial<DistinctQuestion<TAnswers>> = {};
+            let overrides: Partial<inquirer.DistinctQuestion<TAnswers>> = {};
 
             for (
                 let key of [
-                    nameof<DistinctQuestion<TAnswers>>((q) => q.message),
-                    nameof<DistinctQuestion<TAnswers>>((q) => q.default),
-                    nameof<DistinctQuestion<TAnswers>>((q) => q.when)
-                ] as Array<keyof DistinctQuestion<TAnswers>>)
+                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.message),
+                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.default),
+                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.when)
+                ] as Array<keyof inquirer.DistinctQuestion<TAnswers>>)
             {
                 let base = question[key];
 

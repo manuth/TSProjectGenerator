@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { ScriptMappingTests } from "./ScriptMapping.test";
+import { ScriptMappingTests } from "./ScriptMapping.test.js";
 
 /**
  * Registers tests for npm-packaging scripts.
@@ -7,7 +7,7 @@ import { ScriptMappingTests } from "./ScriptMapping.test";
 export function ScriptTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             ScriptMappingTests();

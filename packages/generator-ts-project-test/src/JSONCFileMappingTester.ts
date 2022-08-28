@@ -1,6 +1,6 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { JSONCConverter, TextConverter } from "@manuth/generator-ts-project";
-import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
+import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
 
 /**
  * Provides the functionality to test jsonc file-mappings.

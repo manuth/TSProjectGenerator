@@ -1,5 +1,5 @@
 import { Answers, Question } from "inquirer";
-import { QuestionSetProperty } from "./QuestionSetProperty";
+import { QuestionSetProperty } from "./QuestionSetProperty.js";
 
 /**
  * Represents an extension for question-set questions.

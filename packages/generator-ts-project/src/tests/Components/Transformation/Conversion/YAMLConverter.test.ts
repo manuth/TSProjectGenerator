@@ -1,7 +1,7 @@
 import { deepStrictEqual, ok } from "assert";
 import { Document, parseAllDocuments, parseDocument, stringify } from "yaml";
-import { YAMLConverter } from "../../../../Components/Transformation/Conversion/YAMLConverter";
-import { TestContext } from "../../../TestContext";
+import { YAMLConverter } from "../../../../Components/Transformation/Conversion/YAMLConverter.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link YAMLConverter `YAMLConverter`} class.

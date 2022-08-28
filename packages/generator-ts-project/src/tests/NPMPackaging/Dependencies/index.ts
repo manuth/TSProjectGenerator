@@ -1,8 +1,8 @@
 import { basename } from "path";
-import { BuildDependencyTests } from "./BuildDependencies.test";
-import { CommonDependencyTests } from "./CommonDependencies.test";
-import { LintEssentialTests } from "./LintEssentials.test";
-import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test";
+import { BuildDependencyTests } from "./BuildDependencies.test.js";
+import { CommonDependencyTests } from "./CommonDependencies.test.js";
+import { LintEssentialTests } from "./LintEssentials.test.js";
+import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test.js";
 
 /**
  * Registers tests for npm-packaging dependencies.
@@ -10,7 +10,7 @@ import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollect
 export function DependencyTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             MyPackageDependencyCollectionTests();

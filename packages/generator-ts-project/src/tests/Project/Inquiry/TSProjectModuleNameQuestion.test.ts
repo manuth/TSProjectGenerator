@@ -2,13 +2,15 @@ import { strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
-import { writeJSON } from "fs-extra";
-import kebabCase = require("lodash.kebabcase");
-import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import fs from "fs-extra";
+import kebabCase from "lodash.kebabcase";
+import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+
+const { writeJSON } = fs;
 
 /**
  * Registers tests for the {@link TSProjectModuleNameQuestion `TSProjectModuleNameQuestion<TSettings, TOptions>`} class.

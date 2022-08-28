@@ -1,8 +1,8 @@
 import { EOL } from "os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, SourceFile, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping";
-import { ISuiteContext } from "./ISuiteContext";
+import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";
+import { ISuiteContext } from "./ISuiteContext.js";
 
 /**
  * Provides the functionality to create a typescript-file containing a mocha-suite.

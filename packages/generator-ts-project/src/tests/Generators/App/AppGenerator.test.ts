@@ -1,17 +1,20 @@
 import { doesNotReject, doesNotThrow } from "assert";
 import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { PromptModule } from "inquirer";
-import npmWhich = require("npm-which");
+import npmWhich from "npm-which";
 import { createSandbox, SinonExpectation, SinonSandbox } from "sinon";
-import { mockPrompt } from "yeoman-test";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { AppGenerator } from "../../../generators/app/AppGenerator";
-import { ProjectType } from "../../../generators/app/ProjectType";
-import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey";
-import { TestContext } from "../../TestContext";
+import yeomanTest from "yeoman-test";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { AppGenerator } from "../../../generators/app/AppGenerator.js";
+import { ProjectType } from "../../../generators/app/ProjectType.js";
+import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey.js";
+import { TestContext } from "../../TestContext.js";
+
+const { mockPrompt } = yeomanTest;
 
 /**
  * Registers tests for the generators.
@@ -25,10 +28,17 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
         nameof(AppGenerator),
         () =>
         {
+            let npmPath: string;
             let sandbox: SinonSandbox;
             let workingDirectory: string;
             let tempDir: TempDirectory;
             let generatorContext: IRunContext<AppGenerator>;
+
+            suiteSetup(
+                () =>
+                {
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
+                });
 
             setup(
                 () =>
@@ -120,7 +130,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 });
 
                             spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "install",
                                     "--silent"
@@ -130,7 +140,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 });
 
                             spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "run",
                                     "build"
@@ -164,7 +174,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 });
 
                             spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "install",
                                     "--silent"
@@ -174,7 +184,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                 });
 
                             spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "run",
                                     "build"

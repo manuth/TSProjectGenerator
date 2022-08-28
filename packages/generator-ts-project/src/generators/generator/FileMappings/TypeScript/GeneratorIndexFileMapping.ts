@@ -1,8 +1,8 @@
 import { dirname, relative } from "path";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { printNode, SourceFile, ts } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create an index-file for a generator.

@@ -2,7 +2,7 @@ import { strictEqual } from "assert";
 import { EOL } from "os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, printNode, SourceFile, ts } from "ts-morph";
-import { SuiteFileMapping } from "./SuiteFileMapping";
+import { SuiteFileMapping } from "./SuiteFileMapping.js";
 
 /**
  * Provides the functionality to create a typescript-file containing a mocha-test in a mocha-suite.

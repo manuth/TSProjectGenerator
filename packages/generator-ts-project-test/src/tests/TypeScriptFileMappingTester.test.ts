@@ -4,7 +4,7 @@ import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptCreatorMapping } from "@manuth/generator-ts-project";
 import { TempFile } from "@manuth/temp-files";
 import { SourceFile } from "ts-morph";
-import { TypeScriptFileMappingTester } from "../TypeScriptFileMappingTester";
+import { TypeScriptFileMappingTester } from "../TypeScriptFileMappingTester.js";
 
 /**
  * Registers tests for the {@link TypeScriptFileMappingTester `TypeScriptFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class for testing.

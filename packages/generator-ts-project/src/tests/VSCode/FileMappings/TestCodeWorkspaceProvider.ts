@@ -1,10 +1,10 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
-import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../../VSCode/ITaskSettings";
-import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider.js";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings.js";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata.js";
 
 /**
  * Provides an implementation of the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class for testing.

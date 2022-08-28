@@ -2,8 +2,8 @@ import { strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
-import dedent = require("dedent");
-import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
+import dedent from "dedent";
+import { MarkdownFileProcessor } from "../MarkdownFileProcessor.js";
 
 /**
  * Registers tests for the {@link MarkdownFileProcessor `MarkdownFileProcessor<TSettings, TOptions>`} class.

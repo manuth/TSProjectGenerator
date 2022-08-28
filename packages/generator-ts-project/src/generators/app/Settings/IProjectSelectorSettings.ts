@@ -1,7 +1,7 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ProjectTypeSelector } from "../ProjectTypeSelector";
-import { ProjectSelectorSettingKey } from "./ProjectSelectorSettingKey";
+import type { ProjectTypeSelector } from "../ProjectTypeSelector.js";
+import { ProjectSelectorSettingKey } from "./ProjectSelectorSettingKey.js";
 
 /**
  * Provides settings for the {@link ProjectTypeSelector `ProjectTypeSelector<T>`}.

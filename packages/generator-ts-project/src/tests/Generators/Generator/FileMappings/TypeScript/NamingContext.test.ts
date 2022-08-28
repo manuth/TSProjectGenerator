@@ -1,8 +1,10 @@
 import { strictEqual } from "assert";
-import { join, normalize } from "upath";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import upath from "upath";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
+
+const { join, normalize } = upath;
 
 /**
  * Registers tests for the {@link NamingContext `NamingContext`} class.

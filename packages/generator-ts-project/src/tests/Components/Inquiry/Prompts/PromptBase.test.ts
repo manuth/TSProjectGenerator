@@ -1,7 +1,7 @@
 import { strictEqual } from "assert";
-import { createPromptModule, PromptModule } from "inquirer";
-import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase";
-import { TestContext } from "../../../TestContext";
+import inquirer from "inquirer";
+import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link PromptBase `PromptBase<T>`} class.
@@ -12,7 +12,7 @@ export function PromptBaseTests(): void
         nameof<PromptBase<any>>(),
         () =>
         {
-            let promptModule: PromptModule;
+            let promptModule: inquirer.PromptModule;
             let type = "test" as undefined;
             let testKey = "test" as const;
             let testValue = TestContext.Default.RandomString;
@@ -38,7 +38,7 @@ export function PromptBaseTests(): void
             setup(
                 () =>
                 {
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     promptModule.registerPrompt(type, TestPrompt);
                 });
 

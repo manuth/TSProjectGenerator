@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
-import { TSGeneratorPackageFileMappingTests } from "./TSGeneratorPackageFileMapping.test";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
+import { TSGeneratorPackageFileMappingTests } from "./TSGeneratorPackageFileMapping.test.js";
 
 /**
  * Registers tests for npm file-mappings for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
@@ -12,7 +12,7 @@ import { TSGeneratorPackageFileMappingTests } from "./TSGeneratorPackageFileMapp
 export function NPMPackagingFileMappingTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSGeneratorPackageFileMappingTests(context);

@@ -3,9 +3,9 @@ import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
-import rescape = require("@stdlib/utils-escape-regexp-string");
-import { PackageFileMappingTester } from "../PackageFileMappingTester";
-import { TestConstants } from "./TestConstants";
+import rescape from "@stdlib/utils-escape-regexp-string";
+import { PackageFileMappingTester } from "../PackageFileMappingTester.js";
+import { TestConstants } from "./TestConstants.js";
 
 /**
  * Registers tests for the {@link PackageFileMappingTester `PackageFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class.

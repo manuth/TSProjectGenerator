@@ -1,12 +1,12 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { CodeFileMappingCreator } from "../../../VSCode/FileMappings/CodeFileMappingCreator";
-import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
-import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
-import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
-import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProvider";
-import { TestWorkspaceProcessor } from "./TestWorkspaceProcessor";
+import { JSONProcessor } from "../../../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { CodeFileMappingCreator } from "../../../VSCode/FileMappings/CodeFileMappingCreator.js";
+import { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider.js";
+import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator.js";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata.js";
+import { TestCodeWorkspaceProvider } from "../FileMappings/TestCodeWorkspaceProvider.js";
+import { TestWorkspaceProcessor } from "./TestWorkspaceProcessor.js";
 
 /**
  * Provides an implementation of the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class for testing.

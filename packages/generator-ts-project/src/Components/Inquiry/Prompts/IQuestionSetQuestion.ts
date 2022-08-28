@@ -1,6 +1,6 @@
 import { Answers } from "inquirer";
-import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions";
-import { QuestionSetPrompt } from "./QuestionSetPrompt";
+import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions.js";
+import { QuestionSetPrompt } from "./QuestionSetPrompt.js";
 
 /**
  * Provides options for the {@link QuestionSetPrompt `QuestionSetPrompt<TAnswers, TQuestion>`}.

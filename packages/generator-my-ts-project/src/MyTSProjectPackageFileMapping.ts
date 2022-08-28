@@ -1,9 +1,9 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { IScriptMapping, ITSProjectSettings, ScriptMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { Package, PackageDependencyCollection } from "@manuth/package-json-editor";
-import { Constants } from "./Constants";
+import { Constants } from "./Constants.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { MyTSProjectGenerator } from "./MyTSProjectGenerator";
+import type { MyTSProjectGenerator } from "./MyTSProjectGenerator.js";
 
 /**
  * Represents a file-mapping for the `package.json` file of {@link MyTSProjectGenerator `MyTSProjectGenerator<T>`}s.

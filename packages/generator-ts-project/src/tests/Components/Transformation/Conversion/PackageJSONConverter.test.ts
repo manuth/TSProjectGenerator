@@ -1,8 +1,8 @@
 import { deepStrictEqual, doesNotThrow, ok, strictEqual } from "assert";
 import { Package } from "@manuth/package-json-editor";
 import { parse, stringify } from "comment-json";
-import { PackageJSONConverter } from "../../../../Components/Transformation/Conversion/PackageJSONConverter";
-import { TestContext } from "../../../TestContext";
+import { PackageJSONConverter } from "../../../../Components/Transformation/Conversion/PackageJSONConverter.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link PackageJSONConverter `PackageJSONConverter`} class.

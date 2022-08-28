@@ -1,9 +1,9 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
-import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSModuleGenerator } from "../../TSModuleGenerator";
+import type { TSModuleGenerator } from "../../TSModuleGenerator.js";
 
 /**
  * Represents a file-mapping for the `package.json` file of {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}s.

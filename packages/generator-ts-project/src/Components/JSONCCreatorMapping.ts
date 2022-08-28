@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
-import { IDumper } from "./Transformation/Conversion/IDumper";
-import { JSONCConverter } from "./Transformation/Conversion/JSONCConverter";
+import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping.js";
+import { IDumper } from "./Transformation/Conversion/IDumper.js";
+import { JSONCConverter } from "./Transformation/Conversion/JSONCConverter.js";
 
 /**
  * Provides the functionality to create a json-file.

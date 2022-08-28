@@ -1,25 +1,29 @@
 import { GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
-import { whiteBright } from "chalk";
-import dedent = require("dedent");
-import { ensureDir } from "fs-extra";
-import { join } from "upath";
-import yosay = require("yosay");
-import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { GeneratorName } from "../../Core/GeneratorName";
-import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
-import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection";
-import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
-import { GeneratorMainSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorMainSuiteFileMapping";
-import { GeneratorSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorSuiteFileMapping";
-import { NamingContext } from "./FileMappings/TypeScript/NamingContext";
-import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection";
-import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "./Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey";
+import chalk from "chalk";
+import dedent from "dedent";
+import fs from "fs-extra";
+import upath from "upath";
+import yosay from "yosay";
+import { SubGeneratorPrompt } from "../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
+import { GeneratorName } from "../../Core/GeneratorName.js";
+import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
+import { TSGeneratorComponentCollection } from "./Components/TSGeneratorComponentCollection.js";
+import { TSGeneratorPackageFileMapping } from "./FileMappings/NPMPackaging/TSGeneratorPackageFileMapping.js";
+import { GeneratorMainSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorMainSuiteFileMapping.js";
+import { GeneratorSuiteFileMapping } from "./FileMappings/TypeScript/GeneratorSuiteFileMapping.js";
+import { NamingContext } from "./FileMappings/TypeScript/NamingContext.js";
+import { TSGeneratorQuestionCollection } from "./Inquiry/TSGeneratorQuestionCollection.js";
+import { ITSGeneratorSettings } from "./Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "./Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "./Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "./Settings/TSGeneratorSettingKey.js";
+
+const { whiteBright } = chalk;
+const { ensureDir } = fs;
+const { join } = upath;
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.

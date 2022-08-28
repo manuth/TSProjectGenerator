@@ -1,4 +1,4 @@
-import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection";
+import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection.js";
 
 /**
  * Provides all dependencies for example-generators.

@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
-import { LintingComponentTests } from "./LintingComponent.test";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { LintingComponentTests } from "./LintingComponent.test.js";
 
 /**
  * Registers tests for linting-components.
@@ -12,7 +12,7 @@ import { LintingComponentTests } from "./LintingComponent.test";
 export function ComponentTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             LintingComponentTests(context);

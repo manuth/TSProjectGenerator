@@ -1,6 +1,7 @@
 {
   "name": "@manuth/generator-ts-project",
   "version": "3.1.0",
+  "type": "module",
   "description": "A Set of Generators for Creating Projects Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
   "license": "MIT",
@@ -31,7 +32,7 @@
     "watch": "npm run build -- --watch",
     "clean-base": "npm run build -- --clean && rimraf",
     "clean": "npm run clean-base -- ../*/lib",
-    "lint-code": "eslint --max-warnings 0 ./src .eslintrc.js",
+    "lint-code": "eslint --max-warnings 0 ./src .eslintrc.cjs",
     "lint-code-ide": "npm run lint-code || exit 0",
     "lint-docs": "markdownlint ./templates/**/*.md  ./templates/**/*.md.ejs",
     "lint": "npm run lint-code && npm run lint-docs",

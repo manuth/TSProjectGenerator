@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { ModuleIndexFileMappingTests } from "./ModuleIndexFileMapping.test";
-import { SuiteFileMappingTests } from "./SuiteFileMapping.test";
-import { TestFileMappingTests } from "./TestFileMapping.test";
+import { ModuleIndexFileMappingTests } from "./ModuleIndexFileMapping.test.js";
+import { SuiteFileMappingTests } from "./SuiteFileMapping.test.js";
+import { TestFileMappingTests } from "./TestFileMapping.test.js";
 
 /**
  * Registers tests for the typescript file-mappings.
@@ -9,7 +9,7 @@ import { TestFileMappingTests } from "./TestFileMapping.test";
 export function TypeScriptTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             ModuleIndexFileMappingTests();

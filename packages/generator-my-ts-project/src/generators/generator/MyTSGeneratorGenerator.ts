@@ -1,6 +1,9 @@
+import { createRequire } from "module";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSGeneratorSettings, TSGeneratorGenerator } from "@manuth/generator-ts-project";
-import { MyTSProjectGenerator } from "../../MyTSProjectGenerator";
+import { MyTSProjectGenerator } from "../../MyTSProjectGenerator.js";
+
+const basePath = createRequire(import.meta.url).resolve("@manuth/generator-ts-project");
 
 /**
  * Provides the functionality to generate a custom generator written in TypeScript.
@@ -11,7 +14,7 @@ import { MyTSProjectGenerator } from "../../MyTSProjectGenerator";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class MyTSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends MyTSProjectGenerator.Create(TSGeneratorGenerator, require.resolve("@manuth/generator-ts-project"))<TSettings, TOptions>
+export class MyTSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGeneratorSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends MyTSProjectGenerator.Create(TSGeneratorGenerator, basePath)<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link MyTSGeneratorGenerator `MyTSGeneratorGenerator<TSettings, TOptions>`} class.

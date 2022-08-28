@@ -1,13 +1,15 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
-import { dirname, normalize, relative } from "upath";
-import { GeneratorMainSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorMainSuiteFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey";
-import { TestContext } from "../../../../TestContext";
+import upath from "upath";
+import { GeneratorMainSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorMainSuiteFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
+import { TestContext } from "../../../../TestContext.js";
+
+const { dirname, normalize, relative } = upath;
 
 /**
  * Registers the tests for the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class.

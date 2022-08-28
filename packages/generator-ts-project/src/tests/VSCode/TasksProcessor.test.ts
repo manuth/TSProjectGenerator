@@ -1,10 +1,10 @@
 import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
-import { ITaskSettings } from "../../VSCode/ITaskSettings";
-import { TasksProcessor } from "../../VSCode/TasksProcessor";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
+import { ITaskSettings } from "../../VSCode/ITaskSettings.js";
+import { TasksProcessor } from "../../VSCode/TasksProcessor.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link TasksProcessor `TasksProcessor<TSettings, TOptions>`} class.

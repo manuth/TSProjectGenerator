@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { PackageFileMappingTests } from "./PackageFileMapping.test";
+import { PackageFileMappingTests } from "./PackageFileMapping.test.js";
 
 /**
  * Registers tests for file-mappings related to npm-packaging.
@@ -7,7 +7,7 @@ import { PackageFileMappingTests } from "./PackageFileMapping.test";
 export function FileMappingTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             PackageFileMappingTests();

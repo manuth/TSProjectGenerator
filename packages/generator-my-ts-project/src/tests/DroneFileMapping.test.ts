@@ -3,8 +3,8 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
-import { DroneFileMapping } from "../DroneFileMapping";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { DroneFileMapping } from "../DroneFileMapping.js";
+import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator.js";
 
 /**
  * Registers tests for the {@link DroneFileMapping `DroneFileMapping<TSettings, TOptions>`} class.

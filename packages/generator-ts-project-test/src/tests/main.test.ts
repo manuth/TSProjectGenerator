@@ -1,12 +1,12 @@
-import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTester.test";
-import { DependencyCollectionTesterTests } from "./DependencyCollectionTester.test";
-import { InquiryTests } from "./Inquiry";
-import { NPMIgnoreFileMappingTesterTests } from "./NPMIgnoreFileMappingTester.test";
-import { PackageFileMappingTesterTests } from "./PackageFileMappingTester.test";
-import { ParsableFileMappingTesterTests } from "./ParsableFileMappingTester.test";
-import { ParsedFileMappingTesterTests } from "./ParsedFileMappingTester.test";
-import { TestContextTests } from "./TestContext.test";
-import { TypeScriptFileMappingTesterTests } from "./TypeScriptFileMappingTester.test";
+import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTester.test.js";
+import { DependencyCollectionTesterTests } from "./DependencyCollectionTester.test.js";
+import { InquiryTests } from "./Inquiry/index.js";
+import { NPMIgnoreFileMappingTesterTests } from "./NPMIgnoreFileMappingTester.test.js";
+import { PackageFileMappingTesterTests } from "./PackageFileMappingTester.test.js";
+import { ParsableFileMappingTesterTests } from "./ParsableFileMappingTester.test.js";
+import { ParsedFileMappingTesterTests } from "./ParsedFileMappingTester.test.js";
+import { TestContextTests } from "./TestContext.test.js";
+import { TypeScriptFileMappingTesterTests } from "./TypeScriptFileMappingTester.test.js";
 
 suite(
     "TSProjectGeneratorTest",

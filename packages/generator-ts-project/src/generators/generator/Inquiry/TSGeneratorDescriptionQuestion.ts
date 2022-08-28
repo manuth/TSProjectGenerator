@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
+import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
 
 /**
  * Provides a question for asking for description of a generator.

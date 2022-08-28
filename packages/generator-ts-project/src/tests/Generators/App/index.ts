@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { AppGenerator } from "../../../generators/app/AppGenerator";
-import { TestContext } from "../../TestContext";
-import { AppGeneratorTests } from "./AppGenerator.test";
+import { AppGenerator } from "../../../generators/app/AppGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { AppGeneratorTests } from "./AppGenerator.test.js";
 
 /**
  * Registers tests for the generators.
@@ -12,7 +12,7 @@ import { AppGeneratorTests } from "./AppGenerator.test";
 export function AppTests(context: TestContext<AppGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             AppGeneratorTests(context);

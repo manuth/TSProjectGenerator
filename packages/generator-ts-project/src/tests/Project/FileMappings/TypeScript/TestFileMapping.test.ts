@@ -3,8 +3,8 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { CallExpression, SourceFile, SyntaxKind } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping.js";
 
 /**
  * Registers tests for the {@link TestFileMapping `TestFileMapping<TSettings, TOptions>`} class.

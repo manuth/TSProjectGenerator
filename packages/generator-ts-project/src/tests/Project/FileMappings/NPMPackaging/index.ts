@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
-import { TestContext } from "../../../TestContext";
-import { TSProjectPackageFileMappingTests } from "./TSProjectPackageFileMapping.test";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+import { TSProjectPackageFileMappingTests } from "./TSProjectPackageFileMapping.test.js";
 
 /**
  * Registers npm-packaging tests for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
@@ -12,7 +12,7 @@ import { TSProjectPackageFileMappingTests } from "./TSProjectPackageFileMapping.
 export function NPMPackagingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSProjectPackageFileMappingTests(context);

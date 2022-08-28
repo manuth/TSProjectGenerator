@@ -4,15 +4,17 @@ import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
-import { remove } from "fs-extra";
+import fs from "fs-extra";
 import { createSandbox, SinonSandbox } from "sinon";
-import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
-import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
-import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
-import { TestContext } from "../../TestContext";
-import { TestScriptTransformer } from "../Scripts/TestScriptTransformer";
-import { ITestPackageOptions } from "./ITestPackageOptions";
-import { TestPackageFileMapping } from "./TestPackageFileMapping";
+import type { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping.js";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping.js";
+import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping.js";
+import { TestContext } from "../../TestContext.js";
+import { TestScriptTransformer } from "../Scripts/TestScriptTransformer.js";
+import { ITestPackageOptions } from "./ITestPackageOptions.js";
+import { TestPackageFileMapping } from "./TestPackageFileMapping.js";
+
+const { remove } = fs;
 
 /**
  * Registers tests for the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class.

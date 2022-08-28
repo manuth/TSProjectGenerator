@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../TestContext";
-import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSettingsProcessor.test";
+import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSettingsProcessor.test.js";
 
 /**
  * Registers tests for VSCode-components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
@@ -12,7 +12,7 @@ import { TSGeneratorLaunchSettingsProcessorTests } from "./TSGeneratorLaunchSett
 export function VSCodeTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSGeneratorLaunchSettingsProcessorTests(context);

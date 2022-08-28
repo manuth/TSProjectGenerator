@@ -1,8 +1,10 @@
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { InputQuestionOptions } from "inquirer";
-import { basename } from "upath";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
+import upath from "upath";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
+
+const { basename } = upath;
 
 /**
  * Provides a question for asking for a human-readable name of a project.

@@ -1,7 +1,7 @@
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping";
-import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
-import { CodeFileMappingCreator } from "./CodeFileMappingCreator";
+import { JSONCCreatorMapping } from "../../Components/JSONCCreatorMapping.js";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent.js";
+import { CodeFileMappingCreator } from "./CodeFileMappingCreator.js";
 
 /**
  * Provides the functionality to create file-mappings for a workspace-file.

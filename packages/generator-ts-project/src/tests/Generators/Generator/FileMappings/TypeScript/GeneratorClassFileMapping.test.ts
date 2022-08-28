@@ -6,16 +6,16 @@ import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempDirectory, TempFileSystem } from "@manuth/temp-files";
 import { DistinctQuestion } from "inquirer";
 import { SourceFile } from "ts-morph";
-import { TSGeneratorCategory } from "../../../../../generators/generator/Components/TSGeneratorCategory";
-import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
-import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { PackageFileMapping } from "../../../../../NPMPackaging/FileMappings/PackageFileMapping";
-import { TestContext } from "../../../../TestContext";
+import { TSGeneratorCategory } from "../../../../../generators/generator/Components/TSGeneratorCategory.js";
+import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { PackageFileMapping } from "../../../../../NPMPackaging/FileMappings/PackageFileMapping.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link GeneratorClassFileMapping `GeneratorClassFileMapping<TSettings, TOptions>`} class.
@@ -105,12 +105,6 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
 
                     settingKeyEnum = (await settingKeyTester.Require())[namingContext.SettingKeyEnumName];
                     licenseTypeEnum = (await licenseTypeTester.Require())[namingContext.LicenseTypeEnumName];
-                });
-
-            suiteTeardown(
-                () =>
-                {
-                    context.InvalidateRequireCache();
                 });
 
             suite(

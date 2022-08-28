@@ -1,17 +1,17 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../VSCode/ITaskSettings";
-import { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { JSONProcessor } from "../../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent.js";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../VSCode/ITaskSettings.js";
+import { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectExtensionsProcessor } from "./TSProjectExtensionsProcessor";
-import { TSProjectLaunchSettingsProcessor } from "./TSProjectLaunchSettingsProcessor";
-import { TSProjectSettingsProcessor } from "./TSProjectSettingsProcessor";
-import { TSProjectTasksProcessor } from "./TSProjectTasksProcessor";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectExtensionsProcessor } from "./TSProjectExtensionsProcessor.js";
+import { TSProjectLaunchSettingsProcessor } from "./TSProjectLaunchSettingsProcessor.js";
+import { TSProjectSettingsProcessor } from "./TSProjectSettingsProcessor.js";
+import { TSProjectTasksProcessor } from "./TSProjectTasksProcessor.js";
 
 /**
  * Provides the functionality to process workspaces for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

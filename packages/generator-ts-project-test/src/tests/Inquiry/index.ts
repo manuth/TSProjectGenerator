@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { TestPromptTests } from "./TestPrompt.test";
+import { TestPromptTests } from "./TestPrompt.test.js";
 
 /**
  * Registers tests for inquiry-components.
@@ -7,7 +7,7 @@ import { TestPromptTests } from "./TestPrompt.test";
 export function InquiryTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TestPromptTests();

@@ -1,9 +1,10 @@
 import { doesNotThrow, strictEqual } from "assert";
 import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
-import npmWhich = require("npm-which");
-import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
-import { TestContext } from "../../TestContext";
+import npmWhich from "npm-which";
+import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
@@ -17,6 +18,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         nameof(TSModuleGenerator),
         () =>
         {
+            let npmPath: string;
             let runContext: IRunContext<TSModuleGenerator>;
             let generator: TSModuleGenerator;
             let testContext: IRunContext<TSModuleGenerator>;
@@ -26,12 +28,13 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     runContext = context.ExecuteGenerator();
                     await runContext.toPromise();
                     generator = runContext.generator;
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
@@ -41,7 +44,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                         });
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"
@@ -71,7 +74,6 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(1 * 60 * 1000);
                     testContext.cleanTestDirectory();
-                    context.InvalidateRequireCache();
                 });
 
             test(
@@ -82,7 +84,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.slow(3 * 60 * 1000);
 
                     let installationResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
@@ -92,7 +94,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                         });
 
                     let buildResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"

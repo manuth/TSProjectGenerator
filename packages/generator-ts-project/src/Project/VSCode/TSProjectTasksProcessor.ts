@@ -1,10 +1,10 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TaskDefinition } from "vscode";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { TasksProcessor } from "../../VSCode/TasksProcessor";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent.js";
+import { TasksProcessor } from "../../VSCode/TasksProcessor.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
 
 /**
  * Provides the functionality to process tasks for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

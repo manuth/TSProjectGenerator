@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Document } from "yaml";
-import { YAMLConverter } from "./Conversion/YAMLConverter";
-import { ParsedFileMapping } from "./ParsedFileMapping";
+import { YAMLConverter } from "./Conversion/YAMLConverter.js";
+import { ParsedFileMapping } from "./ParsedFileMapping.js";
 
 /**
  * Provides the functionality to transform and copy YAML-code.

@@ -4,10 +4,13 @@ import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { NPMIgnoreFileMapping } from "@manuth/generator-ts-project";
 import { TempDirectory, TempFile } from "@manuth/temp-files";
-import dedent = require("dedent");
-import { ensureFile, pathExists, readFile, writeFile } from "fs-extra";
-import { normalize } from "upath";
-import { NPMIgnoreFileMappingTester } from "../NPMIgnoreFileMappingTester";
+import dedent from "dedent";
+import fs from "fs-extra";
+import upath from "upath";
+import { NPMIgnoreFileMappingTester } from "../NPMIgnoreFileMappingTester.js";
+
+const { ensureFile, pathExists, readFile, writeFile } = fs;
+const { normalize } = upath;
 
 /**
  * Registers tests for the {@link NPMIgnoreFileMappingTester `NPMIgnoreFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class.

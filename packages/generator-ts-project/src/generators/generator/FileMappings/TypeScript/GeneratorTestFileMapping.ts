@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping";
-import { NamingContext } from "./NamingContext";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file for testing a generator.

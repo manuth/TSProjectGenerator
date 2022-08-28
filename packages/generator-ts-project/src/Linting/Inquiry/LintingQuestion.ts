@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { ChoiceCollection, ListQuestionOptions } from "inquirer";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
-import { LintRuleset } from "../LintRuleset";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey.js";
+import { LintRuleset } from "../LintRuleset.js";
 
 /**
  * Provides a question for asking for the linting-ruleset.

@@ -1,9 +1,9 @@
 import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { ESLintRCFileMapping } from "../FileMappings/ESLintRCFileMapping";
-import { LintingQuestion } from "../Inquiry/LintingQuestion";
+import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping.js";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent.js";
+import { ESLintRCFileMapping } from "../FileMappings/ESLintRCFileMapping.js";
+import { LintingQuestion } from "../Inquiry/LintingQuestion.js";
 
 /**
  * Provides a component which allows creating files for linting the workspace.

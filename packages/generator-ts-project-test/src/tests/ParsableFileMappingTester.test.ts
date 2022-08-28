@@ -3,7 +3,7 @@ import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IParser, JSONCConverter } from "@manuth/generator-ts-project";
 import { TempFile } from "@manuth/temp-files";
-import { ParsableFileMappingTester } from "../ParsableFileMappingTester";
+import { ParsableFileMappingTester } from "../ParsableFileMappingTester.js";
 
 /**
  * Registers tests for the {@link ParsableFileMappingTester `ParsableFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping, TParsed>`} class.

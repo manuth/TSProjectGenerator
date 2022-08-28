@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { DependencyTests } from "./Dependencies";
-import { FileMappingTests } from "./FileMappings";
-import { ScriptTests } from "./Scripts";
+import { DependencyTests } from "./Dependencies/index.js";
+import { FileMappingTests } from "./FileMappings/index.js";
+import { ScriptTests } from "./Scripts/index.js";
 
 /**
  * Registers tests for npm-packaging components.
@@ -9,7 +9,7 @@ import { ScriptTests } from "./Scripts";
 export function NPMPackagingTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             DependencyTests();

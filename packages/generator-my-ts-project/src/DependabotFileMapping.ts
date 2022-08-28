@@ -1,8 +1,10 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { YAMLTransformMapping } from "@manuth/generator-ts-project";
-import { join } from "upath";
+import upath from "upath";
 import { Document } from "yaml";
 import { toJS } from "yaml/util";
+
+const { join } = upath;
 
 /**
  * Provides the functionality to create a dependabot configuration.

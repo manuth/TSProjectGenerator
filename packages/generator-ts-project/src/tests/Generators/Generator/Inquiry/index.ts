@@ -1,8 +1,8 @@
 import { basename } from "path";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../TestContext";
-import { TSGeneratorModuleNameQuestionTests } from "./TSGeneratorModuleNameQuestion.test";
-import { TSGeneratorQuestionCollectionTests } from "./TSGeneratorQuestionCollection.test";
+import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+import { TSGeneratorModuleNameQuestionTests } from "./TSGeneratorModuleNameQuestion.test.js";
+import { TSGeneratorQuestionCollectionTests } from "./TSGeneratorQuestionCollection.test.js";
 
 /**
  * Registers inquiry-components for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
@@ -13,7 +13,7 @@ import { TSGeneratorQuestionCollectionTests } from "./TSGeneratorQuestionCollect
 export function InquiryTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSGeneratorModuleNameQuestionTests(context);

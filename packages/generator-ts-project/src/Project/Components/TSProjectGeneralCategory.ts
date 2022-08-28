@@ -1,9 +1,9 @@
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IGenerator } from "@manuth/extended-yo-generator";
-import { LintingComponent } from "../../Linting/Components/LintingComponent";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { LintingComponent } from "../../Linting/Components/LintingComponent.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectCodeWorkspaceFolder } from "./TSProjectCodeWorkspaceFolder";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectCodeWorkspaceFolder } from "./TSProjectCodeWorkspaceFolder.js";
 
 /**
  * Provides general components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

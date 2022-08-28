@@ -2,7 +2,7 @@ import { ok, strictEqual } from "assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings, Predicate } from "@manuth/extended-yo-generator";
 import { PackageJSONConverter, TextConverter } from "@manuth/generator-ts-project";
 import { DependencyCollection, IDependencyCollectionOptions, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
-import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
+import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
 
 /**
  * Provides the functionality to test `package.json` file-mappings.

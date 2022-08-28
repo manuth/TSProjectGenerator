@@ -1,20 +1,21 @@
 import { doesNotReject, strictEqual } from "assert";
 import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import { TempDirectory } from "@manuth/temp-files";
-import npmWhich = require("npm-which");
+import npmWhich from "npm-which";
 import { Project, SyntaxKind } from "ts-morph";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey";
-import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TestContext } from "../../TestContext";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey.js";
+import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
@@ -28,6 +29,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         nameof(TSGeneratorGenerator),
         () =>
         {
+            let npmPath: string;
             let tempDir: TempDirectory;
             let runContext: IRunContext<TSGeneratorGenerator>;
             let testContext: IRunContext<TSGeneratorGenerator>;
@@ -39,6 +41,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -65,7 +68,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                     generator = runContext.generator;
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
@@ -75,7 +78,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         });
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"
@@ -120,7 +123,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             this.slow(5 * 60 * 1000);
 
                             let installationResult = spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "install",
                                     "--silent"
@@ -130,7 +133,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                 });
 
                             let buildResult = spawnSync(
-                                npmWhich(__dirname).sync("npm"),
+                                npmPath,
                                 [
                                     "run",
                                     "build"

@@ -1,9 +1,9 @@
 import { ok } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
-import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
+import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor.js";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link ExtensionsProcessor `ExtensionsProcessor<TSettings, TOptions>`} class.

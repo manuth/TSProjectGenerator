@@ -1,6 +1,6 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { LintRuleset } from "../../Linting/LintRuleset";
-import { TSProjectSettingKey } from "./TSProjectSettingKey";
+import { LintRuleset } from "../../Linting/LintRuleset.js";
+import { TSProjectSettingKey } from "./TSProjectSettingKey.js";
 
 /**
  * Provides settings for project-generators.

@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
-import { ESLintRCFileMappingTests } from "./ESLintRCFileMapping.test";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { ESLintRCFileMappingTests } from "./ESLintRCFileMapping.test.js";
 
 /**
  * Registers file-mapping components related to linting.
@@ -12,7 +12,7 @@ import { ESLintRCFileMappingTests } from "./ESLintRCFileMapping.test";
 export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             ESLintRCFileMappingTests(context);

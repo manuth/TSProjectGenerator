@@ -1,7 +1,7 @@
 import { Interface } from "readline";
 import { ReadStream } from "tty";
 import { Answers, Question } from "inquirer";
-import { PromptBase } from "./PromptBase";
+import { PromptBase } from "./PromptBase.js";
 
 /**
  * Represents a prompt which is capable of being suspended.

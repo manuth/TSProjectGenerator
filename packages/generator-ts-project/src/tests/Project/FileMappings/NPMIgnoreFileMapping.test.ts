@@ -3,11 +3,13 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
 import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName } from "types-tsconfig";
-import { changeExt } from "upath";
-import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import upath from "upath";
+import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+
+const { changeExt } = upath;
 
 /**
  * Registers tests for the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.

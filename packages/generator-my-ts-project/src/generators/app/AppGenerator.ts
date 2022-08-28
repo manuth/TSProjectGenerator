@@ -1,6 +1,9 @@
+import { fileURLToPath } from "url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { AppGenerator as AppGeneratorBase, GeneratorName, IProjectType, ProjectType } from "@manuth/generator-ts-project";
-import { join } from "upath";
+import upath from "upath";
+
+const { join } = upath;
 
 /**
  * Provides the functionality to generate a generator written in TypeScript.
@@ -26,20 +29,22 @@ export class AppGenerator extends AppGeneratorBase
      */
     protected override get ProjectTypes(): Map<ProjectType, IProjectType>
     {
+        let dirName = fileURLToPath(new URL(".", import.meta.url));
+
         return new Map<ProjectType, IProjectType>(
             [
                 [
                     ProjectType.Module,
                     {
                         DisplayName: "NPM-Module",
-                        Path: join(__dirname, "..", GeneratorName.Module)
+                        Path: join(dirName, "..", GeneratorName.Module, "index.js")
                     }
                 ],
                 [
                     ProjectType.Generator,
                     {
                         DisplayName: "Yeoman-Generator",
-                        Path: join(__dirname, "..", GeneratorName.Generator)
+                        Path: join(dirName, "..", GeneratorName.Generator, "index.js")
                     }
                 ]
             ]);

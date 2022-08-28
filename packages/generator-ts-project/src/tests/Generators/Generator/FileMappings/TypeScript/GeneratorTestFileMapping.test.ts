@@ -1,10 +1,10 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link GeneratorTestFileMapping `GeneratorTestFileMapping<TSettings, TOptions>`} class.

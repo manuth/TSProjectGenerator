@@ -1,13 +1,13 @@
 import { ReadLine } from "readline";
-import { Answers, DistinctQuestion, prompt } from "inquirer";
-import kebabCase = require("lodash.kebabcase");
-import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator";
-import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { ArrayPrompt } from "./ArrayPrompt";
-import { IArrayPromptHash } from "./IArrayPromptHash";
-import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
-import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion";
+import inquirer from "inquirer";
+import kebabCase from "lodash.kebabcase";
+import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator.js";
+import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { ArrayPrompt } from "./ArrayPrompt.js";
+import { IArrayPromptHash } from "./IArrayPromptHash.js";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
+import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion.js";
 
 declare module "inquirer"
 {
@@ -49,7 +49,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      * @param answers
      * The answer-object.
      */
-    public constructor(question: T, readLine: ReadLine, answers: Answers)
+    public constructor(question: T, readLine: ReadLine, answers: inquirer.Answers)
     {
         super(question, readLine, answers);
     }
@@ -65,7 +65,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      */
     protected PromptItem(items: readonly ISubGenerator[]): Promise<ISubGenerator>
     {
-        return prompt(
+        return inquirer.prompt(
             [
                 {
                     name: SubGeneratorSettingKey.DisplayName,
@@ -121,7 +121,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      * @returns
      * A question for asking the user whether another item should be added.
      */
-    protected override async GetRepetitionQuestion(items: readonly ISubGenerator[]): Promise<DistinctQuestion<IArrayPromptHash>>
+    protected override async GetRepetitionQuestion(items: readonly ISubGenerator[]): Promise<inquirer.DistinctQuestion<IArrayPromptHash>>
     {
         return {
             ...await super.GetRepetitionQuestion(items),

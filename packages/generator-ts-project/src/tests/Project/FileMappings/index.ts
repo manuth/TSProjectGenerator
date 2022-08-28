@@ -1,9 +1,9 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
-import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test";
-import { NPMPackagingTests } from "./NPMPackaging";
-import { TypeScriptTests } from "./TypeScript";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { NPMIgnoreFileMappingTests } from "./NPMIgnoreFileMapping.test.js";
+import { NPMPackagingTests } from "./NPMPackaging/index.js";
+import { TypeScriptTests } from "./TypeScript/index.js";
 
 /**
  * Registers tests for file-mappings for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}.
@@ -14,7 +14,7 @@ import { TypeScriptTests } from "./TypeScript";
 export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             NPMIgnoreFileMappingTests(context);

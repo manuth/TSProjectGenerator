@@ -1,12 +1,14 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { join, normalize } from "upath";
+import upath from "upath";
 import { DebugConfiguration } from "vscode";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent.js";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings.js";
+import { LaunchSettingsProcessor } from "../../VSCode/LaunchSettingsProcessor.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+
+const { join, normalize } = upath;
 
 /**
  * Provides the functionality to process debug-configurations for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

@@ -1,12 +1,14 @@
 import { GeneratorName } from "@manuth/generator-ts-project";
 import { GeneratorContext } from "@manuth/generator-ts-project-test";
-import { join } from "upath";
-import { DependabotFileMappingTests } from "./DependabotFileMapping.test";
-import { DroneFileMappingTests } from "./DroneFileMapping.test";
-import { MarkdownFileProcessorTests } from "./MarkdownFileProcessor.test";
-import { MyTSProjectGeneratorTests } from "./MyTSProjectGenerator.test";
-import { MyTSProjectPackageFileMappingTests } from "./MyTSProjectPackageFileMapping.test";
-import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
+import upath from "upath";
+import { DependabotFileMappingTests } from "./DependabotFileMapping.test.js";
+import { DroneFileMappingTests } from "./DroneFileMapping.test.js";
+import { MarkdownFileProcessorTests } from "./MarkdownFileProcessor.test.js";
+import { MyTSProjectGeneratorTests } from "./MyTSProjectGenerator.test.js";
+import { MyTSProjectPackageFileMappingTests } from "./MyTSProjectPackageFileMapping.test.js";
+import { TestTSModuleGenerator } from "./TestTSModuleGenerator.js";
+
+const { join } = upath;
 
 suite(
     "MyTSProjectGenerator",

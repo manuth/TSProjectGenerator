@@ -1,11 +1,13 @@
 import { EOL } from "os";
 import { basename, dirname, isAbsolute, relative, resolve } from "path";
 import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
-import { whiteBright } from "chalk";
+import chalk from "chalk";
 import { ChoiceOptions, ListQuestion } from "inquirer";
 import { ConstructorDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
+
+const { whiteBright } = chalk;
 
 /**
  * Provides the functionality to create a file which provides license-types.

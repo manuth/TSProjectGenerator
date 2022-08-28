@@ -1,9 +1,9 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TempFileSystem } from "@manuth/temp-files";
 import { CompilerNodeToWrappedType, createWrappedNode, Expression, ExpressionStatement, printNode, Project, SourceFile, ts } from "ts-morph";
-import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
-import { IDumper } from "./Transformation/Conversion/IDumper";
-import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConverter";
+import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping.js";
+import { IDumper } from "./Transformation/Conversion/IDumper.js";
+import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConverter.js";
 
 /**
  * Provides the functionality to create typescript-files.

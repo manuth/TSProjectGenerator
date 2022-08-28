@@ -1,9 +1,9 @@
 import { EOL } from "os";
-import inquirer = require("inquirer");
+import inquirer from "inquirer";
 import { stdin } from "mock-stdin";
-import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt";
-import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase";
-import { TestContext } from "../../../TestContext";
+import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt.js";
+import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase.js";
+import { TestContext } from "../../../TestContext.js";
 
 (
     async () =>

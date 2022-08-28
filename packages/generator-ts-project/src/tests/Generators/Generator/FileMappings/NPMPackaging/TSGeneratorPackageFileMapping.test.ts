@@ -2,13 +2,13 @@ import { ok, strictEqual } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
-import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies";
-import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies";
-import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping";
-import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { TSGeneratorDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorDependencies.js";
+import { TSGeneratorExampleDependencies } from "../../../../../generators/generator/Dependencies/TSGeneratorExampleDependencies.js";
+import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping.js";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSGeneratorPackageFileMapping `TSGeneratorPackageFileMapping<TSettings, TOptions>`} class.

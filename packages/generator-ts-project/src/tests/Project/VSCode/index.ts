@@ -1,10 +1,10 @@
 import { basename } from "path";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
-import { TSProjectExtensionsProcessorTests } from "./TSProjectExtensionsProcessor.test";
-import { TSProjectLaunchSettingsProcessorTests } from "./TSProjectLaunchSettingsProcessor.test";
-import { TSProjectSettingsProcessorTests } from "./TSProjectSettingsProcessor.test";
-import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { TSProjectExtensionsProcessorTests } from "./TSProjectExtensionsProcessor.test.js";
+import { TSProjectLaunchSettingsProcessorTests } from "./TSProjectLaunchSettingsProcessor.test.js";
+import { TSProjectSettingsProcessorTests } from "./TSProjectSettingsProcessor.test.js";
+import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test.js";
 
 /**
  * Registers tests for `VSCode` components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.
@@ -15,7 +15,7 @@ import { TSProjectTasksProcessorTests } from "./TSProjectTasksProcessor.test";
 export function VSCodeTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSProjectExtensionsProcessorTests(context);

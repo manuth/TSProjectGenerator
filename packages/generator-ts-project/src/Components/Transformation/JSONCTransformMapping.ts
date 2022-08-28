@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONCConverter } from "./Conversion/JSONCConverter";
-import { TextConverter } from "./Conversion/TextConverter";
-import { ParsedFileMapping } from "./ParsedFileMapping";
+import { JSONCConverter } from "./Conversion/JSONCConverter.js";
+import { TextConverter } from "./Conversion/TextConverter.js";
+import { ParsedFileMapping } from "./ParsedFileMapping.js";
 
 /**
  * Provides the functionality to transform and copy JSON-code.

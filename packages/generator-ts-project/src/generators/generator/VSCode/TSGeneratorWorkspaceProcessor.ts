@@ -1,14 +1,14 @@
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../../Components/JSONProcessor";
-import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { ExtensionsProcessor } from "../../../VSCode/ExtensionsProcessor";
-import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+import { JSONProcessor } from "../../../Components/JSONProcessor.js";
+import { TSProjectWorkspaceProcessor } from "../../../Project/VSCode/TSProjectWorkspaceProcessor.js";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { ExtensionsProcessor } from "../../../VSCode/ExtensionsProcessor.js";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
-import { TSGeneratorLaunchSettingsProcessor } from "./TSGeneratorLaunchSettingsProcessor";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
+import { TSGeneratorLaunchSettingsProcessor } from "./TSGeneratorLaunchSettingsProcessor.js";
 
 /**
  * Provides the functionality to process workspaces for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

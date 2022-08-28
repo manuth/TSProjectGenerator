@@ -1,17 +1,17 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator, Predicate } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { Constants } from "../../../Core/Constants";
-import { TSConfigFileMapping } from "../../../index";
-import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials";
-import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
-import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
-import { ScriptProcessor } from "../../../NPMPackaging/Scripts/ScriptProcessor";
-import { ITSProjectSettings } from "../../Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey";
+import { TSConfigFileMapping } from "../../../Components/Transformation/TSConfigFileMapping.js";
+import { Constants } from "../../../Core/Constants.js";
+import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies.js";
+import { LintEssentials } from "../../../NPMPackaging/Dependencies/LintEssentials.js";
+import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping.js";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping.js";
+import { ScriptProcessor } from "../../../NPMPackaging/Scripts/ScriptProcessor.js";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../../TSProjectGenerator";
+import type { TSProjectGenerator } from "../../TSProjectGenerator.js";
 
 /**
  * Represents a file-mapping for the `package.json` file of {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

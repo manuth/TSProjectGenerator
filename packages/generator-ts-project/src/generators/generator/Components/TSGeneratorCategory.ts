@@ -1,22 +1,22 @@
 import { join } from "path";
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
-import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { GeneratorClassFileMapping } from "../FileMappings/TypeScript/GeneratorClassFileMapping";
-import { GeneratorIndexFileMapping } from "../FileMappings/TypeScript/GeneratorIndexFileMapping";
-import { GeneratorTestFileMapping } from "../FileMappings/TypeScript/GeneratorTestFileMapping";
-import { LicenseTypeFileMapping } from "../FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { GeneratorClassFileMapping } from "../FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { GeneratorIndexFileMapping } from "../FileMappings/TypeScript/GeneratorIndexFileMapping.js";
+import { GeneratorTestFileMapping } from "../FileMappings/TypeScript/GeneratorTestFileMapping.js";
+import { LicenseTypeFileMapping } from "../FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
 
 /**
  * Provides general components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

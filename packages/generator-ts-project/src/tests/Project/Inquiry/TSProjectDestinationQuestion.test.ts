@@ -3,10 +3,10 @@ import { resolve } from "path";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempDirectory } from "@manuth/temp-files";
 import { popd, pushd } from "util.chdir";
-import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSProjectDestinationQuestion `TSProjectDestinationQuestion<TSettings, TOptions>`} class.

@@ -4,11 +4,13 @@ import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import type { Linter } from "eslint";
 import { ExportAssignment, Node, SourceFile } from "ts-morph";
 import { fileName } from "types-eslintrc";
-import { changeExt } from "upath";
-import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
-import { LintRuleset } from "../LintRuleset";
+import upath from "upath";
+import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping.js";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey.js";
+import { LintRuleset } from "../LintRuleset.js";
+
+const { changeExt } = upath;
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.

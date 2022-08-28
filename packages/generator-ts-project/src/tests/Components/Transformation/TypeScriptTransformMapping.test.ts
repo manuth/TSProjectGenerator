@@ -3,11 +3,13 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
-import dedent = require("dedent");
-import { writeFile } from "fs-extra";
+import dedent from "dedent";
+import fs from "fs-extra";
 import { SourceFile, VariableDeclarationKind } from "ts-morph";
-import { TypeScriptTransformMapping } from "../../../Components/Transformation/TypeScriptTransformMapping";
-import { TestContext } from "../../TestContext";
+import { TypeScriptTransformMapping } from "../../../Components/Transformation/TypeScriptTransformMapping.js";
+import { TestContext } from "../../TestContext.js";
+
+const { writeFile } = fs;
 
 /**
  * Registers tests for the {@link TypeScriptTransformMapping `TypeScriptTransformMapping<TSettings, TOptions>`} class.

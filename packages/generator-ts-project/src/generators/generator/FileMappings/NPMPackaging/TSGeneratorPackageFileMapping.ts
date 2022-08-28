@@ -1,12 +1,12 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
-import { TSGeneratorDependencies } from "../../Dependencies/TSGeneratorDependencies";
-import { TSGeneratorExampleDependencies } from "../../Dependencies/TSGeneratorExampleDependencies";
-import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings";
-import { TSGeneratorComponent } from "../../Settings/TSGeneratorComponent";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { TSGeneratorDependencies } from "../../Dependencies/TSGeneratorDependencies.js";
+import { TSGeneratorExampleDependencies } from "../../Dependencies/TSGeneratorExampleDependencies.js";
+import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings.js";
+import { TSGeneratorComponent } from "../../Settings/TSGeneratorComponent.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../../TSGeneratorGenerator.js";
 
 /**
  * Represents a file-mapping for the `package.json` file for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

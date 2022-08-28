@@ -5,8 +5,8 @@ import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
-import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
-import { TestContext } from "../../../TestContext";
+import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.

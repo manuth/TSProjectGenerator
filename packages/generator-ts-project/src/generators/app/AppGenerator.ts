@@ -1,9 +1,12 @@
+import { fileURLToPath } from "url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { join } from "upath";
-import { GeneratorName } from "../../Core/GeneratorName";
-import { IProjectType } from "./IProjectType";
-import { ProjectType } from "./ProjectType";
-import { ProjectTypeSelector } from "./ProjectTypeSelector";
+import upath from "upath";
+import { GeneratorName } from "../../Core/GeneratorName.js";
+import { IProjectType } from "./IProjectType.js";
+import { ProjectType } from "./ProjectType.js";
+import { ProjectTypeSelector } from "./ProjectTypeSelector.js";
+
+const { join } = upath;
 
 /**
  * Provides the functionality to generate typescript-projects.
@@ -29,20 +32,22 @@ export class AppGenerator extends ProjectTypeSelector<ProjectType>
      */
     protected get ProjectTypes(): Map<ProjectType, IProjectType>
     {
+        let dirName = fileURLToPath(new URL(".", import.meta.url));
+
         return new Map<ProjectType, IProjectType>(
             [
                 [
                     ProjectType.Module,
                     {
                         DisplayName: "NPM-Module",
-                        Path: join(__dirname, "..", GeneratorName.Module)
+                        Path: join(dirName, "..", GeneratorName.Module)
                     }
                 ],
                 [
                     ProjectType.Generator,
                     {
                         DisplayName: "Yeoman-Generator",
-                        Path: join(__dirname, "..", GeneratorName.Generator)
+                        Path: join(dirName, "..", GeneratorName.Generator)
                     }
                 ]
             ]);

@@ -2,12 +2,14 @@ import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingColl
 import { JSONCConverter, JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 // eslint-disable-next-line node/no-unpublished-import
 import type { TSConfigJSON } from "types-tsconfig";
-import { join } from "upath";
-import { DependabotFileMapping } from "./DependabotFileMapping";
-import { DroneFileMapping } from "./DroneFileMapping";
-import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
-import { MyGeneratorComponent } from "./MyGeneratorComponent";
-import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
+import upath from "upath";
+import { DependabotFileMapping } from "./DependabotFileMapping.js";
+import { DroneFileMapping } from "./DroneFileMapping.js";
+import { MarkdownFileProcessor } from "./MarkdownFileProcessor.js";
+import { MyGeneratorComponent } from "./MyGeneratorComponent.js";
+import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping.js";
+
+const { join } = upath;
 
 /**
  * Provides the functionality to create base-constructors.

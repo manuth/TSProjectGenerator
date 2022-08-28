@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DebugConfiguration } from "vscode";
-import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { ILaunchSettings } from "./ILaunchSettings";
-import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
+import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent.js";
+import { ILaunchSettings } from "./ILaunchSettings.js";
+import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor.js";
 
 /**
  * Provides the functionality to process vscode debug configurations.

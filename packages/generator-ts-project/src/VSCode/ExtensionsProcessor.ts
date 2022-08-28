@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { IExtensionSettings } from "./IExtensionSettings";
-import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
+import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent.js";
+import { IExtensionSettings } from "./IExtensionSettings.js";
+import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor.js";
 
 /**
  * Provides the functionality to process vscode-extensions.

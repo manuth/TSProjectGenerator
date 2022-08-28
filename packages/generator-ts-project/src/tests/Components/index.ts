@@ -1,8 +1,8 @@
 import { basename } from "path";
-import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test";
-import { InquiryTests } from "./Inquiry";
-import { TransformationTests } from "./Transformation";
-import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test";
+import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test.js";
+import { InquiryTests } from "./Inquiry/index.js";
+import { TransformationTests } from "./Transformation/index.js";
+import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test.js";
 
 /**
  * Registers tests for components.
@@ -10,7 +10,7 @@ import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test";
 export function ComponentTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             InquiryTests();

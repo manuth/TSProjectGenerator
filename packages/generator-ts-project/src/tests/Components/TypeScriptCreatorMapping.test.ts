@@ -3,8 +3,8 @@ import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-genera
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile, TempFileSystem } from "@manuth/temp-files";
 import { CompilerNodeToWrappedType, Expression, ExpressionStatement, Project, SourceFile, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../Components/TypeScriptCreatorMapping";
-import { TestContext } from "../TestContext";
+import { TypeScriptCreatorMapping } from "../../Components/TypeScriptCreatorMapping.js";
+import { TestContext } from "../TestContext.js";
 
 /**
  * Registers tests for the {@link TypeScriptCreatorMapping `TypeScriptCreatorMapping<TSettings, TOptions>`} class.

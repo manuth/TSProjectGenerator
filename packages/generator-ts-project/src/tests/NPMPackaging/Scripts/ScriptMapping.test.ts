@@ -1,9 +1,9 @@
 import { strictEqual } from "assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping";
-import { TestContext } from "../../TestContext";
-import { TestScriptTransformer } from "./TestScriptTransformer";
+import { ScriptMapping } from "../../../NPMPackaging/Scripts/ScriptMapping.js";
+import { TestContext } from "../../TestContext.js";
+import { TestScriptTransformer } from "./TestScriptTransformer.js";
 
 /**
  * Registers tests for the {@link ScriptMapping `ScriptMapping<TSettings, TOptions>`} class.

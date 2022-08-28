@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { IDumper } from "./Conversion/IDumper";
-import { IParser } from "./Conversion/IParser";
-import { TextConverter } from "./Conversion/TextConverter";
-import { DumpFileMapping } from "./DumpFileMapping";
+import { IDumper } from "./Conversion/IDumper.js";
+import { IParser } from "./Conversion/IParser.js";
+import { TextConverter } from "./Conversion/TextConverter.js";
+import { DumpFileMapping } from "./DumpFileMapping.js";
 
 /**
  * Provides the functionality to parse, transform and dump a file.

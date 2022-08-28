@@ -3,8 +3,8 @@ import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { Package } from "@manuth/package-json-editor";
-import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
-import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
+import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping.js";
+import { TestTSModuleGenerator } from "./TestTSModuleGenerator.js";
 
 /**
  * Registers tests for the {@link MyTSProjectPackageFileMapping `MyTSProjectPackageFileMapping<TSettings, TOptions>`} class.

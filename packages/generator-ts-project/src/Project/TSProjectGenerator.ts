@@ -1,32 +1,36 @@
 import { createRequire } from "module";
 import { relative } from "path";
+import { fileURLToPath } from "url";
 import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
-import chalk = require("chalk");
-import dedent = require("dedent");
+import chalk from "chalk";
+import dedent from "dedent";
 // eslint-disable-next-line node/no-unpublished-import
 import type { ESLint } from "eslint";
-import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
-import npmWhich = require("npm-which");
+import fs from "fs-extra";
+import npmWhich from "npm-which";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
 import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
-import { changeExt, join, resolve } from "upath";
-import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt";
-import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping";
-import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
-import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
-import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
-import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping";
-import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackaging/TSProjectPackageFileMapping";
-import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
-import { ITSProjectSettings } from "./Settings/ITSProjectSettings";
-import { TSProjectComponent } from "./Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
+import upath from "upath";
+import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt.js";
+import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping.js";
+import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies.js";
+import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials.js";
+import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection.js";
+import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping.js";
+import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection.js";
+import { ITSProjectSettings } from "./Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "./Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
+
+const { readFile, readJSON, writeFile, writeJSON } = fs;
+const { changeExt, join, resolve } = upath;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
@@ -318,7 +322,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
 
         this.spawnCommandSync(
-            npmWhich(__dirname).sync("npm"),
+            npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
             [
                 "install",
                 "--silent"

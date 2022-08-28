@@ -1,9 +1,12 @@
 import { strictEqual } from "assert";
-import dedent = require("dedent");
-import { readFile, writeFile } from "fs-extra";
-import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping";
-import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TestContext } from "../TestContext";
+import dedent from "dedent";
+import fs from "fs-extra";
+import { TSConfigJSON } from "types-tsconfig";
+import { TSConfigFileMapping } from "../../Components/Transformation/TSConfigFileMapping.js";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
+import { TestContext } from "../TestContext.js";
+
+const { readFile, readJSON, writeFile } = fs;
 
 /**
  * Registers tests for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class.
@@ -38,13 +41,12 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
 
             test(
                 `Checking whether the \`${transformName}\`-plugin is stripped from \`${tsConfigFileName}\`…`,
-                () =>
+                async () =>
                 {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    let tsConfig = require(generator.destinationPath(tsConfigFileName));
+                    let tsConfig = await readJSON(generator.destinationPath(tsConfigFileName)) as TSConfigJSON;
 
                     strictEqual(
-                        (tsConfig.compilerOptions.plugins as any[]).filter(
+                        tsConfig.compilerOptions.plugins.filter(
                             (plugin) =>
                             {
                                 return plugin.transform === transformName;
@@ -60,7 +62,6 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                     this.slow(7.5 * 60 * 1000);
                     await writeFile(generator.destinationPath(testFileName), testCode);
                     await generator.cleanup();
-                    context.InvalidateRequireCache();
                     strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
                 });
         });

@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TestPackageFileMapping } from "./TestPackageFileMapping";
+import type { TestPackageFileMapping } from "./TestPackageFileMapping.js";
 
 /**
  * Provides options for the {@link TestPackageFileMapping `TestPackageFileMapping<TSettings, TOptions>`} class.

@@ -2,7 +2,7 @@ const { join } = require("path");
 
 module.exports = {
     extends: [
-        require.resolve("./packages/generator-ts-project/.eslintrc.js")
+        require.resolve("./packages/generator-ts-project/.eslintrc.cjs")
     ],
     parserOptions: {
         project: [

@@ -1,11 +1,11 @@
 import { basename } from "path";
-import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../TestContext";
-import { ComponentTests } from "./Components";
-import { FileMappingTests } from "./FileMappings";
-import { InquiryTests } from "./Inquiry";
-import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test";
-import { VSCodeTests } from "./VSCode";
+import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../TestContext.js";
+import { ComponentTests } from "./Components/index.js";
+import { FileMappingTests } from "./FileMappings/index.js";
+import { InquiryTests } from "./Inquiry/index.js";
+import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test.js";
+import { VSCodeTests } from "./VSCode/index.js";
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
@@ -16,7 +16,7 @@ import { VSCodeTests } from "./VSCode";
 export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             FileMappingTests(context);

@@ -1,8 +1,8 @@
 import { ComponentCollectionOptions, GeneratorOptions, IComponentCategory, IGenerator } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectGeneralCategory } from "./TSProjectGeneralCategory";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectGeneralCategory } from "./TSProjectGeneralCategory.js";
 
 /**
  * Provides components for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

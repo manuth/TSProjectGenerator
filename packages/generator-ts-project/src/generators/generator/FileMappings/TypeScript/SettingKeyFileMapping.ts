@@ -1,8 +1,8 @@
 import { EOL } from "os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { EnumMemberStructure, OptionalKind, SourceFile } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file which provides setting-keys.

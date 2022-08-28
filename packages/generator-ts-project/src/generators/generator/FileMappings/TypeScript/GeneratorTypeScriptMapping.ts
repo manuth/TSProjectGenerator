@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TypeScriptCreatorMapping } from "../../../../Components/TypeScriptCreatorMapping";
-import { NamingContext } from "./NamingContext";
+import { TypeScriptCreatorMapping } from "../../../../Components/TypeScriptCreatorMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create typescript-files for a generator.

@@ -1,10 +1,12 @@
 import { resolve } from "path";
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
-import { isAbsolute } from "upath";
-import { IPathQuestionOptions } from "../../Components/Inquiry/Prompts/IPathQuestionOptions";
-import { PathPrompt } from "../../Components/Inquiry/Prompts/PathPrompt";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
+import upath from "upath";
+import { IPathQuestionOptions } from "../../Components/Inquiry/Prompts/IPathQuestionOptions.js";
+import { PathPrompt } from "../../Components/Inquiry/Prompts/PathPrompt.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
+
+const { isAbsolute } = upath;
 
 /**
  * Provides a question for asking for the destination-path of a project.

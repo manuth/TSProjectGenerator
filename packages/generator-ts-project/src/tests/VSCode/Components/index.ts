@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test";
+import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test.js";
 
 /**
  * Registers tests for vscode-components.
@@ -7,7 +7,7 @@ import { CodeWorkspaceComponentTests } from "./CodeWorkspaceComponent.test";
 export function ComponentTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             CodeWorkspaceComponentTests();

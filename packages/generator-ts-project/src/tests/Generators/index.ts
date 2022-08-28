@@ -1,11 +1,11 @@
 import { basename } from "path";
-import { AppGenerator } from "../../generators/app/AppGenerator";
-import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator";
-import { TSModuleGenerator } from "../../generators/module/TSModuleGenerator";
-import { TestContext } from "../TestContext";
-import { AppTests } from "./App";
-import { GeneratorTests as TSGeneratorTests } from "./Generator";
-import { ModuleTests } from "./Module";
+import { AppGenerator } from "../../generators/app/AppGenerator.js";
+import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator.js";
+import { TSModuleGenerator } from "../../generators/module/TSModuleGenerator.js";
+import { TestContext } from "../TestContext.js";
+import { AppTests } from "./App/index.js";
+import { GeneratorTests as TSGeneratorTests } from "./Generator/index.js";
+import { ModuleTests } from "./Module/index.js";
 
 /**
  * Registers tests for the generators.
@@ -22,7 +22,7 @@ import { ModuleTests } from "./Module";
 export function GeneratorTests(moduleGeneratorContext: TestContext<TSModuleGenerator>, generatorGeneratorContext: TestContext<TSGeneratorGenerator>, appGeneratorContext: TestContext<AppGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             ModuleTests(moduleGeneratorContext);

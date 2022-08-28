@@ -1,11 +1,11 @@
 import { basename } from "path";
-import { ConversionTests } from "./Conversion";
-import { DumpFileMappingTests } from "./DumpFileMapping.test";
-import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test";
-import { ParsedFileMappingTests } from "./ParsedFileMapping.test";
-import { TSConfigFileMappingTests } from "./TSConfigFileMapping.test";
-import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test";
-import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
+import { ConversionTests } from "./Conversion/index.js";
+import { DumpFileMappingTests } from "./DumpFileMapping.test.js";
+import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test.js";
+import { ParsedFileMappingTests } from "./ParsedFileMapping.test.js";
+import { TSConfigFileMappingTests } from "./TSConfigFileMapping.test.js";
+import { TypeScriptTransformMappingTests } from "./TypeScriptTransformMapping.test.js";
+import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test.js";
 
 /**
  * Registers tests for the transformation-components.
@@ -13,7 +13,7 @@ import { YAMLTransformMappingTests } from "./YAMLTransformMapping.test";
 export function TransformationTests(): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             ConversionTests();

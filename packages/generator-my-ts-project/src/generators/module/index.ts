@@ -1,3 +1,4 @@
-import { MyTSModuleGenerator } from "./MyTSModuleGenerator";
+import { MyTSModuleGenerator } from "./MyTSModuleGenerator.js";
 
-export = MyTSModuleGenerator;
+// eslint-disable-next-line import/no-default-export
+export default MyTSModuleGenerator;

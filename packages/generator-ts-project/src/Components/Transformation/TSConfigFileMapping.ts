@@ -1,7 +1,9 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { fileName, TSConfigJSON } from "types-tsconfig";
-import { changeExt, extname } from "upath";
-import { JSONCTransformMapping } from "./JSONCTransformMapping";
+import upath from "upath";
+import { JSONCTransformMapping } from "./JSONCTransformMapping.js";
+
+const { changeExt, extname } = upath;
 
 /**
  * Provides the functionality to transform `tsconfig.json`-files.

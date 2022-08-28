@@ -1,11 +1,11 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion";
-import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion";
-import { TSProjectDisplayNameQuestion } from "./TSProjectDisplayNameQuestion";
-import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion.js";
+import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion.js";
+import { TSProjectDisplayNameQuestion } from "./TSProjectDisplayNameQuestion.js";
+import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion.js";
 
 /**
  * Provides questions for asking for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}.

@@ -1,13 +1,15 @@
 import { notStrictEqual, ok, strictEqual } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { join, normalize } from "upath";
+import upath from "upath";
 import { DebugConfiguration } from "vscode";
-import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { TestContext } from "../../TestContext";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { TestContext } from "../../TestContext.js";
+
+const { join, normalize } = upath;
 
 /**
  * Registers tests for the {@link TSProjectLaunchSettingsProcessor `TSProjectLaunchSettingsProcessor<TSettings, TOptions>`} class.

@@ -1,7 +1,7 @@
-import inquirer = require("inquirer");
+import inquirer from "inquirer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { QuestionSetPrompt } from "./QuestionSetPrompt";
-import { SetQuestion } from "./SetQuestion";
+import type { QuestionSetPrompt } from "./QuestionSetPrompt.js";
+import { SetQuestion } from "./SetQuestion.js";
 
 /**
  * Provides options for the {@link QuestionSetPrompt `QuestionSetPrompt<TAnswers, TQuestion>`}.

@@ -1,12 +1,12 @@
 import { deepStrictEqual } from "assert";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
-import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader";
-import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../../VSCode/ITaskSettings";
-import { TestContext } from "../../TestContext";
-import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
+import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader.js";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings.js";
+import { TestContext } from "../../TestContext.js";
+import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link WorkspaceFolderLoader `WorkspaceFolderLoader<TSettings, TOptions>`} class.

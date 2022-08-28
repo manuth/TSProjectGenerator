@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Expression, printNode, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping";
+import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";
 
 /**
  * Provides the functionality to create an `index.ts`-file for a module.

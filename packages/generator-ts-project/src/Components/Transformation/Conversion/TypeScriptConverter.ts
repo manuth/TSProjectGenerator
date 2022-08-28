@@ -1,6 +1,6 @@
 import { TempFileSystem } from "@manuth/temp-files";
 import { FormatCodeSettings, Project, SourceFile } from "ts-morph";
-import { TextConverter } from "./TextConverter";
+import { TextConverter } from "./TextConverter.js";
 
 /**
  * Provides the functionality to parse and dump `.ts`-code.

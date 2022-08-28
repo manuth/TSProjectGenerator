@@ -1,9 +1,9 @@
 import { basename } from "path";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../TestContext";
-import { TSGeneratorCategoryTests } from "./TSGeneratorCategory.test";
-import { TSGeneratorComponentCollectionTests } from "./TSGeneratorComponentCollection.test";
-import { TSGeneratorGeneralCategoryTests } from "./TSGeneratorGeneralCategory.test";
+import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+import { TSGeneratorCategoryTests } from "./TSGeneratorCategory.test.js";
+import { TSGeneratorComponentCollectionTests } from "./TSGeneratorComponentCollection.test.js";
+import { TSGeneratorGeneralCategoryTests } from "./TSGeneratorGeneralCategory.test.js";
 
 /**
  * Registers tests for the components of the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.
@@ -14,7 +14,7 @@ import { TSGeneratorGeneralCategoryTests } from "./TSGeneratorGeneralCategory.te
 export function ComponentTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             TSGeneratorGeneralCategoryTests(context);

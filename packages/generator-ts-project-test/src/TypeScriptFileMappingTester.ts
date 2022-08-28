@@ -1,9 +1,10 @@
+import { createRequire } from "module";
 import { parse } from "path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
 import { TempDirectory } from "@manuth/temp-files";
 import { ModuleKind, ScriptTarget, SourceFile } from "ts-morph";
-import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
+import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
 
 /**
  * Provides the functionality to test typescript file-mappings.
@@ -22,6 +23,11 @@ import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
  */
 export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings, TOptions>, TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions, TFileMapping extends IFileMapping<TSettings, TOptions>> extends ConvertibleFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping, SourceFile>
 {
+    /**
+     * A {@link require `require`} instance.
+     */
+    private nodeRequire: NodeRequire = null;
+
     /**
      * Initializes a new instance of the {@link TypeScriptFileMappingTester `TypeScriptFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class.
      *
@@ -42,6 +48,19 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
     public get Converter(): TextConverter<SourceFile>
     {
         return new TypeScriptConverter(this.FileMapping.Destination);
+    }
+
+    /**
+     * Gets a {@link require `require`} instance.
+     */
+    protected get NodeRequire(): NodeRequire
+    {
+        if (this.nodeRequire === null)
+        {
+            this.nodeRequire = createRequire(import.meta.url);
+        }
+
+        return this.nodeRequire;
     }
 
     /**
@@ -78,11 +97,11 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
             sourceFile.forget();
         }
 
-        if (fileName in require.cache)
+        if (fileName in this.NodeRequire.cache)
         {
-            delete require.cache[fileName];
+            delete this.NodeRequire.cache[fileName];
         }
 
-        return require(fileName);
+        return this.NodeRequire(fileName);
     }
 }

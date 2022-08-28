@@ -1,13 +1,16 @@
-import path = require("path");
+import path from "path";
 import { ReadLine } from "readline";
-import { dim } from "chalk";
-import inquirer = require("inquirer");
-import InputPrompt = require("inquirer/lib/prompts/input");
-import { join, normalize, relative } from "upath";
-import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor";
-import { IPathQuestion } from "./IPathQuestion";
-import { IPathQuestionOptions } from "./IPathQuestionOptions";
-import { PromptCallback } from "./PromptCallback";
+import chalk from "chalk";
+import inquirer from "inquirer";
+import InputPrompt from "inquirer/lib/prompts/input.js";
+import upath from "upath";
+import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor.js";
+import { IPathQuestion } from "./IPathQuestion.js";
+import { IPathQuestionOptions } from "./IPathQuestionOptions.js";
+import { PromptCallback } from "./PromptCallback.js";
+
+const { dim } = chalk;
+const { join, normalize, relative } = upath;
 
 declare module "inquirer"
 {

@@ -3,10 +3,13 @@ import { basename, dirname, resolve } from "path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory, TempFile } from "@manuth/temp-files";
-import rescape = require("@stdlib/utils-escape-regexp-string");
-import { lstat, pathExists, readdir } from "fs-extra";
-import packlist = require("npm-packlist");
-import { normalize } from "upath";
+import rescape from "@stdlib/utils-escape-regexp-string";
+import fs from "fs-extra";
+import packlist from "npm-packlist";
+import upath from "upath";
+
+const { lstat, pathExists, readdir } = fs;
+const { normalize } = upath;
 
 /**
  * Provides the functionality to test `.npmignore` file-mappings.

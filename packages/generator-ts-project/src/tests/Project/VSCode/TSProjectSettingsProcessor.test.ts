@@ -1,10 +1,10 @@
 import { ok } from "assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TSProjectSettingsProcessor } from "../../../Project/VSCode/TSProjectSettingsProcessor";
-import { TestContext } from "../../TestContext";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TSProjectSettingsProcessor } from "../../../Project/VSCode/TSProjectSettingsProcessor.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSProjectSettingsProcessor `TSProjectSettingsProcessor<TSettings, TOptions>`} class.

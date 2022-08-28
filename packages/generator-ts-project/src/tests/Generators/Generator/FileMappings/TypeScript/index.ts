@@ -1,16 +1,16 @@
 import { basename } from "path";
-import mock = require("mock-require");
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
-import { GeneratorClassFileMappingTests } from "./GeneratorClassFileMapping.test";
-import { GeneratorIndexFileMappingTests } from "./GeneratorIndexFileMapping.test";
-import { GeneratorMainSuiteFileMappingTests } from "./GeneratorMainSuiteFileMapping.test";
-import { GeneratorSuiteFileMappingTests } from "./GeneratorSuiteFileMapping.test";
-import { GeneratorTestFileMappingTests } from "./GeneratorTestFileMapping.test";
-import { LicenseTypeFileMappingTests } from "./LicenseTypeFileMapping.test";
-import { NamingContextTests } from "./NamingContext.test";
-import { SettingKeyFileMappingTests } from "./SettingKeyFileMapping.test";
-import { SettingsInterfaceFileMappingTests } from "./SettingsInterfaceFileMapping.test";
+import mock from "mock-require";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
+import { GeneratorClassFileMappingTests } from "./GeneratorClassFileMapping.test.js";
+import { GeneratorIndexFileMappingTests } from "./GeneratorIndexFileMapping.test.js";
+import { GeneratorMainSuiteFileMappingTests } from "./GeneratorMainSuiteFileMapping.test.js";
+import { GeneratorSuiteFileMappingTests } from "./GeneratorSuiteFileMapping.test.js";
+import { GeneratorTestFileMappingTests } from "./GeneratorTestFileMapping.test.js";
+import { LicenseTypeFileMappingTests } from "./LicenseTypeFileMapping.test.js";
+import { NamingContextTests } from "./NamingContext.test.js";
+import { SettingKeyFileMappingTests } from "./SettingKeyFileMapping.test.js";
+import { SettingsInterfaceFileMappingTests } from "./SettingsInterfaceFileMapping.test.js";
 
 /**
  * Registers tests for the typescript file-mappings.
@@ -21,7 +21,7 @@ import { SettingsInterfaceFileMappingTests } from "./SettingsInterfaceFileMappin
 export function TypeScriptTests(context: TestContext<TSGeneratorGenerator>): void
 {
     suite(
-        basename(__dirname),
+        basename(new URL(".", import.meta.url).pathname),
         () =>
         {
             let mockedModules = [

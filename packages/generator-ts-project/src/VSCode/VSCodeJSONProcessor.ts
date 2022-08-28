@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
+import { JSONProcessor } from "../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent.js";
 
 /**
  * Provides the functionality to process json objects related to vscode.

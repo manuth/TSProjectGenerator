@@ -1,5 +1,5 @@
 import { FileMappingOptions, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { IDumper } from "./Conversion/IDumper";
+import { IDumper } from "./Conversion/IDumper.js";
 
 /**
  * Represents a file-mapping which is created by dumping an object.

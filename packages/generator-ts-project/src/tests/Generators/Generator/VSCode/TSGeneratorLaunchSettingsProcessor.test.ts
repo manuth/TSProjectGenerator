@@ -1,15 +1,15 @@
 import { ok } from "assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TSGeneratorCodeWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspaceFolder";
-import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey";
-import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator";
-import { TSGeneratorLaunchSettingsProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchSettingsProcessor";
-import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
-import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent";
-import { TestContext } from "../../../TestContext";
+import { TSGeneratorCodeWorkspaceFolder } from "../../../../generators/generator/Components/TSGeneratorCodeWorkspaceFolder.js";
+import { ITSGeneratorSettings } from "../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../../../../generators/generator/Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../../../../generators/generator/Settings/TSGeneratorSettingKey.js";
+import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator.js";
+import { TSGeneratorLaunchSettingsProcessor } from "../../../../generators/generator/VSCode/TSGeneratorLaunchSettingsProcessor.js";
+import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent.js";
+import { CodeWorkspaceComponent } from "../../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSGeneratorLaunchSettingsProcessor `TSGeneratorLaunchSettingsProcessor<TSettings, TOptions>`} class.
