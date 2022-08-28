@@ -39,7 +39,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public static get FileName(): string
     {
-        return changeExt(fileName, ".js");
+        return changeExt(fileName, ".cjs");
     }
 
     /**
