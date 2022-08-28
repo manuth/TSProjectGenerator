@@ -23,7 +23,7 @@
     "prepare": "npm run copy-files && cd packages/generator-ts-project && npm run initialize"
   },
   "devDependencies": {
-    "@manuth/eslint-plugin-typescript": "^3.3.2",
+    "@manuth/eslint-plugin-typescript": "^3.3.4",
     "@manuth/package-json-editor": "^2.2.6",
     "@types/diff": "^5.0.2",
     "@types/fs-extra": "^9.0.13",

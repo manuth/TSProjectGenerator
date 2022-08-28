@@ -41,7 +41,7 @@
     "patch-ts": "ts-patch install"
   },
   "dependencies": {
-    "@manuth/eslint-plugin-typescript": "^3.3.2",
+    "@manuth/eslint-plugin-typescript": "^3.3.4",
     "@manuth/extended-yo-generator": "^11.0.7",
     "@manuth/package-json-editor": "^2.2.6",
     "@manuth/temp-files": "^2.0.9",
