@@ -1,4 +1,4 @@
-import { DistinctQuestion, Question } from "inquirer";
+import { DistinctQuestion } from "inquirer";
 import { IQuestionSetQuestionOptions } from "../../../..";
 
 interface IAnswerHash
