@@ -98,7 +98,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                 break;
         }
 
-        let statement = sourceFile.getStatements().find(
+        let exports = sourceFile.getStatements().find(
             (statement): statement is ExportAssignment =>
             {
                 if (Node.isExpressionStatement(statement))
@@ -114,11 +114,11 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                 return false;
             });
 
-        let expression = statement.getExpression();
+        let exportsAssignment = exports.getExpression();
 
-        if (Node.isBinaryExpression(expression))
+        if (Node.isBinaryExpression(exportsAssignment))
         {
-            let eslintConfig = expression.getRight();
+            let eslintConfig = exportsAssignment.getRight();
 
             if (Node.isObjectLiteralExpression(eslintConfig))
             {
