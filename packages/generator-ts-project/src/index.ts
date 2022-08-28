@@ -93,7 +93,7 @@ export { TSProjectCodeWorkspaceFolder } from "./Project/Components/TSProjectCode
 export { TSProjectComponentCollection } from "./Project/Components/TSProjectComponentCollection";
 export { TSProjectGeneralCategory } from "./Project/Components/TSProjectGeneralCategory";
 export { NPMIgnoreFileMapping } from "./Project/FileMappings/NPMIgnoreFileMapping";
-export { TSProjectPackageFileMapping } from "./Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
+export { TSProjectPackageFileMapping } from "./Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping";
 export { ISuiteContext } from "./Project/FileMappings/TypeScript/ISuiteContext";
 export { ModuleIndexFileMapping } from "./Project/FileMappings/TypeScript/ModuleIndexFileMapping";
 export { SuiteFileMapping } from "./Project/FileMappings/TypeScript/SuiteFileMapping";
