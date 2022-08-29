@@ -1,3 +1,4 @@
+import { Dictionary } from "@manuth/package-json-editor";
 import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
@@ -14,12 +15,19 @@ export class TSGeneratorDependencies extends MyPackageDependencyCollection
     {
         super(
             {
-                dependencies: [
-                    "@manuth/extended-yo-generator"
-                ],
                 devDependencies: [
                     "yo"
                 ]
             });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get Dependencies(): Dictionary<string, string>
+    {
+        let result = super.Dependencies;
+        result.Add("@manuth/extended-yo-generator", "^11.0.7");
+        return result;
     }
 }

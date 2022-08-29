@@ -1,3 +1,4 @@
+import { Dictionary } from "@manuth/package-json-editor";
 import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection.js";
 
 /**
@@ -13,7 +14,6 @@ export class TSGeneratorExampleDependencies extends MyPackageDependencyCollectio
         super(
             {
                 dependencies: [
-                    "chalk",
                     "dedent",
                     "yosay"
                 ],
@@ -22,5 +22,15 @@ export class TSGeneratorExampleDependencies extends MyPackageDependencyCollectio
                     "@types/yosay"
                 ]
             });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override get Dependencies(): Dictionary<string, string>
+    {
+        let result = super.Dependencies;
+        result.Add("chalk", "^4.1.2");
+        return result;
     }
 }
