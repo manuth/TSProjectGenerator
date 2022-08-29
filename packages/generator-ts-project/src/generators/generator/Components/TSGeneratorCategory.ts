@@ -1,5 +1,6 @@
 import { join } from "path";
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
+import { DistinctQuestion } from "inquirer";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
 import { GeneratorName } from "../../../Core/GeneratorName.js";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
@@ -104,7 +105,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
                     name: TSGeneratorSettingKey.SubGenerators,
                     message: "Please specify the details of the sub-generators to create",
                     defaultRepeat: false
-                }
+                } as DistinctQuestion<TSettings> as any
             ]
         };
     }

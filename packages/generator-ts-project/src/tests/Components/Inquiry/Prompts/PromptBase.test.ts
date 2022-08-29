@@ -1,5 +1,5 @@
 import { strictEqual } from "assert";
-import inquirer from "inquirer";
+import inquirer, { PromptModule } from "inquirer";
 import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase.js";
 import { TestContext } from "../../../TestContext.js";
 
@@ -12,7 +12,7 @@ export function PromptBaseTests(): void
         nameof<PromptBase<any>>(),
         () =>
         {
-            let promptModule: inquirer.PromptModule;
+            let promptModule: PromptModule;
             let type = "test" as undefined;
             let testKey = "test" as const;
             let testValue = TestContext.Default.RandomString;

@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { createRequire } from "module";
-import inquirer from "inquirer";
+import inquirer, { DistinctQuestion } from "inquirer";
 import mock from "mock-require";
 import { ArrayPrompt } from "../../../../Components/Inquiry/Prompts/ArrayPrompt.js";
 import { IArrayPromptHash } from "../../../../Components/Inquiry/Prompts/IArrayPromptHash.js";
@@ -22,7 +22,7 @@ export function ArrayPromptTests(): void
             let type = "test" as undefined;
             let testLength: number;
             let testValue: string;
-            let questions: inquirer.DistinctQuestion[];
+            let questions: DistinctQuestion[];
             let testKey = "test" as const;
 
             /**

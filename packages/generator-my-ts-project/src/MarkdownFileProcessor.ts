@@ -1,5 +1,5 @@
 import { FileMapping, FileMappingOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import detectNewline from "detect-newline";
+import { detectNewline } from "detect-newline";
 import eol from "eol";
 
 const { split } = eol;

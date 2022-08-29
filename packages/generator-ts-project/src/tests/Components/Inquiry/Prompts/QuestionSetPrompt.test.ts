@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
-import inquirer from "inquirer";
+import inquirer, { Answers, DistinctQuestion, PromptModule, Question } from "inquirer";
 import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt.js";
 import { TestContext } from "../../../TestContext.js";
 
@@ -14,11 +14,11 @@ export function QuestionSetPromptTests(): void
         () =>
         {
             let context: TestContext<TestGenerator>;
-            let promptModule: inquirer.PromptModule;
+            let promptModule: PromptModule;
             let testKey = "test" as const;
             let name: string;
             let message: string;
-            let questions: inquirer.DistinctQuestion[];
+            let questions: DistinctQuestion[];
 
             /**
              * Represents the answer-hash.
@@ -28,7 +28,7 @@ export function QuestionSetPromptTests(): void
                 /**
                  * Provides properties for a question.
                  */
-                [testKey]: inquirer.Question;
+                [testKey]: Question;
             }
 
             /**
@@ -65,11 +65,11 @@ export function QuestionSetPromptTests(): void
 
                     questions = [
                         {
-                            name: nameof<inquirer.Question>((question) => question.name),
+                            name: nameof<Question>((question) => question.name),
                             default: name
                         },
                         {
-                            name: nameof<inquirer.Question>((question) => question.message),
+                            name: nameof<Question>((question) => question.message),
                             default: message
                         }
                     ];
@@ -119,7 +119,7 @@ export function QuestionSetPromptTests(): void
                                         questions: [
                                             {
                                                 ...questions[0],
-                                                default: (result: inquirer.Answers, answers: IAnswerHash) =>
+                                                default: (result: Answers, answers: IAnswerHash) =>
                                                 {
                                                     testValue = (answers as any)[key];
                                                     return testValue;

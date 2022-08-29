@@ -47,7 +47,7 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
      */
     protected get DestinationQuestion(): Question<TSettings>
     {
-        return new TSProjectDestinationQuestion(this.Generator);
+        return new TSProjectDestinationQuestion(this.Generator) as any;
     }
 
     /**

@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { createRequire } from "module";
-import inquirer from "inquirer";
+import inquirer, { DistinctQuestion } from "inquirer";
 import mock from "mock-require";
 import { SubGeneratorPrompt } from "../../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
 import { ISubGenerator } from "../../../../generators/generator/Settings/ISubGenerator.js";
@@ -19,7 +19,7 @@ export function SubGeneratorPromptTests(): void
             let context = TestContext.Default;
             let repeat: (answers: any) => boolean;
             let length: number;
-            let questions: inquirer.DistinctQuestion[];
+            let questions: DistinctQuestion[];
             let testKey = "test" as const;
 
             /**

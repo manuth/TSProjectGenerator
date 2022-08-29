@@ -1,7 +1,7 @@
 import path from "path";
 import { ReadLine } from "readline";
 import chalk from "chalk";
-import inquirer from "inquirer";
+import { Answers } from "inquirer";
 import InputPrompt from "inquirer/lib/prompts/input.js";
 import upath from "upath";
 import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor.js";
@@ -82,7 +82,7 @@ export class PathPrompt<T extends IPathQuestionOptions = IPathQuestionOptions> e
      * @param answers
      * The answer-hash.
      */
-    public constructor(question: T, readLine: ReadLine, answers: inquirer.Answers)
+    public constructor(question: T, readLine: ReadLine, answers: Answers)
     {
         super(
             {

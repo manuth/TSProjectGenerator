@@ -1,6 +1,6 @@
 import { doesNotReject, strictEqual } from "assert";
 import { EOL } from "os";
-import inquirer from "inquirer";
+import inquirer, { PromptModule } from "inquirer";
 import { SuspendablePrompt } from "../../../../Components/Inquiry/Prompts/SuspendablePrompt.js";
 import { TestContext } from "../../../TestContext.js";
 
@@ -16,7 +16,7 @@ export function SuspendablePromptTests(): void
             let type: undefined;
             let testKey = "test" as const;
             let testValue: string;
-            let promptModule: inquirer.PromptModule;
+            let promptModule: PromptModule;
 
             suiteSetup(
                 () =>

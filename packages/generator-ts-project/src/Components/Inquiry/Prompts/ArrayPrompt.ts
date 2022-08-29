@@ -1,5 +1,5 @@
 import { Interface } from "readline";
-import inquirer from "inquirer";
+import inquirer, { Answers, DistinctQuestion } from "inquirer";
 import { IArrayPromptHash } from "./IArrayPromptHash.js";
 import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
 import { SuspendablePrompt } from "./SuspendablePrompt.js";
@@ -27,7 +27,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      * @param answers
      * The answer-hash.
      */
-    public constructor(question: TQuestion, readLine: Interface, answers: inquirer.Answers)
+    public constructor(question: TQuestion, readLine: Interface, answers: Answers)
     {
         super(question, readLine, answers);
     }
@@ -75,7 +75,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      * @returns
      * A question for asking the user whether another item should be added.
      */
-    protected async GetRepetitionQuestion(items: readonly TItem[]): Promise<inquirer.DistinctQuestion<IArrayPromptHash>>
+    protected async GetRepetitionQuestion(items: readonly TItem[]): Promise<DistinctQuestion<IArrayPromptHash>>
     {
         return {
             type: "confirm",

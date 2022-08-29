@@ -1,14 +1,9 @@
 import { Interface } from "readline";
-import inquirer from "inquirer";
+import inquirer, { Answers, DistinctQuestion, Question } from "inquirer";
 import { IQuestionSetQuestion } from "./IQuestionSetQuestion.js";
 import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions.js";
 import { NestedPrompt } from "./NestedPrompt.js";
 import { SetQuestion } from "./SetQuestion.js";
-
-/**
- * Represents an answer-hash.
- */
-type Answers = inquirer.Answers;
 
 declare module "inquirer"
 {
@@ -66,8 +61,8 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
      */
     protected async Prompt(): Promise<unknown>
     {
-        let questions: Array<SetQuestion<TAnswers, unknown>>;
-        let processedQuestions: Array<inquirer.Question<TAnswers>> = [];
+        let questions: Array<SetQuestion<TAnswers>>;
+        let processedQuestions: Array<Question<TAnswers>> = [];
         let promptModule = inquirer.createPromptModule();
 
         if (this.opt.promptTypes)
@@ -89,14 +84,14 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
 
         for (let question of questions)
         {
-            let overrides: Partial<inquirer.DistinctQuestion<TAnswers>> = {};
+            let overrides: Partial<SetQuestion<TAnswers>> = {};
 
             for (
                 let key of [
-                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.message),
-                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.default),
-                    nameof<inquirer.DistinctQuestion<TAnswers>>((q) => q.when)
-                ] as Array<keyof inquirer.DistinctQuestion<TAnswers>>)
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.message),
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.default),
+                    nameof<DistinctQuestion<TAnswers>>((q) => q.when)
+                ] as Array<keyof DistinctQuestion<TAnswers>>)
             {
                 let base = question[key];
 

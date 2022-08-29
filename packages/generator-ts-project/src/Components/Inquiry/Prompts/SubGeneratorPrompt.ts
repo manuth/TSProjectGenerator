@@ -1,5 +1,5 @@
 import { ReadLine } from "readline";
-import inquirer from "inquirer";
+import inquirer, { Answers, DistinctQuestion } from "inquirer";
 import kebabCase from "lodash.kebabcase";
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator.js";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
@@ -49,7 +49,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      * @param answers
      * The answer-object.
      */
-    public constructor(question: T, readLine: ReadLine, answers: inquirer.Answers)
+    public constructor(question: T, readLine: ReadLine, answers: Answers)
     {
         super(question, readLine, answers);
     }
@@ -121,7 +121,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      * @returns
      * A question for asking the user whether another item should be added.
      */
-    protected override async GetRepetitionQuestion(items: readonly ISubGenerator[]): Promise<inquirer.DistinctQuestion<IArrayPromptHash>>
+    protected override async GetRepetitionQuestion(items: readonly ISubGenerator[]): Promise<DistinctQuestion<IArrayPromptHash>>
     {
         return {
             ...await super.GetRepetitionQuestion(items),

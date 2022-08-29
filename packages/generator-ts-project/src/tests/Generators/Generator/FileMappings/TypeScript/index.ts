@@ -33,12 +33,11 @@ export function TypeScriptTests(context: TestContext<TSGeneratorGenerator>): voi
             ];
 
             suiteSetup(
-                () =>
+                async () =>
                 {
                     for (let moduleName of mockedModules)
                     {
-                        // eslint-disable-next-line @typescript-eslint/no-var-requires
-                        mock(moduleName, require(moduleName));
+                        mock(moduleName, await import(moduleName));
                     }
                 });
 

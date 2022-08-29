@@ -1,7 +1,7 @@
 import { deepStrictEqual, ok, strictEqual } from "assert";
 import { EOL } from "os";
 import { stringify } from "comment-json";
-import detectNewline from "detect-newline";
+import { detectNewline } from "detect-newline";
 import { JSONCConverter } from "../../../../Components/Transformation/Conversion/JSONCConverter.js";
 import { TestContext } from "../../../TestContext.js";
 

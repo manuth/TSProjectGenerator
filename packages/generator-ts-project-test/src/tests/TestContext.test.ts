@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "assert";
 import { EOL } from "os";
-import inquirer from "inquirer";
+import inquirer, { PromptModule, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { Random } from "random-js";
 import { stub } from "sinon";
@@ -18,8 +18,8 @@ export function TestContextTests(): void
         {
             let random: Random;
             let context: TestContext;
-            let promptModule: inquirer.PromptModule;
-            let defaultTypeName: inquirer.QuestionTypeName;
+            let promptModule: PromptModule;
+            let defaultTypeName: QuestionTypeName;
             let firstQuestionName: string;
             let secondQuestionName: string;
             let firstAnswer: string;
@@ -167,7 +167,7 @@ export function TestContextTests(): void
                         `Checking whether the \`${nameof(TestPrompt)}\` can be registered…`,
                         () =>
                         {
-                            let type: inquirer.QuestionTypeName = "input";
+                            let type: QuestionTypeName = "input";
                             context.RegisterTestPrompt(promptModule, type);
                             strictEqual(promptModule.prompts[type], TestPrompt);
                         });

@@ -12,13 +12,13 @@ import fs from "fs-extra";
 import npmWhich from "npm-which";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
-import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
 import upath from "upath";
 import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt.js";
 import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping.js";
+import { ESLintRCFileMapping } from "../Linting/FileMappings/ESLintRCFileMapping.js";
 import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies.js";
 import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials.js";
 import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection.js";
@@ -30,7 +30,7 @@ import { TSProjectComponent } from "./Settings/TSProjectComponent.js";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
 
 const { readFile, readJSON, writeFile, writeJSON } = fs;
-const { changeExt, join, resolve } = upath;
+const { join, resolve } = upath;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
@@ -300,7 +300,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     public async cleanup(): Promise<void>
     {
         let tempDir = new TempDirectory();
-        let esLintJSFileName = changeExt(eslintFileName, ".js");
+        let esLintJSFileName = new ESLintRCFileMapping(this).DefaultBaseName;
         let lintPackage = new Package(tempDir.MakePath(Package.FileName), {});
         let workspaceRequire: NodeRequire;
         let linterConstructor: typeof Linter;

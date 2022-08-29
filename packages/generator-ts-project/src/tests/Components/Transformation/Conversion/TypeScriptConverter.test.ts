@@ -1,7 +1,7 @@
 import { doesNotThrow, strictEqual } from "assert";
 import { EOL } from "os";
 import { TempFileSystem } from "@manuth/temp-files";
-import detectNewline from "detect-newline";
+import { detectNewline } from "detect-newline";
 import { FormatCodeSettings, NodeFlags, printNode, Project, SourceFile, ts } from "ts-morph";
 import { TypeScriptConverter } from "../../../../Components/Transformation/Conversion/TypeScriptConverter.js";
 import { TestContext } from "../../../TestContext.js";
