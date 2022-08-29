@@ -1,5 +1,5 @@
 import { DistinctQuestion } from "inquirer";
-import { IQuestionSetQuestionOptions } from "../../../..";
+import { IQuestionSetQuestionOptions } from "@manuth/generator-ts-project";
 
 interface IAnswerHash
 {
