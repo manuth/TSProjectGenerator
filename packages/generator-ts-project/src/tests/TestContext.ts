@@ -1,6 +1,6 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestOptions, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { GeneratorContext, IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
+import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
 import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN } from "mock-stdin";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent.js";

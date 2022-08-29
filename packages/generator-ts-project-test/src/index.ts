@@ -2,7 +2,6 @@ export { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js"
 export { DependencyCollectionTester } from "./DependencyCollectionTester.js";
 export { IMockedAnswer } from "./Inquiry/IMockedAnswer.js";
 export { TestPrompt } from "./Inquiry/TestPrompt.js";
-export { GeneratorContext } from "./GeneratorContext.js";
 export { JSONCFileMappingTester } from "./JSONCFileMappingTester.js";
 export { NPMIgnoreFileMappingTester } from "./NPMIgnoreFileMappingTester.js";
 export { PackageFileMappingTester } from "./PackageFileMappingTester.js";

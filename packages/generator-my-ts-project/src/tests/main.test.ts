@@ -1,6 +1,6 @@
 import { fileURLToPath } from "url";
+import { TestContext } from "@manuth/extended-yo-generator-test";
 import { GeneratorName } from "@manuth/generator-ts-project";
-import { GeneratorContext } from "@manuth/generator-ts-project-test";
 import upath from "upath";
 import { DependabotFileMappingTests } from "./DependabotFileMapping.test.js";
 import { DroneFileMappingTests } from "./DroneFileMapping.test.js";
@@ -16,9 +16,9 @@ suite(
     () =>
     {
         let workingDir: string;
-        let context = GeneratorContext.Default;
+        let context = TestContext.Default;
 
-        let projectContext = new GeneratorContext<TestTSModuleGenerator>(join(fileURLToPath(new URL(".", import.meta.url)), "generators", GeneratorName.Main));
+        let projectContext = new TestContext<TestTSModuleGenerator>(join(fileURLToPath(new URL(".", import.meta.url)), "generators", GeneratorName.Main));
 
         suiteSetup(
             () =>

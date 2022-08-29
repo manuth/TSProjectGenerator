@@ -1,6 +1,6 @@
 import { fileURLToPath } from "url";
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratorContext } from "@manuth/generator-ts-project-test";
+import { TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import upath from "upath";
 import { GeneratorName } from "../Core/GeneratorName.js";
 import { AppGenerator } from "../generators/app/AppGenerator.js";
