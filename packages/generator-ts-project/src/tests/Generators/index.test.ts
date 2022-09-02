@@ -3,9 +3,9 @@ import { AppGenerator } from "../../generators/app/AppGenerator.js";
 import { TSGeneratorGenerator } from "../../generators/generator/TSGeneratorGenerator.js";
 import { TSModuleGenerator } from "../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../TestContext.js";
-import { AppTests } from "./App/index.js";
-import { GeneratorTests as TSGeneratorTests } from "./Generator/index.js";
-import { ModuleTests } from "./Module/index.js";
+import { AppTests } from "./App/index.test.js";
+import { GeneratorTests as TSGeneratorTests } from "./Generator/index.test.js";
+import { ModuleTests } from "./Module/index.test.js";
 
 /**
  * Registers tests for the generators.

@@ -1,6 +1,6 @@
 import { ConvertibleFileMappingTesterTests } from "./ConvertibleFileMappingTester.test.js";
 import { DependencyCollectionTesterTests } from "./DependencyCollectionTester.test.js";
-import { InquiryTests } from "./Inquiry/index.js";
+import { InquiryTests } from "./Inquiry/index.test.js";
 import { NPMIgnoreFileMappingTesterTests } from "./NPMIgnoreFileMappingTester.test.js";
 import { PackageFileMappingTesterTests } from "./PackageFileMappingTester.test.js";
 import { ParsableFileMappingTesterTests } from "./ParsableFileMappingTester.test.js";

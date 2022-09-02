@@ -1,11 +1,11 @@
 import { basename } from "path";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
 import { TestContext } from "../../TestContext.js";
-import { ComponentTests } from "./Components/index.js";
-import { FileMappingTests } from "./FileMappings/index.js";
-import { InquiryTests } from "./Inquiry/index.js";
+import { ComponentTests } from "./Components/index.test.js";
+import { FileMappingTests } from "./FileMappings/index.test.js";
+import { InquiryTests } from "./Inquiry/index.test.js";
 import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test.js";
-import { VSCodeTests } from "./VSCode/index.js";
+import { VSCodeTests } from "./VSCode/index.test.js";
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.

@@ -6,13 +6,13 @@ import { GeneratorName } from "../Core/GeneratorName.js";
 import { AppGenerator } from "../generators/app/AppGenerator.js";
 import { TSGeneratorGenerator } from "../generators/generator/TSGeneratorGenerator.js";
 import { TSModuleGenerator } from "../generators/module/TSModuleGenerator.js";
-import { ComponentTests } from "./Components/index.js";
-import { GeneratorTests } from "./Generators/index.js";
-import { LintingTests } from "./Linting/index.js";
-import { NPMPackagingTests } from "./NPMPackaging/index.js";
-import { ProjectTests } from "./Project/index.js";
+import { ComponentTests } from "./Components/index.test.js";
+import { GeneratorTests } from "./Generators/index.test.js";
+import { LintingTests } from "./Linting/index.test.js";
+import { NPMPackagingTests } from "./NPMPackaging/index.test.js";
+import { ProjectTests } from "./Project/index.test.js";
 import { TestContext } from "./TestContext.js";
-import { VSCodeTests } from "./VSCode/index.js";
+import { VSCodeTests } from "./VSCode/index.test.js";
 
 const { join } = upath;
 

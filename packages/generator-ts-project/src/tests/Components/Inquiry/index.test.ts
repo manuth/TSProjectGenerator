@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { PromptTests } from "./Prompts/index.js";
+import { PromptTests } from "./Prompts/index.test.js";
 
 /**
  * Registers tests for inquiry-components.

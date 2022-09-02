@@ -1,7 +1,7 @@
 import { basename } from "path";
 import { DumpCreatorFileMappingTests } from "./DumpCreatorFileMapping.test.js";
-import { InquiryTests } from "./Inquiry/index.js";
-import { TransformationTests } from "./Transformation/index.js";
+import { InquiryTests } from "./Inquiry/index.test.js";
+import { TransformationTests } from "./Transformation/index.test.js";
 import { TypeScriptCreatorMappingTests } from "./TypeScriptCreatorMapping.test.js";
 
 /**

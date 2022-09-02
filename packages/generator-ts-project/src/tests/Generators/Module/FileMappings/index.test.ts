@@ -1,7 +1,7 @@
 import { basename } from "path";
 import { TSModuleGenerator } from "../../../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../../../TestContext.js";
-import { NPMPackagingTests } from "./NPMPackaging/index.js";
+import { NPMPackagingTests } from "./NPMPackaging/index.test.js";
 
 /**
  * Registers tests for file-mappings for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.

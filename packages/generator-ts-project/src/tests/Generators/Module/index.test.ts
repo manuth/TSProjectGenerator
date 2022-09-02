@@ -1,7 +1,7 @@
 import { basename } from "path";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../../TestContext.js";
-import { FileMappingTests } from "./FileMappings/index.js";
+import { FileMappingTests } from "./FileMappings/index.test.js";
 import { TSModuleGeneratorTests } from "./TSModuleGenerator.test.js";
 
 /**

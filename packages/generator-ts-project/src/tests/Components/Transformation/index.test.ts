@@ -1,5 +1,5 @@
 import { basename } from "path";
-import { ConversionTests } from "./Conversion/index.js";
+import { ConversionTests } from "./Conversion/index.test.js";
 import { DumpFileMappingTests } from "./DumpFileMapping.test.js";
 import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test.js";
 import { ParsedFileMappingTests } from "./ParsedFileMapping.test.js";

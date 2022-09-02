@@ -1,7 +1,7 @@
 import { basename } from "path";
-import { DependencyTests } from "./Dependencies/index.js";
-import { FileMappingTests } from "./FileMappings/index.js";
-import { ScriptTests } from "./Scripts/index.js";
+import { DependencyTests } from "./Dependencies/index.test.js";
+import { FileMappingTests } from "./FileMappings/index.test.js";
+import { ScriptTests } from "./Scripts/index.test.js";
 
 /**
  * Registers tests for npm-packaging components.

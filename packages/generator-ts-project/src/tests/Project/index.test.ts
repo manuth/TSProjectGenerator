@@ -1,11 +1,11 @@
 import { basename } from "path";
 import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
 import { TestContext } from "../TestContext.js";
-import { ComponentTests } from "./Components/index.js";
-import { FileMappingTests } from "./FileMappings/index.js";
-import { InquiryTests } from "./Inquiry/index.js";
+import { ComponentTests } from "./Components/index.test.js";
+import { FileMappingTests } from "./FileMappings/index.test.js";
+import { InquiryTests } from "./Inquiry/index.test.js";
 import { TSProjectGeneratorTests } from "./TSProjectGenerator.test.js";
-import { VSCodeTests } from "./VSCode/index.js";
+import { VSCodeTests } from "./VSCode/index.test.js";
 
 /**
  * Registers tests for project-components.
