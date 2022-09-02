@@ -53,6 +53,17 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let dynamicImports: Array<[string, string]> = [
+            [
+                "dedent",
+                this.NamingContext.DedentName
+            ],
+            [
+                "yosay",
+                this.NamingContext.YoSayName
+            ]
+        ];
+
         sourceFile = await super.Transform(sourceFile);
 
         sourceFile.addImportDeclarations(
@@ -110,22 +121,15 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
             ]);
 
         sourceFile.addStatements(
-            [
-                printNode(
+            dynamicImports.map(
+                (entry) => printNode(
                     ts.factory.createImportEqualsDeclaration(
                         [],
                         [],
                         false,
-                        this.NamingContext.DedentName,
-                        ts.factory.createExternalModuleReference(ts.factory.createStringLiteral("dedent")))),
-                printNode(
-                    ts.factory.createImportEqualsDeclaration(
-                        [],
-                        [],
-                        false,
-                        this.NamingContext.YoSayName,
-                        ts.factory.createExternalModuleReference(ts.factory.createStringLiteral("yosay"))))
-            ]);
+                        entry[1],
+                        ts.factory.createExternalModuleReference(
+                            ts.factory.createStringLiteral(entry[0]))))));
 
         let generatorClass = sourceFile.addClass(
             {
