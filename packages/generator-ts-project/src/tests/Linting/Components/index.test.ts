@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../TestContext.js";
 import { LintingComponentTests } from "./LintingComponent.test.js";

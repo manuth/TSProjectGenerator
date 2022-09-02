@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "node:path";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
 import chalk from "chalk";
 import dedent from "dedent";

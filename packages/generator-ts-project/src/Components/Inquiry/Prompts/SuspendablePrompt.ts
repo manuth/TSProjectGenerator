@@ -1,5 +1,5 @@
-import { Interface } from "readline";
-import { ReadStream } from "tty";
+import { Interface } from "node:readline";
+import { ReadStream } from "node:tty";
 import { Answers, Question } from "inquirer";
 import { PromptBase } from "./PromptBase.js";
 

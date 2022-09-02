@@ -1,5 +1,5 @@
-import { ok, strictEqual } from "assert";
-import { createRequire } from "module";
+import { ok, strictEqual } from "node:assert";
+import { createRequire } from "node:module";
 import inquirer, { DistinctQuestion } from "inquirer";
 import mock from "mock-require";
 import { SubGeneratorPrompt } from "../../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";

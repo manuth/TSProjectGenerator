@@ -1,6 +1,6 @@
-import { spawnSync } from "child_process";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { spawnSync } from "node:child_process";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Dictionary, Package } from "@manuth/package-json-editor";
 import fs from "fs-extra";
 import GitBranch from "git-branch";

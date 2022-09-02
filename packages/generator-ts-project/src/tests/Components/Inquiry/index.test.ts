@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { PromptTests } from "./Prompts/index.test.js";
 
 /**

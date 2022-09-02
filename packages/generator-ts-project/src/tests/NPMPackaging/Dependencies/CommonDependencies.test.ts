@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { DependencyCollectionTester } from "@manuth/generator-ts-project-test";
 import { PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { BuildDependencies } from "../../../NPMPackaging/Dependencies/BuildDependencies.js";

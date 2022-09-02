@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { ModuleIndexFileMappingTests } from "./ModuleIndexFileMapping.test.js";
 import { SuiteFileMappingTests } from "./SuiteFileMapping.test.js";
 import { TestFileMappingTests } from "./TestFileMapping.test.js";

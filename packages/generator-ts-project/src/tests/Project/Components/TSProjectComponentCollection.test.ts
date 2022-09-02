@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection.js";
 import { TSProjectGeneralCategory } from "../../../Project/Components/TSProjectGeneralCategory.js";

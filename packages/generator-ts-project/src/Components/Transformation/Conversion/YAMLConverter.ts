@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import eol from "eol";
 import { Document, parseAllDocuments } from "yaml";
 import { IDumper } from "./IDumper.js";

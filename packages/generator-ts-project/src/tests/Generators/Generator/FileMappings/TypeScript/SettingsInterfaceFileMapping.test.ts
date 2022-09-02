@@ -1,4 +1,4 @@
-import { doesNotThrow, ok, strictEqual } from "assert";
+import { doesNotThrow, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { SourceFile, SyntaxKind } from "ts-morph";

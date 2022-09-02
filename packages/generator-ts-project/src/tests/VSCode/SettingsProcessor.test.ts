@@ -1,4 +1,4 @@
-import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
+import { deepStrictEqual, notDeepStrictEqual, ok } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { SettingsProcessor } from "../../VSCode/SettingsProcessor.js";
 import { TestContext } from "../TestContext.js";

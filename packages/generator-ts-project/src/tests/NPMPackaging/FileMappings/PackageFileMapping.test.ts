@@ -1,4 +1,4 @@
-import { ok, strictEqual } from "assert";
+import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";

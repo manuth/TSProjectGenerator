@@ -1,5 +1,5 @@
-import { createRequire } from "module";
-import { parse } from "path";
+import { createRequire } from "node:module";
+import { parse } from "node:path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
 import { TempDirectory } from "@manuth/temp-files";

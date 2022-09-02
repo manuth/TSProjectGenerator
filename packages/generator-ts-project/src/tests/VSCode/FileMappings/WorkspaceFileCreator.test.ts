@@ -1,4 +1,4 @@
-import { deepStrictEqual, ok } from "assert";
+import { deepStrictEqual, ok } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";

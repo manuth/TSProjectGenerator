@@ -1,5 +1,5 @@
-import { doesNotThrow, strictEqual } from "assert";
-import { EOL } from "os";
+import { doesNotThrow, strictEqual } from "node:assert";
+import { EOL } from "node:os";
 import { TempFileSystem } from "@manuth/temp-files";
 import { detectNewline } from "detect-newline";
 import { FormatCodeSettings, NodeFlags, printNode, Project, SourceFile, ts } from "ts-morph";

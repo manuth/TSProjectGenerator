@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { TSGeneratorGenerator } from "../../../../generators/generator/TSGeneratorGenerator.js";
 import { TestContext } from "../../../TestContext.js";
 import { TSGeneratorModuleNameQuestionTests } from "./TSGeneratorModuleNameQuestion.test.js";

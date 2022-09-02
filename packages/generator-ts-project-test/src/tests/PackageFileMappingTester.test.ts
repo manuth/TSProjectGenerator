@@ -1,4 +1,4 @@
-import { doesNotReject, rejects } from "assert";
+import { doesNotReject, rejects } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";

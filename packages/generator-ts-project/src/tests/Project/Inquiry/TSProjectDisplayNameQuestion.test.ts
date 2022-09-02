@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion.js";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";

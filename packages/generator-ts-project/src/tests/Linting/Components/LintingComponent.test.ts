@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { LintingComponent } from "../../../Linting/Components/LintingComponent.js";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping.js";

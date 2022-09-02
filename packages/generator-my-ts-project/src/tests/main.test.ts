@@ -1,4 +1,4 @@
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { GeneratorName } from "@manuth/generator-ts-project";
 import upath from "upath";

@@ -1,4 +1,4 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { WorkspaceFolderLoader } from "../../../VSCode/FileMappings/WorkspaceFolderLoader.js";

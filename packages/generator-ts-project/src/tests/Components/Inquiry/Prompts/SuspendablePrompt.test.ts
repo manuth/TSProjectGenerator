@@ -1,5 +1,5 @@
-import { doesNotReject, strictEqual } from "assert";
-import { EOL } from "os";
+import { doesNotReject, strictEqual } from "node:assert";
+import { EOL } from "node:os";
 import inquirer, { PromptModule } from "inquirer";
 import { SuspendablePrompt } from "../../../../Components/Inquiry/Prompts/SuspendablePrompt.js";
 import { TestContext } from "../../../TestContext.js";

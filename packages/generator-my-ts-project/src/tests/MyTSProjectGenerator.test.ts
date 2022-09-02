@@ -1,5 +1,5 @@
-import { ok } from "assert";
-import { extname, isAbsolute, relative } from "path";
+import { ok } from "node:assert";
+import { extname, isAbsolute, relative } from "node:path";
 import { FileMapping, GeneratorOptions, IComponent, IComponentCategory, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, Predicate, TSConfigFileMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";

@@ -1,4 +1,4 @@
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import upath from "upath";
 import { GeneratorName } from "../../Core/GeneratorName.js";

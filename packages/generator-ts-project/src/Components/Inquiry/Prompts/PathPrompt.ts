@@ -1,5 +1,5 @@
-import path from "path";
-import { ReadLine } from "readline";
+import path from "node:path";
+import { ReadLine } from "node:readline";
 import chalk from "chalk";
 import { Answers } from "inquirer";
 import InputPrompt from "inquirer/lib/prompts/input.js";

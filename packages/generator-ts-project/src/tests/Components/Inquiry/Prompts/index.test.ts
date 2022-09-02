@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { ArrayPromptTests } from "./ArrayPrompt.test.js";
 import { NestedPromptTests } from "./NestedPrompt.test.js";
 import { PathPromptTests } from "./PathPrompt.test.js";

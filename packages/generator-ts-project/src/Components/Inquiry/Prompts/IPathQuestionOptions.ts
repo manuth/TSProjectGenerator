@@ -1,4 +1,4 @@
-import { PlatformPath } from "path";
+import { PlatformPath } from "node:path";
 import { Answers, AsyncDynamicQuestionProperty, InputQuestionOptions } from "inquirer";
 import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

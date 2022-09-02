@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { BuildDependencyTests } from "./BuildDependencies.test.js";
 import { CommonDependencyTests } from "./CommonDependencies.test.js";
 import { LintEssentialTests } from "./LintEssentials.test.js";

@@ -1,4 +1,4 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";

@@ -1,5 +1,5 @@
-import { EOL } from "os";
-import { basename, dirname, isAbsolute, relative, resolve } from "path";
+import { EOL } from "node:os";
+import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
 import chalk from "chalk";
 import { ChoiceOptions, ListQuestion } from "inquirer";
@@ -73,7 +73,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                     ]
                 },
                 {
-                    moduleSpecifier: "path",
+                    moduleSpecifier: "node:path",
                     namedImports: [
                         nameof(basename),
                         nameof(isAbsolute),

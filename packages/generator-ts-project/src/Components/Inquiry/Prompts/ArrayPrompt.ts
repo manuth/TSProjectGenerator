@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import { Interface } from "node:readline";
 import inquirer, { Answers, DistinctQuestion } from "inquirer";
 import { IArrayPromptHash } from "./IArrayPromptHash.js";
 import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";

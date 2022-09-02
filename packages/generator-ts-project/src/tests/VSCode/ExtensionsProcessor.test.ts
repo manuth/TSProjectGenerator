@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor.js";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings.js";

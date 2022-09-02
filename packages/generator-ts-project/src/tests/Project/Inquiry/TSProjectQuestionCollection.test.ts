@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion.js";
 import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion.js";

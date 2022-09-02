@@ -1,6 +1,6 @@
-import { createRequire } from "module";
-import { relative } from "path";
-import { fileURLToPath } from "url";
+import { createRequire } from "node:module";
+import { relative } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";

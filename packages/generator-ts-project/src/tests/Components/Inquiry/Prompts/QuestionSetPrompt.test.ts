@@ -1,4 +1,4 @@
-import { ok, strictEqual } from "assert";
+import { ok, strictEqual } from "node:assert";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import inquirer, { Answers, DistinctQuestion, PromptModule, Question } from "inquirer";
 import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt.js";

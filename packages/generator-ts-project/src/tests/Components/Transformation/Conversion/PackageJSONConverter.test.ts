@@ -1,4 +1,4 @@
-import { deepStrictEqual, doesNotThrow, ok, strictEqual } from "assert";
+import { deepStrictEqual, doesNotThrow, ok, strictEqual } from "node:assert";
 import { Package } from "@manuth/package-json-editor";
 import { parse, stringify } from "comment-json";
 import { PackageJSONConverter } from "../../../../Components/Transformation/Conversion/PackageJSONConverter.js";

@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { CodeWorkspaceProviderTests } from "./CodeWorkspaceProvider.test.js";
 import { WorkspaceFileCreatorTests } from "./WorkspaceFileCreator.test.js";
 import { WorkspaceFolderCreatorTest } from "./WorkspaceFolderCreator.test.js";

@@ -1,5 +1,5 @@
-import { doesNotReject, strictEqual } from "assert";
-import { basename, dirname, resolve } from "path";
+import { doesNotReject, strictEqual } from "node:assert";
+import { basename, dirname, resolve } from "node:path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory, TempFile } from "@manuth/temp-files";

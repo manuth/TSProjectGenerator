@@ -1,4 +1,4 @@
-import { doesNotReject, rejects } from "assert";
+import { doesNotReject, rejects } from "node:assert";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { DependencyCollectionTester } from "../DependencyCollectionTester.js";

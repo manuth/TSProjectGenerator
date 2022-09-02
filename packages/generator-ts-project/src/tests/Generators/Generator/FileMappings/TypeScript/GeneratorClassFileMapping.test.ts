@@ -1,5 +1,5 @@
-import { doesNotReject, ok, strictEqual } from "assert";
-import { normalize } from "path";
+import { doesNotReject, ok, strictEqual } from "node:assert";
+import { normalize } from "node:path";
 import { Component, Generator, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";

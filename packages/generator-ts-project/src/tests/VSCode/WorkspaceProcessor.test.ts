@@ -1,4 +1,4 @@
-import { notStrictEqual, ok, strictEqual } from "assert";
+import { notStrictEqual, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { IExtensionSettings } from "../../VSCode/IExtensionSettings.js";
 import { ILaunchSettings } from "../../VSCode/ILaunchSettings.js";

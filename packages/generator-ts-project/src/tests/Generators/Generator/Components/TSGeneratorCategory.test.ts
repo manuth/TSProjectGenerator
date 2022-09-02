@@ -1,6 +1,6 @@
-import { doesNotReject, ok } from "assert";
-import { spawnSync } from "child_process";
-import { fileURLToPath } from "url";
+import { doesNotReject, ok } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions, GeneratorSettingKey, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";

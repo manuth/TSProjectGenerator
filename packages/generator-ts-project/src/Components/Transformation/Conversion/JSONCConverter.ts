@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { parse, stringify } from "comment-json";
 import eol from "eol";
 import { TextConverter } from "./TextConverter.js";

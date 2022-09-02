@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { EnumMemberStructure, OptionalKind, SourceFile } from "ts-morph";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";

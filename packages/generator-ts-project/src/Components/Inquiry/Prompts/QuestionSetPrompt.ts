@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import { Interface } from "node:readline";
 import inquirer, { Answers, DistinctQuestion, Question } from "inquirer";
 import { IQuestionSetQuestion } from "./IQuestionSetQuestion.js";
 import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions.js";

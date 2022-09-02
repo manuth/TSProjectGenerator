@@ -1,4 +1,4 @@
-import { deepStrictEqual, ok } from "assert";
+import { deepStrictEqual, ok } from "node:assert";
 import { Document, parseAllDocuments, parseDocument, stringify } from "yaml";
 import { YAMLConverter } from "../../../../Components/Transformation/Conversion/YAMLConverter.js";
 import { TestContext } from "../../../TestContext.js";

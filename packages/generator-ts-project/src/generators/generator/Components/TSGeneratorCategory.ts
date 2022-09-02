@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "node:path";
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
 import { DistinctQuestion } from "inquirer";
 import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";

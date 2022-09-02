@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, SourceFile, ts } from "ts-morph";
 import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";

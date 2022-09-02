@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { DependencyTests } from "./Dependencies/index.test.js";
 import { FileMappingTests } from "./FileMappings/index.test.js";
 import { ScriptTests } from "./Scripts/index.test.js";

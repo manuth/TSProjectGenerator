@@ -1,4 +1,4 @@
-import { dirname, relative } from "path";
+import { dirname, relative } from "node:path";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { printNode, SourceFile, ts } from "ts-morph";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";

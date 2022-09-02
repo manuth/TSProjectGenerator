@@ -1,6 +1,6 @@
-import { doesNotReject, ok, strictEqual } from "assert";
-import { spawnSync } from "child_process";
-import { fileURLToPath } from "url";
+import { doesNotReject, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { PluginName, PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";

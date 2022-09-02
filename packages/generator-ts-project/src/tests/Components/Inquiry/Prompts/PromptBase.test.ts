@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import inquirer, { PromptModule } from "inquirer";
 import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase.js";
 import { TestContext } from "../../../TestContext.js";

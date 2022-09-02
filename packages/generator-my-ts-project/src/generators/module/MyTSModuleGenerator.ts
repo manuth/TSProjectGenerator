@@ -1,4 +1,4 @@
-import { createRequire } from "module";
+import { createRequire } from "node:module";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
 import { MyTSProjectGenerator } from "../../MyTSProjectGenerator.js";

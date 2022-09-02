@@ -1,5 +1,5 @@
-import { EOL } from "os";
-import { fileURLToPath } from "url";
+import { EOL } from "node:os";
+import { fileURLToPath } from "node:url";
 import G from "glob";
 import GulpClient from "gulp";
 import rename from "gulp-rename";

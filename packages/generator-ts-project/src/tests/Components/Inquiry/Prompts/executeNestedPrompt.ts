@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import inquirer from "inquirer";
 import { stdin } from "mock-stdin";
 import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt.js";

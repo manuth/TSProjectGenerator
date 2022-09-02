@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
 import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata.js";

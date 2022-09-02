@@ -1,5 +1,5 @@
-import { strictEqual } from "assert";
-import { resolve } from "path";
+import { strictEqual } from "node:assert";
+import { resolve } from "node:path";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempDirectory } from "@manuth/temp-files";
 import { popd, pushd } from "util.chdir";

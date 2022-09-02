@@ -1,4 +1,4 @@
-import { ok, strictEqual } from "assert";
+import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";

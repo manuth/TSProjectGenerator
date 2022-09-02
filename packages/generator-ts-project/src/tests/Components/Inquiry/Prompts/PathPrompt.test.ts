@@ -1,7 +1,7 @@
-import { notStrictEqual, ok, strictEqual } from "assert";
-import { EOL } from "os";
-import path from "path";
-import { createInterface, Interface, ReadLine } from "readline";
+import { notStrictEqual, ok, strictEqual } from "node:assert";
+import { EOL } from "node:os";
+import path from "node:path";
+import { createInterface, Interface, ReadLine } from "node:readline";
 import inquirer from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import MuteStream from "mute-stream";

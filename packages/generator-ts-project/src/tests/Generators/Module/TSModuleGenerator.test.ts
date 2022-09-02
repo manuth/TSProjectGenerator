@@ -1,7 +1,7 @@
-import { doesNotThrow, strictEqual } from "assert";
-import { spawnSync } from "child_process";
-import { createRequire } from "module";
-import { fileURLToPath } from "url";
+import { doesNotThrow, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich from "npm-which";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";

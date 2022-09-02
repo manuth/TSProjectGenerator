@@ -1,5 +1,5 @@
-import { EOL } from "os";
-import { dirname, relative } from "path";
+import { EOL } from "node:os";
+import { dirname, relative } from "node:path";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";

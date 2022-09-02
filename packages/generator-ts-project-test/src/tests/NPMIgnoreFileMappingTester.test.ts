@@ -1,5 +1,5 @@
-import { doesNotReject, ok, rejects, strictEqual } from "assert";
-import { basename } from "path";
+import { doesNotReject, ok, rejects, strictEqual } from "node:assert";
+import { basename } from "node:path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { NPMIgnoreFileMapping } from "@manuth/generator-ts-project";

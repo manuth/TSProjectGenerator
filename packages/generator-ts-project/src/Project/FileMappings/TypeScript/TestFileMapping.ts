@@ -1,5 +1,5 @@
-import { strictEqual } from "assert";
-import { EOL } from "os";
+import { strictEqual } from "node:assert";
+import { EOL } from "node:os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, printNode, SourceFile, ts } from "ts-morph";
 import { SuiteFileMapping } from "./SuiteFileMapping.js";
@@ -95,7 +95,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
 
         sourceFile.addImportDeclaration(
             {
-                moduleSpecifier: "assert",
+                moduleSpecifier: "node:assert",
                 namedImports: [
                     nameof(strictEqual)
                 ]

@@ -1,4 +1,4 @@
-import { dirname, relative } from "path";
+import { dirname, relative } from "node:path";
 import { Generator, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ArrowFunction, printNode, StatementStructures, ts, WriterFunction } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";

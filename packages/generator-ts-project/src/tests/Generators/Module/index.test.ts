@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../../TestContext.js";
 import { FileMappingTests } from "./FileMappings/index.test.js";

@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { ConversionTests } from "./Conversion/index.test.js";
 import { DumpFileMappingTests } from "./DumpFileMapping.test.js";
 import { JSONCTransformMappingTests } from "./JSONCTransformMapping.test.js";

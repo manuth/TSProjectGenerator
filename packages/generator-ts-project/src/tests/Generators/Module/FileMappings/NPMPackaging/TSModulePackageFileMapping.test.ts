@@ -1,6 +1,6 @@
-import { ok } from "assert";
-import { spawnSync } from "child_process";
-import { fileURLToPath } from "url";
+import { ok } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";

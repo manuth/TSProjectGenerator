@@ -1,5 +1,5 @@
-import { ok, strictEqual } from "assert";
-import { EOL } from "os";
+import { ok, strictEqual } from "node:assert";
+import { EOL } from "node:os";
 import inquirer, { PromptModule, QuestionTypeName } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
 import { Random } from "random-js";

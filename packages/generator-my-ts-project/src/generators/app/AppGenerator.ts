@@ -1,4 +1,4 @@
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { AppGenerator as AppGeneratorBase, GeneratorName, IProjectType, ProjectType } from "@manuth/generator-ts-project";
 import upath from "upath";

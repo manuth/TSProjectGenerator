@@ -1,4 +1,4 @@
-import { ReadLine } from "readline";
+import { ReadLine } from "node:readline";
 import inquirer, { Answers, DistinctQuestion } from "inquirer";
 import kebabCase from "lodash.kebabcase";
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator.js";

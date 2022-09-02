@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import { Interface } from "node:readline";
 import { Answers, Question } from "inquirer";
 import { SuspendablePrompt } from "./SuspendablePrompt.js";
 

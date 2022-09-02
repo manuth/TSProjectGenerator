@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { JSONCConverterTests } from "./JSONCConverter.test.js";
 import { PackageJSONConverterTests } from "./PackageJSONConverter.test.js";
 import { TypeScriptConverterTests } from "./TypeScriptConverter.test.js";

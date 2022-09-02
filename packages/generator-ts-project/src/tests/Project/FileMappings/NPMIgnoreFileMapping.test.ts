@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
 import { fileName as eslintFileName } from "types-eslintrc";

@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { resolve } from "node:path";
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import upath from "upath";
 import { IPathQuestionOptions } from "../../Components/Inquiry/Prompts/IPathQuestionOptions.js";

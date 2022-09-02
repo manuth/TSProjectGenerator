@@ -1,4 +1,4 @@
-import { basename } from "path";
+import { basename } from "node:path";
 import { AppGenerator } from "../../../generators/app/AppGenerator.js";
 import { TestContext } from "../../TestContext.js";
 import { AppGeneratorTests } from "./AppGenerator.test.js";

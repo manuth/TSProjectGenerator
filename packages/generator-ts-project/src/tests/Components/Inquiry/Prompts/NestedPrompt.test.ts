@@ -1,6 +1,6 @@
-import { ok, strictEqual } from "assert";
-import { ChildProcess, fork } from "child_process";
-import { createRequire } from "module";
+import { ok, strictEqual } from "node:assert";
+import { ChildProcess, fork } from "node:child_process";
+import { createRequire } from "node:module";
 import Prompt from "inquirer/lib/prompts/base.js";
 import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt.js";
 import { TestContext } from "../../../TestContext.js";

@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
 import upath from "upath";
