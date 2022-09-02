@@ -179,7 +179,7 @@ export class MyTSProjectPackageFileMapping<TSettings extends ITSProjectSettings,
      */
     protected override async LoadPackage(): Promise<Package>
     {
-        let result = await super.LoadPackage();
+        let result = await this.Base.GetPackage();
 
         result.Register(
             new PackageDependencyCollection(
