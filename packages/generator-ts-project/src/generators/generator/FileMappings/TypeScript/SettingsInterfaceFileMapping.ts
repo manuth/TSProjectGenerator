@@ -1,7 +1,7 @@
 import { EOL } from "node:os";
 import { dirname, relative } from "node:path";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ImportDeclarationStructure, OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -85,42 +85,45 @@ export class SettingsInterfaceFileMapping<TSettings extends IGeneratorSettings, 
             };
         };
 
-        sourceFile.addImportDeclarations(
+        let fileImports: Array<[string, string]> = [
             [
-                {
-                    moduleSpecifier: "@manuth/extended-yo-generator",
-                    namedImports: [
-                        nameof<IGeneratorSettings>()
-                    ]
-                },
+                this.NamingContext.SettingKeyFileName,
+                this.NamingContext.SettingKeyEnumName
+            ],
+            [
+                this.NamingContext.GeneratorClassFileName,
+                this.NamingContext.GeneratorClassName
+            ],
+            [
+                this.NamingContext.LicenseTypeFileName,
+                this.NamingContext.LicenseTypeEnumName
+            ]
+        ];
+
+        let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [
+            {
+                moduleSpecifier: "@manuth/extended-yo-generator",
+                namedImports: [
+                    nameof<IGeneratorSettings>()
+                ]
+            }
+        ];
+
+        for (let fileImport of fileImports)
+        {
+            importDeclarations.push(
                 {
                     moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
                         relative(
                             dirname(this.Destination),
-                            this.NamingContext.SettingKeyFileName)),
+                            fileImport[0])),
                     namedImports: [
-                        this.NamingContext.SettingKeyEnumName
+                        fileImport[1]
                     ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.GeneratorClassFileName)),
-                    namedImports: [
-                        this.NamingContext.GeneratorClassName
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.LicenseTypeFileName)),
-                    namedImports: [
-                        this.NamingContext.LicenseTypeEnumName
-                    ]
-                }
-            ]);
+                });
+        }
+
+        sourceFile.addImportDeclarations(importDeclarations);
 
         sourceFile.addInterface(
             {
