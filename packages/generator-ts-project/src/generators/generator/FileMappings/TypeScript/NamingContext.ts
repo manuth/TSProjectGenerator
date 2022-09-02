@@ -86,6 +86,14 @@ export class NamingContext
     }
 
     /**
+     * Gets the name of the `chalk`-component.
+     */
+    public get ChalkName(): string
+    {
+        return "chalk";
+    }
+
+    /**
      * Gets the name of the `dedent`-component.
      */
     public get DedentName(): string

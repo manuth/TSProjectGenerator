@@ -7,8 +7,6 @@ import { ConstructorDeclarationStructure, ImportDeclarationStructure, OptionalKi
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
-const { whiteBright } = chalk;
-
 /**
  * Provides the functionality to create a file which provides license-types.
  *
@@ -57,6 +55,10 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
 
         let dynamicImports: Array<[string, string]> = [
             [
+                "chalk",
+                this.NamingContext.ChalkName
+            ],
+            [
                 "dedent",
                 this.NamingContext.DedentName
             ],
@@ -84,12 +86,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
         sourceFile = await super.Transform(sourceFile);
 
         importDeclarations.push(
-            {
-                moduleSpecifier: "chalk",
-                namedImports: [
-                    nameof(whiteBright)
-                ]
-            },
             {
                 moduleSpecifier: "@manuth/extended-yo-generator",
                 namedImports: [
@@ -622,7 +618,9 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                     [
                                                         ts.factory.createTemplateSpan(
                                                             ts.factory.createCallExpression(
-                                                                ts.factory.createIdentifier(nameof(whiteBright)),
+                                                                ts.factory.createPropertyAccessExpression(
+                                                                    ts.factory.createIdentifier(this.NamingContext.ChalkName),
+                                                                    nameof(chalk.whiteBright)),
                                                                 [],
                                                                 [
                                                                     ts.factory.createStringLiteral(this.NamingContext.GeneratorDisplayName)
