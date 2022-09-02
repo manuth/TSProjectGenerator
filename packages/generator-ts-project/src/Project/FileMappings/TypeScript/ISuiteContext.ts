@@ -7,4 +7,9 @@ export interface ISuiteContext
      * The name of the suite.
      */
     SuiteName: string;
+
+    /**
+     * The name of the suite function
+     */
+    SuiteFunctionName?: string;
 }

@@ -1,6 +1,6 @@
 import { EOL } from "node:os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ArrowFunction, CallExpression, SourceFile, ts } from "ts-morph";
+import { ArrowFunction, CallExpression, SourceFile, Statement, SyntaxKind, ts } from "ts-morph";
 import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";
 import { ISuiteContext } from "./ISuiteContext.js";
 
@@ -40,6 +40,17 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     }
 
     /**
+     * Gets the name of the suite function.
+     *
+     * @returns
+     * he name of the suite function.
+     */
+    public async GetSuiteFunctionName(): Promise<string>
+    {
+        return (await this.Context()).SuiteFunctionName;
+    }
+
+    /**
      * Gets the function for registering the suite.
      *
      * @returns
@@ -72,6 +83,41 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     }
 
     /**
+     * Gets the main statement of the suite file.
+     *
+     * @returns The main statement of the suite file.
+     */
+    protected async GetMainStatement(): Promise<Statement>
+    {
+        let result: Statement;
+        let suiteFunctionName = await this.GetSuiteFunctionName();
+
+        if (suiteFunctionName)
+        {
+            let suiteFunction = this.WrapNode(
+                ts.factory.createFunctionDeclaration(
+                    [],
+                    [],
+                    undefined,
+                    suiteFunctionName,
+                    [],
+                    [],
+                    ts.factory.createKeywordTypeNode(SyntaxKind.VoidKeyword),
+                    ts.factory.createBlock([])));
+
+            suiteFunction.setIsExported(true);
+            suiteFunction.setBodyText((await this.GetSuiteCall()).getFullText());
+            result = suiteFunction;
+        }
+        else
+        {
+            result = this.WrapExpression(await this.GetSuiteCall());
+        }
+
+        return result;
+    }
+
+    /**
      * @inheritdoc
      *
      * @param sourceFile
@@ -83,7 +129,7 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
         sourceFile = await super.Transform(sourceFile);
-        sourceFile.addStatements(this.WrapExpression(await this.GetSuiteCall()).getFullText());
+        sourceFile.addStatements((await this.GetMainStatement()).getFullText());
         return sourceFile;
     }
 }
