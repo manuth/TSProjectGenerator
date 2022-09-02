@@ -10,8 +10,17 @@
     "Unit-Tests",
     "Testing"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "homepage": "https://github.com/manuth/TSProjectGenerator#readme",
   "repository": {
     "type": "git",

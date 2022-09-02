@@ -13,8 +13,17 @@
     "manuth",
     "TypeScript"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "homepage": "https://github.com/manuth/TSProjectGenerator/tree/main/packages/generator-my-ts-project#readme",
   "repository": {
     "type": "git",
@@ -38,6 +47,7 @@
     "@manuth/package-json-editor": "3.0.1",
     "detect-newline": "^4.0.0",
     "eol": "^0.9.1",
+    "esm-resolve": "^1.0.8",
     "upath": "^2.0.1",
     "yaml": "^2.1.1"
   },

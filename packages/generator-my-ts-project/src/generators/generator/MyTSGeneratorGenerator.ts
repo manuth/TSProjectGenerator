@@ -1,9 +1,13 @@
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSGeneratorSettings, TSGeneratorGenerator } from "@manuth/generator-ts-project";
+import buildResolver from "esm-resolve";
 import { MyTSProjectGenerator } from "../../MyTSProjectGenerator.js";
 
-const basePath = createRequire(import.meta.url).resolve("@manuth/generator-ts-project");
+const basePath = createRequire(import.meta.url).resolve(
+    buildResolver(fileURLToPath(import.meta.url))("@manuth/generator-ts-project")
+);
 
 /**
  * Provides the functionality to generate a custom generator written in TypeScript.
