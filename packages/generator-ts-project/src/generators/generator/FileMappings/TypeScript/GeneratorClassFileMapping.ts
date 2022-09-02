@@ -678,7 +678,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                 let indentation = " ".repeat(4 * 4);
 
                                 return ts.factory.createTemplateExpression(
-                                    ts.factory.createTemplateHead(`${EOL}${indentation}Your project is ready!${EOL}${EOL}${indentation}It lives in "`),
+                                    ts.factory.createTemplateHead(undefined, `${EOL}${indentation}Your project is ready!${EOL}${EOL}${indentation}It lives in "`),
                                     [
                                         ts.factory.createTemplateSpan(
                                             ts.factory.createElementAccessExpression(
