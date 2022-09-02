@@ -3,7 +3,7 @@ import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
 import chalk from "chalk";
 import { ChoiceOptions, ListQuestion } from "inquirer";
-import { ConstructorDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ConstructorDeclarationStructure, ImportDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -53,6 +53,8 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [];
+
         let dynamicImports: Array<[string, string]> = [
             [
                 "dedent",
@@ -64,61 +66,61 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
             ]
         ];
 
+        let fileImports: Array<[string, string]> = [
+            [
+                this.NamingContext.SettingKeyFileName,
+                this.NamingContext.SettingKeyEnumName
+            ],
+            [
+                this.NamingContext.SettingsInterfaceFileName,
+                this.NamingContext.SettingsInterfaceName
+            ],
+            [
+                this.NamingContext.LicenseTypeFileName,
+                this.NamingContext.LicenseTypeEnumName
+            ]
+        ];
+
         sourceFile = await super.Transform(sourceFile);
 
-        sourceFile.addImportDeclarations(
-            [
-                {
-                    moduleSpecifier: "chalk",
-                    namedImports: [
-                        nameof(whiteBright)
-                    ]
-                },
-                {
-                    moduleSpecifier: "@manuth/extended-yo-generator",
-                    namedImports: [
-                        nameof<Generator>(),
-                        nameof<GeneratorOptions>(),
-                        nameof<IComponentCollection<any, any>>(),
-                        nameof<Question>()
-                    ]
-                },
-                {
-                    moduleSpecifier: "node:path",
-                    namedImports: [
-                        nameof(basename),
-                        nameof(isAbsolute),
-                        nameof(resolve)
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.SettingKeyFileName)),
-                    namedImports: [
-                        this.NamingContext.SettingKeyEnumName
-                    ]
-                },
+        importDeclarations.push(
+            {
+                moduleSpecifier: "chalk",
+                namedImports: [
+                    nameof(whiteBright)
+                ]
+            },
+            {
+                moduleSpecifier: "@manuth/extended-yo-generator",
+                namedImports: [
+                    nameof<Generator>(),
+                    nameof<GeneratorOptions>(),
+                    nameof<IComponentCollection<any, any>>(),
+                    nameof<Question>()
+                ]
+            },
+            {
+                moduleSpecifier: "node:path",
+                namedImports: [
+                    nameof(basename),
+                    nameof(isAbsolute),
+                    nameof(resolve)
+                ]
+            });
+
+        for (let fileImport of fileImports)
+        {
+            importDeclarations.push(
                 {
                     moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
                         relative(
                             dirname(this.Destination),
-                            this.NamingContext.SettingsInterfaceFileName)),
+                            fileImport[0])),
                     namedImports: [
-                        this.NamingContext.SettingsInterfaceName
+                        fileImport[1]
                     ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.LicenseTypeFileName)),
-                    namedImports: [
-                        this.NamingContext.LicenseTypeEnumName
-                    ]
-                }
-            ]);
+                });
+        }
 
         sourceFile.addStatements(
             dynamicImports.map(
@@ -130,6 +132,8 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                         entry[1],
                         ts.factory.createExternalModuleReference(
                             ts.factory.createStringLiteral(entry[0]))))));
+
+        sourceFile.addImportDeclarations(importDeclarations);
 
         let generatorClass = sourceFile.addClass(
             {
