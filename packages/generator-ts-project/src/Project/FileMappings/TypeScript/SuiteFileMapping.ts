@@ -69,16 +69,19 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected async GetSuiteCall(): Promise<CallExpression>
     {
-        let suiteCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(suite)), [], []));
         let suiteNameNode = this.WrapNode(ts.factory.createStringLiteral(""));
+        let suiteFunction = await this.GetSuiteFunction();
+        let suiteCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(suite)), [], []));
         suiteNameNode.setLiteralValue(await this.GetSuiteName());
 
         suiteCall.addArguments(
             [
                 `${EOL}${suiteNameNode.getFullText()}`,
-                `${EOL}${(await this.GetSuiteFunction()).getFullText()}`
+                `${EOL}${suiteFunction.getFullText()}`
             ]);
 
+        suiteNameNode.forget();
+        suiteFunction.forget();
         return suiteCall;
     }
 
@@ -91,6 +94,7 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     {
         let result: Statement;
         let suiteFunctionName = await this.GetSuiteFunctionName();
+        let suiteCall = await this.GetSuiteCall();
 
         if (suiteFunctionName)
         {
@@ -106,14 +110,15 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
                     ts.factory.createBlock([])));
 
             suiteFunction.setIsExported(true);
-            suiteFunction.setBodyText((await this.GetSuiteCall()).getFullText());
+            suiteFunction.setBodyText(suiteCall.getFullText());
             result = suiteFunction;
         }
         else
         {
-            result = this.WrapExpression(await this.GetSuiteCall());
+            result = this.WrapExpression(suiteCall);
         }
 
+        suiteCall.forget();
         return result;
     }
 
@@ -128,8 +133,10 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let mainStatement = await this.GetMainStatement();
         sourceFile = await super.Transform(sourceFile);
-        sourceFile.addStatements((await this.GetMainStatement()).getFullText());
+        sourceFile.addStatements(mainStatement.getFullText());
+        mainStatement.forget();
         return sourceFile;
     }
 }

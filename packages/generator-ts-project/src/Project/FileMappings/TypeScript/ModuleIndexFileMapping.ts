@@ -40,18 +40,20 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
                         ts.factory.createKeywordTypeNode(SyntaxKind.VoidKeyword)
                     ])));
 
-        result.addStatements(
-            this.WrapExpression(
-                this.WrapNode(
-                    ts.factory.createCallExpression(
-                        ts.factory.createPropertyAccessExpression(
-                            ts.factory.createIdentifier(nameof(console)),
-                            nameof(console.log)),
-                        [],
-                        [
-                            ts.factory.createStringLiteral("Hello World")
-                        ]))).getFullText());
+        let consoleCall = this.WrapNode(
+            ts.factory.createCallExpression(
+                ts.factory.createPropertyAccessExpression(
+                    ts.factory.createIdentifier(nameof(console)),
+                    nameof(console.log)),
+                [],
+                [
+                    ts.factory.createStringLiteral("Hello World")
+                ]));
 
+        let consoleStatement = this.WrapExpression(consoleCall);
+        result.addStatements(consoleStatement.getFullText());
+        consoleCall.forget();
+        consoleStatement.forget();
         return result;
     }
 
@@ -66,13 +68,15 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let exportValue = await this.GetModuleExportValue();
         sourceFile = await super.Transform(sourceFile);
 
         sourceFile.addExportAssignment(
             {
-                expression: (await this.GetModuleExportValue()).getFullText()
+                expression: exportValue.getFullText()
             });
 
+        exportValue.forget();
         return sourceFile;
     }
 }
