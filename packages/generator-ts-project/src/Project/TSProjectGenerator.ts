@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 import { relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
 import chalk from "chalk";
@@ -9,6 +9,7 @@ import dedent from "dedent";
 // eslint-disable-next-line node/no-unpublished-import
 import type { ESLint } from "eslint";
 import fs from "fs-extra";
+import kebabCase from "lodash.kebabcase";
 import npmWhich from "npm-which";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
@@ -27,6 +28,7 @@ import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackaging/TSProje
 import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection.js";
 import { ITSProjectSettings } from "./Settings/ITSProjectSettings.js";
 import { TSProjectComponent } from "./Settings/TSProjectComponent.js";
+import { ITSProjectOptions } from "./Settings/TSProjectOptions.js";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
 
 const { readFile, readJSON, writeFile, writeJSON } = fs;
@@ -41,7 +43,7 @@ const { join, resolve } = upath;
  * @template TOptions
  * The type of the options of the generator.
  */
-export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
+export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends ITSProjectOptions = ITSProjectOptions> extends Generator<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class.
@@ -68,6 +70,14 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
             });
 
         this.env.adapter.promptModule.registerPrompt(PathPrompt.TypeName, PathPrompt);
+
+        this.option(
+            kebabCase(nameof<ITSProjectOptions>((options) => options.skipCleanup)),
+            {
+                type: Boolean,
+                default: false,
+                description: "Skips the process of cleaning the generated code using eslint"
+            });
     }
 
     /**
@@ -299,63 +309,66 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
      */
     public async cleanup(): Promise<void>
     {
-        let tempDir = new TempDirectory();
-        let esLintJSFileName = new ESLintRCFileMapping(this).DefaultBaseName;
-        let lintPackage = new Package(tempDir.MakePath(Package.FileName), {});
-        let workspaceRequire: NodeRequire;
-        let linterConstructor: typeof Linter;
-        let eslintConstructor: typeof ESLint;
-        let program: Program;
-        let linter: ESLint;
-        let tsConfigFile = tempDir.MakePath(fileName);
-        let tsConfig = await readJSON(this.destinationPath(fileName)) as TSConfigJSON;
-        this.log("");
-        this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
-        this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
-        delete tsConfig.extends;
-        tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
-        tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
-        await writeJSON(tsConfigFile, tsConfig);
-        await writeFile(tempDir.MakePath(esLintJSFileName), await readFile(this.modulePath(esLintJSFileName)));
-        lintPackage.Register(new BuildDependencies());
-        lintPackage.Register(new LintEssentials());
-        await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
-
-        this.spawnCommandSync(
-            npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
-            [
-                "install",
-                "--silent"
-            ],
-            {
-                cwd: tempDir.FullName
-            });
-
-        workspaceRequire = createRequire(join(tempDir.FullName, ".js"));
-        linterConstructor = workspaceRequire("tslint").Linter;
-        eslintConstructor = workspaceRequire("eslint").ESLint;
-        program = linterConstructor.createProgram(tsConfigFile);
-
-        linter = new eslintConstructor(
-            {
-                cwd: tempDir.FullName,
-                fix: true,
-                useEslintrc: false,
-                overrideConfigFile: tempDir.MakePath(esLintJSFileName),
-                overrideConfig: {
-                    parserOptions: {
-                        project: tsConfigFile
-                    }
-                }
-            });
-
-        for (let fileName of program.getRootFileNames())
+        if (!this.options.skipCleanup)
         {
-            this.log(chalk.gray(`Cleaning up "${relative(this.destinationPath(), fileName)}"…`));
-            await eslintConstructor.outputFixes(await linter.lintFiles(fileName));
-        }
+            let tempDir = new TempDirectory();
+            let esLintJSFileName = new ESLintRCFileMapping(this).DefaultBaseName;
+            let lintPackage = new Package(tempDir.MakePath(Package.FileName), {});
+            let workspaceRequire: NodeRequire;
+            let linterConstructor: typeof Linter;
+            let eslintConstructor: typeof ESLint;
+            let program: Program;
+            let linter: ESLint;
+            let tsConfigFile = tempDir.MakePath(fileName);
+            let tsConfig = await readJSON(this.destinationPath(fileName)) as TSConfigJSON;
+            this.log("");
+            this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
+            this.log(chalk.whiteBright("Creating a temporary linting-environment…"));
+            delete tsConfig.extends;
+            tsConfig.compilerOptions.rootDir = resolve(this.destinationPath(this.SourceRoot));
+            tsConfig.include = [resolve(this.destinationPath(this.SourceRoot, "**", "*"))];
+            await writeJSON(tsConfigFile, tsConfig);
+            await writeFile(tempDir.MakePath(esLintJSFileName), await readFile(this.modulePath(esLintJSFileName)));
+            lintPackage.Register(new BuildDependencies());
+            lintPackage.Register(new LintEssentials());
+            await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
 
-        tempDir.Dispose();
+            this.spawnCommandSync(
+                npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
+                [
+                    "install",
+                    "--silent"
+                ],
+                {
+                    cwd: tempDir.FullName
+                });
+
+            workspaceRequire = createRequire(join(tempDir.FullName, ".js"));
+            linterConstructor = workspaceRequire("tslint").Linter;
+            eslintConstructor = workspaceRequire("eslint").ESLint;
+            program = linterConstructor.createProgram(tsConfigFile);
+
+            linter = new eslintConstructor(
+                {
+                    cwd: tempDir.FullName,
+                    fix: true,
+                    useEslintrc: false,
+                    overrideConfigFile: tempDir.MakePath(esLintJSFileName),
+                    overrideConfig: {
+                        parserOptions: {
+                            project: tsConfigFile
+                        }
+                    }
+                });
+
+            for (let fileName of program.getRootFileNames())
+            {
+                this.log(chalk.gray(`Cleaning up "${relative(this.destinationPath(), fileName)}"…`));
+                await eslintConstructor.outputFixes(await linter.lintFiles(fileName));
+            }
+
+            tempDir.Dispose();
+        }
     }
 
     /**
