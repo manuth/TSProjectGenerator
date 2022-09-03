@@ -9,7 +9,7 @@ import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSe
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../../../TestContext.js";
 
-const { normalize, resolve } = path;
+const { normalize } = path;
 
 /**
  * Registers the tests for the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class.
@@ -130,7 +130,7 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                                     (importDeclaration) =>
                                     {
                                         return (
-                                            normalize(importDeclaration.getModuleSpecifierSourceFile().getFilePath()) === normalize(resolve(namingContext.GeneratorSuiteFileName))) &&
+                                            normalize(importDeclaration.getModuleSpecifierSourceFile().getFilePath()) === normalize(generator.destinationPath(namingContext.GeneratorSuiteFileName))) &&
                                             importDeclaration.getNamedImports().some(
                                                 (importSpecifier) =>
                                                 {
