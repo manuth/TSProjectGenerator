@@ -35,6 +35,7 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }

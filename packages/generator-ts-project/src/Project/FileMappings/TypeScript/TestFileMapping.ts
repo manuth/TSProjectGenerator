@@ -38,6 +38,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
             ]);
 
         executor.addStatements(this.WrapExpression(assertion).getFullText());
+        assertion.forget();
         return executor;
     }
 
@@ -51,14 +52,17 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
     {
         let testCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(test)), [], []));
         let testNameNode = this.WrapNode(ts.factory.createStringLiteral(""));
+        let executor = await this.GetTestExecutor();
         testNameNode.setLiteralValue("Example…");
 
         testCall.addArguments(
             [
                 `${EOL}${testNameNode.getFullText()}`,
-                `${EOL}${(await this.GetTestExecutor()).getFullText()}`
+                `${EOL}${executor.getFullText()}`
             ]);
 
+        testNameNode.forget();
+        executor.forget();
         return testCall;
     }
 
@@ -71,12 +75,16 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
     protected override async GetSuiteFunction(): Promise<ArrowFunction>
     {
         let result = await super.GetSuiteFunction();
+        let testCall = await this.GetTestCall();
+        let testExpression = this.WrapExpression(testCall);
 
         result.addStatements(
             [
-                this.WrapExpression(await this.GetTestCall()).getFullText()
+                testExpression.getFullText()
             ]);
 
+        testCall.forget();
+        testExpression.forget();
         return result;
     }
 
