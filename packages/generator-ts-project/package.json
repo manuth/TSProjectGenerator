@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.3.4",
-    "@manuth/extended-yo-generator": "^12.0.2",
+    "@manuth/extended-yo-generator": "^12.1.0",
     "@manuth/package-json-editor": "^3.0.2",
     "@manuth/temp-files": "^3.0.0",
     "@types/inquirer": "^9.0.1",
@@ -69,7 +69,7 @@
     "lodash.kebabcase": "^4.1.1",
     "npm-which": "^3.0.1",
     "parse-pkg-name": "^2.0.0",
-    "ts-morph": "^15.1.0",
+    "ts-morph": "^16.0.0",
     "types-eslintrc": "^1.0.3",
     "types-tsconfig": "^1.2.1",
     "upath": "^2.0.1",
@@ -78,7 +78,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/extended-yo-generator-test": "^12.0.2",
+    "@manuth/extended-yo-generator-test": "^12.1.0",
     "@manuth/generator-ts-project-test": "^3.1.0",
     "@manuth/tsconfig": "^3.0.2",
     "@tsd/typescript": "npm:nop@^1.0.0",
