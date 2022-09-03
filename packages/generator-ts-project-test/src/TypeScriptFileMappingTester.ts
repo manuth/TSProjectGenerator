@@ -97,11 +97,13 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
             sourceFile.forget();
         }
 
+        let result = this.NodeRequire(fileName);
+
         if (fileName in this.NodeRequire.cache)
         {
             delete this.NodeRequire.cache[fileName];
         }
 
-        return this.NodeRequire(fileName);
+        return result;
     }
 }
