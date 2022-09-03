@@ -41,6 +41,16 @@ suite(
                 workingDirectory = process.cwd();
             });
 
+        suiteTeardown(
+            () =>
+            {
+                for (let entry of contextMap.values())
+                {
+                    let context = entry[0];
+                    context.Dispose();
+                }
+            });
+
         teardown(
             async () =>
             {
@@ -51,16 +61,6 @@ suite(
                 }
 
                 process.chdir(workingDirectory);
-            });
-
-        suiteTeardown(
-            () =>
-            {
-                for (let entry of contextMap.values())
-                {
-                    let context = entry[0];
-                    context.Dispose();
-                }
             });
 
         ComponentTests();
