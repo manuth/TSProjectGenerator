@@ -59,7 +59,8 @@ export class GeneratorTestFileMapping<TSettings extends IGeneratorSettings, TOpt
     public async Context(): Promise<ISuiteContext>
     {
         return {
-            SuiteName: this.NamingContext.GeneratorClassName
+            SuiteName: this.NamingContext.GeneratorClassName,
+            SuiteFunctionName: this.NamingContext.GeneratorTestFunctionName
         };
     }
 }

@@ -214,11 +214,27 @@ export class NamingContext
     }
 
     /**
+     * Gets the name of the suite-function of the generators.
+     */
+    public get GeneratorSuiteFunctionName(): string
+    {
+        return "GeneratorTests";
+    }
+
+    /**
      * Gets the name of the file which contains the generator-suite.
      */
     public get GeneratorSuiteFileName(): string
     {
         return join(this.GeneratorTestDirName, this.AddTypeScriptExtension("index"));
+    }
+
+    /**
+     * Gets the name of the test-function of the generator.
+     */
+    public get GeneratorTestFunctionName(): string
+    {
+        return `${this.GeneratorClassName}Tests`;
     }
 
     /**

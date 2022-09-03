@@ -1,6 +1,6 @@
 import { dirname, relative } from "node:path";
 import { Generator, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ArrowFunction, printNode, StatementStructures, ts, WriterFunction } from "ts-morph";
+import { ArrowFunction, ImportDeclarationStructure, OptionalKind, printNode, SourceFile, StatementStructures, ts, WriterFunction } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
 import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase.js";
 import { GeneratorTestFileMapping } from "./GeneratorTestFileMapping.js";
@@ -56,7 +56,8 @@ export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOp
     public async Context(): Promise<ISuiteContext>
     {
         return {
-            SuiteName: "Generators"
+            SuiteName: "Generators",
+            SuiteFunctionName: this.NamingContext.GeneratorSuiteFunctionName
         };
     }
 
@@ -75,23 +76,55 @@ export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOp
         {
             if (fileMapping.Object instanceof GeneratorTestFileMapping)
             {
+                let suiteFunctionName = await fileMapping.Object.GetSuiteFunctionName();
+
                 statements.push(
                     printNode(
-                        ts.factory.createExpressionStatement(
-                            ts.factory.createCallExpression(
-                                ts.factory.createIdentifier(nameof(require)),
-                                [],
-                                [
-                                    ts.factory.createStringLiteral(
-                                        (await this.GetSourceObject()).getRelativePathAsModuleSpecifierTo(
-                                            relative(
-                                                dirname(this.Destination),
-                                                fileMapping.Object.Destination)))
-                                ]))));
+                        ts.factory.createCallExpression(
+                            ts.factory.createIdentifier(suiteFunctionName),
+                            [],
+                            [])));
             }
         }
 
         result.addStatements(statements);
+        return result;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param sourceFile
+     * The source-file to process.
+     *
+     * @returns
+     * The processed data.
+     */
+    protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
+    {
+        let result = await super.Transform(sourceFile);
+        let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [];
+
+        for (let fileMapping of this.Generator.FileMappingCollection.Items)
+        {
+            if (fileMapping.Object instanceof GeneratorTestFileMapping)
+            {
+                let suiteFunctionName = await fileMapping.Object.GetSuiteFunctionName();
+
+                importDeclarations.push(
+                    {
+                        moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
+                            relative(
+                                dirname(this.Destination),
+                                fileMapping.Destination)),
+                        namedImports: [
+                            suiteFunctionName
+                        ]
+                    });
+            }
+        }
+
+        result.addImportDeclarations(importDeclarations);
         return result;
     }
 }
