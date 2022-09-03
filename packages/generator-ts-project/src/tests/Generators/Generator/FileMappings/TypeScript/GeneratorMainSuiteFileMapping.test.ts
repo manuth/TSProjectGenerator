@@ -1,15 +1,12 @@
 import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ArrowFunction, SyntaxKind } from "ts-morph";
-import upath from "upath";
+import { ArrowFunction, SourceFile, SyntaxKind } from "ts-morph";
 import { GeneratorMainSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorMainSuiteFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../../../TestContext.js";
-
-const { dirname, normalize, relative } = upath;
 
 /**
  * Registers the tests for the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class.
@@ -37,6 +34,20 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                 public override async GetSuiteFunction(): Promise<ArrowFunction>
                 {
                     return super.GetSuiteFunction();
+                }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param sourceFile
+                 * The source-file to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
+                {
+                    return super.Transform(sourceFile);
                 }
             }
 
@@ -83,27 +94,43 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                 () =>
                 {
                     test(
-                        `Checking whether the file providing the generator test-suites is being \`${nameof(require)}\`d…`,
+                        "Checking whether the function providing the generator test-suites is being called…",
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
                             let suiteFunction = await fileMapping.GetSuiteFunction();
                             let sourceFile = await fileMapping.GetSourceObject();
-
-                            let moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(
-                                relative(dirname(fileMapping.Destination), namingContext.GeneratorSuiteFileName));
-
                             sourceFile.forget();
 
                             ok(
                                 suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(
                                     (callExpression) =>
                                     {
-                                        return callExpression.getExpression().getText() === nameof(require) &&
-                                            (
-                                                normalize(callExpression.getArguments()[0]?.asKind(SyntaxKind.StringLiteral).getLiteralValue()) ===
-                                                normalize(moduleSpecifier));
+                                        return callExpression.getExpression().getText() === namingContext.GeneratorSuiteFunctionName;
+                                    }));
+                        });
+                });
+
+            suite(
+                nameof<TestGeneratorMainSuiteFileMapping>((fileMapping) => fileMapping.Transform),
+                () =>
+                {
+                    test(
+                        "Checking whether the file providing generator test-suites is imported…",
+                        async () =>
+                        {
+                            let result = await fileMapping.Transform(await fileMapping.GetSourceObject());
+
+                            ok(
+                                result.getImportDeclarations().some(
+                                    (importDeclaration) =>
+                                    {
+                                        return importDeclaration.getNamedImports().some(
+                                            (importSpecifier) =>
+                                            {
+                                                return importSpecifier.getName() === namingContext.GeneratorSuiteFunctionName;
+                                            });
                                     }));
                         });
                 });
