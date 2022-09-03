@@ -25,6 +25,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
             let testCode: string;
             let testFileName: string;
             let generator: TSProjectGenerator;
+            context.RegisterCleanupRestorer();
 
             suiteSetup(
                 async function()

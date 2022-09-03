@@ -24,6 +24,7 @@ suite(
         let workingDirectory: string;
         let generatorRoot = join(fileURLToPath(new URL(".", import.meta.url)), "..", "generators");
         let contextMap: Map<string, [GeneratorContext<any>, IGeneratorSettings]> = new Map();
+        TestContext.Default.RegisterCleanupSkipper();
         contextMap.set(defaultContextName, [GeneratorContext.Default, null]);
 
         for (let namespace of [GeneratorName.Main, GeneratorName.Module, GeneratorName.Generator])

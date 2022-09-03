@@ -1,8 +1,10 @@
 import { Generator } from "@manuth/extended-yo-generator";
-import { ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { IRunContext, ITestGeneratorOptions, ITestOptions, TestContext as GeneratorContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { IMockedAnswer, TestContext as ProjectContext } from "@manuth/generator-ts-project-test";
 import { DistinctQuestion, PromptModule, PromptModuleBase, QuestionTypeName } from "inquirer";
 import { MockSTDIN } from "mock-stdin";
+import { RunContextSettings } from "yeoman-test";
+import { ITSProjectOptions } from "../Project/Settings/TSProjectOptions.js";
 import { CodeWorkspaceComponent } from "../VSCode/Components/CodeWorkspaceComponent.js";
 import { TasksProcessor } from "../VSCode/TasksProcessor.js";
 
@@ -17,6 +19,11 @@ import { TasksProcessor } from "../VSCode/TasksProcessor.js";
  */
 export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions extends Record<string, any> = Record<string, any>> extends GeneratorContext<TGenerator, TOptions>
 {
+    /**
+     * A value indicating whether the cleanup-task is enabled.
+     */
+    private static skipCleanup = true;
+
     /**
      * A context for testing project-generators.
      */
@@ -119,6 +126,31 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     }
 
     /**
+     * @inheritdoc
+     *
+     * @param options
+     * The options for the generator.
+     *
+     * @param runSettings
+     * The settings for executing the generator.
+     *
+     * @returns
+     * The execution-context of the generator.
+     */
+    public override ExecuteGenerator(options?: TOptions, runSettings?: RunContextSettings): IRunContext<TGenerator>
+    {
+        return super.ExecuteGenerator(
+            {
+                ...options,
+                get skipCleanup()
+                {
+                    return TestContext.skipCleanup;
+                }
+            } as ITSProjectOptions as any,
+            runSettings);
+    }
+
+    /**
      * Creates a workspace-folder directive.
      *
      * @param name
@@ -175,5 +207,25 @@ export class TestContext<TGenerator extends Generator<any, TOptions>, TOptions e
     public RegisterWorkingDirRestorer(): void
     {
         this.ProjectContext.RegisterWorkingDirRestorer();
+    }
+
+    /**
+     * Registers hooks for replacing the {@link TSProjectGenerator.cleanup `cleanup`} method.
+     */
+    public RegisterCleanupSkipper(): void
+    {
+        let skipper = (): void => { TestContext.skipCleanup = true; };
+        suiteSetup(skipper);
+        setup(skipper);
+    }
+
+    /**
+     * Registers hooks for restoring the {@link TSProjectGenerator.cleanup `cleanup`} method.
+     */
+    public RegisterCleanupRestorer(): void
+    {
+        let restorer = (): void => { TestContext.skipCleanup = false; };
+        suiteSetup(restorer);
+        setup(restorer);
     }
 }
