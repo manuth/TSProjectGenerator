@@ -123,8 +123,8 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                         "Checking whether the file providing generator test-suites is imported…",
                         async function()
                         {
-                            this.timeout(10 * 1000);
-                            this.slow(5 * 1000);
+                            this.timeout(20 * 1000);
+                            this.slow(10 * 1000);
                             let result = await fileMapping.Transform(await fileMapping.GetSourceObject());
 
                             ok(
