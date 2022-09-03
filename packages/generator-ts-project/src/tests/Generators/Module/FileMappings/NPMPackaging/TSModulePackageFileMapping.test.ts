@@ -2,7 +2,6 @@ import { ok } from "node:assert";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { IPackageMetadata, Package } from "@manuth/package-json-editor";
 import fs from "fs-extra";
@@ -26,7 +25,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
         nameof(TSModulePackageFileMapping),
         () =>
         {
-            let runContext: IRunContext<TSModuleGenerator>;
+            let generator: TSModuleGenerator;
             let fileMapping: TestTSModulePackageFileMapping;
             let tester: PackageFileMappingTester<TSModuleGenerator, ITSProjectSettings, GeneratorOptions, TestTSModulePackageFileMapping>;
 
@@ -52,10 +51,9 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 {
                     this.timeout(5 * 60 * 1000);
                     let npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
-                    runContext = context.ExecuteGenerator();
-                    await runContext.toPromise();
-                    fileMapping = new TestTSModulePackageFileMapping(runContext.generator);
-                    tester = new PackageFileMappingTester(runContext.generator, fileMapping);
+                    generator = await context.Generator;
+                    fileMapping = new TestTSModulePackageFileMapping(generator);
+                    tester = new PackageFileMappingTester(generator, fileMapping);
 
                     spawnSync(
                         npmPath,
@@ -64,7 +62,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                             "--silent"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath(),
+                            cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
 
@@ -75,16 +73,9 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                             "build"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath(),
+                            cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
-                });
-
-            suiteTeardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    runContext.cleanTestDirectory();
                 });
 
             setup(
@@ -102,7 +93,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         async function()
                         {
                             this.slow(2 * 1000);
-                            ok(await pathExists(tester.Generator.destinationPath((await tester.ParseOutput()).Main)));
+                            ok(await pathExists(generator.destinationPath((await tester.ParseOutput()).Main)));
                         });
 
                     test(
@@ -110,7 +101,7 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                         async function()
                         {
                             this.slow(2 * 1000);
-                            ok(await pathExists(tester.Generator.destinationPath((await tester.ParseOutput()).Types)));
+                            ok(await pathExists(generator.destinationPath((await tester.ParseOutput()).Types)));
                         });
                 });
         });

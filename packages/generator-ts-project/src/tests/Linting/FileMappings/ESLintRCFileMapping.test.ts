@@ -3,12 +3,13 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PluginName, PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { Linter } from "eslint";
 import npmWhich from "npm-which";
 import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping.js";
 import { LintRuleset } from "../../../Linting/LintRuleset.js";
+import { TSProjectPackageFileMapping } from "../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
 import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent.js";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
@@ -45,10 +46,9 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         ]
                     };
 
-                    let generatorContext = context.ExecuteGenerator();
-                    generatorContext.inDir(tempDir.FullName);
-                    await generatorContext;
-                    generator = generatorContext.generator;
+                    generator = context.CreateGenerator(TSProjectGenerator);
+                    generator.destinationRoot(tempDir.FullName);
+                    await new FileMappingTester(generator, new TSProjectPackageFileMapping(generator)).Run();
 
                     let installationResult = spawnSync(
                         npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),

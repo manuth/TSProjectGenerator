@@ -2,7 +2,6 @@ import { doesNotThrow, strictEqual } from "node:assert";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { IRunContext } from "@manuth/extended-yo-generator-test";
 import npmWhich from "npm-which";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../../TestContext.js";
@@ -20,9 +19,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         () =>
         {
             let npmPath: string;
-            let runContext: IRunContext<TSModuleGenerator>;
             let generator: TSModuleGenerator;
-            let testContext: IRunContext<TSModuleGenerator>;
             context.RegisterWorkingDirRestorer();
 
             suiteSetup(
@@ -30,9 +27,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(5 * 60 * 1000);
                     npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
-                    runContext = context.ExecuteGenerator();
-                    await runContext.toPromise();
-                    generator = runContext.generator;
+                    generator = await context.Generator;
 
                     spawnSync(
                         npmPath,
@@ -55,28 +50,6 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
-                });
-
-            suiteTeardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    runContext.cleanTestDirectory();
-                });
-
-            setup(
-                async function()
-                {
-                    this.timeout(5 * 60 * 1000);
-                    testContext = context.ExecuteGenerator();
-                    await testContext.toPromise();
-                });
-
-            teardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    testContext.cleanTestDirectory();
                 });
 
             test(
@@ -93,7 +66,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath(),
+                            cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
 
@@ -104,7 +77,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath(),
+                            cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
 
