@@ -100,7 +100,18 @@ export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSetti
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
-        let result = await super.Transform(sourceFile);
+        return super.Transform(sourceFile);
+    }
+
+    /**
+     * Gets the object to write to the output file.
+     *
+     * @returns
+     * The object to write to the output file.
+     */
+    protected override async GetOutputObject(): Promise<SourceFile>
+    {
+        let result = super.GetOutputObject();
         this.Dispose();
         return result;
     }
