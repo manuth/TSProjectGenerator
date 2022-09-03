@@ -123,7 +123,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                 (entry) => printNode(
                     ts.factory.createImportEqualsDeclaration(
                         [],
-                        [],
                         false,
                         entry[1],
                         ts.factory.createExternalModuleReference(
@@ -255,7 +254,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                             [
                                                                 ts.factory.createParameterDeclaration(
                                                                     [],
-                                                                    [],
                                                                     undefined,
                                                                     inputParamName)
                                                             ],
@@ -331,7 +329,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                             [],
                                                             [
                                                                 ts.factory.createParameterDeclaration(
-                                                                    [],
                                                                     [],
                                                                     undefined,
                                                                     answersParamName,

@@ -101,7 +101,6 @@ export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOp
             let suiteFunction = this.WrapNode(
                 ts.factory.createFunctionDeclaration(
                     [],
-                    [],
                     undefined,
                     suiteFunctionName,
                     [],
