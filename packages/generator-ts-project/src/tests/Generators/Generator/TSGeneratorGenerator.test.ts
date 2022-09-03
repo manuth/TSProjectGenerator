@@ -73,7 +73,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     spawnSync(
@@ -83,7 +84,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
                 });
 
@@ -128,7 +130,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "--silent"
                                 ],
                                 {
-                                    cwd: testContext.generator.destinationPath()
+                                    cwd: testContext.generator.destinationPath(),
+                                    stdio: "ignore"
                                 });
 
                             let buildResult = spawnSync(
@@ -138,7 +141,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "build"
                                 ],
                                 {
-                                    cwd: testContext.generator.destinationPath()
+                                    cwd: testContext.generator.destinationPath(),
+                                    stdio: "ignore"
                                 });
 
                             strictEqual(installationResult.status, 0);
@@ -179,7 +183,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             let result = spawnSync(
                                 npmWhich(generator.destinationPath()).sync("mocha"),
                                 {
-                                    cwd: generator.destinationPath()
+                                    cwd: generator.destinationPath(),
+                                    stdio: "ignore"
                                 });
 
                             strictEqual(result.status, 0);

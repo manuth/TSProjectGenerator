@@ -64,7 +64,8 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                             "--silent"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: runContext.generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     spawnSync(
@@ -74,7 +75,8 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                             "build"
                         ],
                         {
-                            cwd: runContext.generator.destinationPath()
+                            cwd: runContext.generator.destinationPath(),
+                            stdio: "ignore"
                         });
                 });
 

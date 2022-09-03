@@ -57,7 +57,8 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(installationResult.status, 0);

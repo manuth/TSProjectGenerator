@@ -41,7 +41,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     spawnSync(
@@ -51,7 +52,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
                 });
 
@@ -91,7 +93,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "--silent"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath()
+                            cwd: testContext.generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     let buildResult = spawnSync(
@@ -101,7 +104,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             "build"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath()
+                            cwd: testContext.generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(installationResult.status, 0);
@@ -129,7 +133,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     let result = spawnSync(
                         npmWhich(generator.destinationPath()).sync("mocha"),
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(result.status, 0);

@@ -136,7 +136,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                     "--silent"
                                 ],
                                 {
-                                    cwd: tempDir.FullName
+                                    cwd: tempDir.FullName,
+                                    stdio: "ignore"
                                 });
 
                             spawnSync(
@@ -146,7 +147,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                     "build"
                                 ],
                                 {
-                                    cwd: tempDir.FullName
+                                    cwd: tempDir.FullName,
+                                    stdio: "ignore"
                                 });
 
                             doesNotThrow(
@@ -180,7 +182,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                     "--silent"
                                 ],
                                 {
-                                    cwd: tempDir.FullName
+                                    cwd: tempDir.FullName,
+                                    stdio: "ignore"
                                 });
 
                             spawnSync(
@@ -190,7 +193,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                     "build"
                                 ],
                                 {
-                                    cwd: tempDir.FullName
+                                    cwd: tempDir.FullName,
+                                    stdio: "ignore"
                                 });
 
                             await doesNotReject(

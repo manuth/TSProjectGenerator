@@ -117,7 +117,8 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     spawnSync(
@@ -127,7 +128,8 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
                 });
 
