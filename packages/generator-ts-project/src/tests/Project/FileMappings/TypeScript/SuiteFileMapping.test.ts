@@ -70,6 +70,7 @@ export function SuiteFileMappingTests(): void
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }

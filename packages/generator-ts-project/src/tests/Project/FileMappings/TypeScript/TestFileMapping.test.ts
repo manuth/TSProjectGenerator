@@ -52,6 +52,7 @@ export function TestFileMappingTests(): void
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }

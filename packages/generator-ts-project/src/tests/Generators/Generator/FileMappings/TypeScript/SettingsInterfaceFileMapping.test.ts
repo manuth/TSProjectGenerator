@@ -38,6 +38,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }

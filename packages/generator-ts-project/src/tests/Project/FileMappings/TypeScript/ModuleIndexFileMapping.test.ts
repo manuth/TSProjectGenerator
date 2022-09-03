@@ -48,6 +48,7 @@ export function ModuleIndexFileMappingTests(): void
                  */
                 public override Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }

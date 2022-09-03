@@ -40,6 +40,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
