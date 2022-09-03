@@ -6,6 +6,7 @@ import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-y
 import { TempDirectory } from "@manuth/temp-files";
 import npmWhich from "npm-which";
 import { Project, SyntaxKind } from "ts-morph";
+import path from "upath";
 import { GeneratorName } from "../../../Core/GeneratorName.js";
 import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
@@ -15,6 +16,8 @@ import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TS
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../TestContext.js";
+
+const { normalize } = path;
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
@@ -200,12 +203,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                         () =>
                         {
                             let sourceFile = new Project().addSourceFileAtPath(generator.destinationPath("src", "tests", "Generators", "index.ts"));
-
-                            let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
-                                (functionCall) =>
-                                {
-                                    return functionCall.getExpression().getText() === nameof(require);
-                                });
+                            let importDeclarations = sourceFile.getImportDeclarations();
+                            let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression);
 
                             for (
                                 let generatorName of
@@ -218,17 +217,28 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                         })
                                 ])
                             {
+                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
+
+                                strictEqual(
+                                    importDeclarations.filter(
+                                        (importDeclaration) =>
+                                        {
+                                            return (normalize(importDeclaration.getModuleSpecifierSourceFile().getFilePath()) === normalize(generator.destinationPath(namingContext.GeneratorTestFileName))) &&
+                                                importDeclaration.getNamedImports().some(
+                                                    (importSpecifier) =>
+                                                    {
+                                                        return importSpecifier.getName() === namingContext.GeneratorTestFunctionName;
+                                                    });
+                                        }).length,
+                                    1);
+
                                 strictEqual(
                                     functionCalls.filter(
                                         (functionCall) =>
                                         {
-                                            let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
-                                            let argument = functionCall.getArguments()[0];
-
-                                            return argument.getKind() === SyntaxKind.StringLiteral &&
-                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`/${namingContext.GeneratorClassName}.test`);
+                                            return functionCall.getExpression().getText() === namingContext.GeneratorTestFunctionName;
                                         }).length,
-                                    1);
+                                        1);
                             }
 
                             sourceFile.forget();

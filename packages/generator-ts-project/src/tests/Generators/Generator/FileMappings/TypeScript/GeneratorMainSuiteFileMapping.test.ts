@@ -1,12 +1,15 @@
 import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SourceFile, SyntaxKind } from "ts-morph";
+import path from "upath";
 import { GeneratorMainSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorMainSuiteFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../../../TestContext.js";
+
+const { normalize, resolve } = path;
 
 /**
  * Registers the tests for the {@link GeneratorMainSuiteFileMapping `GeneratorMainSuiteFileMapping<TSettings, TOptions>`} class.
@@ -126,11 +129,13 @@ export function GeneratorMainSuiteFileMappingTests(context: TestContext<TSGenera
                                 result.getImportDeclarations().some(
                                     (importDeclaration) =>
                                     {
-                                        return importDeclaration.getNamedImports().some(
-                                            (importSpecifier) =>
-                                            {
-                                                return importSpecifier.getName() === namingContext.GeneratorSuiteFunctionName;
-                                            });
+                                        return (
+                                            normalize(importDeclaration.getModuleSpecifierSourceFile().getFilePath()) === normalize(resolve(namingContext.GeneratorSuiteFileName))) &&
+                                            importDeclaration.getNamedImports().some(
+                                                (importSpecifier) =>
+                                                {
+                                                    return importSpecifier.getName() === namingContext.GeneratorSuiteFunctionName;
+                                                });
                                     }));
                         });
                 });
