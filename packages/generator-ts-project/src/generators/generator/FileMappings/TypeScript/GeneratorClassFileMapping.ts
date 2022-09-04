@@ -116,15 +116,29 @@ export class GeneratorClassFileMapping<TSettings extends ITSProjectSettings, TOp
                 });
         }
 
-        sourceFile.addStatements(
-            dynamicImports.map(
-                (entry) => printNode(
-                    ts.factory.createImportEqualsDeclaration(
-                        [],
-                        false,
-                        entry[1],
-                        ts.factory.createExternalModuleReference(
-                            ts.factory.createStringLiteral(entry[0]))))));
+        if (this.ESModule)
+        {
+            for (let dynamicImport of dynamicImports)
+            {
+                importDeclarations.push(
+                    {
+                        moduleSpecifier: dynamicImport[0],
+                        defaultImport: dynamicImport[1]
+                    });
+            }
+        }
+        else
+        {
+            sourceFile.addStatements(
+                dynamicImports.map(
+                    (entry) => printNode(
+                        ts.factory.createImportEqualsDeclaration(
+                            [],
+                            false,
+                            entry[1],
+                            ts.factory.createExternalModuleReference(
+                                ts.factory.createStringLiteral(entry[0]))))));
+        }
 
         sourceFile.addImportDeclarations(importDeclarations);
 
