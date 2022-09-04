@@ -23,6 +23,11 @@ export interface ITSProjectSettings extends IGeneratorSettings
     [TSProjectSettingKey.Name]: string;
 
     /**
+     * Gets or sets a value indicating whether the project should be created as an ESModule.
+     */
+    [TSProjectSettingKey.ESModule]: boolean;
+
+    /**
      * Gets or sets the description of the project.
      */
     [TSProjectSettingKey.Description]: string;
