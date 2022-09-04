@@ -94,7 +94,8 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
         let namingContext = new NamingContext(
             GeneratorName.Main,
             this.Settings[TSProjectSettingKey.DisplayName],
-            this.SourceRoot);
+            this.SourceRoot,
+            this.Settings[TSProjectSettingKey.ESModule]);
 
         for (let fileMapping of super.FileMappings)
         {

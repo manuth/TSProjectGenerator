@@ -27,6 +27,11 @@ export class NamingContext
     private sourceRoot: string;
 
     /**
+     * A value indicating whether the names are intended for the use in an ESModule.
+     */
+    private esModule: boolean;
+
+    /**
      * Initializes a new instance lf the {@link NamingContext `NamingContext`} class.
      *
      * @param id
@@ -37,12 +42,16 @@ export class NamingContext
      *
      * @param sourceRoot
      * The name of the directory to save the source-files to.
+     *
+     * @param esModule
+     * A value indicating whether the names are intended for the use in an ESModule.
      */
-    public constructor(id: string, displayName: string, sourceRoot: string)
+    public constructor(id: string, displayName: string, sourceRoot: string, esModule = false)
     {
         this.generatorID = id;
         this.displayName = displayName;
         this.sourceRoot = sourceRoot;
+        this.esModule = esModule;
     }
 
     /**
@@ -51,6 +60,14 @@ export class NamingContext
     public get GeneratorID(): string
     {
         return this.generatorID;
+    }
+
+    /**
+     * Gets a value indicating whether the names are intended for the use in an ESModule.
+     */
+    protected get ESModule(): boolean
+    {
+        return this.esModule;
     }
 
     /**
@@ -226,7 +243,13 @@ export class NamingContext
      */
     public get GeneratorSuiteFileName(): string
     {
-        return join(this.GeneratorTestDirName, this.AddTypeScriptExtension("index"));
+        let processor: typeof this.AddTypeScriptExtension = (fileName: string): string =>
+        {
+            // return this.ESModule ? this.AddTestFileExtension(fileName) : this.AddTypeScriptExtension(fileName);
+            return this.AddTypeScriptExtension(fileName);
+        };
+
+        return join(this.GeneratorTestDirName, processor("index"));
     }
 
     /**

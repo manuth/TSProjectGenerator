@@ -124,7 +124,11 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
      */
     protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<TSettings, TOptions>>
     {
-        let namingContext = new NamingContext(id, displayName, this.Generator.SourceRoot);
+        let namingContext = new NamingContext(
+            id,
+            displayName,
+            this.Generator.SourceRoot,
+            this.Generator.Settings[TSProjectSettingKey.ESModule]);
 
         return [
             new LicenseTypeFileMapping<TSettings, TOptions>(this.Generator, namingContext),
