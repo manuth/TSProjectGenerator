@@ -158,6 +158,11 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
         let result = await super.LoadPackage();
         result.Name = this.Generator.Settings[TSProjectSettingKey.Name];
         result.Description = this.Generator.Settings[TSProjectSettingKey.Description];
+
+        result.Exports = {
+            "./package.json": "./package.json"
+        };
+
         result.Register(new CommonDependencies(), true);
 
         result.PublishConfig = {

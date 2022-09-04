@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { Package } from "@manuth/package-json-editor";
+import { Package, ResolveMatrix } from "@manuth/package-json-editor";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,8 +36,17 @@ export class TSModulePackageFileMapping<TSettings extends ITSProjectSettings, TO
     protected override async LoadPackage(): Promise<Package>
     {
         let result = await super.LoadPackage();
-        result.Main = "lib/index.js";
-        result.Types = "lib/index.d.ts";
+        result.Main = "./lib/index.js";
+        result.Types = "./lib/index.d.ts";
+
+        result.Exports = {
+            ".": {
+                types: result.Types,
+                default: result.Main
+            },
+            ...result.Exports as ResolveMatrix
+        };
+
         return result;
     }
 }
