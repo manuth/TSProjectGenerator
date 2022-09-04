@@ -2,6 +2,7 @@ import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { Package, ResolveMatrix } from "@manuth/package-json-editor";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSModuleGenerator } from "../../TSModuleGenerator.js";
 
@@ -39,10 +40,18 @@ export class TSModulePackageFileMapping<TSettings extends ITSProjectSettings, TO
         result.Main = "./lib/index.js";
         result.Types = "./lib/index.d.ts";
 
+        let exportMap = {
+            types: result.Types,
+            default: result.Main
+        };
+
         result.Exports = {
             ".": {
-                types: result.Types,
-                default: result.Main
+                ...(this.Generator.Settings[TSProjectSettingKey.ESModule] ?
+                    {
+                        import: exportMap
+                    } :
+                    exportMap)
             },
             ...result.Exports as ResolveMatrix
         };
