@@ -46,15 +46,23 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         ]
                     };
 
-                    generator = context.CreateGenerator(TSProjectGenerator);
+                    generator = context.CreateGenerator(
+                        TSProjectGenerator,
+                        [],
+                        {
+                            resolved: (await context.Generator).modulePath()
+                        });
+
                     generator.destinationRoot(tempDir.FullName);
+                    Object.assign(generator.Settings, settings);
                     await new FileMappingTester(generator, new TSProjectPackageFileMapping(generator)).Run();
 
                     let installationResult = spawnSync(
                         npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
                         [
                             "install",
-                            "--silent"
+                            "--silent",
+                            "--ignore-scripts"
                         ],
                         {
                             cwd: generator.destinationPath(),
