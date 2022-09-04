@@ -1,6 +1,7 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
 import { TSGeneratorDependencies } from "../../Dependencies/TSGeneratorDependencies.js";
 import { TSGeneratorExampleDependencies } from "../../Dependencies/TSGeneratorExampleDependencies.js";
 import { ITSGeneratorSettings } from "../../Settings/ITSGeneratorSettings.js";
@@ -49,15 +50,16 @@ export class TSGeneratorPackageFileMapping<TSettings extends ITSGeneratorSetting
      */
     protected override async LoadPackage(): Promise<Package>
     {
+        let esModule = this.Generator.Settings[TSProjectSettingKey.ESModule];
         let result = await super.LoadPackage();
 
-        result.Register(new TSGeneratorDependencies(), true);
+        result.Register(new TSGeneratorDependencies(esModule), true);
 
         if (
             this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample) ||
             this.Generator.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.SubGeneratorExample))
         {
-            result.Register(new TSGeneratorExampleDependencies(), true);
+            result.Register(new TSGeneratorExampleDependencies(esModule), true);
         }
 
         return result;
