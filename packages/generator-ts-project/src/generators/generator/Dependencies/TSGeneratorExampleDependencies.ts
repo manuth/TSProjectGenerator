@@ -38,7 +38,7 @@ export class TSGeneratorExampleDependencies extends ESModuleDependencyCollection
     /**
      * @inheritdoc
      */
-    protected override get Overrides(): IDependencyCollectionOptions
+    protected override get CommonJSOverrides(): IDependencyCollectionOptions
     {
         return {
             dependencies: {

@@ -36,8 +36,7 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     }
 
     /**
-     * Applies the specified {@link overrides `overrides`} to the specified {@link dependencies `dependencies`} collection
-     * if the collection is set to be used in an ESModule.
+     * Applies the specified {@link overrides `overrides`} to the specified {@link dependencies `dependencies`} collection.
      *
      * @param dependencies
      * The dependencies to inject the specified {@link overrides `overrides`} into.
@@ -47,26 +46,39 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
      */
     protected InjectOverrides(dependencies: Dictionary<string, string>, overrides: Record<string, string>): void
     {
-        if (this.ESModule)
+        overrides ??= {};
+
+        for (let dependency of Object.keys(overrides ?? {}))
         {
-            overrides ??= {};
-
-            for (let dependency of Object.keys(overrides ?? {}))
+            if (dependencies.Has(dependency))
             {
-                if (dependencies.Has(dependency))
-                {
-                    dependencies.Remove(dependency);
-                }
-
-                dependencies.Add(dependency, overrides[dependency]);
+                dependencies.Remove(dependency);
             }
+
+            dependencies.Add(dependency, overrides[dependency]);
         }
+    }
+
+    /**
+     * Gets the overrides which should be applied to the dependencies.
+     */
+    protected get Overrides(): IDependencyCollectionOptions
+    {
+        return this.ESModule ? this.ESModuleOverrides : this.CommonJSOverrides;
     }
 
     /**
      * Gets the overrides which should be applied if the dependencies are registered for an ESModule.
      */
-    protected get Overrides(): IDependencyCollectionOptions
+    protected get ESModuleOverrides(): IDependencyCollectionOptions
+    {
+        return {};
+    }
+
+    /**
+     * Gets the overrides which should be applied if the dependencies are registered for an CommonJS package.
+     */
+    protected get CommonJSOverrides(): IDependencyCollectionOptions
     {
         return {};
     }
