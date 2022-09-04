@@ -1,33 +1,48 @@
-import { Dictionary } from "@manuth/package-json-editor";
-import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection.js";
+import { IDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { ESModuleDependencyCollection } from "../../../NPMPackaging/Dependencies/ESModuleDependencyCollection.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
 
 /**
  * Provides all common dependencies for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
  */
-export class TSGeneratorDependencies extends MyPackageDependencyCollection
+export class TSGeneratorDependencies extends ESModuleDependencyCollection
 {
     /**
-     * Initializes a new instance of the {@link TSGeneratorDependencies `TSGeneratorDependencies`} class.
+     * The name of the generator package.
      */
-    public constructor()
+    private static readonly generatorBasePackageName = "@manuth/extended-yo-generator";
+
+    /**
+     * Initializes a new instance of the {@link TSGeneratorDependencies `TSGeneratorDependencies`} class.
+     *
+     * @param esModule
+     * A value indicating whether the ESModule dependencies are allowed.
+     */
+    // ToDo: Make mandatory
+    public constructor(esModule = false)
     {
         super(
             {
+                dependencies: [
+                    TSGeneratorDependencies.generatorBasePackageName
+                ],
                 devDependencies: [
                     "yo"
                 ]
-            });
+            },
+            esModule);
     }
 
     /**
      * @inheritdoc
      */
-    public override get Dependencies(): Dictionary<string, string>
+    protected override get Overrides(): IDependencyCollectionOptions
     {
-        let result = super.Dependencies;
-        result.Add("@manuth/extended-yo-generator", "^11.0.7");
-        return result;
+        return {
+            dependencies: {
+                [TSGeneratorDependencies.generatorBasePackageName]: "^11.0.7"
+            }
+        };
     }
 }

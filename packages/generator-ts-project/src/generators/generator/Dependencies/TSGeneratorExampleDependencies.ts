@@ -1,36 +1,49 @@
-import { Dictionary } from "@manuth/package-json-editor";
-import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection.js";
+import { IDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { ESModuleDependencyCollection } from "../../../NPMPackaging/Dependencies/ESModuleDependencyCollection.js";
 
 /**
  * Provides all dependencies for example-generators.
  */
-export class TSGeneratorExampleDependencies extends MyPackageDependencyCollection
+export class TSGeneratorExampleDependencies extends ESModuleDependencyCollection
 {
     /**
-     * Initializes a new instance of the {@link TSGeneratorExampleDependencies `TSGeneratorExampleDependencies`} class.
+     * The name of the `chalk` package.
      */
-    public constructor()
+    private static readonly chalkPackageName = "chalk";
+
+    /**
+     * Initializes a new instance of the {@link TSGeneratorExampleDependencies `TSGeneratorExampleDependencies`} class.
+     *
+     * @param esModule
+     * A value indicating whether the ESModule dependencies are allowed.
+     */
+    // ToDo: Make mandatory
+    public constructor(esModule = false)
     {
         super(
             {
                 dependencies: [
                     "dedent",
+                    TSGeneratorExampleDependencies.chalkPackageName,
                     "yosay"
                 ],
                 devDependencies: [
                     "@types/dedent",
                     "@types/yosay"
                 ]
-            });
+            },
+            esModule);
     }
 
     /**
      * @inheritdoc
      */
-    public override get Dependencies(): Dictionary<string, string>
+    protected override get Overrides(): IDependencyCollectionOptions
     {
-        let result = super.Dependencies;
-        result.Add("chalk", "^4.1.2");
-        return result;
+        return {
+            dependencies: {
+                [TSGeneratorExampleDependencies.chalkPackageName]: "^4.1.2"
+            }
+        };
     }
 }
