@@ -89,6 +89,32 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
     }
 
     /**
+     * Imports the output-file.
+     *
+     * @returns
+     * The result of the `import`-call.
+     */
+    public async Import(): Promise<any>
+    {
+        let compilationResult = await this.Compile(true);
+        let result = await import(compilationResult.FileName);
+        compilationResult.TempDirectory.Dispose();
+        return result;
+    }
+
+    /**
+     * Imports the `default` export of the file.
+     *
+     * @returns
+     * Either the component that is `default`-exported or the whole imported file.
+     */
+    public async ImportDefault(): Promise<any>
+    {
+        let result = await this.Import();
+        return result.default ?? result;
+    }
+
+    /**
      * Compiles the underlying file.
      *
      * @param esModule
