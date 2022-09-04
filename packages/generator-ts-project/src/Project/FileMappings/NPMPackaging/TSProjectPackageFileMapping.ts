@@ -1,5 +1,5 @@
 import { GeneratorOptions, GeneratorSettingKey, IGenerator, Predicate } from "@manuth/extended-yo-generator";
-import { Package } from "@manuth/package-json-editor";
+import { Package, PackageType } from "@manuth/package-json-editor";
 import { TSConfigFileMapping } from "../../../Components/Transformation/TSConfigFileMapping.js";
 import { Constants } from "../../../Core/Constants.js";
 import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies.js";
@@ -157,6 +157,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
     {
         let result = await super.LoadPackage();
         result.Name = this.Generator.Settings[TSProjectSettingKey.Name];
+        result.Type = this.Generator.Settings[TSProjectSettingKey.ESModule] ? PackageType.ESModule : PackageType.CommonJS;
         result.Description = this.Generator.Settings[TSProjectSettingKey.Description];
 
         result.Exports = {
