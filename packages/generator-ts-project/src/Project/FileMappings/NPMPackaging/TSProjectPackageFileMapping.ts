@@ -165,7 +165,7 @@ export class TSProjectPackageFileMapping<TSettings extends ITSProjectSettings, T
             access: "public"
         };
 
-        if (this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
+        if (this.Generator.Settings[GeneratorSettingKey.Components]?.includes(TSProjectComponent.Linting))
         {
             result.Register(new LintEssentials(), true);
         }
