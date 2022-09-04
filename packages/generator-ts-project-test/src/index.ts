@@ -8,5 +8,6 @@ export { PackageFileMappingTester } from "./PackageFileMappingTester.js";
 export { ParsableFileMappingTester } from "./ParsableFileMappingTester.js";
 export { ParsedFileMappingTester } from "./ParsedFileMappingTester.js";
 export { TestContext } from "./TestContext.js";
+export { ICompilationResult } from "./TypeScript/ICompilationResult.js";
 export { TypeScriptFileMappingTester } from "./TypeScriptFileMappingTester.js";
 export { YAMLFileMappingTester } from "./YAMLFileMappingTester.js";

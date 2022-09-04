@@ -37,7 +37,8 @@ export function TypeScriptTests(context: TestContext<TSGeneratorGenerator>): voi
                 {
                     for (let moduleName of mockedModules)
                     {
-                        mock(moduleName, await import(moduleName));
+                        let module = await import(moduleName);
+                        mock(moduleName, module.default ?? module);
                     }
                 });
 

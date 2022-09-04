@@ -5,6 +5,7 @@ import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project
 import { TempDirectory } from "@manuth/temp-files";
 import { ModuleKind, ScriptTarget, SourceFile } from "ts-morph";
 import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
+import { ICompilationResult } from "./TypeScript/ICompilationResult.js";
 
 /**
  * Provides the functionality to test typescript file-mappings.
@@ -71,15 +72,36 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
      */
     public async Require(): Promise<any>
     {
+        let compilationResult = await this.Compile();
+
+        let result = this.NodeRequire(compilationResult.FileName);
+        compilationResult.TempDirectory.Dispose();
+
+        for (let fileName of Object.keys(this.NodeRequire.cache))
+        {
+            delete this.NodeRequire.cache[fileName];
+        }
+
+        return result;
+    }
+
+    /**
+     * Compiles the underlying file.
+     *
+     * @returns
+     * An object containing information about the compilation.
+     */
+    protected async Compile(): Promise<ICompilationResult>
+    {
         let tempDir = new TempDirectory();
         let sourceFile = await this.ParseOutput();
         let project = sourceFile.getProject();
 
-        sourceFile.getProject().compilerOptions.set(
+        project.compilerOptions.set(
             {
                 outDir: tempDir.FullName,
                 target: ScriptTarget.ES2015,
-                module: ModuleKind.CommonJS
+                module: ModuleKind.Node16
             });
 
         project.resolveSourceFileDependencies();
@@ -97,13 +119,9 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
             sourceFile.forget();
         }
 
-        let result = this.NodeRequire(fileName);
-
-        if (fileName in this.NodeRequire.cache)
-        {
-            delete this.NodeRequire.cache[fileName];
-        }
-
-        return result;
+        return {
+            TempDirectory: tempDir,
+            FileName: fileName
+        };
     }
 }
