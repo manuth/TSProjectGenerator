@@ -1,24 +1,27 @@
 import { strictEqual } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
 import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.
+ *
+ * @param context
+ * The test-context.
  */
-export function ModuleIndexFileMappingTests(): void
+export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
         nameof(ModuleIndexFileMapping),
         () =>
         {
-            let context = TestContext.Default;
-            let generator: TestGenerator;
+            let generator: TSProjectGenerator;
             let sandbox: SinonSandbox;
             let outputFile: TempFile;
             let fileMapping: TestModuleIndexFileMapping;
@@ -27,7 +30,7 @@ export function ModuleIndexFileMappingTests(): void
             /**
              * Registers tests for the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.
              */
-            class TestModuleIndexFileMapping extends ModuleIndexFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestModuleIndexFileMapping extends ModuleIndexFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

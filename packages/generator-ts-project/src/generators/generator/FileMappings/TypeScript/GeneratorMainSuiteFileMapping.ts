@@ -1,4 +1,3 @@
-import { dirname, relative } from "node:path";
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ArrowFunction, printNode, SourceFile, ts } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
@@ -88,10 +87,7 @@ export class GeneratorMainSuiteFileMapping<TSettings extends ITSProjectSettings,
 
         result.addImportDeclaration(
             {
-                moduleSpecifier: result.getRelativePathAsModuleSpecifierTo(
-                    relative(
-                        dirname(this.Destination),
-                        this.NamingContext.GeneratorSuiteFileName)),
+                ...await this.GetImportDeclaration(this.NamingContext.GeneratorSuiteFileName),
                 namedImports: [
                     this.NamingContext.GeneratorSuiteFunctionName
                 ]

@@ -1,7 +1,7 @@
-import { dirname, relative } from "node:path";
-import { Generator, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ArrowFunction, ImportDeclarationStructure, OptionalKind, printNode, SourceFile, StatementStructures, ts, WriterFunction } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase.js";
 import { GeneratorTestFileMapping } from "./GeneratorTestFileMapping.js";
 import { NamingContext } from "./NamingContext.js";
@@ -15,7 +15,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorSuiteFileMappingBase<TSettings, TOptions>
+export class GeneratorSuiteFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorSuiteFileMappingBase<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link GeneratorSuiteFileMapping `GeneratorSuiteFileMapping<TSettings, TOptions>`} class.
@@ -113,10 +113,7 @@ export class GeneratorSuiteFileMapping<TSettings extends IGeneratorSettings, TOp
 
                 importDeclarations.push(
                     {
-                        moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                            relative(
-                                dirname(this.Destination),
-                                fileMapping.Destination)),
+                        ...await this.GetImportDeclaration(fileMapping.Destination),
                         namedImports: [
                             suiteFunctionName
                         ]

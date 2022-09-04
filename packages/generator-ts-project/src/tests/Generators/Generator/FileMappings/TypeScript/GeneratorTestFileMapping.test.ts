@@ -1,9 +1,10 @@
 import { strictEqual } from "node:assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -32,11 +33,11 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
                 });
 
             suite(
-                nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fileMapping) => fileMapping.Destination),
+                nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fileMapping) => fileMapping.Destination),
                 () =>
                 {
                     test(
-                        `Checking whether the \`${nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fm) => fm.Destination)}\` points to the proper location…`,
+                        `Checking whether the \`${nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fm) => fm.Destination)}\` points to the proper location…`,
                         () =>
                         {
                             strictEqual(fileMapping.Destination, namingContext.GeneratorTestFileName);
@@ -44,7 +45,7 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
                 });
 
             suite(
-                nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fileMapping) => fileMapping.Context),
+                nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fileMapping) => fileMapping.Context),
                 () =>
                 {
                     test(

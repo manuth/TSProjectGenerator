@@ -1,16 +1,20 @@
 import { strictEqual } from "node:assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempFile } from "@manuth/temp-files";
 import { ArrowFunction, CallExpression, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
 import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class.
+ *
+ * @param context
+ * The test-context.
  */
-export function SuiteFileMappingTests(): void
+export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
         nameof(SuiteFileMapping),
@@ -19,7 +23,7 @@ export function SuiteFileMappingTests(): void
             /**
              * Provides an implementation of the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSuiteFileMapping extends SuiteFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSuiteFileMapping extends SuiteFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -75,8 +79,7 @@ export function SuiteFileMappingTests(): void
                 }
             }
 
-            let context = TestContext.Default;
-            let generator: TestGenerator;
+            let generator: TSProjectGenerator;
             let suiteName: string;
             let outputFile: TempFile;
             let testValue: string;

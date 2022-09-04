@@ -5,6 +5,7 @@ import { SourceFile } from "ts-morph";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -22,7 +23,7 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
             /**
              * Provides an implementation of the {@link LicenseTypeFileMapping `LicenseTypeFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestLicenseTypeFileMapping extends LicenseTypeFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestLicenseTypeFileMapping extends LicenseTypeFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

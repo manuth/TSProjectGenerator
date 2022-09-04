@@ -1,6 +1,6 @@
-import { dirname, relative } from "node:path";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { printNode, SourceFile, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -13,7 +13,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class GeneratorIndexFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class GeneratorIndexFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link GeneratorIndexFileMapping `GeneratorIndexFileMapping<TSettings, TOptions>`} class.
@@ -52,19 +52,15 @@ export class GeneratorIndexFileMapping<TSettings extends IGeneratorSettings, TOp
 
         sourceFile.addImportDeclaration(
             {
-                moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                    relative(
-                        dirname(this.Destination),
-                        this.NamingContext.GeneratorClassFileName)),
+                ...await this.GetImportDeclaration(this.NamingContext.GeneratorClassFileName),
                 namedImports: [
                     this.NamingContext.GeneratorClassName
                 ]
             });
 
         sourceFile.addExportAssignment(
-            {
-                expression: printNode(ts.factory.createIdentifier(this.NamingContext.GeneratorClassName))
-            });
+            this.GetMainExportDeclaration(
+                printNode(ts.factory.createIdentifier(this.NamingContext.GeneratorClassName))));
 
         return sourceFile;
     }

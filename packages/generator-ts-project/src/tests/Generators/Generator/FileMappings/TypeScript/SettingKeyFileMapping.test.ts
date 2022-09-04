@@ -5,6 +5,7 @@ import { SourceFile } from "ts-morph";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -22,7 +23,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
             /**
              * Provides an implementation of the {@link SettingKeyFileMapping `SettingKeyFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSettingKeyFileMapping extends SettingKeyFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSettingKeyFileMapping extends SettingKeyFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

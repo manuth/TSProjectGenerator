@@ -1,5 +1,6 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { NamingContext } from "./NamingContext.js";
 
 /**
@@ -11,7 +12,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export abstract class GeneratorSuiteFileMappingBase<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
+export abstract class GeneratorSuiteFileMappingBase<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
 {
     /**
      * A component which provides constants for naming generated files and components.

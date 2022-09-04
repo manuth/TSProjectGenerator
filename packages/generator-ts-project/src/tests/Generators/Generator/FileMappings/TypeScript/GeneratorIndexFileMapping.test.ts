@@ -10,6 +10,7 @@ import { NamingContext } from "../../../../../generators/generator/FileMappings/
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -27,7 +28,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
             /**
              * Provides an implementation of the {@link GeneratorIndexFileMapping `GeneratorIndexFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestGeneratorIndexFileMapping extends GeneratorIndexFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestGeneratorIndexFileMapping extends GeneratorIndexFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

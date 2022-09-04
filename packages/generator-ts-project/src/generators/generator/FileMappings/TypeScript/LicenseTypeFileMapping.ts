@@ -1,6 +1,7 @@
 import { EOL } from "node:os";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { SourceFile } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -13,7 +14,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class LicenseTypeFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class LicenseTypeFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link LicenseTypeFileMapping `LicenseTypeFileMapping<TSettings, TOptions>`} class.

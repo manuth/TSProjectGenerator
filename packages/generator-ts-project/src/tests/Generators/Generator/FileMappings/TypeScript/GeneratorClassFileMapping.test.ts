@@ -15,6 +15,7 @@ import { SettingsInterfaceFileMapping } from "../../../../../generators/generato
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { PackageFileMapping } from "../../../../../NPMPackaging/FileMappings/PackageFileMapping.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -55,7 +56,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
             /**
              * Provides an implementation of the {@link GeneratorClassFileMapping `GeneratorClassFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestGeneratorClassFileMapping extends GeneratorClassFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestGeneratorClassFileMapping extends GeneratorClassFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

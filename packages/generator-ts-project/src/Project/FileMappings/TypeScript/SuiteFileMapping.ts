@@ -1,13 +1,14 @@
 import { EOL } from "node:os";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, SourceFile, Statement, SyntaxKind, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
 import { ISuiteContext } from "./ISuiteContext.js";
+import { TSProjectTypeScriptFileMapping } from "./TSProjectTypeScriptFileMapping.js";
 
 /**
  * Provides the functionality to create a typescript-file containing a mocha-suite.
  */
-export abstract class SuiteFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TypeScriptCreatorMapping<TSettings, TOptions>
+export abstract class SuiteFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectTypeScriptFileMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class.

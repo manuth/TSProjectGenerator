@@ -1,7 +1,7 @@
 import { EOL } from "node:os";
-import { dirname, relative } from "node:path";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ImportDeclarationStructure, OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -14,7 +14,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class SettingsInterfaceFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class SettingsInterfaceFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class.
@@ -113,10 +113,7 @@ export class SettingsInterfaceFileMapping<TSettings extends IGeneratorSettings, 
         {
             importDeclarations.push(
                 {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            fileImport[0])),
+                    ...await this.GetImportDeclaration(fileImport[0]),
                     namedImports: [
                         fileImport[1]
                     ]

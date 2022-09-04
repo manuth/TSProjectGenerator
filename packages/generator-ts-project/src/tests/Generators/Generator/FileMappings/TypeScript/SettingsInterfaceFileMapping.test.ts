@@ -1,5 +1,5 @@
 import { doesNotThrow, ok, strictEqual } from "node:assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { SourceFile, SyntaxKind } from "ts-morph";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
@@ -8,6 +8,7 @@ import { NamingContext } from "../../../../../generators/generator/FileMappings/
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -25,7 +26,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
             /**
              * Provides an implementation of the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSettingsInterfaceFileMapping extends SettingsInterfaceFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSettingsInterfaceFileMapping extends SettingsInterfaceFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc

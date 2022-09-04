@@ -1,9 +1,10 @@
 import { EOL } from "node:os";
-import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
-import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
+import { basename, isAbsolute, resolve } from "node:path";
+import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
 import chalk from "chalk";
 import { ChoiceOptions, ListQuestion } from "inquirer";
 import { ConstructorDeclarationStructure, ImportDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
 import { NamingContext } from "./NamingContext.js";
 
@@ -16,7 +17,7 @@ import { NamingContext } from "./NamingContext.js";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class GeneratorClassFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link GeneratorClassFileMapping `GeneratorClassFileMapping<TSettings, TOptions>`} class.
@@ -108,10 +109,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
         {
             importDeclarations.push(
                 {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            fileImport[0])),
+                    ...await this.GetImportDeclaration(fileImport[0]),
                     namedImports: [
                         fileImport[1]
                     ]

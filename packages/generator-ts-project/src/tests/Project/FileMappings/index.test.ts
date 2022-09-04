@@ -19,6 +19,6 @@ export function FileMappingTests(context: TestContext<TSProjectGenerator>): void
         {
             NPMIgnoreFileMappingTests(context);
             NPMPackagingTests(context);
-            TypeScriptTests();
+            TypeScriptTests(context);
         });
 }

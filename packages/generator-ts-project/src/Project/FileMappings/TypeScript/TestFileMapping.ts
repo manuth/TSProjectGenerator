@@ -1,13 +1,14 @@
 import { strictEqual } from "node:assert";
 import { EOL } from "node:os";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, printNode, SourceFile, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
 import { SuiteFileMapping } from "./SuiteFileMapping.js";
 
 /**
  * Provides the functionality to create a typescript-file containing a mocha-test in a mocha-suite.
  */
-export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
+export abstract class TestFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TestFileMapping `TestFileMapping<TSettings, TOptions>`} class.
