@@ -85,20 +85,27 @@ export class SettingsInterfaceFileMapping<TSettings extends ITSProjectSettings, 
             };
         };
 
-        let fileImports: Array<[string, string]> = [
+        let fileImports: Array<[string, string, string?]> = [
             [
                 this.NamingContext.SettingKeyFileName,
                 this.NamingContext.SettingKeyEnumName
             ],
             [
                 this.NamingContext.GeneratorClassFileName,
-                this.NamingContext.GeneratorClassName
+                this.NamingContext.GeneratorClassName,
+                "// eslint-disable-next-line @typescript-eslint/no-unused-vars"
             ],
             [
                 this.NamingContext.LicenseTypeFileName,
                 this.NamingContext.LicenseTypeEnumName
             ]
         ];
+
+        fileImports.sort(
+            (a, b) =>
+            {
+                return a[1].localeCompare(b[1]);
+            });
 
         let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [
             {
@@ -113,7 +120,7 @@ export class SettingsInterfaceFileMapping<TSettings extends ITSProjectSettings, 
         {
             importDeclarations.push(
                 {
-                    ...await this.GetImportDeclaration(fileImport[0]),
+                    ...await this.GetImportDeclaration(fileImport[0], fileImport[2]),
                     namedImports: [
                         fileImport[1]
                     ]
