@@ -2,10 +2,14 @@ import { createRequire } from "node:module";
 import { parse } from "node:path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
+import { Package, PackageType } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
+import fs from "fs-extra";
 import { ModuleKind, ScriptTarget, SourceFile } from "ts-morph";
 import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
 import { ICompilationResult } from "./TypeScript/ICompilationResult.js";
+
+const { writeJSON } = fs;
 
 /**
  * Provides the functionality to test typescript file-mappings.
@@ -72,8 +76,7 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
      */
     public async Require(): Promise<any>
     {
-        let compilationResult = await this.Compile();
-
+        let compilationResult = await this.Compile(false);
         let result = this.NodeRequire(compilationResult.FileName);
         compilationResult.TempDirectory.Dispose();
 
@@ -88,10 +91,13 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
     /**
      * Compiles the underlying file.
      *
+     * @param esModule
+     * A value indicating whether the underlying file should be compiled as an ESModule.
+     *
      * @returns
      * An object containing information about the compilation.
      */
-    protected async Compile(): Promise<ICompilationResult>
+    protected async Compile(esModule: boolean): Promise<ICompilationResult>
     {
         let tempDir = new TempDirectory();
         let sourceFile = await this.ParseOutput();
@@ -101,12 +107,11 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
             {
                 outDir: tempDir.FullName,
                 target: ScriptTarget.ES2015,
-                module: ModuleKind.Node16
+                module: esModule ? ModuleKind.ES2020 : ModuleKind.CommonJS
             });
 
         project.resolveSourceFileDependencies();
         await project.emit();
-        await sourceFile.emit();
 
         let fileName = sourceFile.getEmitOutput().getOutputFiles().find(
             (file) =>
@@ -117,6 +122,16 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
         for (let sourceFile of project.getSourceFiles())
         {
             sourceFile.forget();
+        }
+
+        if (esModule)
+        {
+            await writeJSON(
+                tempDir.MakePath(Package.FileName),
+                new Package(
+                    {
+                        type: PackageType.ESModule
+                    }).ToJSON());
         }
 
         return {
