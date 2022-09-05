@@ -112,7 +112,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                         {
                                             this.slow(1 * 1000);
                                             await tester.Run();
-                                            await tester.AssertDependencies(new TSGeneratorDependencies());
+                                            await tester.AssertDependencies(new TSGeneratorDependencies(true));
                                         });
                                 });
 
@@ -131,7 +131,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                             ];
 
                                             await tester.Run();
-                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(true));
                                         });
 
                                     test(
@@ -145,7 +145,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                             ];
 
                                             await tester.Run();
-                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(true));
                                         });
 
                                     test(
@@ -160,7 +160,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                             ];
 
                                             await tester.Run();
-                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies());
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(true));
                                         });
 
                                     test(

@@ -87,7 +87,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            ok((await tester.Require())[namingContext.SettingKeyEnumName]);
+                            ok((await tester.Import())[namingContext.SettingKeyEnumName]);
                         });
 
                     test(
@@ -96,7 +96,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            let settingKeys = (await tester.Require())[namingContext.SettingKeyEnumName];
+                            let settingKeys = (await tester.Import())[namingContext.SettingKeyEnumName];
 
                             for (
                                 let member of [

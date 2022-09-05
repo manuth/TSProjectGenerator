@@ -87,7 +87,7 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            ok((await tester.Require())[namingContext.LicenseTypeEnumName]);
+                            ok((await tester.Import())[namingContext.LicenseTypeEnumName]);
                         });
 
                     test(
@@ -96,7 +96,7 @@ export function LicenseTypeFileMappingTests(context: TestContext<TSGeneratorGene
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            let licenseTypes = (await tester.Require())[namingContext.LicenseTypeEnumName];
+                            let licenseTypes = (await tester.Import())[namingContext.LicenseTypeEnumName];
                             ok(namingContext.ApacheMember in licenseTypes);
                             ok(namingContext.GPLMember in licenseTypes);
                         });

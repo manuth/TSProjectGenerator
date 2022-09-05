@@ -103,6 +103,8 @@
     "mock-require": "^3.0.3",
     "mock-stdin": "^1.0.0",
     "mute-stream": "^0.0.8",
+    "pkg-dir": "^7.0.0",
+    "randexp": "^0.5.3",
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "source-map-support": "^0.5.21",

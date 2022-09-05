@@ -1,10 +1,14 @@
-import { doesNotThrow, strictEqual } from "node:assert";
+import { doesNotReject, strictEqual } from "node:assert";
 import { spawnSync } from "node:child_process";
-import { createRequire } from "node:module";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import npmWhich from "npm-which";
+import { packageDirectory } from "pkg-dir";
+import RandExp from "randexp";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
 import { TestContext } from "../../TestContext.js";
+
+const { randexp } = RandExp;
 
 /**
  * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
@@ -19,6 +23,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         () =>
         {
             let npmPath: string;
+            let packageDir: string;
+            let moduleName: string;
             let generator: TSModuleGenerator;
             context.RegisterWorkingDirRestorer();
 
@@ -27,6 +33,13 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(5 * 60 * 1000);
                     npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
+
+                    packageDir = await packageDirectory(
+                        {
+                            cwd: fileURLToPath(new URL(".", import.meta.url))
+                        });
+
+                    moduleName = randexp(/@ts-module-generator-test\/[a-z]+/);
                     generator = await context.Generator;
 
                     spawnSync(
@@ -50,6 +63,48 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             cwd: generator.destinationPath(),
                             stdio: "ignore"
                         });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--no-save",
+                            `${moduleName}@file:${generator.destinationPath()}`
+                        ],
+                        {
+                            cwd: packageDir
+                        });
+                });
+
+            suiteTeardown(
+                async function()
+                {
+                    this.timeout(0.5 * 60 * 1000);
+
+                    let packageDirectories = [
+                        packageDir,
+                        await packageDirectory(
+                            {
+                                cwd: dirname(packageDir)
+                            })
+                    ];
+
+                    for (let packageDir of packageDirectories)
+                    {
+                        spawnSync(
+                            npmPath,
+                            [
+                                "uninstall",
+                                "--no-save",
+                                moduleName
+                            ],
+                            {
+                                cwd: await packageDirectory(
+                                    {
+                                        cwd: dirname(packageDir)
+                                    })
+                            });
+                    }
                 });
 
             test(
@@ -86,14 +141,10 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 });
 
             test(
-                "Checking whether the generated module can be loaded…",
-                () =>
+                "Checking whether the generated module can be imported…",
+                async () =>
                 {
-                    doesNotThrow(
-                        () =>
-                        {
-                            createRequire(import.meta.url)(generator.destinationPath());
-                        });
+                    await doesNotReject(() => import(moduleName));
                 });
 
             test(

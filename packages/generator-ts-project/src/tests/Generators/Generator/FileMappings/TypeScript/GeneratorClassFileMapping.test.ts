@@ -1,20 +1,24 @@
 import { doesNotReject, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
 import { normalize } from "node:path";
-import { Component, Generator, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { fileURLToPath } from "node:url";
+import { Component, Generator, GeneratorOptions, GeneratorSettingKey, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempDirectory, TempFileSystem } from "@manuth/temp-files";
 import { DistinctQuestion } from "inquirer";
+import npmWhich from "npm-which";
 import { SourceFile } from "ts-morph";
 import { TSGeneratorCategory } from "../../../../../generators/generator/Components/TSGeneratorCategory.js";
+import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping.js";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
-import { PackageFileMapping } from "../../../../../NPMPackaging/FileMappings/PackageFileMapping.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
@@ -74,6 +78,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                 }
             }
 
+            let npmPath: string;
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestGeneratorClassFileMapping;
@@ -88,8 +93,10 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     generator = await context.Generator;
-                    new FileMappingTester(generator, new PackageFileMapping(generator)).Run();
+                    generator.Settings[GeneratorSettingKey.Components].push(TSGeneratorComponent.GeneratorExample);
+                    await new FileMappingTester(generator, new TSGeneratorPackageFileMapping(generator)).Run();
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot);
                     fileMapping = new TestGeneratorClassFileMapping(generator, namingContext);
                     settingKeyTester = new TypeScriptFileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext));
@@ -100,13 +107,33 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                     await settingsInterfaceTester.Run();
                     await licenseTypeTester.Run();
 
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
                     for (let fileMapping of new TestTSGeneratorCategory(generator).GetGeneratorFileMappings(namingContext.GeneratorID, namingContext.GeneratorDisplayName))
                     {
                         await new FileMappingTester(generator, fileMapping as IFileMapping<IGeneratorSettings, GeneratorOptions>).Run();
                     }
 
-                    settingKeyEnum = (await settingKeyTester.Require())[namingContext.SettingKeyEnumName];
-                    licenseTypeEnum = (await licenseTypeTester.Require())[namingContext.LicenseTypeEnumName];
+                    settingKeyEnum = (await settingKeyTester.Import())[namingContext.SettingKeyEnumName];
+                    licenseTypeEnum = (await licenseTypeTester.Import())[namingContext.LicenseTypeEnumName];
                 });
 
             suite(
@@ -156,7 +183,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                             sourceFile.forget();
 
                             testGenerator = context.CreateGenerator(
-                                (await tester.Require())[namingContext.GeneratorClassName],
+                                (await tester.Import())[namingContext.GeneratorClassName],
                                 [],
                                 {
                                     resolved: generator.destinationPath(namingContext.GeneratorClassFileName)
@@ -189,7 +216,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                     await doesNotReject(
                                         async () =>
                                         {
-                                            await tester.Require();
+                                            await tester.Import();
                                         });
                                 });
 

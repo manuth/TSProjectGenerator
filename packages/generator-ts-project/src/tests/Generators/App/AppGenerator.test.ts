@@ -1,11 +1,13 @@
-import { doesNotReject, doesNotThrow } from "node:assert";
+import { doesNotReject } from "node:assert";
 import { spawnSync } from "node:child_process";
-import { createRequire } from "node:module";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { PromptModule } from "inquirer";
 import npmWhich from "npm-which";
+import { packageDirectory } from "pkg-dir";
+import RandExp from "randexp";
 import { createSandbox, SinonExpectation, SinonSandbox } from "sinon";
 import yeomanTest from "yeoman-test";
 import { GeneratorName } from "../../../Core/GeneratorName.js";
@@ -14,6 +16,7 @@ import { ProjectType } from "../../../generators/app/ProjectType.js";
 import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey.js";
 import { TestContext } from "../../TestContext.js";
 
+const { randexp } = RandExp;
 const { mockPrompt } = yeomanTest;
 
 /**
@@ -29,6 +32,8 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
         () =>
         {
             let npmPath: string;
+            let moduleName: string;
+            let packageDir: string;
             let sandbox: SinonSandbox;
             let workingDirectory: string;
             let tempDir: TempDirectory;
@@ -40,7 +45,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 {
                     let dirName = fileURLToPath(new URL(".", import.meta.url));
                     npmPath = npmWhich(dirName).sync("npm");
+                    moduleName = randexp(/@app-generator-test\/[a-z]+/);
                     tardownActions = [];
+
+                    packageDir = await packageDirectory(
+                        {
+                            cwd: dirName
+                        });
 
                     contextCreator = () =>
                     {
@@ -92,12 +103,52 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     };
                 });
 
+            suiteTeardown(
+                async function()
+                {
+                    this.timeout(0.5 * 60 * 1000);
+
+                    let packageDirectories = [
+                        packageDir,
+                        await packageDirectory(
+                            {
+                                cwd: dirname(packageDir)
+                            })
+                    ];
+
+                    for (let packageDir of packageDirectories)
+                    {
+                        spawnSync(
+                            npmPath,
+                            [
+                                "uninstall",
+                                "--no-save",
+                                moduleName
+                            ],
+                            {
+                                cwd: packageDir
+                            });
+                    }
+                });
+
             setup(
                 function()
                 {
+                    this.timeout(0.5 * 60 * 1000);
                     sandbox = createSandbox();
                     workingDirectory = process.cwd();
                     tempDir = new TempDirectory();
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--no-save",
+                            `${moduleName}@file:${tempDir.FullName}`
+                        ],
+                        {
+                            cwd: packageDir
+                        });
                 });
 
             teardown(
@@ -161,11 +212,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                     stdio: "ignore"
                                 });
 
-                            doesNotThrow(
-                                () =>
-                                {
-                                    createRequire(import.meta.url)(tempDir.FullName);
-                                });
+                            await doesNotReject(() => import(moduleName));
                         });
 
                     test(

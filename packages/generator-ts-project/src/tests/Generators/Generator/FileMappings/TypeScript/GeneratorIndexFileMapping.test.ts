@@ -1,7 +1,10 @@
 import { ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { Generator, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import npmWhich from "npm-which";
 import { SourceFile } from "ts-morph";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
 import { GeneratorIndexFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorIndexFileMapping.js";
@@ -46,6 +49,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                 }
             }
 
+            let npmPath: string;
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestGeneratorIndexFileMapping;
@@ -55,6 +59,8 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     generator = await context.Generator;
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot);
                     fileMapping = new TestGeneratorIndexFileMapping(generator, namingContext);
@@ -63,6 +69,26 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                     await new FileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new LicenseTypeFileMapping(generator, namingContext)).Run();
                     tester = new TypeScriptFileMappingTester(generator, fileMapping);
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath()
+                        });
                 });
 
             suite(
@@ -91,12 +117,12 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         });
 
                     test(
-                        `Checking whether \`${nameof(module)}.${nameof(module.exports)}\` is a yeoman-generator…`,
+                        "Checking whether the file exports a yeoman-generator…",
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            let newGenerator = context.CreateGenerator(await tester.Require());
+                            let newGenerator = context.CreateGenerator(await tester.ImportDefault());
                             let classCandidates: any[] = [];
 
                             for (

@@ -106,7 +106,7 @@ export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenera
 
                             await tester.DumpOutput(file);
                             file.forget();
-                            await (await tester.Require() as () => Promise<void>)();
+                            await (await tester.ImportDefault() as () => Promise<void>)();
                             strictEqual(messages.length, 1);
                         });
                 });
