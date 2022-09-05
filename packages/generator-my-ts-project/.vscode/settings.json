@@ -1,4 +1,3 @@
 {
-    "terminal.integrated.cwd": ".",
-    "npm.validate.enable": false
+    "terminal.integrated.cwd": "."
 }
