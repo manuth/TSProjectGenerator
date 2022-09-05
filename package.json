@@ -35,7 +35,7 @@
     "@types/gulp-rename": "^2.0.1",
     "@types/merge-stream": "^1.1.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.7.14",
+    "@types/node": "^18.7.15",
     "@types/npm-which": "^3.0.1",
     "@types/through2": "^2.0.36",
     "@types/vinyl": "^2.0.6",
