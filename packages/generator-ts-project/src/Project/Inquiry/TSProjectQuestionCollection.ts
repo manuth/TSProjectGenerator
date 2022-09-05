@@ -1,5 +1,6 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TSProjectGenerator } from "../TSProjectGenerator.js";
 import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion.js";
@@ -67,6 +68,29 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
     }
 
     /**
+     * Gets a question to ask for the kind of the module.
+     */
+    protected get ModuleKindQuestion(): Question<TSettings>
+    {
+        return {
+            type: "list",
+            name: TSProjectSettingKey.ESModule,
+            default: true,
+            message: "What kind of package do you wish to create?",
+            choices: [
+                {
+                    name: "CommonJS",
+                    value: false
+                },
+                {
+                    name: "ESModule",
+                    value: true
+                }
+            ]
+        };
+    }
+
+    /**
      * Gets a question to ask for the description.
      */
     protected get DescriptionQuestion(): Question<TSettings>
@@ -83,6 +107,7 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
             this.DestinationQuestion,
             this.DisplayNameQuestion,
             this.ModuleNameQuestion,
+            this.ModuleKindQuestion,
             this.DescriptionQuestion
         ];
     }
