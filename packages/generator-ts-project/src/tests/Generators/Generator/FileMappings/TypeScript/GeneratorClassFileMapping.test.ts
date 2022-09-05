@@ -212,12 +212,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 {
                                     this.timeout(1.5 * 60 * 1000);
                                     this.slow(45 * 1000);
-
-                                    await doesNotReject(
-                                        async () =>
-                                        {
-                                            await tester.Import();
-                                        });
+                                    await doesNotReject(() => tester.Import());
                                 });
 
                             test(
