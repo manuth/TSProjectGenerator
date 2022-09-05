@@ -1,4 +1,4 @@
-import { ok, strictEqual } from "node:assert";
+import { deepStrictEqual, ok, strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
@@ -115,6 +115,30 @@ export function MyTSProjectPackageFileMappingTests(context: TestContext<TestTSMo
                                 transformPlugin,
                                 patchPackageName
                             ];
+                        });
+
+                    test(
+                        "Checking whether properties from the base package are applied properly…",
+                        async () =>
+                        {
+                            let exports = context.RandomObject;
+
+                            let testFileMapping = new TestMyTSProjectPackageFileMapping(
+                                generator,
+                                new class extends TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>
+                                {
+                                    /**
+                                     * @inheritdoc
+                                     */
+                                    protected override async LoadPackage(): Promise<Package>
+                                    {
+                                        let result = await super.LoadPackage();
+                                        result.Exports = exports;
+                                        return result;
+                                    }
+                                }(generator));
+
+                            deepStrictEqual((await testFileMapping.LoadPackage()).Exports, exports);
                         });
 
                     test(
