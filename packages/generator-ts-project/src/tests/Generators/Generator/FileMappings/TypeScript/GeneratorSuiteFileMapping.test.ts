@@ -46,6 +46,23 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
             let namingContext: NamingContext;
             let fileMapping: TestGeneratorSuiteFileMapping;
 
+            /**
+             * Gets all generators specified in the settings.
+             *
+             * @returns
+             * All generators specified in the settings.
+             */
+            function GetGenerators(): ISubGenerator[]
+            {
+                return [
+                    {
+                        [SubGeneratorSettingKey.Name]: GeneratorName.Main,
+                        [SubGeneratorSettingKey.DisplayName]: generator.Settings[TSProjectSettingKey.DisplayName]
+                    },
+                    ...generator.Settings[TSGeneratorSettingKey.SubGenerators]
+                ];
+            }
+
             suiteSetup(
                 async function()
                 {
@@ -122,15 +139,9 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                         {
                             this.timeout(2 * 60 * 1000);
                             this.slow(1 * 60 * 1000);
-
-                            let mainGenerator: ISubGenerator = {
-                                [SubGeneratorSettingKey.Name]: GeneratorName.Main,
-                                [SubGeneratorSettingKey.DisplayName]: generator.Settings[TSProjectSettingKey.DisplayName]
-                            };
-
                             let suiteFunction = await fileMapping.GetSuiteFunction();
 
-                            for (let subGenerator of [mainGenerator, ...generator.Settings[TSGeneratorSettingKey.SubGenerators]])
+                            for (let subGenerator of GetGenerators())
                             {
                                 let subNamingContext = new NamingContext(
                                     subGenerator[SubGeneratorSettingKey.Name],
