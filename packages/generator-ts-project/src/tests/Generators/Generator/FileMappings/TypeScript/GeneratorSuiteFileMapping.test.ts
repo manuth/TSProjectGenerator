@@ -100,6 +100,16 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                             let context = await fileMapping.Context();
                             strictEqual(context.SuiteName, "Generators");
                         });
+
+                    test(
+                        "Checking whether a function name and a description is set…",
+                        async () =>
+                        {
+                            let context = await fileMapping.Context();
+                            ok(context.SuiteFunction);
+                            ok(context.SuiteFunction.Name);
+                            ok(context.SuiteFunction.Description);
+                        });
                 });
 
             suite(
