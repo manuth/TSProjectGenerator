@@ -1,6 +1,7 @@
 import { ReadLine } from "node:readline";
 import inquirer, { Answers, DistinctQuestion } from "inquirer";
 import kebabCase from "lodash.kebabcase";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
 import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator.js";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
 import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey.js";
@@ -94,7 +95,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
                     validate: (input: string) =>
                     {
                         if (
-                            input === "app" ||
+                            input === GeneratorName.Main ||
                             items.some(
                                 (generatorOptions) =>
                                 {
