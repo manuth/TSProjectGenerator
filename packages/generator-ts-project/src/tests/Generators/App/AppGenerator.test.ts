@@ -33,7 +33,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
         {
             let npmPath: string;
             let moduleName: string;
-            let packageDir: string;
+            let workspaceRoot: string;
             let sandbox: SinonSandbox;
             let workingDirectory: string;
             let tempDir: TempDirectory;
@@ -48,9 +48,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     moduleName = randexp(/@app-generator-test\/[a-z]+/);
                     tardownActions = [];
 
-                    packageDir = await packageDirectory(
+                    workspaceRoot = await packageDirectory(
                         {
-                            cwd: dirName
+                            cwd: dirname(
+                                await packageDirectory(
+                                    {
+                                        cwd: dirName
+                                    }))
                         });
 
                     contextCreator = () =>
@@ -108,27 +112,16 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 {
                     this.timeout(0.5 * 60 * 1000);
 
-                    let packageDirectories = [
-                        packageDir,
-                        await packageDirectory(
-                            {
-                                cwd: dirname(packageDir)
-                            })
-                    ];
-
-                    for (let packageDir of packageDirectories)
-                    {
-                        spawnSync(
-                            npmPath,
-                            [
-                                "uninstall",
-                                "--no-save",
-                                moduleName
-                            ],
-                            {
-                                cwd: packageDir
-                            });
-                    }
+                    spawnSync(
+                        npmPath,
+                        [
+                            "uninstall",
+                            "--no-save",
+                            moduleName
+                        ],
+                        {
+                            cwd: workspaceRoot
+                        });
                 });
 
             setup(
@@ -147,7 +140,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             `${moduleName}@file:${tempDir.FullName}`
                         ],
                         {
-                            cwd: packageDir
+                            cwd: workspaceRoot
                         });
                 });
 

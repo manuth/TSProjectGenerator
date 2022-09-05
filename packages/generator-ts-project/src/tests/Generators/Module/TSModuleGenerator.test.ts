@@ -23,7 +23,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         () =>
         {
             let npmPath: string;
-            let packageDir: string;
+            let workspaceRoot: string;
             let moduleName: string;
             let generator: TSModuleGenerator;
             context.RegisterWorkingDirRestorer();
@@ -35,9 +35,13 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     let dirName = fileURLToPath(new URL(".", import.meta.url));
                     npmPath = npmWhich(dirName).sync("npm");
 
-                    packageDir = await packageDirectory(
+                    workspaceRoot = await packageDirectory(
                         {
-                            cwd: dirName
+                            cwd: dirname(
+                                await packageDirectory(
+                                    {
+                                        cwd: dirName
+                                    }))
                         });
 
                     moduleName = randexp(/@ts-module-generator-test\/[a-z]+/);
@@ -73,7 +77,7 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                             `${moduleName}@file:${generator.destinationPath()}`
                         ],
                         {
-                            cwd: packageDir
+                            cwd: workspaceRoot
                         });
                 });
 
@@ -82,30 +86,16 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 {
                     this.timeout(0.5 * 60 * 1000);
 
-                    let packageDirectories = [
-                        packageDir,
-                        await packageDirectory(
-                            {
-                                cwd: dirname(packageDir)
-                            })
-                    ];
-
-                    for (let packageDir of packageDirectories)
-                    {
-                        spawnSync(
-                            npmPath,
-                            [
-                                "uninstall",
-                                "--no-save",
-                                moduleName
-                            ],
-                            {
-                                cwd: await packageDirectory(
-                                    {
-                                        cwd: dirname(packageDir)
-                                    })
-                            });
-                    }
+                    spawnSync(
+                        npmPath,
+                        [
+                            "uninstall",
+                            "--no-save",
+                            moduleName
+                        ],
+                        {
+                            cwd: workspaceRoot
+                        });
                 });
 
             test(
