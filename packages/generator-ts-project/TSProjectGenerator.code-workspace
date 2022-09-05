@@ -42,7 +42,8 @@
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
@@ -68,7 +69,8 @@
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
@@ -96,7 +98,8 @@
                 "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
@@ -122,7 +125,8 @@
                 "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
@@ -149,7 +153,8 @@
                 "cwd": "${workspaceFolder:TSProjectGeneratorTest}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",

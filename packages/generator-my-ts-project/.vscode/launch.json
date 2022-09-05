@@ -19,7 +19,8 @@
             ],
             "skipFiles": [
                 "<node_internals>/**",
-                "**/node_modules/typescript/**"
+                "**/node_modules/typescript/**",
+                "**/node_modules/@ts-morph/common/dist/typescript.js"
             ],
             "outFiles": [
                 "${workspaceFolder:TSProjectGenerator}/**/*.js",
