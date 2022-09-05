@@ -54,7 +54,15 @@ export function TypeScriptFileMappingTesterTests(): void
              * Provides an implementation of the {@link TypeScriptFileMappingTester `TypeScriptFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class for testing.
              */
             class TestTypeScriptFileMappingTester extends TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, TestTypeScriptCreatorMapping>
-            { }
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public override get NodeRequire(): NodeRequire
+                {
+                    return super.NodeRequire;
+                }
+            }
 
             let transformer: TestTypeScriptCreatorMapping["Transform"];
 
@@ -113,6 +121,16 @@ export function TypeScriptFileMappingTesterTests(): void
                             this.timeout(30 * 1000);
                             this.slow(15 * 1000);
                             strictEqual(await tester.Require(), testValue);
+                        });
+
+                    test(
+                        `Checking whether the \`${nameof(require)}\` cache is cleaned after requiring the file…`,
+                        async function()
+                        {
+                            this.timeout(30 * 1000);
+                            this.slow(15 * 1000);
+                            await tester.Require();
+                            strictEqual(Object.keys(tester.NodeRequire.cache).length, 0);
                         });
                 });
         });
