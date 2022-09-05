@@ -134,6 +134,25 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                         });
 
                     /**
+                     * Gets the {@link suite `suite`} calls inside the specified {@link node `node`}.
+                     *
+                     * @param node
+                     * The node to get the {@link suite `suite`} calls from.
+                     *
+                     * @returns
+                     * The {@link suite `suite`} calls inside the specified {@link node `node`}.
+                     */
+                    function GetDescendantSuiteCalls(node: Node): CallExpression[]
+                    {
+                        return node.getDescendantsOfKind(
+                            SyntaxKind.CallExpression).filter(
+                                (callExpression) =>
+                                {
+                                    return callExpression.getExpression().getText() === nameof(suite);
+                                });
+                    }
+
+                    /**
                      * Gets all calls to the {@link suite `suite`}-method.
                      *
                      * @returns
@@ -143,13 +162,7 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                     {
                         let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         files.push(sourceFile);
-
-                        return sourceFile.getDescendantsOfKind(
-                            SyntaxKind.CallExpression).filter(
-                                (callExpression) =>
-                                {
-                                    return callExpression.getExpression().getText() === nameof(suite);
-                                });
+                        return GetDescendantSuiteCalls(sourceFile);
                     }
 
                     /**
