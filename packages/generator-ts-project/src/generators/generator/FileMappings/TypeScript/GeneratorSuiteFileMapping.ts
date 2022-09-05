@@ -57,7 +57,10 @@ export class GeneratorSuiteFileMapping<TSettings extends ITSProjectSettings, TOp
     {
         return {
             SuiteName: "Generators",
-            SuiteFunctionName: this.NamingContext.GeneratorSuiteFunctionName
+            SuiteFunction: {
+                Name: this.NamingContext.GeneratorSuiteFunctionName,
+                Description: "Registers tests for the generators."
+            }
         };
     }
 
@@ -76,12 +79,12 @@ export class GeneratorSuiteFileMapping<TSettings extends ITSProjectSettings, TOp
         {
             if (fileMapping.Object instanceof GeneratorTestFileMapping)
             {
-                let suiteFunctionName = await fileMapping.Object.GetSuiteFunctionName();
+                let suiteFunctionInfo = await fileMapping.Object.GetSuiteFunctionInfo();
 
                 statements.push(
                     printNode(
                         ts.factory.createCallExpression(
-                            ts.factory.createIdentifier(suiteFunctionName),
+                            ts.factory.createIdentifier(suiteFunctionInfo.Name),
                             [],
                             [])));
             }
@@ -109,13 +112,13 @@ export class GeneratorSuiteFileMapping<TSettings extends ITSProjectSettings, TOp
         {
             if (fileMapping.Object instanceof GeneratorTestFileMapping)
             {
-                let suiteFunctionName = await fileMapping.Object.GetSuiteFunctionName();
+                let suiteFunctionInfo = await fileMapping.Object.GetSuiteFunctionInfo();
 
                 importDeclarations.push(
                     {
                         ...await this.GetImportDeclaration(fileMapping.Destination),
                         namedImports: [
-                            suiteFunctionName
+                            suiteFunctionInfo.Name
                         ]
                     });
             }

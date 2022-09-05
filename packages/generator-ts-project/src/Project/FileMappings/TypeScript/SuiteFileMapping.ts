@@ -3,6 +3,7 @@ import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, SourceFile, Statement, SyntaxKind, ts } from "ts-morph";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
 import { ISuiteContext } from "./ISuiteContext.js";
+import { ISuiteFunctionInfo } from "./ISuiteFunctionInfo.js";
 import { TSProjectTypeScriptFileMapping } from "./TSProjectTypeScriptFileMapping.js";
 
 /**
@@ -46,9 +47,9 @@ export abstract class SuiteFileMapping<TSettings extends ITSProjectSettings, TOp
      * @returns
      * he name of the suite function.
      */
-    public async GetSuiteFunctionName(): Promise<string>
+    public async GetSuiteFunctionInfo(): Promise<ISuiteFunctionInfo>
     {
-        return (await this.Context()).SuiteFunctionName;
+        return (await this.Context()).SuiteFunction;
     }
 
     /**
@@ -94,16 +95,16 @@ export abstract class SuiteFileMapping<TSettings extends ITSProjectSettings, TOp
     protected async GetMainStatement(): Promise<Statement>
     {
         let result: Statement;
-        let suiteFunctionName = await this.GetSuiteFunctionName();
+        let suiteFunctionInfo = await this.GetSuiteFunctionInfo();
         let suiteCall = await this.GetSuiteCall();
 
-        if (suiteFunctionName)
+        if (suiteFunctionInfo)
         {
             let suiteFunction = this.WrapNode(
                 ts.factory.createFunctionDeclaration(
                     [],
                     undefined,
-                    suiteFunctionName,
+                    suiteFunctionInfo.Name,
                     [],
                     [],
                     ts.factory.createKeywordTypeNode(SyntaxKind.VoidKeyword),
@@ -111,6 +112,12 @@ export abstract class SuiteFileMapping<TSettings extends ITSProjectSettings, TOp
 
             suiteFunction.setIsExported(true);
             suiteFunction.setBodyText(suiteCall.getFullText());
+
+            suiteFunction.addJsDoc(
+                {
+                    description: `${EOL}${suiteFunctionInfo.Description}`
+                });
+
             result = suiteFunction;
         }
         else

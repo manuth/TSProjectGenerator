@@ -61,7 +61,10 @@ export class GeneratorTestFileMapping<TSettings extends ITSProjectSettings, TOpt
     {
         return {
             SuiteName: this.NamingContext.GeneratorClassName,
-            SuiteFunctionName: this.NamingContext.GeneratorTestFunctionName
+            SuiteFunction: {
+                Name: this.NamingContext.GeneratorTestFunctionName,
+                Description: `Registers tests for the \`${this.NamingContext.GeneratorClassName}\`.`
+            }
         };
     }
 }
