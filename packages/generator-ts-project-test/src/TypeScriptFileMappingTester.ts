@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { parse } from "node:path";
+import { dirname, parse } from "node:path";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
 import { Package, PackageType } from "@manuth/package-json-editor";
@@ -125,7 +125,11 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
      */
     protected async Compile(esModule: boolean): Promise<ICompilationResult>
     {
-        let tempDir = new TempDirectory();
+        let tempDir = new TempDirectory(
+            {
+                Directory: dirname(this.FileMapping.Destination)
+            });
+
         let sourceFile = await this.ParseOutput();
         let project = sourceFile.getProject();
 
