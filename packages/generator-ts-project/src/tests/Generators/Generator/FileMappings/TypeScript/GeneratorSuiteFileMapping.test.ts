@@ -1,5 +1,5 @@
 import { strictEqual } from "node:assert";
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
 import upath from "upath";
 import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping.js";
@@ -7,6 +7,7 @@ import { NamingContext } from "../../../../../generators/generator/FileMappings/
 import { ISubGenerator } from "../../../../../generators/generator/Settings/ISubGenerator.js";
 import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
 import { SubGeneratorSettingKey } from "../../../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../../../../../generators/generator/Settings/TSGeneratorComponent.js";
 import { TSGeneratorSettingKey } from "../../../../../generators/generator/Settings/TSGeneratorSettingKey.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
@@ -61,6 +62,10 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                 {
                     generator.Settings[TSProjectSettingKey.Name] = namingContext.GeneratorID;
                     generator.Settings[TSProjectSettingKey.DisplayName] = namingContext.GeneratorDisplayName;
+
+                    generator.Settings[GeneratorSettingKey.Components].push(
+                        TSGeneratorComponent.GeneratorExample,
+                        TSGeneratorComponent.SubGeneratorExample);
 
                     generator.Settings[TSGeneratorSettingKey.SubGenerators] = [
                         {
