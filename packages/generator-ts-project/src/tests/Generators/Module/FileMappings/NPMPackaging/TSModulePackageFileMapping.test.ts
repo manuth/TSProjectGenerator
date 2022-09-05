@@ -79,8 +79,9 @@ export function TSModulePackageFileMappingTests(context: TestContext<TSModuleGen
                 });
 
             setup(
-                async () =>
+                async function()
                 {
+                    this.timeout(10 * 1000);
                     await tester.Run();
                 });
 
