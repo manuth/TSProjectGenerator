@@ -1,8 +1,9 @@
-import { strictEqual } from "node:assert";
+import { doesNotThrow, ok, strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempFile } from "@manuth/temp-files";
-import { ArrowFunction, CallExpression, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ArrowFunction, CallExpression, FunctionDeclaration, Node, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ISuiteFunctionInfo } from "../../../../Project/FileMappings/TypeScript/ISuiteFunctionInfo.js";
 import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
@@ -42,7 +43,11 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                 public async Context(): Promise<ISuiteContext>
                 {
                     return {
-                        SuiteName: suiteName
+                        SuiteName: suiteName,
+                        get SuiteFunction()
+                        {
+                            return suiteFunctionInfo;
+                        }
                     };
                 }
 
@@ -81,6 +86,7 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
 
             let generator: TSProjectGenerator;
             let suiteName: string;
+            let suiteFunctionInfo: ISuiteFunctionInfo;
             let outputFile: TempFile;
             let testValue: string;
             let fileMapping: TestSuiteFileMapping;
@@ -96,6 +102,7 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                 () =>
                 {
                     suiteName = context.RandomString;
+                    suiteFunctionInfo = null;
 
                     outputFile = new TempFile(
                         {
@@ -195,6 +202,26 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                             strictEqual(
                                 (await GetSuiteCall()).getArguments()[0].asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue(),
                                 await fileMapping.GetSuiteName());
+                        });
+
+                    test(
+                        "Checking whether the suite can be generated inside a named function…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            suiteFunctionInfo = {
+                                Name: context.RandomString,
+                                Description: context.RandomString
+                            };
+
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            let suiteFunction: FunctionDeclaration;
+                            doesNotThrow(() => suiteFunction = sourceFile.getFunctionOrThrow(suiteFunctionInfo.Name));
+                            ok(suiteFunction.isExported());
+                            strictEqual(suiteFunction.getJsDocs()[0].getDescription().trim(), suiteFunctionInfo.Description.trim());
+                            strictEqual(GetDescendantSuiteCalls(suiteFunction).length, 1);
                         });
 
                     test(
