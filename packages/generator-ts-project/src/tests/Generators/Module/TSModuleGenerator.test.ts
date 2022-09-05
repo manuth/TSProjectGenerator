@@ -32,11 +32,12 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
+                    let dirName = fileURLToPath(new URL(".", import.meta.url));
+                    npmPath = npmWhich(dirName).sync("npm");
 
                     packageDir = await packageDirectory(
                         {
-                            cwd: fileURLToPath(new URL(".", import.meta.url))
+                            cwd: dirName
                         });
 
                     moduleName = randexp(/@ts-module-generator-test\/[a-z]+/);
