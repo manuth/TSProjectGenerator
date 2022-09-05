@@ -44,16 +44,9 @@ export function TypeScriptFileMappingTesterTests(): void
                  * @returns
                  * The processed data.
                  */
-                protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
+                public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
-                    sourceFile = await super.Transform(sourceFile);
-
-                    sourceFile.addExportAssignment(
-                        {
-                            expression: JSON.stringify(testValue)
-                        });
-
-                    return sourceFile;
+                    return transformer(await super.Transform(sourceFile));
                 }
             }
 
@@ -62,6 +55,8 @@ export function TypeScriptFileMappingTesterTests(): void
              */
             class TestTypeScriptFileMappingTester extends TypeScriptFileMappingTester<IGenerator<IGeneratorSettings, GeneratorOptions>, IGeneratorSettings, GeneratorOptions, TestTypeScriptCreatorMapping>
             { }
+
+            let transformer: TestTypeScriptCreatorMapping["Transform"];
 
             suiteSetup(
                 async function()
@@ -80,9 +75,9 @@ export function TypeScriptFileMappingTesterTests(): void
                             Suffix: ".ts"
                         });
 
+                    transformer = async (sourceFile) => sourceFile;
                     fileMapping = new TestTypeScriptCreatorMapping(generator);
                     tester = new TestTypeScriptFileMappingTester(generator, fileMapping);
-                    await tester.Run();
                 });
 
             teardown(
@@ -95,6 +90,22 @@ export function TypeScriptFileMappingTesterTests(): void
                 nameof<TestTypeScriptFileMappingTester>((tester) => tester.Require),
                 () =>
                 {
+                    setup(
+                        async () =>
+                        {
+                            transformer = async (sourceFile) =>
+                            {
+                                sourceFile.addExportAssignment(
+                                    {
+                                        expression: JSON.stringify(testValue)
+                                    });
+
+                                return sourceFile;
+                            };
+
+                            await tester.Run();
+                        });
+
                     test(
                         "Checking whether typescript-files can be required…",
                         async function()
