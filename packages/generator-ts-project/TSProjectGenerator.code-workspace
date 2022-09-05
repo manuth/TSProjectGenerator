@@ -32,7 +32,7 @@
         "version": "0.2.0",
         "configurations": [
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
@@ -59,7 +59,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
@@ -87,7 +87,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
@@ -114,7 +114,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
@@ -142,7 +142,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGeneratorTest Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
