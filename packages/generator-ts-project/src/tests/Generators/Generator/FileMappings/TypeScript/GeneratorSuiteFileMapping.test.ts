@@ -1,6 +1,6 @@
 import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { ArrowFunction, SyntaxKind } from "ts-morph";
+import { ArrowFunction, SourceFile, SyntaxKind } from "ts-morph";
 import { GeneratorName } from "../../../../../Core/GeneratorName.js";
 import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
@@ -40,6 +40,20 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                 {
                     return super.GetSuiteFunction();
                 }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param sourceFile
+                 * The source-file to process.
+                 *
+                 * @returns
+                 * The processed data.
+                 */
+                public override Transform(sourceFile: SourceFile): Promise<SourceFile>
+                {
+                    return super.Transform(sourceFile);
+                }
             }
 
             let generator: TSGeneratorGenerator;
@@ -61,6 +75,24 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                     },
                     ...generator.Settings[TSGeneratorSettingKey.SubGenerators]
                 ];
+            }
+
+            /**
+             * Gets the {@link NamingContext `NamingContext`} for the specified {@link generatorSettings `generatorSettings`}.
+             *
+             * @param generatorSettings
+             * The generator settings to get the {@link NamingContext `NamingContext`} for.
+             *
+             * @returns
+             * The {@link NamingContext `NamingContext`} for the specified {@link generatorSettings `generatorSettings`}.
+             */
+            function GetNamingContext(generatorSettings: ISubGenerator): NamingContext
+            {
+                return new NamingContext(
+                    generatorSettings[SubGeneratorSettingKey.Name],
+                    generatorSettings[SubGeneratorSettingKey.DisplayName],
+                    generator.SourceRoot,
+                    generator.Settings[TSProjectSettingKey.ESModule]);
             }
 
             suiteSetup(
@@ -143,17 +175,43 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
 
                             for (let subGenerator of GetGenerators())
                             {
-                                let subNamingContext = new NamingContext(
-                                    subGenerator[SubGeneratorSettingKey.Name],
-                                    subGenerator[SubGeneratorSettingKey.DisplayName],
-                                    generator.SourceRoot,
-                                    true);
+                                let subNamingContext = GetNamingContext(subGenerator);
 
                                 ok(
                                     suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(
                                         (callExpression) =>
                                         {
                                             return callExpression.getExpression().getText() === subNamingContext.GeneratorTestFunctionName;
+                                        }));
+                            }
+                        });
+                });
+
+            suite(
+                nameof<TestGeneratorSuiteFileMapping>((fileMapping) => fileMapping.Transform),
+                () =>
+                {
+                    test(
+                        "Checking whether all generator unit tests are imported properly…",
+                        async function()
+                        {
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+
+                            for (let generatorSettings of GetGenerators())
+                            {
+                                let namingContext = GetNamingContext(generatorSettings);
+
+                                ok(
+                                    sourceFile.getImportDeclarations().some(
+                                        (importDeclaration) =>
+                                        {
+                                            return importDeclaration.getNamedImports().some(
+                                                    (importSpecifier) =>
+                                                    {
+                                                        return importSpecifier.getName() === namingContext.GeneratorTestFunctionName;
+                                                    });
                                         }));
                             }
                         });
