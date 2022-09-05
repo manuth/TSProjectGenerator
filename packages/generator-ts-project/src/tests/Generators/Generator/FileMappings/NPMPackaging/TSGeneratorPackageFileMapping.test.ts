@@ -112,7 +112,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                         {
                                             this.slow(1 * 1000);
                                             await tester.Run();
-                                            tester.AssertDependencies(new TSGeneratorDependencies());
+                                            await tester.AssertDependencies(new TSGeneratorDependencies());
                                         });
                                 });
 
