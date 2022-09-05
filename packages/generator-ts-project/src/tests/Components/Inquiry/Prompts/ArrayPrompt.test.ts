@@ -1,5 +1,4 @@
 import { ok, strictEqual } from "node:assert";
-import { createRequire } from "node:module";
 import inquirer, { DistinctQuestion } from "inquirer";
 import mock from "mock-require";
 import { ArrayPrompt } from "../../../../Components/Inquiry/Prompts/ArrayPrompt.js";
@@ -77,7 +76,6 @@ export function ArrayPromptTests(): void
                     testLength = 1;
                     testValue = context.RandomObject;
                     context.RegisterTestPrompt(inquirer.prompt, "confirm");
-                    mock(inquirerModuleName, createRequire(import.meta.url).resolve(inquirerModuleName));
                     inquirer.registerPrompt(type, TestArrayPrompt);
                     repeat = () => ++i < testLength;
 
