@@ -52,7 +52,7 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new TestGeneratorSuiteFileMapping(generator, namingContext);
                 });
 
@@ -119,7 +119,12 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
 
                             for (let subGenerator of [mainGenerator, ...generator.Settings[TSGeneratorSettingKey.SubGenerators]])
                             {
-                                let subNamingContext = new NamingContext(subGenerator[SubGeneratorSettingKey.Name], subGenerator[SubGeneratorSettingKey.DisplayName], generator.SourceRoot);
+                                let subNamingContext = new NamingContext(
+                                    subGenerator[SubGeneratorSettingKey.Name],
+                                    subGenerator[SubGeneratorSettingKey.DisplayName],
+                                    generator.SourceRoot,
+                                    true);
+
                                 let sourceFile = await fileMapping.GetSourceObject();
                                 let moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), subNamingContext.GeneratorTestFileName));
 

@@ -28,7 +28,7 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new GeneratorTestFileMapping(generator, namingContext);
                 });
 

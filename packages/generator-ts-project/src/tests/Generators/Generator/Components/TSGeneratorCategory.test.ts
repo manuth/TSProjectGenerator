@@ -221,7 +221,7 @@ export function TSGeneratorCategoryTests(context: TestContext<TSGeneratorGenerat
                                         })
                                 ])
                             {
-                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
+                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot, true);
                                 ok(await pathExists(generator.destinationPath("src", "tests", "Generators", `${namingContext.GeneratorClassName}.test.ts`)));
                             }
                         });

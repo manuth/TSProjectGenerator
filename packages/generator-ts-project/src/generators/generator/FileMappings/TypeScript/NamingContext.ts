@@ -46,7 +46,7 @@ export class NamingContext
      * @param esModule
      * A value indicating whether the names are intended for the use in an ESModule.
      */
-    public constructor(id: string, displayName: string, sourceRoot: string, esModule = false)
+    public constructor(id: string, displayName: string, sourceRoot: string, esModule: boolean)
     {
         this.generatorID = id;
         this.displayName = displayName;

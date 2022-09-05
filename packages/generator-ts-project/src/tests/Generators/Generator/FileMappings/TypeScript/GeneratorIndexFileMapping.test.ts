@@ -62,7 +62,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
 
                     npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new TestGeneratorIndexFileMapping(generator, namingContext);
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext)).Run();

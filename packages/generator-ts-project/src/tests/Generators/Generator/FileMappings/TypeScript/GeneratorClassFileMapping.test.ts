@@ -97,7 +97,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                     generator = await context.Generator;
                     generator.Settings[GeneratorSettingKey.Components].push(TSGeneratorComponent.GeneratorExample);
                     await new FileMappingTester(generator, new TSGeneratorPackageFileMapping(generator)).Run();
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new TestGeneratorClassFileMapping(generator, namingContext);
                     settingKeyTester = new TypeScriptFileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext));
                     settingsInterfaceTester = new TypeScriptFileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext));

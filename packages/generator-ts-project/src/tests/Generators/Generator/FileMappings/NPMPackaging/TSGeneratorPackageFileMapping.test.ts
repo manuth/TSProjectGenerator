@@ -170,7 +170,7 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                             this.slow(1 * 1000);
                                             tester.Generator.Settings[GeneratorSettingKey.Components] = [];
                                             await tester.Run();
-                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(), false);
+                                            await tester.AssertDependencies(new TSGeneratorExampleDependencies(true), false);
                                         });
                                 });
                         });

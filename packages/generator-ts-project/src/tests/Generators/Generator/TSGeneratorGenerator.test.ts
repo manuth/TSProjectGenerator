@@ -219,7 +219,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                         })
                                 ])
                             {
-                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
+                                let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot, true);
 
                                 strictEqual(
                                     importDeclarations.filter(

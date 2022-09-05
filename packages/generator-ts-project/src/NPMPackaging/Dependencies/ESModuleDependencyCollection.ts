@@ -20,8 +20,7 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
      * @param esModule
      * A value indicating whether the ESModule dependencies are allowed.
      */
-    // ToDo: Make mandatory
-    public constructor(dependencies: PackageDependencyCollectionOptions, esModule = false)
+    public constructor(dependencies: PackageDependencyCollectionOptions, esModule: boolean)
     {
         super(dependencies);
         this.esModule = esModule;

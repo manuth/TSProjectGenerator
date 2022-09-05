@@ -78,7 +78,7 @@ export function NamingContextTests(context: TestContext<TSGeneratorGenerator>): 
                     id = "theme";
                     displayName = "This is a test";
                     sourceRoot = generator.SourceRoot;
-                    namingContext = new TestNamingContext(id, displayName, generator.SourceRoot);
+                    namingContext = new TestNamingContext(id, displayName, generator.SourceRoot, true);
                 });
 
             suite(

@@ -53,7 +53,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext)).Run();

@@ -19,8 +19,7 @@ export class TSGeneratorDependencies extends ESModuleDependencyCollection
      * @param esModule
      * A value indicating whether the ESModule dependencies are allowed.
      */
-    // ToDo: Make mandatory
-    public constructor(esModule = false)
+    public constructor(esModule: boolean)
     {
         super(
             {

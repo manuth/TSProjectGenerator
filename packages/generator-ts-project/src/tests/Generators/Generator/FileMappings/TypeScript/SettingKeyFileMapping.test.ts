@@ -51,7 +51,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new TestSettingKeyFileMapping(generator, namingContext);
                     tester = new TypeScriptFileMappingTester(generator, fileMapping);
                 });
