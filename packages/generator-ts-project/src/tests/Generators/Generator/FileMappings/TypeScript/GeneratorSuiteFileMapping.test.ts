@@ -1,4 +1,4 @@
-import { strictEqual } from "node:assert";
+import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
 import { GeneratorName } from "../../../../../Core/GeneratorName.js";
@@ -12,8 +12,6 @@ import { TSGeneratorSettingKey } from "../../../../../generators/generator/Setti
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../../../TestContext.js";
-
-const { dirname, relative } = upath;
 
 /**
  * Registers tests for the {@link GeneratorSuiteFileMapping `GeneratorSuiteFileMapping<TSettings, TOptions>`} class.
@@ -109,7 +107,7 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                 () =>
                 {
                     test(
-                        `Checking whether the unit-tests for all sub-generators are \`${nameof(require)}\`d…`,
+                        "Checking whether the unit-tests for all sub-generators are executed…",
                         async function()
                         {
                             this.timeout(2 * 60 * 1000);
@@ -130,15 +128,12 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                                     generator.SourceRoot,
                                     true);
 
-                                let sourceFile = await fileMapping.GetSourceObject();
-                                let moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(relative(dirname(fileMapping.Destination), subNamingContext.GeneratorTestFileName));
-
-                                suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(
-                                    (callExpression) =>
-                                    {
-                                        return callExpression.getExpression().getText() === nameof(require) &&
-                                            callExpression.getArguments()[0]?.asKind(SyntaxKind.StringLiteral)?.getLiteralValue() === moduleSpecifier;
-                                    });
+                                ok(
+                                    suiteFunction.getDescendantsOfKind(SyntaxKind.CallExpression).some(
+                                        (callExpression) =>
+                                        {
+                                            return callExpression.getExpression().getText() === subNamingContext.GeneratorTestFunctionName;
+                                        }));
                             }
                         });
                 });
