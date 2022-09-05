@@ -32,62 +32,72 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
             let sandbox: SinonSandbox;
             let workingDirectory: string;
             let tempDir: TempDirectory;
-            let generatorContext: IRunContext<AppGenerator>;
+            let contextCreator: () => IRunContext<AppGenerator>;
+            let tardownActions: Array<() => void>;
 
             suiteSetup(
-                () =>
+                async () =>
                 {
-                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
+                    let dirName = fileURLToPath(new URL(".", import.meta.url));
+                    npmPath = npmWhich(dirName).sync("npm");
+                    tardownActions = [];
+
+                    contextCreator = () =>
+                    {
+                        let result = context.ExecuteGenerator();
+                        tardownActions.push(() => result.removeAllListeners());
+
+                        result.on(
+                            "ready",
+                            () =>
+                            {
+                                let mockedPrompt = sandbox.mock(result.generator.env.adapter.promptModule);
+
+                                /**
+                                 * Adds the fake prompt-registration to the prompt-module.
+                                 */
+                                function AddFake(): void
+                                {
+                                    let mockedRegister = mockedPrompt.expects(nameof<PromptModule>((m) => m.registerPrompt));
+                                    mockedRegister.atLeast(0);
+                                    mockedRegister.callsFake(GetFakeRegisterPrompt(mockedRegister));
+                                }
+
+                                /**
+                                 * Fakes the registration of a prompt.
+                                 *
+                                 * @param expectation
+                                 * The {@link SinonExpectation `SinonExpectation`} to add the faked prompt-registration to.
+                                 *
+                                 * @returns
+                                 * A method for faking the prompt-registration.
+                                 */
+                                function GetFakeRegisterPrompt(expectation: SinonExpectation): (...args: any[]) => void
+                                {
+                                    return (...args: any[]): void =>
+                                    {
+                                        let register = expectation.wrappedMethod;
+                                        register = register.bind(result.generator.env.adapter.promptModule);
+                                        register(...args);
+                                        mockedPrompt.restore();
+                                        mockPrompt(result.generator, result.answers);
+                                        AddFake();
+                                    };
+                                }
+
+                                AddFake();
+                            });
+
+                        return result;
+                    };
                 });
 
             setup(
-                () =>
+                function()
                 {
                     sandbox = createSandbox();
                     workingDirectory = process.cwd();
                     tempDir = new TempDirectory();
-                    generatorContext = context.ExecuteGenerator();
-
-                    generatorContext.on(
-                        "ready",
-                        () =>
-                        {
-                            let mockedPrompt = sandbox.mock(generatorContext.generator.env.adapter.promptModule);
-
-                            /**
-                             * Adds the fake prompt-registration to the prompt-module.
-                             */
-                            function AddFake(): void
-                            {
-                                let mockedRegister = mockedPrompt.expects(nameof<PromptModule>((m) => m.registerPrompt));
-                                mockedRegister.atLeast(0);
-                                mockedRegister.callsFake(GetFakeRegisterPrompt(mockedRegister));
-                            }
-
-                            /**
-                             * Fakes the registration of a prompt.
-                             *
-                             * @param expectation
-                             * The {@link SinonExpectation `SinonExpectation`} to add the faked prompt-registration to.
-                             *
-                             * @returns
-                             * A method for faking the prompt-registration.
-                             */
-                            function GetFakeRegisterPrompt(expectation: SinonExpectation): (...args: any[]) => void
-                            {
-                                return (...args: any[]): void =>
-                                {
-                                    let register = expectation.wrappedMethod;
-                                    register = register.bind(generatorContext.generator.env.adapter.promptModule);
-                                    register(...args);
-                                    mockedPrompt.restore();
-                                    mockPrompt(generatorContext.generator, generatorContext.answers);
-                                    AddFake();
-                                };
-                            }
-
-                            AddFake();
-                        });
                 });
 
             teardown(
@@ -95,7 +105,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                 {
                     this.timeout(45 * 1000);
                     sandbox.restore();
-                    generatorContext.removeAllListeners();
+                    tardownActions.forEach((action) => action());
                     process.chdir(workingDirectory);
                     tempDir.Dispose();
                 });
@@ -110,7 +120,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         {
                             this.timeout(6 * 60 * 1000);
                             this.slow(3 * 60 * 1000);
-                            await doesNotReject(async () => generatorContext.inDir(tempDir.FullName).toPromise());
+                            await doesNotReject(async () => contextCreator().inDir(tempDir.FullName).toPromise());
                         });
 
                     test(
@@ -123,7 +133,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             await doesNotReject(
                                 () =>
                                 {
-                                    return generatorContext.withPrompts(
+                                    return contextCreator().withPrompts(
                                         {
                                             [ProjectSelectorSettingKey.ProjectType]: ProjectType.Module
                                         }).inDir(tempDir.FullName).toPromise();
@@ -169,7 +179,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                             await doesNotReject(
                                 async () =>
                                 {
-                                    return generatorContext.withPrompts(
+                                    return contextCreator().withPrompts(
                                         {
                                             [ProjectSelectorSettingKey.ProjectType]: ProjectType.Generator
                                         }).inDir(tempDir.FullName).toPromise();
