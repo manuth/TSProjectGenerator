@@ -1,7 +1,7 @@
 import { strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { ArrowFunction, SyntaxKind } from "ts-morph";
-import upath from "upath";
+import { GeneratorName } from "../../../../../Core/GeneratorName.js";
 import { GeneratorSuiteFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorSuiteFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { ISubGenerator } from "../../../../../generators/generator/Settings/ISubGenerator.js";
@@ -116,7 +116,7 @@ export function GeneratorSuiteFileMappingTests(context: TestContext<TSGeneratorG
                             this.slow(1 * 60 * 1000);
 
                             let mainGenerator: ISubGenerator = {
-                                [SubGeneratorSettingKey.Name]: generator.Settings[TSProjectSettingKey.Name],
+                                [SubGeneratorSettingKey.Name]: GeneratorName.Main,
                                 [SubGeneratorSettingKey.DisplayName]: generator.Settings[TSProjectSettingKey.DisplayName]
                             };
 
