@@ -197,7 +197,22 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 `Checking whether the exported component inherits the \`${nameof(Generator)}\` class…`,
                                 async () =>
                                 {
-                                    ok(testGenerator instanceof Generator);
+                                    let classCandidates: any[] = [];
+
+                                    for (
+                                        let candidate = testGenerator.constructor;
+                                        candidate !== null;
+                                        candidate = Object.getPrototypeOf(candidate))
+                                    {
+                                        classCandidates.push(candidate);
+                                    }
+
+                                    ok(
+                                        classCandidates.some(
+                                            (candidate) =>
+                                            {
+                                                return `${candidate}` === Generator.toString();
+                                            }));
                                 });
                         });
 

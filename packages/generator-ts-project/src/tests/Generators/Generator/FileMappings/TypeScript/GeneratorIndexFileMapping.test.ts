@@ -96,7 +96,23 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            ok(context.CreateGenerator(await tester.Require()) instanceof Generator);
+                            let newGenerator = context.CreateGenerator(await tester.Require());
+                            let classCandidates: any[] = [];
+
+                            for (
+                                let candidate = newGenerator.constructor;
+                                candidate !== null;
+                                candidate = Object.getPrototypeOf(candidate))
+                            {
+                                classCandidates.push(candidate);
+                            }
+
+                            ok(
+                                classCandidates.some(
+                                    (candidate) =>
+                                    {
+                                        return `${candidate}` === Generator.toString();
+                                    }));
                         });
                 });
         });
