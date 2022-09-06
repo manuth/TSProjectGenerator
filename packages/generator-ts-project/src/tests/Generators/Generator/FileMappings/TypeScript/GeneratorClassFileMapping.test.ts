@@ -216,6 +216,13 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 });
 
                             test(
+                                "Checking whether a generator  is exported with the expected name…",
+                                async () =>
+                                {
+                                    ok(namingContext.GeneratorClassName in await tester.Import());
+                                });
+
+                            test(
                                 `Checking whether the exported component inherits the \`${nameof(Generator)}\` class…`,
                                 async () =>
                                 {
