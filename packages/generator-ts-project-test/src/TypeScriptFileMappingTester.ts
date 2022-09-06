@@ -154,15 +154,12 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
             sourceFile.forget();
         }
 
-        if (esModule)
-        {
-            await writeJSON(
-                tempDir.MakePath(Package.FileName),
-                new Package(
-                    {
-                        type: PackageType.ESModule
-                    }).ToJSON());
-        }
+        await writeJSON(
+            tempDir.MakePath(Package.FileName),
+            new Package(
+                {
+                    type: esModule ? PackageType.ESModule : PackageType.CommonJS
+                }).ToJSON());
 
         return {
             TempDirectory: tempDir,
