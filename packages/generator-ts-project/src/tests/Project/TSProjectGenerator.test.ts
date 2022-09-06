@@ -58,17 +58,6 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                                     }).length,
                                 0);
                         });
-
-                    test(
-                        "Checking whether the source-code is cleaned up correctly…",
-                        async function()
-                        {
-                            this.timeout(15 * 60 * 1000);
-                            this.slow(7.5 * 60 * 1000);
-                            await writeFile(generator.destinationPath(testFileName), testCode);
-                            await generator.cleanup();
-                            strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
-                        });
                 });
 
             suite(
@@ -113,6 +102,17 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                             generator.options.skipCleanup = true;
                             await generator.cleanup();
                             ok(!cleanupRan);
+                        });
+
+                    test(
+                        "Checking whether the source-code is cleaned up correctly…",
+                        async function()
+                        {
+                            this.timeout(15 * 60 * 1000);
+                            this.slow(7.5 * 60 * 1000);
+                            await writeFile(generator.destinationPath(testFileName), testCode);
+                            await generator.cleanup();
+                            strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
                         });
                 });
         });
