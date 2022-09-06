@@ -69,7 +69,8 @@ export function TSGeneratorPackageFileMappingTests(context: TestContext<TSGenera
                                 `Checking whether the \`${yeomanKeyword}\`-keyword is added if it doesn't exist…`,
                                 async function()
                                 {
-                                    this.slow(1 * 1000);
+                                    this.timeout(8 * 1000);
+                                    this.slow(4 * 1000);
 
                                     await tester.DumpOutput(
                                         new Package(
