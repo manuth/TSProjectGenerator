@@ -131,7 +131,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                     }
 
                     /**
-                     * Asserts that the specified {@link generatorConstructor `generatorConstructor`} inherits the {@link Generator `Generator`} class.
+                     * Asserts that the specified {@link generatorConstructor `generatorConstructor`} inherits the {@link Generator `Generator<TSettings, TOptions>`} class.
                      *
                      * @param generatorConstructor
                      * The object to check.

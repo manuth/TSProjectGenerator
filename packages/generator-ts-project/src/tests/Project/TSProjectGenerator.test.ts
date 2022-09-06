@@ -65,7 +65,7 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                 () =>
                 {
                     /**
-                     * Provides an implementation of the {@link TSProjectGenerator `TSProjectGenerator`} class for testing.
+                     * Provides an implementation of the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class for testing.
                      */
                     class TestGenerator extends TSProjectGenerator
                     {
