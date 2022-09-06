@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { Generator, GeneratorConstructor, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { PackageType } from "@manuth/package-json-editor";
 import { Context } from "mocha";
 import npmWhich from "npm-which";
 import { SourceFile } from "ts-morph";
@@ -157,7 +158,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                     }
 
                     test(
-                        "Checking whether the file exports a yeoman-generator if a CommonJS module is generated…",
+                        `Checking whether the file exports a yeoman-generator if a \`${nameof(PackageType.CommonJS)}\` module is generated…`,
                         async function()
                         {
                             generator.Settings[TSProjectSettingKey.ESModule] = false;
@@ -166,7 +167,7 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                         });
 
                     test(
-                        "Checking whether the file default exports a yeoman-generator if an ESModule is generated…",
+                        `Checking whether the file default exports a yeoman-generator if an \`${nameof(PackageType.ESModule)}\` is generated…`,
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);

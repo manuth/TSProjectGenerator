@@ -1,4 +1,5 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
+import { PackageType } from "@manuth/package-json-editor";
 import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -79,11 +80,11 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
             message: "What kind of package do you wish to create?",
             choices: [
                 {
-                    name: "CommonJS",
+                    name: nameof(PackageType.CommonJS),
                     value: false
                 },
                 {
-                    name: "ESModule",
+                    name: nameof(PackageType.ESModule),
                     value: true
                 }
             ]
