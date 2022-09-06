@@ -311,7 +311,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
     {
         if (!this.options.skipCleanup)
         {
-            this.Cleanup();
+            await this.Cleanup();
         }
     }
 
