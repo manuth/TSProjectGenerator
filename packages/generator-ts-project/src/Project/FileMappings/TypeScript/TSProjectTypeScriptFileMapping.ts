@@ -52,7 +52,7 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
      * @returns
      * The import-declaration for importing the specified {@link fileName `fileName`}.
      */
-    public async GetImportDeclaration(fileName: string, leadingTrivia?: string): Promise<OptionalKind<ImportDeclarationStructure>>
+    protected async GetImportDeclaration(fileName: string, leadingTrivia?: string): Promise<OptionalKind<ImportDeclarationStructure>>
     {
         /**
          * Provides the functionality to process a module-specifier.
@@ -116,7 +116,7 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
      * @returns
      * The declaration for exporting the specified {@link expression `expression`}.
      */
-    public GetMainExportDeclaration(expression: string): OptionalKind<ExportAssignmentStructure>
+    protected GetMainExportDeclaration(expression: string): OptionalKind<ExportAssignmentStructure>
     {
         return {
             expression,
