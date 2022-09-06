@@ -1,9 +1,10 @@
 import { ok, strictEqual } from "node:assert";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { Generator, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { Generator, GeneratorConstructor, GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { Context } from "mocha";
 import npmWhich from "npm-which";
 import { SourceFile } from "ts-morph";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
@@ -14,6 +15,7 @@ import { SettingKeyFileMapping } from "../../../../../generators/generator/FileM
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../../../TestContext.js";
 
 /**
@@ -110,35 +112,67 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                     suiteSetup(
                         async function()
                         {
-                            this.timeout(20 * 1000);
-                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
-                            await tester.DumpOutput(sourceFile);
-                            sourceFile.forget();
+                            await TransformFile(this);
+                        });
+
+                    /**
+                     * Transforms the file mapping which is under testing.
+                     *
+                     * @param mochaContext
+                     * The mocha context for setting an apropriate timeout.
+                     */
+                    async function TransformFile(mochaContext: Context): Promise<void>
+                    {
+                        mochaContext.timeout(20 * 1000);
+                        let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                        await tester.DumpOutput(sourceFile);
+                        sourceFile.forget();
+                    }
+
+                    /**
+                     * Asserts that the specified {@link generatorConstructor `generatorConstructor`} inherits the {@link Generator `Generator`} class.
+                     *
+                     * @param generatorConstructor
+                     * The object to check.
+                     */
+                    function AssertGeneratorConstructor(generatorConstructor: GeneratorConstructor): void
+                    {
+                        let newGenerator = context.CreateGenerator(generatorConstructor);
+                        let classCandidates: any[] = [];
+
+                        for (
+                            let candidate = newGenerator.constructor;
+                            candidate !== null;
+                            candidate = Object.getPrototypeOf(candidate))
+                        {
+                            classCandidates.push(candidate);
+                        }
+
+                        ok(
+                            classCandidates.some(
+                                (candidate) =>
+                                {
+                                    return `${candidate}` === Generator.toString();
+                                }));
+                    }
+
+                    test(
+                        "Checking whether the file exports a yeoman-generator if a CommonJS module is generated…",
+                        async function()
+                        {
+                            generator.Settings[TSProjectSettingKey.ESModule] = false;
+                            await TransformFile(this);
+                            AssertGeneratorConstructor(await tester.Require());
                         });
 
                     test(
-                        "Checking whether the file exports a yeoman-generator…",
+                        "Checking whether the file default exports a yeoman-generator if an ESModule is generated…",
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            let newGenerator = context.CreateGenerator(await tester.ImportDefault());
-                            let classCandidates: any[] = [];
-
-                            for (
-                                let candidate = newGenerator.constructor;
-                                candidate !== null;
-                                candidate = Object.getPrototypeOf(candidate))
-                            {
-                                classCandidates.push(candidate);
-                            }
-
-                            ok(
-                                classCandidates.some(
-                                    (candidate) =>
-                                    {
-                                        return `${candidate}` === Generator.toString();
-                                    }));
+                            await TransformFile(this);
+                            AssertGeneratorConstructor(await tester.ImportDefault());
                         });
                 });
         });
