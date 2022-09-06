@@ -6,6 +6,7 @@ import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
 import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
 
@@ -87,27 +88,62 @@ export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenera
                 nameof<TestModuleIndexFileMapping>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
+                    /**
+                     * Transforms the file.
+                     *
+                     * @returns
+                     * The transformed file.
+                     */
+                    async function TransformFile(): Promise<SourceFile>
+                    {
+                        return fileMapping.Transform(await fileMapping.GetSourceObject());
+                    }
+
+                    /**
+                     * Asserts the correctness of the specified {@link exportedFunction `exportedFunction`}.
+                     *
+                     * @param exportedFunction
+                     * The function to check.
+                     */
+                    async function AssertExportedFunction(exportedFunction: () => Promise<void>): Promise<void>
+                    {
+                        let messages: string[] = [];
+
+                        sandbox.replace(
+                            console,
+                            "log",
+                            (message) =>
+                            {
+                                messages.push(message);
+                            });
+
+                        await exportedFunction();
+                        strictEqual(messages.length, 1);
+                    }
+
                     test(
-                        "Checking whether the expected content is added to the file…",
+                        `Checking whether a function is assigned to \`${nameof.full(module.exports)}\` if the file is creates as a CommonJS module…`,
                         async function()
                         {
                             this.timeout(2 * 60 * 1000);
                             this.slow(1 * 60 * 1000);
-                            let file = await fileMapping.Transform(await fileMapping.GetSourceObject());
-                            let messages: string[] = [];
-
-                            sandbox.replace(
-                                console,
-                                "log",
-                                (message) =>
-                                {
-                                    messages.push(message);
-                                });
-
+                            generator.Settings[TSProjectSettingKey.ESModule] = false;
+                            let file = await TransformFile();
                             await tester.DumpOutput(file);
+                            await AssertExportedFunction(await tester.Require());
                             file.forget();
-                            await (await tester.ImportDefault() as () => Promise<void>)();
-                            strictEqual(messages.length, 1);
+                        });
+
+                    test(
+                        "Checking whether a function is default exported if the file is created as an ESModule…",
+                        async function()
+                        {
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
+                            let file = await TransformFile();
+                            await tester.DumpOutput(file);
+                            await AssertExportedFunction(await tester.ImportDefault());
+                            file.forget();
                         });
                 });
         });
