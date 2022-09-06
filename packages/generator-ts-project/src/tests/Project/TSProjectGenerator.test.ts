@@ -40,30 +40,35 @@ export function TSProjectGeneratorTests(context: TestContext<TSProjectGenerator>
                     generator = await context.Generator;
                 });
 
-            test(
-                `Checking whether the \`${transformName}\`-plugin is stripped from \`${tsConfigFileName}\`…`,
-                async () =>
+            suite(
+                "General",
+                () =>
                 {
-                    let tsConfig = await readJSON(generator.destinationPath(tsConfigFileName)) as TSConfigJSON;
+                    test(
+                        `Checking whether the \`${transformName}\`-plugin is stripped from \`${tsConfigFileName}\`…`,
+                        async () =>
+                        {
+                            let tsConfig = await readJSON(generator.destinationPath(tsConfigFileName)) as TSConfigJSON;
 
-                    strictEqual(
-                        tsConfig.compilerOptions.plugins.filter(
-                            (plugin) =>
-                            {
-                                return plugin.transform === transformName;
-                            }).length,
-                            0);
-                });
+                            strictEqual(
+                                tsConfig.compilerOptions.plugins.filter(
+                                    (plugin) =>
+                                    {
+                                        return plugin.transform === transformName;
+                                    }).length,
+                                0);
+                        });
 
-            test(
-                "Checking whether the source-code is cleaned up correctly…",
-                async function()
-                {
-                    this.timeout(15 * 60 * 1000);
-                    this.slow(7.5 * 60 * 1000);
-                    await writeFile(generator.destinationPath(testFileName), testCode);
-                    await generator.cleanup();
-                    strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
+                    test(
+                        "Checking whether the source-code is cleaned up correctly…",
+                        async function()
+                        {
+                            this.timeout(15 * 60 * 1000);
+                            this.slow(7.5 * 60 * 1000);
+                            await writeFile(generator.destinationPath(testFileName), testCode);
+                            await generator.cleanup();
+                            strictEqual((await readFile(generator.destinationPath(testFileName))).toString(), testCode.replace(/'/g, '"'));
+                        });
                 });
         });
 }
