@@ -1,5 +1,5 @@
-import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { ExportAssignmentStructure, ImportDeclarationStructure, OptionalKind } from "ts-morph";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { ExportAssignmentStructure, ImportDeclarationStructure, OptionalKind, SourceFile } from "ts-morph";
 import path from "upath";
 import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping.js";
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
@@ -18,6 +18,20 @@ const { dirname, parse, relative, sep } = path;
  */
 export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TypeScriptCreatorMapping<TSettings, TOptions>
 {
+    /**
+     * Initializes a new instance of the {@link TSProjectTypeScriptFileMapping `TSProjectTypeScriptFileMapping<TSettings, TOptions>`} class.
+     *
+     * @param generator
+     * The generator of this file-mapping.
+     *
+     * @param sourceFile
+     * The sourceFile to write to the file.
+     */
+    public constructor(generator: IGenerator<TSettings, TOptions>, sourceFile?: SourceFile)
+    {
+        super(generator, sourceFile);
+    }
+
     /**
      * Gets a value indicating whether the file is intended to be used in an ESModule.
      */
