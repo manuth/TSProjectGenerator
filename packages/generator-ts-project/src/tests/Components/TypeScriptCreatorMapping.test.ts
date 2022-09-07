@@ -172,10 +172,10 @@ export function TypeScriptCreatorMappingTests(): void
                         "Checking whether nodes which already belong to a file are treated correctly…",
                         function()
                         {
-                            let project = new Project();
-                            let sourceFile = project.createSourceFile(TempFileSystem.TempName());
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
+                            let project = new Project();
+                            let sourceFile = project.createSourceFile(TempFileSystem.TempName());
 
                             let testClass = sourceFile.addClass(
                                 {
