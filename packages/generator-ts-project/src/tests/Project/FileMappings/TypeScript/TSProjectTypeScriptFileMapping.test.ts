@@ -1,9 +1,12 @@
-import { strictEqual } from "node:assert";
+import { deepStrictEqual, ok, strictEqual } from "node:assert";
+import { fileURLToPath } from "node:url";
+import { ESLintRule, GenerateESLintConfiguration } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { PackageType } from "@manuth/package-json-editor";
 import { ITempNameOptions, TempFileSystem } from "@manuth/temp-files";
-import { ImportDeclarationStructure, OptionalKind } from "ts-morph";
+import { ESLint } from "eslint";
+import { ExportAssignmentStructure, ImportDeclarationStructure, OptionalKind } from "ts-morph";
 import path from "upath";
 import { TSProjectTypeScriptFileMapping } from "../../../../Project/FileMappings/TypeScript/TSProjectTypeScriptFileMapping.js";
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
@@ -62,14 +65,29 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                 {
                     return super.GetImportDeclaration(fileName, leadingTrivia);
                 }
+
+                /**
+                 * @inheritdoc
+                 *
+                 * @param expression
+                 * The expression to export.
+                 *
+                 * @returns
+                 * The declaration for exporting the specified {@link expression `expression`}.
+                 */
+                public override GetMainExportDeclaration(expression: string): OptionalKind<ExportAssignmentStructure>
+                {
+                    return super.GetMainExportDeclaration(expression);
+                }
             }
 
+            let dirName: string;
             let indexName = TSProjectTypeScriptFileMapping.IndexFileName;
             let jsExtension = TSProjectTypeScriptFileMapping.JavaScriptFileExtension;
             let fileName: string;
             let generator: TSProjectGenerator;
             let fileMapping: TestTypeScriptFileMapping;
-            let tester: FileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TestTypeScriptFileMapping>;
+            let tester: TypeScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TestTypeScriptFileMapping>;
 
             /**
              * Sets the value indicating whether an ESModule project should be generated.
@@ -125,9 +143,10 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                 async function()
                 {
                     this.timeout(30 * 1000);
+                    dirName = fileURLToPath(new URL(".", import.meta.url));
                     generator = await context.Generator;
                     fileMapping = new TestTypeScriptFileMapping(generator);
-                    tester = new FileMappingTester(generator, fileMapping);
+                    tester = new TypeScriptFileMappingTester(generator, fileMapping);
                 });
 
             setup(
@@ -272,6 +291,114 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                                     let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
                                     AssertImportFile(importDeclaration, dirname(fileName));
+                                });
+                        });
+                });
+
+            suite(
+                nameof<TestTypeScriptFileMapping>((fileMapping) => fileMapping.GetMainExportDeclaration),
+                () =>
+                {
+                    let randomObject: any;
+
+                    setup(
+                        async () =>
+                        {
+                            randomObject = context.RandomObject;
+                        });
+
+                    /**
+                     * Dumps an export statement exporting the specified {@link exportValue `exportValue`} to the destination of the {@link fileMapping `fileMapping`}.
+                     *
+                     * @param exportValue
+                     * The value to add as an export.
+                     */
+                    async function DumpExport(exportValue: any): Promise<void>
+                    {
+                        let sourceFile = await fileMapping.GetSourceObject();
+                        sourceFile.addExportAssignment(fileMapping.GetMainExportDeclaration(JSON.stringify(exportValue)));
+                        await tester.DumpOutput(sourceFile);
+                        sourceFile.forget();
+                    }
+
+                    suite(
+                        nameof(PackageType.ESModule),
+                        () =>
+                        {
+                            setup(
+                                () =>
+                                {
+                                    SetESModule(true);
+                                });
+
+                            test(
+                                `Checking whether a default export is created for \`${nameof(PackageType.ESModule)}\` projects…`,
+                                () =>
+                                {
+                                    let exportDeclaration = fileMapping.GetMainExportDeclaration(randomObject);
+                                    ok(!exportDeclaration.isExportEquals);
+                                });
+
+                            test(
+                                "Checking whether the default export has the expected value…",
+                                async () =>
+                                {
+                                    await DumpExport(randomObject);
+                                    deepStrictEqual(await tester.ImportDefault(), randomObject);
+                                });
+
+                            test(
+                                "Checking whether the code does not break the `no-default-export` eslint rule…",
+                                async () =>
+                                {
+                                    let linter = new ESLint(
+                                        {
+                                            useEslintrc: false,
+                                            cwd: dirName,
+                                            overrideConfig: GenerateESLintConfiguration(false, false)
+                                        });
+
+                                    await DumpExport(randomObject);
+
+                                    let result = await linter.lintText(await tester.ReadOutput());
+
+                                    ok(
+                                        !result.some(
+                                            (result) =>
+                                            {
+                                                return result.messages.some(
+                                                    (message) =>
+                                                    {
+                                                        return message.ruleId === ESLintRule.ImportNoDefaultExport;
+                                                    });
+                                            }));
+                                });
+                        });
+
+                    suite(
+                        nameof(PackageType.CommonJS),
+                        () =>
+                        {
+                            setup(
+                                () =>
+                                {
+                                    SetESModule(false);
+                                });
+
+                            test(
+                                `Checking whether an \`export =\`-statement is created for \`${nameof(PackageType.CommonJS)}\` projects…`,
+                                async () =>
+                                {
+                                    let exportDeclaration = fileMapping.GetMainExportDeclaration(JSON.stringify({}));
+                                    ok(exportDeclaration.isExportEquals);
+                                });
+
+                            test(
+                                `Checking whether the specified value is assigned to \`${nameof.full(module.exports)}\` for \`${nameof(PackageType.CommonJS)}\` projects…`,
+                                async () =>
+                                {
+                                    await DumpExport(randomObject);
+                                    deepStrictEqual(await tester.Require(), randomObject);
                                 });
                         });
                 });
