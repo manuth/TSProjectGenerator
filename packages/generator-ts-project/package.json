@@ -52,11 +52,11 @@
   },
   "dependencies": {
     "@manuth/eslint-plugin-typescript": "^3.3.4",
-    "@manuth/extended-yo-generator": "^12.1.0",
+    "@manuth/extended-yo-generator": "^12.1.2",
     "@manuth/package-json-editor": "^3.0.2",
     "@manuth/temp-files": "^3.0.0",
     "@types/inquirer": "^9.0.1",
-    "@types/node": "^18.7.14",
+    "@types/node": "^18.7.15",
     "@types/vscode": "^1.71.0",
     "chalk": "^5.0.1",
     "comment-json": "^4.2.3",
@@ -78,7 +78,7 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@manuth/extended-yo-generator-test": "^12.1.0",
+    "@manuth/extended-yo-generator-test": "^12.1.2",
     "@manuth/generator-ts-project-test": "^3.1.0",
     "@manuth/tsconfig": "^3.0.2",
     "@tsd/typescript": "npm:nop@^1.0.0",
