@@ -5,7 +5,7 @@ import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorM
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey.js";
 
-const { dirname, parse, relative, sep } = path;
+const { changeExt, dirname, format, join, parse, relative, sep } = path;
 
 /**
  * Provides the functionality to create typescript-files.
@@ -18,6 +18,11 @@ const { dirname, parse, relative, sep } = path;
  */
 export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TypeScriptCreatorMapping<TSettings, TOptions>
 {
+    /**
+     * Gets the name of index files.
+     */
+    public static readonly IndexFileName = "index";
+
     /**
      * Initializes a new instance of the {@link TSProjectTypeScriptFileMapping `TSProjectTypeScriptFileMapping<TSettings, TOptions>`} class.
      *
@@ -70,21 +75,53 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
             (moduleSpecifier: string) => string;
 
         let sourceFile = await this.GetSourceObject();
+        let sourceDirName = dirname(this.Destination);
         let postProcessor: SpecifierProcessor = (moduleSpecifier) => moduleSpecifier;
+        let mainProcessor = postProcessor;
+        let moduleSpecifier: string;
 
-        if (this.ESModule)
+        if (sourceDirName === fileName)
         {
-            let indexFileName = "index";
-            let mainProcessor = postProcessor;
+            moduleSpecifier = ".";
+        }
+        else
+        {
+            moduleSpecifier = sourceFile.getRelativePathAsModuleSpecifierTo(
+                relative(
+                    sourceDirName,
+                    fileName));
+        }
 
-            if (parse(fileName).name === indexFileName)
+        let resolvedFileName = join(sourceDirName, moduleSpecifier);
+        let relativeName = relative(sourceDirName, resolvedFileName);
+
+        if (relativeName === "..")
+        {
+            moduleSpecifier = relativeName;
+        }
+
+        if (parse(fileName).name === TSProjectTypeScriptFileMapping.IndexFileName)
+        {
+            if (resolvedFileName === changeExt(fileName, ""))
+            {
+                let parsedPath = parse(moduleSpecifier);
+                parsedPath.base = parsedPath.dir;
+                parsedPath.name = "";
+                parsedPath.dir = "";
+                moduleSpecifier = format(parsedPath);
+            }
+
+            if (this.ESModule)
             {
                 mainProcessor = (moduleSpecifier) =>
                 {
-                    return [moduleSpecifier, indexFileName].join(sep);
+                    return [moduleSpecifier, TSProjectTypeScriptFileMapping.IndexFileName].join(sep);
                 };
             }
+        }
 
+        if (this.ESModule)
+        {
             postProcessor = (moduleSpecifier) =>
             {
                 return `${mainProcessor(moduleSpecifier)}.js`;
@@ -92,11 +129,7 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
         }
 
         let result: OptionalKind<ImportDeclarationStructure> = {
-            moduleSpecifier: postProcessor(
-                sourceFile.getRelativePathAsModuleSpecifierTo(
-                    relative(
-                        dirname(this.Destination),
-                        fileName)))
+            moduleSpecifier: postProcessor(moduleSpecifier)
         };
 
         if (leadingTrivia)
