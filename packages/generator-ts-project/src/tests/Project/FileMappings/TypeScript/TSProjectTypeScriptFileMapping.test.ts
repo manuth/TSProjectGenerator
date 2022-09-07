@@ -227,8 +227,10 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                         {
                             test(
                                 "Checking whether a leading trivia can be added to import declarations…",
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
                                     let leadingTrivia = context.RandomString;
                                     let importDeclaration = await fileMapping.GetImportDeclaration(testFileName, leadingTrivia);
                                     strictEqual(importDeclaration.leadingTrivia, leadingTrivia);
@@ -247,16 +249,21 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 `Checking whether import declarations include a \`.${jsExtension}\` file extension for \`${nameof(PackageType.ESModule)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
+                                    generator.destinationRoot("test");
                                     let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
                                     AssertImportFile(importDeclaration, changeExt(testFileName, jsExtension));
                                 });
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of paths is not stripped for \`${nameof(PackageType.ESModule)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
                                     let fileName = GetIndexFileName();
                                     let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
                                     AssertImportFile(importDeclaration, changeExt(fileName, jsExtension));
@@ -264,8 +271,11 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of parent paths is not stripped for \`${nameof(PackageType.ESModule)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
+
                                     let fileName = GetIndexFileName(
                                         {
                                             Directory: "."
@@ -288,16 +298,20 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 `Checking whether the import declarations do not include file extensions for \`${nameof(PackageType.CommonJS)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
                                     let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
                                     AssertImportFile(importDeclaration, changeExt(testFileName, ""));
                                 });
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of paths is stripped if present for \`${nameof(PackageType.CommonJS)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
                                     let fileName = GetIndexFileName();
                                     let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
                                     AssertImportFile(importDeclaration, dirname(fileName));
@@ -305,8 +319,11 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of paths is stripped from parent directories for \`${nameof(PackageType.CommonJS)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
+
                                     let fileName = GetIndexFileName(
                                         {
                                             Directory: "."
@@ -364,16 +381,21 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 "Checking whether the default export has the expected value…",
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(1 * 60 * 1000);
+                                    this.slow(0.5 * 60 * 1000);
                                     await DumpExport(randomObject);
                                     deepStrictEqual(await tester.ImportDefault(), randomObject);
                                 });
 
                             test(
                                 "Checking whether the code does not break the `no-default-export` eslint rule…",
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(30 * 1000);
+                                    this.slow(15 * 1000);
+
                                     let linter = new ESLint(
                                         {
                                             useEslintrc: false,
@@ -418,8 +440,10 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
 
                             test(
                                 `Checking whether the specified value is assigned to \`${nameof.full(module.exports)}\` for \`${nameof(PackageType.CommonJS)}\` projects…`,
-                                async () =>
+                                async function()
                                 {
+                                    this.timeout(15 * 1000);
+                                    this.slow(7.5 * 1000);
                                     await DumpExport(randomObject);
                                     deepStrictEqual(await tester.Require(), randomObject);
                                 });
