@@ -5,7 +5,7 @@ import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorM
 import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
 import { TSProjectSettingKey } from "../../Settings/TSProjectSettingKey.js";
 
-const { changeExt, dirname, format, join, parse, relative, sep } = path;
+const { addExt, changeExt, dirname, format, join, parse, relative, sep } = path;
 
 /**
  * Provides the functionality to create typescript-files.
@@ -22,6 +22,11 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
      * Gets the name of index files.
      */
     public static readonly IndexFileName = "index";
+
+    /**
+     * Gets the javascript file extension.
+     */
+    public static readonly JavaScriptFileExtension = "js";
 
     /**
      * Initializes a new instance of the {@link TSProjectTypeScriptFileMapping `TSProjectTypeScriptFileMapping<TSettings, TOptions>`} class.
@@ -124,7 +129,7 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
         {
             postProcessor = (moduleSpecifier) =>
             {
-                return `${mainProcessor(moduleSpecifier)}.js`;
+                return addExt(mainProcessor(moduleSpecifier), TSProjectTypeScriptFileMapping.JavaScriptFileExtension);
             };
         }
 
