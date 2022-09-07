@@ -39,7 +39,7 @@
     "@types/npm-which": "^3.0.1",
     "@types/through2": "^2.0.36",
     "@types/vinyl": "^2.0.6",
-    "concurrently": "^7.3.0",
+    "concurrently": "^7.4.0",
     "copy-and-watch": "^0.1.6",
     "cross-env": "^7.0.3",
     "diff": "^5.1.0",
