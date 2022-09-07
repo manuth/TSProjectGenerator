@@ -4,7 +4,7 @@ import { ESLintRule, GenerateESLintConfiguration } from "@manuth/eslint-plugin-t
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { PackageType } from "@manuth/package-json-editor";
-import { ITempNameOptions, TempFileSystem } from "@manuth/temp-files";
+import { ITempNameOptions, TempDirectory, TempFileSystem } from "@manuth/temp-files";
 import { ESLint } from "eslint";
 import { ExportAssignmentStructure, ImportDeclarationStructure, OptionalKind } from "ts-morph";
 import path from "upath";
@@ -85,6 +85,7 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
             let indexName = TSProjectTypeScriptFileMapping.IndexFileName;
             let jsExtension = TSProjectTypeScriptFileMapping.JavaScriptFileExtension;
             let fileName: string;
+            let tempDir: TempDirectory;
             let generator: TSProjectGenerator;
             let fileMapping: TestTypeScriptFileMapping;
             let tester: TypeScriptFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TestTypeScriptFileMapping>;
@@ -153,6 +154,14 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                 () =>
                 {
                     fileName = GetTypeScriptFileName();
+                    tempDir = new TempDirectory();
+                    generator.destinationRoot(tempDir.FullName);
+                });
+
+            teardown(
+                () =>
+                {
+                    tempDir.Dispose();
                 });
 
             suite(
