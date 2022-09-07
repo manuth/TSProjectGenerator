@@ -1,5 +1,6 @@
 import { strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { PackageType } from "@manuth/package-json-editor";
 import { ITempNameOptions, TempFileSystem } from "@manuth/temp-files";
 import { ImportDeclarationStructure, OptionalKind } from "ts-morph";
@@ -10,7 +11,7 @@ import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSetti
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
 
-const { join } = path;
+const { dirname, join, normalize, changeExt, resolve } = path;
 
 /**
  * Registers tests for the {@link TSProjectTypeScriptFileMapping `TSProjectTypeScriptFileMapping<TSettings, TOptions>`} class.
@@ -63,9 +64,12 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                 }
             }
 
+            let indexName = TSProjectTypeScriptFileMapping.IndexFileName;
+            let jsExtension = TSProjectTypeScriptFileMapping.JavaScriptFileExtension;
             let fileName: string;
             let generator: TSProjectGenerator;
             let fileMapping: TestTypeScriptFileMapping;
+            let tester: FileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TestTypeScriptFileMapping>;
 
             /**
              * Sets the value indicating whether an ESModule project should be generated.
@@ -98,12 +102,32 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                         }));
             }
 
+            /**
+             * Gets a file name for an index typescript file.
+             *
+             * @param options
+             * The options for creating a filename.
+             *
+             * @returns
+             * A file name for an index typescript file.
+             */
+            function GetIndexFileName(options?: ITempNameOptions): string
+            {
+                return GetTypeScriptFileName(
+                    {
+                        FileNamePattern: indexName,
+                        Prefix: "",
+                        ...options
+                    });
+            }
+
             suiteSetup(
                 async function()
                 {
                     this.timeout(30 * 1000);
                     generator = await context.Generator;
                     fileMapping = new TestTypeScriptFileMapping(generator);
+                    tester = new FileMappingTester(generator, fileMapping);
                 });
 
             setup(
@@ -125,6 +149,114 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                                 SetESModule(value);
                                 strictEqual(fileMapping.ESModule, value);
                             }
+                        });
+                });
+
+            suite(
+                nameof<TestTypeScriptFileMapping>((fileMapping) => fileMapping.GetImportDeclaration),
+                () =>
+                {
+                    let testFileName: string;
+
+                    /**
+                     * Gets the full path of the specified {@link moduleSpecifier `moduleSpecifier`}.
+                     *
+                     * @param moduleSpecifier
+                     * The specifier to resolve.
+                     *
+                     * @returns
+                     * The full path of the specified {@link moduleSpecifier `moduleSpecifier`}.
+                     */
+                    function GetFullPath(moduleSpecifier: string): string
+                    {
+                        return normalize(resolve(dirname(tester.FileMapping.Destination), moduleSpecifier));
+                    }
+
+                    setup(
+                        () =>
+                        {
+                            testFileName = GetTypeScriptFileName();
+                        });
+
+                    suite(
+                        nameof(PackageType.ESModule),
+                        () =>
+                        {
+                            setup(
+                                () =>
+                                {
+                                    SetESModule(true);
+                                });
+
+                            test(
+                                `Checking whether import declarations include a \`.${jsExtension}\` file extension for \`${nameof(PackageType.ESModule)}\` projects…`,
+                                async () =>
+                                {
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
+                                    strictEqual(changeExt(testFileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                });
+
+                            test(
+                                `Checking whether the \`${indexName}\` portion of paths is not stripped for \`${nameof(PackageType.ESModule)}\` projects…`,
+                                async () =>
+                                {
+                                    let fileName = GetIndexFileName();
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
+                                    strictEqual(changeExt(fileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                });
+
+                            test(
+                                `Checking whether the \`${indexName}\` portion of parent paths is not stripped for \`${nameof(PackageType.ESModule)}\` projects…`,
+                                async () =>
+                                {
+                                    let fileName = GetIndexFileName(
+                                        {
+                                            Directory: generator.destinationPath()
+                                        });
+
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
+                                    strictEqual(changeExt(fileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                });
+                        });
+
+                    suite(
+                        nameof(PackageType.CommonJS),
+                        () =>
+                        {
+                            setup(
+                                () =>
+                                {
+                                    SetESModule(false);
+                                });
+
+                            test(
+                                `Checking whether the import declarations do not include file extensions for \`${nameof(PackageType.CommonJS)}\` projects…`,
+                                async () =>
+                                {
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
+                                    strictEqual(changeExt(testFileName, ""), GetFullPath(importDeclaration.moduleSpecifier));
+                                });
+
+                            test(
+                                `Checking whether the \`${indexName}\` portion of paths is stripped if present for \`${nameof(PackageType.CommonJS)}\` projects…`,
+                                async () =>
+                                {
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(GetIndexFileName());
+                                    strictEqual(GetFullPath(importDeclaration.moduleSpecifier), dirname(GetIndexFileName()));
+                                });
+
+                            test(
+                                `Checking whether the \`${indexName}\` portion of paths is stripped from parent directories for \`${nameof(PackageType.CommonJS)}\` projects…`,
+                                async () =>
+                                {
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(
+                                        GetIndexFileName(
+                                            {
+                                                Directory: generator.destinationPath()
+                                            }));
+
+                                    strictEqual(GetFullPath(importDeclaration.moduleSpecifier), generator.destinationPath());
+                                });
                         });
                 });
         });
