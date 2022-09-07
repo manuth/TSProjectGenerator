@@ -56,7 +56,7 @@
     "@manuth/package-json-editor": "^3.0.2",
     "@manuth/temp-files": "^3.0.0",
     "@types/inquirer": "^9.0.1",
-    "@types/node": "^18.7.15",
+    "@types/node": "^18.7.16",
     "@types/vscode": "^1.71.0",
     "chalk": "^5.0.1",
     "comment-json": "^4.2.3",

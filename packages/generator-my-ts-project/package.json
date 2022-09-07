@@ -57,7 +57,7 @@
     "@manuth/temp-files": "^3.0.0",
     "@types/dedent": "^0.7.0",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.15",
+    "@types/node": "^18.7.16",
     "dedent": "^0.7.0",
     "eslint": "^8.23.0",
     "mocha": "^10.0.0",
