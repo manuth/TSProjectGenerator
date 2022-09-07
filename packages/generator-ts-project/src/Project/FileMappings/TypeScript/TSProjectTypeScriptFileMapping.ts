@@ -158,9 +158,9 @@ export abstract class TSProjectTypeScriptFileMapping<TSettings extends ITSProjec
     {
         return {
             expression,
+            isExportEquals: !this.ESModule,
             ...this.ESModule ?
                 {
-                    isExportEquals: false,
                     leadingTrivia: [
                         "// eslint-disable-next-line import/no-default-export"
                     ]
