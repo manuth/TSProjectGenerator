@@ -1,9 +1,11 @@
 import { doesNotThrow, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { ESLint } from "eslint";
+import npmWhich from "npm-which";
 import { SourceFile, SyntaxKind } from "ts-morph";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
@@ -48,7 +50,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                 }
             }
 
-            let dirName: string;
+            let npmPath: string;
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestSettingsInterfaceFileMapping;
@@ -59,9 +61,9 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     generator = await context.Generator;
                     let eslintConfigTester = new FileMappingTester(generator, new ESLintRCFileMapping(generator));
-                    dirName = fileURLToPath(new URL(".", import.meta.url));
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     await eslintConfigTester.Run();
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
@@ -71,6 +73,17 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                     fileMapping = new TestSettingsInterfaceFileMapping(generator, namingContext);
                     tester = new TypeScriptFileMappingTester(generator, fileMapping);
                     eslintConfigFileName = eslintConfigTester.FileMapping.Destination;
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
                 });
 
             suite(
@@ -147,7 +160,6 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                         {
                             let linter = new ESLint(
                                 {
-                                    cwd: dirName,
                                     useEslintrc: false,
                                     overrideConfigFile: eslintConfigFileName
                                 });
