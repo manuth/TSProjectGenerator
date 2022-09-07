@@ -1,4 +1,4 @@
-import { ok, strictEqual } from "node:assert";
+import { doesNotReject, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
 import { Package } from "@manuth/package-json-editor";
@@ -101,6 +101,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             strictEqual((await tester.ParseOutput()).Name, randomName);
                             strictEqual((await tester.ParseOutput()).Description, randomDescription);
                         });
+
                     test(
                         "Checking whether common dependencies are present…",
                         async function()
@@ -125,6 +126,14 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 await tester.Run();
                                 await tester.AssertDependencies(new LintEssentials(), lintingEnabled);
                             }
+                        });
+
+                    test(
+                        `Checking whether the file can be created without the need of the \`${nameof(GeneratorSettingKey.Components)}\`-setting to be specified…`,
+                        async () =>
+                        {
+                            delete tester.Generator.Settings[GeneratorSettingKey.Components];
+                            await doesNotReject(() => tester.Run());
                         });
                 });
 
