@@ -88,6 +88,14 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 () =>
                 {
                     test(
+                        `Checking whether the file can be created without the need of the \`${nameof(GeneratorSettingKey.Components)}\`-setting to be specified…`,
+                        async () =>
+                        {
+                            delete tester.Generator.Settings[GeneratorSettingKey.Components];
+                            await doesNotReject(() => tester.Run());
+                        });
+
+                    test(
                         "Checking whether the name and the description are loaded from the prompts…",
                         async function()
                         {
@@ -126,14 +134,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 await tester.Run();
                                 await tester.AssertDependencies(new LintEssentials(), lintingEnabled);
                             }
-                        });
-
-                    test(
-                        `Checking whether the file can be created without the need of the \`${nameof(GeneratorSettingKey.Components)}\`-setting to be specified…`,
-                        async () =>
-                        {
-                            delete tester.Generator.Settings[GeneratorSettingKey.Components];
-                            await doesNotReject(() => tester.Run());
                         });
                 });
 
