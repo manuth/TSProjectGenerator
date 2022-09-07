@@ -1,6 +1,7 @@
 import { basename } from "node:path";
 import { BuildDependencyTests } from "./BuildDependencies.test.js";
 import { CommonDependencyTests } from "./CommonDependencies.test.js";
+import { ESModuleDependencyCollectionTests } from "./ESModuleDependencyCollection.test.js";
 import { LintEssentialTests } from "./LintEssentials.test.js";
 import { MyPackageDependencyCollectionTests } from "./MyPackageDependencyCollection.test.js";
 
@@ -14,6 +15,7 @@ export function DependencyTests(): void
         () =>
         {
             MyPackageDependencyCollectionTests();
+            ESModuleDependencyCollectionTests();
             BuildDependencyTests();
             CommonDependencyTests();
             LintEssentialTests();
