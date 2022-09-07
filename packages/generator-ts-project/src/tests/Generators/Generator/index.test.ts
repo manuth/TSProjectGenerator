@@ -2,6 +2,7 @@ import { basename } from "node:path";
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
 import { TestContext } from "../../TestContext.js";
 import { ComponentTests } from "./Components/index.test.js";
+import { DependencyTests } from "./Dependencies/index.test.js";
 import { FileMappingTests } from "./FileMappings/index.test.js";
 import { InquiryTests } from "./Inquiry/index.test.js";
 import { TSGeneratorGeneratorTests } from "./TSGeneratorGenerator.test.js";
@@ -19,6 +20,7 @@ export function GeneratorTests(context: TestContext<TSGeneratorGenerator>): void
         basename(new URL(".", import.meta.url).pathname),
         () =>
         {
+            DependencyTests();
             FileMappingTests(context);
             InquiryTests(context);
             VSCodeTests(context);

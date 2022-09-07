@@ -96,6 +96,7 @@
     "@types/ts-nameof": "^4.2.1",
     "@types/validate-npm-package-name": "^4.0.0",
     "@types/yosay": "2.0.1",
+    "compare-versions": "^5.0.1",
     "detect-newline": "^4.0.0",
     "eslint": "^8.23.0",
     "markdownlint-cli": "^0.32.2",
