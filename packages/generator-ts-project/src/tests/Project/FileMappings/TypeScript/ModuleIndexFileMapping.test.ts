@@ -1,6 +1,7 @@
 import { strictEqual } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { PackageType } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
 import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
@@ -122,7 +123,7 @@ export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenera
                     }
 
                     test(
-                        `Checking whether a function is assigned to \`${nameof.full(module.exports)}\` if the file is creates as a CommonJS module…`,
+                        `Checking whether a function is assigned to \`${nameof.full(module.exports)}\` if the file is created for a \`${nameof(PackageType.CommonJS)}\` project…`,
                         async function()
                         {
                             this.timeout(2 * 60 * 1000);
@@ -135,7 +136,7 @@ export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenera
                         });
 
                     test(
-                        "Checking whether a function is default exported if the file is created as an ESModule…",
+                        `Checking whether a function is default exported if the file is created for an \`${nameof(PackageType.ESModule)}\` project…`,
                         async function()
                         {
                             this.timeout(2 * 60 * 1000);
