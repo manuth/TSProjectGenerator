@@ -194,16 +194,7 @@ export function PackageFileMappingTesterTests(): void
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
-
-                            try
-                            {
-                                await tester.AssertScript(scriptName, (content) => content === script);
-                            }
-                            catch (exception)
-                            {
-                                console.log(exception);
-                            }
-
+                            await tester.AssertScript(scriptName, (content) => content === script);
                             await doesNotReject(() => tester.AssertScript(scriptName, (content) => content === script));
                             await rejects(() => tester.AssertScript(scriptName, () => false));
                         });
