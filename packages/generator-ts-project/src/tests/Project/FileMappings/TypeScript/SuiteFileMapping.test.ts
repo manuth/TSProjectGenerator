@@ -1,6 +1,7 @@
 import { doesNotThrow, ok, strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempFile } from "@manuth/temp-files";
+import RandExp from "randexp";
 import { ArrowFunction, CallExpression, FunctionDeclaration, Node, SourceFile, SyntaxKind, ts } from "ts-morph";
 import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
 import { ISuiteFunctionInfo } from "../../../../Project/FileMappings/TypeScript/ISuiteFunctionInfo.js";
@@ -8,6 +9,8 @@ import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/Su
 import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
+
+const { randexp } = RandExp;
 
 /**
  * Registers tests for the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class.
@@ -212,7 +215,7 @@ export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>):
                             this.slow(2 * 1000);
 
                             suiteFunctionInfo = {
-                                Name: context.RandomString,
+                                Name: randexp(/[a-zA-Z][a-zA-Z0-9]{9}/),
                                 Description: context.RandomString
                             };
 
