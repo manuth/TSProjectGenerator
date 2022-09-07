@@ -94,7 +94,7 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
             function GetTypeScriptFileName(options?: ITempNameOptions): string
             {
                 return join(
-                    options?.Directory ?? generator.destinationPath(generator.SourceRoot),
+                    options?.Directory ?? generator.SourceRoot,
                     TempFileSystem.TempBaseName(
                         {
                             Suffix: ".ts",
@@ -172,6 +172,21 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                         return normalize(resolve(dirname(tester.FileMapping.Destination), moduleSpecifier));
                     }
 
+                    /**
+                     * Asserts that the specified {@link importDeclaration `importDeclaration`} points to the file with the specified {@link fileName `fileName`}.
+                     *
+                     * @param importDeclaration
+                     * The import to check.
+                     *
+                     * @param fileName
+                     * The name of the file the {@link importDeclaration `importDeclaration`} should point to.
+                     */
+                    function AssertImportFile(importDeclaration: OptionalKind<ImportDeclarationStructure>, fileName: string): void
+                    {
+                        fileName = generator.destinationPath(fileName);
+                        strictEqual(GetFullPath(importDeclaration.moduleSpecifier), fileName);
+                    }
+
                     setup(
                         () =>
                         {
@@ -193,7 +208,7 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                                 async () =>
                                 {
                                     let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
-                                    strictEqual(changeExt(testFileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                    AssertImportFile(importDeclaration, changeExt(testFileName, jsExtension));
                                 });
 
                             test(
@@ -202,7 +217,7 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                                 {
                                     let fileName = GetIndexFileName();
                                     let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
-                                    strictEqual(changeExt(fileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                    AssertImportFile(importDeclaration, changeExt(fileName, jsExtension));
                                 });
 
                             test(
@@ -211,11 +226,11 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                                 {
                                     let fileName = GetIndexFileName(
                                         {
-                                            Directory: generator.destinationPath()
+                                            Directory: "."
                                         });
 
                                     let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
-                                    strictEqual(changeExt(fileName, jsExtension), GetFullPath(importDeclaration.moduleSpecifier));
+                                    AssertImportFile(importDeclaration, changeExt(fileName, jsExtension));
                                 });
                         });
 
@@ -234,28 +249,29 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                                 async () =>
                                 {
                                     let importDeclaration = await fileMapping.GetImportDeclaration(testFileName);
-                                    strictEqual(changeExt(testFileName, ""), GetFullPath(importDeclaration.moduleSpecifier));
+                                    AssertImportFile(importDeclaration, changeExt(testFileName, ""));
                                 });
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of paths is stripped if present for \`${nameof(PackageType.CommonJS)}\` projects…`,
                                 async () =>
                                 {
-                                    let importDeclaration = await fileMapping.GetImportDeclaration(GetIndexFileName());
-                                    strictEqual(GetFullPath(importDeclaration.moduleSpecifier), dirname(GetIndexFileName()));
+                                    let fileName = GetIndexFileName();
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
+                                    AssertImportFile(importDeclaration, dirname(fileName));
                                 });
 
                             test(
                                 `Checking whether the \`${indexName}\` portion of paths is stripped from parent directories for \`${nameof(PackageType.CommonJS)}\` projects…`,
                                 async () =>
                                 {
-                                    let importDeclaration = await fileMapping.GetImportDeclaration(
-                                        GetIndexFileName(
-                                            {
-                                                Directory: generator.destinationPath()
-                                            }));
+                                    let fileName = GetIndexFileName(
+                                        {
+                                            Directory: "."
+                                        });
 
-                                    strictEqual(GetFullPath(importDeclaration.moduleSpecifier), generator.destinationPath());
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(fileName);
+                                    AssertImportFile(importDeclaration, dirname(fileName));
                                 });
                         });
                 });
