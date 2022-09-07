@@ -213,6 +213,20 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                         });
 
                     suite(
+                        "General",
+                        () =>
+                        {
+                            test(
+                                "Checking whether a leading trivia can be added to import declarations…",
+                                async () =>
+                                {
+                                    let leadingTrivia = context.RandomString;
+                                    let importDeclaration = await fileMapping.GetImportDeclaration(testFileName, leadingTrivia);
+                                    strictEqual(importDeclaration.leadingTrivia, leadingTrivia);
+                                });
+                        });
+
+                    suite(
                         nameof(PackageType.ESModule),
                         () =>
                         {
