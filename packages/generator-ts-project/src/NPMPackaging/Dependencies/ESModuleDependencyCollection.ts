@@ -1,4 +1,5 @@
-import { DependencyCollection, Dictionary, IDependencyCollectionOptions, KeyOfType, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { DependencyCollection, Dictionary, KeyOfType, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { DependencyOverrides } from "./DependencyOverrides.js";
 import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection.js";
 
 /**
@@ -37,7 +38,7 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     /**
      * Gets the overrides which should be applied to the dependencies.
      */
-    protected get Overrides(): IDependencyCollectionOptions
+    protected get Overrides(): DependencyOverrides
     {
         return this.ESModule ? this.ESModuleOverrides : this.CommonJSOverrides;
     }
@@ -45,7 +46,7 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     /**
      * Gets the overrides which should be applied if the dependencies are registered for an ESModule.
      */
-    protected get ESModuleOverrides(): IDependencyCollectionOptions
+    protected get ESModuleOverrides(): DependencyOverrides
     {
         return {};
     }
@@ -53,7 +54,7 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     /**
      * Gets the overrides which should be applied if the dependencies are registered for an CommonJS package.
      */
-    protected get CommonJSOverrides(): IDependencyCollectionOptions
+    protected get CommonJSOverrides(): DependencyOverrides
     {
         return {};
     }
