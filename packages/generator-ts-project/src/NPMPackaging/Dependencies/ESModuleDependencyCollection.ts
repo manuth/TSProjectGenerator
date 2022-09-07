@@ -35,30 +35,6 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     }
 
     /**
-     * Applies the specified {@link overrides `overrides`} to the specified {@link dependencies `dependencies`} collection.
-     *
-     * @param dependencies
-     * The dependencies to inject the specified {@link overrides `overrides`} into.
-     *
-     * @param overrides
-     * The overrides to inject.
-     */
-    protected InjectOverrides(dependencies: Dictionary<string, string>, overrides: Record<string, string>): void
-    {
-        overrides ??= {};
-
-        for (let dependency of Object.keys(overrides ?? {}))
-        {
-            if (dependencies.Has(dependency))
-            {
-                dependencies.Remove(dependency);
-            }
-
-            dependencies.Add(dependency, overrides[dependency]);
-        }
-    }
-
-    /**
      * Gets the overrides which should be applied to the dependencies.
      */
     protected get Overrides(): IDependencyCollectionOptions
@@ -80,6 +56,30 @@ export class ESModuleDependencyCollection extends MyPackageDependencyCollection
     protected get CommonJSOverrides(): IDependencyCollectionOptions
     {
         return {};
+    }
+
+    /**
+     * Applies the specified {@link overrides `overrides`} to the specified {@link dependencies `dependencies`} collection.
+     *
+     * @param dependencies
+     * The dependencies to inject the specified {@link overrides `overrides`} into.
+     *
+     * @param overrides
+     * The overrides to inject.
+     */
+    protected InjectOverrides(dependencies: Dictionary<string, string>, overrides: Record<string, string>): void
+    {
+        overrides ??= {};
+
+        for (let dependency of Object.keys(overrides ?? {}))
+        {
+            if (dependencies.Has(dependency))
+            {
+                dependencies.Remove(dependency);
+            }
+
+            dependencies.Add(dependency, overrides[dependency]);
+        }
     }
 
     /**
