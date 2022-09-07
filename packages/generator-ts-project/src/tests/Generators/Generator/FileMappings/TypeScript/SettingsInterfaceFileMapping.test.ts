@@ -1,6 +1,9 @@
 import { doesNotThrow, ok, strictEqual } from "node:assert";
+import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { ESLint } from "eslint";
 import { SourceFile, SyntaxKind } from "ts-morph";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
@@ -8,6 +11,7 @@ import { NamingContext } from "../../../../../generators/generator/FileMappings/
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ESLintRCFileMapping } from "../../../../../index.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
@@ -44,21 +48,29 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                 }
             }
 
+            let dirName: string;
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestSettingsInterfaceFileMapping;
+            let tester: TypeScriptFileMappingTester<TSGeneratorGenerator, ITSProjectSettings, GeneratorOptions, TestSettingsInterfaceFileMapping>;
+            let eslintConfigFileName: string;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
+                    let eslintConfigTester = new FileMappingTester(generator, new ESLintRCFileMapping(generator));
+                    dirName = fileURLToPath(new URL(".", import.meta.url));
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
+                    await eslintConfigTester.Run();
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new LicenseTypeFileMapping(generator, namingContext)).Run();
                     fileMapping = new TestSettingsInterfaceFileMapping(generator, namingContext);
+                    tester = new TypeScriptFileMappingTester(generator, fileMapping);
+                    eslintConfigFileName = eslintConfigTester.FileMapping.Destination;
                 });
 
             suite(
@@ -127,6 +139,26 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                                             propertyName.getName() === member;
                                     }));
                             }
+                        });
+
+                    test(
+                        "Checking whether the resulting code does not contain any linting issues…",
+                        async () =>
+                        {
+                            let linter = new ESLint(
+                                {
+                                    cwd: dirName,
+                                    useEslintrc: false,
+                                    overrideConfigFile: eslintConfigFileName
+                                });
+
+                            await tester.DumpOutput(sourceFile);
+                            let result = await linter.lintFiles(tester.FileMapping.Destination);
+
+                            strictEqual(
+                                result.flatMap(
+                                    (eslintResult) => eslintResult.messages).length,
+                                0);
                         });
                 });
         });
