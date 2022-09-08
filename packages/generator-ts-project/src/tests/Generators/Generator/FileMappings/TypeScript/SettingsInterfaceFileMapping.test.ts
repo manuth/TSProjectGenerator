@@ -7,6 +7,7 @@ import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { ESLint } from "eslint";
 import npmWhich from "npm-which";
 import { SourceFile, SyntaxKind } from "ts-morph";
+import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping.js";
 import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
 import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
 import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
@@ -66,6 +67,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                     let eslintConfigTester = new FileMappingTester(generator, new ESLintRCFileMapping(generator));
                     namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     await eslintConfigTester.Run();
+                    await new FileMappingTester(generator, new TSGeneratorPackageFileMapping(generator)).Run();
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext)).Run();
