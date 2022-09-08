@@ -6,6 +6,7 @@ import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProject
 import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion.js";
 import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection.js";
 import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
 import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../TestContext.js";
 
@@ -51,6 +52,10 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
                                     questionCollection.Questions.some(
                                         (question) => question instanceof questionType));
                             }
+
+                            ok(
+                                questionCollection.Questions.some(
+                                    (question) => question.name === TSProjectSettingKey.ESModule));
                         });
                 });
         });
