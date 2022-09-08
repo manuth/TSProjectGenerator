@@ -1,22 +1,17 @@
-import { doesNotReject } from "node:assert";
-import { spawnSync } from "node:child_process";
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { doesNotReject, ok } from "node:assert";
+import { IRunContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { PromptModule } from "inquirer";
-import npmWhich from "npm-which";
-import { packageDirectory } from "pkg-dir";
-import RandExp from "randexp";
 import { createSandbox, SinonExpectation, SinonSandbox } from "sinon";
 import yeomanTest from "yeoman-test";
-import { GeneratorName } from "../../../Core/GeneratorName.js";
 import { AppGenerator } from "../../../generators/app/AppGenerator.js";
 import { ProjectType } from "../../../generators/app/ProjectType.js";
 import { ProjectSelectorSettingKey } from "../../../generators/app/Settings/ProjectSelectorSettingKey.js";
+import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
+import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../TestContext.js";
 
-const { randexp } = RandExp;
 const { mockPrompt } = yeomanTest;
 
 /**
@@ -31,9 +26,6 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
         nameof(AppGenerator),
         () =>
         {
-            let npmPath: string;
-            let moduleName: string;
-            let workspaceRoot: string;
             let sandbox: SinonSandbox;
             let workingDirectory: string;
             let tempDir: TempDirectory;
@@ -43,19 +35,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
             suiteSetup(
                 async () =>
                 {
-                    let dirName = fileURLToPath(new URL(".", import.meta.url));
-                    npmPath = npmWhich(dirName).sync("npm");
-                    moduleName = randexp(/@app-generator-test\/[a-z]+/);
                     tardownActions = [];
-
-                    workspaceRoot = await packageDirectory(
-                        {
-                            cwd: dirname(
-                                await packageDirectory(
-                                    {
-                                        cwd: dirName
-                                    }))
-                        });
 
                     contextCreator = () =>
                     {
@@ -107,23 +87,6 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     };
                 });
 
-            suiteTeardown(
-                async function()
-                {
-                    this.timeout(0.5 * 60 * 1000);
-
-                    spawnSync(
-                        npmPath,
-                        [
-                            "uninstall",
-                            "--no-save",
-                            moduleName
-                        ],
-                        {
-                            cwd: workspaceRoot
-                        });
-                });
-
             setup(
                 function()
                 {
@@ -132,16 +95,13 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                     workingDirectory = process.cwd();
                     tempDir = new TempDirectory();
 
-                    spawnSync(
-                        npmPath,
-                        [
-                            "install",
-                            "--no-save",
-                            `${moduleName}@file:${tempDir.FullName}`
-                        ],
-                        {
-                            cwd: workspaceRoot
-                        });
+                    let prototype = TSProjectGenerator.prototype;
+                    sandbox.replace(prototype, "cleanup", async () => { });
+                    sandbox.replace(prototype, "end", async () => { });
+                    sandbox.replace(prototype, "initializing", async () => { });
+                    sandbox.replace(prototype, "install", async () => { });
+                    sandbox.replace(prototype, "prompting", async () => { });
+                    sandbox.replace(prototype, "writing", async () => { });
                 });
 
             teardown(
@@ -168,11 +128,20 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                         });
 
                     test(
-                        "Checking whether modules can be generated…",
+                        `Checking whether the \`${nameof(TSModuleGenerator)}\` can be executed…`,
                         async function()
                         {
-                            this.timeout(15 * 60 * 1000);
-                            this.slow(7.5 * 60 * 1000);
+                            this.timeout(15 * 1000);
+                            this.slow(7.5 * 1000);
+                            let moduleGeneratorRan: boolean;
+
+                            sandbox.replace(
+                                TSModuleGenerator.prototype,
+                                "end",
+                                async () =>
+                                {
+                                    moduleGeneratorRan = true;
+                                });
 
                             await doesNotReject(
                                 () =>
@@ -183,38 +152,24 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                         }).inDir(tempDir.FullName).toPromise();
                                 });
 
-                            spawnSync(
-                                npmPath,
-                                [
-                                    "install",
-                                    "--silent"
-                                ],
-                                {
-                                    cwd: tempDir.FullName,
-                                    stdio: "ignore"
-                                });
-
-                            spawnSync(
-                                npmPath,
-                                [
-                                    "run",
-                                    "build"
-                                ],
-                                {
-                                    cwd: tempDir.FullName,
-                                    stdio: "ignore"
-                                });
-
-                            await doesNotReject(() => import(moduleName));
+                            ok(moduleGeneratorRan);
                         });
 
                     test(
-                        "Checking whether generators can be generated…",
+                        `Checking whether the \`${nameof(TSGeneratorGenerator)}\` can be executed…`,
                         async function()
                         {
-                            this.timeout(20 * 60 * 1000);
-                            this.slow(10 * 60 * 1000);
-                            let subGeneratorDir = new TempDirectory();
+                            this.timeout(15 * 1000);
+                            this.slow(7.5 * 1000);
+                            let generatorGeneratorRan: boolean;
+
+                            sandbox.replace(
+                                TSGeneratorGenerator.prototype,
+                                "end",
+                                async () =>
+                                {
+                                    generatorGeneratorRan = true;
+                                });
 
                             await doesNotReject(
                                 async () =>
@@ -225,35 +180,7 @@ export function AppGeneratorTests(context: TestContext<AppGenerator>): void
                                         }).inDir(tempDir.FullName).toPromise();
                                 });
 
-                            spawnSync(
-                                npmPath,
-                                [
-                                    "install",
-                                    "--silent"
-                                ],
-                                {
-                                    cwd: tempDir.FullName,
-                                    stdio: "ignore"
-                                });
-
-                            spawnSync(
-                                npmPath,
-                                [
-                                    "run",
-                                    "build"
-                                ],
-                                {
-                                    cwd: tempDir.FullName,
-                                    stdio: "ignore"
-                                });
-
-                            await doesNotReject(
-                                async () =>
-                                {
-                                    return new GeneratorContext(
-                                        tempDir.MakePath("lib", "generators", GeneratorName.Main)).ExecuteGenerator().inDir(
-                                            subGeneratorDir.FullName).toPromise();
-                                });
+                            ok(generatorGeneratorRan);
                         });
                 });
         });
