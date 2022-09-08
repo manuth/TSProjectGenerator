@@ -216,7 +216,7 @@ export function GeneratorClassFileMappingTests(context: TestContext<TSGeneratorG
                                 });
 
                             test(
-                                "Checking whether a generator  is exported with the expected name…",
+                                "Checking whether a generator is exported with the expected name…",
                                 async function()
                                 {
                                     this.timeout(1.5 * 60 * 1000);
