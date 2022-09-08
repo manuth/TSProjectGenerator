@@ -13,7 +13,7 @@ import { NamingContext } from "../../../../../generators/generator/FileMappings/
 import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
 import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
 import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
-import { ESLintRCFileMapping } from "../../../../../index.js";
+import { ESLintRCFileMapping } from "../../../../../Linting/FileMappings/ESLintRCFileMapping.js";
 import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
 import { TestContext } from "../../../../TestContext.js";
 
