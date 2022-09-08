@@ -1,5 +1,6 @@
 import { join } from "node:path";
 import camelCase from "lodash.camelcase";
+import { TSProjectTypeScriptFileMapping } from "../../../../Project/FileMappings/TypeScript/TSProjectTypeScriptFileMapping.js";
 
 /**
  * Provides constants for naming generated files and components.
@@ -75,7 +76,7 @@ export class NamingContext
      */
     public get GeneratorIndexFileName(): string
     {
-        return join(this.GeneratorDirName, this.AddTypeScriptExtension("index"));
+        return join(this.GeneratorDirName, this.AddTypeScriptExtension(TSProjectTypeScriptFileMapping.IndexFileName));
     }
 
     /**
@@ -248,7 +249,7 @@ export class NamingContext
             return this.ESModule ? this.AddTestFileExtension(fileName) : this.AddTypeScriptExtension(fileName);
         };
 
-        return join(this.GeneratorTestDirName, processor("index"));
+        return join(this.GeneratorTestDirName, processor(TSProjectTypeScriptFileMapping.IndexFileName));
     }
 
     /**
