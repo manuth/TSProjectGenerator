@@ -1,7 +1,8 @@
 import { doesNotReject, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
-import { Package } from "@manuth/package-json-editor";
+import { IPackageMetadata, Package, ResolveMatrix } from "@manuth/package-json-editor";
+import path from "upath";
 import { TSConfigFileMapping } from "../../../../Components/Transformation/TSConfigFileMapping.js";
 import { Constants } from "../../../../Core/Constants.js";
 import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies.js";
@@ -13,6 +14,8 @@ import { TSProjectComponent } from "../../../../Project/Settings/TSProjectCompon
 import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
 import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 import { TestContext } from "../../../TestContext.js";
+
+const { sep } = path;
 
 /**
  * Registers tests for the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.
@@ -134,6 +137,14 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 await tester.Run();
                                 await tester.AssertDependencies(new LintEssentials(), lintingEnabled);
                             }
+                        });
+
+                    test(
+                        `Checking whether the \`${Package.FileName}\` file is exposed in the \`${nameof<IPackageMetadata>((pkg) => pkg.exports)}\` field…`,
+                        async () =>
+                        {
+                            let packageFileName = [".", Package.FileName].join(sep);
+                            strictEqual(((await tester.ParseOutput()).Exports as ResolveMatrix)[packageFileName] as string, packageFileName);
                         });
                 });
 
