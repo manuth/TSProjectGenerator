@@ -1,12 +1,11 @@
-import { doesNotReject, strictEqual } from "node:assert";
+import { doesNotReject, ok, strictEqual } from "node:assert";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
+import Mocha from "mocha";
 import npmWhich from "npm-which";
-import { Project, SyntaxKind } from "ts-morph";
-import path from "upath";
 import { GeneratorName } from "../../../Core/GeneratorName.js";
 import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
 import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
@@ -16,8 +15,6 @@ import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TS
 import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
 import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../TestContext.js";
-
-const { normalize } = path;
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
@@ -200,13 +197,43 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 {
                     test(
                         "Checking whether all tests of the generated project are being included…",
-                        function()
+                        async function()
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
-                            let sourceFile = new Project().addSourceFileAtPath(generator.destinationPath("src", "tests", "Generators", "index.ts"));
-                            let importDeclarations = sourceFile.getImportDeclarations();
-                            let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression);
+                            let suiteNames: string[] = [];
+
+                            let mocha = new Mocha(
+                                {
+                                    ui: "tdd",
+                                    dryRun: true,
+                                    reporter: class extends Mocha.reporters.Base
+                                    {
+                                        /**
+                                         * @inheritdoc
+                                         *
+                                         * @param runner
+                                         * The mocha runner.
+                                         *
+                                         * @param options
+                                         * The options which were passed to mocha.
+                                         */
+                                        public constructor(runner: Mocha.Runner, options: Mocha.MochaOptions)
+                                        {
+                                            super(runner, options);
+                                            runner.on(
+                                                "suite",
+                                                () =>
+                                                {
+                                                    suiteNames.push(runner.suite.title);
+                                                });
+                                        }
+                                    }
+                                });
+
+                            mocha.addFile(generator.destinationPath("lib", "tests", "main.test.js"));
+                            await mocha.loadFilesAsync();
+                            await new Promise((resolve) => mocha.run(resolve));
 
                             for (
                                 let generatorName of
@@ -220,30 +247,8 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                 ])
                             {
                                 let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot, true);
-
-                                strictEqual(
-                                    importDeclarations.filter(
-                                        (importDeclaration) =>
-                                        {
-                                            return (normalize(importDeclaration.getModuleSpecifierSourceFile().getFilePath()) === normalize(generator.destinationPath(namingContext.GeneratorTestFileName))) &&
-                                                importDeclaration.getNamedImports().some(
-                                                    (importSpecifier) =>
-                                                    {
-                                                        return importSpecifier.getName() === namingContext.GeneratorTestFunctionName;
-                                                    });
-                                        }).length,
-                                    1);
-
-                                strictEqual(
-                                    functionCalls.filter(
-                                        (functionCall) =>
-                                        {
-                                            return functionCall.getExpression().getText() === namingContext.GeneratorTestFunctionName;
-                                        }).length,
-                                        1);
+                                ok(suiteNames.includes(namingContext.GeneratorClassName));
                             }
-
-                            sourceFile.forget();
                         });
                 });
         });
