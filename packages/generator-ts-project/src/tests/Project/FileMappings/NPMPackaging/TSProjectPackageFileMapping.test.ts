@@ -29,7 +29,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
         nameof(TSProjectPackageFileMapping),
         () =>
         {
-            let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let fileMapping: TestTSProjectPackageFileMapping;
             let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             /**
@@ -72,24 +72,41 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 return tester.AssertScript(destination, Constants.Package.Scripts.Get(source));
             }
 
+            /**
+             * Gets the package of the filemapping.
+             *
+             * @returns
+             * The package of the filemapping.
+             */
+            async function GetPackage(): Promise<Package>
+            {
+                return fileMapping.LoadPackage();
+            }
+
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    fileMapping = new TSProjectPackageFileMapping(await context.Generator);
+                    fileMapping = new TestTSProjectPackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
 
             setup(
                 async () =>
                 {
-                    return tester.Clean();
+                    await tester.Clean();
                 });
 
             suite(
                 nameof<TestTSProjectPackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
                 {
+                    setup(
+                        async () =>
+                        {
+                            await tester.DumpOutput(await fileMapping.LoadPackage());
+                        });
+
                     test(
                         `Checking whether the file can be created without the need of the \`${nameof(GeneratorSettingKey.Components)}\`-setting to be specified…`,
                         async () =>
@@ -108,9 +125,8 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             let randomDescription = context.RandomString;
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
                             tester.Generator.Settings[TSProjectSettingKey.Description] = randomDescription;
-                            await tester.Run();
-                            strictEqual((await tester.ParseOutput()).Name, randomName);
-                            strictEqual((await tester.ParseOutput()).Description, randomDescription);
+                            strictEqual((await GetPackage()).Name, randomName);
+                            strictEqual((await GetPackage()).Description, randomDescription);
                         });
 
                     test(
@@ -119,7 +135,6 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         {
                             this.timeout(10 * 1000);
                             this.slow(5 * 1000);
-                            await tester.Run();
                             await tester.AssertDependencies(new CommonDependencies());
                         });
 
@@ -144,7 +159,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         async () =>
                         {
                             let packageFileName = [".", Package.FileName].join(sep);
-                            strictEqual(((await tester.ParseOutput()).Exports as ResolveMatrix)[packageFileName] as string, packageFileName);
+                            strictEqual(((await GetPackage()).Exports as ResolveMatrix)[packageFileName] as string, packageFileName);
                         });
 
                     test(
@@ -155,7 +170,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             {
                                 let expectedType = esModule ? PackageType.ESModule : PackageType.CommonJS;
                                 tester.Generator.Settings[TSProjectSettingKey.ESModule] = esModule;
-                                strictEqual((await tester.ParseOutput()).Type, expectedType);
+                                strictEqual((await GetPackage()).Type, expectedType);
                             }
                         });
                 });
@@ -206,7 +221,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                         script.includes(rebuildScript);
                                 });
 
-                            ok(!(await tester.ParseOutput()).Scripts.Has(patchScript));
+                            ok(!(await GetPackage()).Scripts.Has(patchScript));
                         });
                 });
         });
