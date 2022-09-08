@@ -1,11 +1,14 @@
-import { doesNotReject, strictEqual } from "node:assert";
+import { doesNotReject, doesNotThrow, strictEqual } from "node:assert";
 import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { PackageType } from "@manuth/package-json-editor";
 import npmWhich from "npm-which";
 import { packageDirectory } from "pkg-dir";
 import RandExp from "randexp";
 import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
 import { TestContext } from "../../TestContext.js";
 
 const { randexp } = RandExp;
@@ -136,6 +139,46 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 async () =>
                 {
                     await doesNotReject(() => import(moduleName));
+                });
+
+            test(
+                `Checking whether \`${nameof(PackageType.CommonJS)}\` modules can be generated…`,
+                async function()
+                {
+                    this.timeout(6 * 60 * 1000);
+                    this.slow(3 * 60 * 1000);
+
+                    let runContext = context.ExecuteGenerator().withPrompts(
+                        {
+                            [TSProjectSettingKey.ESModule]: false
+                        });
+
+                    await runContext.toPromise();
+                    let generator = runContext.generator;
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
+
+                    doesNotThrow(() => createRequire(import.meta.url)(generator.destinationPath()));
                 });
 
             test(
