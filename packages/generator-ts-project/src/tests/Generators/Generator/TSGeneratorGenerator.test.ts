@@ -31,7 +31,6 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
             let npmPath: string;
             let tempDir: TempDirectory;
             let runContext: IRunContext<TSGeneratorGenerator>;
-            let testContext: IRunContext<TSGeneratorGenerator>;
             let generator: TSGeneratorGenerator;
             let settings: ITSGeneratorSettings;
             context.RegisterWorkingDirRestorer();
@@ -97,19 +96,16 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                 });
 
             setup(
-                async function()
+                async () =>
                 {
-                    this.timeout(5 * 60 * 1000);
                     tempDir = new TempDirectory();
-                    testContext = context.ExecuteGenerator();
-                    await testContext.toPromise();
                 });
 
             teardown(
                 function()
                 {
-                    this.timeout(1 * 60 * 1000);
-                    testContext.cleanTestDirectory();
+                    this.timeout(10 * 1000);
+                    tempDir.Dispose();
                 });
 
             suite(
@@ -130,7 +126,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "--silent"
                                 ],
                                 {
-                                    cwd: testContext.generator.destinationPath(),
+                                    cwd: generator.destinationPath(),
                                     stdio: "ignore"
                                 });
 
@@ -141,7 +137,7 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                                     "build"
                                 ],
                                 {
-                                    cwd: testContext.generator.destinationPath(),
+                                    cwd: generator.destinationPath(),
                                     stdio: "ignore"
                                 });
 
