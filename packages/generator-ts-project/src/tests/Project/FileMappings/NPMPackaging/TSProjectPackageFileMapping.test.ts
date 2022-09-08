@@ -1,7 +1,7 @@
 import { doesNotReject, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
-import { IPackageMetadata, Package, ResolveMatrix } from "@manuth/package-json-editor";
+import { IPackageMetadata, Package, PackageType, ResolveMatrix } from "@manuth/package-json-editor";
 import path from "upath";
 import { TSConfigFileMapping } from "../../../../Components/Transformation/TSConfigFileMapping.js";
 import { Constants } from "../../../../Core/Constants.js";
@@ -145,6 +145,18 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                         {
                             let packageFileName = [".", Package.FileName].join(sep);
                             strictEqual(((await tester.ParseOutput()).Exports as ResolveMatrix)[packageFileName] as string, packageFileName);
+                        });
+
+                    test(
+                        `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.type)}\`-field is set according to the project type…`,
+                        async () =>
+                        {
+                            for (let esModule of [true, false])
+                            {
+                                let expectedType = esModule ? PackageType.ESModule : PackageType.CommonJS;
+                                tester.Generator.Settings[TSProjectSettingKey.ESModule] = esModule;
+                                strictEqual((await tester.ParseOutput()).Type, expectedType);
+                            }
                         });
                 });
 
