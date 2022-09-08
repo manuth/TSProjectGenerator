@@ -124,7 +124,8 @@ export function GeneratorIndexFileMappingTests(context: TestContext<TSGeneratorG
                      */
                     async function TransformFile(mochaContext: Context): Promise<void>
                     {
-                        mochaContext.timeout(20 * 1000);
+                        mochaContext.timeout(1.5 * 60 * 1000);
+                        mochaContext.slow(45 * 1000);
                         let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         await tester.DumpOutput(sourceFile);
                         sourceFile.forget();
