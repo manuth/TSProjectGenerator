@@ -245,8 +245,7 @@ export class NamingContext
     {
         let processor: typeof this.AddTypeScriptExtension = (fileName: string): string =>
         {
-            // return this.ESModule ? this.AddTestFileExtension(fileName) : this.AddTypeScriptExtension(fileName);
-            return this.AddTypeScriptExtension(fileName);
+            return this.ESModule ? this.AddTestFileExtension(fileName) : this.AddTypeScriptExtension(fileName);
         };
 
         return join(this.GeneratorTestDirName, processor("index"));
