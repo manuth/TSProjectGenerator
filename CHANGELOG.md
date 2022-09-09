@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - An option to choose whether to create a `CommonJS` or an `ESModule` project
   - An option to skip the `cleanup`-task at the end of running a generator
   - The ability to generate mocha files which are exposed as functions rather than direct `suite`-calls
+  - Steps to the `.drone.yml` file for checking whether all authentication tokens are working
 
 ### TSProjectGenerator
 #### Updated
