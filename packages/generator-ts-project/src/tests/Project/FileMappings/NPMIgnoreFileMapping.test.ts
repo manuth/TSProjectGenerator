@@ -136,6 +136,18 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                             this.slow(2 * 1000);
                             await tester.AssertDirectoryIgnored(".github");
                         });
+
+                    test(
+                        "Checking whether temporary release assets are ignored…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            await tester.AssertIgnored(".tagName.txt");
+                            await tester.AssertIgnored(".tagHeading.txt");
+                            await tester.AssertIgnored(".releaseNotes.md");
+                            await tester.AssertIgnored(".releaseTitled.md");
+                        });
                 });
         });
 }
