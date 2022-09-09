@@ -153,8 +153,10 @@ export function TypeScriptFileMappingTesterTests(): void
                 {
                     test(
                         `Checking whether files can be converted to both \`${nameof(PackageType.ESModule)}\` and \`${nameof(PackageType.CommonJS)}\`…`,
-                        async () =>
+                        async function()
                         {
+                            this.timeout(30 * 1000);
+                            this.slow(15 * 1000);
                             let result = await tester.Compile(true);
                             await doesNotReject(() => import(result.FileName));
                             result.TempDirectory.Dispose();
