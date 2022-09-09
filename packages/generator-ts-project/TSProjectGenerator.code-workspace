@@ -169,6 +169,18 @@
                     "${workspaceFolder:TSProjectGeneratorTest}/**/*.js",
                     "!**/node_modules/**"
                 ]
+            },
+            {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Version Script",
+                "cwd": "${workspaceFolder}",
+                "runtimeArgs": [
+                    "--loader",
+                    "ts-node/esm",
+                    "--experimental-specifier-resolution=node"
+                ],
+                "program": "${workspaceFolder:Solution Items}/scripts/bumpVersion.ts"
             }
         ],
         "compounds": [
