@@ -119,7 +119,7 @@
     "yo": "^4.3.0"
   },
   "tsd": {
-    "directory": "./type-tests",
+    "directory": "./src/tests/type-tests",
     "compilerOptions": {
       "strict": false
     }
