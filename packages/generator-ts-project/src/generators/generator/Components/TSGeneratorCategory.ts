@@ -124,6 +124,8 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
      */
     protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<TSettings, TOptions>>
     {
+        let readmeFileName = "README.md.ejs";
+
         let namingContext = new NamingContext(
             id,
             displayName,
@@ -140,6 +142,10 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             {
                 Source: join("generator", "templates"),
                 Destination: join("templates", id)
+            },
+            {
+                Source: () => this.Generator.commonTemplatePath(readmeFileName),
+                Destination: join("templates", id, readmeFileName)
             }
         ];
     }

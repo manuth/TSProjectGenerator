@@ -105,7 +105,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 }
             }(this),
             {
-                Source: `${readmeFileName}.ejs`,
+                Source: () => this.commonTemplatePath(`${readmeFileName}.ejs`),
                 Destination: readmeFileName,
                 Context: () =>
                 {
