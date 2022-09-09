@@ -59,7 +59,7 @@
     "source-map-support": "^0.5.21",
     "through2": "^4.0.2",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.2",
+    "typescript": "^4.8.3",
     "upath": "^2.0.1",
     "vinyl": "^2.2.1",
     "yo": "^4.3.0"
