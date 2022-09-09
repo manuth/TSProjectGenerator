@@ -1,10 +1,10 @@
-import { doesNotReject, doesNotThrow, strictEqual } from "assert";
+import { doesNotReject, doesNotThrow, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile, TempFileSystem } from "@manuth/temp-files";
 import { CompilerNodeToWrappedType, Expression, ExpressionStatement, Project, SourceFile, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../Components/TypeScriptCreatorMapping";
-import { TestContext } from "../TestContext";
+import { TypeScriptCreatorMapping } from "../../Components/TypeScriptCreatorMapping.js";
+import { TestContext } from "../TestContext.js";
 
 /**
  * Registers tests for the {@link TypeScriptCreatorMapping `TypeScriptCreatorMapping<TSettings, TOptions>`} class.
@@ -172,10 +172,10 @@ export function TypeScriptCreatorMappingTests(): void
                         "Checking whether nodes which already belong to a file are treated correctly…",
                         function()
                         {
-                            let project = new Project();
-                            let sourceFile = project.createSourceFile(TempFileSystem.TempName());
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
+                            let project = new Project();
+                            let sourceFile = project.createSourceFile(TempFileSystem.TempName());
 
                             let testClass = sourceFile.addClass(
                                 {

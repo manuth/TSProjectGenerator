@@ -1,16 +1,18 @@
-import { deepStrictEqual, strictEqual } from "assert";
+import { deepStrictEqual, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
-import dedent = require("dedent");
-import { pathExists, remove, writeFile } from "fs-extra";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import type { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider";
-import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../../VSCode/ITaskSettings";
-import { TestContext } from "../../TestContext";
-import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
+import dedent from "dedent";
+import fs from "fs-extra";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import type { CodeWorkspaceProvider } from "../../../VSCode/FileMappings/CodeWorkspaceProvider.js";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings.js";
+import { TestContext } from "../../TestContext.js";
+import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider.js";
+
+const { pathExists, remove, writeFile } = fs;
 
 /**
  * Registers tests for the {@link CodeWorkspaceProvider `CodeWorkspaceProvider<TSettings, TOptions>`} class.

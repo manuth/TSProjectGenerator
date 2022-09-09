@@ -1,13 +1,14 @@
-import { ReadLine } from "readline";
-import { Answers, DistinctQuestion, prompt } from "inquirer";
-import kebabCase = require("lodash.kebabcase");
-import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator";
-import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { ArrayPrompt } from "./ArrayPrompt";
-import { IArrayPromptHash } from "./IArrayPromptHash";
-import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
-import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion";
+import { ReadLine } from "node:readline";
+import inquirer, { Answers, DistinctQuestion } from "inquirer";
+import kebabCase from "lodash.kebabcase";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { ISubGenerator } from "../../../generators/generator/Settings/ISubGenerator.js";
+import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { ArrayPrompt } from "./ArrayPrompt.js";
+import { IArrayPromptHash } from "./IArrayPromptHash.js";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
+import { ISubGeneratorQuestion } from "./ISubGeneratorQuestion.js";
 
 declare module "inquirer"
 {
@@ -65,7 +66,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
      */
     protected PromptItem(items: readonly ISubGenerator[]): Promise<ISubGenerator>
     {
-        return prompt(
+        return inquirer.prompt(
             [
                 {
                     name: SubGeneratorSettingKey.DisplayName,
@@ -94,7 +95,7 @@ export class SubGeneratorPrompt<T extends IArrayQuestionOptions> extends ArrayPr
                     validate: (input: string) =>
                     {
                         if (
-                            input === "app" ||
+                            input === GeneratorName.Main ||
                             items.some(
                                 (generatorOptions) =>
                                 {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ProjectTypeSelector } from "../ProjectTypeSelector";
+import type { ProjectTypeSelector } from "../ProjectTypeSelector.js";
 
 /**
  * Represents a setting of the {@link ProjectTypeSelector `ProjectTypeSelector<T>`} settings.

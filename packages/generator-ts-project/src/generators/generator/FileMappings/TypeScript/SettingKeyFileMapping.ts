@@ -1,8 +1,9 @@
-import { EOL } from "os";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { EOL } from "node:os";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { EnumMemberStructure, OptionalKind, SourceFile } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file which provides setting-keys.
@@ -13,7 +14,7 @@ import { NamingContext } from "./NamingContext";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class SettingKeyFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class SettingKeyFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link SettingKeyFileMapping `SettingKeyFileMapping<TSettings, TOptions>`} class.

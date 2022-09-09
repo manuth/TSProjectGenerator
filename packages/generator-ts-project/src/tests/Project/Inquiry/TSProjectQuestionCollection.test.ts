@@ -1,13 +1,14 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion";
-import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion";
-import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion";
-import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
-import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import { TSProjectDescriptionQuestion } from "../../../Project/Inquiry/TSProjectDescriptionQuestion.js";
+import { TSProjectDestinationQuestion } from "../../../Project/Inquiry/TSProjectDestinationQuestion.js";
+import { TSProjectDisplayNameQuestion } from "../../../Project/Inquiry/TSProjectDisplayNameQuestion.js";
+import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion.js";
+import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSProjectQuestionCollection `TSProjectQuestionCollection<TSettings, TOptions>`} class.
@@ -51,6 +52,10 @@ export function TSProjectQuestionCollectionTests(context: TestContext<TSProjectG
                                     questionCollection.Questions.some(
                                         (question) => question instanceof questionType));
                             }
+
+                            ok(
+                                questionCollection.Questions.some(
+                                    (question) => question.name === TSProjectSettingKey.ESModule));
                         });
                 });
         });

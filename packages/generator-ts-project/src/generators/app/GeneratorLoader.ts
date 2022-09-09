@@ -1,4 +1,4 @@
-import { ProjectType } from "./ProjectType";
+import { ProjectType } from "./ProjectType.js";
 
 /**
  * Represents a component for loading generators.

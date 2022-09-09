@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ArrayPrompt } from "./ArrayPrompt";
+import type { ArrayPrompt } from "./ArrayPrompt.js";
 
 /**
  * Represents an answer-hash which is used by the {@link ArrayPrompt `ArrayPrompt<TQuestion, TItem>`} class.

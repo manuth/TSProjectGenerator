@@ -1,10 +1,10 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings } from "@manuth/generator-ts-project";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
-import { DroneFileMapping } from "../DroneFileMapping";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { DroneFileMapping } from "../DroneFileMapping.js";
+import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator.js";
 
 /**
  * Registers tests for the {@link DroneFileMapping `DroneFileMapping<TSettings, TOptions>`} class.
@@ -90,7 +90,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         {
                             this.timeout(2 * 1000);
                             this.slow(1 * 1000);
-                            ok(await AssertCommand((command) => !command.includes(workspaceArg)));
+                            ok(await AssertCommand((command) => !command.includes(workspaceArg), true));
                         });
 
                     test(

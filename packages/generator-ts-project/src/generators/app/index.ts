@@ -1,3 +1,4 @@
-import { AppGenerator } from "./AppGenerator";
+import { AppGenerator } from "./AppGenerator.js";
 
-export = AppGenerator;
+// eslint-disable-next-line import/no-default-export
+export default AppGenerator;

@@ -1,11 +1,12 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { Expression, printNode, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { TypeScriptCreatorMapping } from "../../../Components/TypeScriptCreatorMapping";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
+import { TSProjectTypeScriptFileMapping } from "./TSProjectTypeScriptFileMapping.js";
 
 /**
  * Provides the functionality to create an `index.ts`-file for a module.
  */
-export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TypeScriptCreatorMapping<TSettings, TOptions>
+export abstract class ModuleIndexFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectTypeScriptFileMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.
@@ -40,18 +41,20 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
                         ts.factory.createKeywordTypeNode(SyntaxKind.VoidKeyword)
                     ])));
 
-        result.addStatements(
-            this.WrapExpression(
-                this.WrapNode(
-                    ts.factory.createCallExpression(
-                        ts.factory.createPropertyAccessExpression(
-                            ts.factory.createIdentifier(nameof(console)),
-                            nameof(console.log)),
-                        [],
-                        [
-                            ts.factory.createStringLiteral("Hello World")
-                        ]))).getFullText());
+        let consoleCall = this.WrapNode(
+            ts.factory.createCallExpression(
+                ts.factory.createPropertyAccessExpression(
+                    ts.factory.createIdentifier(nameof(console)),
+                    nameof(console.log)),
+                [],
+                [
+                    ts.factory.createStringLiteral("Hello World")
+                ]));
 
+        let consoleStatement = this.WrapExpression(consoleCall);
+        result.addStatements(consoleStatement.getFullText());
+        consoleCall.forget();
+        consoleStatement.forget();
         return result;
     }
 
@@ -66,13 +69,10 @@ export abstract class ModuleIndexFileMapping<TSettings extends IGeneratorSetting
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let exportValue = await this.GetModuleExportValue();
         sourceFile = await super.Transform(sourceFile);
-
-        sourceFile.addExportAssignment(
-            {
-                expression: (await this.GetModuleExportValue()).getFullText()
-            });
-
+        sourceFile.addExportAssignment(this.GetMainExportDeclaration(exportValue.getFullText()));
+        exportValue.forget();
         return sourceFile;
     }
 }

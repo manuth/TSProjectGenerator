@@ -1,8 +1,8 @@
-import { deepStrictEqual, notDeepStrictEqual, ok } from "assert";
+import { deepStrictEqual, notDeepStrictEqual, ok } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { SettingsProcessor } from "../../VSCode/SettingsProcessor";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
+import { SettingsProcessor } from "../../VSCode/SettingsProcessor.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link SettingsProcessor `SettingsProcessor<TSettings, TOptions>`} class.

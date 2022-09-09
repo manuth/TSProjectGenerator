@@ -1,5 +1,5 @@
 /**
- * Represents a dynamic proparty for a question-set.
+ * Represents a dynamic property for a question-set.
  *
  * @template T
  * The type of the property.

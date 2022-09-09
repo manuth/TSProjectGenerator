@@ -1,9 +1,9 @@
-import { EOL } from "os";
-import { dirname, relative } from "path";
+import { EOL } from "node:os";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { ImportDeclarationStructure, OptionalKind, printNode, PropertySignatureStructure, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file which provides generator-settings.
@@ -14,7 +14,7 @@ import { NamingContext } from "./NamingContext";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class SettingsInterfaceFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class SettingsInterfaceFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class.
@@ -85,42 +85,49 @@ export class SettingsInterfaceFileMapping<TSettings extends IGeneratorSettings, 
             };
         };
 
-        sourceFile.addImportDeclarations(
+        let fileImports: Array<[string, string, string?]> = [
             [
+                this.NamingContext.SettingKeyFileName,
+                this.NamingContext.SettingKeyEnumName
+            ],
+            [
+                this.NamingContext.GeneratorClassFileName,
+                this.NamingContext.GeneratorClassName,
+                "// eslint-disable-next-line @typescript-eslint/no-unused-vars"
+            ],
+            [
+                this.NamingContext.LicenseTypeFileName,
+                this.NamingContext.LicenseTypeEnumName
+            ]
+        ];
+
+        fileImports.sort(
+            (a, b) =>
+            {
+                return a[1].localeCompare(b[1]);
+            });
+
+        let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [
+            {
+                moduleSpecifier: "@manuth/extended-yo-generator",
+                namedImports: [
+                    nameof<IGeneratorSettings>()
+                ]
+            }
+        ];
+
+        for (let fileImport of fileImports)
+        {
+            importDeclarations.push(
                 {
-                    moduleSpecifier: "@manuth/extended-yo-generator",
+                    ...await this.GetImportDeclaration(fileImport[0], fileImport[2]),
                     namedImports: [
-                        nameof<IGeneratorSettings>()
+                        fileImport[1]
                     ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.SettingKeyFileName)),
-                    namedImports: [
-                        this.NamingContext.SettingKeyEnumName
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.GeneratorClassFileName)),
-                    namedImports: [
-                        this.NamingContext.GeneratorClassName
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.LicenseTypeFileName)),
-                    namedImports: [
-                        this.NamingContext.LicenseTypeEnumName
-                    ]
-                }
-            ]);
+                });
+        }
+
+        sourceFile.addImportDeclarations(importDeclarations);
 
         sourceFile.addInterface(
             {

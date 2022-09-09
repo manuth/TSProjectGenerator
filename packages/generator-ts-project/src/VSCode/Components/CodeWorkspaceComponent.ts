@@ -1,15 +1,15 @@
 import { ComponentOptions, GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../Components/JSONProcessor";
-import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator";
-import { CodeWorkspaceProvider } from "../FileMappings/CodeWorkspaceProvider";
-import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator";
-import { WorkspaceFolderLoader } from "../FileMappings/WorkspaceFolderLoader";
-import { IExtensionSettings } from "../IExtensionSettings";
-import { ILaunchSettings } from "../ILaunchSettings";
-import { ITaskSettings } from "../ITaskSettings";
-import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
-import { WorkspaceProcessor } from "../WorkspaceProcessor";
+import { JSONProcessor } from "../../Components/JSONProcessor.js";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent.js";
+import { CodeFileMappingCreator } from "../FileMappings/CodeFileMappingCreator.js";
+import { CodeWorkspaceProvider } from "../FileMappings/CodeWorkspaceProvider.js";
+import { WorkspaceFolderCreator } from "../FileMappings/WorkspaceFolderCreator.js";
+import { WorkspaceFolderLoader } from "../FileMappings/WorkspaceFolderLoader.js";
+import { IExtensionSettings } from "../IExtensionSettings.js";
+import { ILaunchSettings } from "../ILaunchSettings.js";
+import { ITaskSettings } from "../ITaskSettings.js";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata.js";
+import { WorkspaceProcessor } from "../WorkspaceProcessor.js";
 
 /**
  * Provides a component for creating a vscode-workspace.

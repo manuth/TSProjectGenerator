@@ -1,8 +1,8 @@
-import { ok, strictEqual } from "assert";
+import { ok, strictEqual } from "node:assert";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
-import { Answers, createPromptModule, DistinctQuestion, PromptModule, Question } from "inquirer";
-import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt";
-import { TestContext } from "../../../TestContext";
+import inquirer, { Answers, DistinctQuestion, PromptModule, Question } from "inquirer";
+import { QuestionSetPrompt } from "../../../../Components/Inquiry/Prompts/QuestionSetPrompt.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link QuestionSetPrompt `QuestionSetPrompt<T>`} class.
@@ -57,7 +57,7 @@ export function QuestionSetPromptTests(): void
             setup(
                 () =>
                 {
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     promptModule.registerPrompt(QuestionSetPrompt.TypeName, QuestionSetPrompt);
                     context.RegisterTestPrompt(promptModule, "input");
                     name = TestContext.Default.RandomString;

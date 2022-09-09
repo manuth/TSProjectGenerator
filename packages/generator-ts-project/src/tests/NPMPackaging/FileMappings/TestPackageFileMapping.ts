@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping";
-import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping";
-import { ITestPackageOptions } from "./ITestPackageOptions";
+import { PackageFileMapping } from "../../../NPMPackaging/FileMappings/PackageFileMapping.js";
+import { IScriptMapping } from "../../../NPMPackaging/Scripts/IScriptMapping.js";
+import { ITestPackageOptions } from "./ITestPackageOptions.js";
 
 /**
  * Provides an implementation of the {@link PackageFileMapping `PackageFileMapping<TSettings, TOptions>`} class for testing.

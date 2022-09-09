@@ -1,9 +1,11 @@
 import { GeneratorOptions, IGenerator, QuestionBase } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { InputQuestionOptions } from "inquirer";
-import { join } from "upath";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey";
+import upath from "upath";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
+
+const { join } = upath;
 
 /**
  * Provides a question for asking for the module-name of a project.

@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { DumpFileMapping } from "./Transformation/DumpFileMapping";
+import { DumpFileMapping } from "./Transformation/DumpFileMapping.js";
 
 /**
  * Provides the functionality to create dumps from existing data.

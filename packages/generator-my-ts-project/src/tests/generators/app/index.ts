@@ -1,3 +1,4 @@
-import { TestTSModuleGenerator } from "../../TestTSModuleGenerator";
+import { TestTSModuleGenerator } from "../../TestTSModuleGenerator.js";
 
-export = TestTSModuleGenerator;
+// eslint-disable-next-line import/no-default-export
+export default TestTSModuleGenerator;

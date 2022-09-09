@@ -1,15 +1,20 @@
-import { strictEqual } from "assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
+import { strictEqual } from "node:assert";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { TestContext } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
 import { CallExpression, SourceFile, SyntaxKind } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { TestFileMapping } from "../../../../Project/FileMappings/TypeScript/TestFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
 
 /**
  * Registers tests for the {@link TestFileMapping `TestFileMapping<TSettings, TOptions>`} class.
+ *
+ * @param context
+ * The test-context.
  */
-export function TestFileMappingTests(): void
+export function TestFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
         nameof(TestFileMapping),
@@ -18,7 +23,7 @@ export function TestFileMappingTests(): void
             /**
              * Provides an implementation of the {@link TestFileMapping `TestFileMapping<TSettings, TOptions>`} class.
              */
-            class TestTestFileMapping extends TestFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestTestFileMapping extends TestFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -52,12 +57,12 @@ export function TestFileMappingTests(): void
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
 
-            let context = TestContext.Default;
-            let generator: TestGenerator;
+            let generator: TSProjectGenerator;
             let suiteName: string;
             let outputFile: TempFile;
             let fileMapping: TestTestFileMapping;

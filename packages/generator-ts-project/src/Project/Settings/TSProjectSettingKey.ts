@@ -19,6 +19,11 @@ export enum TSProjectSettingKey
     Name = "name",
 
     /**
+     * Indicates the {@link ESModule `ESModule`} setting.
+     */
+    ESModule = "es-module",
+
+    /**
      * Indicates the {@link Description `Description`} setting.
      */
     Description = "description",

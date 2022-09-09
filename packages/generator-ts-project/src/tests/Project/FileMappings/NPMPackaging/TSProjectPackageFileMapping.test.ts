@@ -1,18 +1,21 @@
-import { ok, strictEqual } from "assert";
+import { doesNotReject, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { PackageFileMappingTester } from "@manuth/generator-ts-project-test";
-import { Package } from "@manuth/package-json-editor";
-import { Constants } from "../../../../Core/Constants";
-import { TSConfigFileMapping } from "../../../../index";
-import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies";
-import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials";
-import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping";
-import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
-import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator";
-import { TestContext } from "../../../TestContext";
+import { IPackageMetadata, Package, PackageType, ResolveMatrix } from "@manuth/package-json-editor";
+import path from "upath";
+import { TSConfigFileMapping } from "../../../../Components/Transformation/TSConfigFileMapping.js";
+import { Constants } from "../../../../Core/Constants.js";
+import { CommonDependencies } from "../../../../NPMPackaging/Dependencies/CommonDependencies.js";
+import { LintEssentials } from "../../../../NPMPackaging/Dependencies/LintEssentials.js";
+import { IScriptMapping } from "../../../../NPMPackaging/Scripts/IScriptMapping.js";
+import { TSProjectPackageFileMapping } from "../../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../../../Project/Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+
+const { sep } = path;
 
 /**
  * Registers tests for the {@link TSProjectPackageFileMapping `TSProjectPackageFileMapping<TSettings, TOptions>`} class.
@@ -26,7 +29,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
         nameof(TSProjectPackageFileMapping),
         () =>
         {
-            let fileMapping: TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>;
+            let fileMapping: TestTSProjectPackageFileMapping;
             let tester: PackageFileMappingTester<TSProjectGenerator, ITSProjectSettings, GeneratorOptions, TSProjectPackageFileMapping<ITSProjectSettings, GeneratorOptions>>;
 
             /**
@@ -69,24 +72,49 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                 return tester.AssertScript(destination, Constants.Package.Scripts.Get(source));
             }
 
+            /**
+             * Gets the package of the filemapping.
+             *
+             * @returns
+             * The package of the filemapping.
+             */
+            async function GetPackage(): Promise<Package>
+            {
+                return fileMapping.LoadPackage();
+            }
+
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    fileMapping = new TSProjectPackageFileMapping(await context.Generator);
+                    fileMapping = new TestTSProjectPackageFileMapping(await context.Generator);
                     tester = new PackageFileMappingTester(await context.Generator, fileMapping);
                 });
 
             setup(
                 async () =>
                 {
-                    return tester.Clean();
+                    await tester.Clean();
                 });
 
             suite(
                 nameof<TestTSProjectPackageFileMapping>((fileMapping) => fileMapping.LoadPackage),
                 () =>
                 {
+                    setup(
+                        async () =>
+                        {
+                            await tester.DumpOutput(await fileMapping.LoadPackage());
+                        });
+
+                    test(
+                        `Checking whether the file can be created without the need of the \`${nameof(GeneratorSettingKey.Components)}\`-setting to be specified…`,
+                        async () =>
+                        {
+                            delete tester.Generator.Settings[GeneratorSettingKey.Components];
+                            await doesNotReject(() => tester.Run());
+                        });
+
                     test(
                         "Checking whether the name and the description are loaded from the prompts…",
                         async function()
@@ -97,17 +125,16 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                             let randomDescription = context.RandomString;
                             tester.Generator.Settings[TSProjectSettingKey.Name] = randomName;
                             tester.Generator.Settings[TSProjectSettingKey.Description] = randomDescription;
-                            await tester.Run();
-                            strictEqual((await tester.ParseOutput()).Name, randomName);
-                            strictEqual((await tester.ParseOutput()).Description, randomDescription);
+                            strictEqual((await GetPackage()).Name, randomName);
+                            strictEqual((await GetPackage()).Description, randomDescription);
                         });
+
                     test(
                         "Checking whether common dependencies are present…",
                         async function()
                         {
                             this.timeout(10 * 1000);
                             this.slow(5 * 1000);
-                            await tester.Run();
                             await tester.AssertDependencies(new CommonDependencies());
                         });
 
@@ -124,6 +151,26 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                 tester.Generator.Settings[GeneratorSettingKey.Components] = lintingEnabled ? [TSProjectComponent.Linting] : [];
                                 await tester.Run();
                                 await tester.AssertDependencies(new LintEssentials(), lintingEnabled);
+                            }
+                        });
+
+                    test(
+                        `Checking whether the \`${Package.FileName}\` file is exposed in the \`${nameof<IPackageMetadata>((pkg) => pkg.exports)}\` field…`,
+                        async () =>
+                        {
+                            let packageFileName = [".", Package.FileName].join(sep);
+                            strictEqual(((await GetPackage()).Exports as ResolveMatrix)[packageFileName] as string, packageFileName);
+                        });
+
+                    test(
+                        `Checking whether the \`${nameof<IPackageMetadata>((pkg) => pkg.type)}\`-field is set according to the project type…`,
+                        async () =>
+                        {
+                            for (let esModule of [true, false])
+                            {
+                                let expectedType = esModule ? PackageType.ESModule : PackageType.CommonJS;
+                                tester.Generator.Settings[TSProjectSettingKey.ESModule] = esModule;
+                                strictEqual((await GetPackage()).Type, expectedType);
                             }
                         });
                 });
@@ -174,7 +221,7 @@ export function TSProjectPackageFileMappingTests(context: TestContext<TSProjectG
                                         script.includes(rebuildScript);
                                 });
 
-                            ok(!(await tester.ParseOutput()).Scripts.Has(patchScript));
+                            ok(!(await GetPackage()).Scripts.Has(patchScript));
                         });
                 });
         });

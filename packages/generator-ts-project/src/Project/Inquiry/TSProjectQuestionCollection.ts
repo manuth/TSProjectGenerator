@@ -1,11 +1,13 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { PackageType } from "@manuth/package-json-editor";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../Settings/TSProjectSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion";
-import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion";
-import { TSProjectDisplayNameQuestion } from "./TSProjectDisplayNameQuestion";
-import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectDescriptionQuestion } from "./TSProjectDescriptionQuestion.js";
+import { TSProjectDestinationQuestion } from "./TSProjectDestinationQuestion.js";
+import { TSProjectDisplayNameQuestion } from "./TSProjectDisplayNameQuestion.js";
+import { TSProjectModuleNameQuestion } from "./TSProjectModuleNameQuestion.js";
 
 /**
  * Provides questions for asking for the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}.
@@ -47,7 +49,7 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
      */
     protected get DestinationQuestion(): Question<TSettings>
     {
-        return new TSProjectDestinationQuestion(this.Generator);
+        return new TSProjectDestinationQuestion(this.Generator) as any;
     }
 
     /**
@@ -67,6 +69,29 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
     }
 
     /**
+     * Gets a question to ask for the kind of the module.
+     */
+    protected get ModuleKindQuestion(): Question<TSettings>
+    {
+        return {
+            type: "list",
+            name: TSProjectSettingKey.ESModule,
+            default: true,
+            message: "What kind of package do you wish to create?",
+            choices: [
+                {
+                    name: nameof(PackageType.CommonJS),
+                    value: false
+                },
+                {
+                    name: nameof(PackageType.ESModule),
+                    value: true
+                }
+            ]
+        };
+    }
+
+    /**
      * Gets a question to ask for the description.
      */
     protected get DescriptionQuestion(): Question<TSettings>
@@ -83,6 +108,7 @@ export class TSProjectQuestionCollection<TSettings extends ITSProjectSettings, T
             this.DestinationQuestion,
             this.DisplayNameQuestion,
             this.ModuleNameQuestion,
+            this.ModuleKindQuestion,
             this.DescriptionQuestion
         ];
     }

@@ -1,8 +1,8 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { SourceFile } from "ts-morph";
-import { TextConverter } from "./Conversion/TextConverter";
-import { TypeScriptConverter } from "./Conversion/TypeScriptConverter";
-import { ParsedFileMapping } from "./ParsedFileMapping";
+import { TextConverter } from "./Conversion/TextConverter.js";
+import { TypeScriptConverter } from "./Conversion/TypeScriptConverter.js";
+import { ParsedFileMapping } from "./ParsedFileMapping.js";
 
 /**
  * Provides the functionality to transform and copy typescript-files.

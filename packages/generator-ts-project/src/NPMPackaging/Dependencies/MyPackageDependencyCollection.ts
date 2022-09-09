@@ -1,5 +1,5 @@
 import { PackageDependencyCollection, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
-import { Constants } from "../../Core/Constants";
+import { Constants } from "../../Core/Constants.js";
 
 /**
  * Represents a collection of dependencies which are loaded from {@link Constants.Package `Constants.Package`}.

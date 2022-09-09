@@ -1,6 +1,6 @@
 import { FileMappingOptions, GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { applyPatch, parsePatch } from "diff";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 
 /**
  * Provides the functionality to copy the `.npmignore` file.

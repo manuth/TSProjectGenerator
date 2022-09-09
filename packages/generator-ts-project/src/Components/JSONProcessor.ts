@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratorComponent } from "./GeneratorComponent";
+import { GeneratorComponent } from "./GeneratorComponent.js";
 
 /**
  * Provides the functionality to process JSON-objects.

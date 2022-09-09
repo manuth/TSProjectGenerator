@@ -1,4 +1,4 @@
-import { IParser } from "./IParser";
+import { IParser } from "./IParser.js";
 
 /**
  * Provides the functionality to parse text.

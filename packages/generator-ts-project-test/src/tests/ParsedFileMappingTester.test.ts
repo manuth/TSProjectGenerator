@@ -1,8 +1,9 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
-import { JSONCTransformMapping } from "@manuth/generator-ts-project";
-import { ParsedFileMappingTester } from "../ParsedFileMappingTester";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { JSONCTransformMapping, type ParsedFileMapping } from "@manuth/generator-ts-project";
+import { ParsedFileMappingTester } from "../ParsedFileMappingTester.js";
 
 /**
  * Registers tests for the {@link ParsedFileMapping `ParsedFileMapping<TGenerator, TSettings, TOptions, TFileMapping, TParsed>`} class.

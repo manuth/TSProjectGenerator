@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { ParsedFileMapping, TextConverter } from "@manuth/generator-ts-project";
-import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester";
+import { ConvertibleFileMappingTester } from "./ConvertibleFileMappingTester.js";
 
 /**
  * Represents a file-mapping of a parsable file.

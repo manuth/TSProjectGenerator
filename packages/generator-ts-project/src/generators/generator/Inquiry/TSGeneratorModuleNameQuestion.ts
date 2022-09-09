@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import parsePackageName = require("parse-pkg-name");
-import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
+import parsePackageName from "parse-pkg-name";
+import { TSProjectModuleNameQuestion } from "../../../Project/Inquiry/TSProjectModuleNameQuestion.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
 
 /**
  * Provides a question for asking for the module-name of a project.

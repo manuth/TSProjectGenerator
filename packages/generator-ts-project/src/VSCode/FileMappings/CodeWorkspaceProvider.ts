@@ -1,12 +1,14 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { readFile } from "fs-extra";
-import { IParser } from "../../Components/Transformation/Conversion/IParser";
-import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
-import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
-import { IExtensionSettings } from "../IExtensionSettings";
-import { ILaunchSettings } from "../ILaunchSettings";
-import { ITaskSettings } from "../ITaskSettings";
-import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
+import fs from "fs-extra";
+import { IParser } from "../../Components/Transformation/Conversion/IParser.js";
+import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter.js";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent.js";
+import { IExtensionSettings } from "../IExtensionSettings.js";
+import { ILaunchSettings } from "../ILaunchSettings.js";
+import { ITaskSettings } from "../ITaskSettings.js";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata.js";
+
+const { readFile } = fs;
 
 /**
  * Provides the functionality to load a vscode-workspace.

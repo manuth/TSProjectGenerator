@@ -1,10 +1,10 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { IExtensionSettings } from "../../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../../VSCode/ITaskSettings";
-import { WorkspaceProcessor } from "../../../VSCode/WorkspaceProcessor";
+import { JSONProcessor } from "../../../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { IExtensionSettings } from "../../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../../VSCode/ITaskSettings.js";
+import { WorkspaceProcessor } from "../../../VSCode/WorkspaceProcessor.js";
 
 /**
  * Provides an implementation of the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class for testing.

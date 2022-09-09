@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent";
-import { IWorkspaceMetadata } from "../IWorkspaceMetadata";
-import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider";
+import { CodeWorkspaceComponent } from "../Components/CodeWorkspaceComponent.js";
+import { IWorkspaceMetadata } from "../IWorkspaceMetadata.js";
+import { CodeWorkspaceProvider } from "./CodeWorkspaceProvider.js";
 
 /**
  * Provides the functionality to load workspace-settings from a folder.

@@ -1,11 +1,11 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
-import { JSONCConverter } from "../../../Components/Transformation/Conversion/JSONCConverter";
-import { TextConverter } from "../../../Components/Transformation/Conversion/TextConverter";
-import { ParsedFileMapping } from "../../../Components/Transformation/ParsedFileMapping";
-import { TestContext } from "../../TestContext";
+import { JSONCConverter } from "../../../Components/Transformation/Conversion/JSONCConverter.js";
+import { TextConverter } from "../../../Components/Transformation/Conversion/TextConverter.js";
+import { ParsedFileMapping } from "../../../Components/Transformation/ParsedFileMapping.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link ParsedFileMapping `ParsedFileMapping<TSettings, TOptions, TData>`} class.

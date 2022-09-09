@@ -1,9 +1,9 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TempFileSystem } from "@manuth/temp-files";
 import { CompilerNodeToWrappedType, createWrappedNode, Expression, ExpressionStatement, printNode, Project, SourceFile, ts } from "ts-morph";
-import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping";
-import { IDumper } from "./Transformation/Conversion/IDumper";
-import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConverter";
+import { DumpCreatorFileMapping } from "./DumpCreatorFileMapping.js";
+import { IDumper } from "./Transformation/Conversion/IDumper.js";
+import { TypeScriptConverter } from "./Transformation/Conversion/TypeScriptConverter.js";
 
 /**
  * Provides the functionality to create typescript-files.
@@ -100,7 +100,18 @@ export abstract class TypeScriptCreatorMapping<TSettings extends IGeneratorSetti
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
-        let result = await super.Transform(sourceFile);
+        return super.Transform(sourceFile);
+    }
+
+    /**
+     * Gets the object to write to the output file.
+     *
+     * @returns
+     * The object to write to the output file.
+     */
+    protected override async GetOutputObject(): Promise<SourceFile>
+    {
+        let result = super.GetOutputObject();
         this.Dispose();
         return result;
     }

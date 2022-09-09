@@ -1,8 +1,11 @@
-import { strictEqual } from "assert";
-import { join, normalize } from "upath";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { strictEqual } from "node:assert";
+import { PackageType } from "@manuth/package-json-editor";
+import upath from "upath";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { TestContext } from "../../../../TestContext.js";
+
+const { join, normalize } = upath;
 
 /**
  * Registers tests for the {@link NamingContext `NamingContext`} class.
@@ -76,7 +79,7 @@ export function NamingContextTests(context: TestContext<TSGeneratorGenerator>): 
                     id = "theme";
                     displayName = "This is a test";
                     sourceRoot = generator.SourceRoot;
-                    namingContext = new TestNamingContext(id, displayName, generator.SourceRoot);
+                    namingContext = new TestNamingContext(id, displayName, generator.SourceRoot, true);
                 });
 
             suite(
@@ -288,6 +291,41 @@ export function NamingContextTests(context: TestContext<TSGeneratorGenerator>): 
                 });
 
             suite(
+                nameof<TestNamingContext>((context) => context.GeneratorSuiteFileName),
+                () =>
+                {
+                    test(
+                        `Checking whether the name is correct for \`${nameof(PackageType.ESModule)}\` and \`${nameof(PackageType.CommonJS)}\` projects…`,
+                        () =>
+                        {
+                            for (let esModule of [true, false])
+                            {
+                                let tempNamingContext = new TestNamingContext(
+                                    namingContext.GeneratorID,
+                                    namingContext.GeneratorDisplayName,
+                                    namingContext.SourceRoot,
+                                    esModule);
+
+                                strictEqual(
+                                    normalize(tempNamingContext.GeneratorSuiteFileName),
+                                    normalize(join(tempNamingContext.GeneratorTestDirName, esModule ? "index.test.ts" : "index.ts")));
+                            }
+                        });
+                });
+
+            suite(
+                nameof<TestNamingContext>((context) => context.GeneratorSuiteFunctionName),
+                () =>
+                {
+                    test(
+                        "Checking whether generator suite functions are named properly…",
+                        () =>
+                        {
+                            strictEqual(namingContext.GeneratorSuiteFunctionName, "GeneratorTests");
+                        });
+                });
+
+            suite(
                 nameof<TestNamingContext>((context) => context.GeneratorTestFileName),
                 () =>
                 {
@@ -298,6 +336,18 @@ export function NamingContextTests(context: TestContext<TSGeneratorGenerator>): 
                             strictEqual(
                                 normalize(namingContext.GeneratorTestFileName),
                                 normalize(join(namingContext.GeneratorTestDirName, `${namingContext.GeneratorClassName}.test.ts`)));
+                        });
+                });
+
+            suite(
+                nameof<TestNamingContext>((context) => context.GeneratorTestFunctionName),
+                () =>
+                {
+                    test(
+                        "Checking whether the name of generator test functions are created properly…",
+                        () =>
+                        {
+                            strictEqual(namingContext.GeneratorTestFunctionName, `${namingContext.GeneratorClassName}Tests`);
                         });
                 });
         });

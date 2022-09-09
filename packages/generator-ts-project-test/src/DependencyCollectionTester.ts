@@ -1,7 +1,7 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { TempFileSystem } from "@manuth/temp-files";
-import { PackageFileMappingTester } from "./PackageFileMappingTester";
+import { PackageFileMappingTester } from "./PackageFileMappingTester.js";
 
 /**
  * Provides the functionality to test a package containing dependencies.

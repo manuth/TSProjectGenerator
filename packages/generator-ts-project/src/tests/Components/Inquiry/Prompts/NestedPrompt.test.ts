@@ -1,8 +1,9 @@
-import { ok, strictEqual } from "assert";
-import { ChildProcess, fork } from "child_process";
-import Prompt = require("inquirer/lib/prompts/base");
-import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt";
-import { TestContext } from "../../../TestContext";
+import { ok, strictEqual } from "node:assert";
+import { ChildProcess, fork } from "node:child_process";
+import { createRequire } from "node:module";
+import Prompt from "inquirer/lib/prompts/base.js";
+import { NestedPrompt } from "../../../../Components/Inquiry/Prompts/NestedPrompt.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link NestedPrompt `NestedPrompt`} class.
@@ -47,7 +48,7 @@ export function NestedPromptTests(): void
                     async function SpawnTestScript(managed: boolean): Promise<void>
                     {
                         let child: ChildProcess;
-                        child = fork(require.resolve("./executeNestedPrompt"), managed ? [TestContext.Default.ManagedArgument] : []);
+                        child = fork(createRequire(import.meta.url).resolve("./executeNestedPrompt.js"), managed ? [TestContext.Default.ManagedArgument] : []);
 
                         child.on(
                             "message",

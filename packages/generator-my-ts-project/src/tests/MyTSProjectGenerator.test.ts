@@ -1,16 +1,16 @@
-import { ok } from "assert";
-import { extname, isAbsolute, relative } from "path";
+import { ok } from "node:assert";
+import { extname, isAbsolute, relative } from "node:path";
 import { FileMapping, GeneratorOptions, IComponent, IComponentCategory, IFileMapping } from "@manuth/extended-yo-generator";
 import { TestContext } from "@manuth/extended-yo-generator-test";
 import { ITSProjectSettings, Predicate, TSConfigFileMapping, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TSConfigJSON } from "types-tsconfig";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
-import { MarkdownFileProcessor } from "../MarkdownFileProcessor";
-import { MyGeneratorComponent } from "../MyGeneratorComponent";
-import type { MyTSProjectGenerator } from "../MyTSProjectGenerator";
-import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping";
-import { TestTSModuleGenerator } from "./TestTSModuleGenerator";
+import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator.js";
+import { MarkdownFileProcessor } from "../MarkdownFileProcessor.js";
+import { MyGeneratorComponent } from "../MyGeneratorComponent.js";
+import type { MyTSProjectGenerator } from "../MyTSProjectGenerator.js";
+import { MyTSProjectPackageFileMapping } from "../MyTSProjectPackageFileMapping.js";
+import { TestTSModuleGenerator } from "./TestTSModuleGenerator.js";
 
 /**
  * Registers tests for the {@link MyTSProjectGenerator `MyTSProjectGenerator<TSettings, TOptions>`} class.
@@ -83,7 +83,6 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
                         "Checking whether all expected components are present…",
                         () =>
                         {
-                            AssertComponentExists(MyGeneratorComponent.AutoMergeWorkflow);
                             AssertComponentExists(MyGeneratorComponent.CodeQLAnalysisWorkflow);
                         });
                 });

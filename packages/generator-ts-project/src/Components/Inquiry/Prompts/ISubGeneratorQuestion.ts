@@ -1,6 +1,6 @@
 import { Answers } from "inquirer";
-import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
-import { SubGeneratorPrompt } from "./SubGeneratorPrompt";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
+import { SubGeneratorPrompt } from "./SubGeneratorPrompt.js";
 
 /**
  * Provides options for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`}.

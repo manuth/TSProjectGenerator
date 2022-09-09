@@ -1,14 +1,16 @@
-import ESLintPresets = require("@manuth/eslint-plugin-typescript");
+import { PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "eslint";
 import { ExportAssignment, Node, SourceFile } from "ts-morph";
 import { fileName } from "types-eslintrc";
-import { changeExt } from "upath";
-import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
-import { LintRuleset } from "../LintRuleset";
+import upath from "upath";
+import { TypeScriptTransformMapping } from "../../Components/Transformation/TypeScriptTransformMapping.js";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey.js";
+import { LintRuleset } from "../LintRuleset.js";
+
+const { changeExt } = upath;
 
 /**
  * Provides a file-mapping for the `.eslintrc.js` file.
@@ -37,7 +39,7 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
      */
     public static get FileName(): string
     {
-        return changeExt(fileName, ".js");
+        return changeExt(fileName, ".cjs");
     }
 
     /**
@@ -88,15 +90,15 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
         switch (this.Generator.Settings[TSProjectSettingKey.LintRuleset])
         {
             case LintRuleset.Weak:
-                preset = nameof(ESLintPresets.PresetName.WeakWithTypeChecking);
+                preset = nameof(PresetName.WeakWithTypeChecking);
                 break;
             case LintRuleset.Recommended:
             default:
-                preset = nameof(ESLintPresets.PresetName.RecommendedWithTypeChecking);
+                preset = nameof(PresetName.RecommendedWithTypeChecking);
                 break;
         }
 
-        let statement = sourceFile.getStatements().find(
+        let exports = sourceFile.getStatements().find(
             (statement): statement is ExportAssignment =>
             {
                 if (Node.isExpressionStatement(statement))
@@ -112,11 +114,11 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                 return false;
             });
 
-        let expression = statement.getExpression();
+        let exportsAssignment = exports.getExpression();
 
-        if (Node.isBinaryExpression(expression))
+        if (Node.isBinaryExpression(exportsAssignment))
         {
-            let eslintConfig = expression.getRight();
+            let eslintConfig = exportsAssignment.getRight();
 
             if (Node.isObjectLiteralExpression(eslintConfig))
             {
@@ -136,18 +138,12 @@ export class ESLintRCFileMapping<TSettings extends ITSProjectSettings, TOptions 
                             {
                                 for (let templateSpan of item.getTemplateSpans())
                                 {
-                                    let outerProperty = templateSpan.getExpression();
+                                    let presetNameProperty = templateSpan.getExpression();
 
-                                    if (Node.isPropertyAccessExpression(outerProperty))
+                                    if (Node.isPropertyAccessExpression(presetNameProperty) &&
+                                        presetNameProperty.getExpression().getText() === nameof(PresetName))
                                     {
-                                        let presetNameProperty = outerProperty.getExpression();
-
-                                        if (
-                                            Node.isPropertyAccessExpression(presetNameProperty) &&
-                                            presetNameProperty.getName() === nameof(ESLintPresets.PresetName))
-                                        {
-                                            outerProperty.getNameNode().replaceWithText(preset);
-                                        }
+                                        presetNameProperty.getNameNode().replaceWithText(preset);
                                     }
                                 }
                             }

@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../Components/JSONProcessor";
+import { JSONProcessor } from "../../Components/JSONProcessor.js";
 
 /**
  * Provides an implementation of the {@link JSONProcessor `JSONProcessor<TSettings, TOptions, TData>`} class for testing.

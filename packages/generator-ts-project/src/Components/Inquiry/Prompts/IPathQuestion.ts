@@ -1,6 +1,6 @@
 import { Answers } from "inquirer";
-import { IPathQuestionOptions } from "./IPathQuestionOptions";
-import { PathPrompt } from "./PathPrompt";
+import { IPathQuestionOptions } from "./IPathQuestionOptions.js";
+import { PathPrompt } from "./PathPrompt.js";
 
 /**
  * Provides options fot the {@link PathPrompt `PathPrompt<T>`}.

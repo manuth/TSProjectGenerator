@@ -1,14 +1,22 @@
-import { doesNotThrow, ok, strictEqual } from "assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { doesNotThrow, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { FileMappingTester } from "@manuth/extended-yo-generator-test";
+import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { ESLint } from "eslint";
+import npmWhich from "npm-which";
 import { SourceFile, SyntaxKind } from "ts-morph";
-import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping";
-import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { TSGeneratorPackageFileMapping } from "../../../../../generators/generator/FileMappings/NPMPackaging/TSGeneratorPackageFileMapping.js";
+import { GeneratorClassFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { LicenseTypeFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ESLintRCFileMapping } from "../../../../../Linting/FileMappings/ESLintRCFileMapping.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class.
@@ -25,7 +33,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
             /**
              * Provides an implementation of the {@link SettingsInterfaceFileMapping `SettingsInterfaceFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSettingsInterfaceFileMapping extends SettingsInterfaceFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSettingsInterfaceFileMapping extends SettingsInterfaceFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -38,25 +46,46 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
 
+            let npmPath: string;
             let generator: TSGeneratorGenerator;
             let namingContext: NamingContext;
             let fileMapping: TestSettingsInterfaceFileMapping;
+            let tester: TypeScriptFileMappingTester<TSGeneratorGenerator, ITSProjectSettings, GeneratorOptions, TestSettingsInterfaceFileMapping>;
+            let eslintConfigFileName: string;
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    let eslintConfigTester = new FileMappingTester(generator, new ESLintRCFileMapping(generator));
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
+                    await eslintConfigTester.Run();
+                    await new FileMappingTester(generator, new TSGeneratorPackageFileMapping(generator)).Run();
                     await new FileMappingTester(generator, new GeneratorClassFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingKeyFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new SettingsInterfaceFileMapping(generator, namingContext)).Run();
                     await new FileMappingTester(generator, new LicenseTypeFileMapping(generator, namingContext)).Run();
                     fileMapping = new TestSettingsInterfaceFileMapping(generator, namingContext);
+                    tester = new TypeScriptFileMappingTester(generator, fileMapping);
+                    eslintConfigFileName = eslintConfigTester.FileMapping.Destination;
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
                 });
 
             suite(
@@ -80,7 +109,7 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                     suiteSetup(
                         async function()
                         {
-                            this.timeout(10 * 1000);
+                            this.timeout(20 * 1000);
                             sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         });
 
@@ -125,6 +154,28 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                                             propertyName.getName() === member;
                                     }));
                             }
+                        });
+
+                    test(
+                        "Checking whether the resulting code does not contain any linting issues…",
+                        async function()
+                        {
+                            this.timeout(15 * 1000);
+                            this.slow(7.5 * 1000);
+
+                            let linter = new ESLint(
+                                {
+                                    useEslintrc: false,
+                                    overrideConfigFile: eslintConfigFileName
+                                });
+
+                            await tester.DumpOutput(sourceFile);
+                            let result = await linter.lintFiles(tester.FileMapping.Destination);
+
+                            strictEqual(
+                                result.flatMap(
+                                    (eslintResult) => eslintResult.messages).length,
+                                0);
                         });
                 });
         });

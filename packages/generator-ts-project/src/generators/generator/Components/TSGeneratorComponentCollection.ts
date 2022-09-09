@@ -1,11 +1,11 @@
 import { GeneratorOptions, IComponentCategory } from "@manuth/extended-yo-generator";
-import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+import { TSProjectComponentCollection } from "../../../Project/Components/TSProjectComponentCollection.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
-import { TSGeneratorCategory } from "./TSGeneratorCategory";
-import { TSGeneratorGeneralCategory } from "./TSGeneratorGeneralCategory";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
+import { TSGeneratorCategory } from "./TSGeneratorCategory.js";
+import { TSGeneratorGeneralCategory } from "./TSGeneratorGeneralCategory.js";
 
 /**
  * Provides components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

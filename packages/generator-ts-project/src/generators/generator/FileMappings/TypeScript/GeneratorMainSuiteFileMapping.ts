@@ -1,11 +1,10 @@
-import { dirname, relative } from "path";
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { ArrowFunction, printNode, ts } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey";
-import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase";
-import { NamingContext } from "./NamingContext";
+import { ArrowFunction, printNode, SourceFile, ts } from "ts-morph";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
+import { GeneratorSuiteFileMappingBase } from "./GeneratorSuiteFileMappingBase.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create the main test-file.
@@ -65,17 +64,34 @@ export class GeneratorMainSuiteFileMapping<TSettings extends ITSProjectSettings,
 
         result.addStatements(
             printNode(
-                ts.factory.createExpressionStatement(
-                    ts.factory.createCallExpression(
-                        ts.factory.createIdentifier(nameof(require)),
-                        [],
-                        [
-                            ts.factory.createStringLiteral(
-                                (await this.GetSourceObject()).getRelativePathAsModuleSpecifierTo(
-                                    relative(
-                                        dirname(this.Destination),
-                                        this.NamingContext.GeneratorSuiteFileName)))
-                        ]))));
+                ts.factory.createCallExpression(
+                    ts.factory.createIdentifier(this.NamingContext.GeneratorSuiteFunctionName),
+                    [],
+                    [])));
+
+        return result;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param sourceFile
+     * The source-file to process.
+     *
+     * @returns
+     * The processed data.
+     */
+    protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
+    {
+        let result = await super.Transform(sourceFile);
+
+        result.addImportDeclaration(
+            {
+                ...await this.GetImportDeclaration(this.NamingContext.GeneratorSuiteFileName),
+                namedImports: [
+                    this.NamingContext.GeneratorSuiteFunctionName
+                ]
+            });
 
         return result;
     }

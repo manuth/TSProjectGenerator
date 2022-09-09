@@ -1,13 +1,13 @@
 import { GeneratorOptions, IGenerator, Question } from "@manuth/extended-yo-generator";
-import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+import { TSProjectQuestionCollection } from "../../../Project/Inquiry/TSProjectQuestionCollection.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
-import { TSGeneratorDescriptionQuestion } from "./TSGeneratorDescriptionQuestion";
-import { TSGeneratorModuleNameQuestion } from "./TSGeneratorModuleNameQuestion";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
+import { TSGeneratorDescriptionQuestion } from "./TSGeneratorDescriptionQuestion.js";
+import { TSGeneratorModuleNameQuestion } from "./TSGeneratorModuleNameQuestion.js";
 
 /**
- * Provides questions for asking for the {@link TSGeneratorGenerator {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}}-creation.
+ * Provides questions for asking for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}-creation.
  *
  * @template TSettings
  * The type of the settings of the generator.

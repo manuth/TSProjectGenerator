@@ -9,16 +9,6 @@ export enum MyGeneratorComponent
     Drone = "drone-configuration",
 
     /**
-     * Indicates the dependabot-configuration component.
-     */
-    Dependabot = "dependabot-configuration",
-
-    /**
-     * Indicates the auto-merge workflow component.
-     */
-    AutoMergeWorkflow = "auto-merge-workflow",
-
-    /**
      * Indicates the codeql-analysis workflow component.
      */
     CodeQLAnalysisWorkflow = "codeql-analysis-workflow"

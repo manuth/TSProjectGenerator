@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
 
 /**
  * Represents a component of the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}.

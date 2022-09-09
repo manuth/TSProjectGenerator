@@ -1,32 +1,38 @@
-import { createRequire } from "module";
-import { relative } from "path";
-import { Generator, GeneratorOptions, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
+import { createRequire } from "node:module";
+import { relative } from "node:path";
+import { fileURLToPath } from "node:url";
+import { Generator, GeneratorSettingKey, IComponentCollection, IFileMapping, Question } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
-import chalk = require("chalk");
-import dedent = require("dedent");
+import chalk from "chalk";
+import dedent from "dedent";
 // eslint-disable-next-line node/no-unpublished-import
 import type { ESLint } from "eslint";
-import { readFile, readJSON, writeFile, writeJSON } from "fs-extra";
-import npmWhich = require("npm-which");
+import fs from "fs-extra";
+import kebabCase from "lodash.kebabcase";
+import npmWhich from "npm-which";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
-import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
-import { changeExt, join, resolve } from "upath";
-import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt";
-import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping";
-import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies";
-import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials";
-import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection";
-import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping";
-import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackagning/TSProjectPackageFileMapping";
-import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection";
-import { ITSProjectSettings } from "./Settings/ITSProjectSettings";
-import { TSProjectComponent } from "./Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
+import upath from "upath";
+import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt.js";
+import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping.js";
+import { ESLintRCFileMapping } from "../Linting/FileMappings/ESLintRCFileMapping.js";
+import { BuildDependencies } from "../NPMPackaging/Dependencies/BuildDependencies.js";
+import { LintEssentials } from "../NPMPackaging/Dependencies/LintEssentials.js";
+import { TSProjectComponentCollection } from "./Components/TSProjectComponentCollection.js";
+import { NPMIgnoreFileMapping } from "./FileMappings/NPMIgnoreFileMapping.js";
+import { TSProjectPackageFileMapping } from "./FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { TSProjectQuestionCollection } from "./Inquiry/TSProjectQuestionCollection.js";
+import { ITSProjectSettings } from "./Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "./Settings/TSProjectComponent.js";
+import { ITSProjectOptions } from "./Settings/TSProjectOptions.js";
+import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
+
+const { readFile, readJSON, writeFile, writeJSON } = fs;
+const { join, resolve } = upath;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
@@ -37,7 +43,7 @@ import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends GeneratorOptions = GeneratorOptions> extends Generator<TSettings, TOptions>
+export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjectSettings, TOptions extends ITSProjectOptions = ITSProjectOptions> extends Generator<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`} class.
@@ -64,6 +70,14 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
             });
 
         this.env.adapter.promptModule.registerPrompt(PathPrompt.TypeName, PathPrompt);
+
+        this.option(
+            kebabCase(nameof<ITSProjectOptions>((options) => options.skipCleanup)),
+            {
+                type: Boolean,
+                default: false,
+                description: "Skips the process of cleaning the generated code using eslint"
+            });
     }
 
     /**
@@ -295,8 +309,36 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
      */
     public async cleanup(): Promise<void>
     {
+        if (!this.options.skipCleanup)
+        {
+            await this.Cleanup();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override async end(): Promise<void>
+    {
+        this.log("");
+
+        this.log(
+            dedent(
+                `
+                    ${chalk.whiteBright("Finished!")}
+                    Your package "${this.Settings[TSProjectSettingKey.DisplayName]}" has been created!
+                    To start editing with Visual Studio Code use the following command:
+
+                        code "${this.Settings[TSProjectSettingKey.Destination]}"`));
+    }
+
+    /**
+     * Cleans the workspace.
+     */
+    protected async Cleanup(): Promise<void>
+    {
         let tempDir = new TempDirectory();
-        let esLintJSFileName = changeExt(eslintFileName, ".js");
+        let esLintJSFileName = new ESLintRCFileMapping(this).DefaultBaseName;
         let lintPackage = new Package(tempDir.MakePath(Package.FileName), {});
         let workspaceRequire: NodeRequire;
         let linterConstructor: typeof Linter;
@@ -318,7 +360,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         await writeJSON(lintPackage.FileName, lintPackage.ToJSON());
 
         this.spawnCommandSync(
-            npmWhich(__dirname).sync("npm"),
+            npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
             [
                 "install",
                 "--silent"
@@ -352,22 +394,5 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         }
 
         tempDir.Dispose();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public override async end(): Promise<void>
-    {
-        this.log("");
-
-        this.log(
-            dedent(
-                `
-                    ${chalk.whiteBright("Finished!")}
-                    Your package "${this.Settings[TSProjectSettingKey.DisplayName]}" has been created!
-                    To start editing with Visual Studio Code use the following command:
-
-                        code "${this.Settings[TSProjectSettingKey.Destination]}"`));
     }
 }

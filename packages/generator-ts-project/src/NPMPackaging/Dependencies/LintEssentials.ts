@@ -1,4 +1,4 @@
-import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection.js";
 
 /**
  * Provides a set of all dependencies required for performing linting.

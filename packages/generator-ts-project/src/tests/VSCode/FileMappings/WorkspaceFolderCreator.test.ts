@@ -1,13 +1,15 @@
-import { deepStrictEqual, ok } from "assert";
+import { deepStrictEqual, ok } from "node:assert";
 import { FileMapping, GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { FileMappingTester, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { parse, stringify } from "comment-json";
-import dedent = require("dedent");
-import { join } from "upath";
-import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator";
-import { TestContext } from "../../TestContext";
-import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent";
-import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider";
+import dedent from "dedent";
+import upath from "upath";
+import { WorkspaceFolderCreator } from "../../../VSCode/FileMappings/WorkspaceFolderCreator.js";
+import { TestContext } from "../../TestContext.js";
+import { TestCodeWorkspaceComponent } from "../Components/TestCodeWorkspaceComponent.js";
+import { TestCodeWorkspaceProvider } from "./TestCodeWorkspaceProvider.js";
+
+const { join } = upath;
 
 /**
  * Registers tests for the {@link WorkspaceFolderCreator `WorkspaceFolderCreator<TSettings, TOptions>`} class.

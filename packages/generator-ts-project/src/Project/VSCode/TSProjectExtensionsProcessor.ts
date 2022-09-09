@@ -1,10 +1,10 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { TSProjectComponent } from "../../Project/Settings/TSProjectComponent.js";
+import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent.js";
+import { ExtensionsProcessor } from "../../VSCode/ExtensionsProcessor.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
 
 /**
  * Provides the functionality to process extensions for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

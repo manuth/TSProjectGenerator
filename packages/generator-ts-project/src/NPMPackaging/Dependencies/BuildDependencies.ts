@@ -1,4 +1,4 @@
-import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection";
+import { MyPackageDependencyCollection } from "./MyPackageDependencyCollection.js";
 
 /**
  * Provides all dependencies which are required for building.

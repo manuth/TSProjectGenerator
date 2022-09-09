@@ -1,8 +1,8 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { DependencyCollectionTester } from "@manuth/generator-ts-project-test";
 import { PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
-import { BuildDependencies } from "../../../NPMPackaging/Dependencies/BuildDependencies";
-import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies";
+import { BuildDependencies } from "../../../NPMPackaging/Dependencies/BuildDependencies.js";
+import { CommonDependencies } from "../../../NPMPackaging/Dependencies/CommonDependencies.js";
 
 /**
  * Registers tests for the {@link CommonDependencies `CommonDependencies`} class.

@@ -1,12 +1,14 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
 import { assign } from "comment-json";
-import { writeFile } from "fs-extra";
-import { JSONCTransformMapping } from "../../../Components/Transformation/JSONCTransformMapping";
-import { TestContext } from "../../TestContext";
+import fs from "fs-extra";
+import { JSONCTransformMapping } from "../../../Components/Transformation/JSONCTransformMapping.js";
+import { TestContext } from "../../TestContext.js";
+
+const { writeFile } = fs;
 
 /**
  * Registers tests for the {@link JSONCTransformMapping `JSONCTransformMapping<TSettings, TOptions, TData>`} class.

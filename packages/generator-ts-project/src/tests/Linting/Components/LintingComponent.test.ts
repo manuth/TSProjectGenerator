@@ -1,10 +1,10 @@
-import { ok } from "assert";
+import { ok } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
-import { LintingComponent } from "../../../Linting/Components/LintingComponent";
-import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import { LintingComponent } from "../../../Linting/Components/LintingComponent.js";
+import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link LintingComponent `LintingComponent<TSettings, TOptions>`} class.

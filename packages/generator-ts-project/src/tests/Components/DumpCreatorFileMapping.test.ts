@@ -1,10 +1,10 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
-import { DumpCreatorFileMapping } from "../../Components/DumpCreatorFileMapping";
-import { IDumper } from "../../Components/Transformation/Conversion/IDumper";
-import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter";
-import { TestContext } from "../TestContext";
+import { DumpCreatorFileMapping } from "../../Components/DumpCreatorFileMapping.js";
+import { IDumper } from "../../Components/Transformation/Conversion/IDumper.js";
+import { JSONCConverter } from "../../Components/Transformation/Conversion/JSONCConverter.js";
+import { TestContext } from "../TestContext.js";
 
 /**
  * Registers tests for the {@link DumpCreatorFileMapping `DumpCreatorFileMapping<TSettings`}

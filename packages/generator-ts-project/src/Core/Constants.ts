@@ -1,4 +1,5 @@
-import { join } from "path";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Dictionary, Package } from "@manuth/package-json-editor";
 
 /**
@@ -23,7 +24,7 @@ export class Constants
     {
         if (this.package === null)
         {
-            this.package = new Package(join(__dirname, "..", "..", Package.FileName));
+            this.package = new Package(join(fileURLToPath(new URL(".", import.meta.url)), "..", "..", Package.FileName));
         }
 
         return this.package;

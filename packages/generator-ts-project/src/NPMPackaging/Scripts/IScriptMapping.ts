@@ -1,6 +1,6 @@
 import { GeneratorOptions, IGeneratorSettings, IUniqueObject, Resolvable } from "@manuth/extended-yo-generator";
-import { ScriptMapping } from "./ScriptMapping";
-import { ScriptProcessor } from "./ScriptProcessor";
+import { ScriptMapping } from "./ScriptMapping.js";
+import { ScriptProcessor } from "./ScriptProcessor.js";
 
 /**
  * Represents a script-mapping.

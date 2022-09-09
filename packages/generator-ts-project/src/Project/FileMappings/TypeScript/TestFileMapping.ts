@@ -1,13 +1,14 @@
-import { strictEqual } from "assert";
-import { EOL } from "os";
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
+import { strictEqual } from "node:assert";
+import { EOL } from "node:os";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
 import { ArrowFunction, CallExpression, printNode, SourceFile, ts } from "ts-morph";
-import { SuiteFileMapping } from "./SuiteFileMapping";
+import { ITSProjectSettings } from "../../Settings/ITSProjectSettings.js";
+import { SuiteFileMapping } from "./SuiteFileMapping.js";
 
 /**
  * Provides the functionality to create a typescript-file containing a mocha-test in a mocha-suite.
  */
-export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
+export abstract class TestFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends SuiteFileMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link TestFileMapping `TestFileMapping<TSettings, TOptions>`} class.
@@ -38,6 +39,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
             ]);
 
         executor.addStatements(this.WrapExpression(assertion).getFullText());
+        assertion.forget();
         return executor;
     }
 
@@ -51,14 +53,17 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
     {
         let testCall = this.WrapNode(ts.factory.createCallExpression(ts.factory.createIdentifier(nameof(test)), [], []));
         let testNameNode = this.WrapNode(ts.factory.createStringLiteral(""));
+        let executor = await this.GetTestExecutor();
         testNameNode.setLiteralValue("Example…");
 
         testCall.addArguments(
             [
                 `${EOL}${testNameNode.getFullText()}`,
-                `${EOL}${(await this.GetTestExecutor()).getFullText()}`
+                `${EOL}${executor.getFullText()}`
             ]);
 
+        testNameNode.forget();
+        executor.forget();
         return testCall;
     }
 
@@ -71,12 +76,16 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
     protected override async GetSuiteFunction(): Promise<ArrowFunction>
     {
         let result = await super.GetSuiteFunction();
+        let testCall = await this.GetTestCall();
+        let testExpression = this.WrapExpression(testCall);
 
         result.addStatements(
             [
-                this.WrapExpression(await this.GetTestCall()).getFullText()
+                testExpression.getFullText()
             ]);
 
+        testCall.forget();
+        testExpression.forget();
         return result;
     }
 
@@ -95,7 +104,7 @@ export abstract class TestFileMapping<TSettings extends IGeneratorSettings, TOpt
 
         sourceFile.addImportDeclaration(
             {
-                moduleSpecifier: "assert",
+                moduleSpecifier: "node:assert",
                 namedImports: [
                     nameof(strictEqual)
                 ]

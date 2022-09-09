@@ -1,7 +1,7 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings, PropertyResolver, Resolvable } from "@manuth/extended-yo-generator";
 import { Package } from "@manuth/package-json-editor";
-import { IScriptMapping } from "./IScriptMapping";
-import { ScriptProcessor } from "./ScriptProcessor";
+import { IScriptMapping } from "./IScriptMapping.js";
+import { ScriptProcessor } from "./ScriptProcessor.js";
 
 /**
  * Represents a script-mapping for copying npm-scripts.

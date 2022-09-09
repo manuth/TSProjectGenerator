@@ -1,7 +1,7 @@
-import { IExtensionSettings } from "./IExtensionSettings";
-import { ILaunchSettings } from "./ILaunchSettings";
-import { ITaskSettings } from "./ITaskSettings";
-import { WorkspaceFolder } from "./WorkspaceFolder";
+import { IExtensionSettings } from "./IExtensionSettings.js";
+import { ILaunchSettings } from "./ILaunchSettings.js";
+import { ITaskSettings } from "./ITaskSettings.js";
+import { WorkspaceFolder } from "./WorkspaceFolder.js";
 
 /**
  * Provides metadata for a workspace.

@@ -21,6 +21,7 @@
         "recommendations": [
             "dbaeumer.vscode-eslint",
             "digitalbrainstem.javascript-ejs-support",
+            "hbenl.test-adapter-converter",
             "hbenl.vscode-mocha-test-adapter",
             "hbenl.vscode-test-explorer"
         ]
@@ -32,7 +33,7 @@
         "version": "0.2.0",
         "configurations": [
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
@@ -42,7 +43,8 @@
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
@@ -58,7 +60,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Yeoman",
                 "program": "${workspaceFolder:Solution Items}/node_modules/yo/lib/cli.js",
@@ -68,7 +70,8 @@
                 "cwd": "${workspaceFolder:Solution Items}/..",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "console": "integratedTerminal",
                 "internalConsoleOptions": "neverOpen",
@@ -85,7 +88,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGenerator Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
@@ -96,7 +99,8 @@
                 "cwd": "${workspaceFolder:TSProjectGenerator}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
@@ -111,7 +115,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch MyTSProjectGenerator Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
@@ -122,7 +126,8 @@
                 "cwd": "${workspaceFolder:MyTSProjectGenerator}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
@@ -138,7 +143,7 @@
                 ]
             },
             {
-                "type": "pwa-node",
+                "type": "node",
                 "request": "launch",
                 "name": "Launch TSProjectGeneratorTest Tests",
                 "program": "${workspaceFolder:Solution Items}/node_modules/mocha/bin/mocha",
@@ -149,7 +154,8 @@
                 "cwd": "${workspaceFolder:TSProjectGeneratorTest}",
                 "skipFiles": [
                     "<node_internals>/**",
-                    "**/node_modules/typescript/**"
+                    "**/node_modules/typescript/**",
+                    "**/node_modules/@ts-morph/common/dist/typescript.js"
                 ],
                 "internalConsoleOptions": "openOnSessionStart",
                 "preLaunchTask": "Build",
@@ -163,6 +169,18 @@
                     "${workspaceFolder:TSProjectGeneratorTest}/**/*.js",
                     "!**/node_modules/**"
                 ]
+            },
+            {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Version Script",
+                "cwd": "${workspaceFolder}",
+                "runtimeArgs": [
+                    "--loader",
+                    "ts-node/esm",
+                    "--experimental-specifier-resolution=node"
+                ],
+                "program": "${workspaceFolder:Solution Items}/scripts/bumpVersion.ts"
             }
         ],
         "compounds": [
@@ -191,7 +209,8 @@
         "mochaExplorer.timeout": 0,
         "files.associations": {
             ".gitignore.ejs": "ignore",
-            ".npmignore.ejs": "ignore"
+            ".npmignore.ejs": "ignore",
+            "*.md.ejs": "markdown"
         },
         "search.exclude": {
             "**/node_modules": true,

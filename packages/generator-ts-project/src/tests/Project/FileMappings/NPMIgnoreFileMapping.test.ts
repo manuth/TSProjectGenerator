@@ -1,13 +1,15 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { NPMIgnoreFileMappingTester } from "@manuth/generator-ts-project-test";
 import { fileName as eslintFileName } from "types-eslintrc";
 import { fileName } from "types-tsconfig";
-import { changeExt } from "upath";
-import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import upath from "upath";
+import { NPMIgnoreFileMapping } from "../../../Project/FileMappings/NPMIgnoreFileMapping.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
+
+const { changeExt } = upath;
 
 /**
  * Registers tests for the {@link NPMIgnoreFileMapping `NPMIgnoreFileMapping<TSettings, TOptions>`} class.
@@ -133,6 +135,18 @@ export function NPMIgnoreFileMappingTests(context: TestContext<TSProjectGenerato
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
                             await tester.AssertDirectoryIgnored(".github");
+                        });
+
+                    test(
+                        "Checking whether temporary release assets are ignored…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+                            await tester.AssertIgnored(".tagName.txt");
+                            await tester.AssertIgnored(".tagHeading.txt");
+                            await tester.AssertIgnored(".releaseNotes.md");
+                            await tester.AssertIgnored(".releaseTitled.md");
                         });
                 });
         });

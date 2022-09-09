@@ -1,18 +1,20 @@
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { join, normalize } from "upath";
+import upath from "upath";
 import { DebugConfiguration } from "vscode";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor";
-import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { ILaunchSettings } from "../../../VSCode/ILaunchSettings";
-import { ISubGenerator } from "../Settings/ISubGenerator";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectLaunchSettingsProcessor } from "../../../Project/VSCode/TSProjectLaunchSettingsProcessor.js";
+import { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { ILaunchSettings } from "../../../VSCode/ILaunchSettings.js";
+import { ISubGenerator } from "../Settings/ISubGenerator.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
+
+const { join, normalize } = upath;
 
 /**
  * Provides the functionality to process vscode debug configurations for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

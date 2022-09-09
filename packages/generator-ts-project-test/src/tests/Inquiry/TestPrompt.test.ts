@@ -1,10 +1,10 @@
-import { strictEqual } from "assert";
-import { createInterface, Interface } from "readline";
+import { strictEqual } from "node:assert";
+import { createInterface, Interface } from "node:readline";
 import { Question } from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
-import MuteStream = require("mute-stream");
+import MuteStream from "mute-stream";
 import { Random } from "random-js";
-import { TestPrompt } from "../../Inquiry/TestPrompt";
+import { TestPrompt } from "../../Inquiry/TestPrompt.js";
 
 /**
  * Registers tests for the {@link TestPrompt `TestPrompt`} class.

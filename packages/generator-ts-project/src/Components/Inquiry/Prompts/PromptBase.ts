@@ -1,7 +1,7 @@
-import { Interface } from "readline";
+import { Interface } from "node:readline";
 import { Answers, Question } from "inquirer";
-import Prompt = require("inquirer/lib/prompts/base");
-import { PromptCallback } from "./PromptCallback";
+import Prompt from "inquirer/lib/prompts/base.js";
+import { PromptCallback } from "./PromptCallback.js";
 
 /**
  * Provides a basic implementation of the {@link Prompt `Prompt<T>`} class.

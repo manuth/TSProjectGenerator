@@ -1,8 +1,8 @@
-import { PlatformPath } from "path";
+import { PlatformPath } from "node:path";
 import { Answers, AsyncDynamicQuestionProperty, InputQuestionOptions } from "inquirer";
-import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor";
+import { IPathPromptRootDescriptor } from "./IPathPromptRootDescriptor.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { PathPrompt } from "./PathPrompt";
+import type { PathPrompt } from "./PathPrompt.js";
 
 /**
  * Provides options for the {@link PathPrompt `PathPrompt`}.

@@ -1,25 +1,47 @@
-import { MyPackageDependencyCollection } from "../../../NPMPackaging/Dependencies/MyPackageDependencyCollection";
+import { IDependencyCollectionOptions } from "@manuth/package-json-editor";
+import { ESModuleDependencyCollection } from "../../../NPMPackaging/Dependencies/ESModuleDependencyCollection.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
 
 /**
  * Provides all common dependencies for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
  */
-export class TSGeneratorDependencies extends MyPackageDependencyCollection
+export class TSGeneratorDependencies extends ESModuleDependencyCollection
 {
     /**
-     * Initializes a new instance of the {@link TSGeneratorDependencies `TSGeneratorDependencies`} class.
+     * The name of the generator package.
      */
-    public constructor()
+    private static readonly generatorBasePackageName = "@manuth/extended-yo-generator";
+
+    /**
+     * Initializes a new instance of the {@link TSGeneratorDependencies `TSGeneratorDependencies`} class.
+     *
+     * @param esModule
+     * A value indicating whether the ESModule dependencies are allowed.
+     */
+    public constructor(esModule: boolean)
     {
         super(
             {
                 dependencies: [
-                    "@manuth/extended-yo-generator"
+                    TSGeneratorDependencies.generatorBasePackageName
                 ],
                 devDependencies: [
                     "yo"
                 ]
-            });
+            },
+            esModule);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override get CommonJSOverrides(): IDependencyCollectionOptions
+    {
+        return {
+            dependencies: {
+                [TSGeneratorDependencies.generatorBasePackageName]: "^11.0.7"
+            }
+        };
     }
 }

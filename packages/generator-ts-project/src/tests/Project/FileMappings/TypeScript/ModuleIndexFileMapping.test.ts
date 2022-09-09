@@ -1,24 +1,29 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
+import { PackageType } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
 import { createSandbox, SinonSandbox } from "sinon";
 import { SourceFile } from "ts-morph";
-import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
-import { TestContext } from "../../../TestContext";
+import { ModuleIndexFileMapping } from "../../../../Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.
+ *
+ * @param context
+ * The test-context.
  */
-export function ModuleIndexFileMappingTests(): void
+export function ModuleIndexFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
         nameof(ModuleIndexFileMapping),
         () =>
         {
-            let context = TestContext.Default;
-            let generator: TestGenerator;
+            let generator: TSProjectGenerator;
             let sandbox: SinonSandbox;
             let outputFile: TempFile;
             let fileMapping: TestModuleIndexFileMapping;
@@ -27,7 +32,7 @@ export function ModuleIndexFileMappingTests(): void
             /**
              * Registers tests for the {@link ModuleIndexFileMapping `ModuleIndexFileMapping<TSettings, TOptions>`} class.
              */
-            class TestModuleIndexFileMapping extends ModuleIndexFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestModuleIndexFileMapping extends ModuleIndexFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -48,6 +53,7 @@ export function ModuleIndexFileMappingTests(): void
                  */
                 public override Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
@@ -83,27 +89,62 @@ export function ModuleIndexFileMappingTests(): void
                 nameof<TestModuleIndexFileMapping>((fileMapping) => fileMapping.Transform),
                 () =>
                 {
+                    /**
+                     * Transforms the file.
+                     *
+                     * @returns
+                     * The transformed file.
+                     */
+                    async function TransformFile(): Promise<SourceFile>
+                    {
+                        return fileMapping.Transform(await fileMapping.GetSourceObject());
+                    }
+
+                    /**
+                     * Asserts the correctness of the specified {@link exportedFunction `exportedFunction`}.
+                     *
+                     * @param exportedFunction
+                     * The function to check.
+                     */
+                    async function AssertExportedFunction(exportedFunction: () => Promise<void>): Promise<void>
+                    {
+                        let messages: string[] = [];
+
+                        sandbox.replace(
+                            console,
+                            "log",
+                            (message) =>
+                            {
+                                messages.push(message);
+                            });
+
+                        await exportedFunction();
+                        strictEqual(messages.length, 1);
+                    }
+
                     test(
-                        "Checking whether the expected content is added to the file…",
+                        `Checking whether a function is assigned to \`${nameof.full(module.exports)}\` if the file is created for a \`${nameof(PackageType.CommonJS)}\` project…`,
                         async function()
                         {
                             this.timeout(2 * 60 * 1000);
                             this.slow(1 * 60 * 1000);
-                            let file = await fileMapping.Transform(await fileMapping.GetSourceObject());
-                            let messages: string[] = [];
-
-                            sandbox.replace(
-                                console,
-                                "log",
-                                (message) =>
-                                {
-                                    messages.push(message);
-                                });
-
+                            generator.Settings[TSProjectSettingKey.ESModule] = false;
+                            let file = await TransformFile();
                             await tester.DumpOutput(file);
+                            await AssertExportedFunction(await tester.Require());
                             file.forget();
-                            await (await tester.Require() as () => Promise<void>)();
-                            strictEqual(messages.length, 1);
+                        });
+
+                    test(
+                        `Checking whether a function is default exported if the file is created for an \`${nameof(PackageType.ESModule)}\` project…`,
+                        async function()
+                        {
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
+                            let file = await TransformFile();
+                            await tester.DumpOutput(file);
+                            await AssertExportedFunction(await tester.ImportDefault());
+                            file.forget();
                         });
                 });
         });

@@ -1,9 +1,17 @@
-import { doesNotThrow, strictEqual } from "assert";
-import { spawnSync } from "child_process";
-import { IRunContext } from "@manuth/extended-yo-generator-test";
-import npmWhich = require("npm-which");
-import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator";
-import { TestContext } from "../../TestContext";
+import { doesNotReject, doesNotThrow, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { PackageType } from "@manuth/package-json-editor";
+import npmWhich from "npm-which";
+import { packageDirectory } from "pkg-dir";
+import RandExp from "randexp";
+import { TSModuleGenerator } from "../../../generators/module/TSModuleGenerator.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TestContext } from "../../TestContext.js";
+
+const { randexp } = RandExp;
 
 /**
  * Registers tests for the {@link TSModuleGenerator `TSModuleGenerator<TSettings, TOptions>`}.
@@ -17,61 +25,80 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
         nameof(TSModuleGenerator),
         () =>
         {
-            let runContext: IRunContext<TSModuleGenerator>;
+            let npmPath: string;
+            let workspaceRoot: string;
+            let moduleName: string;
             let generator: TSModuleGenerator;
-            let testContext: IRunContext<TSModuleGenerator>;
             context.RegisterWorkingDirRestorer();
 
             suiteSetup(
                 async function()
                 {
                     this.timeout(5 * 60 * 1000);
-                    runContext = context.ExecuteGenerator();
-                    await runContext.toPromise();
-                    generator = runContext.generator;
+                    let dirName = fileURLToPath(new URL(".", import.meta.url));
+                    npmPath = npmWhich(dirName).sync("npm");
+
+                    workspaceRoot = await packageDirectory(
+                        {
+                            cwd: dirname(
+                                await packageDirectory(
+                                    {
+                                        cwd: dirName
+                                    }))
+                        });
+
+                    moduleName = randexp(/@ts-module-generator-test\/[a-z]+/);
+                    generator = await context.Generator;
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--no-save",
+                            `${moduleName}@file:${generator.destinationPath()}`
+                        ],
+                        {
+                            cwd: workspaceRoot
                         });
                 });
 
             suiteTeardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    runContext.cleanTestDirectory();
-                });
-
-            setup(
                 async function()
                 {
-                    this.timeout(5 * 60 * 1000);
-                    testContext = context.ExecuteGenerator();
-                    await testContext.toPromise();
-                });
+                    this.timeout(0.5 * 60 * 1000);
 
-            teardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    testContext.cleanTestDirectory();
-                    context.InvalidateRequireCache();
+                    spawnSync(
+                        npmPath,
+                        [
+                            "uninstall",
+                            "--no-save",
+                            moduleName
+                        ],
+                        {
+                            cwd: workspaceRoot
+                        });
                 });
 
             test(
@@ -82,23 +109,25 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     this.slow(3 * 60 * 1000);
 
                     let installationResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "install",
                             "--silent"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     let buildResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmPath,
                         [
                             "run",
                             "build"
                         ],
                         {
-                            cwd: testContext.generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(installationResult.status, 0);
@@ -106,14 +135,50 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                 });
 
             test(
-                "Checking whether the generated module can be loaded…",
-                () =>
+                "Checking whether the generated module can be imported…",
+                async () =>
                 {
-                    doesNotThrow(
-                        () =>
+                    await doesNotReject(() => import(moduleName));
+                });
+
+            test(
+                `Checking whether \`${nameof(PackageType.CommonJS)}\` modules can be generated…`,
+                async function()
+                {
+                    this.timeout(6 * 60 * 1000);
+                    this.slow(3 * 60 * 1000);
+
+                    let runContext = context.ExecuteGenerator().withPrompts(
                         {
-                            require(generator.destinationPath());
+                            [TSProjectSettingKey.ESModule]: false
                         });
+
+                    await runContext.toPromise();
+                    let generator = runContext.generator;
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "install",
+                            "--silent"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
+
+                    spawnSync(
+                        npmPath,
+                        [
+                            "run",
+                            "build"
+                        ],
+                        {
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
+                        });
+
+                    doesNotThrow(() => createRequire(import.meta.url)(generator.destinationPath()));
                 });
 
             test(
@@ -126,7 +191,8 @@ export function TSModuleGeneratorTests(context: TestContext<TSModuleGenerator>):
                     let result = spawnSync(
                         npmWhich(generator.destinationPath()).sync("mocha"),
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(result.status, 0);

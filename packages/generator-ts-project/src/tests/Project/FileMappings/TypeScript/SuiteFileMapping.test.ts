@@ -1,16 +1,24 @@
-import { strictEqual } from "assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TestGenerator } from "@manuth/extended-yo-generator-test";
+import { doesNotThrow, ok, strictEqual } from "node:assert";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { TempFile } from "@manuth/temp-files";
-import { ArrowFunction, CallExpression, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext";
-import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping";
-import { TestContext } from "../../../TestContext";
+import RandExp from "randexp";
+import { ArrowFunction, CallExpression, FunctionDeclaration, Node, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ISuiteContext } from "../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ISuiteFunctionInfo } from "../../../../Project/FileMappings/TypeScript/ISuiteFunctionInfo.js";
+import { SuiteFileMapping } from "../../../../Project/FileMappings/TypeScript/SuiteFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectGenerator } from "../../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../../TestContext.js";
+
+const { randexp } = RandExp;
 
 /**
  * Registers tests for the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class.
+ *
+ * @param context
+ * The test-context.
  */
-export function SuiteFileMappingTests(): void
+export function SuiteFileMappingTests(context: TestContext<TSProjectGenerator>): void
 {
     suite(
         nameof(SuiteFileMapping),
@@ -19,7 +27,7 @@ export function SuiteFileMappingTests(): void
             /**
              * Provides an implementation of the {@link SuiteFileMapping `SuiteFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSuiteFileMapping extends SuiteFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSuiteFileMapping extends SuiteFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -38,7 +46,11 @@ export function SuiteFileMappingTests(): void
                 public async Context(): Promise<ISuiteContext>
                 {
                     return {
-                        SuiteName: suiteName
+                        SuiteName: suiteName,
+                        get SuiteFunction()
+                        {
+                            return suiteFunctionInfo;
+                        }
                     };
                 }
 
@@ -70,13 +82,14 @@ export function SuiteFileMappingTests(): void
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
 
-            let context = TestContext.Default;
-            let generator: TestGenerator;
+            let generator: TSProjectGenerator;
             let suiteName: string;
+            let suiteFunctionInfo: ISuiteFunctionInfo;
             let outputFile: TempFile;
             let testValue: string;
             let fileMapping: TestSuiteFileMapping;
@@ -92,6 +105,7 @@ export function SuiteFileMappingTests(): void
                 () =>
                 {
                     suiteName = context.RandomString;
+                    suiteFunctionInfo = null;
 
                     outputFile = new TempFile(
                         {
@@ -130,6 +144,25 @@ export function SuiteFileMappingTests(): void
                         });
 
                     /**
+                     * Gets the {@link suite `suite`} calls inside the specified {@link node `node`}.
+                     *
+                     * @param node
+                     * The node to get the {@link suite `suite`} calls from.
+                     *
+                     * @returns
+                     * The {@link suite `suite`} calls inside the specified {@link node `node`}.
+                     */
+                    function GetDescendantSuiteCalls(node: Node): CallExpression[]
+                    {
+                        return node.getDescendantsOfKind(
+                            SyntaxKind.CallExpression).filter(
+                                (callExpression) =>
+                                {
+                                    return callExpression.getExpression().getText() === nameof(suite);
+                                });
+                    }
+
+                    /**
                      * Gets all calls to the {@link suite `suite`}-method.
                      *
                      * @returns
@@ -139,13 +172,7 @@ export function SuiteFileMappingTests(): void
                     {
                         let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
                         files.push(sourceFile);
-
-                        return sourceFile.getDescendantsOfKind(
-                            SyntaxKind.CallExpression).filter(
-                                (callExpression) =>
-                                {
-                                    return callExpression.getExpression().getText() === nameof(suite);
-                                });
+                        return GetDescendantSuiteCalls(sourceFile);
                     }
 
                     /**
@@ -178,6 +205,26 @@ export function SuiteFileMappingTests(): void
                             strictEqual(
                                 (await GetSuiteCall()).getArguments()[0].asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue(),
                                 await fileMapping.GetSuiteName());
+                        });
+
+                    test(
+                        "Checking whether the suite can be generated inside a named function…",
+                        async function()
+                        {
+                            this.timeout(4 * 1000);
+                            this.slow(2 * 1000);
+
+                            suiteFunctionInfo = {
+                                Name: randexp(/[a-zA-Z][a-zA-Z0-9]{9}/),
+                                Description: context.RandomString
+                            };
+
+                            let sourceFile = await fileMapping.Transform(await fileMapping.GetSourceObject());
+                            let suiteFunction: FunctionDeclaration;
+                            doesNotThrow(() => suiteFunction = sourceFile.getFunctionOrThrow(suiteFunctionInfo.Name));
+                            ok(suiteFunction.isExported());
+                            strictEqual(suiteFunction.getJsDocs()[0].getDescription().trim(), suiteFunctionInfo.Description.trim());
+                            strictEqual(GetDescendantSuiteCalls(suiteFunction).length, 1);
                         });
 
                     test(

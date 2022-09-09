@@ -1,15 +1,15 @@
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent";
-import { ExtensionsProcessor } from "./ExtensionsProcessor";
-import { IExtensionSettings } from "./IExtensionSettings";
-import { ILaunchSettings } from "./ILaunchSettings";
-import { ITaskSettings } from "./ITaskSettings";
-import { IWorkspaceMetadata } from "./IWorkspaceMetadata";
-import { LaunchSettingsProcessor } from "./LaunchSettingsProcessor";
-import { SettingsProcessor } from "./SettingsProcessor";
-import { TasksProcessor } from "./TasksProcessor";
-import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor";
+import { JSONProcessor } from "../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "./Components/CodeWorkspaceComponent.js";
+import { ExtensionsProcessor } from "./ExtensionsProcessor.js";
+import { IExtensionSettings } from "./IExtensionSettings.js";
+import { ILaunchSettings } from "./ILaunchSettings.js";
+import { ITaskSettings } from "./ITaskSettings.js";
+import { IWorkspaceMetadata } from "./IWorkspaceMetadata.js";
+import { LaunchSettingsProcessor } from "./LaunchSettingsProcessor.js";
+import { SettingsProcessor } from "./SettingsProcessor.js";
+import { TasksProcessor } from "./TasksProcessor.js";
+import { VSCodeJSONProcessor } from "./VSCodeJSONProcessor.js";
 
 /**
  * Provides the functionality to process vscode workspaces.

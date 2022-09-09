@@ -1,8 +1,8 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
+import { VSCodeJSONProcessor } from "../../VSCode/VSCodeJSONProcessor.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link VSCodeJSONProcessor `VSCodeJSONProcessor<TSettings, TOptions, TData>`} class.

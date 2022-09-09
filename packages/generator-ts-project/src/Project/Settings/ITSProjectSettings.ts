@@ -1,6 +1,6 @@
 import { IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { LintRuleset } from "../../Linting/LintRuleset";
-import { TSProjectSettingKey } from "./TSProjectSettingKey";
+import { LintRuleset } from "../../Linting/LintRuleset.js";
+import { TSProjectSettingKey } from "./TSProjectSettingKey.js";
 
 /**
  * Provides settings for project-generators.
@@ -21,6 +21,11 @@ export interface ITSProjectSettings extends IGeneratorSettings
      * Gets or sets the name of the project.
      */
     [TSProjectSettingKey.Name]: string;
+
+    /**
+     * Gets or sets a value indicating whether the project should be created as an ESModule.
+     */
+    [TSProjectSettingKey.ESModule]: boolean;
 
     /**
      * Gets or sets the description of the project.

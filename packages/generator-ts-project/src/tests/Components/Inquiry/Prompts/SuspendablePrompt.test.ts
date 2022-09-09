@@ -1,8 +1,8 @@
-import { doesNotReject, strictEqual } from "assert";
-import { EOL } from "os";
-import { createPromptModule, PromptModule } from "inquirer";
-import { SuspendablePrompt } from "../../../../Components/Inquiry/Prompts/SuspendablePrompt";
-import { TestContext } from "../../../TestContext";
+import { doesNotReject, strictEqual } from "node:assert";
+import { EOL } from "node:os";
+import inquirer, { PromptModule } from "inquirer";
+import { SuspendablePrompt } from "../../../../Components/Inquiry/Prompts/SuspendablePrompt.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SuspendablePrompt `SuspendablePrompt<T>`} class.
@@ -27,7 +27,7 @@ export function SuspendablePromptTests(): void
             setup(
                 () =>
                 {
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     testValue = TestContext.Default.RandomString;
                 });
 
@@ -57,7 +57,7 @@ export function SuspendablePromptTests(): void
                                         await this.Suspend();
 
                                         let result = await TestContext.Default.MockPrompts(
-                                            createPromptModule(),
+                                            inquirer.createPromptModule(),
                                             [
                                                 {
                                                     name: testKey,

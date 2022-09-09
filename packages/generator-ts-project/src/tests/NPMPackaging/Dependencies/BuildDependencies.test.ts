@@ -1,5 +1,5 @@
 import { DependencyCollectionTester } from "@manuth/generator-ts-project-test";
-import { BuildDependencies } from "../../../NPMPackaging/Dependencies/BuildDependencies";
+import { BuildDependencies } from "../../../NPMPackaging/Dependencies/BuildDependencies.js";
 
 /**
  * Registers tests for the {@link BuildDependencies `BuildDependencies`} class.

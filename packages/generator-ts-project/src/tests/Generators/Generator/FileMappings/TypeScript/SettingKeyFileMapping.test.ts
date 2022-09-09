@@ -1,11 +1,12 @@
-import { ok, strictEqual } from "assert";
+import { ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TypeScriptFileMappingTester } from "@manuth/generator-ts-project-test";
 import { SourceFile } from "ts-morph";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link SettingKeyFileMapping `SettingKeyFileMapping<TSettings, TOptions>`} class.
@@ -22,7 +23,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
             /**
              * Provides an implementation of the {@link SettingKeyFileMapping `SettingKeyFileMapping<TSettings, TOptions>`} class for testing.
              */
-            class TestSettingKeyFileMapping extends SettingKeyFileMapping<IGeneratorSettings, GeneratorOptions>
+            class TestSettingKeyFileMapping extends SettingKeyFileMapping<ITSProjectSettings, GeneratorOptions>
             {
                 /**
                  * @inheritdoc
@@ -35,6 +36,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                  */
                 public override async Transform(sourceFile: SourceFile): Promise<SourceFile>
                 {
+                    this.Dispose();
                     return super.Transform(sourceFile);
                 }
             }
@@ -49,7 +51,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new TestSettingKeyFileMapping(generator, namingContext);
                     tester = new TypeScriptFileMappingTester(generator, fileMapping);
                 });
@@ -79,19 +81,13 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                             sourceFile.forget();
                         });
 
-                    teardown(
-                        () =>
-                        {
-                            context.InvalidateRequireCache();
-                        });
-
                     test(
                         "Checking whether the expected export-member is present…",
                         async function()
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            ok((await tester.Require())[namingContext.SettingKeyEnumName]);
+                            ok((await tester.Import())[namingContext.SettingKeyEnumName]);
                         });
 
                     test(
@@ -100,7 +96,7 @@ export function SettingKeyFileMappingTests(context: TestContext<TSGeneratorGener
                         {
                             this.timeout(1.5 * 60 * 1000);
                             this.slow(45 * 1000);
-                            let settingKeys = (await tester.Require())[namingContext.SettingKeyEnumName];
+                            let settingKeys = (await tester.Import())[namingContext.SettingKeyEnumName];
 
                             for (
                                 let member of [

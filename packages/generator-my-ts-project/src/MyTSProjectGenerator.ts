@@ -2,12 +2,13 @@ import { BaseGeneratorFactory, ComponentCollection, FileMapping, FileMappingColl
 import { JSONCConverter, JSONCCreatorMapping, TSConfigFileMapping, TSProjectGenerator, TSProjectPackageFileMapping } from "@manuth/generator-ts-project";
 // eslint-disable-next-line node/no-unpublished-import
 import type { TSConfigJSON } from "types-tsconfig";
-import { join } from "upath";
-import { DependabotFileMapping } from "./DependabotFileMapping";
-import { DroneFileMapping } from "./DroneFileMapping";
-import { MarkdownFileProcessor } from "./MarkdownFileProcessor";
-import { MyGeneratorComponent } from "./MyGeneratorComponent";
-import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping";
+import upath from "upath";
+import { DroneFileMapping } from "./DroneFileMapping.js";
+import { MarkdownFileProcessor } from "./MarkdownFileProcessor.js";
+import { MyGeneratorComponent } from "./MyGeneratorComponent.js";
+import { MyTSProjectPackageFileMapping } from "./MyTSProjectPackageFileMapping.js";
+
+const { join } = upath;
 
 /**
  * Provides the functionality to create base-constructors.
@@ -128,7 +129,6 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
             {
                 let components = super.Components;
                 let workflowDirName = join(".github", "workflows");
-                let mergeWorkflowFileName = join(workflowDirName, "auto-merge.yml");
                 let codeAnalysisWorkflowFileName = join(workflowDirName, "codeql-analysis.yml");
 
                 for (let category of components.Categories)
@@ -143,14 +143,6 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                                 FileMappings: [
                                     new DroneFileMapping(this)
                                 ]
-                            },
-                            {
-                                ID: MyGeneratorComponent.Dependabot,
-                                DisplayName: "Dependabot Configuration",
-                                DefaultEnabled: true,
-                                FileMappings: [
-                                    new DependabotFileMapping(this)
-                                ]
                             });
                     }
                 }
@@ -159,17 +151,6 @@ export class MyTSProjectGenerator<T extends GeneratorConstructor<TSProjectGenera
                     {
                         DisplayName: "Workflows",
                         Components: [
-                            {
-                                ID: MyGeneratorComponent.AutoMergeWorkflow,
-                                DisplayName: "Dependabot Auto-Merge Workflow",
-                                DefaultEnabled: true,
-                                FileMappings: [
-                                    {
-                                        Source: this.commonTemplatePath(mergeWorkflowFileName),
-                                        Destination: join(mergeWorkflowFileName)
-                                    }
-                                ]
-                            },
                             {
                                 ID: MyGeneratorComponent.CodeQLAnalysisWorkflow,
                                 DisplayName: "CodeQL Analysis Workflow",

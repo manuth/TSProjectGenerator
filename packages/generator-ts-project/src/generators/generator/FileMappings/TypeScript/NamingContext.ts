@@ -1,5 +1,6 @@
-import { join } from "path";
-import camelCase = require("lodash.camelcase");
+import { join } from "node:path";
+import camelCase from "lodash.camelcase";
+import { TSProjectTypeScriptFileMapping } from "../../../../Project/FileMappings/TypeScript/TSProjectTypeScriptFileMapping.js";
 
 /**
  * Provides constants for naming generated files and components.
@@ -27,6 +28,11 @@ export class NamingContext
     private sourceRoot: string;
 
     /**
+     * A value indicating whether the names are intended for the use in an ESModule.
+     */
+    private esModule: boolean;
+
+    /**
      * Initializes a new instance lf the {@link NamingContext `NamingContext`} class.
      *
      * @param id
@@ -37,12 +43,16 @@ export class NamingContext
      *
      * @param sourceRoot
      * The name of the directory to save the source-files to.
+     *
+     * @param esModule
+     * A value indicating whether the names are intended for the use in an ESModule.
      */
-    public constructor(id: string, displayName: string, sourceRoot: string)
+    public constructor(id: string, displayName: string, sourceRoot: string, esModule: boolean)
     {
         this.generatorID = id;
         this.displayName = displayName;
         this.sourceRoot = sourceRoot;
+        this.esModule = esModule;
     }
 
     /**
@@ -54,11 +64,19 @@ export class NamingContext
     }
 
     /**
+     * Gets a value indicating whether the names are intended for the use in an ESModule.
+     */
+    protected get ESModule(): boolean
+    {
+        return this.esModule;
+    }
+
+    /**
      * Gets the name of the index-file of the generator to create.
      */
     public get GeneratorIndexFileName(): string
     {
-        return join(this.GeneratorDirName, this.AddTypeScriptExtension("index"));
+        return join(this.GeneratorDirName, this.AddTypeScriptExtension(TSProjectTypeScriptFileMapping.IndexFileName));
     }
 
     /**
@@ -83,6 +101,14 @@ export class NamingContext
     public get GeneratorDisplayName(): string
     {
         return this.displayName;
+    }
+
+    /**
+     * Gets the name of the `chalk`-component.
+     */
+    public get ChalkName(): string
+    {
+        return "chalk";
     }
 
     /**
@@ -206,11 +232,32 @@ export class NamingContext
     }
 
     /**
+     * Gets the name of the suite-function of the generators.
+     */
+    public get GeneratorSuiteFunctionName(): string
+    {
+        return "GeneratorTests";
+    }
+
+    /**
      * Gets the name of the file which contains the generator-suite.
      */
     public get GeneratorSuiteFileName(): string
     {
-        return join(this.GeneratorTestDirName, this.AddTypeScriptExtension("index"));
+        let processor: typeof this.AddTypeScriptExtension = (fileName: string): string =>
+        {
+            return this.ESModule ? this.AddTestFileExtension(fileName) : this.AddTypeScriptExtension(fileName);
+        };
+
+        return join(this.GeneratorTestDirName, processor(TSProjectTypeScriptFileMapping.IndexFileName));
+    }
+
+    /**
+     * Gets the name of the test-function of the generator.
+     */
+    public get GeneratorTestFunctionName(): string
+    {
+        return `${this.GeneratorClassName}Tests`;
     }
 
     /**

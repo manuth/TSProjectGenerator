@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import { Interface } from "node:readline";
 import { PromptBase } from "@manuth/generator-ts-project";
 import { InputQuestionOptions } from "inquirer";
 

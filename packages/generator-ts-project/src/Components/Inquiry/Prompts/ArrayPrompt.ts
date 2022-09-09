@@ -1,8 +1,8 @@
-import { Interface } from "readline";
-import { Answers, DistinctQuestion, prompt } from "inquirer";
-import { IArrayPromptHash } from "./IArrayPromptHash";
-import { IArrayQuestionOptions } from "./IArrayQuestionOptions";
-import { SuspendablePrompt } from "./SuspendablePrompt";
+import { Interface } from "node:readline";
+import inquirer, { Answers, DistinctQuestion } from "inquirer";
+import { IArrayPromptHash } from "./IArrayPromptHash.js";
+import { IArrayQuestionOptions } from "./IArrayQuestionOptions.js";
+import { SuspendablePrompt } from "./SuspendablePrompt.js";
 
 /**
  * Provides the functionality to prompt for an array of objects.
@@ -96,7 +96,7 @@ export abstract class ArrayPrompt<TQuestion extends IArrayQuestionOptions, TItem
      */
     protected async PromptAdd(items: readonly TItem[]): Promise<IArrayPromptHash>
     {
-        return prompt(
+        return inquirer.prompt(
             [
                 await this.GetRepetitionQuestion(items)
             ],

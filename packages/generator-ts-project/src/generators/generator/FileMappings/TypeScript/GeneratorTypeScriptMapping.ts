@@ -1,6 +1,7 @@
-import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { TypeScriptCreatorMapping } from "../../../../Components/TypeScriptCreatorMapping";
-import { NamingContext } from "./NamingContext";
+import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
+import { TSProjectTypeScriptFileMapping } from "../../../../Project/FileMappings/TypeScript/TSProjectTypeScriptFileMapping.js";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create typescript-files for a generator.
@@ -11,7 +12,7 @@ import { NamingContext } from "./NamingContext";
  * @template TOptions
  * The type of the options of the generator.
  */
-export abstract class GeneratorTypeScriptMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends TypeScriptCreatorMapping<TSettings, TOptions>
+export abstract class GeneratorTypeScriptMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends TSProjectTypeScriptFileMapping<TSettings, TOptions>
 {
     /**
      * A component which provides constants for naming generated files and components.

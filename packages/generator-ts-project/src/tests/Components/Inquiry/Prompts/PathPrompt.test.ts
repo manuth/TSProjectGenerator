@@ -1,17 +1,19 @@
-import { notStrictEqual, ok, strictEqual } from "assert";
-import { EOL } from "os";
-import path = require("path");
-import { createInterface, Interface, ReadLine } from "readline";
-import inquirer = require("inquirer");
+import { notStrictEqual, ok, strictEqual } from "node:assert";
+import { EOL } from "node:os";
+import path from "node:path";
+import { createInterface, Interface, ReadLine } from "node:readline";
+import inquirer from "inquirer";
 import { MockSTDIN, stdin } from "mock-stdin";
-import MuteStream = require("mute-stream");
+import MuteStream from "mute-stream";
 import { createSandbox, SinonExpectation, SinonMock, SinonSandbox, stub } from "sinon";
-import { normalize } from "upath";
-import { IPathPromptRootDescriptor } from "../../../../Components/Inquiry/Prompts/IPathPromptRootDescriptor";
-import { IPathQuestion } from "../../../../Components/Inquiry/Prompts/IPathQuestion";
-import { PathPrompt } from "../../../../Components/Inquiry/Prompts/PathPrompt";
-import { PromptCallback } from "../../../../Components/Inquiry/Prompts/PromptCallback";
-import { TestContext } from "../../../TestContext";
+import upath from "upath";
+import { IPathPromptRootDescriptor } from "../../../../Components/Inquiry/Prompts/IPathPromptRootDescriptor.js";
+import { IPathQuestion } from "../../../../Components/Inquiry/Prompts/IPathQuestion.js";
+import { PathPrompt } from "../../../../Components/Inquiry/Prompts/PathPrompt.js";
+import { PromptCallback } from "../../../../Components/Inquiry/Prompts/PromptCallback.js";
+import { TestContext } from "../../../TestContext.js";
+
+const { normalize } = upath;
 
 /**
  * Registers tests for the {@link PathPrompt `PathPrompt<T>`}

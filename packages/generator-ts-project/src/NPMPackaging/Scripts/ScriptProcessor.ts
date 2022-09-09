@@ -1,5 +1,5 @@
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { ScriptMapping } from "./ScriptMapping";
+import { ScriptMapping } from "./ScriptMapping.js";
 
 /**
  * Provides the functionality to process scripts.

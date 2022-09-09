@@ -1,7 +1,7 @@
-import { strictEqual } from "assert";
-import { createPromptModule, PromptModule } from "inquirer";
-import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase";
-import { TestContext } from "../../../TestContext";
+import { strictEqual } from "node:assert";
+import inquirer, { PromptModule } from "inquirer";
+import { PromptBase } from "../../../../Components/Inquiry/Prompts/PromptBase.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Registers tests for the {@link PromptBase `PromptBase<T>`} class.
@@ -38,7 +38,7 @@ export function PromptBaseTests(): void
             setup(
                 () =>
                 {
-                    promptModule = createPromptModule();
+                    promptModule = inquirer.createPromptModule();
                     promptModule.registerPrompt(type, TestPrompt);
                 });
 

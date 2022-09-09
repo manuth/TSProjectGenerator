@@ -1,9 +1,9 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TempFile } from "@manuth/temp-files";
-import { TSConfigFileMapping } from "../../../Components/Transformation/TSConfigFileMapping";
-import { TestContext } from "../../TestContext";
+import { TSConfigFileMapping } from "../../../Components/Transformation/TSConfigFileMapping.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSConfigFileMapping<TSettings, TOptions> `TSConfigFileMapping<TSettings, TOptions>`} class.

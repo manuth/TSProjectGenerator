@@ -1,11 +1,11 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../../Components/JSONProcessor";
-import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder";
-import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
+import { JSONProcessor } from "../../../Components/JSONProcessor.js";
+import { TSProjectCodeWorkspaceFolder } from "../../../Project/Components/TSProjectCodeWorkspaceFolder.js";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
-import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspaceProcessor";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
+import { TSGeneratorWorkspaceProcessor } from "../VSCode/TSGeneratorWorkspaceProcessor.js";
 
 /**
  * Provides a component for creating a vscode-workspace folder for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.

@@ -1,10 +1,12 @@
-import { strictEqual } from "assert";
-import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping";
-import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings";
-import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator";
-import { TestContext } from "../../../../TestContext";
+import { ok, strictEqual } from "node:assert";
+import { GeneratorOptions } from "@manuth/extended-yo-generator";
+import { GeneratorTestFileMapping } from "../../../../../generators/generator/FileMappings/TypeScript/GeneratorTestFileMapping.js";
+import { NamingContext } from "../../../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { ITSGeneratorSettings } from "../../../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { TSGeneratorGenerator } from "../../../../../generators/generator/TSGeneratorGenerator.js";
+import { ISuiteContext } from "../../../../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ITSProjectSettings } from "../../../../../Project/Settings/ITSProjectSettings.js";
+import { TestContext } from "../../../../TestContext.js";
 
 /**
  * Registers tests for the {@link GeneratorTestFileMapping `GeneratorTestFileMapping<TSettings, TOptions>`} class.
@@ -27,16 +29,16 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
                 {
                     this.timeout(5 * 60 * 1000);
                     generator = await context.Generator;
-                    namingContext = new NamingContext("test", "Test", generator.SourceRoot);
+                    namingContext = new NamingContext("test", "Test", generator.SourceRoot, true);
                     fileMapping = new GeneratorTestFileMapping(generator, namingContext);
                 });
 
             suite(
-                nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fileMapping) => fileMapping.Destination),
+                nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fileMapping) => fileMapping.Destination),
                 () =>
                 {
                     test(
-                        `Checking whether the \`${nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fm) => fm.Destination)}\` points to the proper location…`,
+                        `Checking whether the \`${nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fm) => fm.Destination)}\` points to the proper location…`,
                         () =>
                         {
                             strictEqual(fileMapping.Destination, namingContext.GeneratorTestFileName);
@@ -44,14 +46,38 @@ export function GeneratorTestFileMappingTests(context: TestContext<TSGeneratorGe
                 });
 
             suite(
-                nameof<GeneratorTestFileMapping<IGeneratorSettings, GeneratorOptions>>((fileMapping) => fileMapping.Context),
+                nameof<GeneratorTestFileMapping<ITSProjectSettings, GeneratorOptions>>((fileMapping) => fileMapping.Context),
                 () =>
                 {
+                    let context: ISuiteContext;
+
+                    setup(
+                        async () =>
+                        {
+                            context = await fileMapping.Context();
+                        });
+
                     test(
                         "Checking whether the name of the suite is set properly…",
                         async () =>
                         {
-                            strictEqual((await fileMapping.Context()).SuiteName, namingContext.GeneratorClassName);
+                            strictEqual(context.SuiteName, namingContext.GeneratorClassName);
+                        });
+
+                    test(
+                        "Checking whether both a suite function name and a description is set…",
+                        () =>
+                        {
+                            ok(context.SuiteFunction);
+                            ok(context.SuiteFunction.Name);
+                            ok(context.SuiteFunction.Description);
+                        });
+
+                    test(
+                        "Checking whether the suite function description contains the generator name…",
+                        () =>
+                        {
+                            ok(context.SuiteFunction.Description.includes(namingContext.GeneratorClassName));
                         });
                 });
         });

@@ -1,26 +1,31 @@
-import { EOL } from "os";
-import { glob } from "glob";
-import { dest, parallel, series, src, watch } from "gulp";
-import rename = require("gulp-rename");
-import replace = require("gulp-replace");
-import merge = require("merge-stream");
-import minimist = require("minimist");
-import { basename, dirname, join, relative } from "upath";
-import { ApplyPatch } from "./gulp/ApplyPatch";
-import "./gulp/TaskFunction";
+import { EOL } from "node:os";
+import { fileURLToPath } from "node:url";
+import G from "glob";
+import GulpClient from "gulp";
+import rename from "gulp-rename";
+import replace from "gulp-replace";
+import merge from "merge-stream";
+import minimist from "minimist";
+import upath from "upath";
+import { ApplyPatch } from "./gulp/ApplyPatch.js";
+import "./gulp/TaskFunction.js";
 
+const { glob } = G;
+const { dest, parallel, series, src, watch } = GulpClient;
+const { basename, join, relative } = upath;
+
+let dirName = fileURLToPath(new URL(".", import.meta.url));
 let projectGeneratorName = "generator-ts-project";
 let customProjectGeneratorName = "generator-my-ts-project";
-let gitIgnoreFile = join(__dirname, ".gitignore");
-let npmIgnoreFile = join(__dirname, ".npmignore");
-let droneFile = join(__dirname, ".drone.yml");
-let changelogFile = join(__dirname, "CHANGELOG.md");
-let licenseFile = join(__dirname, "LICENSE");
+let gitIgnoreFile = join(dirName, ".gitignore");
+let npmIgnoreFile = join(dirName, ".npmignore");
+let droneFile = join(dirName, ".drone.yml");
+let changelogFile = join(dirName, "CHANGELOG.md");
+let licenseFile = join(dirName, "LICENSE");
 let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let customNPMDiffFile = GulpPath("npmignore.diff");
-let dotGitHubDir = join(__dirname, ".github");
-let dependabotFile = join(dotGitHubDir, "dependabot.yml");
+let dotGitHubDir = join(dirName, ".github");
 let workflowsDir = join(dotGitHubDir, "workflows");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
@@ -35,7 +40,7 @@ let options = minimist(process.argv.slice(2), { boolean: "watch" });
  */
 function GulpPath(...path: string[]): string
 {
-    return join(__dirname, "gulp", ...path);
+    return join(dirName, "gulp", ...path);
 }
 
 /**
@@ -49,7 +54,7 @@ function GulpPath(...path: string[]): string
  */
 function PackagePath(...path: string[]): string
 {
-    return join(__dirname, "packages", ...path);
+    return join(dirName, "packages", ...path);
 }
 
 /**
@@ -82,7 +87,6 @@ export let CopyFiles =
                     CopyDroneFile,
                     CopyChangelogFile,
                     CopyLicenseFile,
-                    CopyDependabotFile,
                     CopyWorkflows
                 ]),
             ...(
@@ -122,12 +126,6 @@ export let CopyFiles =
                                     licenseFile
                                 ],
                                 CopyLicenseFile);
-
-                            watch(
-                                [
-                                    dependabotFile
-                                ],
-                                CopyDependabotFile);
 
                             watch(
                                 [
@@ -263,19 +261,6 @@ export function CopyLicenseFile(): NodeJS.ReadWriteStream
 CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to the mono-repo packages.`;
 
 /**
- * Copies the dependabot configuration to the proper package.
- *
- * @returns
- * The task.
- */
-export function CopyDependabotFile(): NodeJS.ReadWriteStream
-{
-    return src(dependabotFile).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, dirname(dependabotFile)))));
-}
-
-CopyDependabotFile.description = "Copies the dependabot configuration to the proper mono-repo package.";
-
-/**
  * Copies the workflows to the proper package.
  *
  * @returns
@@ -283,7 +268,7 @@ CopyDependabotFile.description = "Copies the dependabot configuration to the pro
  */
 export function CopyWorkflows(): NodeJS.ReadWriteStream
 {
-    return src(join(workflowsDir, "**")).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(__dirname, workflowsDir))));
+    return src(join(workflowsDir, "**")).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(dirName, workflowsDir))));
 }
 
 CopyWorkflows.description = "Copies the workflows to the proper package.";

@@ -1,14 +1,14 @@
-import { notStrictEqual, ok, strictEqual } from "assert";
+import { notStrictEqual, ok, strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import { IExtensionSettings } from "../../VSCode/IExtensionSettings";
-import { ILaunchSettings } from "../../VSCode/ILaunchSettings";
-import { ITaskSettings } from "../../VSCode/ITaskSettings";
-import type { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor";
-import { TestJSONProcessor } from "../Components/TestJSONProcessor";
-import { TestContext } from "../TestContext";
-import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent";
-import { TestWorkspaceProcessor } from "./Components/TestWorkspaceProcessor";
-import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvider";
+import { IExtensionSettings } from "../../VSCode/IExtensionSettings.js";
+import { ILaunchSettings } from "../../VSCode/ILaunchSettings.js";
+import { ITaskSettings } from "../../VSCode/ITaskSettings.js";
+import type { WorkspaceProcessor } from "../../VSCode/WorkspaceProcessor.js";
+import { TestJSONProcessor } from "../Components/TestJSONProcessor.js";
+import { TestContext } from "../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./Components/TestCodeWorkspaceComponent.js";
+import { TestWorkspaceProcessor } from "./Components/TestWorkspaceProcessor.js";
+import { TestCodeWorkspaceProvider } from "./FileMappings/TestCodeWorkspaceProvider.js";
 
 /**
  * Registers tests for the {@link WorkspaceProcessor `WorkspaceProcessor<TSettings, TOptions>`} class.

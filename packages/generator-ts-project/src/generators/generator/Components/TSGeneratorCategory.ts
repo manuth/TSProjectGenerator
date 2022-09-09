@@ -1,22 +1,23 @@
-import { join } from "path";
+import { join } from "node:path";
 import { ComponentCategoryOptions, GeneratorOptions, IComponent, IFileMapping } from "@manuth/extended-yo-generator";
-import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { GeneratorClassFileMapping } from "../FileMappings/TypeScript/GeneratorClassFileMapping";
-import { GeneratorIndexFileMapping } from "../FileMappings/TypeScript/GeneratorIndexFileMapping";
-import { GeneratorTestFileMapping } from "../FileMappings/TypeScript/GeneratorTestFileMapping";
-import { LicenseTypeFileMapping } from "../FileMappings/TypeScript/LicenseTypeFileMapping";
-import { NamingContext } from "../FileMappings/TypeScript/NamingContext";
-import { SettingKeyFileMapping } from "../FileMappings/TypeScript/SettingKeyFileMapping";
-import { SettingsInterfaceFileMapping } from "../FileMappings/TypeScript/SettingsInterfaceFileMapping";
-import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey";
+import { DistinctQuestion } from "inquirer";
+import { SubGeneratorPrompt } from "../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { GeneratorClassFileMapping } from "../FileMappings/TypeScript/GeneratorClassFileMapping.js";
+import { GeneratorIndexFileMapping } from "../FileMappings/TypeScript/GeneratorIndexFileMapping.js";
+import { GeneratorTestFileMapping } from "../FileMappings/TypeScript/GeneratorTestFileMapping.js";
+import { LicenseTypeFileMapping } from "../FileMappings/TypeScript/LicenseTypeFileMapping.js";
+import { NamingContext } from "../FileMappings/TypeScript/NamingContext.js";
+import { SettingKeyFileMapping } from "../FileMappings/TypeScript/SettingKeyFileMapping.js";
+import { SettingsInterfaceFileMapping } from "../FileMappings/TypeScript/SettingsInterfaceFileMapping.js";
+import { ITSGeneratorSettings } from "../Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../Settings/TSGeneratorSettingKey.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSGeneratorGenerator } from "../TSGeneratorGenerator";
+import type { TSGeneratorGenerator } from "../TSGeneratorGenerator.js";
 
 /**
  * Provides general components for {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`}s.
@@ -104,7 +105,7 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
                     name: TSGeneratorSettingKey.SubGenerators,
                     message: "Please specify the details of the sub-generators to create",
                     defaultRepeat: false
-                }
+                } as DistinctQuestion<TSettings> as any
             ]
         };
     }
@@ -123,7 +124,13 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
      */
     protected GetGeneratorFileMappings(id: string, displayName: string): Array<IFileMapping<TSettings, TOptions>>
     {
-        let namingContext = new NamingContext(id, displayName, this.Generator.SourceRoot);
+        let readmeFileName = "README.md.ejs";
+
+        let namingContext = new NamingContext(
+            id,
+            displayName,
+            this.Generator.SourceRoot,
+            this.Generator.Settings[TSProjectSettingKey.ESModule]);
 
         return [
             new LicenseTypeFileMapping<TSettings, TOptions>(this.Generator, namingContext),
@@ -135,6 +142,10 @@ export class TSGeneratorCategory<TSettings extends ITSGeneratorSettings, TOption
             {
                 Source: join("generator", "templates"),
                 Destination: join("templates", id)
+            },
+            {
+                Source: () => this.Generator.commonTemplatePath(readmeFileName),
+                Destination: join("templates", id, readmeFileName)
             }
         ];
     }

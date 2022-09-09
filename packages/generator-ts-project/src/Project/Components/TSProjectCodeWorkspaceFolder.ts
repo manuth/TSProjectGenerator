@@ -1,13 +1,13 @@
 import { GeneratorOptions, IGenerator } from "@manuth/extended-yo-generator";
-import { JSONProcessor } from "../../Components/JSONProcessor";
-import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent";
-import { CodeWorkspaceProvider } from "../../VSCode/FileMappings/CodeWorkspaceProvider";
-import { WorkspaceFileLoader } from "../../VSCode/FileMappings/WorkspaceFileLoader";
-import { IWorkspaceMetadata } from "../../VSCode/IWorkspaceMetadata";
-import { ITSProjectSettings } from "../Settings/ITSProjectSettings";
+import { JSONProcessor } from "../../Components/JSONProcessor.js";
+import { CodeWorkspaceComponent } from "../../VSCode/Components/CodeWorkspaceComponent.js";
+import { CodeWorkspaceProvider } from "../../VSCode/FileMappings/CodeWorkspaceProvider.js";
+import { WorkspaceFileLoader } from "../../VSCode/FileMappings/WorkspaceFileLoader.js";
+import { IWorkspaceMetadata } from "../../VSCode/IWorkspaceMetadata.js";
+import { ITSProjectSettings } from "../Settings/ITSProjectSettings.js";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TSProjectGenerator } from "../TSProjectGenerator";
-import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcessor";
+import type { TSProjectGenerator } from "../TSProjectGenerator.js";
+import { TSProjectWorkspaceProcessor } from "../VSCode/TSProjectWorkspaceProcessor.js";
 
 /**
  * Provides a component for creating a vscode-workspace folder for {@link TSProjectGenerator `TSProjectGenerator<TSettings, TOptions>`}s.

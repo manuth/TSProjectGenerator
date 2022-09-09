@@ -1,7 +1,9 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { parse, stringify } from "comment-json";
-import { split } from "eol";
-import { TextConverter } from "./TextConverter";
+import eol from "eol";
+import { TextConverter } from "./TextConverter.js";
+
+const { split } = eol;
 
 /**
  * Provides the functionality to parse and dump `.json`-code.

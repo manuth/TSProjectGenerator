@@ -1,11 +1,11 @@
-import { doesNotReject, rejects } from "assert";
+import { doesNotReject, rejects } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { DependencyCollection, Package, PackageDependencyCollectionOptions } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
-import rescape = require("@stdlib/utils-escape-regexp-string");
-import { PackageFileMappingTester } from "../PackageFileMappingTester";
-import { TestConstants } from "./TestConstants";
+import rescape from "@stdlib/utils-escape-regexp-string";
+import { PackageFileMappingTester } from "../PackageFileMappingTester.js";
+import { TestConstants } from "./TestConstants.js";
 
 /**
  * Registers tests for the {@link PackageFileMappingTester `PackageFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class.
@@ -194,16 +194,7 @@ export function PackageFileMappingTesterTests(): void
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
-
-                            try
-                            {
-                                await tester.AssertScript(scriptName, (content) => content === script);
-                            }
-                            catch (exception)
-                            {
-                                console.log(exception);
-                            }
-
+                            await tester.AssertScript(scriptName, (content) => content === script);
                             await doesNotReject(() => tester.AssertScript(scriptName, (content) => content === script));
                             await rejects(() => tester.AssertScript(scriptName, () => false));
                         });

@@ -1,6 +1,6 @@
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { IDumper, IParser, TextConverter } from "@manuth/generator-ts-project";
-import { ParsableFileMappingTester } from "./ParsableFileMappingTester";
+import { ParsableFileMappingTester } from "./ParsableFileMappingTester.js";
 
 /**
  * Provides the functionality to test a file-mapping which is convertible.

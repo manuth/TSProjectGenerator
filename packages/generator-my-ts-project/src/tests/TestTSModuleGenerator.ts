@@ -1,6 +1,6 @@
 import { FileMappingCollectionEditor, GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
-import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator";
+import { MyTSModuleGenerator } from "../generators/module/MyTSModuleGenerator.js";
 
 /**
  * Provides an implementation of the {@link MyTSModuleGenerator `MyTSModuleGenerator<TSettings, TOptions>`} for testing.

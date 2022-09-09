@@ -1,10 +1,12 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { JSONCConverter, TextConverter } from "@manuth/generator-ts-project";
 import { TempFile } from "@manuth/temp-files";
-import { readFile } from "fs-extra";
-import { ConvertibleFileMappingTester } from "../ConvertibleFileMappingTester";
+import fs from "fs-extra";
+import { ConvertibleFileMappingTester } from "../ConvertibleFileMappingTester.js";
+
+const { readFile } = fs;
 
 /**
  * Registers tests for the {@link ConvertibleFileMappingTester `ConvertibleFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping, TParsed>`} class.

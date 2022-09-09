@@ -1,5 +1,5 @@
-import { IDumper } from "./IDumper";
-import { Parser } from "./Parser";
+import { IDumper } from "./IDumper.js";
+import { Parser } from "./Parser.js";
 
 /**
  * Provides the functionality to parse and dump text.

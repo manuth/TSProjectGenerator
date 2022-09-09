@@ -1,18 +1,20 @@
-import { doesNotReject, ok, strictEqual } from "assert";
-import { spawnSync } from "child_process";
-import ESLintPresets = require("@manuth/eslint-plugin-typescript");
+import { doesNotReject, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { PluginName, PresetName } from "@manuth/eslint-plugin-typescript";
 import { GeneratorOptions, GeneratorSettingKey } from "@manuth/extended-yo-generator";
-import { JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
+import { FileMappingTester, JavaScriptFileMappingTester } from "@manuth/extended-yo-generator-test";
 import { TempDirectory } from "@manuth/temp-files";
 import { Linter } from "eslint";
-import npmWhich = require("npm-which");
-import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping";
-import { LintRuleset } from "../../../Linting/LintRuleset";
-import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings";
-import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../../Project/TSProjectGenerator";
-import { TestContext } from "../../TestContext";
+import npmWhich from "npm-which";
+import { ESLintRCFileMapping } from "../../../Linting/FileMappings/ESLintRCFileMapping.js";
+import { LintRuleset } from "../../../Linting/LintRuleset.js";
+import { TSProjectPackageFileMapping } from "../../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { ITSProjectSettings } from "../../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectComponent } from "../../../Project/Settings/TSProjectComponent.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../../Project/TSProjectGenerator.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the  {@link ESLintRCFileMapping `ESLintRCFileMapping<TSettings, TOptions>`} class.
@@ -44,19 +46,27 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         ]
                     };
 
-                    let generatorContext = context.ExecuteGenerator();
-                    generatorContext.inDir(tempDir.FullName);
-                    await generatorContext;
-                    generator = generatorContext.generator;
+                    generator = context.CreateGenerator(
+                        TSProjectGenerator,
+                        [],
+                        {
+                            resolved: (await context.Generator).modulePath()
+                        });
+
+                    generator.destinationRoot(tempDir.FullName);
+                    Object.assign(generator.Settings, settings);
+                    await new FileMappingTester(generator, new TSProjectPackageFileMapping(generator)).Run();
 
                     let installationResult = spawnSync(
-                        npmWhich(__dirname).sync("npm"),
+                        npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm"),
                         [
                             "install",
-                            "--silent"
+                            "--silent",
+                            "--ignore-scripts"
                         ],
                         {
-                            cwd: generator.destinationPath()
+                            cwd: generator.destinationPath(),
+                            stdio: "ignore"
                         });
 
                     strictEqual(installationResult.status, 0);
@@ -69,7 +79,6 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                 {
                     this.timeout(10 * 1000);
                     tempDir.Dispose();
-                    context.InvalidateRequireCache();
                 });
 
             setup(
@@ -86,7 +95,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                         "Checking whether the proper file-name is returned…",
                         () =>
                         {
-                            strictEqual(ESLintRCFileMapping.FileName, ".eslintrc.js");
+                            strictEqual(ESLintRCFileMapping.FileName, ".eslintrc.cjs");
                         });
                 });
 
@@ -158,11 +167,11 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                 switch (ruleset)
                                 {
                                     case LintRuleset.Weak:
-                                        configName = ESLintPresets.PresetName.WeakWithTypeChecking;
+                                        configName = PresetName.WeakWithTypeChecking;
                                         break;
                                     case LintRuleset.Recommended:
                                     default:
-                                        configName = ESLintPresets.PresetName.RecommendedWithTypeChecking;
+                                        configName = PresetName.RecommendedWithTypeChecking;
                                         break;
                                 }
 
@@ -170,7 +179,7 @@ export function ESLintRCFileMappingTests(context: TestContext<TSProjectGenerator
                                     baseConfigs.some(
                                         (baseConfig) =>
                                         {
-                                            return baseConfig === `plugin:${ESLintPresets.PluginName}/${configName}`;
+                                            return baseConfig === `plugin:${PluginName}/${configName}`;
                                         }));
                             }
                         });

@@ -1,14 +1,9 @@
-import { Interface } from "readline";
-import { Answers, createPromptModule, DistinctQuestion, Question } from "inquirer";
-import { IQuestionSetQuestion } from "./IQuestionSetQuestion";
-import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions";
-import { NestedPrompt } from "./NestedPrompt";
-import { SetQuestion } from "./SetQuestion";
-
-/**
- * Represents an answer-hash.
- */
-type AnswerHash = Answers;
+import { Interface } from "node:readline";
+import inquirer, { Answers, DistinctQuestion, Question } from "inquirer";
+import { IQuestionSetQuestion } from "./IQuestionSetQuestion.js";
+import { IQuestionSetQuestionOptions } from "./IQuestionSetQuestionOptions.js";
+import { NestedPrompt } from "./NestedPrompt.js";
+import { SetQuestion } from "./SetQuestion.js";
 
 declare module "inquirer"
 {
@@ -21,7 +16,7 @@ declare module "inquirer"
         /**
          * Represents the question-collection prompt.
          */
-        [QuestionSetPrompt.TypeName]: IQuestionSetQuestion<AnswerHash, T>;
+        [QuestionSetPrompt.TypeName]: IQuestionSetQuestion<Answers, T>;
     }
 }
 
@@ -66,9 +61,9 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
      */
     protected async Prompt(): Promise<unknown>
     {
-        let questions: Array<SetQuestion<TAnswers, unknown>>;
+        let questions: Array<SetQuestion<TAnswers>>;
         let processedQuestions: Array<Question<TAnswers>> = [];
-        let promptModule = createPromptModule();
+        let promptModule = inquirer.createPromptModule();
 
         if (this.opt.promptTypes)
         {
@@ -89,7 +84,7 @@ export class QuestionSetPrompt<TAnswers extends Answers = Answers, TQuestion ext
 
         for (let question of questions)
         {
-            let overrides: Partial<DistinctQuestion<TAnswers>> = {};
+            let overrides: Partial<SetQuestion<TAnswers>> = {};
 
             for (
                 let key of [

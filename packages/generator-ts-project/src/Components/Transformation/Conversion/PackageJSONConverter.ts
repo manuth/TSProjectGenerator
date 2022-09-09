@@ -1,6 +1,6 @@
 import { IPackageJSON, Package } from "@manuth/package-json-editor";
-import { JSONCConverter } from "./JSONCConverter";
-import { TextConverter } from "./TextConverter";
+import { JSONCConverter } from "./JSONCConverter.js";
+import { TextConverter } from "./TextConverter.js";
 
 /**
  * Provides the functionality to parse and dump `package.json`-files.

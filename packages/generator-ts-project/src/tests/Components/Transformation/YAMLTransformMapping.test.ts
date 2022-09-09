@@ -1,12 +1,14 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestGenerator } from "@manuth/extended-yo-generator-test";
 import { YAMLFileMappingTester } from "@manuth/generator-ts-project-test";
 import { TempFile } from "@manuth/temp-files";
-import { writeFile } from "fs-extra";
+import fs from "fs-extra";
 import { Document, stringify } from "yaml";
-import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTransformMapping";
-import { TestContext } from "../../TestContext";
+import { YAMLTransformMapping } from "../../../Components/Transformation/YAMLTransformMapping.js";
+import { TestContext } from "../../TestContext.js";
+
+const{ writeFile } = fs;
 
 /**
  * Registers tests for the {@link YAMLTransformMapping `YAMLTransformMapping<TSettings, TOptions>`} class.

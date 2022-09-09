@@ -1,4 +1,4 @@
-import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey";
+import { SubGeneratorSettingKey } from "./SubGeneratorSettingKey.js";
 
 /**
  * Represents a sub-generator.

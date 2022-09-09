@@ -1,17 +1,19 @@
-import { join } from "path";
+import { join } from "node:path";
 import { GeneratorOptions, IFileMapping } from "@manuth/extended-yo-generator";
-import { whiteBright } from "chalk";
-import dedent = require("dedent");
-import yosay = require("yosay");
-import { GeneratorName } from "../../Core/GeneratorName";
-import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackagning/TSProjectPackageFileMapping";
-import { ISuiteContext } from "../../Project/FileMappings/TypeScript/ISuiteContext";
-import { ModuleIndexFileMapping } from "../../Project/FileMappings/TypeScript/ModuleIndexFileMapping";
-import { TestFileMapping } from "../../Project/FileMappings/TypeScript/TestFileMapping";
-import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings";
-import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey";
-import { TSProjectGenerator } from "../../Project/TSProjectGenerator";
-import { TSModulePackageFileMapping } from "./FileMappings/NPMPackaging/TSModulePackageFileMapping";
+import chalk from "chalk";
+import dedent from "dedent";
+import yosay from "yosay";
+import { GeneratorName } from "../../Core/GeneratorName.js";
+import { TSProjectPackageFileMapping } from "../../Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
+import { ISuiteContext } from "../../Project/FileMappings/TypeScript/ISuiteContext.js";
+import { ModuleIndexFileMapping } from "../../Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
+import { TestFileMapping } from "../../Project/FileMappings/TypeScript/TestFileMapping.js";
+import { ITSProjectSettings } from "../../Project/Settings/ITSProjectSettings.js";
+import { TSProjectSettingKey } from "../../Project/Settings/TSProjectSettingKey.js";
+import { TSProjectGenerator } from "../../Project/TSProjectGenerator.js";
+import { TSModulePackageFileMapping } from "./FileMappings/NPMPackaging/TSModulePackageFileMapping.js";
+
+const { whiteBright } = chalk;
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
@@ -103,7 +105,7 @@ export class TSModuleGenerator<TSettings extends ITSProjectSettings = ITSProject
                 }
             }(this),
             {
-                Source: `${readmeFileName}.ejs`,
+                Source: () => this.commonTemplatePath(`${readmeFileName}.ejs`),
                 Destination: readmeFileName,
                 Context: () =>
                 {

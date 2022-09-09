@@ -1,11 +1,12 @@
-import { EOL } from "os";
-import { basename, dirname, isAbsolute, relative, resolve } from "path";
-import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, IGeneratorSettings, Question } from "@manuth/extended-yo-generator";
-import { whiteBright } from "chalk";
+import { EOL } from "node:os";
+import { basename, isAbsolute, resolve } from "node:path";
+import { Generator, GeneratorOptions, IComponent, IComponentCategory, IComponentCollection, IFileMapping, IGenerator, Question } from "@manuth/extended-yo-generator";
+import chalk from "chalk";
 import { ChoiceOptions, ListQuestion } from "inquirer";
-import { ConstructorDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
-import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping";
-import { NamingContext } from "./NamingContext";
+import { ConstructorDeclarationStructure, ImportDeclarationStructure, OptionalKind, printNode, Scope, SourceFile, SyntaxKind, ts } from "ts-morph";
+import { ITSProjectSettings } from "../../../../Project/Settings/ITSProjectSettings.js";
+import { GeneratorTypeScriptMapping } from "./GeneratorTypeScriptMapping.js";
+import { NamingContext } from "./NamingContext.js";
 
 /**
  * Provides the functionality to create a file which provides license-types.
@@ -16,7 +17,7 @@ import { NamingContext } from "./NamingContext";
  * @template TOptions
  * The type of the options of the generator.
  */
-export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
+export class GeneratorClassFileMapping<TSettings extends ITSProjectSettings, TOptions extends GeneratorOptions> extends GeneratorTypeScriptMapping<TSettings, TOptions>
 {
     /**
      * Initializes a new instance of the {@link GeneratorClassFileMapping `GeneratorClassFileMapping<TSettings, TOptions>`} class.
@@ -51,79 +52,95 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
      */
     protected override async Transform(sourceFile: SourceFile): Promise<SourceFile>
     {
+        let importDeclarations: Array<OptionalKind<ImportDeclarationStructure>> = [];
+
+        let dynamicImports: Array<[string, string]> = [
+            [
+                "chalk",
+                this.NamingContext.ChalkName
+            ],
+            [
+                "dedent",
+                this.NamingContext.DedentName
+            ],
+            [
+                "yosay",
+                this.NamingContext.YoSayName
+            ]
+        ];
+
+        let fileImports: Array<[string, string]> = [
+            [
+                this.NamingContext.SettingKeyFileName,
+                this.NamingContext.SettingKeyEnumName
+            ],
+            [
+                this.NamingContext.SettingsInterfaceFileName,
+                this.NamingContext.SettingsInterfaceName
+            ],
+            [
+                this.NamingContext.LicenseTypeFileName,
+                this.NamingContext.LicenseTypeEnumName
+            ]
+        ];
+
         sourceFile = await super.Transform(sourceFile);
 
-        sourceFile.addImportDeclarations(
-            [
-                {
-                    moduleSpecifier: "chalk",
-                    namedImports: [
-                        nameof(whiteBright)
-                    ]
-                },
-                {
-                    moduleSpecifier: "@manuth/extended-yo-generator",
-                    namedImports: [
-                        nameof<Generator>(),
-                        nameof<GeneratorOptions>(),
-                        nameof<IComponentCollection<any, any>>(),
-                        nameof<Question>()
-                    ]
-                },
-                {
-                    moduleSpecifier: "path",
-                    namedImports: [
-                        nameof(basename),
-                        nameof(isAbsolute),
-                        nameof(resolve)
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.SettingKeyFileName)),
-                    namedImports: [
-                        this.NamingContext.SettingKeyEnumName
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.SettingsInterfaceFileName)),
-                    namedImports: [
-                        this.NamingContext.SettingsInterfaceName
-                    ]
-                },
-                {
-                    moduleSpecifier: sourceFile.getRelativePathAsModuleSpecifierTo(
-                        relative(
-                            dirname(this.Destination),
-                            this.NamingContext.LicenseTypeFileName)),
-                    namedImports: [
-                        this.NamingContext.LicenseTypeEnumName
-                    ]
-                }
-            ]);
+        importDeclarations.push(
+            {
+                moduleSpecifier: "@manuth/extended-yo-generator",
+                namedImports: [
+                    nameof<Generator>(),
+                    nameof<GeneratorOptions>(),
+                    nameof<IComponentCollection<any, any>>(),
+                    nameof<Question>()
+                ]
+            },
+            {
+                moduleSpecifier: "node:path",
+                namedImports: [
+                    nameof(basename),
+                    nameof(isAbsolute),
+                    nameof(resolve)
+                ]
+            });
 
-        sourceFile.addStatements(
-            [
-                printNode(
-                    ts.factory.createImportEqualsDeclaration(
-                        [],
-                        [],
-                        false,
-                        this.NamingContext.DedentName,
-                        ts.factory.createExternalModuleReference(ts.factory.createStringLiteral("dedent")))),
-                printNode(
-                    ts.factory.createImportEqualsDeclaration(
-                        [],
-                        [],
-                        false,
-                        this.NamingContext.YoSayName,
-                        ts.factory.createExternalModuleReference(ts.factory.createStringLiteral("yosay"))))
-            ]);
+        for (let fileImport of fileImports)
+        {
+            importDeclarations.push(
+                {
+                    ...await this.GetImportDeclaration(fileImport[0]),
+                    namedImports: [
+                        fileImport[1]
+                    ]
+                });
+        }
+
+        if (this.ESModule)
+        {
+            for (let dynamicImport of dynamicImports)
+            {
+                importDeclarations.push(
+                    {
+                        moduleSpecifier: dynamicImport[0],
+                        defaultImport: dynamicImport[1]
+                    });
+            }
+        }
+        else
+        {
+            sourceFile.addStatements(
+                dynamicImports.map(
+                    (entry) => printNode(
+                        ts.factory.createImportEqualsDeclaration(
+                            [],
+                            false,
+                            entry[1],
+                            ts.factory.createExternalModuleReference(
+                                ts.factory.createStringLiteral(entry[0]))))));
+        }
+
+        sourceFile.addImportDeclarations(importDeclarations);
 
         let generatorClass = sourceFile.addClass(
             {
@@ -249,7 +266,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                             [
                                                                 ts.factory.createParameterDeclaration(
                                                                     [],
-                                                                    [],
                                                                     undefined,
                                                                     inputParamName)
                                                             ],
@@ -325,7 +341,6 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                             [],
                                                             [
                                                                 ts.factory.createParameterDeclaration(
-                                                                    [],
                                                                     [],
                                                                     undefined,
                                                                     answersParamName,
@@ -612,7 +627,9 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                                     [
                                                         ts.factory.createTemplateSpan(
                                                             ts.factory.createCallExpression(
-                                                                ts.factory.createIdentifier(nameof(whiteBright)),
+                                                                ts.factory.createPropertyAccessExpression(
+                                                                    ts.factory.createIdentifier(this.NamingContext.ChalkName),
+                                                                    nameof(chalk.whiteBright)),
                                                                 [],
                                                                 [
                                                                     ts.factory.createStringLiteral(this.NamingContext.GeneratorDisplayName)
@@ -672,7 +689,7 @@ export class GeneratorClassFileMapping<TSettings extends IGeneratorSettings, TOp
                                 let indentation = " ".repeat(4 * 4);
 
                                 return ts.factory.createTemplateExpression(
-                                    ts.factory.createTemplateHead(`${EOL}${indentation}Your project is ready!${EOL}${EOL}${indentation}It lives in "`),
+                                    ts.factory.createTemplateHead(undefined, `${EOL}${indentation}Your project is ready!${EOL}${EOL}${indentation}It lives in "`),
                                     [
                                         ts.factory.createTemplateSpan(
                                             ts.factory.createElementAccessExpression(

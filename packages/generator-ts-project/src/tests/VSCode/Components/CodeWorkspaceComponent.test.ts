@@ -1,10 +1,10 @@
-import { strictEqual } from "assert";
+import { strictEqual } from "node:assert";
 import { GeneratorOptions, IGeneratorSettings } from "@manuth/extended-yo-generator";
-import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent";
-import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata";
-import { TestJSONProcessor } from "../../Components/TestJSONProcessor";
-import { TestContext } from "../../TestContext";
-import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent";
+import type { CodeWorkspaceComponent } from "../../../VSCode/Components/CodeWorkspaceComponent.js";
+import { IWorkspaceMetadata } from "../../../VSCode/IWorkspaceMetadata.js";
+import { TestJSONProcessor } from "../../Components/TestJSONProcessor.js";
+import { TestContext } from "../../TestContext.js";
+import { TestCodeWorkspaceComponent } from "./TestCodeWorkspaceComponent.js";
 
 /**
  * Registers tests for the {@link CodeWorkspaceComponent `CodeWorkspaceComponent<TSettings, TOptions>`} class.

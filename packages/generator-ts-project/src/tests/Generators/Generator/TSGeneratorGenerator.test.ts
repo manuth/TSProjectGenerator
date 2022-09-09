@@ -1,19 +1,21 @@
-import { doesNotReject, strictEqual } from "assert";
-import { spawnSync } from "child_process";
+import { doesNotReject, ok, strictEqual } from "node:assert";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { GeneratorSettingKey } from "@manuth/extended-yo-generator";
 import { IRunContext, TestContext as GeneratorContext } from "@manuth/extended-yo-generator-test";
+import { PackageType } from "@manuth/package-json-editor";
 import { TempDirectory } from "@manuth/temp-files";
-import npmWhich = require("npm-which");
-import { Project, SyntaxKind } from "ts-morph";
-import { GeneratorName } from "../../../Core/GeneratorName";
-import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext";
-import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings";
-import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey";
-import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent";
-import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey";
-import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator";
-import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey";
-import { TestContext } from "../../TestContext";
+import Mocha from "mocha";
+import npmWhich from "npm-which";
+import { GeneratorName } from "../../../Core/GeneratorName.js";
+import { NamingContext } from "../../../generators/generator/FileMappings/TypeScript/NamingContext.js";
+import { ITSGeneratorSettings } from "../../../generators/generator/Settings/ITSGeneratorSettings.js";
+import { SubGeneratorSettingKey } from "../../../generators/generator/Settings/SubGeneratorSettingKey.js";
+import { TSGeneratorComponent } from "../../../generators/generator/Settings/TSGeneratorComponent.js";
+import { TSGeneratorSettingKey } from "../../../generators/generator/Settings/TSGeneratorSettingKey.js";
+import { TSGeneratorGenerator } from "../../../generators/generator/TSGeneratorGenerator.js";
+import { TSProjectSettingKey } from "../../../Project/Settings/TSProjectSettingKey.js";
+import { TestContext } from "../../TestContext.js";
 
 /**
  * Registers tests for the {@link TSGeneratorGenerator `TSGeneratorGenerator<TSettings, TOptions>`} class.
@@ -27,17 +29,16 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
         nameof(TSGeneratorGenerator),
         () =>
         {
+            let npmPath: string;
             let tempDir: TempDirectory;
-            let runContext: IRunContext<TSGeneratorGenerator>;
-            let testContext: IRunContext<TSGeneratorGenerator>;
-            let generator: TSGeneratorGenerator;
             let settings: ITSGeneratorSettings;
             context.RegisterWorkingDirRestorer();
 
             suiteSetup(
                 async function()
                 {
-                    this.timeout(5 * 60 * 1000);
+                    this.timeout(30 * 1000);
+                    npmPath = npmWhich(fileURLToPath(new URL(".", import.meta.url))).sync("npm");
 
                     settings = {
                         ...(await context.Generator).Settings,
@@ -57,175 +58,212 @@ export function TSGeneratorGeneratorTests(context: TestContext<TSGeneratorGenera
                             }
                         ]
                     };
-
-                    runContext = context.ExecuteGenerator();
-                    runContext.withPrompts(settings);
-                    await runContext.toPromise();
-                    generator = runContext.generator;
-
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "install",
-                            "--silent"
-                        ],
-                        {
-                            cwd: generator.destinationPath()
-                        });
-
-                    spawnSync(
-                        npmWhich(__dirname).sync("npm"),
-                        [
-                            "run",
-                            "build"
-                        ],
-                        {
-                            cwd: generator.destinationPath()
-                        });
-                });
-
-            suiteTeardown(
-                function()
-                {
-                    this.timeout(1 * 60 * 1000);
-                    runContext.cleanTestDirectory();
                 });
 
             setup(
-                async function()
+                async () =>
                 {
-                    this.timeout(5 * 60 * 1000);
                     tempDir = new TempDirectory();
-                    testContext = context.ExecuteGenerator();
-                    await testContext.toPromise();
                 });
 
             teardown(
                 function()
                 {
-                    this.timeout(1 * 60 * 1000);
-                    testContext.cleanTestDirectory();
+                    this.timeout(10 * 1000);
+                    tempDir.Dispose();
                 });
 
-            suite(
-                "General",
-                () =>
-                {
-                    test(
-                        "Checking whether the generated project can be installed…",
-                        function()
-                        {
-                            this.timeout(10 * 60 * 1000);
-                            this.slow(5 * 60 * 1000);
+            for (let esModule of [true, false])
+            {
+                let packageType = esModule ? nameof(PackageType.ESModule) : nameof(PackageType.CommonJS);
 
-                            let installationResult = spawnSync(
-                                npmWhich(__dirname).sync("npm"),
-                                [
-                                    "install",
-                                    "--silent"
-                                ],
-                                {
-                                    cwd: testContext.generator.destinationPath()
-                                });
+                suite(
+                    packageType,
+                    () =>
+                    {
+                        let runContext: IRunContext<TSGeneratorGenerator>;
+                        let generator: TSGeneratorGenerator;
 
-                            let buildResult = spawnSync(
-                                npmWhich(__dirname).sync("npm"),
-                                [
-                                    "run",
-                                    "build"
-                                ],
-                                {
-                                    cwd: testContext.generator.destinationPath()
-                                });
-
-                            strictEqual(installationResult.status, 0);
-                            strictEqual(buildResult.status, 0);
-                        });
-
-                    test(
-                        "Checking whether the main generator can be executed…",
-                        async function()
-                        {
-                            this.timeout(1 * 60 * 1000);
-                            this.slow(30 * 1000);
-                            let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, GeneratorName.Main)));
-                            return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
-                        });
-
-                    test(
-                        "Checking whether the sub-generators can be executed…",
-                        async function()
-                        {
-                            this.timeout(20 * 1000);
-                            this.slow(10 * 1000);
-
-                            for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
+                        suiteSetup(
+                            async function()
                             {
-                                let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, subGeneratorOptions[SubGeneratorSettingKey.Name])));
-                                await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
-                            }
-                        });
+                                this.timeout(5 * 60 * 1000);
 
-                    test(
-                        "Checking whether mocha can be executed…",
-                        function()
-                        {
-                            this.timeout(8 * 1000);
-                            this.slow(4 * 1000);
+                                runContext = context.ExecuteGenerator();
 
-                            let result = spawnSync(
-                                npmWhich(generator.destinationPath()).sync("mocha"),
-                                {
-                                    cwd: generator.destinationPath()
-                                });
+                                runContext.withPrompts(
+                                    {
+                                        ...settings,
+                                        [TSProjectSettingKey.ESModule]: esModule
+                                    });
 
-                            strictEqual(result.status, 0);
-                        });
-                });
+                                await runContext.toPromise();
+                                generator = runContext.generator;
 
-            suite(
-                nameof<TSGeneratorGenerator>((generator) => generator.FileMappings),
-                () =>
-                {
-                    test(
-                        "Checking whether all tests of the generated project are being included…",
-                        () =>
-                        {
-                            let sourceFile = new Project().addSourceFileAtPath(generator.destinationPath("src", "tests", "Generators", "index.ts"));
+                                spawnSync(
+                                    npmPath,
+                                    [
+                                        "install",
+                                        "--silent"
+                                    ],
+                                    {
+                                        cwd: generator.destinationPath(),
+                                        stdio: "ignore"
+                                    });
 
-                            let functionCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(
-                                (functionCall) =>
-                                {
-                                    return functionCall.getExpression().getText() === nameof(require);
-                                });
+                                spawnSync(
+                                    npmPath,
+                                    [
+                                        "run",
+                                        "build"
+                                    ],
+                                    {
+                                        cwd: generator.destinationPath(),
+                                        stdio: "ignore"
+                                    });
+                            });
 
-                            for (
-                                let generatorName of
-                                [
-                                    GeneratorName.Main,
-                                    ...generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
-                                        (subGenerator) =>
-                                        {
-                                            return subGenerator[SubGeneratorSettingKey.Name];
-                                        })
-                                ])
+                        suite(
+                            "General",
+                            () =>
                             {
-                                strictEqual(
-                                    functionCalls.filter(
-                                        (functionCall) =>
+                                test(
+                                    "Checking whether the generated project can be installed and built…",
+                                    function()
+                                    {
+                                        this.timeout(10 * 60 * 1000);
+                                        this.slow(5 * 60 * 1000);
+
+                                        let installationResult = spawnSync(
+                                            npmPath,
+                                            [
+                                                "install",
+                                                "--silent"
+                                            ],
+                                            {
+                                                cwd: generator.destinationPath(),
+                                                stdio: "ignore"
+                                            });
+
+                                        let buildResult = spawnSync(
+                                            npmPath,
+                                            [
+                                                "run",
+                                                "build"
+                                            ],
+                                            {
+                                                cwd: generator.destinationPath(),
+                                                stdio: "ignore"
+                                            });
+
+                                        strictEqual(installationResult.status, 0);
+                                        strictEqual(buildResult.status, 0);
+                                    });
+
+                                test(
+                                    "Checking whether the main generator can be executed…",
+                                    async function()
+                                    {
+                                        this.timeout(1 * 60 * 1000);
+                                        this.slow(30 * 1000);
+                                        let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, GeneratorName.Main)));
+                                        return doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                                    });
+
+                                test(
+                                    "Checking whether the sub-generators can be executed…",
+                                    async function()
+                                    {
+                                        this.timeout(20 * 1000);
+                                        this.slow(10 * 1000);
+
+                                        for (let subGeneratorOptions of settings[TSGeneratorSettingKey.SubGenerators])
                                         {
-                                            let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot);
-                                            let argument = functionCall.getArguments()[0];
+                                            let testContext = new TestContext(new GeneratorContext(GeneratorPath(generator, subGeneratorOptions[SubGeneratorSettingKey.Name])));
+                                            await doesNotReject(async () => testContext.ExecuteGenerator().inDir(tempDir.FullName).toPromise());
+                                        }
+                                    });
 
-                                            return argument.getKind() === SyntaxKind.StringLiteral &&
-                                                argument.asKind(SyntaxKind.StringLiteral).getLiteralValue().endsWith(`/${namingContext.GeneratorClassName}.test`);
-                                        }).length,
-                                    1);
-                            }
+                                test(
+                                    "Checking whether mocha can be executed…",
+                                    function()
+                                    {
+                                        this.timeout(8 * 1000);
+                                        this.slow(4 * 1000);
 
-                            sourceFile.forget();
-                        });
-                });
+                                        let result = spawnSync(
+                                            npmWhich(generator.destinationPath()).sync("mocha"),
+                                            {
+                                                cwd: generator.destinationPath(),
+                                                stdio: "ignore"
+                                            });
+
+                                        strictEqual(result.status, 0);
+                                    });
+                            });
+
+                        suite(
+                            nameof<TSGeneratorGenerator>((generator) => generator.FileMappings),
+                            () =>
+                            {
+                                test(
+                                    "Checking whether all tests of the generated project are being included…",
+                                    async function()
+                                    {
+                                        this.timeout(4 * 1000);
+                                        this.slow(2 * 1000);
+                                        let suiteNames: string[] = [];
+
+                                        let mocha = new Mocha(
+                                            {
+                                                ui: "tdd",
+                                                dryRun: true,
+                                                reporter: class extends Mocha.reporters.Base
+                                                {
+                                                    /**
+                                                     * @inheritdoc
+                                                     *
+                                                     * @param runner
+                                                     * The mocha runner.
+                                                     *
+                                                     * @param options
+                                                     * The options which were passed to mocha.
+                                                     */
+                                                    public constructor(runner: Mocha.Runner, options: Mocha.MochaOptions)
+                                                    {
+                                                        super(runner, options);
+                                                        runner.on(
+                                                            "suite",
+                                                            () =>
+                                                            {
+                                                                suiteNames.push(runner.suite.title);
+                                                            });
+                                                    }
+                                                }
+                                            });
+
+                                        mocha.addFile(generator.destinationPath("lib", "tests", "main.test.js"));
+                                        await mocha.loadFilesAsync();
+                                        await new Promise((resolve) => mocha.run(resolve));
+
+                                        for (
+                                            let generatorName of
+                                            [
+                                                GeneratorName.Main,
+                                                ...generator.Settings[TSGeneratorSettingKey.SubGenerators].map(
+                                                    (subGenerator) =>
+                                                    {
+                                                        return subGenerator[SubGeneratorSettingKey.Name];
+                                                    })
+                                            ])
+                                        {
+                                            let namingContext = new NamingContext(generatorName, context.RandomString, generator.SourceRoot, true);
+                                            ok(suiteNames.includes(namingContext.GeneratorClassName));
+                                        }
+                                    });
+                            });
+                    });
+            }
         });
 }
 

@@ -1,9 +1,10 @@
-import { ok, strictEqual } from "assert";
-import { DistinctQuestion, prompt, registerPrompt, restoreDefaultPrompts } from "inquirer";
-import mock = require("mock-require");
-import { SubGeneratorPrompt } from "../../../../Components/Inquiry/Prompts/SubGeneratorPrompt";
-import { ISubGenerator } from "../../../../generators/generator/Settings/ISubGenerator";
-import { TestContext } from "../../../TestContext";
+import { ok, strictEqual } from "node:assert";
+import { createRequire } from "node:module";
+import inquirer, { DistinctQuestion } from "inquirer";
+import mock from "mock-require";
+import { SubGeneratorPrompt } from "../../../../Components/Inquiry/Prompts/SubGeneratorPrompt.js";
+import { ISubGenerator } from "../../../../generators/generator/Settings/ISubGenerator.js";
+import { TestContext } from "../../../TestContext.js";
 
 /**
  * Provides tests for the {@link SubGeneratorPrompt `SubGeneratorPrompt<T>`} class.
@@ -42,10 +43,10 @@ export function SubGeneratorPromptTests(): void
                 () =>
                 {
                     length = context.Random.integer(1, 10);
-                    context.RegisterTestPrompt(prompt);
-                    context.RegisterTestPrompt(prompt, "confirm");
-                    mock(inquirerModuleName, require.resolve(inquirerModuleName));
-                    registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
+                    context.RegisterTestPrompt(inquirer.prompt);
+                    context.RegisterTestPrompt(inquirer.prompt, "confirm");
+                    mock(inquirerModuleName, createRequire(import.meta.url).resolve(inquirerModuleName));
+                    inquirer.registerPrompt(SubGeneratorPrompt.TypeName, SubGeneratorPrompt);
                     repeat = (answers) => (answers[testKey] as ISubGenerator[]).length < length;
 
                     questions = [
@@ -60,7 +61,7 @@ export function SubGeneratorPromptTests(): void
             teardown(
                 () =>
                 {
-                    restoreDefaultPrompts();
+                    inquirer.restoreDefaultPrompts();
                     mock.stop(inquirerModuleName);
                 });
 
@@ -74,7 +75,7 @@ export function SubGeneratorPromptTests(): void
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
-                            let result = await prompt(questions);
+                            let result = await inquirer.prompt(questions);
                             let value = result[testKey] as ISubGenerator[];
                             ok(nameof<ISubGenerator>((g) => g.name) in value[0]);
                             ok(nameof<ISubGenerator>((g) => g.displayName) in value[0]);
@@ -86,7 +87,7 @@ export function SubGeneratorPromptTests(): void
                         {
                             this.timeout(4 * 1000);
                             this.slow(2 * 1000);
-                            let result = await prompt(questions);
+                            let result = await inquirer.prompt(questions);
                             let value = result[testKey] as ISubGenerator[];
                             strictEqual(value.length, length);
                         });
