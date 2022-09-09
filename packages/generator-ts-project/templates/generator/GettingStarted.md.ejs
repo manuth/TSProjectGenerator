@@ -8,13 +8,12 @@ This workspace allows you to easily create yeoman generators written in TypeScri
 
 ## What's in the folder?
 <%
-// <!-- markdownlint-disable blanks-around-lists -->
-    if (HasCodeWorkspace) { %>
+/*<!-- markdownlint-disable blanks-around-lists -->*/ %><%
+%><% if (HasCodeWorkspace) { %>
 - `.vscode`  
-  This folder contains settings and build-task configurations for VSCode.<%
-    }
+  This folder contains settings and build-task configurations for VSCode. <%
 // <!-- markdownlint-restore -->
-%>
+%><% } %>
 - `src`  
   This is where you program your module in TypeScript.  
   The TypeScript-Compiler is configured to use this folder as the root of your source-code.
@@ -25,11 +24,11 @@ This workspace allows you to easily create yeoman generators written in TypeScri
 - `tsconfig.json`  
   This is the file where the compiler-options are configured.  
   [Learn more…][TypeScriptConfig]<%
-    if (HasLinting) { %>
+%><% if (HasLinting) { %>
 - `.eslintrc.js`
   This file mostly holds rules for your coding-style.  
   [Learn more…][LintConfig]<%
-    } %>
+%><% } %>
 
 ## Working with the Library
 
@@ -46,13 +45,19 @@ which you can import from the `@manuth/extended-yo-generator` module.
 ```ts
 import { Generator } from "@manuth/extended-yo-generator";
 
-export <% if (ESModule) { %>default<% } else { %>=<% } %> class MyGenerator extends Generator
+export <%
+%><% if (ESModule) {
+    %>default
+<%
+  } else {
+    %>=<% } %><%
+%> class MyGenerator extends Generator
 {
     // […]
 }
 ```
 
-You can invoke your newly created generator by specifying its name as a sub-command:
+You can **invoke** your newly created generator by specifying its name as a sub-command:
 <%
 // <!-- markdownlint-disable blanks-around-fences -->
 %>
@@ -61,8 +66,8 @@ yo <%- ID %>:test
 ```
 <%
 // <!-- markdownlint-restore -->
-    if (SubGenerators.length > 0) {
-        if (SubGenerators.length > 1) {
+%><% if (SubGenerators.length > 0) { %><%
+%><%    if (SubGenerators.length > 1) { %><%
             let generators = Array.from(SubGenerators).map(generator => `\`${generator.Path}\``);
             let last = generators.splice(generators.length - 1);
 %>
@@ -70,23 +75,22 @@ There are example sub-generators located at
 <%- generators.join(", ") %> and
 <%- last %>, btw.
 <%
-        } else {
+%><%    } else { %><%
 // <!-- markdownlint-disable no-space-in-code -->
+// <!-- markdownlint-disable line-length -->
 %>
-There is an example sub-generator located at `<%- SubGenerators[0].Path %>`, btw.
+There is an **example** sub-generator located at `<%- SubGenerators[0].Path %>`, btw.
 <%
 // <!-- markdownlint-restore -->
-        }
-    }
-
-    if (HasGenerator) { %>
+%><%    } %><%
+%><% } %><%
+%><% if (HasGenerator) { %>
 ### Checking out the Example Generator
 
 In your `src/generators/app` directory you can find an example generator.
 Check it out in order to learn how to make
 use of the `@manuth/extended-yo-generator` module.
-<%
-    } else { %>
+<% } else { %>
 ### Creating a Main Generator
 
 The main generator always is located at `src/generators/app`.  
@@ -95,8 +99,7 @@ It is invoked when no subcommand is specified.
 
 The generator is created as explained in the
 [Creating a Generator](#creating-a-generator) section.
-<%
-    } %>
+<% } %>
 ### Editing Generators
 
 Use the IntelliSense of your TypeScript-editor for getting
@@ -114,15 +117,14 @@ more information about the different useful class members such as following:
 ### Testing the Generator
 <%
 // <!-- markdownlint-restore -->
-    if (HasCodeWorkspace) { %>
+%><% if (HasCodeWorkspace) { %>
 #### Using Visual Studio Code
 
 You can test the generator in Visual Studio Code
 by running the `Launch Yeoman`-Debug configuration.  
 This project also supports Unit-Tests using `mocha`.
 You can run them using the `Launch Tests`-configuration.
-<%
-    } %>
+<% } %>
 #### Using the Command Prompt
 
 First you need to create a symbolic link of
@@ -154,29 +156,30 @@ npm run rebuild
 ```
 
 You can then run your generator by invoking<%
-    if (SubGenerators.length > 0) {
+%><% if (SubGenerators.length > 0) { %><%
 %> either one of these commands:
 
 ```bash
 npx yo <%- ID %><%
-        for (let subGenerator of SubGenerators) { %>
+%><%    for (let subGenerator of SubGenerators) { %>
 npx yo <%- ID %>:<%- subGenerator.Name %><%
-        } %>
+%><%    } %><%
 // <!-- markdownlint-disable blanks-around-fences -->
+%>
 ```
-<%
-    } else {
+<% } else { %><%
 %> following command:
 
 ```bash
 npx yo <%- ID %>
 ```
-<%
-    }
+<% } %><%
 // <!-- markdownlint-restore -->
 %>
 <!--- References -->
 [TypeScriptConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html<%
-    if (HasLinting) { %>
+%><% if (HasLinting) { %><%
+// <!-- markdownlint-disable no-bare-urls -->
+%>
 [LintConfig]: https://eslint.org/docs/user-guide/configuring<%
-    } %>
+%><% } %>
