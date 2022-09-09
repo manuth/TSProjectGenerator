@@ -1,13 +1,16 @@
-import { doesNotReject, doesNotThrow, strictEqual } from "node:assert";
+import { doesNotReject, doesNotThrow, ok, strictEqual } from "node:assert";
 import { createRequire } from "node:module";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptCreatorMapping } from "@manuth/generator-ts-project";
 import { PackageType } from "@manuth/package-json-editor";
 import { TempFile } from "@manuth/temp-files";
+import fs from "fs-extra";
 import { SourceFile } from "ts-morph";
 import { ICompilationResult } from "../TypeScript/ICompilationResult.js";
 import { TypeScriptFileMappingTester } from "../TypeScriptFileMappingTester.js";
+
+const { pathExists } = fs;
 
 /**
  * Registers tests for the {@link TypeScriptFileMappingTester `TypeScriptFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} class for testing.
@@ -75,12 +78,15 @@ export function TypeScriptFileMappingTesterTests(): void
                  * @returns
                  * An object containing information about the compilation.
                  */
-                public override Compile(esModule: boolean): Promise<ICompilationResult>
+                public override async Compile(esModule: boolean): Promise<ICompilationResult>
                 {
-                    return super.Compile(esModule);
+                    let result = await super.Compile(esModule);
+                    outDir = result.TempDirectory.FullName;
+                    return result;
                 }
             }
 
+            let outDir: string;
             let transformer: TestTypeScriptCreatorMapping["Transform"];
 
             suiteSetup(
@@ -121,6 +127,25 @@ export function TypeScriptFileMappingTesterTests(): void
                 {
                     outputFile.Dispose();
                 });
+
+            /**
+             * Registers a test for checking whether the files compiled by the {@link TypeScriptFileMappingTester `TypeScriptFileMappingTester<TGenerator, TSettings, TOptions, TFileMapping>`} have been deleted.
+             *
+             * @param action
+             * The action which has been executed.
+             */
+            function RegisterCleanupTest(action: string): void
+            {
+                test(
+                    `Checking whether the compilation output is deleted after ${action} the file…`,
+                    async function()
+                    {
+                        this.timeout(30 * 1000);
+                        this.slow(15 * 1000);
+                        await tester.Require();
+                        ok(!await pathExists(outDir));
+                    });
+            }
 
             suite(
                 nameof<TestTypeScriptFileMappingTester>((tester) => tester.Compile),
@@ -177,6 +202,8 @@ export function TypeScriptFileMappingTesterTests(): void
                             await tester.Require();
                             strictEqual(Object.keys(tester.NodeRequire.cache).length, 0);
                         });
+
+                    RegisterCleanupTest("requiring");
                 });
 
             suite(
@@ -191,6 +218,8 @@ export function TypeScriptFileMappingTesterTests(): void
                             this.slow(15 * 1000);
                             strictEqual((await tester.Import()).default, testValue);
                         });
+
+                    RegisterCleanupTest("importing");
                 });
 
             suite(
@@ -205,6 +234,8 @@ export function TypeScriptFileMappingTesterTests(): void
                             this.slow(15 * 1000);
                             strictEqual(await tester.ImportDefault(), testValue);
                         });
+
+                    RegisterCleanupTest("default importing");
                 });
         });
 }
