@@ -1,5 +1,4 @@
 export { GeneratorName } from "@manuth/generator-ts-project";
-export { DependabotFileMapping } from "./DependabotFileMapping.js";
 export { DroneFileMapping } from "./DroneFileMapping.js";
 export { MarkdownFileProcessor } from "./MarkdownFileProcessor.js";
 export { MyGeneratorComponent } from "./MyGeneratorComponent.js";

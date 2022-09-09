@@ -12,7 +12,7 @@ import "./gulp/TaskFunction.js";
 
 const { glob } = G;
 const { dest, parallel, series, src, watch } = GulpClient;
-const { basename, dirname, join, relative } = upath;
+const { basename, join, relative } = upath;
 
 let dirName = fileURLToPath(new URL(".", import.meta.url));
 let projectGeneratorName = "generator-ts-project";
@@ -26,7 +26,6 @@ let gitDiffFile = GulpPath("gitignore.diff");
 let npmDiffFile = CommonTemplatePath(projectGeneratorName, "npmignore.diff");
 let customNPMDiffFile = GulpPath("npmignore.diff");
 let dotGitHubDir = join(dirName, ".github");
-let dependabotFile = join(dotGitHubDir, "dependabot.yml");
 let workflowsDir = join(dotGitHubDir, "workflows");
 let options = minimist(process.argv.slice(2), { boolean: "watch" });
 
@@ -88,7 +87,6 @@ export let CopyFiles =
                     CopyDroneFile,
                     CopyChangelogFile,
                     CopyLicenseFile,
-                    CopyDependabotFile,
                     CopyWorkflows
                 ]),
             ...(
@@ -128,12 +126,6 @@ export let CopyFiles =
                                     licenseFile
                                 ],
                                 CopyLicenseFile);
-
-                            watch(
-                                [
-                                    dependabotFile
-                                ],
-                                CopyDependabotFile);
 
                             watch(
                                 [
@@ -267,19 +259,6 @@ export function CopyLicenseFile(): NodeJS.ReadWriteStream
 }
 
 CopyLicenseFile.description = `Copies the \`${basename(licenseFile)}\` file to the mono-repo packages.`;
-
-/**
- * Copies the dependabot configuration to the proper package.
- *
- * @returns
- * The task.
- */
-export function CopyDependabotFile(): NodeJS.ReadWriteStream
-{
-    return src(dependabotFile).pipe(dest(CommonTemplatePath(customProjectGeneratorName, relative(dirName, dirname(dependabotFile)))));
-}
-
-CopyDependabotFile.description = "Copies the dependabot configuration to the proper mono-repo package.";
 
 /**
  * Copies the workflows to the proper package.

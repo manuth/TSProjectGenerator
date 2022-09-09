@@ -83,7 +83,6 @@ export function MyTSProjectGeneratorTests(context: TestContext<TestTSModuleGener
                         "Checking whether all expected components are present…",
                         () =>
                         {
-                            AssertComponentExists(MyGeneratorComponent.AutoMergeWorkflow);
                             AssertComponentExists(MyGeneratorComponent.CodeQLAnalysisWorkflow);
                         });
                 });
