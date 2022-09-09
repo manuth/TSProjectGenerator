@@ -90,7 +90,7 @@ export function DroneFileMappingTests(context: TestContext<MyTSModuleGenerator>)
                         {
                             this.timeout(2 * 1000);
                             this.slow(1 * 1000);
-                            ok(await AssertCommand((command) => !command.includes(workspaceArg)));
+                            ok(await AssertCommand((command) => !command.includes(workspaceArg), true));
                         });
 
                     test(
