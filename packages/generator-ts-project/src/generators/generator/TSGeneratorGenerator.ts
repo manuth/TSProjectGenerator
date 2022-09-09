@@ -119,6 +119,7 @@ export class TSGeneratorGenerator<TSettings extends ITSGeneratorSettings = ITSGe
                     return {
                         ID: this.Settings[TSProjectSettingKey.Name].replace(/^generator-/, ""),
                         Name: this.Settings[TSProjectSettingKey.Name],
+                        ESModule: this.Settings[TSProjectSettingKey.ESModule],
                         HasCodeWorkspace: this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.VSCode),
                         HasLinting: this.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting),
                         HasGenerator: this.Settings[GeneratorSettingKey.Components].includes(TSGeneratorComponent.GeneratorExample),

@@ -46,7 +46,7 @@ which you can import from the `@manuth/extended-yo-generator` module.
 ```ts
 import { Generator } from "@manuth/extended-yo-generator";
 
-export = class MyGenerator extends Generator
+export <% if (ESModule) { %>default<% } else { %>=<% } %> class MyGenerator extends Generator
 {
     // […]
 }
