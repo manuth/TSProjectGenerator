@@ -5,6 +5,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+### General
+#### Updated
+  - All packages to `ESModule`s
+  - All dependencies
+  - Generators to add an `exports` field to generated `package.json` files
+  - Generators to also add a `type` field to generated `package.json` files
+  - Generators to emit TypeScript code which do not break any linting rule
+
+#### Added
+  - The ability to create `ESModule` projects
+  - An option to choose whether to create a `CommonJS` or an `ESModule` project
+  - An option to skip the `cleanup`-task at the end of running a generator
+  - The ability to generate mocha files which are exposed as functions rather than direct `suite`-calls
+
+### TSProjectGenerator
+#### Updated
+  - Tests to be less performance heavy
+
+#### Added
+  - Support for generating yeoman-generator dependencies for generators written in both `ESModule` and `CommonJS`
+
+### TSProjectGeneratorTest
+#### Added
+  - A method to the `TypeScriptFileMappingTester` for `import`ing and `default` `import`ing `.ts` files on the fly
+
+### MyTSProjectGenerator
+#### Removed
+  - Support for creating dependabot files
 
 [Show differences](https://github.com/manuth/TSProjectGenerator/compare/v3.1.0...dev)
 
