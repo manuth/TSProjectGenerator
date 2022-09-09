@@ -47,8 +47,8 @@ import { Generator } from "@manuth/extended-yo-generator";
 
 export <%
 %><% if (ESModule) {
-    %>default
-<%
+    %>default<%
+%><%
   } else {
     %>=<% } %><%
 %> class MyGenerator extends Generator
