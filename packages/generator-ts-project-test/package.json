@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project-test",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "type": "module",
   "description": "Provides the functionality to test `TSProjectGenerator`-components",
   "author": "Manuel Thalmann <m@nuth.ch>",
@@ -41,7 +41,7 @@
   "dependencies": {
     "@manuth/extended-yo-generator": "^12.1.2",
     "@manuth/extended-yo-generator-test": "^12.1.2",
-    "@manuth/generator-ts-project": "^3.1.0",
+    "@manuth/generator-ts-project": "^4.0.0",
     "@manuth/package-json-editor": "^3.0.2",
     "@manuth/temp-files": "^3.0.0",
     "@stdlib/utils-escape-regexp-string": "^0.0.9",
