@@ -21,6 +21,7 @@
         "recommendations": [
             "dbaeumer.vscode-eslint",
             "digitalbrainstem.javascript-ejs-support",
+            "hbenl.test-adapter-converter",
             "hbenl.vscode-mocha-test-adapter",
             "hbenl.vscode-test-explorer"
         ]
