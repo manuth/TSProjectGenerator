@@ -196,7 +196,8 @@
         "mochaExplorer.timeout": 0,
         "files.associations": {
             ".gitignore.ejs": "ignore",
-            ".npmignore.ejs": "ignore"
+            ".npmignore.ejs": "ignore",
+            "*.md.ejs": "markdown"
         },
         "search.exclude": {
             "**/node_modules": true,
