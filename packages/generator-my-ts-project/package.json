@@ -45,9 +45,9 @@
     "@manuth/extended-yo-generator": "^12.1.2",
     "@manuth/generator-ts-project": "^4.0.0",
     "@manuth/package-json-editor": "3.0.2",
+    "dependency-package-path": "^1.0.0",
     "detect-newline": "^4.0.0",
     "eol": "^0.9.1",
-    "esm-resolve": "^1.0.8",
     "upath": "^2.0.1",
     "yaml": "^2.1.1"
   },
