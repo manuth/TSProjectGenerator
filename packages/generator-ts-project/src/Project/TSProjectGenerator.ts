@@ -261,6 +261,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                 {
                     let references: References[] = [];
                     tsConfig = await super.Transform(tsConfig);
+                    delete tsConfig.exclude;
 
                     for (let reference of tsConfig.references)
                     {
