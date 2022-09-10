@@ -245,7 +245,7 @@
                     "base": "$tsc-watch",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder:Solution Items}"
+                        "${workspaceFolder:TSProjectGenerator}"
                     ]
                 },
                 "isBackground": true,
@@ -268,7 +268,7 @@
                     "base": "$tsc",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder:Solution Items}"
+                        "${workspaceFolder:TSProjectGenerator}"
                     ]
                 },
                 "presentation": {
