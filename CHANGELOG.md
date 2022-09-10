@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.1...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.1...v4.0.2)
+
+## TSProjectGenerator v4.0.2
+### Updated
+  - Generators to strip unnecessary settings from `tsconfig.json` files
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.1...v4.0.2)
 
 ## TSProjectGenerator v4.0.1
 ### MyTSProjectGenerator
