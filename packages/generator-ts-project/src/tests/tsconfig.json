@@ -7,6 +7,9 @@
     "include": [
         "./**/*"
     ],
+    "exclude": [
+        "./type-tests"
+    ],
     "references": [
         {
             "path": "../.."

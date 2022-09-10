@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.0...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.1...dev)
+
+## TSProjectGenerator v4.0.1
+### MyTSProjectGenerator
+#### Fixed
+  - The package for the use on windows systems
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.0...v4.0.1)
 
 ## TSProjectGenerator v4.0.0
 ### General

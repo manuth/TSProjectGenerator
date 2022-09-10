@@ -1,13 +1,11 @@
-import { createRequire } from "node:module";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GeneratorOptions } from "@manuth/extended-yo-generator";
 import { ITSProjectSettings, TSModuleGenerator } from "@manuth/generator-ts-project";
-import buildResolver from "esm-resolve";
+import { dependencyPath } from "dependency-package-path";
 import { MyTSProjectGenerator } from "../../MyTSProjectGenerator.js";
 
-const basePath = createRequire(import.meta.url).resolve(
-    buildResolver(fileURLToPath(import.meta.url))("@manuth/generator-ts-project")
-);
+const basePath = dependencyPath("@manuth/generator-ts-project", dirname(fileURLToPath(import.meta.url)));
 
 /**
  * Provides the functionality to generate a module written in TypeScript.
