@@ -54,7 +54,7 @@
   "devDependencies": {
     "@manuth/extended-yo-generator-test": "^12.1.2",
     "@manuth/generator-ts-project-test": "^4.0.2",
-    "@manuth/temp-files": "^3.0.0",
+    "@manuth/temp-files": "^3.0.2",
     "@types/dedent": "^0.7.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.7.16",

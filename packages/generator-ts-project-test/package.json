@@ -43,7 +43,7 @@
     "@manuth/extended-yo-generator-test": "^12.1.2",
     "@manuth/generator-ts-project": "^4.0.2",
     "@manuth/package-json-editor": "^3.0.2",
-    "@manuth/temp-files": "^3.0.0",
+    "@manuth/temp-files": "^3.0.2",
     "@stdlib/utils-escape-regexp-string": "^0.0.9",
     "@types/inquirer": "^9.0.1",
     "@types/yeoman-test": "^4.0.3",
