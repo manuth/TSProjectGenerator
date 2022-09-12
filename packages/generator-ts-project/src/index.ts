@@ -83,6 +83,8 @@ export { LintingQuestion } from "./Linting/Inquiry/LintingQuestion.js";
 export { LintRuleset } from "./Linting/LintRuleset.js";
 export { BuildDependencies } from "./NPMPackaging/Dependencies/BuildDependencies.js";
 export { CommonDependencies } from "./NPMPackaging/Dependencies/CommonDependencies.js";
+export { DependencyOverrides } from "./NPMPackaging/Dependencies/DependencyOverrides.js";
+export { ESModuleDependencyCollection } from "./NPMPackaging/Dependencies/ESModuleDependencyCollection.js";
 export { LintEssentials } from "./NPMPackaging/Dependencies/LintEssentials.js";
 export { PackageFileMapping } from "./NPMPackaging/FileMappings/PackageFileMapping.js";
 export { IScriptMapping } from "./NPMPackaging/Scripts/IScriptMapping.js";
@@ -95,9 +97,11 @@ export { TSProjectGeneralCategory } from "./Project/Components/TSProjectGeneralC
 export { NPMIgnoreFileMapping } from "./Project/FileMappings/NPMIgnoreFileMapping.js";
 export { TSProjectPackageFileMapping } from "./Project/FileMappings/NPMPackaging/TSProjectPackageFileMapping.js";
 export { ISuiteContext } from "./Project/FileMappings/TypeScript/ISuiteContext.js";
+export { ISuiteFunctionInfo } from "./Project/FileMappings/TypeScript/ISuiteFunctionInfo.js";
 export { ModuleIndexFileMapping } from "./Project/FileMappings/TypeScript/ModuleIndexFileMapping.js";
 export { SuiteFileMapping } from "./Project/FileMappings/TypeScript/SuiteFileMapping.js";
 export { TestFileMapping } from "./Project/FileMappings/TypeScript/TestFileMapping.js";
+export { TSProjectTypeScriptFileMapping } from "./Project/FileMappings/TypeScript/TSProjectTypeScriptFileMapping.js";
 export { TSProjectDescriptionQuestion } from "./Project/Inquiry/TSProjectDescriptionQuestion.js";
 export { TSProjectDestinationQuestion } from "./Project/Inquiry/TSProjectDestinationQuestion.js";
 export { TSProjectDisplayNameQuestion } from "./Project/Inquiry/TSProjectDisplayNameQuestion.js";
@@ -105,6 +109,7 @@ export { TSProjectModuleNameQuestion } from "./Project/Inquiry/TSProjectModuleNa
 export { TSProjectQuestionCollection } from "./Project/Inquiry/TSProjectQuestionCollection.js";
 export { ITSProjectSettings } from "./Project/Settings/ITSProjectSettings.js";
 export { TSProjectComponent } from "./Project/Settings/TSProjectComponent.js";
+export { ITSProjectOptions } from "./Project/Settings/TSProjectOptions.js";
 export { TSProjectSettingKey } from "./Project/Settings/TSProjectSettingKey.js";
 export { TSProjectGenerator } from "./Project/TSProjectGenerator.js";
 export { TSProjectExtensionsProcessor } from "./Project/VSCode/TSProjectExtensionsProcessor.js";
