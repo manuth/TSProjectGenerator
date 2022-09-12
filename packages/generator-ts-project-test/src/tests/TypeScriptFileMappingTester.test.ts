@@ -1,5 +1,6 @@
 import { doesNotReject, doesNotThrow, ok, strictEqual } from "node:assert";
 import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 import { GeneratorOptions, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TestContext, TestGenerator } from "@manuth/extended-yo-generator-test";
 import { TypeScriptCreatorMapping } from "@manuth/generator-ts-project";
@@ -158,7 +159,7 @@ export function TypeScriptFileMappingTesterTests(): void
                             this.timeout(30 * 1000);
                             this.slow(15 * 1000);
                             let result = await tester.Compile(true);
-                            await doesNotReject(() => import(result.FileName));
+                            await doesNotReject(() => import(pathToFileURL(result.FileName).toString()));
                             result.TempDirectory.Dispose();
                             result = await tester.Compile(false);
                             doesNotThrow(() => createRequire(import.meta.url)(result.FileName));
