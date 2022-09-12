@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TSProjectGenerator [Unreleased]
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.4...dev)
+
+## TSProjectGenerator v4.0.4
 ### TSProjectGenerator
 #### Added
   - The `ESModuleDependencyCollection` class for easily creating dependencies based on whether they are used for an `ESModule` or a `CommonJS` project
   - The `TSProjectTypeScriptFileMapping` for simplifying the process of creating `import` and `export` statements for both `ESModule` and `CommonJS` projects
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.3...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.3...v4.0.4)
 
 ## TSProjectGenerator v4.0.3
 ### Fixed
