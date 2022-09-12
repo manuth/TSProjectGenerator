@@ -1,5 +1,6 @@
 import { createRequire } from "node:module";
 import { dirname, parse } from "node:path";
+import { pathToFileURL } from "node:url";
 import { GeneratorOptions, IFileMapping, IGenerator, IGeneratorSettings } from "@manuth/extended-yo-generator";
 import { TextConverter, TypeScriptConverter } from "@manuth/generator-ts-project";
 import { Package, PackageType } from "@manuth/package-json-editor";
@@ -97,7 +98,7 @@ export class TypeScriptFileMappingTester<TGenerator extends IGenerator<TSettings
     public async Import(): Promise<any>
     {
         let compilationResult = await this.Compile(true);
-        let result = await import(compilationResult.FileName);
+        let result = await import(pathToFileURL(compilationResult.FileName).toString());
         compilationResult.TempDirectory.Dispose();
         return result;
     }

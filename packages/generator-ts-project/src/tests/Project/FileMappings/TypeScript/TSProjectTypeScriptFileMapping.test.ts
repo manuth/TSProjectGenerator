@@ -211,7 +211,7 @@ export function TSProjectTypeScriptFileMappingTests(context: TestContext<TSProje
                      */
                     function AssertImportFile(importDeclaration: OptionalKind<ImportDeclarationStructure>, fileName: string): void
                     {
-                        fileName = generator.destinationPath(fileName);
+                        fileName = normalize(generator.destinationPath(fileName));
                         strictEqual(GetFullPath(importDeclaration.moduleSpecifier), fileName);
                     }
 
