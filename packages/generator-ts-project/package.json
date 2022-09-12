@@ -1,6 +1,6 @@
 {
   "name": "@manuth/generator-ts-project",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "type": "module",
   "description": "A Set of Generators for Creating Projects Written in TypeScript",
   "author": "Manuel Thalmann <m@nuth.ch>",
@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@manuth/extended-yo-generator-test": "^12.1.2",
-    "@manuth/generator-ts-project-test": "^4.0.2",
+    "@manuth/generator-ts-project-test": "^4.0.3",
     "@manuth/tsconfig": "^3.0.2",
     "@tsd/typescript": "npm:nop@^1.0.0",
     "@types/dedent": "^0.7.0",
