@@ -45,7 +45,7 @@ suite(
         suiteTeardown(
             function()
             {
-                this.timeout(10 * 1000);
+                this.timeout(30 * 1000);
 
                 for (let entry of contextMap.values())
                 {
