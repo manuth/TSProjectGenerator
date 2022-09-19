@@ -160,8 +160,8 @@ export function SettingsInterfaceFileMappingTests(context: TestContext<TSGenerat
                         "Checking whether the resulting code does not contain any linting issues…",
                         async function()
                         {
-                            this.timeout(30 * 1000);
-                            this.slow(15 * 1000);
+                            this.timeout(2 * 60 * 1000);
+                            this.slow(1 * 60 * 1000);
 
                             let linter = new ESLint(
                                 {
