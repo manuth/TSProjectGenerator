@@ -16,7 +16,7 @@ import type { Linter } from "tslint";
 import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
-import upath from "upath";
+import path from "upath";
 import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt.js";
 import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping.js";
 import { ESLintRCFileMapping } from "../Linting/FileMappings/ESLintRCFileMapping.js";
@@ -32,7 +32,7 @@ import { ITSProjectOptions } from "./Settings/TSProjectOptions.js";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
 
 const { readFile, readJSON, writeFile, writeJSON } = fs;
-const { join, resolve } = upath;
+const { join, resolve } = path;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
