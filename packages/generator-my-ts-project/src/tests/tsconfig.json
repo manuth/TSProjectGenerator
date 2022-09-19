@@ -9,13 +9,13 @@
     ],
     "references": [
         {
-            "path": "../.."
+            "path": "../../tsconfig.app.json"
         },
         {
-            "path": "../../../generator-ts-project"
+            "path": "../../../generator-ts-project/tsconfig.app.json"
         },
         {
-            "path": "../../../generator-ts-project-test"
+            "path": "../../../generator-ts-project-test/tsconfig.app.json"
         }
     ]
 }

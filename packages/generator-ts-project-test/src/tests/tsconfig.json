@@ -9,7 +9,7 @@
     ],
     "references": [
         {
-            "path": "../.."
+            "path": "../../tsconfig.app.json"
         }
     ]
 }

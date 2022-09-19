@@ -13,10 +13,10 @@ import kebabCase from "lodash.kebabcase";
 import npmWhich from "npm-which";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Linter } from "tslint";
-import { fileName, Plugin, References, TSConfigJSON } from "types-tsconfig";
+import { fileName, Plugin, TSConfigJSON } from "types-tsconfig";
 // eslint-disable-next-line node/no-unpublished-import
 import type { Program } from "typescript";
-import upath from "upath";
+import path from "upath";
 import { PathPrompt } from "../Components/Inquiry/Prompts/PathPrompt.js";
 import { TSConfigFileMapping } from "../Components/Transformation/TSConfigFileMapping.js";
 import { ESLintRCFileMapping } from "../Linting/FileMappings/ESLintRCFileMapping.js";
@@ -32,7 +32,7 @@ import { ITSProjectOptions } from "./Settings/TSProjectOptions.js";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
 
 const { readFile, readJSON, writeFile, writeJSON } = fs;
-const { join, resolve } = upath;
+const { join, normalize, parse, resolve } = path;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
@@ -193,6 +193,24 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
 
                 /**
                  * @inheritdoc
+                 */
+                public override get MiddleExtension(): string
+                {
+                    return "app";
+                }
+            }(this),
+            new class extends TSConfigFileMapping<TSettings, TOptions>
+            {
+                /**
+                 * @inheritdoc
+                 */
+                public override get Source(): string
+                {
+                    return this.Generator.modulePath(super.Source);
+                }
+
+                /**
+                 * @inheritdoc
                  *
                  * @param tsConfig
                  * The typescript-configuration to process.
@@ -206,7 +224,13 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
 
                     if (!this.Generator.Settings[GeneratorSettingKey.Components].includes(TSProjectComponent.Linting))
                     {
-                        delete tsConfig.references;
+                        let eslintFileName = TSConfigFileMapping.GetFileName("eslint");
+
+                        tsConfig.references = tsConfig.references.filter(
+                            (reference) =>
+                            {
+                                return parse(reference.path).base !== eslintFileName;
+                            });
                     }
 
                     return tsConfig;
@@ -259,19 +283,15 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                  */
                 public override async Transform(tsConfig: TSConfigJSON): Promise<TSConfigJSON>
                 {
-                    let references: References[] = [];
                     tsConfig = await super.Transform(tsConfig);
                     delete tsConfig.exclude;
 
-                    for (let reference of tsConfig.references)
-                    {
-                        if (reference.path === join("..", ".."))
+                    tsConfig.references = tsConfig.references.filter(
+                        (reference) =>
                         {
-                            references.push(reference);
-                        }
-                    }
+                            return normalize(reference.path) === normalize(join("..", ".."));
+                        });
 
-                    tsConfig.references = references;
                     return tsConfig;
                 }
             }(this)
@@ -347,7 +367,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
         let program: Program;
         let linter: ESLint;
         let tsConfigFile = tempDir.MakePath(fileName);
-        let tsConfig = await readJSON(this.destinationPath(fileName)) as TSConfigJSON;
+        let tsConfig = await readJSON(this.destinationPath(TSConfigFileMapping.GetFileName("app"))) as TSConfigJSON;
         this.log("");
         this.log(chalk.whiteBright("Cleaning up the TypeScript-Files…"));
         this.log(chalk.whiteBright("Creating a temporary linting-environment…"));

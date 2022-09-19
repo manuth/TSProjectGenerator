@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TSProjectGenerator [Unreleased]
 
-[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.4...dev)
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.1.0...dev)
+
+## TSProjectGenerator v4.1.0
+### Updated
+  - TypeScript configuration files to allow all files to be detected automatically
+  - All dependencies
+
+[Show differences](https://github.com/manuth/TSProjectGenerator/compare/v4.0.4...v4.1.0)
 
 ## TSProjectGenerator v4.0.4
 ### TSProjectGenerator

@@ -1,11 +1,12 @@
 {
     "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "noEmit": true
-    },
-    "include": [
-        "./scripts/**/*",
-        "./gulpfile.ts",
-        "./gulp/**/*"
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.eslint.json"
+        }
     ]
 }

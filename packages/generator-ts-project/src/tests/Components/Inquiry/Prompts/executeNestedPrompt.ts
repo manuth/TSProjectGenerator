@@ -13,7 +13,6 @@ import { TestContext } from "../../../TestContext.js";
         let promptModule = inquirer.createPromptModule();
         let type = "test" as undefined;
         let foodKey = "food";
-        // eslint-disable-next-line @delagen/deprecation/deprecation
         let promptConstructor: inquirer.prompts.PromptConstructor;
 
         let runSubPrompt = async (): Promise<unknown> =>
