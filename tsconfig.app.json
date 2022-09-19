@@ -1,10 +1,11 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "noEmit": true,
-        "checkJs": true
+        "noEmit": true
     },
     "include": [
-        "./.eslintrc.cjs"
+        "./scripts/**/*",
+        "./gulpfile.ts",
+        "./gulp/**/*"
     ]
 }
