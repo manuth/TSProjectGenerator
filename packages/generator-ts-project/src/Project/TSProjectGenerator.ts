@@ -32,7 +32,7 @@ import { ITSProjectOptions } from "./Settings/TSProjectOptions.js";
 import { TSProjectSettingKey } from "./Settings/TSProjectSettingKey.js";
 
 const { readFile, readJSON, writeFile, writeJSON } = fs;
-const { join, normalize, parse, resolve } = path;
+const { basename, join, parse, resolve } = path;
 
 /**
  * Provides the functionality to generate a project written in in TypeScript.
@@ -289,7 +289,7 @@ export class TSProjectGenerator<TSettings extends ITSProjectSettings = ITSProjec
                     tsConfig.references = tsConfig.references.filter(
                         (reference) =>
                         {
-                            return normalize(reference.path) === normalize(join("..", ".."));
+                            return basename(reference.path) === TSConfigFileMapping.GetFileName("app");
                         });
 
                     return tsConfig;
