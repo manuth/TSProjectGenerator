@@ -1,3 +1,10 @@
+# THIS PROJECT IS MOVING
+This project is moving to [Codeberg.org](https://codeberg.org).
+
+If you wish to check out the most recent source code, file an issue or contribute to this project, please head to the [new repository on Codeberg.org](https://codeberg.org/lordgizmo/TSProjectGenerator):
+
+<https://codeberg.org/lordgizmo/TSProjectGenerator>
+
 # TSProjectGenerator
 Provides two packages which allow you to create modules or generators written in TypeScript alongside a package for testing the generators.
 
